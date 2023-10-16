@@ -1,0 +1,22 @@
+# This is a demo file to play around with building my website in MySTJS.
+# See: https://js.myst.tools
+
+version: 1
+project:
+  title: Carlos Neto's website
+  description: My personal website
+  github: c-neto/carlosneto.dev
+  keywords: []
+  authors: [Carlos Neto]
+  exclude: []
+site:
+  projects:
+    - slug: my-myst-site
+      path: .
+  nav: []
+  actions:
+    - title: Learn More
+      url: https://www.myst.tools/docs/mystjs
+  domains: []
+extensions:
+  colonFences: true
