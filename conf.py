@@ -1,9 +1,11 @@
-# -- Project information -----------------------------------------------------
 import sys
 
 sys.path.append("scripts")
 sys.path.append(".")
+
+from pathlib import Path
 from social_media import add_social_media_js, SocialPost
+
 
 project = "Carlos Neto"
 copyright = "2023, Carlos Neto"
@@ -79,24 +81,23 @@ ogp_social_cards = {
 }
 
 
-rediraffe_redirects = {
-    "rust-governance.md": "blog/2018/rust_governance.md",
-}
-# Update the posts/* section of the rediraffe redirects to find all files
-redirect_folders = {
-    "posts": "blog",
-}
-from pathlib import Path
+# rediraffe_redirects = {
+#     "rust-governance.md": "blog/2018/rust_governance.md",
+# }
+# # Update the posts/* section of the rediraffe redirects to find all files
+# redirect_folders = {
+#     "posts": "blog",
+# }
 
-for old, new in redirect_folders.items():
-    for newpath in Path(new).rglob("**/*"):
-        if newpath.suffix in [".ipynb", ".md"] and "ipynb_checkpoints" not in str(
-            newpath
-        ):
-            oldpath = str(newpath).replace("blog/", "posts/", 1)
-            # Skip pandoc because for some reason it's broken
-            if "pandoc" not in str(newpath):
-                rediraffe_redirects[oldpath] = str(newpath)
+# for old, new in redirect_folders.items():
+#     for newpath in Path(new).rglob("**/*"):
+#         if newpath.suffix in [".ipynb", ".md"] and "ipynb_checkpoints" not in str(
+#             newpath
+#         ):
+#             oldpath = str(newpath).replace("blog/", "posts/", 1)
+#             # Skip pandoc because for some reason it's broken
+#             if "pandoc" not in str(newpath):
+#                 rediraffe_redirects[oldpath] = str(newpath)
 
 # -- ABlog ---------------------------------------------------
 

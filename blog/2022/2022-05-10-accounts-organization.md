@@ -1,68 +1,59 @@
 ---
-tags: cloud, aws, iam
+tags: security, iam, account
 date: "2022-05-10"
-category: "aws"
+category: aws
 ---
 
 # AWS Account Foundation
 
-This section is about:
-
-- Accounts Foundation;
-- AWS Accounts;
-- AWS Organization;
-- SCP - Security Control Policy;
-- Support Center Plans.
+Welcome to our blog, where we delve into the essential foundations for successful AWS account management—an imperative for any cloud operation. In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AWS Accounts, effective organization through AWS Organization, the implementation of security policies with SCP - Security Control Policy, and finally, the relevance of Support Center Plans. We will address each of these topics in detail, providing valuable insights to optimize your AWS cloud infrastructure. Let's begin our journey through the bedrock that supports the account ecosystem on Amazon Web Services.
 
 ## Foundations
 
-These important point about Accounts Foundation:
+Key points about Accounts Foundation:
 
-- Important on init Cloud Project;
-- One account is not better way to utilize AWS Account;
-- Does not exist Wrong, the wrong is not has strategy;
-- AWS Account is cost less.
+- Critical for initializing a Cloud Project
+- Optimal AWS Account usage doesn't rely on a single account
+- There is no one-size-fits-all approach; strategy trumps rigidity
+- AWS Accounts can be cost-effective
 
-![](../../images/2022/2022-05-10-account-diagram.drawio.png)
+Implementing a hierarchical account strategy enhances Organization and Security. This approach involves organizing domain sections through sub-accounts, centralizing billing, and restricting resource creation permissions based on sub-accounts.
 
-Hierarchical account strategy to better __Organization__ and __Security__.  This account strategy, the sub accounts is to organizate domain sections, centralize billing and restrict resource create permission based sub-account.
+![](./img/2022/2022-05-10-account-diagram.drawio.png)
 
-- __Master Account__: Composed by only one AWS Account. In this account, only _Root Account_ it used. This account is the first account created and is is to create or associate other sub-accounts. This account function is to unify sub-accounts billing only, no new __Resources__ should be created.
+- __Master Account__: This comprises a single AWS Account, with only the Root Account in use. It's the initial account created and is responsible for creating or associating other sub-accounts. The primary function is to unify sub-account billing; no new Resources should be created here.
 
-> :memo: _Root Account_ is the user who owns an AWS Account.
+> The Root Account holder is the owner of the AWS Account.
 
-- __Oraganisation Unit - OU__: Visually organize AWS Accounts and service security rules. Normally, it was created to Domain Departaments.
+- __Oraganisation Unit - OU__: An organizational structure to visually organize AWS Accounts and service security rules, typically created for domain departments.
+> Identifying domain departments involves understanding characteristics of the resources present. If the types, lifecycles, and permissions differ, it likely represents a department.
 
-> :memo: To indetify Domain Departaments, a one way is understood characteristic about the resources presents it. If Type, Lifecycle and, Permissions are differents, maybe it's a Department. 
+- __Accounts__: These are the entities where resources and deployments are created. Each account has its identity associated with the resources created within it. Users should be created within this account.
 
-- __Accounts__: Account when will be create resources and deployments. Each account has identity that associate resources created in it. The users should be created in this account.
+- __Resources__: These encompass AWS services and items like EC2, S3, EKS, EFS, etc.
 
-- __Resources__: AWS services and resources, for example: EC2, S3, EKS, EFS etc.
+It's important not to confuse the Master Account with the Root Account. The Master Account is the initial AWS account created, while the Root Account is the user who owns an AWS Account.
 
-Dont be confused Master Account with Root Account. Master Account is the first account created on AWS and Root Account is the user who owns an AWS Account.
+AWS Organization is crucial for utilizing the Consolidated Billing feature, which centralizes billing for the sub-accounts.
 
-__AWS Organization__ is important to create __Consolidated Billing__ feature. This feature is to centralize billing of the sub-accounts.
+There are two methods to create sub-accounts. In AWS Organization, you can create a new AWS account or invite an existing AWS account. Both methods involve using email. To accept an invite from an existing AWS account, navigate to the AWS Organization menu in the existing account's console and click on the "accept invite" option. The acceptance is not completed via email.
 
-There are two ways to create sub-account. In `AWS Organization`, you can be create newer AWS account, or invite AWS existing account. Both ways are made given email. To accepted invite from AWS existing account, in console of the Existing Account, it should be access `AWS Organization` menu, and click accept invite option, the accept is not be done by email.
+To restrict resource creation, SCP - Security Control Policies provide options to limit it to OUs or Accounts.
 
-The create resource restriction can be _SCP - Security Control Policies_ that provides options to restrict resources creation to OU or Accounts.
+## Account Security Practices:
 
-## Account Security Pratices
+- Enable active MFA for all accounts, particularly the Root Account.
+- For creating new accounts, a unique email is necessary. It's best practice to create an email group for the team and avoid using personal emails.
+- Add alternate contacts to the Root Account to ensure receiving security contacts from AWS Support.
 
-- Active MFA for all account, specially Root Account.
+## Accounts Support Center Plans:
 
-- For create new accounts, it is necessary one unique email. The best pratice is create email group for the team and not used person emails.
+AWS offers various Support Plans levels:
 
-- Add __Alternate Contacts__ in Root Account. It is important to receive security contacts from AWS Support.
-
-## Accounts Support Center Plans
-
-There is differents _AWS Support Plans_ levels: 
-
-- __Basic__ (free): Recommended if you are experimenting or testing in AWS;
-- __Developer__: Minimum recommended tier if you have production workloads in AWS;
-- __Business__ Recommended if you have production and/or business critical workloads in AWS;
-- __Enterprise__: Recommended if you have business and/or mission critical workloads in AWS.
+- __Basic (free)__: Recommended for experimentation or testing in AWS.
+- __Developer__: Minimum recommended tier for production workloads in AWS.
+- __Business__: Recommended for production and/or business-critical workloads in AWS.
+- __Enterprise__: Recommended for business and/or mission-critical workloads in AWS.
 
 ## References
 

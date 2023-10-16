@@ -1,7 +1,7 @@
 ---
-tags: cloud, tips, aws, concepts
+tags: cloud-architect, aws
 date: "2022-05-11"
-category: "aws"
+category: aws
 ---
 
 # AWS Well-Architected Framework: A Beginner's Guide to Building Robust Cloud Solutions
@@ -14,15 +14,15 @@ The Five Pillars of the Framework
 
 The AWS Well-Architected Framework is built on five key pillars, each addressing a critical aspect of cloud architecture:
 
-- Operational Excellence: This pillar focuses on streamlining operations to deliver business value, including automating tasks, defining processes, and monitoring performance.
+- __Operational Excellence__: This pillar focuses on streamlining operations to deliver business value, including automating tasks, defining processes, and monitoring performance.
 
-- Security: Security is paramount. This pillar guides you in implementing robust security measures to protect your data and resources while ensuring compliance with relevant standards.
+- __Security__: Security is paramount. This pillar guides you in implementing robust security measures to protect your data and resources while ensuring compliance with relevant standards.
 
-- Reliability: Reliability ensures your systems are resilient to failure and downtime. This pillar helps you design solutions that recover from failures quickly and efficiently.
+- __Reliability__: Reliability ensures your systems are resilient to failure and downtime. This pillar helps you design solutions that recover from failures quickly and efficiently.
 
-- Performance Efficiency: Optimize performance and use resources efficiently to meet your application's requirements without overspending.
+- __Performance Efficiency__: Optimize performance and use resources efficiently to meet your application's requirements without overspending.
 
-- Cost Optimization: Learn how to manage and optimize costs without sacrificing performance, aligning your cloud resources with your budget.
+- __Cost Optimization__: Learn how to manage and optimize costs without sacrificing performance, aligning your cloud resources with your budget.
 
 Applying the Framework: A Step-by-Step Approach
 
