@@ -121,6 +121,13 @@ myst_enable_extensions = [
     "html_image",
 ]
 
+
+html_context = {
+   # ...
+   "default_mode": "light"
+}
+
+
 # MyST-NB
 # Don't execute anything by default because many old posts don't execute anymore
 # and this slows down build times.
