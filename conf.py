@@ -64,13 +64,23 @@ html_title = "Carlos Neto"
 html_static_path = ["_static"]
 html_extra_path = ["feed.xml"]
 html_sidebars = {
-    "index": ["hello.html"],
-    "about": ["hello.html"],
-    "publications": ["hello.html"],
-    "projects": ["hello.html"],
-    "talks": ["hello.html"],
-    "blog": ["ablog/categories.html", "ablog/tagcloud.html", "ablog/archives.html"],
-    "blog/**": ["ablog/postcard.html", "ablog/recentposts.html", "ablog/archives.html"],
+    "index": [
+        "hello.html"
+    ],
+    "about": [
+        "hello.html"
+    ],
+    "blog": [
+        "ablog/categories.html",
+        "ablog/tagcloud.html",
+        "ablog/recentposts.html",
+        "ablog/archives.html"
+    ],
+    "blog/**": [
+        "ablog/postcard.html",
+        # "ablog/recentposts.html",
+        # "ablog/archives.html" 
+    ],
 }
 
 # OpenGraph config
