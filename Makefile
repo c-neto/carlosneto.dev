@@ -20,6 +20,9 @@ venv:
 live:
 	./venv/bin/sphinx-autobuild --ignore _build -b dirhtml  . _build/dirhtml/
 
+build:
+	./venv/bin/sphinx-build . _build/dirhtml/
+
 .PHONY: help Makefile
 
 # Catch-all target: route all unknown targets to Sphinx using the new
