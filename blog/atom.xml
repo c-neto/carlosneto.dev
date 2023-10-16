@@ -1,0 +1,803 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+  <id>https://carlosneto.dev</id>
+  <title>Carlos Neto</title>
+  <updated>2023-10-16T20:52:05.160836+00:00</updated>
+  <link href="https://carlosneto.dev"/>
+  <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
+  <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
+  <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2022/2022-05-12-security-identity-compliance/</id>
+    <title>Mastering AWS Identity and Access Management (IAM): A Comprehensive Guide</title>
+    <updated>2022-05-12T00:00:00+00:00</updated>
+    <content type="html">&lt;section id="mastering-aws-identity-and-access-management-iam-a-comprehensive-guide"&gt;
+
+&lt;p&gt;In the dynamic realm of Amazon Web Services (AWS), managing user access and permissions is paramount for maintaining a secure and efficient cloud environment. AWS Identity and Access Management (IAM) is a fundamental AWS service dedicated to orchestrating user access and permission protocols. In this blog post, we will delve into the intricate world of IAM, covering essential concepts and best practices for effective user and permission management.&lt;/p&gt;
+&lt;section id="understanding-iam-a-crucial-aws-service"&gt;
+&lt;h2&gt;Understanding IAM: A Crucial AWS Service&lt;/h2&gt;
+&lt;p&gt;AWS Identity and Access Management (IAM) is the linchpin for governing user access and permissions within an AWS account. It provides a comprehensive framework to define and manage the actions and permissions of users, ensuring secure and controlled interactions with AWS resources.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="iam-and-organization-scp-defining-user-permissions-and-conditions"&gt;
+&lt;h2&gt;IAM and Organization SCP: Defining User Permissions and Conditions&lt;/h2&gt;
+&lt;p&gt;IAM, in conjunction with Service Control Policies (SCPs) within AWS Organizations, establishes the groundwork for delineating users’ permissions and action conditions within an AWS account. This integration empowers organizations to maintain granular control over their AWS resources.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="root-account-vs-iam-users-discerning-the-difference"&gt;
+&lt;h2&gt;Root Account vs. IAM Users: Discerning the Difference&lt;/h2&gt;
+&lt;p&gt;The Root Account, often referred to as the Master Account, is distinct from IAM users. IAM users are created to represent employees and integration service accounts, while the Root Account holds a more privileged and powerful role within the AWS ecosystem.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="best-practices-account-structure-and-access-management"&gt;
+&lt;h2&gt;Best Practices: Account Structure and Access Management&lt;/h2&gt;
+&lt;p&gt;A best practice is to establish a singular account for identity purposes and utilize policies to switch roles, enabling access to specific accounts. Avoid using the Root Account for operational purposes due to its heightened privileges, and implement Dual-custody Authentication for safeguarding the Root and Master Account passwords.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="efficient-management-through-iam-services"&gt;
+&lt;h2&gt;Efficient Management through IAM Services&lt;/h2&gt;
+&lt;p&gt;IAM offers a host of capabilities, including the creation of custom policies, groups, and users. Implementing user tags and leveraging specific naming conventions, such as ‘svc-*’ for service integration users, streamlines user identification and management.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="fine-tuning-permissions-access-types-and-options"&gt;
+&lt;h2&gt;Fine-tuning Permissions: Access Types and Options&lt;/h2&gt;
+&lt;p&gt;Understanding the two access types—Programmatic Access and AWS Management Console Access—is crucial for setting up permissions effectively. Employing predefined policies like ReadOnlyAccess and FullAccess can simplify the process of assigning permissions and subsequent downgrades.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="harnessing-the-power-of-roles-for-aws-resource-communication"&gt;
+&lt;h2&gt;Harnessing the Power of Roles for AWS Resource Communication&lt;/h2&gt;
+&lt;p&gt;Roles serve as a pivotal mechanism for enabling communication between AWS resources, enhancing the efficiency and functionality of the AWS ecosystem.&lt;/p&gt;
+&lt;p&gt;In this blog post, we’ve unraveled key aspects of AWS IAM, shedding light on its significance in securing and managing AWS resources effectively. Stay tuned for our upcoming posts, where we’ll explore advanced IAM features and delve into practical implementation strategies.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="references"&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;AWS IAM Best Practices: &lt;a class="reference external" href="https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"&gt;https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Access keys best practices: &lt;a class="reference external" href="https://medium.com/&amp;#64;ashishrajan/aws-security-best-practices-access-keys-cloudsecurity-facb20aa0db6"&gt;https://medium.com/&amp;#64;ashishrajan/aws-security-best-practices-access-keys-cloudsecurity-facb20aa0db6&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2022/2022-05-12-security-identity-compliance/" rel="alternate"/>
+    <summary>In the dynamic realm of Amazon Web Services (AWS), managing user access and permissions is paramount for maintaining a secure and efficient cloud environment. AWS Identity and Access Management (IAM) is a fundamental AWS service dedicated to orchestrating user access and permission protocols. In this blog post, we will delve into the intricate world of IAM, covering essential concepts and best practices for effective user and permission management.AWS Identity and Access Management (IAM) is the linchpin for governing user access and permissions within an AWS account. It provides a comprehensive framework to define and manage the actions and permissions of users, ensuring secure and controlled interactions with AWS resources.</summary>
+    <category term="aws" label="aws"/>
+    <category term="best-practices" label="best-practices"/>
+    <category term="security" label="security"/>
+    <published>2022-05-12T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://carlosneto.dev/blog/2022/2022-05-11-well-architected-framework/</id>
+    <title>AWS Well-Architected Framework: A Beginner’s Guide to Building Robust Cloud Solutions</title>
+    <updated>2022-05-11T00:00:00+00:00</updated>
+    <content type="html">&lt;section id="aws-well-architected-framework-a-beginner-s-guide-to-building-robust-cloud-solutions"&gt;
+
+&lt;p&gt;Welcome to our beginner-friendly guide on the AWS Well-Architected Framework! If you’re new to the world of cloud computing and Amazon Web Services (AWS), you’re in the right place. This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions.
+Understanding AWS Well-Architected Framework&lt;/p&gt;
+&lt;p&gt;The AWS Well-Architected Framework is a set of best practices and guidelines designed to help you build secure, high-performing, resilient, and efficient infrastructure for your applications and workloads on AWS. Think of it as a blueprint for building a strong foundation in the AWS cloud.
+The Five Pillars of the Framework&lt;/p&gt;
+&lt;p&gt;The AWS Well-Architected Framework is built on five key pillars, each addressing a critical aspect of cloud architecture:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Operational Excellence&lt;/strong&gt;: This pillar focuses on streamlining operations to deliver business value, including automating tasks, defining processes, and monitoring performance.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Security&lt;/strong&gt;: Security is paramount. This pillar guides you in implementing robust security measures to protect your data and resources while ensuring compliance with relevant standards.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Reliability&lt;/strong&gt;: Reliability ensures your systems are resilient to failure and downtime. This pillar helps you design solutions that recover from failures quickly and efficiently.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Performance Efficiency&lt;/strong&gt;: Optimize performance and use resources efficiently to meet your application’s requirements without overspending.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Cost Optimization&lt;/strong&gt;: Learn how to manage and optimize costs without sacrificing performance, aligning your cloud resources with your budget.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Applying the Framework: A Step-by-Step Approach&lt;/p&gt;
+&lt;p&gt;Let’s break down the process of applying the AWS Well-Architected Framework into manageable steps:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Step 1&lt;/strong&gt;: Understand Your Application&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Begin by thoroughly understanding your application’s requirements, goals, and potential challenges. Define the intended purpose and functionality, as this will guide your architectural decisions.&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Step 2&lt;/strong&gt;: Align with the Five Pillars&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Analyze your architecture and align it with each of the five pillars—operational excellence, security, reliability, performance efficiency, and cost optimization. Assess how well your current architecture meets the standards set by the framework.&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Step 3&lt;/strong&gt;: Identify Strengths and Weaknesses&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Identify the strengths and weaknesses in your architecture based on the five pillars. Celebrate the areas where you align well and prioritize addressing the weaknesses to improve your overall architecture.&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Step 4&lt;/strong&gt;: Implement Improvements&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Implement improvements to address the identified weaknesses. This could involve changes in design, the adoption of new AWS services, or adjustments to your current setup to align with best practices.
+Conclusion&lt;/p&gt;
+&lt;p&gt;The AWS Well-Architected Framework offers a robust foundation for designing and building efficient, secure, and cost-effective cloud solutions on AWS. By understanding and applying the principles of the five pillars—operational excellence, security, reliability, performance efficiency, and cost optimization—you’ll be well on your way to creating a successful cloud architecture that meets your business needs.&lt;/p&gt;
+&lt;p&gt;In future posts, we’ll dive deeper into each of the pillars, providing practical tips and examples to help you master the AWS Well-Architected Framework. Stay tuned for more insights and knowledge to enhance your AWS journey!&lt;/p&gt;
+&lt;section id="references"&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;AWS Well-Architected Tool: &lt;a class="reference external" href="https://aws.amazon.com/well-architected-tool/%5D(https://aws.amazon.com/well-architected-tool/"&gt;https://aws.amazon.com/well-architected-tool/](https://aws.amazon.com/well-architected-tool/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AWS Well-Architected Doc: &lt;a class="reference external" href="https://aws.amazon.com/architecture/well-architected/%5D(https://aws.amazon.com/architecture/well-architected/"&gt;https://aws.amazon.com/architecture/well-architected/](https://aws.amazon.com/architecture/well-architected/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The 5 Pillars of the AWS Well-Architected Framework: &lt;a class="reference external" href="https://aws.amazon.com/blogs/apn/the-5-pillars-of-the-aws-well-architected-framework/"&gt;https://aws.amazon.com/blogs/apn/the-5-pillars-of-the-aws-well-architected-framework/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2022/2022-05-11-well-architected-framework/" rel="alternate"/>
+    <summary>Welcome to our beginner-friendly guide on the AWS Well-Architected Framework! If you’re new to the world of cloud computing and Amazon Web Services (AWS), you’re in the right place. This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions.
+Understanding AWS Well-Architected FrameworkThe AWS Well-Architected Framework is a set of best practices and guidelines designed to help you build secure, high-performing, resilient, and efficient infrastructure for your applications and workloads on AWS. Think of it as a blueprint for building a strong foundation in the AWS cloud.
+The Five Pillars of the Framework</summary>
+    <category term="aws" label="aws"/>
+    <category term="cloud-architect" label="cloud-architect"/>
+    <published>2022-05-11T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://carlosneto.dev/blog/2022/2022-05-10-accounts-organization/</id>
+    <title>AWS Account Foundation</title>
+    <updated>2022-05-10T00:00:00+00:00</updated>
+    <content type="html">&lt;section id="aws-account-foundation"&gt;
+
+&lt;p&gt;Welcome to our blog, where we delve into the essential foundations for successful AWS account management—an imperative for any cloud operation. In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AWS Accounts, effective organization through AWS Organization, the implementation of security policies with SCP - Security Control Policy, and finally, the relevance of Support Center Plans. We will address each of these topics in detail, providing valuable insights to optimize your AWS cloud infrastructure. Let’s begin our journey through the bedrock that supports the account ecosystem on Amazon Web Services.&lt;/p&gt;
+&lt;section id="foundations"&gt;
+&lt;h2&gt;Foundations&lt;/h2&gt;
+&lt;p&gt;Key points about Accounts Foundation:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Critical for initializing a Cloud Project&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Optimal AWS Account usage doesn’t rely on a single account&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;There is no one-size-fits-all approach; strategy trumps rigidity&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AWS Accounts can be cost-effective&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Implementing a hierarchical account strategy enhances Organization and Security. This approach involves organizing domain sections through sub-accounts, centralizing billing, and restricting resource creation permissions based on sub-accounts.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="blog/2022/img/2022/2022-05-10-account-diagram.drawio.png" /&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Master Account&lt;/strong&gt;: This comprises a single AWS Account, with only the Root Account in use. It’s the initial account created and is responsible for creating or associating other sub-accounts. The primary function is to unify sub-account billing; no new Resources should be created here.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The Root Account holder is the owner of the AWS Account.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Oraganisation Unit - OU&lt;/strong&gt;: An organizational structure to visually organize AWS Accounts and service security rules, typically created for domain departments.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;Identifying domain departments involves understanding characteristics of the resources present. If the types, lifecycles, and permissions differ, it likely represents a department.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Accounts&lt;/strong&gt;: These are the entities where resources and deployments are created. Each account has its identity associated with the resources created within it. Users should be created within this account.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Resources&lt;/strong&gt;: These encompass AWS services and items like EC2, S3, EKS, EFS, etc.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It’s important not to confuse the Master Account with the Root Account. The Master Account is the initial AWS account created, while the Root Account is the user who owns an AWS Account.&lt;/p&gt;
+&lt;p&gt;AWS Organization is crucial for utilizing the Consolidated Billing feature, which centralizes billing for the sub-accounts.&lt;/p&gt;
+&lt;p&gt;There are two methods to create sub-accounts. In AWS Organization, you can create a new AWS account or invite an existing AWS account. Both methods involve using email. To accept an invite from an existing AWS account, navigate to the AWS Organization menu in the existing account’s console and click on the “accept invite” option. The acceptance is not completed via email.&lt;/p&gt;
+&lt;p&gt;To restrict resource creation, SCP - Security Control Policies provide options to limit it to OUs or Accounts.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="account-security-practices"&gt;
+&lt;h2&gt;Account Security Practices:&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Enable active MFA for all accounts, particularly the Root Account.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;For creating new accounts, a unique email is necessary. It’s best practice to create an email group for the team and avoid using personal emails.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Add alternate contacts to the Root Account to ensure receiving security contacts from AWS Support.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;section id="accounts-support-center-plans"&gt;
+&lt;h2&gt;Accounts Support Center Plans:&lt;/h2&gt;
+&lt;p&gt;AWS offers various Support Plans levels:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Basic (free)&lt;/strong&gt;: Recommended for experimentation or testing in AWS.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Developer&lt;/strong&gt;: Minimum recommended tier for production workloads in AWS.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Business&lt;/strong&gt;: Recommended for production and/or business-critical workloads in AWS.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Enterprise&lt;/strong&gt;: Recommended for business and/or mission-critical workloads in AWS.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;section id="references"&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;AWS Account: https://aws.amazon.com/account/&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AWS Organizations: https://aws.amazon.com/organizations/&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AWS Support Center Plans: https://aws.amazon.com/pt/premiumsupport/plans/&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AWS Landing Zone: https://aws.amazon.com/solutions/aws-landing-zone/&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AWS Billing: https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilling-procedure.html&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AWS SCP - Service Control Policies: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2022/2022-05-10-accounts-organization/" rel="alternate"/>
+    <summary>Welcome to our blog, where we delve into the essential foundations for successful AWS account management—an imperative for any cloud operation. In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AWS Accounts, effective organization through AWS Organization, the implementation of security policies with SCP - Security Control Policy, and finally, the relevance of Support Center Plans. We will address each of these topics in detail, providing valuable insights to optimize your AWS cloud infrastructure. Let’s begin our journey through the bedrock that supports the account ecosystem on Amazon Web Services.Key points about Accounts Foundation:</summary>
+    <category term="account" label="account"/>
+    <category term="iam" label="iam"/>
+    <category term="security" label="security"/>
+    <published>2022-05-10T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://carlosneto.dev/blog/2022/2022-05-09-cloud-concepts/</id>
+    <title>Cloud Basic Concepts</title>
+    <updated>2022-05-09T00:00:00+00:00</updated>
+    <content type="html">&lt;section id="cloud-basic-concepts"&gt;
+
+&lt;p&gt;This section covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models.&lt;/p&gt;
+&lt;section id="cloud-computing-advantages-and-disadvantages"&gt;
+&lt;h2&gt;Cloud Computing: Advantages and Disadvantages&lt;/h2&gt;
+&lt;p&gt;A concise definition of Cloud Computing, often attributed to AWS, is: &lt;em&gt;“Cloud computing is the on-demand delivery of IT resources over the Internet with pay-as-you-go pricing.”&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;For beginners, this definition can be a bit overwhelming. To grasp it fully, we need to associate the following key characteristics:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Maintenance&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Less concern about energy and hardware maintenance processes&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Business focuses more on IT technologies&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Reliability&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Specialization in determining tools&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;High availability possibilities&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Security&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Utilization of specific security tools&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Software and hardware security solutions&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Performance&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Hardware components available as a service&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Performance enhancements possible when needed&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Scalability&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Scalability on demand&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Minimal IT resource requirements to run applications&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Cost and Elasticity&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Cost management options&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Both soft and hard cost considerations with available possibilities&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Historically, Development teams emphasized agility in contributions, while Operations/Infrastructure teams focused more on stability due to hardware interactions. However, with the advent of technologies like virtualization, manual infrastructure tasks became obsolete, and infrastructure components started being provided as a service by cloud providers like AWS, Google, Microsoft, and others.&lt;/p&gt;
+&lt;p&gt;Now, agility has become a crucial aspect for Operations teams as well. The maintenance of infrastructure as a service by cloud providers alleviates concerns about electricity, hardware health, and other infrastructure requirements. This shift allows businesses to concentrate on their core purposes rather than infrastructure necessities. Outsourcing maintenance tasks to specialized teams enhances reliability and security, with various services tailored for infrastructure contexts and business cases. Additionally, hardware security is vital to address concerns like natural disasters and physical threats.&lt;/p&gt;
+&lt;p&gt;A significant keyword in the cloud landscape is &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;possibilities&lt;/span&gt;&lt;/code&gt;. The cloud offers possibilities to access high computing performance components as needed, scale components on demand, and pay only for the time used. These possibilities can lead to reduced costs if your application or infrastructure is scalable, allowing you to pay only for the resources needed for application functionality.&lt;/p&gt;
+&lt;p&gt;However, it’s important to note that Cloud Computing isn’t a one-size-fits-all solution for every IT infrastructure case. It is one of the options to deploy your infrastructure or application. Before adopting the cloud for your infrastructure, it’s crucial to ask yourself, “What problem am I trying to solve?” If your application aligns with the cloud characteristics mentioned above, it might be the best choice for your needs.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="main-cloud-models"&gt;
+&lt;h2&gt;Main Cloud Models&lt;/h2&gt;
+&lt;p&gt;The primary Cloud Models are:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;IaaS&lt;/strong&gt; (Infrastructure as a Service): Infrastructure components delivered as a service, such as Virtual Machines, Networks, Firewalls, etc.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Examples: AWS VPC, AWS EC2, AWS S3.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;PaaS&lt;/strong&gt; (Platform as a Service): Services to run applications over infrastructure abstraction. For example, running a web app and delivering static files.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Examples: Heroku, AWS Elastic Beanstalk, OpenShift, etc.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;FaaS&lt;/strong&gt; (Function as a Service): Granular services to simplify recurring tasks, such as sending emails, webhooks, or syncing databases.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Examples: AWS Data Sync, AWS Lambda.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;section id="main-deployment-models"&gt;
+&lt;h2&gt;Main Deployment Models&lt;/h2&gt;
+&lt;p&gt;The main Deployment Models include:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Private Cloud&lt;/strong&gt;: Often referred to as “Bare Metal Cloud,” owned by a single entity, and resources are not shared with other corporations.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Examples: Created with OpenStack, VMWare, XenServer.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Public Cloud&lt;/strong&gt;: Resources are shared and can be used by anyone. Major providers include AWS, GCP, Oracle Cloud.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Examples: AWS, Google Cloud Platform, Microsoft Azure, Alibaba Cloud.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Hybrid Cloud&lt;/strong&gt;: A combination of both Private Cloud and Public Cloud components.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Multicloud&lt;/strong&gt;: Cloud architecture is not dependent on a specific cloud model and can run in both Private and Public Cloud environments.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Community Cloud&lt;/strong&gt;: Custom cloud architecture created by corporations to provide clients with the flexibility of multiple Public and Private Cloud features.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;section id="references"&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;AWS - Cloud Computing Definition: &lt;a class="reference external" href="https://aws.amazon.com/what-is-cloud-computing/?nc1=h_ls"&gt;https://aws.amazon.com/what-is-cloud-computing/?nc1=h_ls&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;NIST - Cloud Computing Definition: &lt;a class="reference external" href="https://csrc.nist.gov/publications/detail/sp/800-145/final"&gt;https://csrc.nist.gov/publications/detail/sp/800-145/final&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2022/2022-05-09-cloud-concepts/" rel="alternate"/>
+    <summary>This section covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models.A concise definition of Cloud Computing, often attributed to AWS, is: “Cloud computing is the on-demand delivery of IT resources over the Internet with pay-as-you-go pricing.”</summary>
+    <category term="aws" label="aws"/>
+    <category term="cloud-architect" label="cloud-architect"/>
+    <category term="concepts" label="concepts"/>
+    <published>2022-05-09T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://carlosneto.dev/blog/2021/2021-05-07-git-status/</id>
+    <title>Understanding Status States Change Commands</title>
+    <updated>2021-05-07T00:00:00+00:00</updated>
+    <content type="html">&lt;section id="understanding-status-states-change-commands"&gt;
+
+&lt;p&gt;In Git, a file can exist in three main &lt;strong&gt;areas&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Working&lt;/span&gt; &lt;span class="pre"&gt;Directory&lt;/span&gt;&lt;/code&gt;: Not indexed in the local base;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INDEX&lt;/span&gt;&lt;/code&gt; — &lt;em&gt;also known as&lt;/em&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staging&lt;/span&gt;&lt;/code&gt;: Ready to be indexed in the local base;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;HEAD&lt;/span&gt;&lt;/code&gt; — &lt;em&gt;also known as&lt;/em&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git&lt;/span&gt;&lt;/code&gt;: Indexed in the local base.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/file-areas.png" /&gt;&lt;/p&gt;
+&lt;p&gt;In these areas, a file can have the following &lt;strong&gt;statuses&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Untracked&lt;/span&gt;&lt;/code&gt;: When the file is in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Working&lt;/span&gt; &lt;span class="pre"&gt;Directory&lt;/span&gt;&lt;/code&gt;;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt; — &lt;em&gt;also known as&lt;/em&gt; &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Tracked&lt;/span&gt;&lt;/code&gt;: When the file is in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INDEX&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Unmodified&lt;/span&gt;&lt;/code&gt;: Files in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INDEX&lt;/span&gt;&lt;/code&gt; that haven’t changed between &lt;em&gt;commits&lt;/em&gt;;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Modified&lt;/span&gt;&lt;/code&gt;: Files in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INDEX&lt;/span&gt;&lt;/code&gt; that have changed between &lt;em&gt;commits&lt;/em&gt;;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Commited&lt;/span&gt;&lt;/code&gt; — &lt;em&gt;also known as&lt;/em&gt; &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;HEAD&lt;/span&gt;&lt;/code&gt;: Files indexed in the Git database.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/file-status.png" /&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Creating a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Working&lt;/span&gt; &lt;span class="pre"&gt;Directory&lt;/span&gt;&lt;/code&gt;, in other words, a Git repository:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;init&lt;span class="w"&gt; &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;This command will create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git&lt;/span&gt;&lt;/code&gt; directory, which is the local base for project versioning.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Changing the &lt;em&gt;status&lt;/em&gt; of a file or directory from: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Untracked&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;add&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;FILE-OR-DIRECTORY&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;If a file is specified, only its status will be changed. If a directory is specified, the status of the files within it will be changed recursively.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Changing the &lt;em&gt;status&lt;/em&gt; of the &lt;strong&gt;file&lt;/strong&gt; from: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Untracked&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;rm&lt;span class="w"&gt; &lt;/span&gt;--cached&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;FILE&amp;gt;&lt;span class="w"&gt;                                        &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Changing the &lt;em&gt;status&lt;/em&gt; of the &lt;strong&gt;directory&lt;/strong&gt; from: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Untracked&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;rm&lt;span class="w"&gt; &lt;/span&gt;-r&lt;span class="w"&gt; &lt;/span&gt;--cached&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;DIRECTORY&amp;gt;&lt;span class="w"&gt;                                        &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--cached&lt;/span&gt;&lt;/code&gt; parameter, if not specified, will remove the file from the operating system, similar to the conventional &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;rm&lt;/span&gt;&lt;/code&gt; command in Linux.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Changing the &lt;em&gt;status&lt;/em&gt; from &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Commited&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;commit&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;FILE-OR-DIRECTORY&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;MESSAGE&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;-m&lt;/span&gt;&lt;/code&gt; parameter indicates a message describing the changes made to this file. If not specified, the text editor configured in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt; &lt;span class="pre"&gt;core.editor&lt;/span&gt;&lt;/code&gt; command will open.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2021/2021-05-07-git-status/" rel="alternate"/>
+    <summary>In Git, a file can exist in three main areas:Working Directory: Not indexed in the local base;</summary>
+    <category term="demystifying" label="demystifying"/>
+    <published>2021-05-07T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://carlosneto.dev/blog/2021/2021-05-06-git-remote/</id>
+    <title>Understanding Remote and Local Repositories</title>
+    <updated>2021-05-06T00:00:00+00:00</updated>
+    <content type="html">&lt;section id="understanding-remote-and-local-repositories"&gt;
+
+&lt;p&gt;In the world of Git, comprehending the distinction between a local repository and a remote repository is pivotal. Let’s embark on a journey to uncover the nuances through some common Git commands that underscore these differences.&lt;/p&gt;
+&lt;section id="local-repository"&gt;
+&lt;h2&gt;Local Repository&lt;/h2&gt;
+&lt;p&gt;A &lt;strong&gt;local repository&lt;/strong&gt; is your copy of a Git project that resides on your computer. When you clone a repository or create a new one on your machine, you are essentially establishing a local repository. This local copy includes all the project’s files, the complete history of commits, branches, tags, and more.&lt;/p&gt;
+&lt;p&gt;The local repository is where you do your work, make changes, create new features, fix bugs, and perform other tasks. It allows you to experiment freely without affecting the main project until you’re ready to share your changes.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="remote-repository"&gt;
+&lt;h2&gt;Remote Repository&lt;/h2&gt;
+&lt;p&gt;On the other hand, a &lt;strong&gt;remote repository&lt;/strong&gt; exists on a server, often on a platform like GitHub, GitLab, or Bitbucket. It serves as the centralized hub where the entire project is hosted. Remote repositories allow for collaboration and act as a shared space where multiple contributors can push their changes, ensuring a centralized version of the project.&lt;/p&gt;
+&lt;p&gt;Remote repositories are excellent for team collaboration, enabling contributors to work on the same codebase simultaneously. When you want to share your local changes with others or integrate changes made by fellow contributors, you interact with the remote repository.&lt;/p&gt;
+&lt;p&gt;Now, let’s explore some fundamental Git commands that facilitate the interaction between your local repository and the remote repository.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="remote-operation-commands"&gt;
+&lt;h2&gt;Remote Operation Commands&lt;/h2&gt;
+&lt;p&gt;These commands are crucial for interacting with remote repositories.&lt;/p&gt;
+&lt;section id="cloning-a-remote-repository"&gt;
+&lt;h3&gt;Cloning a Remote Repository&lt;/h3&gt;
+&lt;p&gt;To create a local copy of a project hosted on a remote server, we use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;clone&lt;/span&gt;&lt;/code&gt; command. It not only fetches the project’s content but also the versioning database (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git&lt;/span&gt;&lt;/code&gt; directory).&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;PROJECT-URL&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;When we clone a repository, we essentially obtain a complete copy, including all the commit history and the ability to track changes.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="synchronizing-with-external-references"&gt;
+&lt;h3&gt;Synchronizing with External References&lt;/h3&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;fetch&lt;/span&gt;&lt;/code&gt; command is used to synchronize the local versioning base with new branches and tags created after the project’s clone.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;fetch
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This ensures that our local repository is up-to-date with the latest changes from the remote repository. However, it does not integrate these changes into our working directory.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="associating-the-local-base-with-a-remote-repository"&gt;
+&lt;h3&gt;Associating the Local Base with a Remote Repository&lt;/h3&gt;
+&lt;p&gt;To link our local repository with a remote repository, we use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;remote&lt;/span&gt; &lt;span class="pre"&gt;add&lt;/span&gt;&lt;/code&gt; command.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;add&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;REMOTE-REPOSITORY-ALIAS&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;REMOTE-REPOSITORY-URL&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Here, &lt;REMOTE-REPOSITORY-ALIAS&gt; is an alias to associate with the external repository. Conventionally, ‘origin’ is used for the main external repository, but we can link to multiple external repositories.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="pushing-changes-to-a-remote-repository"&gt;
+&lt;h3&gt;Pushing Changes to a Remote Repository&lt;/h3&gt;
+&lt;p&gt;When we want to send our committed changes from the local base to the remote repository, we use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;push&lt;/span&gt;&lt;/code&gt; command.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;push&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;REMOTE-REPOSITORY-ALIAS&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;BRANCH-NAME&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This command transfers the changes in the ‘Commited’ state to the specified remote repository.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="pulling-changes-from-a-remote-repository"&gt;
+&lt;h3&gt;Pulling Changes from a Remote Repository&lt;/h3&gt;
+&lt;p&gt;To fetch changes from a remote repository and integrate them into our local base, we use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;pull&lt;/span&gt;&lt;/code&gt; command.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;pull&lt;span class="w"&gt; &lt;/span&gt;origin&lt;span class="w"&gt; &lt;/span&gt;main
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This retrieves the changes from the specified remote repository (here, ‘origin’). The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;pull&lt;/span&gt;&lt;/code&gt; command is effective only when there are no files with the ‘Untracked’ status in the Local Base.&lt;/p&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2021/2021-05-06-git-remote/" rel="alternate"/>
+    <summary>In the world of Git, comprehending the distinction between a local repository and a remote repository is pivotal. Let’s embark on a journey to uncover the nuances through some common Git commands that underscore these differences.A local repository is your copy of a Git project that resides on your computer. When you clone a repository or create a new one on your machine, you are essentially establishing a local repository. This local copy includes all the project’s files, the complete history of commits, branches, tags, and more.</summary>
+    <category term="demystifying" label="demystifying"/>
+    <published>2021-05-06T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://carlosneto.dev/blog/2021/2021-05-05-git-log/</id>
+    <title>Demystifying: $ git log</title>
+    <updated>2021-05-05T00:00:00+00:00</updated>
+    <content type="html">&lt;section id="demystifying-git-log"&gt;
+
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt; command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project’s development timeline.&lt;/p&gt;
+&lt;section id="basic-usage"&gt;
+&lt;h2&gt;Basic Usage&lt;/h2&gt;
+&lt;p&gt;To use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt;, simply type the following in your terminal:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This command will display a list of commits in reverse chronological order (from the latest to the earliest). Each commit is accompanied by information such as the commit hash, author details, date, and commit message.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="limiting-the-output"&gt;
+&lt;h2&gt;Limiting the Output&lt;/h2&gt;
+&lt;p&gt;You can limit the log output using various options:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Display the last N commits:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;-n&lt;span class="w"&gt; &lt;/span&gt;N
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Show a specific range of commits:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;commit-hash-start&amp;gt;..&amp;lt;commit-hash-end&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="custom-formatting"&gt;
+&lt;h2&gt;Custom Formatting&lt;/h2&gt;
+&lt;p&gt;You can customize the output format of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt; using the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--pretty&lt;/span&gt;&lt;/code&gt; option. For instance:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Display a compact representation of commits:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;oneline
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Show a detailed log with the commit message and changes:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;full
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Customize the format using placeholders:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;format:&lt;span class="s2"&gt;&amp;quot;%h - %an&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2021/2021-05-05-git-log/" rel="alternate"/>
+    <summary>The git log command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project’s development timeline.To use git log, simply type the following in your terminal:</summary>
+    <category term="demystifying" label="demystifying"/>
+    <published>2021-05-05T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://carlosneto.dev/blog/2021/2021-05-04-git-config/</id>
+    <title>Demystifying: $ git config</title>
+    <updated>2021-05-04T00:00:00+00:00</updated>
+    <content type="html">&lt;section id="demystifying-git-config"&gt;
+
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.&lt;/p&gt;
+&lt;p&gt;When running the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; command with the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--system&lt;/span&gt;&lt;/code&gt; argument, the values are formatted and saved in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt; file. This makes these values the default for all system users. If the argument passed is &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--global&lt;/span&gt;&lt;/code&gt;, the values are saved in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;, serving as the default for the executing system user. If none of these arguments are passed and the user is in a &lt;strong&gt;Working Directory&lt;/strong&gt;, i.e., a local repository, the modified file will be &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git/config&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Therefore, the overriding order of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; metadata is as follows:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt;: Base values at a &lt;em&gt;System Wide&lt;/em&gt; level, i.e., for all users.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;: User-level values - Overrides &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git/config&lt;/span&gt;&lt;/code&gt;: Project-level values - Overrides &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Specify the name of the person making changes to the project:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;user.email&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;carlos.neto.dev@gmail&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;carlos.neto.dev&amp;#64;gmail&amp;quot;&lt;/span&gt;&lt;/code&gt; is an example username.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Specify the name of the person making changes to the project:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;--global&lt;span class="w"&gt; &lt;/span&gt;user.name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Carlos Neto&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;Carlos&lt;/span&gt; &lt;span class="pre"&gt;Neto&amp;quot;&lt;/span&gt;&lt;/code&gt; is an example username.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Specify the text editor Git will use when writing a message:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;core.editor&lt;span class="w"&gt; &lt;/span&gt;/usr/bin/code&lt;span class="w"&gt; &lt;/span&gt;--wait
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/usr/bin/code&lt;/span&gt;&lt;/code&gt; is the illustrative path to VSCode. Replace it with the absolute path to the binary of your preferred text editor.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2021/2021-05-04-git-config/" rel="alternate"/>
+    <summary>The git config command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.When running the git config command with the --system argument, the values are formatted and saved in the /etc/gitconfig file. This makes these values the default for all system users. If the argument passed is --global, the values are saved in ~/.gitconfig, serving as the default for the executing system user. If none of these arguments are passed and the user is in a Working Directory, i.e., a local repository, the modified file will be .git/config.</summary>
+    <category term="demystifying" label="demystifying"/>
+    <published>2021-05-04T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://carlosneto.dev/blog/2021/2021-05-03-git-branch/</id>
+    <title>Demystifying: $ git branch/tag</title>
+    <updated>2021-05-03T00:00:00+00:00</updated>
+    <content type="html">&lt;section id="demystifying-git-branch-tag"&gt;
+
+&lt;p&gt;Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mark significant milestones. In this guide, we’ll explore how to work with branches and tags in Git.&lt;/p&gt;
+&lt;section id="branches"&gt;
+&lt;h2&gt;Branches&lt;/h2&gt;
+&lt;section id="listing-local-branches"&gt;
+&lt;h3&gt;Listing Local Branches&lt;/h3&gt;
+&lt;p&gt;To list all local branches, use:&lt;/p&gt;
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;branch&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="listing-all-branches"&gt;
+&lt;h3&gt;Listing All Branches&lt;/h3&gt;
+&lt;p&gt;To list all branches, including remote branches:&lt;/p&gt;
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;branch&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="creating-a-new-branch"&gt;
+&lt;h3&gt;Creating a New Branch&lt;/h3&gt;
+&lt;p&gt;To create a new branch from the current branch:&lt;/p&gt;
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;checkout&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;BRANCH&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;NAME&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="switching-to-a-branch"&gt;
+&lt;h3&gt;Switching to a Branch&lt;/h3&gt;
+&lt;p&gt;To switch to a specified branch:&lt;/p&gt;
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;checkout&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;BRANCH&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;NAME&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="merging-branches"&gt;
+&lt;h3&gt;Merging Branches&lt;/h3&gt;
+&lt;p&gt;To merge changes from another branch into the current branch:&lt;/p&gt;
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;merge&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;BRANCH&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;NAME&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="showing-modified-lines-between-tags"&gt;
+&lt;h3&gt;Showing Modified Lines between Tags&lt;/h3&gt;
+&lt;p&gt;To display modified lines between two tags:&lt;/p&gt;
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;diff&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;TAG&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;TAG&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;section id="tags"&gt;
+&lt;h2&gt;Tags&lt;/h2&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;tag&lt;/span&gt;&lt;/code&gt; command allows you to label a commit, essentially providing a high-level shortcut to a specific &lt;em&gt;hash&lt;/em&gt; of a particular commit. Tags are often used to mark points of interest in the project, such as stable versions, staging versions, and test versions.
+Before exploring the commands, it’s important to know that there are two types of tags: &lt;strong&gt;Lightweight&lt;/strong&gt; and &lt;strong&gt;Annotated&lt;/strong&gt;. Lightweight tags are simple pointers to an existing commit. Annotated tags are complete objects stored in the Git database, containing the name, the email of the tag creator, the creation date, and a descriptive tag message.&lt;/p&gt;
+&lt;section id="listing-all-tags-with-tag-messages"&gt;
+&lt;h3&gt;Listing All Tags with Tag Messages&lt;/h3&gt;
+&lt;p&gt;To list all tags in the project along with their tag messages, use:&lt;/p&gt;
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="creating-an-annotated-tag"&gt;
+&lt;h3&gt;Creating an Annotated Tag&lt;/h3&gt;
+&lt;p&gt;To create an annotated tag, use:&lt;/p&gt;
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;TAG&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;NAME&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;TAG-DESCRIPTION-MESSAGE&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="creating-a-lightweight-tag"&gt;
+&lt;h3&gt;Creating a Lightweight Tag&lt;/h3&gt;
+&lt;p&gt;To create a lightweight tag, use:&lt;/p&gt;
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;TAG&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;NAME&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="adding-a-tag-to-a-specific-commit"&gt;
+&lt;h3&gt;Adding a Tag to a Specific Commit&lt;/h3&gt;
+&lt;p&gt;To add a tag to a specific commit:&lt;/p&gt;
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;TAG&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;NAME&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;TAG-DESCRIPTION-MESSAGE&amp;gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;HASH&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;OF&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;COMMIT&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2021/2021-05-03-git-branch/" rel="alternate"/>
+    <summary>Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mark significant milestones. In this guide, we’ll explore how to work with branches and tags in Git.To list all local branches, use:</summary>
+    <category term="demystifying" label="demystifying"/>
+    <published>2021-05-03T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://carlosneto.dev/blog/2021/2021-05-02-git-cli/</id>
+    <title>Exploring Git: CLI vs. Graphical Interfaces</title>
+    <updated>2021-05-02T00:00:00+00:00</updated>
+    <content type="html">&lt;section id="exploring-git-cli-vs-graphical-interfaces"&gt;
+
+&lt;p&gt;When it comes to using Git, there are two primary approaches: through its Command Line Interface (CLI) — a powerful command-line utility — and via graphical interface solutions. Let’s delve into both and understand their pros and cons.&lt;/p&gt;
+&lt;section id="command-line-interface-cli"&gt;
+&lt;h2&gt;Command Line Interface (CLI)&lt;/h2&gt;
+&lt;p&gt;Git’s CLI provides a robust and versatile environment for managing version control tasks. Here’s how to install Git CLI based on your operating system: Linux distributions, the CLI of Git is usually available in official repositories. For Windows or MacOS systems, the installation is done through graphical interface installers. For more details, refer to the &lt;a class="reference external" href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git"&gt;official installation guide&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Key Pros:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Full Functionality: Git CLI offers all functionalities and capabilities that Git provides, ensuring nothing is compromised.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Scripting and Automation: Easily integrate Git commands into scripts and automate repetitive tasks.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Efficiency: Users experienced with command-line operations often find Git CLI to be faster and more efficient.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Key Cons:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Learning Curve: For those unfamiliar with command-line interfaces, there may be a learning curve to grasp the commands and their usage effectively.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Less Visual Representation: Git CLI provides data primarily through text output, which can be less intuitive for some users.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let’s explore some of the popular graphical solutions and their advantages.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="graphical-interface-solutions"&gt;
+&lt;h2&gt;Graphical Interface Solutions&lt;/h2&gt;
+&lt;section id="gitkraken"&gt;
+&lt;h3&gt;1. GitKraken&lt;/h3&gt;
+&lt;p&gt;GitKraken is a comprehensive graphical suite focusing on enhancing Git functionalities.&lt;/p&gt;
+&lt;p&gt;Pros:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Intuitive Interface: GitKraken offers an easy-to-understand graphical interface, making it accessible for both beginners and experienced users.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Visualization: Users can visualize their Git repository and workflow, aiding in a better understanding of branching, merging, and commits.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cons:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Cost: While GitKraken offers a free version, more advanced features require a paid subscription.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://www.gitkraken.com/"&gt;Visit GitKraken&lt;/a&gt;&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="vscode"&gt;
+&lt;h3&gt;2. VSCode&lt;/h3&gt;
+&lt;p&gt;VSCode, a popular text editor, inherently provides basic Git functionalities in a visual manner.&lt;/p&gt;
+&lt;p&gt;Pros:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Integration: Git features are seamlessly integrated into the editor, allowing for efficient version control directly from the coding environment.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Customization: Users can enhance Git capabilities through various extensions available for VSCode.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cons:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Not Dedicated: While it provides Git features, it’s primarily a text editor, so it might lack some advanced Git-specific features.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://code.visualstudio.com/"&gt;Visit VSCode&lt;/a&gt;&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="jetbrains-ides"&gt;
+&lt;h3&gt;3. JetBrains IDEs&lt;/h3&gt;
+&lt;p&gt;JetBrains offers a range of Integrated Development Environments (IDEs) for various programming languages, all of which integrate Git functionalities.&lt;/p&gt;
+&lt;p&gt;Pros:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Comprehensive: JetBrains IDEs provide a full suite of development tools along with Git integration.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Language Support: Each IDE is tailored to specific languages, ensuring a seamless Git experience for the corresponding programming language.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cons:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Resource Intensive: IDEs can be resource-heavy, especially for larger projects or on less powerful machines.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://www.jetbrains.com/pt-br/"&gt;Visit JetBrains IDEs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;In conclusion, the choice between Git CLI and graphical interfaces depends on your preference, familiarity with command-line tools, and the specific needs of your project. Both approaches provide access to the powerful Git version control system, so pick the one that aligns with your workflow and enhances your productivity.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="gitlab"&gt;
+&lt;h3&gt;4. GitLab&lt;/h3&gt;
+&lt;p&gt;GitLab offers a web-based Git repository manager providing Git repository hosting, CI/CD pipelines, and a range of collaboration features.&lt;/p&gt;
+&lt;p&gt;Pros:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;All-in-One Solution: GitLab integrates repository management, CI/CD pipelines, issue tracking, and more, providing a comprehensive platform for development projects.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Collaboration: Facilitates collaboration among team members with features like code reviews, issue tracking, and merge requests.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cons:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Self-Hosting Complexity: While GitLab offers a hosted solution, self-hosting and managing it can be complex for smaller teams or less experienced users.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://about.gitlab.com/"&gt;Visit GitLab&lt;/a&gt;&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="sourcetree"&gt;
+&lt;h3&gt;5. SourceTree&lt;/h3&gt;
+&lt;p&gt;SourceTree is a free Git GUI that provides an intuitive interface to manage Git repositories.&lt;/p&gt;
+&lt;p&gt;Pros:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;User-Friendly: SourceTree offers an intuitive, user-friendly interface, making it easy to understand for users new to Git.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Visual Representation: Users can visualize the Git workflow, including branches, commits, and merges, aiding in understanding repository history.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cons:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Limited to Git: While SourceTree is great for Git, it doesn’t support other version control systems, potentially limiting its usefulness in some scenarios.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://www.sourcetreeapp.com/"&gt;Visit SourceTree&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;In conclusion, the Git landscape offers a variety of graphical interface solutions, each with its own set of advantages and considerations. Depending on your project’s needs, team collaboration requirements, and personal preferences, you can choose the tool that best fits your workflow and enhances your Git experience.&lt;/p&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2021/2021-05-02-git-cli/" rel="alternate"/>
+    <summary>When it comes to using Git, there are two primary approaches: through its Command Line Interface (CLI) — a powerful command-line utility — and via graphical interface solutions. Let’s delve into both and understand their pros and cons.Git’s CLI provides a robust and versatile environment for managing version control tasks. Here’s how to install Git CLI based on your operating system: Linux distributions, the CLI of Git is usually available in official repositories. For Windows or MacOS systems, the installation is done through graphical interface installers. For more details, refer to the official installation guide.</summary>
+    <category term="concepts" label="concepts"/>
+    <published>2021-05-02T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://carlosneto.dev/blog/2021/2021-05-01-git-overview/</id>
+    <title>Git Overview</title>
+    <updated>2021-05-01T00:00:00+00:00</updated>
+    <content type="html">&lt;section id="git-overview"&gt;
+
+&lt;p&gt;Git is a &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Version_control"&gt;Version Control System&lt;/a&gt;, designed to manage digital file content development flows in an objective, productive, performant, and distributed manner. Its usage is broad, spanning across both OpenSource and Enterprise projects, especially those developed collaboratively. Currently, the predominant languages in its source code are C, Shell, and Perl, which are accessible on GitHub &lt;a class="github reference external" href="https://github.com/git/git"&gt;git/git&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Due to its features, it’s not wrong to associate Git with the following technology definition acronyms:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;VSC&lt;/strong&gt; - &lt;em&gt;Version Control System&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;DVSC&lt;/strong&gt; - &lt;em&gt;Distributed Source Control Management&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;SCM&lt;/strong&gt; - &lt;em&gt;Source Control Management&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;RCS&lt;/strong&gt; - &lt;em&gt;Revision Control System&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;However, it’s important to understand that Git is not strictly limited to any single acronym; the associations made are based on the context in which it exists.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;section id="a-bit-of-history"&gt;
+&lt;h2&gt;A Bit of History&lt;/h2&gt;
+&lt;p&gt;Git originated from the development of the Linux Kernel. During the years from 1991 to 2002, changes made to the Kernel’s source code were mostly sent via email as attachments of &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Tar_(computing)"&gt;tarballs&lt;/a&gt;. Although this process may seem archaic and unproductive, in the view of Linus Torvalds, the creator and maintainer of Linux, it was better than using existing market VCS solutions. The patches were received by Linus, and he manually controlled the flow of contributions. As time went on and collaboration volume and complexity increased, this control flow became unmanageable, necessitating the presence of a Distributed File Versioning System, commonly referred to as &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Distributed_version_control"&gt;DVSC - &lt;em&gt;Distributed Version Control&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In 2002, the proprietary &lt;strong&gt;DVSC&lt;/strong&gt; technology &lt;a class="reference external" href="http://www.bitkeeper.org/"&gt;BitKeeper&lt;/a&gt; was adopted to control Linux’s source code. In 2005, the company that developed BitKeeper removed the free access rights to the tool. This, combined with the tool’s limitations, led the Linux development community to discontinue its use. No alternative solutions in the market were satisfactory, especially in terms of performance when merging contributions into the code. This led the Linux developer community, especially Linus himself, to create a solution with the following goals:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Do the Opposite of CVS&lt;/strong&gt;: Avoid the mistakes made by the existing solution &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Concurrent_Versions_System"&gt;CVS&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Performance&lt;/strong&gt;: Speed up the integration of contributions.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Distributed&lt;/strong&gt;: Collaborations are not necessarily centralized, similar to the clarity of processes (positive points inherited from the experience with BitKeeper).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Integrity&lt;/strong&gt;: Internal mechanisms to prevent file corruption.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Thus, in 2005, under the terms of the &lt;a class="reference external" href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"&gt;GNU GPLv2 license&lt;/a&gt;, Git was released. Over time, numerous improvements have been made, but the initial goals have been preserved.&lt;/p&gt;
+&lt;p&gt;Today, it is the primary version control tool, dominant in OpenSource projects.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="characteristics"&gt;
+&lt;h2&gt;Characteristics&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Availability&lt;/strong&gt;:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Although Git fits into the &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Distributed_version_control"&gt;DVSC - &lt;em&gt;Distributed Source Control Management&lt;/em&gt;&lt;/a&gt; format, a significant portion of its operations is local. When a project with Git is cloned (downloaded), the database containing the versioning metadata of the project is contained in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git&lt;/span&gt;&lt;/code&gt; directory at the root of the repository. Here, you can browse the history without the need for a connection to a centralized server.&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Security&lt;/strong&gt;:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To preserve file integrity, they undergo the &lt;a class="reference external" href="https://pt.wikipedia.org/wiki/SHA-1"&gt;SHA-1&lt;/a&gt; cryptographic function. Therefore, file corruptions are detected by Git.&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;State Management&lt;/strong&gt;:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The main difference between Git and other existing VCS solutions is how the data is managed. Examples of existing solutions include &lt;a class="reference external" href="https://subversion.apache.org/"&gt;Subversion&lt;/a&gt;, &lt;a class="reference external" href="https://www.perforce.com/solutions/version-control"&gt;Perforce&lt;/a&gt;, and &lt;a class="reference external" href="https://bazaar.canonical.com/en/"&gt;Bazaar&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Some existing solutions version control by storing data as changes to a basic version of each file. Here’s an example:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/dm-others.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Unlike the format shown above, Git treats its data as a &lt;strong&gt;file state flow&lt;/strong&gt;. With each commit, i.e., each time the project state is saved, a snapshot is created. The content of this snapshot is composed of references to the files present at that moment.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/dm-git.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Git is smart enough to maintain a file’s reference if there are no changes to it between commits.&lt;/p&gt;
+&lt;p&gt;This format prevents redundancy and enables benefits like efficient and performant branching and conflict controls.&lt;/p&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2021/2021-05-01-git-overview/" rel="alternate"/>
+    <summary>Git is a Version Control System, designed to manage digital file content development flows in an objective, productive, performant, and distributed manner. Its usage is broad, spanning across both OpenSource and Enterprise projects, especially those developed collaboratively. Currently, the predominant languages in its source code are C, Shell, and Perl, which are accessible on GitHub https://github.com/git/git.Due to its features, it’s not wrong to associate Git with the following technology definition acronyms:</summary>
+    <category term="comparison" label="comparison"/>
+    <published>2021-05-01T00:00:00+00:00</published>
+  </entry>
+</feed>
