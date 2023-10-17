@@ -68,7 +68,7 @@ html_sidebars = {
     "index": [
         "hello.html"
     ],
-    "about": [
+    "whoami": [
         "hello.html"
     ],
     "blog": [

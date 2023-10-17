@@ -73,3 +73,5 @@ git commit <FILE-OR-DIRECTORY> -m <MESSAGE>
 ```
 
 > The `-m` parameter indicates a message describing the changes made to this file. If not specified, the text editor configured in the `git config core.editor` command will open.
+
+---

@@ -98,3 +98,5 @@ To add a tag to a specific commit:
 ```
 git tag -a <TAG-NAME> -m "<TAG-DESCRIPTION-MESSAGE>" <HASH-OF-COMMIT>
 ```
+
+---
