@@ -272,10 +272,6 @@ document.write(`
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
-      <span class="fa-solid fa-outdent"></span>
-    </label>
-  
 </div>
 
     </nav>
@@ -429,13 +425,13 @@ document.write(`
   
   
   
-  <a href="../../tag/best-practices/">best-practices</a>
-  
-  
-  
-  
-  
   <a href="../../tag/aws/">aws</a>
+  
+  
+  
+  
+  
+  <a href="../../tag/best-practices/">best-practices</a>
   
   
   
@@ -443,6 +439,63 @@ document.write(`
 
 
 </div>
+</ul>
+</div>
+</div>
+        <div class="sidebar-primary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-iam-a-crucial-aws-service">Understanding IAM: A Crucial AWS Service</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iam-and-organization-scp-defining-user-permissions-and-conditions">IAM and Organization SCP: Defining User Permissions and Conditions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#root-account-vs-iam-users-discerning-the-difference">Root Account vs. IAM Users: Discerning the Difference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-account-structure-and-access-management">Best Practices: Account Structure and Access Management</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#efficient-management-through-iam-services">Efficient Management through IAM Services</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fine-tuning-permissions-access-types-and-options">Fine-tuning Permissions: Access Types and Options</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#harnessing-the-power-of-roles-for-aws-resource-communication">Harnessing the Power of Roles for AWS Resource Communication</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+        <div class="sidebar-primary-item">
+<div class="ablog-sidebar-item ablog__recentposts">
+<h3>
+  <a href="../../">Recent Posts</a>
+</h3>
+<ul>
+  
+  
+  <li>
+    <a href="../2022-05-11-well-architected-framework/">
+      11 May - AWS Well-Architected Framework: A Beginner’s Guide to Building Robust Cloud Solutions
+    </a>
+  </li>
+  
+  <li>
+    <a href="../2022-05-10-accounts-organization/">
+      10 May - AWS Account Foundation
+    </a>
+  </li>
+  
+  <li>
+    <a href="../2022-05-09-cloud-concepts/">
+      09 May - Cloud Basic Concepts
+    </a>
+  </li>
+  
+  <li>
+    <a href="../../2021/2021-05-07-git-status/">
+      07 May - Understanding Status States Change Commands
+    </a>
+  </li>
+  
+  <li>
+    <a href="../../2021/2021-05-06-git-remote/">
+      06 May - Understanding Remote and Local Repositories
+    </a>
+  </li>
+  
 </ul>
 </div>
 </div>
@@ -463,33 +516,7 @@ document.write(`
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
-<div class="header-article-items header-article__inner">
-  
-    <div class="header-article-items__start">
-      
-        <div class="header-article-item">
-
-
-
-<nav aria-label="Breadcrumb">
-  <ul class="bd-breadcrumbs">
-    
-    <li class="breadcrumb-item breadcrumb-home">
-      <a href="../../../" class="nav-link" aria-label="Home">
-        <i class="fa-solid fa-home"></i>
-      </a>
-    </li>
-    <li class="breadcrumb-item active" aria-current="page">Mastering...</li>
-  </ul>
-</nav>
-</div>
-      
-    </div>
-  
-  
-</div>
-</div>
+              <div class="bd-header-article"></div>
               
               
 
@@ -598,35 +625,6 @@ document.write(`
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-iam-a-crucial-aws-service">Understanding IAM: A Crucial AWS Service</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iam-and-organization-scp-defining-user-permissions-and-conditions">IAM and Organization SCP: Defining User Permissions and Conditions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#root-account-vs-iam-users-discerning-the-difference">Root Account vs. IAM Users: Discerning the Difference</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-account-structure-and-access-management">Best Practices: Account Structure and Access Management</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#efficient-management-through-iam-services">Efficient Management through IAM Services</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fine-tuning-permissions-access-types-and-options">Fine-tuning Permissions: Access Types and Options</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#harnessing-the-power-of-roles-for-aws-resource-communication">Harnessing the Power of Roles for AWS Resource Communication</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
-</ul>
-  </nav></div>
-
-  <div class="sidebar-secondary-item">
-  <div class="tocsection sourcelink">
-    <a href="../../../_sources/blog/2022/2022-05-12-security-identity-compliance.md.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
-
-</div></div>
               
             
           </div>
