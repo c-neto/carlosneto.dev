@@ -4,6 +4,10 @@ date: "2022-05-10"
 category: aws
 ---
 
+*__Blog Post Publish Date:__ 2022/05/10*
+
+---
+
 # AWS Account Foundation
 
 Welcome to our blog, where we delve into the essential foundations for successful AWS account management—an imperative for any cloud operation. In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AWS Accounts, effective organization through AWS Organization, the implementation of security policies with SCP - Security Control Policy, and finally, the relevance of Support Center Plans. We will address each of these topics in detail, providing valuable insights to optimize your AWS cloud infrastructure. Let's begin our journey through the bedrock that supports the account ecosystem on Amazon Web Services.

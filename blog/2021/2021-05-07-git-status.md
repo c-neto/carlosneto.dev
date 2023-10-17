@@ -4,6 +4,10 @@ date: "2021-05-07"
 category: git
 ---
 
+*__Blog Post Publish Date:__ 2021/05/07*
+
+---
+
 # Understanding Status States Change Commands
 
 In Git, a file can exist in three main **areas**:

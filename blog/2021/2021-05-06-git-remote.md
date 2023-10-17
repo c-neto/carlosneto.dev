@@ -4,6 +4,10 @@ date: "2021-05-06"
 category: git
 ---
 
+*__Blog Post Publish Date:__ 2021/05/06*
+
+---
+
 # Understanding Remote and Local Repositories
 
 In the world of Git, comprehending the distinction between a local repository and a remote repository is pivotal. Let's embark on a journey to uncover the nuances through some common Git commands that underscore these differences.
