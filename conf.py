@@ -78,7 +78,6 @@ html_sidebars = {
         "ablog/archives.html"
     ],
 
-
     "blog/202*": [
         "ablog/archives.html"
     ],
