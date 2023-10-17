@@ -4,9 +4,9 @@
 
 # About Me
 
-I’m Carlos Neto, a DevOps Engineer focused in Observability, Integration Programming Technical Writing and Cloud Solutions. 
+I'm Carlos Neto, a DevOps Engineer with a strong focus on Observability, Integration, Programming, Technical Writing, and Cloud Solutions.
 
-My main skills are AWS, Python Programming, and ELK + OpenSearch cluster management.
+My primary expertise lies in AWS, Python Programming, and the management of ELK + OpenSearch clusters.
 
 Check my professional experiences:
 
