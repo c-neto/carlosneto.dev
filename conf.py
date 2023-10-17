@@ -57,9 +57,7 @@ html_theme_options = {
         },
     ],
     "secondary_sidebar_items": [],
-    "article_header_start": [
-        "ablog/postcard.html",
-    ],
+    "article_header_start": [],
 }
 
 html_favicon = "_static/profile-color-circle-small.png"

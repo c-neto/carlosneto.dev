@@ -5,9 +5,11 @@ html_theme.sidebar_secondary.remove: true
 
 # Hello There!
 
-Welcome to our technical blog, where the realms of Python, AWS, OpenSearch, Logstash, logs pipeline, and rsyslog converge to illuminate a seamless journey through the intricacies of modern data processing and analysis. In this space, we delve into the world of cutting-edge technologies and methodologies that empower businesses to harness the power of their data.
+I created this platform to share my firsthand experiences in the realm of DevOps.
 
-Join us on this exploration of the interconnected landscape of tools and techniques that optimize data handling and drive informed decision-making. Let's unlock the potential of your data and elevate your technical prowess.
+These include but are not limited to DevOps methodologies, Python programming, Amazon Web Services (AWS), Infrastructure as a Service (IaaS), automation, Kubernetes, OpenSearch, and efficient log management.
+
+Through this platform, I aim to share insights, experiences, and knowledge about my journey within these domains.
 
 ::::{grid}
 
