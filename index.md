@@ -10,12 +10,12 @@ Through this platform, I aim to share insights, experiences, and knowledge about
 
 :::{grid-item-card}
 :link: blog
-My Blog ✍️
+<i class="fa-solid fa-blog fa-fade"></i> My Blog
 :::
 
 :::{grid-item-card}
 :link: whoami
-`$ whoami`
+<i class="fa-solid fa-terminal fa-fade"></i> whoami
 :::
 
 ::::
