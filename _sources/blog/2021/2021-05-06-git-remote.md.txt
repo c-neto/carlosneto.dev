@@ -79,3 +79,5 @@ git pull origin main
 ```
 
 This retrieves the changes from the specified remote repository (here, 'origin'). The `git pull` command is effective only when there are no files with the 'Untracked' status in the Local Base.
+
+---

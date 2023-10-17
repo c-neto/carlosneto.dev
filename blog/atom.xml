@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-10-17T05:26:36.666960+00:00</updated>
+  <updated>2023-10-17T19:46:35.670899+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -52,6 +52,7 @@
 &lt;li&gt;&lt;p&gt;Access keys best practices: &lt;a class="reference external" href="https://medium.com/&amp;#64;ashishrajan/aws-security-best-practices-access-keys-cloudsecurity-facb20aa0db6"&gt;https://medium.com/&amp;#64;ashishrajan/aws-security-best-practices-access-keys-cloudsecurity-facb20aa0db6&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/section&gt;
+&lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2022/2022-05-12-security-identity-compliance/" rel="alternate"/>
@@ -110,6 +111,7 @@ Conclusion&lt;/p&gt;
 &lt;li&gt;&lt;p&gt;The 5 Pillars of the AWS Well-Architected Framework: &lt;a class="reference external" href="https://aws.amazon.com/blogs/apn/the-5-pillars-of-the-aws-well-architected-framework/"&gt;https://aws.amazon.com/blogs/apn/the-5-pillars-of-the-aws-well-architected-framework/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/section&gt;
+&lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2022/2022-05-11-well-architected-framework/" rel="alternate"/>
@@ -127,7 +129,7 @@ Understanding AWS Well-Architected Framework</summary>
 &lt;hr class="docutils" /&gt;
 &lt;section id="aws-account-foundation"&gt;
 
-&lt;p&gt;Welcome to our blog, where we delve into the essential foundations for successful AWS account management—an imperative for any cloud operation. In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AWS Accounts, effective organization through AWS Organization, the implementation of security policies with SCP - Security Control Policy, and finally, the relevance of Support Center Plans. We will address each of these topics in detail, providing valuable insights to optimize your AWS cloud infrastructure. Let’s begin our journey through the bedrock that supports the account ecosystem on Amazon Web Services.&lt;/p&gt;
+&lt;p&gt;In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AWS Accounts, effective organization through AWS Organization, the implementation of security policies with SCP - Security Control Policy, and finally, the relevance of Support Center Plans. We will address each of these topics in detail, providing valuable insights to optimize your AWS cloud infrastructure.&lt;/p&gt;
 &lt;section id="foundations"&gt;
 &lt;h2&gt;Foundations&lt;/h2&gt;
 &lt;p&gt;Key points about Accounts Foundation:&lt;/p&gt;
@@ -181,18 +183,19 @@ Understanding AWS Well-Architected Framework</summary>
 &lt;section id="references"&gt;
 &lt;h2&gt;References&lt;/h2&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;AWS Account: https://aws.amazon.com/account/&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;AWS Organizations: https://aws.amazon.com/organizations/&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;AWS Support Center Plans: https://aws.amazon.com/pt/premiumsupport/plans/&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;AWS Landing Zone: https://aws.amazon.com/solutions/aws-landing-zone/&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;AWS Billing: https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilling-procedure.html&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;AWS SCP - Service Control Policies: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AWS Account: &lt;a class="reference external" href="https://aws.amazon.com/account/"&gt;https://aws.amazon.com/account/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AWS Organizations: &lt;a class="reference external" href="https://aws.amazon.com/organizations/"&gt;https://aws.amazon.com/organizations/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AWS Support Center Plans: &lt;a class="reference external" href="https://aws.amazon.com/pt/premiumsupport/plans/"&gt;https://aws.amazon.com/pt/premiumsupport/plans/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AWS Landing Zone: &lt;a class="reference external" href="https://aws.amazon.com/solutions/aws-landing-zone/"&gt;https://aws.amazon.com/solutions/aws-landing-zone/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AWS Billing: &lt;a class="reference external" href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilling-procedure.html"&gt;https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilling-procedure.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AWS SCP - Service Control Policies: &lt;a class="reference external" href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html"&gt;https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/section&gt;
+&lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2022/2022-05-10-accounts-organization/" rel="alternate"/>
-    <summary>Blog Post Publish Date: 2022/05/10Welcome to our blog, where we delve into the essential foundations for successful AWS account management—an imperative for any cloud operation. In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AWS Accounts, effective organization through AWS Organization, the implementation of security policies with SCP - Security Control Policy, and finally, the relevance of Support Center Plans. We will address each of these topics in detail, providing valuable insights to optimize your AWS cloud infrastructure. Let’s begin our journey through the bedrock that supports the account ecosystem on Amazon Web Services.</summary>
+    <summary>Blog Post Publish Date: 2022/05/10In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AWS Accounts, effective organization through AWS Organization, the implementation of security policies with SCP - Security Control Policy, and finally, the relevance of Support Center Plans. We will address each of these topics in detail, providing valuable insights to optimize your AWS cloud infrastructure.</summary>
     <category term="account" label="account"/>
     <category term="iam" label="iam"/>
     <category term="security" label="security"/>
@@ -301,6 +304,7 @@ Understanding AWS Well-Architected Framework</summary>
 &lt;li&gt;&lt;p&gt;NIST - Cloud Computing Definition: &lt;a class="reference external" href="https://csrc.nist.gov/publications/detail/sp/800-145/final"&gt;https://csrc.nist.gov/publications/detail/sp/800-145/final&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/section&gt;
+&lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2022/2022-05-09-cloud-concepts/" rel="alternate"/>
@@ -373,6 +377,7 @@ Understanding AWS Well-Architected Framework</summary>
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;-m&lt;/span&gt;&lt;/code&gt; parameter indicates a message describing the changes made to this file. If not specified, the text editor configured in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt; &lt;span class="pre"&gt;core.editor&lt;/span&gt;&lt;/code&gt; command will open.&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-07-git-status/" rel="alternate"/>
@@ -444,6 +449,7 @@ Understanding AWS Well-Architected Framework</summary>
 &lt;p&gt;This retrieves the changes from the specified remote repository (here, ‘origin’). The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;pull&lt;/span&gt;&lt;/code&gt; command is effective only when there are no files with the ‘Untracked’ status in the Local Base.&lt;/p&gt;
 &lt;/section&gt;
 &lt;/section&gt;
+&lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-06-git-remote/" rel="alternate"/>
@@ -506,6 +512,7 @@ Understanding AWS Well-Architected Framework</summary>
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
+&lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-05-git-log/" rel="alternate"/>
@@ -553,6 +560,7 @@ Understanding AWS Well-Architected Framework</summary>
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/usr/bin/code&lt;/span&gt;&lt;/code&gt; is the illustrative path to VSCode. Replace it with the absolute path to the binary of your preferred text editor.&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-04-git-config/" rel="alternate"/>
@@ -647,6 +655,7 @@ Before exploring the commands, it’s important to know that there are two types
 &lt;/div&gt;
 &lt;/section&gt;
 &lt;/section&gt;
+&lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-03-git-branch/" rel="alternate"/>
@@ -754,6 +763,7 @@ Before exploring the commands, it’s important to know that there are two types
 &lt;p&gt;In conclusion, the Git landscape offers a variety of graphical interface solutions, each with its own set of advantages and considerations. Depending on your project’s needs, team collaboration requirements, and personal preferences, you can choose the tool that best fits your workflow and enhances your Git experience.&lt;/p&gt;
 &lt;/section&gt;
 &lt;/section&gt;
+&lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-02-git-cli/" rel="alternate"/>
@@ -814,6 +824,7 @@ Before exploring the commands, it’s important to know that there are two types
 &lt;p&gt;Git is smart enough to maintain a file’s reference if there are no changes to it between commits.&lt;/p&gt;
 &lt;p&gt;This format prevents redundancy and enables benefits like efficient and performant branching and conflict controls.&lt;/p&gt;
 &lt;/section&gt;
+&lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-01-git-overview/" rel="alternate"/>

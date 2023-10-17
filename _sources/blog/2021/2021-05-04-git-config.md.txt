@@ -49,3 +49,5 @@ git config core.editor /usr/bin/code --wait
 ```
 
 > The value ```/usr/bin/code``` is the illustrative path to VSCode. Replace it with the absolute path to the binary of your preferred text editor.
+
+---

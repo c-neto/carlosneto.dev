@@ -61,3 +61,5 @@ Unlike the format shown above, Git treats its data as a __file state flow__. Wit
 Git is smart enough to maintain a file's reference if there are no changes to it between commits.
 
 This format prevents redundancy and enables benefits like efficient and performant branching and conflict controls.
+
+---
