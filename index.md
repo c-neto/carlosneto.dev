@@ -1,8 +1,3 @@
----
-html_theme.sidebar_secondary.remove: true
-
----
-
 # Hello There!
 
 It' is my space to share my firsthand experiences in the realm of DevOps.
