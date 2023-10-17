@@ -22,4 +22,11 @@ Check my professional experiences:
 <i class="fab fa-github"></i> GitHub
 :::
 
+:::{grid-item-card}
+:link: https://www.credly.com/users/c-neto/badges
+<i class="fa-light fa-certificate"></i> Certifications
+:::
+
 ::::
+
+
