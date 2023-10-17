@@ -24,7 +24,7 @@ My Blog ✍️
 
 ```{postlist}
 :date: "%Y-%m-%d"
-:format: "{date} | {title}"
+:format: "{title}"
 :excerpts:
 ```
 

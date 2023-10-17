@@ -77,6 +77,30 @@ html_sidebars = {
         "ablog/recentposts.html",
         "ablog/archives.html"
     ],
+
+
+    "blog/202*": [
+        "ablog/archives.html"
+    ],
+
+    "blog/category": [
+        "ablog/categories.html",
+        "ablog/tagcloud.html",
+    ],
+    "blog/category/**": [
+        "ablog/categories.html",
+        "ablog/tagcloud.html",
+    ],
+
+    "blog/tag": [
+        "ablog/categories.html",
+        "ablog/tagcloud.html",
+    ],
+    "blog/tag/**": [
+        "ablog/categories.html",
+        "ablog/tagcloud.html",
+    ],
+
     "blog/**": [
         "page-toc",
         "ablog/recentposts.html"
@@ -120,7 +144,7 @@ blog_feed_fulltext = True
 blog_feed_subtitle = "DevOps, Python, OpenSearch, and Log Pipelines."
 fontawesome_included = True
 post_redirect_refresh = 1
-post_auto_image = 1
+post_auto_image = 0
 post_auto_excerpt = 2
 
 # -- MyST and MyST-NB ---------------------------------------------------
