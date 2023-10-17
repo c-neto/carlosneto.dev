@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-10-17T19:54:10.742276+00:00</updated>
+  <updated>2023-10-17T20:04:22.403771+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -140,7 +140,8 @@ Understanding AWS Well-Architected Framework</summary>
 &lt;li&gt;&lt;p&gt;AWS Accounts can be cost-effective&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Implementing a hierarchical account strategy enhances Organization and Security. This approach involves organizing domain sections through sub-accounts, centralizing billing, and restricting resource creation permissions based on sub-accounts.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="blog/2022/img/2022/2022-05-10-account-diagram.drawio.png" /&gt;&lt;/p&gt;
+&lt;img alt="https://carlosneto.dev/_images/2022-05-10-account-diagram.drawio.png" src="https://carlosneto.dev/_images/2022-05-10-account-diagram.drawio.png" style="width: 400px; height: 400px;" /&gt;
+&lt;hr class="docutils" /&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Master Account&lt;/strong&gt;: This comprises a single AWS Account, with only the Root Account in use. It’s the initial account created and is responsible for creating or associating other sub-accounts. The primary function is to unify sub-account billing; no new Resources should be created here.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
