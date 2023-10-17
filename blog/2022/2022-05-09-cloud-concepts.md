@@ -10,7 +10,7 @@ category: cloud
 
 # Cloud Basic Concepts
 
-This section covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models.
+This article covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models.
 
 ## Cloud Computing: Advantages and Disadvantages
 
