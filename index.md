@@ -5,9 +5,9 @@ html_theme.sidebar_secondary.remove: true
 
 # Hello There!
 
-I created this platform to share my firsthand experiences in the realm of DevOps.
+It' is my space to share my firsthand experiences in the realm of DevOps.
 
-These include but are not limited to DevOps methodologies, Python programming, Amazon Web Services (AWS), Infrastructure as a Service (IaaS), automation, Kubernetes, OpenSearch, and efficient log management.
+These include but are not limited to DevOps methodologies like: Amazon Web Services (AWS), Python, Infrastructure as a Service (IaaS), Kubernetes, ELK stack and OpenSearch.
 
 Through this platform, I aim to share insights, experiences, and knowledge about my journey within these domains.
 
