@@ -4,6 +4,10 @@ date: "2021-05-03"
 category: git
 ---
 
+*__Blog Post Publish Date:__ 2021/05/03*
+
+---
+
 # Demystifying: $ git branch/tag
 
 Branches and tags are essential aspects of Git, allowing developers to manage their project's codebase effectively and mark significant milestones. In this guide, we'll explore how to work with branches and tags in Git.

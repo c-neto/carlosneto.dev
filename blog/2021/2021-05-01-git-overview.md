@@ -4,6 +4,10 @@ date: "2021-05-01"
 category: git
 ---
 
+*__Blog Post Publish Date:__ 2021/05/01*
+
+---
+
 # Git Overview
 
 Git is a [Version Control System](https://en.wikipedia.org/wiki/Version_control), designed to manage digital file content development flows in an objective, productive, performant, and distributed manner. Its usage is broad, spanning across both OpenSource and Enterprise projects, especially those developed collaboratively. Currently, the predominant languages in its source code are C, Shell, and Perl, which are accessible on GitHub [https://github.com/git/git](https://github.com/git/git).

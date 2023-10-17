@@ -4,6 +4,10 @@ date: "2022-05-12"
 category: aws
 ---
 
+*__Blog Post Publish Date:__ 2022/05/12*
+
+---
+
 # Mastering AWS Identity and Access Management (IAM): A Comprehensive Guide
 
 In the dynamic realm of Amazon Web Services (AWS), managing user access and permissions is paramount for maintaining a secure and efficient cloud environment. AWS Identity and Access Management (IAM) is a fundamental AWS service dedicated to orchestrating user access and permission protocols. In this blog post, we will delve into the intricate world of IAM, covering essential concepts and best practices for effective user and permission management.
