@@ -14,12 +14,12 @@ Check my professional experiences:
 
 :::{grid-item-card}
 :link: https://www.linkedin.com/in/c-neto/
-Linkedin
+<i class="fab fa-linkedin"></i> Linkedin
 :::
 
 :::{grid-item-card}
 :link: https://github.com/c-neto
-GitHub
+<i class="fab fa-github"></i> GitHub
 :::
 
 ::::

@@ -23,7 +23,9 @@ Key points about Accounts Foundation:
 
 Implementing a hierarchical account strategy enhances Organization and Security. This approach involves organizing domain sections through sub-accounts, centralizing billing, and restricting resource creation permissions based on sub-accounts.
 
-![](./img/2022/2022-05-10-account-diagram.drawio.png)
+<img src="./img/2022-05-10-account-diagram.drawio.png" width="400" height="400"/>
+
+---
 
 - __Master Account__: This comprises a single AWS Account, with only the Root Account in use. It's the initial account created and is responsible for creating or associating other sub-accounts. The primary function is to unify sub-account billing; no new Resources should be created here.
 
