@@ -4,6 +4,10 @@ date: "2022-05-11"
 category: aws
 ---
 
+*__Blog Post Publish Date:__ 2022/05/11*
+
+---
+
 # AWS Well-Architected Framework: A Beginner's Guide to Building Robust Cloud Solutions
 
 Welcome to our beginner-friendly guide on the AWS Well-Architected Framework! If you're new to the world of cloud computing and Amazon Web Services (AWS), you're in the right place. This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions.

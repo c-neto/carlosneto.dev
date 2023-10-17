@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-10-17T05:15:14.299743+00:00</updated>
+  <updated>2023-10-17T05:26:36.666960+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -11,7 +11,9 @@
     <id>https://carlosneto.dev/blog/2022/2022-05-12-security-identity-compliance/</id>
     <title>Mastering AWS Identity and Access Management (IAM): A Comprehensive Guide</title>
     <updated>2022-05-12T00:00:00+00:00</updated>
-    <content type="html">&lt;section id="mastering-aws-identity-and-access-management-iam-a-comprehensive-guide"&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2022/05/12&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="mastering-aws-identity-and-access-management-iam-a-comprehensive-guide"&gt;
 
 &lt;p&gt;In the dynamic realm of Amazon Web Services (AWS), managing user access and permissions is paramount for maintaining a secure and efficient cloud environment. AWS Identity and Access Management (IAM) is a fundamental AWS service dedicated to orchestrating user access and permission protocols. In this blog post, we will delve into the intricate world of IAM, covering essential concepts and best practices for effective user and permission management.&lt;/p&gt;
 &lt;section id="understanding-iam-a-crucial-aws-service"&gt;
@@ -53,7 +55,7 @@
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2022/2022-05-12-security-identity-compliance/" rel="alternate"/>
-    <summary>In the dynamic realm of Amazon Web Services (AWS), managing user access and permissions is paramount for maintaining a secure and efficient cloud environment. AWS Identity and Access Management (IAM) is a fundamental AWS service dedicated to orchestrating user access and permission protocols. In this blog post, we will delve into the intricate world of IAM, covering essential concepts and best practices for effective user and permission management.AWS Identity and Access Management (IAM) is the linchpin for governing user access and permissions within an AWS account. It provides a comprehensive framework to define and manage the actions and permissions of users, ensuring secure and controlled interactions with AWS resources.</summary>
+    <summary>Blog Post Publish Date: 2022/05/12In the dynamic realm of Amazon Web Services (AWS), managing user access and permissions is paramount for maintaining a secure and efficient cloud environment. AWS Identity and Access Management (IAM) is a fundamental AWS service dedicated to orchestrating user access and permission protocols. In this blog post, we will delve into the intricate world of IAM, covering essential concepts and best practices for effective user and permission management.</summary>
     <category term="aws" label="aws"/>
     <category term="best-practices" label="best-practices"/>
     <category term="security" label="security"/>
@@ -63,7 +65,9 @@
     <id>https://carlosneto.dev/blog/2022/2022-05-11-well-architected-framework/</id>
     <title>AWS Well-Architected Framework: A Beginner’s Guide to Building Robust Cloud Solutions</title>
     <updated>2022-05-11T00:00:00+00:00</updated>
-    <content type="html">&lt;section id="aws-well-architected-framework-a-beginner-s-guide-to-building-robust-cloud-solutions"&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2022/05/11&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="aws-well-architected-framework-a-beginner-s-guide-to-building-robust-cloud-solutions"&gt;
 
 &lt;p&gt;Welcome to our beginner-friendly guide on the AWS Well-Architected Framework! If you’re new to the world of cloud computing and Amazon Web Services (AWS), you’re in the right place. This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions.
 Understanding AWS Well-Architected Framework&lt;/p&gt;
@@ -109,9 +113,8 @@ Conclusion&lt;/p&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2022/2022-05-11-well-architected-framework/" rel="alternate"/>
-    <summary>Welcome to our beginner-friendly guide on the AWS Well-Architected Framework! If you’re new to the world of cloud computing and Amazon Web Services (AWS), you’re in the right place. This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions.
-Understanding AWS Well-Architected FrameworkThe AWS Well-Architected Framework is a set of best practices and guidelines designed to help you build secure, high-performing, resilient, and efficient infrastructure for your applications and workloads on AWS. Think of it as a blueprint for building a strong foundation in the AWS cloud.
-The Five Pillars of the Framework</summary>
+    <summary>Blog Post Publish Date: 2022/05/11Welcome to our beginner-friendly guide on the AWS Well-Architected Framework! If you’re new to the world of cloud computing and Amazon Web Services (AWS), you’re in the right place. This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions.
+Understanding AWS Well-Architected Framework</summary>
     <category term="aws" label="aws"/>
     <category term="cloud-architect" label="cloud-architect"/>
     <published>2022-05-11T00:00:00+00:00</published>
@@ -120,7 +123,9 @@ The Five Pillars of the Framework</summary>
     <id>https://carlosneto.dev/blog/2022/2022-05-10-accounts-organization/</id>
     <title>AWS Account Foundation</title>
     <updated>2022-05-10T00:00:00+00:00</updated>
-    <content type="html">&lt;section id="aws-account-foundation"&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2022/05/10&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="aws-account-foundation"&gt;
 
 &lt;p&gt;Welcome to our blog, where we delve into the essential foundations for successful AWS account management—an imperative for any cloud operation. In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AWS Accounts, effective organization through AWS Organization, the implementation of security policies with SCP - Security Control Policy, and finally, the relevance of Support Center Plans. We will address each of these topics in detail, providing valuable insights to optimize your AWS cloud infrastructure. Let’s begin our journey through the bedrock that supports the account ecosystem on Amazon Web Services.&lt;/p&gt;
 &lt;section id="foundations"&gt;
@@ -187,7 +192,7 @@ The Five Pillars of the Framework</summary>
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2022/2022-05-10-accounts-organization/" rel="alternate"/>
-    <summary>Welcome to our blog, where we delve into the essential foundations for successful AWS account management—an imperative for any cloud operation. In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AWS Accounts, effective organization through AWS Organization, the implementation of security policies with SCP - Security Control Policy, and finally, the relevance of Support Center Plans. We will address each of these topics in detail, providing valuable insights to optimize your AWS cloud infrastructure. Let’s begin our journey through the bedrock that supports the account ecosystem on Amazon Web Services.Key points about Accounts Foundation:</summary>
+    <summary>Blog Post Publish Date: 2022/05/10Welcome to our blog, where we delve into the essential foundations for successful AWS account management—an imperative for any cloud operation. In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AWS Accounts, effective organization through AWS Organization, the implementation of security policies with SCP - Security Control Policy, and finally, the relevance of Support Center Plans. We will address each of these topics in detail, providing valuable insights to optimize your AWS cloud infrastructure. Let’s begin our journey through the bedrock that supports the account ecosystem on Amazon Web Services.</summary>
     <category term="account" label="account"/>
     <category term="iam" label="iam"/>
     <category term="security" label="security"/>
@@ -197,7 +202,9 @@ The Five Pillars of the Framework</summary>
     <id>https://carlosneto.dev/blog/2022/2022-05-09-cloud-concepts/</id>
     <title>Cloud Basic Concepts</title>
     <updated>2022-05-09T00:00:00+00:00</updated>
-    <content type="html">&lt;section id="cloud-basic-concepts"&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2022/05/09&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="cloud-basic-concepts"&gt;
 
 &lt;p&gt;This section covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models.&lt;/p&gt;
 &lt;section id="cloud-computing-advantages-and-disadvantages"&gt;
@@ -297,7 +304,7 @@ The Five Pillars of the Framework</summary>
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2022/2022-05-09-cloud-concepts/" rel="alternate"/>
-    <summary>This section covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models.A concise definition of Cloud Computing, often attributed to AWS, is: “Cloud computing is the on-demand delivery of IT resources over the Internet with pay-as-you-go pricing.”</summary>
+    <summary>Blog Post Publish Date: 2022/05/09This section covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models.</summary>
     <category term="aws" label="aws"/>
     <category term="cloud-architect" label="cloud-architect"/>
     <category term="concepts" label="concepts"/>
@@ -307,7 +314,9 @@ The Five Pillars of the Framework</summary>
     <id>https://carlosneto.dev/blog/2021/2021-05-07-git-status/</id>
     <title>Understanding Status States Change Commands</title>
     <updated>2021-05-07T00:00:00+00:00</updated>
-    <content type="html">&lt;section id="understanding-status-states-change-commands"&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/07&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="understanding-status-states-change-commands"&gt;
 
 &lt;p&gt;In Git, a file can exist in three main &lt;strong&gt;areas&lt;/strong&gt;:&lt;/p&gt;
 &lt;ul class="simple"&gt;
@@ -367,7 +376,7 @@ The Five Pillars of the Framework</summary>
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-07-git-status/" rel="alternate"/>
-    <summary>In Git, a file can exist in three main areas:Working Directory: Not indexed in the local base;</summary>
+    <summary>Blog Post Publish Date: 2021/05/07In Git, a file can exist in three main areas:</summary>
     <category term="demystifying" label="demystifying"/>
     <published>2021-05-07T00:00:00+00:00</published>
   </entry>
@@ -375,7 +384,9 @@ The Five Pillars of the Framework</summary>
     <id>https://carlosneto.dev/blog/2021/2021-05-06-git-remote/</id>
     <title>Understanding Remote and Local Repositories</title>
     <updated>2021-05-06T00:00:00+00:00</updated>
-    <content type="html">&lt;section id="understanding-remote-and-local-repositories"&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/06&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="understanding-remote-and-local-repositories"&gt;
 
 &lt;p&gt;In the world of Git, comprehending the distinction between a local repository and a remote repository is pivotal. Let’s embark on a journey to uncover the nuances through some common Git commands that underscore these differences.&lt;/p&gt;
 &lt;section id="local-repository"&gt;
@@ -436,7 +447,7 @@ The Five Pillars of the Framework</summary>
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-06-git-remote/" rel="alternate"/>
-    <summary>In the world of Git, comprehending the distinction between a local repository and a remote repository is pivotal. Let’s embark on a journey to uncover the nuances through some common Git commands that underscore these differences.A local repository is your copy of a Git project that resides on your computer. When you clone a repository or create a new one on your machine, you are essentially establishing a local repository. This local copy includes all the project’s files, the complete history of commits, branches, tags, and more.</summary>
+    <summary>Blog Post Publish Date: 2021/05/06In the world of Git, comprehending the distinction between a local repository and a remote repository is pivotal. Let’s embark on a journey to uncover the nuances through some common Git commands that underscore these differences.</summary>
     <category term="demystifying" label="demystifying"/>
     <published>2021-05-06T00:00:00+00:00</published>
   </entry>
@@ -444,7 +455,9 @@ The Five Pillars of the Framework</summary>
     <id>https://carlosneto.dev/blog/2021/2021-05-05-git-log/</id>
     <title>Demystifying: $ git log</title>
     <updated>2021-05-05T00:00:00+00:00</updated>
-    <content type="html">&lt;section id="demystifying-git-log"&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/05&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="demystifying-git-log"&gt;
 
 &lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt; command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project’s development timeline.&lt;/p&gt;
 &lt;section id="basic-usage"&gt;
@@ -496,7 +509,7 @@ The Five Pillars of the Framework</summary>
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-05-git-log/" rel="alternate"/>
-    <summary>The git log command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project’s development timeline.To use git log, simply type the following in your terminal:</summary>
+    <summary>Blog Post Publish Date: 2021/05/05The git log command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project’s development timeline.</summary>
     <category term="demystifying" label="demystifying"/>
     <published>2021-05-05T00:00:00+00:00</published>
   </entry>
@@ -504,7 +517,9 @@ The Five Pillars of the Framework</summary>
     <id>https://carlosneto.dev/blog/2021/2021-05-04-git-config/</id>
     <title>Demystifying: $ git config</title>
     <updated>2021-05-04T00:00:00+00:00</updated>
-    <content type="html">&lt;section id="demystifying-git-config"&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/04&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="demystifying-git-config"&gt;
 
 &lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.&lt;/p&gt;
 &lt;p&gt;When running the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; command with the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--system&lt;/span&gt;&lt;/code&gt; argument, the values are formatted and saved in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt; file. This makes these values the default for all system users. If the argument passed is &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--global&lt;/span&gt;&lt;/code&gt;, the values are saved in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;, serving as the default for the executing system user. If none of these arguments are passed and the user is in a &lt;strong&gt;Working Directory&lt;/strong&gt;, i.e., a local repository, the modified file will be &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git/config&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
@@ -541,7 +556,7 @@ The Five Pillars of the Framework</summary>
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-04-git-config/" rel="alternate"/>
-    <summary>The git config command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.When running the git config command with the --system argument, the values are formatted and saved in the /etc/gitconfig file. This makes these values the default for all system users. If the argument passed is --global, the values are saved in ~/.gitconfig, serving as the default for the executing system user. If none of these arguments are passed and the user is in a Working Directory, i.e., a local repository, the modified file will be .git/config.</summary>
+    <summary>Blog Post Publish Date: 2021/05/04The git config command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.</summary>
     <category term="demystifying" label="demystifying"/>
     <published>2021-05-04T00:00:00+00:00</published>
   </entry>
@@ -549,7 +564,9 @@ The Five Pillars of the Framework</summary>
     <id>https://carlosneto.dev/blog/2021/2021-05-03-git-branch/</id>
     <title>Demystifying: $ git branch/tag</title>
     <updated>2021-05-03T00:00:00+00:00</updated>
-    <content type="html">&lt;section id="demystifying-git-branch-tag"&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/03&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="demystifying-git-branch-tag"&gt;
 
 &lt;p&gt;Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mark significant milestones. In this guide, we’ll explore how to work with branches and tags in Git.&lt;/p&gt;
 &lt;section id="branches"&gt;
@@ -633,7 +650,7 @@ Before exploring the commands, it’s important to know that there are two types
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-03-git-branch/" rel="alternate"/>
-    <summary>Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mark significant milestones. In this guide, we’ll explore how to work with branches and tags in Git.To list all local branches, use:</summary>
+    <summary>Blog Post Publish Date: 2021/05/03Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mark significant milestones. In this guide, we’ll explore how to work with branches and tags in Git.</summary>
     <category term="demystifying" label="demystifying"/>
     <published>2021-05-03T00:00:00+00:00</published>
   </entry>
@@ -641,7 +658,9 @@ Before exploring the commands, it’s important to know that there are two types
     <id>https://carlosneto.dev/blog/2021/2021-05-02-git-cli/</id>
     <title>Exploring Git: CLI vs. Graphical Interfaces</title>
     <updated>2021-05-02T00:00:00+00:00</updated>
-    <content type="html">&lt;section id="exploring-git-cli-vs-graphical-interfaces"&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/02&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="exploring-git-cli-vs-graphical-interfaces"&gt;
 
 &lt;p&gt;When it comes to using Git, there are two primary approaches: through its Command Line Interface (CLI) — a powerful command-line utility — and via graphical interface solutions. Let’s delve into both and understand their pros and cons.&lt;/p&gt;
 &lt;section id="command-line-interface-cli"&gt;
@@ -738,7 +757,7 @@ Before exploring the commands, it’s important to know that there are two types
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-02-git-cli/" rel="alternate"/>
-    <summary>When it comes to using Git, there are two primary approaches: through its Command Line Interface (CLI) — a powerful command-line utility — and via graphical interface solutions. Let’s delve into both and understand their pros and cons.Git’s CLI provides a robust and versatile environment for managing version control tasks. Here’s how to install Git CLI based on your operating system: Linux distributions, the CLI of Git is usually available in official repositories. For Windows or MacOS systems, the installation is done through graphical interface installers. For more details, refer to the official installation guide.</summary>
+    <summary>Blog Post Publish Date: 2021/05/02When it comes to using Git, there are two primary approaches: through its Command Line Interface (CLI) — a powerful command-line utility — and via graphical interface solutions. Let’s delve into both and understand their pros and cons.</summary>
     <category term="concepts" label="concepts"/>
     <published>2021-05-02T00:00:00+00:00</published>
   </entry>
@@ -746,7 +765,9 @@ Before exploring the commands, it’s important to know that there are two types
     <id>https://carlosneto.dev/blog/2021/2021-05-01-git-overview/</id>
     <title>Git Overview</title>
     <updated>2021-05-01T00:00:00+00:00</updated>
-    <content type="html">&lt;section id="git-overview"&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/01&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="git-overview"&gt;
 
 &lt;p&gt;Git is a &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Version_control"&gt;Version Control System&lt;/a&gt;, designed to manage digital file content development flows in an objective, productive, performant, and distributed manner. Its usage is broad, spanning across both OpenSource and Enterprise projects, especially those developed collaboratively. Currently, the predominant languages in its source code are C, Shell, and Perl, which are accessible on GitHub &lt;a class="github reference external" href="https://github.com/git/git"&gt;git/git&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Due to its features, it’s not wrong to associate Git with the following technology definition acronyms:&lt;/p&gt;
@@ -796,7 +817,7 @@ Before exploring the commands, it’s important to know that there are two types
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-01-git-overview/" rel="alternate"/>
-    <summary>Git is a Version Control System, designed to manage digital file content development flows in an objective, productive, performant, and distributed manner. Its usage is broad, spanning across both OpenSource and Enterprise projects, especially those developed collaboratively. Currently, the predominant languages in its source code are C, Shell, and Perl, which are accessible on GitHub https://github.com/git/git.Due to its features, it’s not wrong to associate Git with the following technology definition acronyms:</summary>
+    <summary>Blog Post Publish Date: 2021/05/01Git is a Version Control System, designed to manage digital file content development flows in an objective, productive, performant, and distributed manner. Its usage is broad, spanning across both OpenSource and Enterprise projects, especially those developed collaboratively. Currently, the predominant languages in its source code are C, Shell, and Perl, which are accessible on GitHub https://github.com/git/git.</summary>
     <category term="comparison" label="comparison"/>
     <published>2021-05-01T00:00:00+00:00</published>
   </entry>

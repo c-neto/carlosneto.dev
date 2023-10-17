@@ -4,6 +4,10 @@ date: "2021-05-04"
 category: git
 ---
 
+*__Blog Post Publish Date:__ 2021/05/04*
+
+---
+
 # Demystifying: $ git config
 
 The `git config` command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.
