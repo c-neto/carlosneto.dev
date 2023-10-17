@@ -85,19 +85,15 @@ html_sidebars = {
 
     "blog/category": [
         "ablog/categories.html",
-        "ablog/tagcloud.html",
     ],
     "blog/category/**": [
         "ablog/categories.html",
-        "ablog/tagcloud.html",
     ],
 
     "blog/tag": [
-        "ablog/categories.html",
         "ablog/tagcloud.html",
     ],
     "blog/tag/**": [
-        "ablog/categories.html",
         "ablog/tagcloud.html",
     ],
 
