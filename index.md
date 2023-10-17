@@ -19,7 +19,7 @@ My Blog ✍️
 :::
 
 :::{grid-item-card}
-:link: about
+:link: whoami
 `$ whoami`
 :::
 
@@ -37,5 +37,5 @@ My Blog ✍️
 :maxdepth: 2
 :hidden:
 blog
-about
+whoami
 ```

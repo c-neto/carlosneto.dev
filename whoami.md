@@ -2,7 +2,7 @@
 :description: A little bit about me...
 ---
 
-# About Me
+# whoami
 
 I'm Carlos Neto, a DevOps Engineer with a strong focus on Observability, Integration, Programming, Technical Writing, and Cloud Solutions.
 
@@ -10,5 +10,16 @@ My primary expertise lies in AWS, Python Programming, and the management of ELK 
 
 Check my professional experiences:
 
-- __Linkedin__: <https://www.linkedin.com/in/c-neto/>.
-- __GitHub__: <https://github.com/c-neto>.
+::::{grid}
+
+:::{grid-item-card}
+:link: https://www.linkedin.com/in/c-neto/
+Linkedin
+:::
+
+:::{grid-item-card}
+:link: https://github.com/c-neto
+GitHub
+:::
+
+::::

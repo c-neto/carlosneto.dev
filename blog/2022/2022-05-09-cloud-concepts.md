@@ -83,3 +83,5 @@ The main Deployment Models include:
 
 - AWS - Cloud Computing Definition: <https://aws.amazon.com/what-is-cloud-computing/?nc1=h_ls>
 - NIST - Cloud Computing Definition: <https://csrc.nist.gov/publications/detail/sp/800-145/final>
+
+---
