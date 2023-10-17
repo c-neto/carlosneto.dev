@@ -57,6 +57,8 @@ html_theme_options = {
             "icon": "fa-solid fa-rss",
         },
     ],
+    "secondary_sidebar_items": [],
+    "article_header_start": [],
 }
 
 html_favicon = "_static/profile-color-circle-small.png"
@@ -78,10 +80,11 @@ html_sidebars = {
     ],
     "blog/**": [
         "ablog/postcard.html",
-        # "ablog/recentposts.html",
-        # "ablog/archives.html" 
+        "page-toc",
+        "ablog/recentposts.html"
     ],
 }
+
 
 # OpenGraph config
 ogp_site_url = "https://carlosneto.dev"
