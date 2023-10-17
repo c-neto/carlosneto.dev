@@ -39,7 +39,6 @@ html_theme = "pydata_sphinx_theme"
 
 html_theme_options = {
     "search_bar_text": "Search this site...",
-    # "analytics": {"google_analytics_id": "UA-88310237-1"},
     "icon_links": [
         {
             "name": "GitHub",
@@ -58,7 +57,9 @@ html_theme_options = {
         },
     ],
     "secondary_sidebar_items": [],
-    "article_header_start": [],
+    "article_header_start": [
+        "ablog/postcard.html",
+    ],
 }
 
 html_favicon = "_static/profile-color-circle-small.png"
@@ -79,7 +80,6 @@ html_sidebars = {
         "ablog/archives.html"
     ],
     "blog/**": [
-        "ablog/postcard.html",
         "page-toc",
         "ablog/recentposts.html"
     ],
@@ -136,7 +136,6 @@ myst_enable_extensions = [
 
 
 html_context = {
-   # ...
    "default_mode": "light"
 }
 
