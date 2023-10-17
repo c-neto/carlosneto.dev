@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-10-17T21:32:05.870852+00:00</updated>
+  <updated>2023-10-17T21:35:12.179101+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -70,8 +70,9 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="aws-well-architected-framework-a-beginner-s-guide-to-building-robust-cloud-solutions"&gt;
 
-&lt;p&gt;Welcome to our beginner-friendly guide on the AWS Well-Architected Framework! If you’re new to the world of cloud computing and Amazon Web Services (AWS), you’re in the right place. This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions.
-Understanding AWS Well-Architected Framework&lt;/p&gt;
+&lt;p&gt;This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions.&lt;/p&gt;
+&lt;section id="understanding-aws-well-architected-framework"&gt;
+&lt;h2&gt;Understanding AWS Well-Architected Framework&lt;/h2&gt;
 &lt;p&gt;The AWS Well-Architected Framework is a set of best practices and guidelines designed to help you build secure, high-performing, resilient, and efficient infrastructure for your applications and workloads on AWS. Think of it as a blueprint for building a strong foundation in the AWS cloud.
 The Five Pillars of the Framework&lt;/p&gt;
 &lt;p&gt;The AWS Well-Architected Framework is built on five key pillars, each addressing a critical aspect of cloud architecture:&lt;/p&gt;
@@ -82,7 +83,9 @@ The Five Pillars of the Framework&lt;/p&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Performance Efficiency&lt;/strong&gt;: Optimize performance and use resources efficiently to meet your application’s requirements without overspending.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Cost Optimization&lt;/strong&gt;: Learn how to manage and optimize costs without sacrificing performance, aligning your cloud resources with your budget.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Applying the Framework: A Step-by-Step Approach&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="applying-the-framework-a-step-by-step-approach"&gt;
+&lt;h2&gt;Applying the Framework: A Step-by-Step Approach&lt;/h2&gt;
 &lt;p&gt;Let’s break down the process of applying the AWS Well-Architected Framework into manageable steps:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Step 1&lt;/strong&gt;: Understand Your Application&lt;/p&gt;&lt;/li&gt;
@@ -102,7 +105,7 @@ The Five Pillars of the Framework&lt;/p&gt;
 &lt;p&gt;Implement improvements to address the identified weaknesses. This could involve changes in design, the adoption of new AWS services, or adjustments to your current setup to align with best practices.
 Conclusion&lt;/p&gt;
 &lt;p&gt;The AWS Well-Architected Framework offers a robust foundation for designing and building efficient, secure, and cost-effective cloud solutions on AWS. By understanding and applying the principles of the five pillars—operational excellence, security, reliability, performance efficiency, and cost optimization—you’ll be well on your way to creating a successful cloud architecture that meets your business needs.&lt;/p&gt;
-&lt;p&gt;In future posts, we’ll dive deeper into each of the pillars, providing practical tips and examples to help you master the AWS Well-Architected Framework. Stay tuned for more insights and knowledge to enhance your AWS journey!&lt;/p&gt;
+&lt;/section&gt;
 &lt;section id="references"&gt;
 &lt;h2&gt;References&lt;/h2&gt;
 &lt;ul class="simple"&gt;
@@ -115,8 +118,7 @@ Conclusion&lt;/p&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2022/2022-05-11-well-architected-framework/" rel="alternate"/>
-    <summary>Blog Post Publish Date: 2022/05/11Welcome to our beginner-friendly guide on the AWS Well-Architected Framework! If you’re new to the world of cloud computing and Amazon Web Services (AWS), you’re in the right place. This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions.
-Understanding AWS Well-Architected Framework</summary>
+    <summary>Blog Post Publish Date: 2022/05/11This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions.</summary>
     <category term="aws" label="aws"/>
     <category term="cloud-architect" label="cloud-architect"/>
     <published>2022-05-11T00:00:00+00:00</published>
@@ -210,7 +212,7 @@ Understanding AWS Well-Architected Framework</summary>
 &lt;hr class="docutils" /&gt;
 &lt;section id="cloud-basic-concepts"&gt;
 
-&lt;p&gt;This section covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models.&lt;/p&gt;
+&lt;p&gt;This article covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models.&lt;/p&gt;
 &lt;section id="cloud-computing-advantages-and-disadvantages"&gt;
 &lt;h2&gt;Cloud Computing: Advantages and Disadvantages&lt;/h2&gt;
 &lt;p&gt;A concise definition of Cloud Computing, often attributed to AWS, is: &lt;em&gt;“Cloud computing is the on-demand delivery of IT resources over the Internet with pay-as-you-go pricing.”&lt;/em&gt;&lt;/p&gt;
@@ -309,7 +311,7 @@ Understanding AWS Well-Architected Framework</summary>
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2022/2022-05-09-cloud-concepts/" rel="alternate"/>
-    <summary>Blog Post Publish Date: 2022/05/09This section covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models.</summary>
+    <summary>Blog Post Publish Date: 2022/05/09This article covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models.</summary>
     <category term="aws" label="aws"/>
     <category term="cloud-architect" label="cloud-architect"/>
     <category term="concepts" label="concepts"/>
