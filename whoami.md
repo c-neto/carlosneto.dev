@@ -14,17 +14,17 @@ Check my professional experiences:
 
 :::{grid-item-card}
 :link: https://www.linkedin.com/in/c-neto/
-<i class="fab fa-linkedin fa-beat-fade"></i> Linkedin
+<i class="fab fa-linkedin fa-fade"></i> Linkedin
 :::
 
 :::{grid-item-card}
 :link: https://github.com/c-neto
-<i class="fab fa-github fa-beat-fade"></i> GitHub
+<i class="fab fa-github fa-fade"></i> GitHub
 :::
 
 :::{grid-item-card}
 :link: https://www.credly.com/users/c-neto/badges
-<i class="fa-sharp fa-solid fa-certificate fa-beat-fade"></i> Certificates
+<i class="fa-sharp fa-solid fa-certificate fa-fade"></i> Certificates
 :::
 
 ::::
