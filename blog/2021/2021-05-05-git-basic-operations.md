@@ -1,16 +1,110 @@
 ---
 tags: demystifying
-date: "2021-05-03"
+date: "2021-05-05"
 category: git
 ---
 
-*__Blog Post Publish Date:__ 2021/05/03*
+*__Blog Post Publish Date:__ 2021/05/05*
 
 ---
 
 # Understanding Basic Git CLI Operations: An Overview
 
 Branches and tags are essential aspects of Git, allowing developers to manage their project's codebase effectively and mark significant milestones. In this guide, we'll explore how to work with branches and tags in Git.
+
+## $ git config
+
+The `git config` command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.
+
+When running the `git config` command with the `--system` argument, the values are formatted and saved in the `/etc/gitconfig` file. This makes these values the default for all system users. If the argument passed is `--global`, the values are saved in `~/.gitconfig`, serving as the default for the executing system user. If none of these arguments are passed and the user is in a **Working Directory**, i.e., a local repository, the modified file will be `.git/config`.
+
+Therefore, the overriding order of `git config` metadata is as follows:
+
+- `/etc/gitconfig`: Base values at a *System Wide* level, i.e., for all users.
+- `~/.gitconfig`: User-level values - Overrides `/etc/gitconfig`.
+- `.git/config`: Project-level values - Overrides `/etc/gitconfig` and `~/.gitconfig`.
+
+----
+
+Specify the name of the person making changes to the project:
+
+```bash
+git config user.email "your-email"
+```
+
+> The value ```"your-email"``` is an example username.
+
+---
+
+Specify the name of the person making changes to the project:
+
+```bash
+git config --global user.name "Carlos Neto"
+```
+
+> The value ```"Carlos Neto"``` is an example username.
+
+---
+
+Specify the text editor Git will use when writing a message:
+
+```bash
+git config core.editor /usr/bin/code --wait
+```
+
+> The value ```/usr/bin/code``` is the illustrative path to VSCode. Replace it with the absolute path to the binary of your preferred text editor.
+
+## $ git log
+
+The `git log` command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project's development timeline.
+
+### Basic Usage
+
+To use `git log`, simply type the following in your terminal:
+
+```bash
+git log
+```
+
+This command will display a list of commits in reverse chronological order (from the latest to the earliest). Each commit is accompanied by information such as the commit hash, author details, date, and commit message.
+
+### Limiting the Output
+
+You can limit the log output using various options:
+
+- Display the last N commits:
+
+```bash
+git log -n N
+```
+
+- Show a specific range of commits:
+
+```bash
+git log <commit-hash-start>..<commit-hash-end>
+```
+
+### Custom Formatting
+
+You can customize the output format of `git log` using the `--pretty` option. For instance:
+
+- Display a compact representation of commits:
+
+```bash
+git log --pretty=oneline
+```
+
+- Show a detailed log with the commit message and changes:
+
+```bash
+git log --pretty=full
+```
+
+- Customize the format using placeholders:
+
+```bash
+git log --pretty=format:"%h - %an
+```
 
 ## $ git branch
 
@@ -99,97 +193,4 @@ To add a tag to a specific commit:
 git tag -a <TAG-NAME> -m "<TAG-DESCRIPTION-MESSAGE>" <HASH-OF-COMMIT>
 ```
 
-## $ git config
 
-The `git config` command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.
-
-When running the `git config` command with the `--system` argument, the values are formatted and saved in the `/etc/gitconfig` file. This makes these values the default for all system users. If the argument passed is `--global`, the values are saved in `~/.gitconfig`, serving as the default for the executing system user. If none of these arguments are passed and the user is in a **Working Directory**, i.e., a local repository, the modified file will be `.git/config`.
-
-Therefore, the overriding order of `git config` metadata is as follows:
-
-- `/etc/gitconfig`: Base values at a *System Wide* level, i.e., for all users.
-- `~/.gitconfig`: User-level values - Overrides `/etc/gitconfig`.
-- `.git/config`: Project-level values - Overrides `/etc/gitconfig` and `~/.gitconfig`.
-
-----
-
-Specify the name of the person making changes to the project:
-
-```bash
-git config user.email "carlos.neto.dev@gmail"
-```
-
-> The value ```"carlos.neto.dev@gmail"``` is an example username.
-
----
-
-Specify the name of the person making changes to the project:
-
-```bash
-git config --global user.name "Carlos Neto"
-```
-
-> The value ```"Carlos Neto"``` is an example username.
-
----
-
-Specify the text editor Git will use when writing a message:
-
-```bash
-git config core.editor /usr/bin/code --wait
-```
-
-> The value ```/usr/bin/code``` is the illustrative path to VSCode. Replace it with the absolute path to the binary of your preferred text editor.
-
-
-## $ git log
-
-The `git log` command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project's development timeline.
-
-### Basic Usage
-
-To use `git log`, simply type the following in your terminal:
-
-```bash
-git log
-```
-
-This command will display a list of commits in reverse chronological order (from the latest to the earliest). Each commit is accompanied by information such as the commit hash, author details, date, and commit message.
-
-### Limiting the Output
-
-You can limit the log output using various options:
-
-- Display the last N commits:
-
-```bash
-git log -n N
-```
-
-- Show a specific range of commits:
-
-```bash
-git log <commit-hash-start>..<commit-hash-end>
-```
-
-### Custom Formatting
-
-You can customize the output format of `git log` using the `--pretty` option. For instance:
-
-- Display a compact representation of commits:
-
-```bash
-git log --pretty=oneline
-```
-
-- Show a detailed log with the commit message and changes:
-
-```bash
-git log --pretty=full
-```
-
-- Customize the format using placeholders:
-
-```bash
-git log --pretty=format:"%h - %an
-```
