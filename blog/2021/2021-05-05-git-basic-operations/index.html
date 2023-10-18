@@ -8,19 +8,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<meta property="og:title" content="Demystifying: $ git config" />
+<meta property="og:title" content="Understanding Basic Git CLI Operations: An Overview" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://carlosneto.dev/blog/2021/2021-05-04-git-config/" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2021/2021-05-05-git-basic-operations/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2021/05/04 The git config command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, spec..." />
+<meta property="og:description" content="Blog Post Publish Date: 2021/05/03 Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mark significant milestones. In this guide,..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2021_2021-05-04-git-config_feee3a3f.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2021/05/04 The git config command allows for local customization of the Git utility. It enables setting the name and email of the aut..." />
-<meta name="description" content="Blog Post Publish Date: 2021/05/04 The git config command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, spec..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2021_2021-05-05-git-basic-operations_5cdfb63b.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2021/05/03 Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mar..." />
+<meta name="description" content="Blog Post Publish Date: 2021/05/03 Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mark significant milestones. In this guide,..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>Demystifying: $ git config &#8212; Carlos Neto</title>
+    <title>Understanding Basic Git CLI Operations: An Overview &#8212; Carlos Neto</title>
   
   
   
@@ -61,7 +61,7 @@
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
     <script src="../../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2021/2021-05-04-git-config';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2021/2021-05-05-git-basic-operations';</script>
     <link rel="shortcut icon" href="../../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../../genindex/" />
     <link rel="search" title="Search" href="../../../search/" />
@@ -375,6 +375,37 @@ document.write(`
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-branch">$ git branch</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#listing-local-branches">Listing Local Branches</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#listing-all-branches">Listing All Branches</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-new-branch">Creating a New Branch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#switching-to-a-branch">Switching to a Branch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merging-branches">Merging Branches</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#showing-modified-lines-between-tags">Showing Modified Lines between Tags</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-tag">$ git tag</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#listing-all-tags-with-tag-messages">Listing All Tags with Tag Messages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-annotated-tag">Creating an Annotated Tag</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-lightweight-tag">Creating a Lightweight Tag</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-tag-to-a-specific-commit">Adding a Tag to a Specific Commit</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-config">$ git config</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-log">$ git log</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limiting-the-output">Limiting the Output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-formatting">Custom Formatting</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+        <div class="sidebar-primary-item">
 <div class="ablog-sidebar-item ablog__recentposts">
 <h3>
   <a href="../../">Recent Posts</a>
@@ -407,8 +438,8 @@ document.write(`
   </li>
   
   <li>
-    <a href="../2021-05-07-git-status/">
-      07 May - Understanding Status States Change Commands
+    <a href="../2021-05-02-git-cli-gui/">
+      02 May - Exploring Git: CLI vs. Graphical Interfaces
     </a>
   </li>
   
@@ -441,10 +472,91 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-<p><em><strong>Blog Post Publish Date:</strong> 2021/05/04</em></p>
+<p><em><strong>Blog Post Publish Date:</strong> 2021/05/03</em></p>
 <hr class="docutils" />
-<section id="demystifying-git-config">
-<h1>Demystifying: $ git config<a class="headerlink" href="#demystifying-git-config" title="Permalink to this heading">#</a></h1>
+<section id="understanding-basic-git-cli-operations-an-overview">
+<h1>Understanding Basic Git CLI Operations: An Overview<a class="headerlink" href="#understanding-basic-git-cli-operations-an-overview" title="Permalink to this heading">#</a></h1>
+<p>Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mark significant milestones. In this guide, we’ll explore how to work with branches and tags in Git.</p>
+<section id="git-branch">
+<h2>$ git branch<a class="headerlink" href="#git-branch" title="Permalink to this heading">#</a></h2>
+<section id="listing-local-branches">
+<h3>Listing Local Branches<a class="headerlink" href="#listing-local-branches" title="Permalink to this heading">#</a></h3>
+<p>To list all local branches, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">branch</span>
+</pre></div>
+</div>
+</section>
+<section id="listing-all-branches">
+<h3>Listing All Branches<a class="headerlink" href="#listing-all-branches" title="Permalink to this heading">#</a></h3>
+<p>To list all branches, including remote branches:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">a</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-a-new-branch">
+<h3>Creating a New Branch<a class="headerlink" href="#creating-a-new-branch" title="Permalink to this heading">#</a></h3>
+<p>To create a new branch from the current branch:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="o">&lt;</span><span class="n">BRANCH</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="switching-to-a-branch">
+<h3>Switching to a Branch<a class="headerlink" href="#switching-to-a-branch" title="Permalink to this heading">#</a></h3>
+<p>To switch to a specified branch:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="o">&lt;</span><span class="n">BRANCH</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="merging-branches">
+<h3>Merging Branches<a class="headerlink" href="#merging-branches" title="Permalink to this heading">#</a></h3>
+<p>To merge changes from another branch into the current branch:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">merge</span> <span class="o">&lt;</span><span class="n">BRANCH</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="showing-modified-lines-between-tags">
+<h3>Showing Modified Lines between Tags<a class="headerlink" href="#showing-modified-lines-between-tags" title="Permalink to this heading">#</a></h3>
+<p>To display modified lines between two tags:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">diff</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="mi">1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="mi">2</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="git-tag">
+<h2>$ git tag<a class="headerlink" href="#git-tag" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span></code> command allows you to label a commit, essentially providing a high-level shortcut to a specific <em>hash</em> of a particular commit. Tags are often used to mark points of interest in the project, such as stable versions, staging versions, and test versions.
+Before exploring the commands, it’s important to know that there are two types of tags: <strong>Lightweight</strong> and <strong>Annotated</strong>. Lightweight tags are simple pointers to an existing commit. Annotated tags are complete objects stored in the Git database, containing the name, the email of the tag creator, the creation date, and a descriptive tag message.</p>
+<section id="listing-all-tags-with-tag-messages">
+<h3>Listing All Tags with Tag Messages<a class="headerlink" href="#listing-all-tags-with-tag-messages" title="Permalink to this heading">#</a></h3>
+<p>To list all tags in the project along with their tag messages, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">n</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-an-annotated-tag">
+<h3>Creating an Annotated Tag<a class="headerlink" href="#creating-an-annotated-tag" title="Permalink to this heading">#</a></h3>
+<p>To create an annotated tag, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">a</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;&lt;TAG-DESCRIPTION-MESSAGE&gt;&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-a-lightweight-tag">
+<h3>Creating a Lightweight Tag<a class="headerlink" href="#creating-a-lightweight-tag" title="Permalink to this heading">#</a></h3>
+<p>To create a lightweight tag, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="adding-a-tag-to-a-specific-commit">
+<h3>Adding a Tag to a Specific Commit<a class="headerlink" href="#adding-a-tag-to-a-specific-commit" title="Permalink to this heading">#</a></h3>
+<p>To add a tag to a specific commit:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">a</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;&lt;TAG-DESCRIPTION-MESSAGE&gt;&quot;</span> <span class="o">&lt;</span><span class="n">HASH</span><span class="o">-</span><span class="n">OF</span><span class="o">-</span><span class="n">COMMIT</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="git-config">
+<h2>$ git config<a class="headerlink" href="#git-config" title="Permalink to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code> command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.</p>
 <p>When running the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code> command with the <code class="docutils literal notranslate"><span class="pre">--system</span></code> argument, the values are formatted and saved in the <code class="docutils literal notranslate"><span class="pre">/etc/gitconfig</span></code> file. This makes these values the default for all system users. If the argument passed is <code class="docutils literal notranslate"><span class="pre">--global</span></code>, the values are saved in <code class="docutils literal notranslate"><span class="pre">~/.gitconfig</span></code>, serving as the default for the executing system user. If none of these arguments are passed and the user is in a <strong>Working Directory</strong>, i.e., a local repository, the modified file will be <code class="docutils literal notranslate"><span class="pre">.git/config</span></code>.</p>
 <p>Therefore, the overriding order of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code> metadata is as follows:</p>
@@ -477,7 +589,57 @@ document.write(`
 <blockquote>
 <div><p>The value <code class="docutils literal notranslate"><span class="pre">/usr/bin/code</span></code> is the illustrative path to VSCode. Replace it with the absolute path to the binary of your preferred text editor.</p>
 </div></blockquote>
-<hr class="docutils" />
+</section>
+<section id="git-log">
+<h2>$ git log<a class="headerlink" href="#git-log" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project’s development timeline.</p>
+<section id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this heading">#</a></h3>
+<p>To use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code>, simply type the following in your terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log
+</pre></div>
+</div>
+<p>This command will display a list of commits in reverse chronological order (from the latest to the earliest). Each commit is accompanied by information such as the commit hash, author details, date, and commit message.</p>
+</section>
+<section id="limiting-the-output">
+<h3>Limiting the Output<a class="headerlink" href="#limiting-the-output" title="Permalink to this heading">#</a></h3>
+<p>You can limit the log output using various options:</p>
+<ul class="simple">
+<li><p>Display the last N commits:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>-n<span class="w"> </span>N
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Show a specific range of commits:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>&lt;commit-hash-start&gt;..&lt;commit-hash-end&gt;
+</pre></div>
+</div>
+</section>
+<section id="custom-formatting">
+<h3>Custom Formatting<a class="headerlink" href="#custom-formatting" title="Permalink to this heading">#</a></h3>
+<p>You can customize the output format of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> using the <code class="docutils literal notranslate"><span class="pre">--pretty</span></code> option. For instance:</p>
+<ul class="simple">
+<li><p>Display a compact representation of commits:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--pretty<span class="o">=</span>oneline
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Show a detailed log with the commit message and changes:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--pretty<span class="o">=</span>full
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Customize the format using placeholders:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--pretty<span class="o">=</span>format:<span class="s2">&quot;%h - %an</span>
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 
 <div class="section ablog__blog_comments">
@@ -489,11 +651,11 @@ document.write(`
   <span class="ablog__prev">
     
     
-    <a href="../2021-05-03-git-branch/">
+    <a href="../2021-05-02-git-cli-gui/">
       
       <i class="fa fa-arrow-circle-left"></i>
       
-      <span>Demystifying: $ git branch/tag</span>
+      <span>Exploring Git: CLI vs. Graphical Interfaces</span>
     </a>
     
   </span>
@@ -501,8 +663,8 @@ document.write(`
   <span class="ablog__next">
     
     
-    <a href="../2021-05-05-git-log/">
-      <span>Demystifying: $ git log</span>
+    <a href="../../2022/2022-05-09-cloud-concepts/">
+      <span>Cloud Basic Concepts</span>
       
       <i class="fa fa-arrow-circle-right" ></i>
       

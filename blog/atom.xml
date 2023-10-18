@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-10-18T18:02:56.990981+00:00</updated>
+  <updated>2023-10-18T18:34:07.474958+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -318,270 +318,16 @@ Conclusion&lt;/p&gt;
     <published>2022-05-09T00:00:00+00:00</published>
   </entry>
   <entry>
-    <id>https://carlosneto.dev/blog/2021/2021-05-07-git-status/</id>
-    <title>Understanding Status States Change Commands</title>
-    <updated>2021-05-07T00:00:00+00:00</updated>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/07&lt;/em&gt;&lt;/p&gt;
-&lt;hr class="docutils" /&gt;
-&lt;section id="understanding-status-states-change-commands"&gt;
-
-&lt;p&gt;In Git, a file can exist in three main &lt;strong&gt;areas&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Working&lt;/span&gt; &lt;span class="pre"&gt;Directory&lt;/span&gt;&lt;/code&gt;: Not indexed in the local base;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INDEX&lt;/span&gt;&lt;/code&gt; — &lt;em&gt;also known as&lt;/em&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staging&lt;/span&gt;&lt;/code&gt;: Ready to be indexed in the local base;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;HEAD&lt;/span&gt;&lt;/code&gt; — &lt;em&gt;also known as&lt;/em&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git&lt;/span&gt;&lt;/code&gt;: Indexed in the local base.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/file-areas.png" /&gt;&lt;/p&gt;
-&lt;p&gt;In these areas, a file can have the following &lt;strong&gt;statuses&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Untracked&lt;/span&gt;&lt;/code&gt;: When the file is in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Working&lt;/span&gt; &lt;span class="pre"&gt;Directory&lt;/span&gt;&lt;/code&gt;;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt; — &lt;em&gt;also known as&lt;/em&gt; &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Tracked&lt;/span&gt;&lt;/code&gt;: When the file is in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INDEX&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Unmodified&lt;/span&gt;&lt;/code&gt;: Files in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INDEX&lt;/span&gt;&lt;/code&gt; that haven’t changed between &lt;em&gt;commits&lt;/em&gt;;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Modified&lt;/span&gt;&lt;/code&gt;: Files in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INDEX&lt;/span&gt;&lt;/code&gt; that have changed between &lt;em&gt;commits&lt;/em&gt;;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Commited&lt;/span&gt;&lt;/code&gt; — &lt;em&gt;also known as&lt;/em&gt; &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;HEAD&lt;/span&gt;&lt;/code&gt;: Files indexed in the Git database.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/file-status.png" /&gt;&lt;/p&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p&gt;Creating a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Working&lt;/span&gt; &lt;span class="pre"&gt;Directory&lt;/span&gt;&lt;/code&gt;, in other words, a Git repository:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;init&lt;span class="w"&gt; &lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;This command will create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git&lt;/span&gt;&lt;/code&gt; directory, which is the local base for project versioning.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p&gt;Changing the &lt;em&gt;status&lt;/em&gt; of a file or directory from: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Untracked&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;add&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;FILE-OR-DIRECTORY&amp;gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;If a file is specified, only its status will be changed. If a directory is specified, the status of the files within it will be changed recursively.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p&gt;Changing the &lt;em&gt;status&lt;/em&gt; of the &lt;strong&gt;file&lt;/strong&gt; from: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Untracked&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;rm&lt;span class="w"&gt; &lt;/span&gt;--cached&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;FILE&amp;gt;&lt;span class="w"&gt;                                        &lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;Changing the &lt;em&gt;status&lt;/em&gt; of the &lt;strong&gt;directory&lt;/strong&gt; from: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Untracked&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;rm&lt;span class="w"&gt; &lt;/span&gt;-r&lt;span class="w"&gt; &lt;/span&gt;--cached&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;DIRECTORY&amp;gt;&lt;span class="w"&gt;                                        &lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--cached&lt;/span&gt;&lt;/code&gt; parameter, if not specified, will remove the file from the operating system, similar to the conventional &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;rm&lt;/span&gt;&lt;/code&gt; command in Linux.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p&gt;Changing the &lt;em&gt;status&lt;/em&gt; from &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Commited&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;commit&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;FILE-OR-DIRECTORY&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;MESSAGE&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;-m&lt;/span&gt;&lt;/code&gt; parameter indicates a message describing the changes made to this file. If not specified, the text editor configured in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt; &lt;span class="pre"&gt;core.editor&lt;/span&gt;&lt;/code&gt; command will open.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;hr class="docutils" /&gt;
-&lt;/section&gt;
-</content>
-    <link href="https://carlosneto.dev/blog/2021/2021-05-07-git-status/" rel="alternate"/>
-    <summary>Blog Post Publish Date: 2021/05/07In Git, a file can exist in three main areas:</summary>
-    <category term="demystifying" label="demystifying"/>
-    <published>2021-05-07T00:00:00+00:00</published>
-  </entry>
-  <entry>
-    <id>https://carlosneto.dev/blog/2021/2021-05-06-git-remote/</id>
-    <title>Understanding Remote and Local Repositories</title>
-    <updated>2021-05-06T00:00:00+00:00</updated>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/06&lt;/em&gt;&lt;/p&gt;
-&lt;hr class="docutils" /&gt;
-&lt;section id="understanding-remote-and-local-repositories"&gt;
-
-&lt;p&gt;In the world of Git, comprehending the distinction between a local repository and a remote repository is pivotal. Let’s embark on a journey to uncover the nuances through some common Git commands that underscore these differences.&lt;/p&gt;
-&lt;section id="local-repository"&gt;
-&lt;h2&gt;Local Repository&lt;/h2&gt;
-&lt;p&gt;A &lt;strong&gt;local repository&lt;/strong&gt; is your copy of a Git project that resides on your computer. When you clone a repository or create a new one on your machine, you are essentially establishing a local repository. This local copy includes all the project’s files, the complete history of commits, branches, tags, and more.&lt;/p&gt;
-&lt;p&gt;The local repository is where you do your work, make changes, create new features, fix bugs, and perform other tasks. It allows you to experiment freely without affecting the main project until you’re ready to share your changes.&lt;/p&gt;
-&lt;/section&gt;
-&lt;section id="remote-repository"&gt;
-&lt;h2&gt;Remote Repository&lt;/h2&gt;
-&lt;p&gt;On the other hand, a &lt;strong&gt;remote repository&lt;/strong&gt; exists on a server, often on a platform like GitHub, GitLab, or Bitbucket. It serves as the centralized hub where the entire project is hosted. Remote repositories allow for collaboration and act as a shared space where multiple contributors can push their changes, ensuring a centralized version of the project.&lt;/p&gt;
-&lt;p&gt;Remote repositories are excellent for team collaboration, enabling contributors to work on the same codebase simultaneously. When you want to share your local changes with others or integrate changes made by fellow contributors, you interact with the remote repository.&lt;/p&gt;
-&lt;p&gt;Now, let’s explore some fundamental Git commands that facilitate the interaction between your local repository and the remote repository.&lt;/p&gt;
-&lt;/section&gt;
-&lt;section id="remote-operation-commands"&gt;
-&lt;h2&gt;Remote Operation Commands&lt;/h2&gt;
-&lt;p&gt;These commands are crucial for interacting with remote repositories.&lt;/p&gt;
-&lt;section id="cloning-a-remote-repository"&gt;
-&lt;h3&gt;Cloning a Remote Repository&lt;/h3&gt;
-&lt;p&gt;To create a local copy of a project hosted on a remote server, we use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;clone&lt;/span&gt;&lt;/code&gt; command. It not only fetches the project’s content but also the versioning database (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git&lt;/span&gt;&lt;/code&gt; directory).&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;PROJECT-URL&amp;gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;When we clone a repository, we essentially obtain a complete copy, including all the commit history and the ability to track changes.&lt;/p&gt;
-&lt;/section&gt;
-&lt;section id="synchronizing-with-external-references"&gt;
-&lt;h3&gt;Synchronizing with External References&lt;/h3&gt;
-&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;fetch&lt;/span&gt;&lt;/code&gt; command is used to synchronize the local versioning base with new branches and tags created after the project’s clone.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;fetch
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;This ensures that our local repository is up-to-date with the latest changes from the remote repository. However, it does not integrate these changes into our working directory.&lt;/p&gt;
-&lt;/section&gt;
-&lt;section id="associating-the-local-base-with-a-remote-repository"&gt;
-&lt;h3&gt;Associating the Local Base with a Remote Repository&lt;/h3&gt;
-&lt;p&gt;To link our local repository with a remote repository, we use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;remote&lt;/span&gt; &lt;span class="pre"&gt;add&lt;/span&gt;&lt;/code&gt; command.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;add&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;REMOTE-REPOSITORY-ALIAS&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;REMOTE-REPOSITORY-URL&amp;gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;Here, &lt;REMOTE-REPOSITORY-ALIAS&gt; is an alias to associate with the external repository. Conventionally, ‘origin’ is used for the main external repository, but we can link to multiple external repositories.&lt;/p&gt;
-&lt;/section&gt;
-&lt;section id="pushing-changes-to-a-remote-repository"&gt;
-&lt;h3&gt;Pushing Changes to a Remote Repository&lt;/h3&gt;
-&lt;p&gt;When we want to send our committed changes from the local base to the remote repository, we use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;push&lt;/span&gt;&lt;/code&gt; command.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;push&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;REMOTE-REPOSITORY-ALIAS&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;BRANCH-NAME&amp;gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;This command transfers the changes in the ‘Commited’ state to the specified remote repository.&lt;/p&gt;
-&lt;/section&gt;
-&lt;section id="pulling-changes-from-a-remote-repository"&gt;
-&lt;h3&gt;Pulling Changes from a Remote Repository&lt;/h3&gt;
-&lt;p&gt;To fetch changes from a remote repository and integrate them into our local base, we use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;pull&lt;/span&gt;&lt;/code&gt; command.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;pull&lt;span class="w"&gt; &lt;/span&gt;origin&lt;span class="w"&gt; &lt;/span&gt;main
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;This retrieves the changes from the specified remote repository (here, ‘origin’). The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;pull&lt;/span&gt;&lt;/code&gt; command is effective only when there are no files with the ‘Untracked’ status in the Local Base.&lt;/p&gt;
-&lt;/section&gt;
-&lt;/section&gt;
-&lt;hr class="docutils" /&gt;
-&lt;/section&gt;
-</content>
-    <link href="https://carlosneto.dev/blog/2021/2021-05-06-git-remote/" rel="alternate"/>
-    <summary>Blog Post Publish Date: 2021/05/06In the world of Git, comprehending the distinction between a local repository and a remote repository is pivotal. Let’s embark on a journey to uncover the nuances through some common Git commands that underscore these differences.</summary>
-    <category term="demystifying" label="demystifying"/>
-    <published>2021-05-06T00:00:00+00:00</published>
-  </entry>
-  <entry>
-    <id>https://carlosneto.dev/blog/2021/2021-05-05-git-log/</id>
-    <title>Demystifying: $ git log</title>
-    <updated>2021-05-05T00:00:00+00:00</updated>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/05&lt;/em&gt;&lt;/p&gt;
-&lt;hr class="docutils" /&gt;
-&lt;section id="demystifying-git-log"&gt;
-
-&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt; command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project’s development timeline.&lt;/p&gt;
-&lt;section id="basic-usage"&gt;
-&lt;h2&gt;Basic Usage&lt;/h2&gt;
-&lt;p&gt;To use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt;, simply type the following in your terminal:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;This command will display a list of commits in reverse chronological order (from the latest to the earliest). Each commit is accompanied by information such as the commit hash, author details, date, and commit message.&lt;/p&gt;
-&lt;/section&gt;
-&lt;section id="limiting-the-output"&gt;
-&lt;h2&gt;Limiting the Output&lt;/h2&gt;
-&lt;p&gt;You can limit the log output using various options:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;Display the last N commits:&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;-n&lt;span class="w"&gt; &lt;/span&gt;N
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;Show a specific range of commits:&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;commit-hash-start&amp;gt;..&amp;lt;commit-hash-end&amp;gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/section&gt;
-&lt;section id="custom-formatting"&gt;
-&lt;h2&gt;Custom Formatting&lt;/h2&gt;
-&lt;p&gt;You can customize the output format of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt; using the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--pretty&lt;/span&gt;&lt;/code&gt; option. For instance:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;Display a compact representation of commits:&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;oneline
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;Show a detailed log with the commit message and changes:&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;full
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;Customize the format using placeholders:&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;format:&lt;span class="s2"&gt;&amp;quot;%h - %an&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/section&gt;
-&lt;hr class="docutils" /&gt;
-&lt;/section&gt;
-</content>
-    <link href="https://carlosneto.dev/blog/2021/2021-05-05-git-log/" rel="alternate"/>
-    <summary>Blog Post Publish Date: 2021/05/05The git log command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project’s development timeline.</summary>
-    <category term="demystifying" label="demystifying"/>
-    <published>2021-05-05T00:00:00+00:00</published>
-  </entry>
-  <entry>
-    <id>https://carlosneto.dev/blog/2021/2021-05-04-git-config/</id>
-    <title>Demystifying: $ git config</title>
-    <updated>2021-05-04T00:00:00+00:00</updated>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/04&lt;/em&gt;&lt;/p&gt;
-&lt;hr class="docutils" /&gt;
-&lt;section id="demystifying-git-config"&gt;
-
-&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.&lt;/p&gt;
-&lt;p&gt;When running the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; command with the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--system&lt;/span&gt;&lt;/code&gt; argument, the values are formatted and saved in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt; file. This makes these values the default for all system users. If the argument passed is &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--global&lt;/span&gt;&lt;/code&gt;, the values are saved in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;, serving as the default for the executing system user. If none of these arguments are passed and the user is in a &lt;strong&gt;Working Directory&lt;/strong&gt;, i.e., a local repository, the modified file will be &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git/config&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Therefore, the overriding order of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; metadata is as follows:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt;: Base values at a &lt;em&gt;System Wide&lt;/em&gt; level, i.e., for all users.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;: User-level values - Overrides &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git/config&lt;/span&gt;&lt;/code&gt;: Project-level values - Overrides &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p&gt;Specify the name of the person making changes to the project:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;user.email&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;carlos.neto.dev@gmail&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;carlos.neto.dev&amp;#64;gmail&amp;quot;&lt;/span&gt;&lt;/code&gt; is an example username.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p&gt;Specify the name of the person making changes to the project:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;--global&lt;span class="w"&gt; &lt;/span&gt;user.name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Carlos Neto&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;Carlos&lt;/span&gt; &lt;span class="pre"&gt;Neto&amp;quot;&lt;/span&gt;&lt;/code&gt; is an example username.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p&gt;Specify the text editor Git will use when writing a message:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;core.editor&lt;span class="w"&gt; &lt;/span&gt;/usr/bin/code&lt;span class="w"&gt; &lt;/span&gt;--wait
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/usr/bin/code&lt;/span&gt;&lt;/code&gt; is the illustrative path to VSCode. Replace it with the absolute path to the binary of your preferred text editor.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;hr class="docutils" /&gt;
-&lt;/section&gt;
-</content>
-    <link href="https://carlosneto.dev/blog/2021/2021-05-04-git-config/" rel="alternate"/>
-    <summary>Blog Post Publish Date: 2021/05/04The git config command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.</summary>
-    <category term="demystifying" label="demystifying"/>
-    <published>2021-05-04T00:00:00+00:00</published>
-  </entry>
-  <entry>
-    <id>https://carlosneto.dev/blog/2021/2021-05-03-git-branch/</id>
-    <title>Demystifying: $ git branch/tag</title>
+    <id>https://carlosneto.dev/blog/2021/2021-05-05-git-basic-operations/</id>
+    <title>Understanding Basic Git CLI Operations: An Overview</title>
     <updated>2021-05-03T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/03&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;section id="demystifying-git-branch-tag"&gt;
+&lt;section id="understanding-basic-git-cli-operations-an-overview"&gt;
 
 &lt;p&gt;Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mark significant milestones. In this guide, we’ll explore how to work with branches and tags in Git.&lt;/p&gt;
-&lt;section id="branches"&gt;
-&lt;h2&gt;Branches&lt;/h2&gt;
+&lt;section id="git-branch"&gt;
+&lt;h2&gt;$ git branch&lt;/h2&gt;
 &lt;section id="listing-local-branches"&gt;
 &lt;h3&gt;Listing Local Branches&lt;/h3&gt;
 &lt;p&gt;To list all local branches, use:&lt;/p&gt;
@@ -625,8 +371,8 @@ Conclusion&lt;/p&gt;
 &lt;/div&gt;
 &lt;/section&gt;
 &lt;/section&gt;
-&lt;section id="tags"&gt;
-&lt;h2&gt;Tags&lt;/h2&gt;
+&lt;section id="git-tag"&gt;
+&lt;h2&gt;$ git tag&lt;/h2&gt;
 &lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;tag&lt;/span&gt;&lt;/code&gt; command allows you to label a commit, essentially providing a high-level shortcut to a specific &lt;em&gt;hash&lt;/em&gt; of a particular commit. Tags are often used to mark points of interest in the project, such as stable versions, staging versions, and test versions.
 Before exploring the commands, it’s important to know that there are two types of tags: &lt;strong&gt;Lightweight&lt;/strong&gt; and &lt;strong&gt;Annotated&lt;/strong&gt;. Lightweight tags are simple pointers to an existing commit. Annotated tags are complete objects stored in the Git database, containing the name, the email of the tag creator, the creation date, and a descriptive tag message.&lt;/p&gt;
 &lt;section id="listing-all-tags-with-tag-messages"&gt;
@@ -658,16 +404,100 @@ Before exploring the commands, it’s important to know that there are two types
 &lt;/div&gt;
 &lt;/section&gt;
 &lt;/section&gt;
+&lt;section id="git-config"&gt;
+&lt;h2&gt;$ git config&lt;/h2&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.&lt;/p&gt;
+&lt;p&gt;When running the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; command with the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--system&lt;/span&gt;&lt;/code&gt; argument, the values are formatted and saved in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt; file. This makes these values the default for all system users. If the argument passed is &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--global&lt;/span&gt;&lt;/code&gt;, the values are saved in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;, serving as the default for the executing system user. If none of these arguments are passed and the user is in a &lt;strong&gt;Working Directory&lt;/strong&gt;, i.e., a local repository, the modified file will be &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git/config&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Therefore, the overriding order of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; metadata is as follows:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt;: Base values at a &lt;em&gt;System Wide&lt;/em&gt; level, i.e., for all users.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;: User-level values - Overrides &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git/config&lt;/span&gt;&lt;/code&gt;: Project-level values - Overrides &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;hr class="docutils" /&gt;
+&lt;p&gt;Specify the name of the person making changes to the project:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;user.email&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;carlos.neto.dev@gmail&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;carlos.neto.dev&amp;#64;gmail&amp;quot;&lt;/span&gt;&lt;/code&gt; is an example username.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Specify the name of the person making changes to the project:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;--global&lt;span class="w"&gt; &lt;/span&gt;user.name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Carlos Neto&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;Carlos&lt;/span&gt; &lt;span class="pre"&gt;Neto&amp;quot;&lt;/span&gt;&lt;/code&gt; is an example username.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Specify the text editor Git will use when writing a message:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;core.editor&lt;span class="w"&gt; &lt;/span&gt;/usr/bin/code&lt;span class="w"&gt; &lt;/span&gt;--wait
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/usr/bin/code&lt;/span&gt;&lt;/code&gt; is the illustrative path to VSCode. Replace it with the absolute path to the binary of your preferred text editor.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;/section&gt;
+&lt;section id="git-log"&gt;
+&lt;h2&gt;$ git log&lt;/h2&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt; command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project’s development timeline.&lt;/p&gt;
+&lt;section id="basic-usage"&gt;
+&lt;h3&gt;Basic Usage&lt;/h3&gt;
+&lt;p&gt;To use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt;, simply type the following in your terminal:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This command will display a list of commits in reverse chronological order (from the latest to the earliest). Each commit is accompanied by information such as the commit hash, author details, date, and commit message.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="limiting-the-output"&gt;
+&lt;h3&gt;Limiting the Output&lt;/h3&gt;
+&lt;p&gt;You can limit the log output using various options:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Display the last N commits:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;-n&lt;span class="w"&gt; &lt;/span&gt;N
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Show a specific range of commits:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;commit-hash-start&amp;gt;..&amp;lt;commit-hash-end&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="custom-formatting"&gt;
+&lt;h3&gt;Custom Formatting&lt;/h3&gt;
+&lt;p&gt;You can customize the output format of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt; using the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--pretty&lt;/span&gt;&lt;/code&gt; option. For instance:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Display a compact representation of commits:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;oneline
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Show a detailed log with the commit message and changes:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;full
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Customize the format using placeholders:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;format:&lt;span class="s2"&gt;&amp;quot;%h - %an&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;/section&gt;
 &lt;/section&gt;
 </content>
-    <link href="https://carlosneto.dev/blog/2021/2021-05-03-git-branch/" rel="alternate"/>
+    <link href="https://carlosneto.dev/blog/2021/2021-05-05-git-basic-operations/" rel="alternate"/>
     <summary>Blog Post Publish Date: 2021/05/03Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mark significant milestones. In this guide, we’ll explore how to work with branches and tags in Git.</summary>
     <category term="demystifying" label="demystifying"/>
     <published>2021-05-03T00:00:00+00:00</published>
   </entry>
   <entry>
-    <id>https://carlosneto.dev/blog/2021/2021-05-02-git-cli/</id>
+    <id>https://carlosneto.dev/blog/2021/2021-05-02-git-cli-gui/</id>
     <title>Exploring Git: CLI vs. Graphical Interfaces</title>
     <updated>2021-05-02T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/02&lt;/em&gt;&lt;/p&gt;
@@ -769,7 +599,7 @@ Before exploring the commands, it’s important to know that there are two types
 &lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
-    <link href="https://carlosneto.dev/blog/2021/2021-05-02-git-cli/" rel="alternate"/>
+    <link href="https://carlosneto.dev/blog/2021/2021-05-02-git-cli-gui/" rel="alternate"/>
     <summary>Blog Post Publish Date: 2021/05/02When it comes to using Git, there are two primary approaches: through its Command Line Interface (CLI) — a powerful command-line utility — and via graphical interface solutions. Let’s delve into both and understand their pros and cons.</summary>
     <category term="concepts" label="concepts"/>
     <published>2021-05-02T00:00:00+00:00</published>
@@ -827,7 +657,124 @@ Before exploring the commands, it’s important to know that there are two types
 &lt;p&gt;Git is smart enough to maintain a file’s reference if there are no changes to it between commits.&lt;/p&gt;
 &lt;p&gt;This format prevents redundancy and enables benefits like efficient and performant branching and conflict controls.&lt;/p&gt;
 &lt;/section&gt;
+&lt;section id="understanding-status-states-change-commands"&gt;
+&lt;h2&gt;Understanding Status States Change Commands&lt;/h2&gt;
+&lt;p&gt;In Git, a file can exist in three main &lt;strong&gt;areas&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Working&lt;/span&gt; &lt;span class="pre"&gt;Directory&lt;/span&gt;&lt;/code&gt;: Not indexed in the local base;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INDEX&lt;/span&gt;&lt;/code&gt; — &lt;em&gt;also known as&lt;/em&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staging&lt;/span&gt;&lt;/code&gt;: Ready to be indexed in the local base;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;HEAD&lt;/span&gt;&lt;/code&gt; — &lt;em&gt;also known as&lt;/em&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git&lt;/span&gt;&lt;/code&gt;: Indexed in the local base.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/file-areas.png" /&gt;&lt;/p&gt;
+&lt;p&gt;In these areas, a file can have the following &lt;strong&gt;statuses&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Untracked&lt;/span&gt;&lt;/code&gt;: When the file is in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Working&lt;/span&gt; &lt;span class="pre"&gt;Directory&lt;/span&gt;&lt;/code&gt;;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt; — &lt;em&gt;also known as&lt;/em&gt; &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Tracked&lt;/span&gt;&lt;/code&gt;: When the file is in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INDEX&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Unmodified&lt;/span&gt;&lt;/code&gt;: Files in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INDEX&lt;/span&gt;&lt;/code&gt; that haven’t changed between &lt;em&gt;commits&lt;/em&gt;;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Modified&lt;/span&gt;&lt;/code&gt;: Files in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INDEX&lt;/span&gt;&lt;/code&gt; that have changed between &lt;em&gt;commits&lt;/em&gt;;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Commited&lt;/span&gt;&lt;/code&gt; — &lt;em&gt;also known as&lt;/em&gt; &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;HEAD&lt;/span&gt;&lt;/code&gt;: Files indexed in the Git database.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/file-status.png" /&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
+&lt;p&gt;Creating a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Working&lt;/span&gt; &lt;span class="pre"&gt;Directory&lt;/span&gt;&lt;/code&gt;, in other words, a Git repository:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;init&lt;span class="w"&gt; &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;This command will create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git&lt;/span&gt;&lt;/code&gt; directory, which is the local base for project versioning.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Changing the &lt;em&gt;status&lt;/em&gt; of a file or directory from: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Untracked&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;add&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;FILE-OR-DIRECTORY&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;If a file is specified, only its status will be changed. If a directory is specified, the status of the files within it will be changed recursively.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Changing the &lt;em&gt;status&lt;/em&gt; of the &lt;strong&gt;file&lt;/strong&gt; from: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Untracked&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;rm&lt;span class="w"&gt; &lt;/span&gt;--cached&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;FILE&amp;gt;&lt;span class="w"&gt;                                        &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Changing the &lt;em&gt;status&lt;/em&gt; of the &lt;strong&gt;directory&lt;/strong&gt; from: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Untracked&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;rm&lt;span class="w"&gt; &lt;/span&gt;-r&lt;span class="w"&gt; &lt;/span&gt;--cached&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;DIRECTORY&amp;gt;&lt;span class="w"&gt;                                        &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--cached&lt;/span&gt;&lt;/code&gt; parameter, if not specified, will remove the file from the operating system, similar to the conventional &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;rm&lt;/span&gt;&lt;/code&gt; command in Linux.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Changing the &lt;em&gt;status&lt;/em&gt; from &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Staged&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Commited&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;commit&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;FILE-OR-DIRECTORY&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;MESSAGE&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;-m&lt;/span&gt;&lt;/code&gt; parameter indicates a message describing the changes made to this file. If not specified, the text editor configured in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt; &lt;span class="pre"&gt;core.editor&lt;/span&gt;&lt;/code&gt; command will open.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;/section&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="understanding-remote-and-local-repositories"&gt;
+&lt;h2&gt;Understanding Remote and Local Repositories&lt;/h2&gt;
+&lt;p&gt;In the world of Git, comprehending the distinction between a local repository and a remote repository is pivotal. Let’s embark on a journey to uncover the nuances through some common Git commands that underscore these differences.&lt;/p&gt;
+&lt;section id="local-repository"&gt;
+&lt;h3&gt;Local Repository&lt;/h3&gt;
+&lt;p&gt;A &lt;strong&gt;local repository&lt;/strong&gt; is your copy of a Git project that resides on your computer. When you clone a repository or create a new one on your machine, you are essentially establishing a local repository. This local copy includes all the project’s files, the complete history of commits, branches, tags, and more.&lt;/p&gt;
+&lt;p&gt;The local repository is where you do your work, make changes, create new features, fix bugs, and perform other tasks. It allows you to experiment freely without affecting the main project until you’re ready to share your changes.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="remote-repository"&gt;
+&lt;h3&gt;Remote Repository&lt;/h3&gt;
+&lt;p&gt;On the other hand, a &lt;strong&gt;remote repository&lt;/strong&gt; exists on a server, often on a platform like GitHub, GitLab, or Bitbucket. It serves as the centralized hub where the entire project is hosted. Remote repositories allow for collaboration and act as a shared space where multiple contributors can push their changes, ensuring a centralized version of the project.&lt;/p&gt;
+&lt;p&gt;Remote repositories are excellent for team collaboration, enabling contributors to work on the same codebase simultaneously. When you want to share your local changes with others or integrate changes made by fellow contributors, you interact with the remote repository.&lt;/p&gt;
+&lt;p&gt;Now, let’s explore some fundamental Git commands that facilitate the interaction between your local repository and the remote repository.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="remote-operation-commands"&gt;
+&lt;h3&gt;Remote Operation Commands&lt;/h3&gt;
+&lt;p&gt;These commands are crucial for interacting with remote repositories.&lt;/p&gt;
+&lt;section id="cloning-a-remote-repository"&gt;
+&lt;h4&gt;Cloning a Remote Repository&lt;/h4&gt;
+&lt;p&gt;To create a local copy of a project hosted on a remote server, we use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;clone&lt;/span&gt;&lt;/code&gt; command. It not only fetches the project’s content but also the versioning database (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git&lt;/span&gt;&lt;/code&gt; directory).&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;PROJECT-URL&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;When we clone a repository, we essentially obtain a complete copy, including all the commit history and the ability to track changes.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="synchronizing-with-external-references"&gt;
+&lt;h4&gt;Synchronizing with External References&lt;/h4&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;fetch&lt;/span&gt;&lt;/code&gt; command is used to synchronize the local versioning base with new branches and tags created after the project’s clone.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;fetch
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This ensures that our local repository is up-to-date with the latest changes from the remote repository. However, it does not integrate these changes into our working directory.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="associating-the-local-base-with-a-remote-repository"&gt;
+&lt;h4&gt;Associating the Local Base with a Remote Repository&lt;/h4&gt;
+&lt;p&gt;To link our local repository with a remote repository, we use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;remote&lt;/span&gt; &lt;span class="pre"&gt;add&lt;/span&gt;&lt;/code&gt; command.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;add&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;REMOTE-REPOSITORY-ALIAS&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;REMOTE-REPOSITORY-URL&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Here, &lt;REMOTE-REPOSITORY-ALIAS&gt; is an alias to associate with the external repository. Conventionally, ‘origin’ is used for the main external repository, but we can link to multiple external repositories.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="pushing-changes-to-a-remote-repository"&gt;
+&lt;h4&gt;Pushing Changes to a Remote Repository&lt;/h4&gt;
+&lt;p&gt;When we want to send our committed changes from the local base to the remote repository, we use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;push&lt;/span&gt;&lt;/code&gt; command.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;push&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;REMOTE-REPOSITORY-ALIAS&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;BRANCH-NAME&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This command transfers the changes in the ‘Commited’ state to the specified remote repository.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="pulling-changes-from-a-remote-repository"&gt;
+&lt;h4&gt;Pulling Changes from a Remote Repository&lt;/h4&gt;
+&lt;p&gt;To fetch changes from a remote repository and integrate them into our local base, we use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;pull&lt;/span&gt;&lt;/code&gt; command.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;pull&lt;span class="w"&gt; &lt;/span&gt;origin&lt;span class="w"&gt; &lt;/span&gt;main
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This retrieves the changes from the specified remote repository (here, ‘origin’). The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;pull&lt;/span&gt;&lt;/code&gt; command is effective only when there are no files with the ‘Untracked’ status in the Local Base.&lt;/p&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;/section&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-01-git-overview/" rel="alternate"/>
