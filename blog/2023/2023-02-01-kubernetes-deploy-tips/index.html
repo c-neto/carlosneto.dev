@@ -8,19 +8,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<meta property="og:title" content="Demystifying: $ git log" />
+<meta property="og:title" content="Kubernetes Deployment: Basic Tips and Best Practices" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://carlosneto.dev/blog/2021/2021-05-05-git-log/" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2023/2023-02-01-kubernetes-deploy-tips/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2021/05/05 The git log command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to..." />
+<meta property="og:description" content="Blog Post Publish Date: 2023/02/01 This post is a set of tips and best practices in Deployment and Pod Kind configuration. Using Liveness and Readiness Probes: Liveness and Readiness Probes are che..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2021_2021-05-05-git-log_f48c78ce.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2021/05/05 The git log command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehens..." />
-<meta name="description" content="Blog Post Publish Date: 2021/05/05 The git log command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2023_2023-02-01-kubernetes-deploy-tips_0c244112.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2023/02/01 This post is a set of tips and best practices in Deployment and Pod Kind configuration. Using Liveness and Readiness Probe..." />
+<meta name="description" content="Blog Post Publish Date: 2023/02/01 This post is a set of tips and best practices in Deployment and Pod Kind configuration. Using Liveness and Readiness Probes: Liveness and Readiness Probes are che..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>Demystifying: $ git log &#8212; Carlos Neto</title>
+    <title>Kubernetes Deployment: Basic Tips and Best Practices &#8212; Carlos Neto</title>
   
   
   
@@ -61,7 +61,7 @@
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
     <script src="../../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2021/2021-05-05-git-log';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2023/2023-02-01-kubernetes-deploy-tips';</script>
     <link rel="shortcut icon" href="../../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../../genindex/" />
     <link rel="search" title="Search" href="../../../search/" />
@@ -380,9 +380,11 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limiting-the-output">Limiting the Output</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-formatting">Custom Formatting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-liveness-and-readiness-probes">Using Liveness and Readiness Probes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-of-health-checks">Use of Health Checks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-resource-requests-and-limits">Using Resource Requests and Limits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-rolling-updates">Using Rolling Updates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-init-containers">Using Init Containers</a></li>
 </ul>
   </nav></div>
         <div class="sidebar-primary-item">
@@ -394,20 +396,14 @@ document.write(`
   
   
   <li>
-    <a href="../../2023/2023-02-03-kubernetes-usage-examples/">
+    <a href="../2023-02-03-kubernetes-usage-examples/">
       03 February - Kubernetes Manifests Example Configuration
     </a>
   </li>
   
   <li>
-    <a href="../../2023/2023-02-02-kubernetes-tips-sec/">
+    <a href="../2023-02-02-kubernetes-tips-sec/">
       02 February - Kubernetes Security Tips and Best Practices
-    </a>
-  </li>
-  
-  <li>
-    <a href="../../2023/2023-02-01-kubernetes-deploy-tips/">
-      01 February - Kubernetes Deployment: Basic Tips and Best Practices
     </a>
   </li>
   
@@ -420,6 +416,12 @@ document.write(`
   <li>
     <a href="../../2022/2022-05-11-well-architected-framework/">
       11 May - AWS Well-Architected Framework: A Beginner’s Guide to Building Robust Cloud Solutions
+    </a>
+  </li>
+  
+  <li>
+    <a href="../../2022/2022-05-10-accounts-organization/">
+      10 May - AWS Account Foundation
     </a>
   </li>
   
@@ -452,54 +454,124 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-<p><em><strong>Blog Post Publish Date:</strong> 2021/05/05</em></p>
+<p><em><strong>Blog Post Publish Date:</strong> 2023/02/01</em></p>
 <hr class="docutils" />
-<section id="demystifying-git-log">
-<h1>Demystifying: $ git log<a class="headerlink" href="#demystifying-git-log" title="Permalink to this heading">#</a></h1>
-<p>The <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project’s development timeline.</p>
-<section id="basic-usage">
-<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this heading">#</a></h2>
-<p>To use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code>, simply type the following in your terminal:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log
+<section id="kubernetes-deployment-basic-tips-and-best-practices">
+<h1>Kubernetes Deployment: Basic Tips and Best Practices<a class="headerlink" href="#kubernetes-deployment-basic-tips-and-best-practices" title="Permalink to this heading">#</a></h1>
+<p>This post is a set of tips and best practices in <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">Pod</span></code> Kind configuration.</p>
+<section id="using-liveness-and-readiness-probes">
+<h2>Using Liveness and Readiness Probes<a class="headerlink" href="#using-liveness-and-readiness-probes" title="Permalink to this heading">#</a></h2>
+<p>Liveness and Readiness Probes are checks performed by the <code class="docutils literal notranslate"><span class="pre">kubelet</span></code> to determine if a container is running correctly. Make sure to use these probes to ensure that your containers are healthy and ready to serve traffic.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-pod</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-container</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-image:latest</span>
+<span class="w">      </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<span class="w">      </span><span class="nt">livenessProbe</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/healthz</span>
+<span class="w">          </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<span class="w">      </span><span class="nt">readinessProbe</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/readyz</span>
+<span class="w">          </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
 </pre></div>
 </div>
-<p>This command will display a list of commits in reverse chronological order (from the latest to the earliest). Each commit is accompanied by information such as the commit hash, author details, date, and commit message.</p>
 </section>
-<section id="limiting-the-output">
-<h2>Limiting the Output<a class="headerlink" href="#limiting-the-output" title="Permalink to this heading">#</a></h2>
-<p>You can limit the log output using various options:</p>
-<ul class="simple">
-<li><p>Display the last N commits:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>-n<span class="w"> </span>N
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>Show a specific range of commits:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>&lt;commit-hash-start&gt;..&lt;commit-hash-end&gt;
+<section id="use-of-health-checks">
+<h2>Use of Health Checks<a class="headerlink" href="#use-of-health-checks" title="Permalink to this heading">#</a></h2>
+<p>Health Checks are a way to monitor the health of a Pod. Make sure to use Health Checks to monitor the health of a Pod and to detect and respond to failures.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-pod</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-namespace</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-container</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-image:latest</span>
+<span class="w">      </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
 </pre></div>
 </div>
 </section>
-<section id="custom-formatting">
-<h2>Custom Formatting<a class="headerlink" href="#custom-formatting" title="Permalink to this heading">#</a></h2>
-<p>You can customize the output format of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> using the <code class="docutils literal notranslate"><span class="pre">--pretty</span></code> option. For instance:</p>
-<ul class="simple">
-<li><p>Display a compact representation of commits:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--pretty<span class="o">=</span>oneline
+<section id="using-resource-requests-and-limits">
+<h2>Using Resource Requests and Limits<a class="headerlink" href="#using-resource-requests-and-limits" title="Permalink to this heading">#</a></h2>
+<p>Resource Requests and Limits are values that you set to indicate how much CPU and memory a container needs to run. Make sure to set these values to ensure that your containers have the resources they need to run correctly.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-pod</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-container</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-image:latest</span>
+<span class="w">      </span><span class="nt">ports</span><span class="p">:</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>Show a detailed log with the commit message and changes:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--pretty<span class="o">=</span>full
+</section>
+<section id="using-rolling-updates">
+<h2>Using Rolling Updates<a class="headerlink" href="#using-rolling-updates" title="Permalink to this heading">#</a></h2>
+<p>Rolling Updates allow you to update your resources with zero downtime. Make sure to use Rolling Updates to deploy changes to your resources in a controlled manner.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-deployment</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app</span>
+<span class="w">  </span><span class="nt">strategy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RollingUpdate</span>
+<span class="w">    </span><span class="nt">rollingUpdate</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">maxSurge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">maxUnavailable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-container</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-image:latest</span>
+<span class="w">          </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>Customize the format using placeholders:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--pretty<span class="o">=</span>format:<span class="s2">&quot;%h - %an</span>
+</section>
+<section id="using-init-containers">
+<h2>Using Init Containers<a class="headerlink" href="#using-init-containers" title="Permalink to this heading">#</a></h2>
+<p>Init Containers are containers that run before the main containers in a Pod. Make sure to use Init Containers to perform setup tasks that need to be completed before the main containers start.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-pod</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">initContainers</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-init-container</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-init-image:latest</span>
+<span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;/bin/sh&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-c&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;echo</span><span class="nv"> </span><span class="s">&#39;Init</span><span class="nv"> </span><span class="s">Container</span><span class="nv"> </span><span class="s">Running...&#39;&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-container</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-image:latest</span>
+<span class="w">      </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
 </pre></div>
 </div>
 </section>
@@ -515,11 +587,11 @@ document.write(`
   <span class="ablog__prev">
     
     
-    <a href="../2021-05-04-git-config/">
+    <a href="../../2022/2022-05-12-security-identity-compliance/">
       
       <i class="fa fa-arrow-circle-left"></i>
       
-      <span>Demystifying: $ git config</span>
+      <span>Mastering AWS Identity and Access Management (IAM): A Comprehensive Guide</span>
     </a>
     
   </span>
@@ -527,8 +599,8 @@ document.write(`
   <span class="ablog__next">
     
     
-    <a href="../2021-05-06-git-remote/">
-      <span>Understanding Remote and Local Repositories</span>
+    <a href="../2023-02-02-kubernetes-tips-sec/">
+      <span>Kubernetes Security Tips and Best Practices</span>
       
       <i class="fa fa-arrow-circle-right" ></i>
       
