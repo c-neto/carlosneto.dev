@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-10-18T18:34:07.474958+00:00</updated>
+  <updated>2023-10-18T18:48:19.702279+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -320,12 +320,97 @@ Conclusion&lt;/p&gt;
   <entry>
     <id>https://carlosneto.dev/blog/2021/2021-05-05-git-basic-operations/</id>
     <title>Understanding Basic Git CLI Operations: An Overview</title>
-    <updated>2021-05-03T00:00:00+00:00</updated>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/03&lt;/em&gt;&lt;/p&gt;
+    <updated>2021-05-05T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2021/05/05&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="understanding-basic-git-cli-operations-an-overview"&gt;
 
 &lt;p&gt;Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mark significant milestones. In this guide, we’ll explore how to work with branches and tags in Git.&lt;/p&gt;
+&lt;section id="git-config"&gt;
+&lt;h2&gt;$ git config&lt;/h2&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.&lt;/p&gt;
+&lt;p&gt;When running the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; command with the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--system&lt;/span&gt;&lt;/code&gt; argument, the values are formatted and saved in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt; file. This makes these values the default for all system users. If the argument passed is &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--global&lt;/span&gt;&lt;/code&gt;, the values are saved in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;, serving as the default for the executing system user. If none of these arguments are passed and the user is in a &lt;strong&gt;Working Directory&lt;/strong&gt;, i.e., a local repository, the modified file will be &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git/config&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Therefore, the overriding order of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; metadata is as follows:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt;: Base values at a &lt;em&gt;System Wide&lt;/em&gt; level, i.e., for all users.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;: User-level values - Overrides &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git/config&lt;/span&gt;&lt;/code&gt;: Project-level values - Overrides &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Specify the name of the person making changes to the project:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;user.email&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;your-email&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;your-email&amp;quot;&lt;/span&gt;&lt;/code&gt; is an example username.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Specify the name of the person making changes to the project:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;--global&lt;span class="w"&gt; &lt;/span&gt;user.name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Carlos Neto&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;Carlos&lt;/span&gt; &lt;span class="pre"&gt;Neto&amp;quot;&lt;/span&gt;&lt;/code&gt; is an example username.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p&gt;Specify the text editor Git will use when writing a message:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;core.editor&lt;span class="w"&gt; &lt;/span&gt;/usr/bin/code&lt;span class="w"&gt; &lt;/span&gt;--wait
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/usr/bin/code&lt;/span&gt;&lt;/code&gt; is the illustrative path to VSCode. Replace it with the absolute path to the binary of your preferred text editor.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;/section&gt;
+&lt;section id="git-log"&gt;
+&lt;h2&gt;$ git log&lt;/h2&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt; command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project’s development timeline.&lt;/p&gt;
+&lt;section id="basic-usage"&gt;
+&lt;h3&gt;Basic Usage&lt;/h3&gt;
+&lt;p&gt;To use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt;, simply type the following in your terminal:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This command will display a list of commits in reverse chronological order (from the latest to the earliest). Each commit is accompanied by information such as the commit hash, author details, date, and commit message.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="limiting-the-output"&gt;
+&lt;h3&gt;Limiting the Output&lt;/h3&gt;
+&lt;p&gt;You can limit the log output using various options:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Display the last N commits:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;-n&lt;span class="w"&gt; &lt;/span&gt;N
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Show a specific range of commits:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;commit-hash-start&amp;gt;..&amp;lt;commit-hash-end&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="custom-formatting"&gt;
+&lt;h3&gt;Custom Formatting&lt;/h3&gt;
+&lt;p&gt;You can customize the output format of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt; using the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--pretty&lt;/span&gt;&lt;/code&gt; option. For instance:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Display a compact representation of commits:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;oneline
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Show a detailed log with the commit message and changes:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;full
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Customize the format using placeholders:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;format:&lt;span class="s2"&gt;&amp;quot;%h - %an&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;/section&gt;
 &lt;section id="git-branch"&gt;
 &lt;h2&gt;$ git branch&lt;/h2&gt;
 &lt;section id="listing-local-branches"&gt;
@@ -404,97 +489,12 @@ Before exploring the commands, it’s important to know that there are two types
 &lt;/div&gt;
 &lt;/section&gt;
 &lt;/section&gt;
-&lt;section id="git-config"&gt;
-&lt;h2&gt;$ git config&lt;/h2&gt;
-&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; command allows for local customization of the Git utility. It enables setting the name and email of the author contributing to the repository, specifying the text editor Git will use when input is required, among other functionalities.&lt;/p&gt;
-&lt;p&gt;When running the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; command with the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--system&lt;/span&gt;&lt;/code&gt; argument, the values are formatted and saved in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt; file. This makes these values the default for all system users. If the argument passed is &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--global&lt;/span&gt;&lt;/code&gt;, the values are saved in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;, serving as the default for the executing system user. If none of these arguments are passed and the user is in a &lt;strong&gt;Working Directory&lt;/strong&gt;, i.e., a local repository, the modified file will be &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git/config&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Therefore, the overriding order of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;config&lt;/span&gt;&lt;/code&gt; metadata is as follows:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt;: Base values at a &lt;em&gt;System Wide&lt;/em&gt; level, i.e., for all users.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;: User-level values - Overrides &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.git/config&lt;/span&gt;&lt;/code&gt;: Project-level values - Overrides &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/gitconfig&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.gitconfig&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p&gt;Specify the name of the person making changes to the project:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;user.email&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;carlos.neto.dev@gmail&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;carlos.neto.dev&amp;#64;gmail&amp;quot;&lt;/span&gt;&lt;/code&gt; is an example username.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p&gt;Specify the name of the person making changes to the project:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;--global&lt;span class="w"&gt; &lt;/span&gt;user.name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Carlos Neto&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;Carlos&lt;/span&gt; &lt;span class="pre"&gt;Neto&amp;quot;&lt;/span&gt;&lt;/code&gt; is an example username.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p&gt;Specify the text editor Git will use when writing a message:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;core.editor&lt;span class="w"&gt; &lt;/span&gt;/usr/bin/code&lt;span class="w"&gt; &lt;/span&gt;--wait
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;The value &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/usr/bin/code&lt;/span&gt;&lt;/code&gt; is the illustrative path to VSCode. Replace it with the absolute path to the binary of your preferred text editor.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;/section&gt;
-&lt;section id="git-log"&gt;
-&lt;h2&gt;$ git log&lt;/h2&gt;
-&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt; command is a powerful tool in Git for viewing the commit history within a repository. It provides a comprehensive overview of commits, allowing you to track changes, understand commit details, and navigate through your project’s development timeline.&lt;/p&gt;
-&lt;section id="basic-usage"&gt;
-&lt;h3&gt;Basic Usage&lt;/h3&gt;
-&lt;p&gt;To use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt;, simply type the following in your terminal:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;This command will display a list of commits in reverse chronological order (from the latest to the earliest). Each commit is accompanied by information such as the commit hash, author details, date, and commit message.&lt;/p&gt;
-&lt;/section&gt;
-&lt;section id="limiting-the-output"&gt;
-&lt;h3&gt;Limiting the Output&lt;/h3&gt;
-&lt;p&gt;You can limit the log output using various options:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;Display the last N commits:&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;-n&lt;span class="w"&gt; &lt;/span&gt;N
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;Show a specific range of commits:&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;commit-hash-start&amp;gt;..&amp;lt;commit-hash-end&amp;gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/section&gt;
-&lt;section id="custom-formatting"&gt;
-&lt;h3&gt;Custom Formatting&lt;/h3&gt;
-&lt;p&gt;You can customize the output format of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;git&lt;/span&gt; &lt;span class="pre"&gt;log&lt;/span&gt;&lt;/code&gt; using the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--pretty&lt;/span&gt;&lt;/code&gt; option. For instance:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;Display a compact representation of commits:&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;oneline
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;Show a detailed log with the commit message and changes:&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;full
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;Customize the format using placeholders:&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;--pretty&lt;span class="o"&gt;=&lt;/span&gt;format:&lt;span class="s2"&gt;&amp;quot;%h - %an&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/section&gt;
-&lt;/section&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2021/2021-05-05-git-basic-operations/" rel="alternate"/>
-    <summary>Blog Post Publish Date: 2021/05/03Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mark significant milestones. In this guide, we’ll explore how to work with branches and tags in Git.</summary>
+    <summary>Blog Post Publish Date: 2021/05/05Branches and tags are essential aspects of Git, allowing developers to manage their project’s codebase effectively and mark significant milestones. In this guide, we’ll explore how to work with branches and tags in Git.</summary>
     <category term="demystifying" label="demystifying"/>
-    <published>2021-05-03T00:00:00+00:00</published>
+    <published>2021-05-05T00:00:00+00:00</published>
   </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2021/2021-05-02-git-cli-gui/</id>
