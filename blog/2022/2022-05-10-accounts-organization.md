@@ -23,7 +23,7 @@ Key points about Accounts Foundation:
 
 Implementing a hierarchical account strategy enhances Organization and Security. This approach involves organizing domain sections through sub-accounts, centralizing billing, and restricting resource creation permissions based on sub-accounts.
 
-<img src="./img/2022-05-10-account-diagram.drawio.png" width="400" height="400"/>
+<img src="./img/2022-05-10-account-diagram.drawio.png" width="600" height="600"/>
 
 ---
 
