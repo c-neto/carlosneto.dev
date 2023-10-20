@@ -46,7 +46,7 @@ html_theme_options = {
             "icon": "fa-brands fa-github",
         },
         {
-            "name": "Linkedin",
+            "name": "LinkedIn",
             "url": "https://www.linkedin.com/in/c-neto/",
             "icon": "fa-brands fa-linkedin",
         },
