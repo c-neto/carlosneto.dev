@@ -7,8 +7,20 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Posts in git &#8212; Carlos Neto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta property="og:title" content="Cloud Basic Concepts" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/in-progress/2022-05-09-cloud-concepts/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2022/05/09 This article covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models. Clou..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_in-progress_2022-05-09-cloud-concepts_b9bc0ee9.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2022/05/09 This article covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, c..." />
+<meta name="description" content="Blog Post Publish Date: 2022/05/09 This article covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models. Clou..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Cloud Basic Concepts &#8212; Carlos Neto</title>
   
   
   
@@ -18,41 +30,41 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
-  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/category/git';</script>
-    <link rel="shortcut icon" href="../../../_static/profile-color-circle-small.png"/>
-    <link rel="index" title="Index" href="../../../genindex/" />
-    <link rel="search" title="Search" href="../../../search/" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'in-progress/2022-05-09-cloud-concepts';</script>
+    <link rel="shortcut icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -60,8 +72,8 @@
 <link
   rel="alternate"
   type="application/atom+xml"
-  href="../../../blog/atom.xml"
-  title="Posts in git"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
 />
 
 
@@ -100,7 +112,7 @@
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
-      action="../../../search/"
+      action="../../search/"
       method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search"
@@ -129,7 +141,7 @@
       <div class="navbar-item">
   
 
-<a class="navbar-brand logo" href="../../../">
+<a class="navbar-brand logo" href="../../">
   
   
   
@@ -155,14 +167,14 @@
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../">
+                      <a class="nav-link nav-internal" href="../../blog/">
                         Blog
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../whoami/">
+                      <a class="nav-link nav-internal" href="../../whoami/">
                         whoami
                       </a>
                     </li>
@@ -266,7 +278,7 @@ document.write(`
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -285,14 +297,14 @@ document.write(`
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../">
+                      <a class="nav-link nav-internal" href="../../blog/">
                         Blog
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../whoami/">
+                      <a class="nav-link nav-internal" href="../../whoami/">
                         whoami
                       </a>
                     </li>
@@ -361,25 +373,6 @@ document.write(`
     
   </div>
   
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
-<div class="ablog-sidebar-item ablog__category">
-<h3>
-  <a href="../">Categories</a>
-</h3>
-<ul>
-  
-  
-  <li>
-    <a href="#">git (1)</a>
-  </li>
-  
-  
-</ul>
-</div>
-</div>
-    </div>
-  
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
   </div>
@@ -404,76 +397,109 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-
-<div class="section ablog__collection">
-  <h1>
-    
-      Posts in
-      
-    git
-    
-  </h1>
-  
-  
-  <div class="section ablog-post">
-    <h2 class="ablog-post-title">
-      <a href="../../2023/2021-05-02-git-cli-gui/">Git Clients Benchmarking: CLI vs. Graphical Interfaces</a>
-    </h2>
-    <ul class="ablog-archive">
-      <li>
-        
-        
-        <i class="fa fa-calendar"></i>
-        
-        19 October 2023
-        
-      </li>
-      <div class="ablog-sidebar-item ablog__postcard2">
-
-
-
-
-
-<li id="ablog-sidebar-item category ablog__category">
-  <span>
-    
-    <i class="fa-fw fa fa-folder-open"></i>
-    
-    </span>
-  
-  
-  <a href="#">git</a>
-  
-  
-  
+<p><em><strong>Blog Post Publish Date:</strong> 2022/05/09</em></p>
+<hr class="docutils" />
+<section id="cloud-basic-concepts">
+<h1>Cloud Basic Concepts<a class="headerlink" href="#cloud-basic-concepts" title="Permalink to this heading">#</a></h1>
+<p>This article covers the fundamental concepts of Cloud Computing, including its definition, advantages and disadvantages, cloud models, and deployment models.</p>
+<section id="cloud-computing-advantages-and-disadvantages">
+<h2>Cloud Computing: Advantages and Disadvantages<a class="headerlink" href="#cloud-computing-advantages-and-disadvantages" title="Permalink to this heading">#</a></h2>
+<p>A concise definition of Cloud Computing, often attributed to AWS, is: <em>“Cloud computing is the on-demand delivery of IT resources over the Internet with pay-as-you-go pricing.”</em></p>
+<p>For beginners, this definition can be a bit overwhelming. To grasp it fully, we need to associate the following key characteristics:</p>
+<ul class="simple">
+<li><p><strong>Maintenance</strong></p>
+<ul>
+<li><p>Less concern about energy and hardware maintenance processes</p></li>
+<li><p>Business focuses more on IT technologies</p></li>
+</ul>
 </li>
-
-
-<li id="ablog-sidebar-item tags ablog__tags">
-  <span>
-    
-    
-    <i class="fa-fw fa fa-tag"></i>
-    
-    </span>
-  
-  
-  <a href="../../tag/benchmarking/">benchmarking</a>
-  
-  
-  
+<li><p><strong>Reliability</strong></p>
+<ul>
+<li><p>Specialization in determining tools</p></li>
+<li><p>High availability possibilities</p></li>
+</ul>
 </li>
+<li><p><strong>Security</strong></p>
+<ul>
+<li><p>Utilization of specific security tools</p></li>
+<li><p>Software and hardware security solutions</p></li>
+</ul>
+</li>
+<li><p><strong>Performance</strong></p>
+<ul>
+<li><p>Hardware components available as a service</p></li>
+<li><p>Performance enhancements possible when needed</p></li>
+</ul>
+</li>
+<li><p><strong>Scalability</strong></p>
+<ul>
+<li><p>Scalability on demand</p></li>
+<li><p>Minimal IT resource requirements to run applications</p></li>
+</ul>
+</li>
+<li><p><strong>Cost and Elasticity</strong></p>
+<ul>
+<li><p>Cost management options</p></li>
+<li><p>Both soft and hard cost considerations with available possibilities</p></li>
+</ul>
+</li>
+</ul>
+<p>Historically, Development teams emphasized agility in contributions, while Operations/Infrastructure teams focused more on stability due to hardware interactions. However, with the advent of technologies like virtualization, manual infrastructure tasks became obsolete, and infrastructure components started being provided as a service by cloud providers like AWS, Google, Microsoft, and others.</p>
+<p>Now, agility has become a crucial aspect for Operations teams as well. The maintenance of infrastructure as a service by cloud providers alleviates concerns about electricity, hardware health, and other infrastructure requirements. This shift allows businesses to concentrate on their core purposes rather than infrastructure necessities. Outsourcing maintenance tasks to specialized teams enhances reliability and security, with various services tailored for infrastructure contexts and business cases. Additionally, hardware security is vital to address concerns like natural disasters and physical threats.</p>
+<p>A significant keyword in the cloud landscape is <code class="docutils literal notranslate"><span class="pre">possibilities</span></code>. The cloud offers possibilities to access high computing performance components as needed, scale components on demand, and pay only for the time used. These possibilities can lead to reduced costs if your application or infrastructure is scalable, allowing you to pay only for the resources needed for application functionality.</p>
+<p>However, it’s important to note that Cloud Computing isn’t a one-size-fits-all solution for every IT infrastructure case. It is one of the options to deploy your infrastructure or application. Before adopting the cloud for your infrastructure, it’s crucial to ask yourself, “What problem am I trying to solve?” If your application aligns with the cloud characteristics mentioned above, it might be the best choice for your needs.</p>
+</section>
+<section id="main-cloud-models">
+<h2>Main Cloud Models<a class="headerlink" href="#main-cloud-models" title="Permalink to this heading">#</a></h2>
+<p>The primary Cloud Models are:</p>
+<ul class="simple">
+<li><p><strong>IaaS</strong> (Infrastructure as a Service): Infrastructure components delivered as a service, such as Virtual Machines, Networks, Firewalls, etc.</p>
+<ul>
+<li><p>Examples: AWS VPC, AWS EC2, AWS S3.</p></li>
+</ul>
+</li>
+<li><p><strong>PaaS</strong> (Platform as a Service): Services to run applications over infrastructure abstraction. For example, running a web app and delivering static files.</p>
+<ul>
+<li><p>Examples: Heroku, AWS Elastic Beanstalk, OpenShift, etc.</p></li>
+</ul>
+</li>
+<li><p><strong>FaaS</strong> (Function as a Service): Granular services to simplify recurring tasks, such as sending emails, webhooks, or syncing databases.</p>
+<ul>
+<li><p>Examples: AWS Data Sync, AWS Lambda.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="main-deployment-models">
+<h2>Main Deployment Models<a class="headerlink" href="#main-deployment-models" title="Permalink to this heading">#</a></h2>
+<p>The main Deployment Models include:</p>
+<ul class="simple">
+<li><p><strong>Private Cloud</strong>: Often referred to as “Bare Metal Cloud,” owned by a single entity, and resources are not shared with other corporations.</p>
+<ul>
+<li><p>Examples: Created with OpenStack, VMWare, XenServer.</p></li>
+</ul>
+</li>
+<li><p><strong>Public Cloud</strong>: Resources are shared and can be used by anyone. Major providers include AWS, GCP, Oracle Cloud.</p>
+<ul>
+<li><p>Examples: AWS, Google Cloud Platform, Microsoft Azure, Alibaba Cloud.</p></li>
+</ul>
+</li>
+<li><p><strong>Hybrid Cloud</strong>: A combination of both Private Cloud and Public Cloud components.</p></li>
+<li><p><strong>Multicloud</strong>: Cloud architecture is not dependent on a specific cloud model and can run in both Private and Public Cloud environments.</p></li>
+<li><p><strong>Community Cloud</strong>: Custom cloud architecture created by corporations to provide clients with the flexibility of multiple Public and Private Cloud features.</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>AWS - Cloud Computing Definition: <a class="reference external" href="https://aws.amazon.com/what-is-cloud-computing/?nc1=h_ls">https://aws.amazon.com/what-is-cloud-computing/?nc1=h_ls</a></p></li>
+<li><p>NIST - Cloud Computing Definition: <a class="reference external" href="https://csrc.nist.gov/publications/detail/sp/800-145/final">https://csrc.nist.gov/publications/detail/sp/800-145/final</a></p></li>
+</ul>
+<hr class="docutils" />
+</section>
+</section>
 
-
-</div>
-    </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/10/19</em></p>
-<p>This blog post is aimed at helping you understand the pros and cons of the most popular Git repository clients.</p>
-</p>
-
-    <p class="ablog-post-expand"><a href="../../2023/2021-05-02-git-cli-gui/"><em>Read more ...</em></a></p>
-    <hr/>
-  </div>
+<div class="section ablog__blog_comments">
   
   
 </div>
@@ -522,8 +548,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">

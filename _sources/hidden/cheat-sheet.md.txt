@@ -24,3 +24,19 @@ header-foobar
 +++
 footer-foobar
 ````
+
+---
+
+::::{grid}
+
+:::{grid-item-card}
+>>> your text in here...
+:::
+
+:::{grid-item-card}
+>>> your text in here...
+:::
+
+::::
+
+---

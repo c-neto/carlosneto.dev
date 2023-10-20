@@ -7,8 +7,20 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Posts in git &#8212; Carlos Neto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta property="og:title" content="AWS Account Foundation" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/in-progress/2022-05-10-accounts-organization/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2022/05/10 In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AW..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_in-progress_2022-05-10-accounts-organization_5900db7b.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2022/05/10 In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Acc..." />
+<meta name="description" content="Blog Post Publish Date: 2022/05/10 In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AW..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>AWS Account Foundation &#8212; Carlos Neto</title>
   
   
   
@@ -18,41 +30,41 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
-  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/category/git';</script>
-    <link rel="shortcut icon" href="../../../_static/profile-color-circle-small.png"/>
-    <link rel="index" title="Index" href="../../../genindex/" />
-    <link rel="search" title="Search" href="../../../search/" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'in-progress/2022-05-10-accounts-organization';</script>
+    <link rel="shortcut icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -60,8 +72,8 @@
 <link
   rel="alternate"
   type="application/atom+xml"
-  href="../../../blog/atom.xml"
-  title="Posts in git"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
 />
 
 
@@ -100,7 +112,7 @@
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
-      action="../../../search/"
+      action="../../search/"
       method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search"
@@ -129,7 +141,7 @@
       <div class="navbar-item">
   
 
-<a class="navbar-brand logo" href="../../../">
+<a class="navbar-brand logo" href="../../">
   
   
   
@@ -155,14 +167,14 @@
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../">
+                      <a class="nav-link nav-internal" href="../../blog/">
                         Blog
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../whoami/">
+                      <a class="nav-link nav-internal" href="../../whoami/">
                         whoami
                       </a>
                     </li>
@@ -266,7 +278,7 @@ document.write(`
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -285,14 +297,14 @@ document.write(`
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../">
+                      <a class="nav-link nav-internal" href="../../blog/">
                         Blog
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../whoami/">
+                      <a class="nav-link nav-internal" href="../../whoami/">
                         whoami
                       </a>
                     </li>
@@ -361,25 +373,6 @@ document.write(`
     
   </div>
   
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
-<div class="ablog-sidebar-item ablog__category">
-<h3>
-  <a href="../">Categories</a>
-</h3>
-<ul>
-  
-  
-  <li>
-    <a href="#">git (1)</a>
-  </li>
-  
-  
-</ul>
-</div>
-</div>
-    </div>
-  
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
   </div>
@@ -404,76 +397,77 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
+<p><em><strong>Blog Post Publish Date:</strong> 2022/05/10</em></p>
+<hr class="docutils" />
+<section id="aws-account-foundation">
+<h1>AWS Account Foundation<a class="headerlink" href="#aws-account-foundation" title="Permalink to this heading">#</a></h1>
+<p>In this article, we will delve into the pillars that underpin AWS account structure, understanding the significance of Accounts Foundation, the pivotal role of AWS Accounts, effective organization through AWS Organization, the implementation of security policies with SCP - Security Control Policy, and finally, the relevance of Support Center Plans. We will address each of these topics in detail, providing valuable insights to optimize your AWS cloud infrastructure.</p>
+<section id="foundations">
+<h2>Foundations<a class="headerlink" href="#foundations" title="Permalink to this heading">#</a></h2>
+<p>Key points about Accounts Foundation:</p>
+<ul class="simple">
+<li><p>Critical for initializing a Cloud Project</p></li>
+<li><p>Optimal AWS Account usage doesn’t rely on a single account</p></li>
+<li><p>There is no one-size-fits-all approach; strategy trumps rigidity</p></li>
+<li><p>AWS Accounts can be cost-effective</p></li>
+</ul>
+<p>Implementing a hierarchical account strategy enhances Organization and Security. This approach involves organizing domain sections through sub-accounts, centralizing billing, and restricting resource creation permissions based on sub-accounts.</p>
+<a class="reference internal image-reference" href="../../_images/2022-05-10-account-diagram.drawio.png"><img alt="../../_images/2022-05-10-account-diagram.drawio.png" src="../../_images/2022-05-10-account-diagram.drawio.png" style="width: 600px; height: 600px;" /></a>
+<hr class="docutils" />
+<ul class="simple">
+<li><p><strong>Master Account</strong>: This comprises a single AWS Account, with only the Root Account in use. It’s the initial account created and is responsible for creating or associating other sub-accounts. The primary function is to unify sub-account billing; no new Resources should be created here.</p></li>
+</ul>
+<blockquote>
+<div><p>The Root Account holder is the owner of the AWS Account.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Oraganisation Unit - OU</strong>: An organizational structure to visually organize AWS Accounts and service security rules, typically created for domain departments.</p></li>
+</ul>
+<blockquote>
+<div><p>Identifying domain departments involves understanding characteristics of the resources present. If the types, lifecycles, and permissions differ, it likely represents a department.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Accounts</strong>: These are the entities where resources and deployments are created. Each account has its identity associated with the resources created within it. Users should be created within this account.</p></li>
+<li><p><strong>Resources</strong>: These encompass AWS services and items like EC2, S3, EKS, EFS, etc.</p></li>
+</ul>
+<p>It’s important not to confuse the Master Account with the Root Account. The Master Account is the initial AWS account created, while the Root Account is the user who owns an AWS Account.</p>
+<p>AWS Organization is crucial for utilizing the Consolidated Billing feature, which centralizes billing for the sub-accounts.</p>
+<p>There are two methods to create sub-accounts. In AWS Organization, you can create a new AWS account or invite an existing AWS account. Both methods involve using email. To accept an invite from an existing AWS account, navigate to the AWS Organization menu in the existing account’s console and click on the “accept invite” option. The acceptance is not completed via email.</p>
+<p>To restrict resource creation, SCP - Security Control Policies provide options to limit it to OUs or Accounts.</p>
+</section>
+<section id="account-security-practices">
+<h2>Account Security Practices:<a class="headerlink" href="#account-security-practices" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Enable active MFA for all accounts, particularly the Root Account.</p></li>
+<li><p>For creating new accounts, a unique email is necessary. It’s best practice to create an email group for the team and avoid using personal emails.</p></li>
+<li><p>Add alternate contacts to the Root Account to ensure receiving security contacts from AWS Support.</p></li>
+</ul>
+</section>
+<section id="accounts-support-center-plans">
+<h2>Accounts Support Center Plans:<a class="headerlink" href="#accounts-support-center-plans" title="Permalink to this heading">#</a></h2>
+<p>AWS offers various Support Plans levels:</p>
+<ul class="simple">
+<li><p><strong>Basic (free)</strong>: Recommended for experimentation or testing in AWS.</p></li>
+<li><p><strong>Developer</strong>: Minimum recommended tier for production workloads in AWS.</p></li>
+<li><p><strong>Business</strong>: Recommended for production and/or business-critical workloads in AWS.</p></li>
+<li><p><strong>Enterprise</strong>: Recommended for business and/or mission-critical workloads in AWS.</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>AWS Account: <a class="reference external" href="https://aws.amazon.com/account/">https://aws.amazon.com/account/</a></p></li>
+<li><p>AWS Organizations: <a class="reference external" href="https://aws.amazon.com/organizations/">https://aws.amazon.com/organizations/</a></p></li>
+<li><p>AWS Support Center Plans: <a class="reference external" href="https://aws.amazon.com/pt/premiumsupport/plans/">https://aws.amazon.com/pt/premiumsupport/plans/</a></p></li>
+<li><p>AWS Landing Zone: <a class="reference external" href="https://aws.amazon.com/solutions/aws-landing-zone/">https://aws.amazon.com/solutions/aws-landing-zone/</a></p></li>
+<li><p>AWS Billing: <a class="reference external" href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilling-procedure.html">https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilling-procedure.html</a></p></li>
+<li><p>AWS SCP - Service Control Policies: <a class="reference external" href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html</a></p></li>
+</ul>
+<hr class="docutils" />
+</section>
+</section>
 
-<div class="section ablog__collection">
-  <h1>
-    
-      Posts in
-      
-    git
-    
-  </h1>
-  
-  
-  <div class="section ablog-post">
-    <h2 class="ablog-post-title">
-      <a href="../../2023/2021-05-02-git-cli-gui/">Git Clients Benchmarking: CLI vs. Graphical Interfaces</a>
-    </h2>
-    <ul class="ablog-archive">
-      <li>
-        
-        
-        <i class="fa fa-calendar"></i>
-        
-        19 October 2023
-        
-      </li>
-      <div class="ablog-sidebar-item ablog__postcard2">
-
-
-
-
-
-<li id="ablog-sidebar-item category ablog__category">
-  <span>
-    
-    <i class="fa-fw fa fa-folder-open"></i>
-    
-    </span>
-  
-  
-  <a href="#">git</a>
-  
-  
-  
-</li>
-
-
-<li id="ablog-sidebar-item tags ablog__tags">
-  <span>
-    
-    
-    <i class="fa-fw fa fa-tag"></i>
-    
-    </span>
-  
-  
-  <a href="../../tag/benchmarking/">benchmarking</a>
-  
-  
-  
-</li>
-
-
-</div>
-    </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/10/19</em></p>
-<p>This blog post is aimed at helping you understand the pros and cons of the most popular Git repository clients.</p>
-</p>
-
-    <p class="ablog-post-expand"><a href="../../2023/2021-05-02-git-cli-gui/"><em>Read more ...</em></a></p>
-    <hr/>
-  </div>
+<div class="section ablog__blog_comments">
   
   
 </div>
@@ -522,8 +516,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">

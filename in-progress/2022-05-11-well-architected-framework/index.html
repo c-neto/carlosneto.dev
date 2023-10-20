@@ -7,8 +7,20 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Posts in git &#8212; Carlos Neto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta property="og:title" content="AWS Well-Architected Framework: A Beginner’s Guide to Building Robust Cloud Solutions" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/in-progress/2022-05-11-well-architected-framework/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2022/05/11 This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_in-progress_2022-05-11-well-architected-framework_3ee80eb8.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2022/05/11 This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the..." />
+<meta name="description" content="Blog Post Publish Date: 2022/05/11 This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>AWS Well-Architected Framework: A Beginner’s Guide to Building Robust Cloud Solutions &#8212; Carlos Neto</title>
   
   
   
@@ -18,41 +30,41 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
-  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/category/git';</script>
-    <link rel="shortcut icon" href="../../../_static/profile-color-circle-small.png"/>
-    <link rel="index" title="Index" href="../../../genindex/" />
-    <link rel="search" title="Search" href="../../../search/" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'in-progress/2022-05-11-well-architected-framework';</script>
+    <link rel="shortcut icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -60,8 +72,8 @@
 <link
   rel="alternate"
   type="application/atom+xml"
-  href="../../../blog/atom.xml"
-  title="Posts in git"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
 />
 
 
@@ -100,7 +112,7 @@
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
-      action="../../../search/"
+      action="../../search/"
       method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search"
@@ -129,7 +141,7 @@
       <div class="navbar-item">
   
 
-<a class="navbar-brand logo" href="../../../">
+<a class="navbar-brand logo" href="../../">
   
   
   
@@ -155,14 +167,14 @@
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../">
+                      <a class="nav-link nav-internal" href="../../blog/">
                         Blog
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../whoami/">
+                      <a class="nav-link nav-internal" href="../../whoami/">
                         whoami
                       </a>
                     </li>
@@ -266,7 +278,7 @@ document.write(`
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -285,14 +297,14 @@ document.write(`
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../">
+                      <a class="nav-link nav-internal" href="../../blog/">
                         Blog
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../whoami/">
+                      <a class="nav-link nav-internal" href="../../whoami/">
                         whoami
                       </a>
                     </li>
@@ -361,25 +373,6 @@ document.write(`
     
   </div>
   
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
-<div class="ablog-sidebar-item ablog__category">
-<h3>
-  <a href="../">Categories</a>
-</h3>
-<ul>
-  
-  
-  <li>
-    <a href="#">git (1)</a>
-  </li>
-  
-  
-</ul>
-</div>
-</div>
-    </div>
-  
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
   </div>
@@ -404,76 +397,58 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
+<p><em><strong>Blog Post Publish Date:</strong> 2022/05/11</em></p>
+<hr class="docutils" />
+<section id="aws-well-architected-framework-a-beginner-s-guide-to-building-robust-cloud-solutions">
+<h1>AWS Well-Architected Framework: A Beginner’s Guide to Building Robust Cloud Solutions<a class="headerlink" href="#aws-well-architected-framework-a-beginner-s-guide-to-building-robust-cloud-solutions" title="Permalink to this heading">#</a></h1>
+<p>This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions.</p>
+<section id="understanding-aws-well-architected-framework">
+<h2>Understanding AWS Well-Architected Framework<a class="headerlink" href="#understanding-aws-well-architected-framework" title="Permalink to this heading">#</a></h2>
+<p>The AWS Well-Architected Framework is a set of best practices and guidelines designed to help you build secure, high-performing, resilient, and efficient infrastructure for your applications and workloads on AWS. Think of it as a blueprint for building a strong foundation in the AWS cloud.
+The Five Pillars of the Framework</p>
+<p>The AWS Well-Architected Framework is built on five key pillars, each addressing a critical aspect of cloud architecture:</p>
+<ul class="simple">
+<li><p><strong>Operational Excellence</strong>: This pillar focuses on streamlining operations to deliver business value, including automating tasks, defining processes, and monitoring performance.</p></li>
+<li><p><strong>Security</strong>: Security is paramount. This pillar guides you in implementing robust security measures to protect your data and resources while ensuring compliance with relevant standards.</p></li>
+<li><p><strong>Reliability</strong>: Reliability ensures your systems are resilient to failure and downtime. This pillar helps you design solutions that recover from failures quickly and efficiently.</p></li>
+<li><p><strong>Performance Efficiency</strong>: Optimize performance and use resources efficiently to meet your application’s requirements without overspending.</p></li>
+<li><p><strong>Cost Optimization</strong>: Learn how to manage and optimize costs without sacrificing performance, aligning your cloud resources with your budget.</p></li>
+</ul>
+</section>
+<section id="applying-the-framework-a-step-by-step-approach">
+<h2>Applying the Framework: A Step-by-Step Approach<a class="headerlink" href="#applying-the-framework-a-step-by-step-approach" title="Permalink to this heading">#</a></h2>
+<p>Let’s break down the process of applying the AWS Well-Architected Framework into manageable steps:</p>
+<ul class="simple">
+<li><p><strong>Step 1</strong>: Understand Your Application</p></li>
+</ul>
+<p>Begin by thoroughly understanding your application’s requirements, goals, and potential challenges. Define the intended purpose and functionality, as this will guide your architectural decisions.</p>
+<ul class="simple">
+<li><p><strong>Step 2</strong>: Align with the Five Pillars</p></li>
+</ul>
+<p>Analyze your architecture and align it with each of the five pillars—operational excellence, security, reliability, performance efficiency, and cost optimization. Assess how well your current architecture meets the standards set by the framework.</p>
+<ul class="simple">
+<li><p><strong>Step 3</strong>: Identify Strengths and Weaknesses</p></li>
+</ul>
+<p>Identify the strengths and weaknesses in your architecture based on the five pillars. Celebrate the areas where you align well and prioritize addressing the weaknesses to improve your overall architecture.</p>
+<ul class="simple">
+<li><p><strong>Step 4</strong>: Implement Improvements</p></li>
+</ul>
+<p>Implement improvements to address the identified weaknesses. This could involve changes in design, the adoption of new AWS services, or adjustments to your current setup to align with best practices.
+Conclusion</p>
+<p>The AWS Well-Architected Framework offers a robust foundation for designing and building efficient, secure, and cost-effective cloud solutions on AWS. By understanding and applying the principles of the five pillars—operational excellence, security, reliability, performance efficiency, and cost optimization—you’ll be well on your way to creating a successful cloud architecture that meets your business needs.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>AWS Well-Architected Tool: <a class="reference external" href="https://aws.amazon.com/well-architected-tool/%5D(https://aws.amazon.com/well-architected-tool/">https://aws.amazon.com/well-architected-tool/](https://aws.amazon.com/well-architected-tool/</a></p></li>
+<li><p>AWS Well-Architected Doc: <a class="reference external" href="https://aws.amazon.com/architecture/well-architected/%5D(https://aws.amazon.com/architecture/well-architected/">https://aws.amazon.com/architecture/well-architected/](https://aws.amazon.com/architecture/well-architected/</a></p></li>
+<li><p>The 5 Pillars of the AWS Well-Architected Framework: <a class="reference external" href="https://aws.amazon.com/blogs/apn/the-5-pillars-of-the-aws-well-architected-framework/">https://aws.amazon.com/blogs/apn/the-5-pillars-of-the-aws-well-architected-framework/</a></p></li>
+</ul>
+<hr class="docutils" />
+</section>
+</section>
 
-<div class="section ablog__collection">
-  <h1>
-    
-      Posts in
-      
-    git
-    
-  </h1>
-  
-  
-  <div class="section ablog-post">
-    <h2 class="ablog-post-title">
-      <a href="../../2023/2021-05-02-git-cli-gui/">Git Clients Benchmarking: CLI vs. Graphical Interfaces</a>
-    </h2>
-    <ul class="ablog-archive">
-      <li>
-        
-        
-        <i class="fa fa-calendar"></i>
-        
-        19 October 2023
-        
-      </li>
-      <div class="ablog-sidebar-item ablog__postcard2">
-
-
-
-
-
-<li id="ablog-sidebar-item category ablog__category">
-  <span>
-    
-    <i class="fa-fw fa fa-folder-open"></i>
-    
-    </span>
-  
-  
-  <a href="#">git</a>
-  
-  
-  
-</li>
-
-
-<li id="ablog-sidebar-item tags ablog__tags">
-  <span>
-    
-    
-    <i class="fa-fw fa fa-tag"></i>
-    
-    </span>
-  
-  
-  <a href="../../tag/benchmarking/">benchmarking</a>
-  
-  
-  
-</li>
-
-
-</div>
-    </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/10/19</em></p>
-<p>This blog post is aimed at helping you understand the pros and cons of the most popular Git repository clients.</p>
-</p>
-
-    <p class="ablog-post-expand"><a href="../../2023/2021-05-02-git-cli-gui/"><em>Read more ...</em></a></p>
-    <hr/>
-  </div>
+<div class="section ablog__blog_comments">
   
   
 </div>
@@ -522,8 +497,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
