@@ -14,7 +14,7 @@ Check my professional experiences:
 
 :::{grid-item-card}
 :link: https://www.linkedin.com/in/c-neto/
-<i class="fab fa-linkedin fa-fade"></i> Linkedin
+<i class="fab fa-linkedin fa-fade"></i> LinkedIn
 :::
 
 :::{grid-item-card}
