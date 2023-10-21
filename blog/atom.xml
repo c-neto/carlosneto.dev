@@ -2,11 +2,142 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-10-20T06:26:07.795259+00:00</updated>
+  <updated>2023-10-21T20:52:12.932972+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2023/2023-10-21-cloud-concepts/</id>
+    <title>Cloud Computing: Overview and Concepts</title>
+    <updated>2023-10-21T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2023/10/21&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="cloud-computing-overview-and-concepts"&gt;
+
+&lt;p&gt;This blog post explores the impact of Cloud Computing on Digital Transformation, essential concepts, primary Cloud models, and my personal opinion about its adoption.&lt;/p&gt;
+&lt;section id="the-impact-of-cloud-computing-on-digital-transformation"&gt;
+&lt;h2&gt;The Impact of Cloud Computing on Digital Transformation&lt;/h2&gt;
+&lt;p&gt;Historically, Development teams emphasized agility in contributions, while Operations/Infrastructure teams focused more on stability due to hardware interactions. However, with the advent of technologies like virtualization, manual infrastructure tasks became obsolete, and infrastructure components started being provided as a service by Cloud providers like AWS, Google, Microsoft, and others.&lt;/p&gt;
+&lt;p&gt;Now, agility has become a crucial aspect for Operations teams as well. The maintenance of infrastructure as a service by Cloud providers alleviates concerns about electricity, hardware health, and other infrastructure requirements. This shift allows businesses to concentrate on their core purposes rather than infrastructure necessities. Outsourcing maintenance tasks to specialized teams enhances reliability and security, with various services tailored for infrastructure contexts and business cases. Additionally, hardware security is vital to address concerns like natural disasters and physical threats.&lt;/p&gt;
+&lt;p&gt;A significant keyword in the Cloud landscape is possibilities. The Cloud offers possibilities to access high computing performance components as needed, scale components on demand, and pay only for the time used. These possibilities can lead to reduced costs if your application or infrastructure is scalable, allowing you to pay only for the resources needed for application functionality.&lt;/p&gt;
+&lt;p&gt;However, it’s important to note that Cloud Computing isn’t a one-size-fits-all solution for every IT infrastructure case. It is one of the options to deploy your infrastructure or application. Before adopting the Cloud for your infrastructure, it’s crucial to ask yourself, “What problem am I trying to solve?” If your application aligns with the Cloud characteristics mentioned above, it might be the best choice for your needs.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="concepts-and-characteristics"&gt;
+&lt;h2&gt;Concepts and Characteristics&lt;/h2&gt;
+&lt;p&gt;Cloud Computing is a &lt;strong&gt;model for delivering computing services over the internet, providing a platform to manage, process, and store data on remote servers.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The Cloud Computing main characteristics are:&lt;/p&gt;
+&lt;div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils"&gt;
+&lt;div class="sd-row docutils"&gt;
+&lt;div class="sd-col sd-d-flex-row docutils"&gt;
+&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
+&lt;div class="sd-card-body docutils"&gt;
+&lt;p class="sd-card-text"&gt;&lt;strong&gt;Maintenance:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;Less concern about energy and hardware maintenance processes;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;Business focuses more on IT technologies.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p class="sd-card-text"&gt;&lt;strong&gt;Reliability&lt;/strong&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;Specialization in determining tools;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;High availability possibilities.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p class="sd-card-text"&gt;&lt;strong&gt;Security&lt;/strong&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;Utilization of specific security tools;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;Software and hardware security solutions.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sd-col sd-d-flex-row docutils"&gt;
+&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
+&lt;div class="sd-card-body docutils"&gt;
+&lt;p class="sd-card-text"&gt;&lt;strong&gt;Performance&lt;/strong&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;Hardware components available as a service;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;Performance enhancements possible when needed.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p class="sd-card-text"&gt;&lt;strong&gt;Scalability&lt;/strong&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;Scalability on demand;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;Minimal IT resource requirements to run applications.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;p class="sd-card-text"&gt;&lt;strong&gt;Cost and Elasticity&lt;/strong&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;Cost management options;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;Both soft and hard cost considerations with available possibilities.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; See also: &lt;a class="reference external" href="https://aws.amazon.com/what-is-Cloud-computing/?nc1=h_ls"&gt;AWS - What is Cloud Computing&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;/section&gt;
+&lt;section id="cloud-main-models"&gt;
+&lt;h2&gt;Cloud Main Models&lt;/h2&gt;
+&lt;p&gt;The cloud is not limited to AWS, Google Cloud Platform, or Oracle Cloud. These mentioned cloud providers belong to the category of &lt;strong&gt;Public Cloud&lt;/strong&gt;. However, it’s essential to understand that there are other ways to implement cloud solutions.&lt;/p&gt;
+&lt;div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils"&gt;
+&lt;div class="sd-row docutils"&gt;
+&lt;div class="sd-col sd-d-flex-row docutils"&gt;
+&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
+&lt;div class="sd-card-body docutils"&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Public Cloud&lt;/strong&gt;: Resources are shared and can be used by anyone (examples: AWS, GCP, Oracle Cloud).&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Private Cloud&lt;/strong&gt;: Often referred to as &lt;em&gt;Bare Metal Cloud&lt;/em&gt; owned by a single entity, and resources are not shared with other corporations (examples: OpenStack, VMWare, and XenServer).&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sd-col sd-d-flex-row docutils"&gt;
+&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
+&lt;div class="sd-card-body docutils"&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Hybrid Cloud&lt;/strong&gt;: A combination of both Private Cloud and Public Cloud components.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;MultiCloud&lt;/strong&gt;: Cloud architecture is not dependent on a specific Cloud model and can run in both Private and Public Cloud environments.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Community Cloud&lt;/strong&gt;: Custom Cloud architecture created by corporations to provide clients with the flexibility of multiple Public and Private Cloud features.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; More Details: &lt;a class="reference external" href="https://csrc.nist.gov/publications/detail/sp/800-145/final"&gt;NIST - Cloud Computing Definition&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;/section&gt;
+&lt;section id="conclusion-author-opinion"&gt;
+&lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
+&lt;p&gt;Cloud computing is a &lt;strong&gt;powerful&lt;/strong&gt; tool that can greatly benefit businesses. Cloud providers offer &lt;strong&gt;fantastic solutions&lt;/strong&gt; and services to address the challenges and product requirements, mainly to &lt;strong&gt;large enterprises&lt;/strong&gt;. Undoubtedly, Cloud computing has contributed to improvements in the IT product experience and the creation of new products, primarily due to the &lt;em&gt;Business focusing more on IT technologies&lt;/em&gt; characteristic, which allows engineers to concentrate their efforts on the product rather than infrastructure challenges.&lt;/p&gt;
+&lt;p&gt;However, it is important to understand that &lt;strong&gt;it is not a one-size-fits-all solution&lt;/strong&gt;. Its effectiveness &lt;strong&gt;depends on your specific needs&lt;/strong&gt; and use cases. While it offers scalability and flexibility, it &lt;strong&gt;can also be more expensive&lt;/strong&gt;, especially if not optimized for your requirements. Migrating to the Cloud &lt;strong&gt;requires specialized expertise&lt;/strong&gt; to ensure a smooth transition and efficient management. Additionally, it’s important to note that the Cloud is not a guarantee of security; it requires a diligent implementation of security measures to safeguard your data and applications, further emphasizing the need for specialized expertise. Ultimately, the decision to embrace Cloud computing should be carefully evaluated, taking into account the unique demands and goals of your organization.&lt;/p&gt;
+&lt;/section&gt;
+&lt;hr class="docutils" /&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2023/2023-10-21-cloud-concepts/" rel="alternate"/>
+    <summary>Blog Post Publish Date: 2023/10/21This blog post explores the impact of Cloud Computing on Digital Transformation, essential concepts, primary Cloud models, and my personal opinion about its adoption.</summary>
+    <category term="aws" label="aws"/>
+    <category term="azure" label="azure"/>
+    <category term="gcp" label="gcp"/>
+    <category term="oracle" label="oracle"/>
+    <published>2023-10-21T00:00:00+00:00</published>
+  </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2023/2023-10-19-git-cli-gui/</id>
     <title>Git Clients Benchmarking: CLI vs. Graphical Interfaces</title>
