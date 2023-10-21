@@ -20,8 +20,6 @@ I presented the solutions pros/cons and my particular conclusion and suggestions
 
 It is the official method for interacting with your repository. You can perform all the functions that the Git system provides using the Git CLI. It also offers comprehensive documentation, and official resources typically use Git CLI in their examples.
 
-_[Click here to check the official Git CLI reference](https://git-scm.com/download/linux)_
-
 ::::{grid}
 
 :::{grid-item-card}
@@ -43,11 +41,11 @@ _[Click here to check the official Git CLI reference](https://git-scm.com/downlo
 :::
 ::::
 
+> <i class="fa-solid fa-link"></i> More Details: [Git Official Reference](https://git-scm.com/doc)
+
 ## 2. GitKraken
 
 GitKraken is a comprehensive graphical enterprise suite focusing on enhancing Git functionalities.
-
-_[Click here to check the official GitKraken reference](https://www.gitkraken.com/)_
 
 ::::{grid}
 
@@ -65,12 +63,11 @@ _[Click here to check the official GitKraken reference](https://www.gitkraken.co
 
 ::::
 
+> <i class="fa-solid fa-link"></i> More Details: [GitKraken Official Reference](https://www.gitkraken.com/)
+
 ## 3. SourceTree
 
 SourceTree is a freely available Git GUI developed and maintained by Atlassian, offering an intuitive interface for Git repository management.
-
-_[Click here to check the official SourceTree reference](https://www.sourcetreeapp.com/)_
-
 
 ::::{grid}
 
@@ -95,11 +92,11 @@ _[Click here to check the official SourceTree reference](https://www.sourcetreea
 :::
 ::::
 
+> <i class="fa-solid fa-link"></i> More Details: [SourceTree Official Reference](https://www.sourcetreeapp.com/)
+
 ## 4. VSCode
 
 VSCode, a popular text editor, inherently provides basic Git functionalities in a visual manner.
-
-_[Click here to check the official VSCode reference](https://code.visualstudio.com/)_.
 
 ::::{grid}
 
@@ -118,11 +115,11 @@ _[Click here to check the official VSCode reference](https://code.visualstudio.c
 :::
 ::::
 
+> <i class="fa-solid fa-link"></i> More Details: [Introduction to Git in VS Code](https://code.visualstudio.com/docs/sourcecontrol/intro-to-git)
+
 ## 5. JetBrains IDEs
 
 JetBrains offers a range of Integrated Development Environments (IDEs) for various programming languages, all of which integrate Git functionalities.
-
-_[Click here to check JetBrains IDEs official references](https://www.jetbrains.com/pt-br/)_
 
 ::::{grid}
 
@@ -142,6 +139,8 @@ Pros:
 :::
 
 ::::
+
+> <i class="fa-solid fa-link"></i> More Details: [JetBrains IDEA Using Git Integration](https://www.jetbrains.com/help/idea/using-git-integration.html)
 
 ## Conclusion (Author Opinion)
 
