@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-10-21T21:07:11.927482+00:00</updated>
+  <updated>2023-10-21T21:12:56.900940+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -161,6 +161,9 @@
 &lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-smile"&gt;&lt;/i&gt; Key Pros:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Full Functionality&lt;/strong&gt;: Git CLI offers all functionalities and capabilities that Git provides, ensuring nothing is compromised.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Scripting and Automation&lt;/strong&gt;: Easily integrate Git commands into scripts and automate repetitive tasks.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
@@ -172,7 +175,13 @@
 &lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-frown"&gt;&lt;/i&gt; Key Cons:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Learning Curve&lt;/strong&gt;: For those unfamiliar with command-line interfaces, there may be a learning curve to grasp the commands and their usage effectively.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Less Visual Representation&lt;/strong&gt;: Git CLI provides data primarily through text output, which can be less intuitive for some users.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Productivity&lt;/strong&gt;: Repetitive and extensive use of fundamental operations can become unproductive.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
@@ -193,6 +202,9 @@
 &lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-smile"&gt;&lt;/i&gt; Key Pros:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Intuitive Interface&lt;/strong&gt;: GitKraken offers an easy-to-understand graphical interface, making it accessible for both beginners and experienced users.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Visualization&lt;/strong&gt;: Users can visualize their Git repository and workflow, aiding in a better understanding of branching, merging, and commits.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
@@ -223,6 +235,9 @@
 &lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-smile"&gt;&lt;/i&gt; Key Pros:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;User-Friendly&lt;/strong&gt;: SourceTree offers an intuitive, user-friendly interface, making it easy to understand for users new to Git.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Visual Representation&lt;/strong&gt;: Users can visualize the Git workflow, including branches, commits, and merges, aiding in understanding repository history.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
@@ -234,9 +249,21 @@
 &lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-frown"&gt;&lt;/i&gt; Key Cons:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Atlassian Like&lt;/strong&gt;: Limited compatibility with non-Atlassian tools.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Features&lt;/strong&gt;: Limited advanced features.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Resources Usage&lt;/strong&gt;: Resource-intensive, slowing down your computer.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;UI/UX&lt;/strong&gt;: Complex interface, overwhelming for beginners.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;OS Supports Limited&lt;/strong&gt;: Available only for Windows and macOS.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
@@ -257,7 +284,13 @@
 &lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-smile"&gt;&lt;/i&gt; Key Pros:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Integration&lt;/strong&gt;: Git features are seamlessly integrated into the editor, allowing for efficient version control directly from the coding environment.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;UI/UX&lt;/strong&gt;: Straight and Forward and intuitive interface to perform basic operations.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Customization&lt;/strong&gt;: Users can enhance Git capabilities through various extensions available for VSCode.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
@@ -289,6 +322,9 @@
 Pros:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Comprehensive&lt;/strong&gt;: JetBrains IDEs provide a full suite of development tools along with Git integration.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Language Support&lt;/strong&gt;: Each IDE is tailored to specific languages, ensuring a seamless Git experience for the corresponding programming language.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
@@ -300,6 +336,9 @@ Pros:&lt;/p&gt;
 &lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-frown"&gt;&lt;/i&gt; Key Cons:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Resource Intensive&lt;/strong&gt;: IDEs can be resource-heavy, especially for larger projects or on less powerful machines.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Cost&lt;/strong&gt;: Depends on IDE programming language, it’s only paid version available.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
@@ -310,9 +349,7 @@ Pros:&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="conclusion-author-opinion"&gt;
 &lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: The Git CLI mastering is fundamental before to use the Graphical solutions. The GUI solutions are made to provides agility in the recurring operations. Only use the Git GUI solutions if you understand that what’s happening behind the scenes. The GUI solutions helps to make the changes, but when a big problems occurs, probably you will needs to use the Git CLI to solve it.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
+&lt;p&gt;The Git CLI mastering is fundamental before to use the Graphical solutions. The GUI solutions are made to provides agility in the recurring operations. Only use the Git GUI solutions if you understand that what’s happening behind the scenes. The GUI solutions helps to make the changes, but when a big problems occurs, probably you will needs to use the Git CLI to solve it.&lt;/p&gt;
 &lt;p&gt;The choice between Git CLI and graphical interfaces depends on your preference, familiarity with command-line tools, and the specific needs of your project.&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;If you works a &lt;strong&gt;Software Developer&lt;/strong&gt;, my suggestion is mastering the use of the tool your IDE provides.&lt;/p&gt;&lt;/li&gt;
