@@ -10,9 +10,9 @@ category: Cloud
 
 # Cloud Computing: Overview and Concepts
 
-This blog post explores the impact of Cloud Computing on Digital Transformation, essential concepts, primary Cloud models, and my personal opinion about its adoption.
+This blog post explores the impact of Cloud Computing, essential concepts, primary Cloud models, and my personal opinion about its adoption.
 
-## The Impact of Cloud Computing on Digital Transformation
+## The Impact of Cloud Computing
 
 Historically, Development teams emphasized agility in contributions, while Operations/Infrastructure teams focused more on stability due to hardware interactions. However, with the advent of technologies like virtualization, manual infrastructure tasks became obsolete, and infrastructure components started being provided as a service by Cloud providers like AWS, Google, Microsoft, and others.
 
