@@ -31,7 +31,7 @@ The Cloud Computing main characteristics are:
 ::::{grid}
 
 :::{grid-item-card}
-__Maintenance:__
+__Maintenance__
 - Less concern about energy and hardware maintenance processes;
 - Business focuses more on IT technologies.
 ---
