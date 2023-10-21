@@ -32,28 +32,42 @@ The Cloud Computing main characteristics are:
 
 :::{grid-item-card}
 __Maintenance__
+
 - Less concern about energy and hardware maintenance processes;
 - Business focuses more on IT technologies.
+
 ---
+
 __Reliability__
+
 - Specialization in determining tools;
 - High availability possibilities.
+
 ---
+
 __Security__
+
 - Utilization of specific security tools;
 - Software and hardware security solutions.
 :::
 
 :::{grid-item-card}
 __Performance__
+
 - Hardware components available as a service;
 - Performance enhancements possible when needed.
+
 ---
+
 __Scalability__
+
 - Scalability on demand;
 - Minimal IT resource requirements to run applications.
+
 ---
+
 __Cost and Elasticity__
+
 - Cost management options;
 - Both soft and hard cost considerations with available possibilities.
 :::
@@ -71,20 +85,31 @@ The cloud is not limited to AWS, Google Cloud Platform, or Oracle Cloud. These m
 
 :::{grid-item-card}
 __Public Cloud__
+
 Resources are shared and can be used by anyone (examples: AWS, GCP, Oracle Cloud).
+
 ---
+
 __Private Cloud__
+
 Often referred to as _Bare Metal Cloud_ owned by a single entity, and resources are not shared with other corporations (examples: OpenStack, VMWare, and XenServer).
 :::
 
 :::{grid-item-card}
 __Hybrid Cloud__
+
 A combination of both Private Cloud and Public Cloud components.
+
 ---
+
 __MultiCloud__
+
 Cloud architecture is not dependent on a specific Cloud model and can run in both Private and Public Cloud environments.
+
 ---
+
 __Community Cloud__
+
 Custom Cloud architecture created by corporations to provide clients with the flexibility of multiple Public and Private Cloud features.
 :::
 
