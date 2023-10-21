@@ -70,17 +70,22 @@ The cloud is not limited to AWS, Google Cloud Platform, or Oracle Cloud. These m
 ::::{grid}
 
 :::{grid-item-card}
-- __Public Cloud__: Resources are shared and can be used by anyone (examples: AWS, GCP, Oracle Cloud).
+__Public Cloud__
+Resources are shared and can be used by anyone (examples: AWS, GCP, Oracle Cloud).
 ---
-- __Private Cloud__: Often referred to as _Bare Metal Cloud_ owned by a single entity, and resources are not shared with other corporations (examples: OpenStack, VMWare, and XenServer).
+__Private Cloud__
+Often referred to as _Bare Metal Cloud_ owned by a single entity, and resources are not shared with other corporations (examples: OpenStack, VMWare, and XenServer).
 :::
 
 :::{grid-item-card}
-- __Hybrid Cloud__: A combination of both Private Cloud and Public Cloud components.
+__Hybrid Cloud__
+A combination of both Private Cloud and Public Cloud components.
 ---
-- __MultiCloud__: Cloud architecture is not dependent on a specific Cloud model and can run in both Private and Public Cloud environments.
+__MultiCloud__
+Cloud architecture is not dependent on a specific Cloud model and can run in both Private and Public Cloud environments.
 ---
-- __Community Cloud__: Custom Cloud architecture created by corporations to provide clients with the flexibility of multiple Public and Private Cloud features.
+__Community Cloud__
+Custom Cloud architecture created by corporations to provide clients with the flexibility of multiple Public and Private Cloud features.
 :::
 
 ::::

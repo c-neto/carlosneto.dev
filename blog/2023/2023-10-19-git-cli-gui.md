@@ -153,3 +153,5 @@ The choice between Git CLI and graphical interfaces depends on your preference, 
 - If you work several stacks, like me as a __DevOps Engineer__, I suggest using VSCode Git integration. It provides a simple UX/UI for a quick way to check the commit differences in one place, and the free version of the extension [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)  provides a simple way to perform more advanced operations like _squash_ and _rebase_.
 
 - For __Release Engineer__ enterprise workloads, the GitKraken sounds like the better chosen because your UI/UX brings pretty historical commits graphics. If you work an Atlassian stack, and Linux workstations are not used, the SourceTree can be a good idea because integrations with Atlassian Stack are available.
+
+---
