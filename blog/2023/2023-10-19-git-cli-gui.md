@@ -28,6 +28,7 @@ _[Click here to check the official Git CLI reference](https://git-scm.com/downlo
 
 <i class="fa-solid fa-face-smile"></i> Key Pros:
 - __Full Functionality__: Git CLI offers all functionalities and capabilities that Git provides, ensuring nothing is compromised.
+---
 - __Scripting and Automation__: Easily integrate Git commands into scripts and automate repetitive tasks.
 :::
 
@@ -35,7 +36,9 @@ _[Click here to check the official Git CLI reference](https://git-scm.com/downlo
 
 <i class="fa-solid fa-face-frown"></i> Key Cons:
 - __Learning Curve__: For those unfamiliar with command-line interfaces, there may be a learning curve to grasp the commands and their usage effectively.
+---
 - __Less Visual Representation__: Git CLI provides data primarily through text output, which can be less intuitive for some users.
+---
 - __Productivity__: Repetitive and extensive use of fundamental operations can become unproductive.
 :::
 ::::
@@ -51,6 +54,7 @@ _[Click here to check the official GitKraken reference](https://www.gitkraken.co
 :::{grid-item-card}
 <i class="fa-solid fa-face-smile"></i> Key Pros:
 - __Intuitive Interface__: GitKraken offers an easy-to-understand graphical interface, making it accessible for both beginners and experienced users.
+---
 - __Visualization__: Users can visualize their Git repository and workflow, aiding in a better understanding of branching, merging, and commits.
 :::
 
@@ -73,15 +77,20 @@ _[Click here to check the official SourceTree reference](https://www.sourcetreea
 :::{grid-item-card}
 <i class="fa-solid fa-face-smile"></i> Key Pros:
 - __User-Friendly__: SourceTree offers an intuitive, user-friendly interface, making it easy to understand for users new to Git.
+---
 - __Visual Representation__: Users can visualize the Git workflow, including branches, commits, and merges, aiding in understanding repository history.
 :::
 
 :::{grid-item-card}
 <i class="fa-solid fa-face-frown"></i> Key Cons:
 - __Atlassian Like__: Limited compatibility with non-Atlassian tools.
+---
 - __Features__: Limited advanced features.
+---
 - __Resources Usage__: Resource-intensive, slowing down your computer.
+---
 - __UI/UX__: Complex interface, overwhelming for beginners.
+---
 - __OS Supports Limited__: Available only for Windows and macOS.
 :::
 ::::
@@ -97,7 +106,9 @@ _[Click here to check the official VSCode reference](https://code.visualstudio.c
 :::{grid-item-card}
 <i class="fa-solid fa-face-smile"></i> Key Pros:
 - __Integration__: Git features are seamlessly integrated into the editor, allowing for efficient version control directly from the coding environment.
+---
 - __UI/UX__: Straight and Forward and intuitive interface to perform basic operations.
+---
 - __Customization__: Users can enhance Git capabilities through various extensions available for VSCode.
 :::
 
@@ -119,12 +130,14 @@ _[Click here to check JetBrains IDEs official references](https://www.jetbrains.
 <i class="fa-solid fa-face-smile"></i> Key Pros:
 Pros:
 - __Comprehensive__: JetBrains IDEs provide a full suite of development tools along with Git integration.
+---
 - __Language Support__: Each IDE is tailored to specific languages, ensuring a seamless Git experience for the corresponding programming language.
 :::
 
 :::{grid-item-card}
 <i class="fa-solid fa-face-frown"></i> Key Cons:
 - __Resource Intensive__: IDEs can be resource-heavy, especially for larger projects or on less powerful machines.
+---
 - __Cost__: Depends on IDE programming language, it's only paid version available.
 :::
 
@@ -132,7 +145,7 @@ Pros:
 
 ## Conclusion (Author Opinion)
 
-> __Disclaimer__: The Git CLI mastering is fundamental before to use the Graphical solutions. The GUI solutions are made to provides agility in the recurring operations. Only use the Git GUI solutions if you understand that what's happening behind the scenes. The GUI solutions helps to make the changes, but when a big problems occurs, probably you will needs to use the Git CLI to solve it.
+The Git CLI mastering is fundamental before to use the Graphical solutions. The GUI solutions are made to provides agility in the recurring operations. Only use the Git GUI solutions if you understand that what's happening behind the scenes. The GUI solutions helps to make the changes, but when a big problems occurs, probably you will needs to use the Git CLI to solve it.
 
 The choice between Git CLI and graphical interfaces depends on your preference, familiarity with command-line tools, and the specific needs of your project. 
 
