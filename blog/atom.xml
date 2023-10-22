@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-10-21T21:29:56.154846+00:00</updated>
+  <updated>2023-10-22T03:57:43.940832+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -90,10 +90,14 @@
 &lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
 &lt;div class="sd-card-body docutils"&gt;
 &lt;p class="sd-card-text"&gt;&lt;strong&gt;Public Cloud&lt;/strong&gt;&lt;/p&gt;
-&lt;p class="sd-card-text"&gt;Resources are shared and can be used by anyone (examples: AWS, GCP, Oracle Cloud).&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p class="sd-card-text"&gt;Resources are shared and can be used by anyone (examples: AWS, GCP, Oracle Cloud).&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;p class="sd-card-text"&gt;&lt;strong&gt;Private Cloud&lt;/strong&gt;&lt;/p&gt;
-&lt;p class="sd-card-text"&gt;Often referred to as &lt;em&gt;Bare Metal Cloud&lt;/em&gt; owned by a single entity, and resources are not shared with other corporations (examples: OpenStack, VMWare, and XenServer).&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p class="sd-card-text"&gt;Often referred to as &lt;em&gt;Bare Metal Cloud&lt;/em&gt; owned by a single entity, and resources are not shared with other corporations (examples: OpenStack, VMWare, and XenServer).&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -101,13 +105,19 @@
 &lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
 &lt;div class="sd-card-body docutils"&gt;
 &lt;p class="sd-card-text"&gt;&lt;strong&gt;Hybrid Cloud&lt;/strong&gt;&lt;/p&gt;
-&lt;p class="sd-card-text"&gt;A combination of both Private Cloud and Public Cloud components.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p class="sd-card-text"&gt;A combination of both Private Cloud and Public Cloud components.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;p class="sd-card-text"&gt;&lt;strong&gt;MultiCloud&lt;/strong&gt;&lt;/p&gt;
-&lt;p class="sd-card-text"&gt;Cloud architecture is not dependent on a specific Cloud model and can run in both Private and Public Cloud environments.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p class="sd-card-text"&gt;Cloud architecture is not dependent on a specific Cloud model and can run in both Private and Public Cloud environments.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;p class="sd-card-text"&gt;&lt;strong&gt;Community Cloud&lt;/strong&gt;&lt;/p&gt;
-&lt;p class="sd-card-text"&gt;Custom Cloud architecture created by corporations to provide clients with the flexibility of multiple Public and Private Cloud features.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p class="sd-card-text"&gt;Custom Cloud architecture created by corporations to provide clients with the flexibility of multiple Public and Private Cloud features.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
