@@ -2,13 +2,13 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-12T21:57:32.370628+00:00</updated>
+  <updated>2023-11-12T21:57:58.208837+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
   <entry>
-    <id>https://carlosneto.dev/blog/2023/2023-11-02-logstash/</id>
+    <id>https://carlosneto.dev/blog/2023/2023-11-02-logstash-modular-pipelines/</id>
     <title>Logstash Modular Pipelines: A Solution to Avoid Code Duplicated</title>
     <updated>2023-11-12T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2023/11/12&lt;/em&gt;&lt;/p&gt;
@@ -113,7 +113,7 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;/section&gt;
 &lt;/section&gt;
 </content>
-    <link href="https://carlosneto.dev/blog/2023/2023-11-02-logstash/" rel="alternate"/>
+    <link href="https://carlosneto.dev/blog/2023/2023-11-02-logstash-modular-pipelines/" rel="alternate"/>
     <summary>Blog Post Publish Date: 2023/11/12This blog post explores the structuring of Logstash pipelines to mitigate code duplicated and presents an elegant method for reusing code statements across multiple pipelines.</summary>
     <category term="logstash" label="logstash"/>
     <published>2023-11-12T00:00:00+00:00</published>
