@@ -77,8 +77,6 @@ Finally, the core aspect of this approach lies in defining the pipeline composit
 
 LOGSTASH_PIPELINE_APPLICATION_A="{input-http,input-rabbitmq,filter-app-a,output-opensearch,output-http}"
 LOGSTASH_PIPELINE_APPLICATION_B="{input-http,filter-app-b,output-opensearch}"
-
-...
 ```
 
 - The `LOGSTASH_PIPELINE_APPLICATION_A` environment variable value configures the Logstash pipeline `application-a-pipeline` to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the `filter-app-a.cfg` and forwarded to OpenSearch and HTTP server.
