@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-12T22:44:38.734827+00:00</updated>
+  <updated>2023-11-12T23:27:22.989752+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -63,7 +63,7 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;pipeline.id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;application-a-pipeline&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;path.config&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/usr/share/logstash/pipeline/${LOGSTASH_PIPELINE_APPLICATION_A}.cfg&amp;quot;&lt;/span&gt;
 
-&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;pipeline.id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;application-a-pipeline&lt;/span&gt;
+&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;pipeline.id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;application-b-pipeline&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;path.config&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/usr/share/logstash/pipeline/${LOGSTASH_PIPELINE_APPLICATION_B}.cfg&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -77,8 +77,8 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;LOGSTASH_PIPELINE_APPLICATION_A&lt;/span&gt;&lt;/code&gt; environment variable value configures the Logstash pipeline &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;application-a-pipeline&lt;/span&gt;&lt;/code&gt; to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter-app-a.cfg&lt;/span&gt;&lt;/code&gt; and forwarded to OpenSearch and HTTP server.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;LOGSTASH_PIPELINE_APPLICATION_B&lt;/span&gt;&lt;/code&gt; environment variable value configures the Logstash pipeline &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;application-b-pipeline&lt;/span&gt;&lt;/code&gt; to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter-app-a.cfg&lt;/span&gt;&lt;/code&gt; and forwarded to OpenSearch and HTTP server.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;LOGSTASH_PIPELINE_APPLICATION_A&lt;/strong&gt;: Composes the Logstash pipeline &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;application-a-pipeline&lt;/span&gt;&lt;/code&gt; to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter-app-a.cfg&lt;/span&gt;&lt;/code&gt; and forwarded to OpenSearch and HTTP server.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;LOGSTASH_PIPELINE_APPLICATION_B&lt;/strong&gt;: Composes the Logstash pipeline &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;application-b-pipeline&lt;/span&gt;&lt;/code&gt; to receive logs from HTTP, and the logs will be processed by logic defined in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter-app-b.cfg&lt;/span&gt;&lt;/code&gt; and forwarded to OpenSearch.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;section id="main-advantages"&gt;
 &lt;h3&gt;Main Advantages:&lt;/h3&gt;

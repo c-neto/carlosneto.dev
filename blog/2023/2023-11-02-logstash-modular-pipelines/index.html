@@ -490,7 +490,7 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pipeline.id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">application-a-pipeline</span>
 <span class="w">  </span><span class="nt">path.config</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/usr/share/logstash/pipeline/${LOGSTASH_PIPELINE_APPLICATION_A}.cfg&quot;</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pipeline.id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">application-a-pipeline</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pipeline.id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">application-b-pipeline</span>
 <span class="w">  </span><span class="nt">path.config</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/usr/share/logstash/pipeline/${LOGSTASH_PIPELINE_APPLICATION_B}.cfg&quot;</span>
 </pre></div>
 </div>
@@ -504,8 +504,8 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 </div>
 </div>
 <ul class="simple">
-<li><p>The <code class="docutils literal notranslate"><span class="pre">LOGSTASH_PIPELINE_APPLICATION_A</span></code> environment variable value configures the Logstash pipeline <code class="docutils literal notranslate"><span class="pre">application-a-pipeline</span></code> to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the <code class="docutils literal notranslate"><span class="pre">filter-app-a.cfg</span></code> and forwarded to OpenSearch and HTTP server.</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">LOGSTASH_PIPELINE_APPLICATION_B</span></code> environment variable value configures the Logstash pipeline <code class="docutils literal notranslate"><span class="pre">application-b-pipeline</span></code> to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the <code class="docutils literal notranslate"><span class="pre">filter-app-a.cfg</span></code> and forwarded to OpenSearch and HTTP server.</p></li>
+<li><p><strong>LOGSTASH_PIPELINE_APPLICATION_A</strong>: Composes the Logstash pipeline <code class="docutils literal notranslate"><span class="pre">application-a-pipeline</span></code> to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the <code class="docutils literal notranslate"><span class="pre">filter-app-a.cfg</span></code> and forwarded to OpenSearch and HTTP server.</p></li>
+<li><p><strong>LOGSTASH_PIPELINE_APPLICATION_B</strong>: Composes the Logstash pipeline <code class="docutils literal notranslate"><span class="pre">application-b-pipeline</span></code> to receive logs from HTTP, and the logs will be processed by logic defined in the <code class="docutils literal notranslate"><span class="pre">filter-app-b.cfg</span></code> and forwarded to OpenSearch.</p></li>
 </ul>
 <section id="main-advantages">
 <h3>Main Advantages:<a class="headerlink" href="#main-advantages" title="Link to this heading">#</a></h3>
