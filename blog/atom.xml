@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-12T22:25:28.244084+00:00</updated>
+  <updated>2023-11-12T22:30:22.421161+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -73,8 +73,6 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ env&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;LOGSTASH_PIPELINE_APPLICATION_A&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{input-http,input-rabbitmq,filter-app-a,output-opensearch,output-http}&amp;quot;&lt;/span&gt;
 &lt;span class="nv"&gt;LOGSTASH_PIPELINE_APPLICATION_B&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{input-http,filter-app-b,output-opensearch}&amp;quot;&lt;/span&gt;
-
-...
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
