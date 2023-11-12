@@ -2,18 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-12T22:04:33.366463+00:00</updated>
+  <updated>2023-11-12T22:20:29.129797+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
   <entry>
     <id>https://carlosneto.dev/blog/2023/2023-11-02-logstash-modular-pipelines/</id>
-    <title>Logstash Modular Pipelines: A Solution to Avoid Code Duplicated</title>
+    <title>Logstash Modular Pipelines: An Elegant Structure for Effortless Code Reusability and Eliminating Duplication</title>
     <updated>2023-11-12T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2023/11/12&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;section id="logstash-modular-pipelines-a-solution-to-avoid-code-duplicated"&gt;
+&lt;section id="logstash-modular-pipelines-an-elegant-structure-for-effortless-code-reusability-and-eliminating-duplication"&gt;
 
 &lt;p&gt;This blog post explores the structuring of Logstash pipelines to mitigate code duplicated and presents an elegant method for reusing code statements across multiple pipelines.&lt;/p&gt;
 &lt;p&gt;The post provides a clear explanation of the Logstash configuration structure, outlining the problem addressed by modular pipelines. It includes an example configuration and directs readers to a Docker-compose lab for hands-on testing and exploration of the possibilities. Finally, the post concludes with my personal opinion on the effectiveness of this structure.&lt;/p&gt;
