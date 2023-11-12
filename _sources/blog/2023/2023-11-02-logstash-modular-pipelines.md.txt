@@ -28,11 +28,11 @@ The Logstash pipeline configuration is composed of three main statements:
 
 ## The Problem: Scaling Up Pipelines == Growing Code Duplication
 
-When the number of the log pipeline increase, the complexity and code duplicated tends to grow along with it. In simple Application observability needs, pipelines with `input`, `filter`, and `output` configured together in the same file can fit the needs. Otherwise, in complex and big Applications scenarios, like distributed Applications deployed over Kubernetes, some complexity challenges are occurring. One of the main challenges is __code deduplicated avoiding__.
+As the number of log pipelines increases, so does the complexity and tendency for code duplication. For straightforward application observability needs, having pipelines with `input`, `filter`, and `output` configured together in the same file might suffice. However, in complex scenarios involving large applications, such as distributed applications deployed on Kubernetes, various challenges emerge. Among these challenges, one of the most significant is avoiding code duplication.
 
-When you have many applications to process the logs, each one with distinct logical needs, you can create only one pipeline composed with logical condition to use specific process statement based on the source identification field in the events, for example, Tags that identifies the module that generated the event. This approach is good because avoids duplicated of the `input` and `output` configuration, but is bad because creates an overhead in the `filter` statement, and makes it hard to do troubleshooting in the Logstash API metrics to detect the Application process offenders.
+When dealing with multiple applications requiring distinct logic for log processing, one approach is to create a single pipeline with logical conditions determining the specific processing statements based on fields such as Tags, which identify the module generating the event. While this method is advantageous in avoiding duplication of `input` and `output` configurations, it has drawbacks. It introduces overhead in the `filter` statement and complicates troubleshooting in the Logstash API metrics for identifying application process issues.
 
-Another possibility is to create a distinct pipeline, in distinct configuration files, dedicated for each Application. This approach solves the `filter` overhead, but duplicates the `input` and `output`.
+Alternatively, another approach is to establish separate pipelines, each with its own dedicated configuration files for individual applications. While this resolves the `filter` overhead issue, it comes at the cost of duplicating both `input` and `output` configurations.
 
 ## The Solution: Modularize the Pipeline
 
@@ -58,7 +58,7 @@ First step is to create the modules, that is, files with `input`, `filter`, and 
 └── output-http.cfg         # output to forward logs processed to http server
 ```
 
-Next, for each application, configure one with [Environment Variable](https://www.elastic.co/guide/en/logstash/current/environment-variables.html) Logstash notation:
+Next, for each application, configure them with [Environment Variable](https://www.elastic.co/guide/en/logstash/current/environment-variables.html) Logstash notation:
 
 ```{code-block} yaml
 :caption: $ cat /usr/share/logstash/config/pipeline.yml
@@ -70,7 +70,7 @@ Next, for each application, configure one with [Environment Variable](https://ww
   path.config: "/usr/share/logstash/pipeline/${LOGSTASH_PIPELINE_APPLICATION_B}.cfg"
 ```
 
-Finally, the key point of this approach. You will define the pipeline composition based on modules through environment variables. Check the following example:
+Finally, the core aspect of this approach lies in defining the pipeline composition based on modules through the use of environment variables. Consider the following example:
 
 ```{code-block} bash
 :caption: $ env
