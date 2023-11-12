@@ -20,9 +20,9 @@ The Logstash is an amazing tool for crafting robust log pipelines. Several plugi
 
 The Logstash pipeline configuration is composed of three main statements:
 
-- `input`: Define the log ingestion source;
-- `filter`: Define the process, parser, and enrich routines;
-- `output`: Define the external stacks forward integrations post process step.
+- `input`: Define the log ingestion source.
+- `filter`: Define the process, parser, and enrich routines.
+- `output`: Define the forward routines with external stacks.
 
 > _<i class="fa-solid fa-link"></i> More Details: [Logstash - Configuration File Structure](https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure)_
 
@@ -36,12 +36,12 @@ Alternatively, another approach is to establish separate pipelines, each with it
 
 ## The Solution: Modularize the Pipeline
 
-A good way to solve the problems mentioned before is: __modularize the Logstash statements to load them in dedicated Application log pipelines based on needs__.
+A good way to solve the problem mentioned before is __modularize the Logstash main statements to load them in dedicated pipelines based on their needs__.
 
-For this, it is necessary to create `input`, `filter`, and `output` in separate files, and to create dedicated pipelines by Application, and configure them using blob [
+For this, it is necessary to create separate files with only one statements definition (_input_, _filter_, and _output_), create dedicated pipelines for each Application, and configure them using [
 Glob Pattern Support](https://www.elastic.co/guide/en/logstash/current/glob-support.html) and [Environment Variable](https://www.elastic.co/guide/en/logstash/current/environment-variables.html) notation.
 
-The following topic will explain with more details about how to do it.
+The following sub topic will explain with more details about how to do it.
 
 ## Configuration Example
 
@@ -70,7 +70,7 @@ Next, for each application, configure them with [Environment Variable](https://w
   path.config: "/usr/share/logstash/pipeline/${LOGSTASH_PIPELINE_APPLICATION_B}.cfg"
 ```
 
-Finally, the core aspect of this approach lies in defining the pipeline composition based on modules through the use of environment variables. Consider the following example:
+Finally, the core aspect of this approach, define the pipeline composition based on modules through the use of environment variables. Consider the following example:
 
 ```{code-block} bash
 :caption: $ env
@@ -103,9 +103,9 @@ Logstash is a versatile tool for log processing, providing well-configured solut
 
 Understanding Observability requirements is essential for effectively harnessing the tool's features. Occasionally, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.
 
-I have implemented this structure and witnessed significant improvements in maintainability tasks, particularly in the advantages it brings to testing, where I can easily assess my filter logics with minimal cognitive effort (changing a environment variable).
+I have implemented this structure and witnessed significant improvements in maintainability, particularly in the advantages it brings to testing, where I can easily assess my filter logics with minimal cognitive effort (changing a environment variable).
 
-I genuinely appreciate this structure, but it's important to recognize that __every case is unique, and each context presents its own complexity and challenges__. In some instances, I opt against this approach because my primary goal is to simplify maintainability. Therefore, it is advisable to adopt this structure only when addressing a specific existing problem.
+I genuinely appreciate this structure because my primary goal is to simplify maintainability, but it's important to recognize that __every case is unique, and each context presents its own complexity and challenges__. Therefore, only adopt this structure if solve a real and existing code duplication problem and `filter` code is hard to test.
 
 ## References
 
