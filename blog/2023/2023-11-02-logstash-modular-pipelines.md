@@ -66,7 +66,7 @@ Next, for each application, configure them with [Environment Variable](https://w
 - pipeline.id: application-a-pipeline
   path.config: "/usr/share/logstash/pipeline/${LOGSTASH_PIPELINE_APPLICATION_A}.cfg"
 
-- pipeline.id: application-a-pipeline
+- pipeline.id: application-b-pipeline
   path.config: "/usr/share/logstash/pipeline/${LOGSTASH_PIPELINE_APPLICATION_B}.cfg"
 ```
 
@@ -79,9 +79,9 @@ LOGSTASH_PIPELINE_APPLICATION_A="{input-http,input-rabbitmq,filter-app-a,output-
 LOGSTASH_PIPELINE_APPLICATION_B="{input-http,filter-app-b,output-opensearch}"
 ```
 
-- The `LOGSTASH_PIPELINE_APPLICATION_A` environment variable value configures the Logstash pipeline `application-a-pipeline` to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the `filter-app-a.cfg` and forwarded to OpenSearch and HTTP server.
+- __LOGSTASH_PIPELINE_APPLICATION_A__: Composes the Logstash pipeline `application-a-pipeline` to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the `filter-app-a.cfg` and forwarded to OpenSearch and HTTP server.
 
-- The `LOGSTASH_PIPELINE_APPLICATION_B` environment variable value configures the Logstash pipeline `application-b-pipeline` to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the `filter-app-a.cfg` and forwarded to OpenSearch and HTTP server.
+- __LOGSTASH_PIPELINE_APPLICATION_B__: Composes the Logstash pipeline `application-b-pipeline` to receive logs from HTTP, and the logs will be processed by logic defined in the `filter-app-b.cfg` and forwarded to OpenSearch.
 
 ### Main Advantages:
 
