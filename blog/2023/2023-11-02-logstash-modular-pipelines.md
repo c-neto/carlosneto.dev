@@ -8,7 +8,7 @@ category: Observability
 
 ---
 
-# Logstash Modular Pipelines: An Elegant Structure for Effortless Code Reusability and Eliminating Duplication
+# Logstash Modular Pipelines: An Elegant Structure for Code Reusability and Duplication Avoiding
 
 This blog post explores the structuring of Logstash pipelines to mitigate code duplicated and presents an elegant method for reusing code statements across multiple pipelines.
 
