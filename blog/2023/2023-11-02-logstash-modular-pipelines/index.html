@@ -505,16 +505,17 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 </div>
 <ul class="simple">
 <li><p><strong>LOGSTASH_PIPELINE_APPLICATION_A</strong>: Composes the Logstash pipeline <code class="docutils literal notranslate"><span class="pre">application-a-pipeline</span></code> to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the <code class="docutils literal notranslate"><span class="pre">filter-app-a.cfg</span></code> and forwarded to OpenSearch and HTTP server.</p></li>
-<li><p><strong>LOGSTASH_PIPELINE_APPLICATION_B</strong>: Composes the Logstash pipeline <code class="docutils literal notranslate"><span class="pre">application-b-pipeline</span></code> to receive logs from HTTP, and the logs will be processed by logic defined in the <code class="docutils literal notranslate"><span class="pre">filter-app-b.cfg</span></code> and forwarded to OpenSearch.</p></li>
+<li><p><strong>LOGSTASH_PIPELINE_APPLICATION_B</strong>: Composes the Logstash pipeline <code class="docutils literal notranslate"><span class="pre">application-b-pipeline</span></code> to receive logs from HTTP, logs will be processed by logic defined in the <code class="docutils literal notranslate"><span class="pre">filter-app-b.cfg</span></code> and forwarded to OpenSearch.</p></li>
 </ul>
 <section id="main-advantages">
 <h3>Main Advantages:<a class="headerlink" href="#main-advantages" title="Link to this heading">#</a></h3>
 <p>This approach brings the following advantages:</p>
 <ul class="simple">
-<li><p><strong>Reusable Code</strong>: Avoid code duplicated of the <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code> statements, because the pipelines will define which inputs will be used.</p></li>
-<li><p><strong>Decrease Complexity</strong>: Decrease the complexity of the <code class="docutils literal notranslate"><span class="pre">filter</span></code> avoiding long pipeline files with conditional logic based on application.</p></li>
-<li><p><strong>Troubleshooting</strong>: Preserve the troubleshooting and metrics because pipelines are traceable in the logstash metic API.</p></li>
-<li><p><strong>Tests</strong>: Make it easier to test <code class="docutils literal notranslate"><span class="pre">filter</span></code> code because the <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code> changes are simple, and can be changed with a mock log source and output to stdout to check if the logic is working as expected.</p></li>
+<li><p><strong>Avoid Code Duplication</strong>: Avoid code duplicated of the <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code> statements, because the pipelines will define which inputs will be used.</p></li>
+<li><p><strong>Reusable Code</strong>: Allows the <em>import</em> modules in multiple pipelines.</p></li>
+<li><p><strong>Decrease Complexity</strong>: The <code class="docutils literal notranslate"><span class="pre">filter</span></code> code is composed of only the application log parser logic.</p></li>
+<li><p><strong>Troubleshooting</strong>: Preserve the traceable of the pipelines in the logstash metric API.</p></li>
+<li><p><strong>Tests</strong>: Make it easier to test <code class="docutils literal notranslate"><span class="pre">filter</span></code> code because the <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code> modules is simple to change, allowing a configuration of the <em>mock</em> log source as <code class="docutils literal notranslate"><span class="pre">input</span></code> and <em>stdout</em> as a <code class="docutils literal notranslate"><span class="pre">output</span></code> to check if the logic is working as expected.</p></li>
 </ul>
 </section>
 <section id="docker-compose-lab">
