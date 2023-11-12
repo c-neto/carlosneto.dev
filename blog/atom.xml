@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-12T23:42:45.786408+00:00</updated>
+  <updated>2023-11-12T23:46:57.140234+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -101,7 +101,7 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;p&gt;Logstash is a versatile tool for log processing, providing well-configured solutions for both small and large workloads to meet Observability needs. While the Logstash Module structure offers a straightforward approach to mitigate recurring issues in pipeline creation, it is not the exclusive remedy for this challenge.&lt;/p&gt;
 &lt;p&gt;Understanding Observability requirements is essential for effectively harnessing the tool’s features. Occasionally, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.&lt;/p&gt;
 &lt;p&gt;I have implemented this structure and witnessed significant improvements in maintainability, particularly in the advantages it brings to testing, where I can easily assess my filter logics with a simple a environment variable value change.&lt;/p&gt;
-&lt;p&gt;I genuinely appreciate this structure because my primary goal is to simplify maintainability, but it’s important to recognize that &lt;strong&gt;every case is unique, and each context presents its own complexity and challenges&lt;/strong&gt;. Therefore, only adopt this structure if solve a real and existing code duplication problem and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt; code is hard to test.&lt;/p&gt;
+&lt;p&gt;I genuinely appreciate this structure because my primary goal is to simplify and make it easier the maintainability, but it’s important to recognize that &lt;strong&gt;every case is unique, and each context presents its own complexity and challenges&lt;/strong&gt;. Therefore, only adopt this structure if solves a real and existing code duplication problem and the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt; code is hard to test.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="references"&gt;
 &lt;h2&gt;References&lt;/h2&gt;
