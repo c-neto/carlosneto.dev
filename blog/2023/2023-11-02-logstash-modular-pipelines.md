@@ -81,16 +81,17 @@ LOGSTASH_PIPELINE_APPLICATION_B="{input-http,filter-app-b,output-opensearch}"
 
 - __LOGSTASH_PIPELINE_APPLICATION_A__: Composes the Logstash pipeline `application-a-pipeline` to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the `filter-app-a.cfg` and forwarded to OpenSearch and HTTP server.
 
-- __LOGSTASH_PIPELINE_APPLICATION_B__: Composes the Logstash pipeline `application-b-pipeline` to receive logs from HTTP, and the logs will be processed by logic defined in the `filter-app-b.cfg` and forwarded to OpenSearch.
+- __LOGSTASH_PIPELINE_APPLICATION_B__: Composes the Logstash pipeline `application-b-pipeline` to receive logs from HTTP, logs will be processed by logic defined in the `filter-app-b.cfg` and forwarded to OpenSearch.
 
 ### Main Advantages:
 
 This approach brings the following advantages:
 
-- __Reusable Code__: Avoid code duplicated of the `input` and `output` statements, because the pipelines will define which inputs will be used.
-- __Decrease Complexity__: Decrease the complexity of the `filter` avoiding long pipeline files with conditional logic based on application.
-- __Troubleshooting__: Preserve the troubleshooting and metrics because pipelines are traceable in the logstash metic API.
-- __Tests__: Make it easier to test `filter` code because the `input` and `output` changes are simple, and can be changed with a mock log source and output to stdout to check if the logic is working as expected.
+- __Avoid Code Duplication__: Avoid code duplicated of the `input` and `output` statements, because the pipelines will define which inputs will be used.
+- __Reusable Code__: Allows the _import_ modules in multiple pipelines.
+- __Decrease Complexity__: The `filter` code is composed of only the application log parser logic.
+- __Troubleshooting__: Preserve the traceable of the pipelines in the logstash metric API.
+- __Tests__: Make it easier to test `filter` code because the `input` and `output` modules is simple to change, allowing a configuration of the _mock_ log source as `input` and _stdout_ as a `output` to check if the logic is working as expected.
 
 ### Docker Compose Lab
 
