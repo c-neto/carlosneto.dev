@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-12T21:57:58.208837+00:00</updated>
+  <updated>2023-11-12T21:58:57.575067+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -48,12 +48,12 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;p&gt;First step is to create the modules, that is, files with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt;, and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; in separate files each one focused on their specifics and atomic needs.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ tree /usr/share/logstash/pipeline/&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;filter-app-a.cfg&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# filter of the application-a logic parser&lt;/span&gt;
-├──&lt;span class="w"&gt; &lt;/span&gt;filter-app-b.cfg&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# filter of the application-b logic parser&lt;/span&gt;
-├──&lt;span class="w"&gt; &lt;/span&gt;input-http.cfg&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# input to receive logs from http protocol&lt;/span&gt;
-├──&lt;span class="w"&gt; &lt;/span&gt;input-rabbitmq.cfg&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# input to receive logs from rabbitmq rabbit&lt;/span&gt;
-├──&lt;span class="w"&gt; &lt;/span&gt;output-opensearch.cfg&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# output to forward logs processed to opensearch server &lt;/span&gt;
-└──&lt;span class="w"&gt; &lt;/span&gt;output-http.cfg&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# output to forward logs processed to http server&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;filter-app-a.cfg&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# filter of the application-a logic parser&lt;/span&gt;
+├──&lt;span class="w"&gt; &lt;/span&gt;filter-app-b.cfg&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# filter of the application-b logic parser&lt;/span&gt;
+├──&lt;span class="w"&gt; &lt;/span&gt;input-http.cfg&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# input to receive logs from http protocol&lt;/span&gt;
+├──&lt;span class="w"&gt; &lt;/span&gt;input-rabbitmq.cfg&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# input to receive logs from rabbitmq rabbit&lt;/span&gt;
+├──&lt;span class="w"&gt; &lt;/span&gt;output-opensearch.cfg&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# output to forward logs processed to opensearch server &lt;/span&gt;
+└──&lt;span class="w"&gt; &lt;/span&gt;output-http.cfg&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# output to forward logs processed to http server&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -73,6 +73,8 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ env&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;LOGSTASH_PIPELINE_APPLICATION_A&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{input-http,input-rabbitmq,filter-app-a,output-opensearch,output-http}&amp;quot;&lt;/span&gt;
 &lt;span class="nv"&gt;LOGSTASH_PIPELINE_APPLICATION_B&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{input-http,filter-app-b,output-opensearch}&amp;quot;&lt;/span&gt;
+
+...
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

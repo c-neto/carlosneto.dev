@@ -50,12 +50,12 @@ First step is to create the modules, that is, files with `input`, `filter`, and 
 ```{code-block} bash
 :caption: $ tree /usr/share/logstash/pipeline/
 
-├── filter-app-a.cfg      # filter of the application-a logic parser
-├── filter-app-b.cfg      # filter of the application-b logic parser
-├── input-http.cfg        # input to receive logs from http protocol
-├── input-rabbitmq.cfg    # input to receive logs from rabbitmq rabbit
-├── output-opensearch.cfg # output to forward logs processed to opensearch server 
-└── output-http.cfg       # output to forward logs processed to http server
+├── filter-app-a.cfg        # filter of the application-a logic parser
+├── filter-app-b.cfg        # filter of the application-b logic parser
+├── input-http.cfg          # input to receive logs from http protocol
+├── input-rabbitmq.cfg      # input to receive logs from rabbitmq rabbit
+├── output-opensearch.cfg   # output to forward logs processed to opensearch server 
+└── output-http.cfg         # output to forward logs processed to http server
 ```
 
 Next, for each application, configure one with [Environment Variable](https://www.elastic.co/guide/en/logstash/current/environment-variables.html) Logstash notation:
@@ -77,6 +77,8 @@ Finally, the key point of this approach. You will define the pipeline compositio
 
 LOGSTASH_PIPELINE_APPLICATION_A="{input-http,input-rabbitmq,filter-app-a,output-opensearch,output-http}"
 LOGSTASH_PIPELINE_APPLICATION_B="{input-http,filter-app-b,output-opensearch}"
+
+...
 ```
 
 - The `LOGSTASH_PIPELINE_APPLICATION_A` environment variable value configures the Logstash pipeline `application-a-pipeline` to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the `filter-app-a.cfg` and forwarded to OpenSearch and HTTP server.

@@ -475,12 +475,12 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 <p>First step is to create the modules, that is, files with <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> in separate files each one focused on their specifics and atomic needs.</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">$ tree /usr/share/logstash/pipeline/</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>├──<span class="w"> </span>filter-app-a.cfg<span class="w">      </span><span class="c1"># filter of the application-a logic parser</span>
-├──<span class="w"> </span>filter-app-b.cfg<span class="w">      </span><span class="c1"># filter of the application-b logic parser</span>
-├──<span class="w"> </span>input-http.cfg<span class="w">        </span><span class="c1"># input to receive logs from http protocol</span>
-├──<span class="w"> </span>input-rabbitmq.cfg<span class="w">    </span><span class="c1"># input to receive logs from rabbitmq rabbit</span>
-├──<span class="w"> </span>output-opensearch.cfg<span class="w"> </span><span class="c1"># output to forward logs processed to opensearch server </span>
-└──<span class="w"> </span>output-http.cfg<span class="w">       </span><span class="c1"># output to forward logs processed to http server</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>├──<span class="w"> </span>filter-app-a.cfg<span class="w">        </span><span class="c1"># filter of the application-a logic parser</span>
+├──<span class="w"> </span>filter-app-b.cfg<span class="w">        </span><span class="c1"># filter of the application-b logic parser</span>
+├──<span class="w"> </span>input-http.cfg<span class="w">          </span><span class="c1"># input to receive logs from http protocol</span>
+├──<span class="w"> </span>input-rabbitmq.cfg<span class="w">      </span><span class="c1"># input to receive logs from rabbitmq rabbit</span>
+├──<span class="w"> </span>output-opensearch.cfg<span class="w">   </span><span class="c1"># output to forward logs processed to opensearch server </span>
+└──<span class="w"> </span>output-http.cfg<span class="w">         </span><span class="c1"># output to forward logs processed to http server</span>
 </pre></div>
 </div>
 </div>
@@ -500,6 +500,8 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 <div class="code-block-caption"><span class="caption-text">$ env</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">LOGSTASH_PIPELINE_APPLICATION_A</span><span class="o">=</span><span class="s2">&quot;{input-http,input-rabbitmq,filter-app-a,output-opensearch,output-http}&quot;</span>
 <span class="nv">LOGSTASH_PIPELINE_APPLICATION_B</span><span class="o">=</span><span class="s2">&quot;{input-http,filter-app-b,output-opensearch}&quot;</span>
+
+...
 </pre></div>
 </div>
 </div>
