@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-12T23:32:59.010050+00:00</updated>
+  <updated>2023-11-12T23:41:24.327915+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -22,9 +22,9 @@
 &lt;p&gt;The Logstash is an amazing tool for crafting robust log pipelines. Several plugins empower the ingestion, process, enrich, and output integration with external stacks. The pipelines are created using Logstash Configuration DSL (&lt;em&gt;Domain-Specific Language&lt;/em&gt;), a high-level configuration language designed to be efficient and flexible, and focused on Log Pipeline needs.&lt;/p&gt;
 &lt;p&gt;The Logstash pipeline configuration is composed of three main statements:&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt;: Define the log ingestion source;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt;: Define the process, parser, and enrich routines;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt;: Define the external stacks forward integrations post process step.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt;: Define the log ingestion source.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt;: Define the process, parser, and enrich routines.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt;: Define the forward routines with external stacks.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; More Details: &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure"&gt;Logstash - Configuration File Structure&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
@@ -38,10 +38,10 @@
 &lt;/section&gt;
 &lt;section id="the-solution-modularize-the-pipeline"&gt;
 &lt;h2&gt;The Solution: Modularize the Pipeline&lt;/h2&gt;
-&lt;p&gt;A good way to solve the problems mentioned before is: &lt;strong&gt;modularize the Logstash statements to load them in dedicated Application log pipelines based on needs&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;For this, it is necessary to create &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt;, and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; in separate files, and to create dedicated pipelines by Application, and configure them using blob &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html"&gt;
+&lt;p&gt;A good way to solve the problem mentioned before is &lt;strong&gt;modularize the Logstash main statements to load them in dedicated pipelines based on their needs&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;For this, it is necessary to create separate files with only one statements definition (&lt;em&gt;input&lt;/em&gt;, &lt;em&gt;filter&lt;/em&gt;, and &lt;em&gt;output&lt;/em&gt;), create dedicated pipelines for each Application, and configure them using &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html"&gt;
 Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html"&gt;Environment Variable&lt;/a&gt; notation.&lt;/p&gt;
-&lt;p&gt;The following topic will explain with more details about how to do it.&lt;/p&gt;
+&lt;p&gt;The following sub topic will explain with more details about how to do it.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="configuration-example"&gt;
 &lt;h2&gt;Configuration Example&lt;/h2&gt;
@@ -68,7 +68,7 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Finally, the core aspect of this approach lies in defining the pipeline composition based on modules through the use of environment variables. Consider the following example:&lt;/p&gt;
+&lt;p&gt;Finally, the core aspect of this approach, define the pipeline composition based on modules through the use of environment variables. Consider the following example:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ env&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;LOGSTASH_PIPELINE_APPLICATION_A&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{input-http,input-rabbitmq,filter-app-a,output-opensearch,output-http}&amp;quot;&lt;/span&gt;
@@ -100,8 +100,8 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
 &lt;p&gt;Logstash is a versatile tool for log processing, providing well-configured solutions for both small and large workloads to meet Observability needs. While the Logstash Module structure offers a straightforward approach to mitigate recurring issues in pipeline creation, it is not the exclusive remedy for this challenge.&lt;/p&gt;
 &lt;p&gt;Understanding Observability requirements is essential for effectively harnessing the tool’s features. Occasionally, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.&lt;/p&gt;
-&lt;p&gt;I have implemented this structure and witnessed significant improvements in maintainability tasks, particularly in the advantages it brings to testing, where I can easily assess my filter logics with minimal cognitive effort (changing a environment variable).&lt;/p&gt;
-&lt;p&gt;I genuinely appreciate this structure, but it’s important to recognize that &lt;strong&gt;every case is unique, and each context presents its own complexity and challenges&lt;/strong&gt;. In some instances, I opt against this approach because my primary goal is to simplify maintainability. Therefore, it is advisable to adopt this structure only when addressing a specific existing problem.&lt;/p&gt;
+&lt;p&gt;I have implemented this structure and witnessed significant improvements in maintainability, particularly in the advantages it brings to testing, where I can easily assess my filter logics with minimal cognitive effort (changing a environment variable).&lt;/p&gt;
+&lt;p&gt;I genuinely appreciate this structure because my primary goal is to simplify maintainability, but it’s important to recognize that &lt;strong&gt;every case is unique, and each context presents its own complexity and challenges&lt;/strong&gt;. Therefore, only adopt this structure if solve a real and existing code duplication problem and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt; code is hard to test.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="references"&gt;
 &lt;h2&gt;References&lt;/h2&gt;

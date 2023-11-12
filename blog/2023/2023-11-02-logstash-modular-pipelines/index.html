@@ -449,9 +449,9 @@ document.write(`
 <p>The Logstash is an amazing tool for crafting robust log pipelines. Several plugins empower the ingestion, process, enrich, and output integration with external stacks. The pipelines are created using Logstash Configuration DSL (<em>Domain-Specific Language</em>), a high-level configuration language designed to be efficient and flexible, and focused on Log Pipeline needs.</p>
 <p>The Logstash pipeline configuration is composed of three main statements:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">input</span></code>: Define the log ingestion source;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">filter</span></code>: Define the process, parser, and enrich routines;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">output</span></code>: Define the external stacks forward integrations post process step.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input</span></code>: Define the log ingestion source.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filter</span></code>: Define the process, parser, and enrich routines.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output</span></code>: Define the forward routines with external stacks.</p></li>
 </ul>
 <blockquote>
 <div><p><em><i class="fa-solid fa-link"></i> More Details: <a class="reference external" href="https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure">Logstash - Configuration File Structure</a></em></p>
@@ -465,10 +465,10 @@ document.write(`
 </section>
 <section id="the-solution-modularize-the-pipeline">
 <h2>The Solution: Modularize the Pipeline<a class="headerlink" href="#the-solution-modularize-the-pipeline" title="Link to this heading">#</a></h2>
-<p>A good way to solve the problems mentioned before is: <strong>modularize the Logstash statements to load them in dedicated Application log pipelines based on needs</strong>.</p>
-<p>For this, it is necessary to create <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> in separate files, and to create dedicated pipelines by Application, and configure them using blob <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html">
+<p>A good way to solve the problem mentioned before is <strong>modularize the Logstash main statements to load them in dedicated pipelines based on their needs</strong>.</p>
+<p>For this, it is necessary to create separate files with only one statements definition (<em>input</em>, <em>filter</em>, and <em>output</em>), create dedicated pipelines for each Application, and configure them using <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html">
 Glob Pattern Support</a> and <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html">Environment Variable</a> notation.</p>
-<p>The following topic will explain with more details about how to do it.</p>
+<p>The following sub topic will explain with more details about how to do it.</p>
 </section>
 <section id="configuration-example">
 <h2>Configuration Example<a class="headerlink" href="#configuration-example" title="Link to this heading">#</a></h2>
@@ -495,7 +495,7 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 </pre></div>
 </div>
 </div>
-<p>Finally, the core aspect of this approach lies in defining the pipeline composition based on modules through the use of environment variables. Consider the following example:</p>
+<p>Finally, the core aspect of this approach, define the pipeline composition based on modules through the use of environment variables. Consider the following example:</p>
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text">$ env</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">LOGSTASH_PIPELINE_APPLICATION_A</span><span class="o">=</span><span class="s2">&quot;{input-http,input-rabbitmq,filter-app-a,output-opensearch,output-http}&quot;</span>
@@ -527,8 +527,8 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 <h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
 <p>Logstash is a versatile tool for log processing, providing well-configured solutions for both small and large workloads to meet Observability needs. While the Logstash Module structure offers a straightforward approach to mitigate recurring issues in pipeline creation, it is not the exclusive remedy for this challenge.</p>
 <p>Understanding Observability requirements is essential for effectively harnessing the tool’s features. Occasionally, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.</p>
-<p>I have implemented this structure and witnessed significant improvements in maintainability tasks, particularly in the advantages it brings to testing, where I can easily assess my filter logics with minimal cognitive effort (changing a environment variable).</p>
-<p>I genuinely appreciate this structure, but it’s important to recognize that <strong>every case is unique, and each context presents its own complexity and challenges</strong>. In some instances, I opt against this approach because my primary goal is to simplify maintainability. Therefore, it is advisable to adopt this structure only when addressing a specific existing problem.</p>
+<p>I have implemented this structure and witnessed significant improvements in maintainability, particularly in the advantages it brings to testing, where I can easily assess my filter logics with minimal cognitive effort (changing a environment variable).</p>
+<p>I genuinely appreciate this structure because my primary goal is to simplify maintainability, but it’s important to recognize that <strong>every case is unique, and each context presents its own complexity and challenges</strong>. Therefore, only adopt this structure if solve a real and existing code duplication problem and <code class="docutils literal notranslate"><span class="pre">filter</span></code> code is hard to test.</p>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
