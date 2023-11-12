@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta property="og:title" content="Git Overview" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/in-progress/2021-05-01-git-overview/" />
@@ -30,39 +29,36 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=b0aa92a3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
-  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/clipboard.min.js"></script>
-    <script src="../../_static/copybutton.js"></script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'in-progress/2021-05-01-git-overview';</script>
-    <link rel="shortcut icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../genindex/" />
     <link rel="search" title="Search" href="../../search/" />
 
@@ -142,6 +138,7 @@
   
 
 <a class="navbar-brand logo" href="../../">
+  
   
   
   
@@ -400,7 +397,7 @@ document.write(`
 <p><em><strong>Blog Post Publish Date:</strong> 2021/05/01</em></p>
 <hr class="docutils" />
 <section id="git-overview">
-<h1>Git Overview<a class="headerlink" href="#git-overview" title="Permalink to this heading">#</a></h1>
+<h1>Git Overview<a class="headerlink" href="#git-overview" title="Link to this heading">#</a></h1>
 <p>Git is a <a class="reference external" href="https://en.wikipedia.org/wiki/Version_control">Version Control System</a>, designed to manage digital file content development flows in an objective, productive, performant, and distributed manner. Its usage is broad, spanning across both OpenSource and Enterprise projects, especially those developed collaboratively. Currently, the predominant languages in its source code are C, Shell, and Perl, which are accessible on GitHub <a class="github reference external" href="https://github.com/git/git">git/git</a>.</p>
 <p>Due to its features, it’s not wrong to associate Git with the following technology definition acronyms:</p>
 <ul class="simple">
@@ -413,7 +410,7 @@ document.write(`
 <div><p>However, it’s important to understand that Git is not strictly limited to any single acronym; the associations made are based on the context in which it exists.</p>
 </div></blockquote>
 <section id="a-bit-of-history">
-<h2>A Bit of History<a class="headerlink" href="#a-bit-of-history" title="Permalink to this heading">#</a></h2>
+<h2>A Bit of History<a class="headerlink" href="#a-bit-of-history" title="Link to this heading">#</a></h2>
 <p>Git originated from the development of the Linux Kernel. During the years from 1991 to 2002, changes made to the Kernel’s source code were mostly sent via email as attachments of <a class="reference external" href="https://en.wikipedia.org/wiki/Tar_(computing)">tarballs</a>. Although this process may seem archaic and unproductive, in the view of Linus Torvalds, the creator and maintainer of Linux, it was better than using existing market VCS solutions. The patches were received by Linus, and he manually controlled the flow of contributions. As time went on and collaboration volume and complexity increased, this control flow became unmanageable, necessitating the presence of a Distributed File Versioning System, commonly referred to as <a class="reference external" href="https://en.wikipedia.org/wiki/Distributed_version_control">DVSC - <em>Distributed Version Control</em></a>.</p>
 <p>In 2002, the proprietary <strong>DVSC</strong> technology <a class="reference external" href="http://www.bitkeeper.org/">BitKeeper</a> was adopted to control Linux’s source code. In 2005, the company that developed BitKeeper removed the free access rights to the tool. This, combined with the tool’s limitations, led the Linux development community to discontinue its use. No alternative solutions in the market were satisfactory, especially in terms of performance when merging contributions into the code. This led the Linux developer community, especially Linus himself, to create a solution with the following goals:</p>
 <ul class="simple">
@@ -426,7 +423,7 @@ document.write(`
 <p>Today, it is the primary version control tool, dominant in OpenSource projects.</p>
 </section>
 <section id="characteristics">
-<h2>Characteristics<a class="headerlink" href="#characteristics" title="Permalink to this heading">#</a></h2>
+<h2>Characteristics<a class="headerlink" href="#characteristics" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><strong>Availability</strong>:</p></li>
 </ul>
@@ -447,7 +444,7 @@ document.write(`
 <p>This format prevents redundancy and enables benefits like efficient and performant branching and conflict controls.</p>
 </section>
 <section id="understanding-status-states-change-commands">
-<h2>Understanding Status States Change Commands<a class="headerlink" href="#understanding-status-states-change-commands" title="Permalink to this heading">#</a></h2>
+<h2>Understanding Status States Change Commands<a class="headerlink" href="#understanding-status-states-change-commands" title="Link to this heading">#</a></h2>
 <p>In Git, a file can exist in three main <strong>areas</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Working</span> <span class="pre">Directory</span></code>: Not indexed in the local base;</p></li>
@@ -506,24 +503,24 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="understanding-remote-and-local-repositories">
-<h2>Understanding Remote and Local Repositories<a class="headerlink" href="#understanding-remote-and-local-repositories" title="Permalink to this heading">#</a></h2>
+<h2>Understanding Remote and Local Repositories<a class="headerlink" href="#understanding-remote-and-local-repositories" title="Link to this heading">#</a></h2>
 <p>In the world of Git, comprehending the distinction between a local repository and a remote repository is pivotal. Let’s embark on a journey to uncover the nuances through some common Git commands that underscore these differences.</p>
 <section id="local-repository">
-<h3>Local Repository<a class="headerlink" href="#local-repository" title="Permalink to this heading">#</a></h3>
+<h3>Local Repository<a class="headerlink" href="#local-repository" title="Link to this heading">#</a></h3>
 <p>A <strong>local repository</strong> is your copy of a Git project that resides on your computer. When you clone a repository or create a new one on your machine, you are essentially establishing a local repository. This local copy includes all the project’s files, the complete history of commits, branches, tags, and more.</p>
 <p>The local repository is where you do your work, make changes, create new features, fix bugs, and perform other tasks. It allows you to experiment freely without affecting the main project until you’re ready to share your changes.</p>
 </section>
 <section id="remote-repository">
-<h3>Remote Repository<a class="headerlink" href="#remote-repository" title="Permalink to this heading">#</a></h3>
+<h3>Remote Repository<a class="headerlink" href="#remote-repository" title="Link to this heading">#</a></h3>
 <p>On the other hand, a <strong>remote repository</strong> exists on a server, often on a platform like GitHub, GitLab, or Bitbucket. It serves as the centralized hub where the entire project is hosted. Remote repositories allow for collaboration and act as a shared space where multiple contributors can push their changes, ensuring a centralized version of the project.</p>
 <p>Remote repositories are excellent for team collaboration, enabling contributors to work on the same codebase simultaneously. When you want to share your local changes with others or integrate changes made by fellow contributors, you interact with the remote repository.</p>
 <p>Now, let’s explore some fundamental Git commands that facilitate the interaction between your local repository and the remote repository.</p>
 </section>
 <section id="remote-operation-commands">
-<h3>Remote Operation Commands<a class="headerlink" href="#remote-operation-commands" title="Permalink to this heading">#</a></h3>
+<h3>Remote Operation Commands<a class="headerlink" href="#remote-operation-commands" title="Link to this heading">#</a></h3>
 <p>These commands are crucial for interacting with remote repositories.</p>
 <section id="cloning-a-remote-repository">
-<h4>Cloning a Remote Repository<a class="headerlink" href="#cloning-a-remote-repository" title="Permalink to this heading">#</a></h4>
+<h4>Cloning a Remote Repository<a class="headerlink" href="#cloning-a-remote-repository" title="Link to this heading">#</a></h4>
 <p>To create a local copy of a project hosted on a remote server, we use the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> command. It not only fetches the project’s content but also the versioning database (<code class="docutils literal notranslate"><span class="pre">.git</span></code> directory).</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>&lt;PROJECT-URL&gt;
 </pre></div>
@@ -531,7 +528,7 @@ document.write(`
 <p>When we clone a repository, we essentially obtain a complete copy, including all the commit history and the ability to track changes.</p>
 </section>
 <section id="synchronizing-with-external-references">
-<h4>Synchronizing with External References<a class="headerlink" href="#synchronizing-with-external-references" title="Permalink to this heading">#</a></h4>
+<h4>Synchronizing with External References<a class="headerlink" href="#synchronizing-with-external-references" title="Link to this heading">#</a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span></code> command is used to synchronize the local versioning base with new branches and tags created after the project’s clone.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch
 </pre></div>
@@ -539,7 +536,7 @@ document.write(`
 <p>This ensures that our local repository is up-to-date with the latest changes from the remote repository. However, it does not integrate these changes into our working directory.</p>
 </section>
 <section id="associating-the-local-base-with-a-remote-repository">
-<h4>Associating the Local Base with a Remote Repository<a class="headerlink" href="#associating-the-local-base-with-a-remote-repository" title="Permalink to this heading">#</a></h4>
+<h4>Associating the Local Base with a Remote Repository<a class="headerlink" href="#associating-the-local-base-with-a-remote-repository" title="Link to this heading">#</a></h4>
 <p>To link our local repository with a remote repository, we use the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">remote</span> <span class="pre">add</span></code> command.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>&lt;REMOTE-REPOSITORY-ALIAS&gt;<span class="w"> </span>&lt;REMOTE-REPOSITORY-URL&gt;
 </pre></div>
@@ -547,7 +544,7 @@ document.write(`
 <p>Here, <REMOTE-REPOSITORY-ALIAS> is an alias to associate with the external repository. Conventionally, ‘origin’ is used for the main external repository, but we can link to multiple external repositories.</p>
 </section>
 <section id="pushing-changes-to-a-remote-repository">
-<h4>Pushing Changes to a Remote Repository<a class="headerlink" href="#pushing-changes-to-a-remote-repository" title="Permalink to this heading">#</a></h4>
+<h4>Pushing Changes to a Remote Repository<a class="headerlink" href="#pushing-changes-to-a-remote-repository" title="Link to this heading">#</a></h4>
 <p>When we want to send our committed changes from the local base to the remote repository, we use the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span></code> command.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>&lt;REMOTE-REPOSITORY-ALIAS&gt;<span class="w"> </span>&lt;BRANCH-NAME&gt;
 </pre></div>
@@ -555,7 +552,7 @@ document.write(`
 <p>This command transfers the changes in the ‘Commited’ state to the specified remote repository.</p>
 </section>
 <section id="pulling-changes-from-a-remote-repository">
-<h4>Pulling Changes from a Remote Repository<a class="headerlink" href="#pulling-changes-from-a-remote-repository" title="Permalink to this heading">#</a></h4>
+<h4>Pulling Changes from a Remote Repository<a class="headerlink" href="#pulling-changes-from-a-remote-repository" title="Link to this heading">#</a></h4>
 <p>To fetch changes from a remote repository and integrate them into our local base, we use the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> command.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>main
 </pre></div>
@@ -615,8 +612,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -634,7 +631,7 @@ document.write(`
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     <br/>
   </p>
 </div>
@@ -646,7 +643,7 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
 </p></div>
       
     </div>

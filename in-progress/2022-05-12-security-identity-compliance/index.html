@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta property="og:title" content="Mastering AWS Identity and Access Management (IAM): A Comprehensive Guide" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/in-progress/2022-05-12-security-identity-compliance/" />
@@ -30,39 +29,36 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=b0aa92a3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
-  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/clipboard.min.js"></script>
-    <script src="../../_static/copybutton.js"></script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'in-progress/2022-05-12-security-identity-compliance';</script>
-    <link rel="shortcut icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../genindex/" />
     <link rel="search" title="Search" href="../../search/" />
 
@@ -142,6 +138,7 @@
   
 
 <a class="navbar-brand logo" href="../../">
+  
   
   
   
@@ -400,39 +397,39 @@ document.write(`
 <p><em><strong>Blog Post Publish Date:</strong> 2022/05/12</em></p>
 <hr class="docutils" />
 <section id="mastering-aws-identity-and-access-management-iam-a-comprehensive-guide">
-<h1>Mastering AWS Identity and Access Management (IAM): A Comprehensive Guide<a class="headerlink" href="#mastering-aws-identity-and-access-management-iam-a-comprehensive-guide" title="Permalink to this heading">#</a></h1>
+<h1>Mastering AWS Identity and Access Management (IAM): A Comprehensive Guide<a class="headerlink" href="#mastering-aws-identity-and-access-management-iam-a-comprehensive-guide" title="Link to this heading">#</a></h1>
 <p>In the dynamic realm of Amazon Web Services (AWS), managing user access and permissions is paramount for maintaining a secure and efficient cloud environment. AWS Identity and Access Management (IAM) is a fundamental AWS service dedicated to orchestrating user access and permission protocols. In this blog post, we will delve into the intricate world of IAM, covering essential concepts and best practices for effective user and permission management.</p>
 <section id="understanding-iam-a-crucial-aws-service">
-<h2>Understanding IAM: A Crucial AWS Service<a class="headerlink" href="#understanding-iam-a-crucial-aws-service" title="Permalink to this heading">#</a></h2>
+<h2>Understanding IAM: A Crucial AWS Service<a class="headerlink" href="#understanding-iam-a-crucial-aws-service" title="Link to this heading">#</a></h2>
 <p>AWS Identity and Access Management (IAM) is the linchpin for governing user access and permissions within an AWS account. It provides a comprehensive framework to define and manage the actions and permissions of users, ensuring secure and controlled interactions with AWS resources.</p>
 </section>
 <section id="iam-and-organization-scp-defining-user-permissions-and-conditions">
-<h2>IAM and Organization SCP: Defining User Permissions and Conditions<a class="headerlink" href="#iam-and-organization-scp-defining-user-permissions-and-conditions" title="Permalink to this heading">#</a></h2>
+<h2>IAM and Organization SCP: Defining User Permissions and Conditions<a class="headerlink" href="#iam-and-organization-scp-defining-user-permissions-and-conditions" title="Link to this heading">#</a></h2>
 <p>IAM, in conjunction with Service Control Policies (SCPs) within AWS Organizations, establishes the groundwork for delineating users’ permissions and action conditions within an AWS account. This integration empowers organizations to maintain granular control over their AWS resources.</p>
 </section>
 <section id="root-account-vs-iam-users-discerning-the-difference">
-<h2>Root Account vs. IAM Users: Discerning the Difference<a class="headerlink" href="#root-account-vs-iam-users-discerning-the-difference" title="Permalink to this heading">#</a></h2>
+<h2>Root Account vs. IAM Users: Discerning the Difference<a class="headerlink" href="#root-account-vs-iam-users-discerning-the-difference" title="Link to this heading">#</a></h2>
 <p>The Root Account, often referred to as the Master Account, is distinct from IAM users. IAM users are created to represent employees and integration service accounts, while the Root Account holds a more privileged and powerful role within the AWS ecosystem.</p>
 </section>
 <section id="best-practices-account-structure-and-access-management">
-<h2>Best Practices: Account Structure and Access Management<a class="headerlink" href="#best-practices-account-structure-and-access-management" title="Permalink to this heading">#</a></h2>
+<h2>Best Practices: Account Structure and Access Management<a class="headerlink" href="#best-practices-account-structure-and-access-management" title="Link to this heading">#</a></h2>
 <p>A best practice is to establish a singular account for identity purposes and utilize policies to switch roles, enabling access to specific accounts. Avoid using the Root Account for operational purposes due to its heightened privileges, and implement Dual-custody Authentication for safeguarding the Root and Master Account passwords.</p>
 </section>
 <section id="efficient-management-through-iam-services">
-<h2>Efficient Management through IAM Services<a class="headerlink" href="#efficient-management-through-iam-services" title="Permalink to this heading">#</a></h2>
+<h2>Efficient Management through IAM Services<a class="headerlink" href="#efficient-management-through-iam-services" title="Link to this heading">#</a></h2>
 <p>IAM offers a host of capabilities, including the creation of custom policies, groups, and users. Implementing user tags and leveraging specific naming conventions, such as ‘svc-*’ for service integration users, streamlines user identification and management.</p>
 </section>
 <section id="fine-tuning-permissions-access-types-and-options">
-<h2>Fine-tuning Permissions: Access Types and Options<a class="headerlink" href="#fine-tuning-permissions-access-types-and-options" title="Permalink to this heading">#</a></h2>
+<h2>Fine-tuning Permissions: Access Types and Options<a class="headerlink" href="#fine-tuning-permissions-access-types-and-options" title="Link to this heading">#</a></h2>
 <p>Understanding the two access types—Programmatic Access and AWS Management Console Access—is crucial for setting up permissions effectively. Employing predefined policies like ReadOnlyAccess and FullAccess can simplify the process of assigning permissions and subsequent downgrades.</p>
 </section>
 <section id="harnessing-the-power-of-roles-for-aws-resource-communication">
-<h2>Harnessing the Power of Roles for AWS Resource Communication<a class="headerlink" href="#harnessing-the-power-of-roles-for-aws-resource-communication" title="Permalink to this heading">#</a></h2>
+<h2>Harnessing the Power of Roles for AWS Resource Communication<a class="headerlink" href="#harnessing-the-power-of-roles-for-aws-resource-communication" title="Link to this heading">#</a></h2>
 <p>Roles serve as a pivotal mechanism for enabling communication between AWS resources, enhancing the efficiency and functionality of the AWS ecosystem.</p>
 <p>In this blog post, we’ve unraveled key aspects of AWS IAM, shedding light on its significance in securing and managing AWS resources effectively. Stay tuned for our upcoming posts, where we’ll explore advanced IAM features and delve into practical implementation strategies.</p>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>AWS IAM Best Practices: <a class="reference external" href="https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html">https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html</a></p></li>
 <li><p>Access keys best practices: <a class="reference external" href="https://medium.com/&#64;ashishrajan/aws-security-best-practices-access-keys-cloudsecurity-facb20aa0db6">https://medium.com/&#64;ashishrajan/aws-security-best-practices-access-keys-cloudsecurity-facb20aa0db6</a></p></li>
@@ -490,8 +487,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -509,7 +506,7 @@ document.write(`
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     <br/>
   </p>
 </div>
@@ -521,7 +518,7 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
 </p></div>
       
     </div>

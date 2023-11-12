@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta property="og:title" content="Git Clients Benchmarking: CLI vs. Graphical Interfaces" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2023/2023-10-19-git-cli-gui/" />
@@ -30,39 +29,36 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
 
   
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=b0aa92a3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
-  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2023/2023-10-19-git-cli-gui';</script>
-    <link rel="shortcut icon" href="../../../_static/profile-color-circle-small.png"/>
+    <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../../genindex/" />
     <link rel="search" title="Search" href="../../../search/" />
 
@@ -142,6 +138,7 @@
   
 
 <a class="navbar-brand logo" href="../../../">
+  
   
   
   
@@ -397,6 +394,12 @@ document.write(`
   
   
   <li>
+    <a href="../2023-11-02-logstash/">
+      12 November - Logstash Modular Pipelines: A Solution to Avoid Code Duplication
+    </a>
+  </li>
+  
+  <li>
     <a href="../2023-10-21-cloud-concepts/">
       21 October - Cloud Computing: Overview and Concepts
     </a>
@@ -434,12 +437,12 @@ document.write(`
 <p><em><strong>Blog Post Publish Date:</strong> 2023/10/19</em></p>
 <hr class="docutils" />
 <section id="git-clients-benchmarking-cli-vs-graphical-interfaces">
-<h1>Git Clients Benchmarking: CLI vs. Graphical Interfaces<a class="headerlink" href="#git-clients-benchmarking-cli-vs-graphical-interfaces" title="Permalink to this heading">#</a></h1>
+<h1>Git Clients Benchmarking: CLI vs. Graphical Interfaces<a class="headerlink" href="#git-clients-benchmarking-cli-vs-graphical-interfaces" title="Link to this heading">#</a></h1>
 <p>This blog post is aimed at helping you understand the pros and cons of the most popular Git repository clients.</p>
 <p>The content was created with a focus on everyday use for fundamental tasks.</p>
 <p>I presented the solutions pros/cons and my particular conclusion and suggestions.</p>
 <section id="command-line-interface-cli">
-<h2>1. Command Line Interface (CLI)<a class="headerlink" href="#command-line-interface-cli" title="Permalink to this heading">#</a></h2>
+<h2>1. Command Line Interface (CLI)<a class="headerlink" href="#command-line-interface-cli" title="Link to this heading">#</a></h2>
 <p>It is the official method for interacting with your repository. You can perform all the functions that the Git system provides using the Git CLI. It also offers comprehensive documentation, and official resources typically use Git CLI in their examples.</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
 <div class="sd-row docutils">
@@ -482,7 +485,7 @@ document.write(`
 </div></blockquote>
 </section>
 <section id="gitkraken">
-<h2>2. GitKraken<a class="headerlink" href="#gitkraken" title="Permalink to this heading">#</a></h2>
+<h2>2. GitKraken<a class="headerlink" href="#gitkraken" title="Link to this heading">#</a></h2>
 <p>GitKraken is a comprehensive graphical enterprise suite focusing on enhancing Git functionalities.</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
 <div class="sd-row docutils">
@@ -517,7 +520,7 @@ document.write(`
 </div></blockquote>
 </section>
 <section id="sourcetree">
-<h2>3. SourceTree<a class="headerlink" href="#sourcetree" title="Permalink to this heading">#</a></h2>
+<h2>3. SourceTree<a class="headerlink" href="#sourcetree" title="Link to this heading">#</a></h2>
 <p>SourceTree is a freely available Git GUI developed and maintained by Atlassian, offering an intuitive interface for Git repository management.</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
 <div class="sd-row docutils">
@@ -568,7 +571,7 @@ document.write(`
 </div></blockquote>
 </section>
 <section id="vscode">
-<h2>4. VSCode<a class="headerlink" href="#vscode" title="Permalink to this heading">#</a></h2>
+<h2>4. VSCode<a class="headerlink" href="#vscode" title="Link to this heading">#</a></h2>
 <p>VSCode, a popular text editor, inherently provides basic Git functionalities in a visual manner.</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
 <div class="sd-row docutils">
@@ -607,7 +610,7 @@ document.write(`
 </div></blockquote>
 </section>
 <section id="jetbrains-ides">
-<h2>5. JetBrains IDEs<a class="headerlink" href="#jetbrains-ides" title="Permalink to this heading">#</a></h2>
+<h2>5. JetBrains IDEs<a class="headerlink" href="#jetbrains-ides" title="Link to this heading">#</a></h2>
 <p>JetBrains offers a range of Integrated Development Environments (IDEs) for various programming languages, all of which integrate Git functionalities.</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
 <div class="sd-row docutils">
@@ -647,7 +650,7 @@ Pros:</p>
 </div></blockquote>
 </section>
 <section id="conclusion-author-opinion">
-<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Permalink to this heading">#</a></h2>
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
 <p>The Git CLI mastering is fundamental before to use the Graphical solutions. The GUI solutions are made to provides agility in the recurring operations. Only use the Git GUI solutions if you understand that what’s happening behind the scenes. The GUI solutions helps to make the changes, but when a big problems occurs, probably you will needs to use the Git CLI to solve it.</p>
 <p>The choice between Git CLI and graphical interfaces depends on your preference, familiarity with command-line tools, and the specific needs of your project.</p>
 <ul class="simple">
@@ -730,8 +733,8 @@ Pros:</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -749,7 +752,7 @@ Pros:</p>
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     <br/>
   </p>
 </div>
@@ -761,7 +764,7 @@ Pros:</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
 </p></div>
       
     </div>

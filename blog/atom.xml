@@ -2,11 +2,120 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-10-22T23:38:26.990817+00:00</updated>
+  <updated>2023-11-12T21:33:40.161771+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2023/2023-11-02-logstash/</id>
+    <title>Logstash Modular Pipelines: A Solution to Avoid Code Duplication</title>
+    <updated>2023-11-12T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2023/11/12&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="logstash-modular-pipelines-a-solution-to-avoid-code-duplication"&gt;
+
+&lt;p&gt;This blog post covers structuring Logstash pipelines to avoid pipeline code duplication.&lt;/p&gt;
+&lt;section id="a-little-about-logstash-and-pipeline-structure"&gt;
+&lt;h2&gt;A little about Logstash and Pipeline Structure&lt;/h2&gt;
+&lt;p&gt;The Logstash is an amazing tool for crafting robust log pipelines. Several plugins empower the ingestion, process, enrich, and output integration with external stacks. The pipelines are created using Logstash Configuration DSL (&lt;em&gt;Domain-Specific Language&lt;/em&gt;), a high-level configuration language designed to be efficient and flexible, and focused on Log Pipeline needs.&lt;/p&gt;
+&lt;p&gt;The Logstash pipeline configuration is composed of three main statements:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt;: Define the log ingestion source;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt;: Define the process, parser, and enrich routines;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt;: Define the external stacks forward integrations post process step.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; More Details: &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure"&gt;Logstash - Configuration File Structure&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;/section&gt;
+&lt;section id="the-problem-more-pipelines-more-code-duplication"&gt;
+&lt;h2&gt;The Problem: More Pipelines, More Code Duplication&lt;/h2&gt;
+&lt;p&gt;When the number of the log pipeline increase, the complexity and code duplication tends to grow along with it. In simple Application observability needs, pipelines with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt;, and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; configured together in the same file can fit the needs. Otherwise, in complex and big Applications scenarios, like distributed Applications deployed over Kubernetes, some complexity challenges are occurring. One of the main challenges is &lt;strong&gt;code deduplication avoiding&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;When you have many applications to process the logs, each one with distinct logical needs, you can create only one pipeline composed with logical condition to use specific process statement based on the source identification field in the events, for example, Tags that identifies the module that generated the event. This approach is good because avoids duplication of the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; configuration, but is bad because creates an overhead in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt; statement, and makes it hard to do troubleshooting in the Logstash API metrics to detect the Application process offenders.&lt;/p&gt;
+&lt;p&gt;Another possibility is to create a distinct pipeline, in distinct configuration files, dedicated for each Application. This approach solves the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt; overhead, but duplicates the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="the-solution-modularize-the-pipeline"&gt;
+&lt;h2&gt;The Solution: Modularize the Pipeline&lt;/h2&gt;
+&lt;p&gt;A good way to solve the problems mentioned before is: &lt;strong&gt;modularize the Logstash statements to load them in dedicated Application log pipelines based on needs&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;For this, it is necessary to create &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt;, and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; in separate files, and to create dedicated pipelines by Application, and configure them using blob &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html"&gt;
+Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html"&gt;Environment Variable&lt;/a&gt; notation.&lt;/p&gt;
+&lt;p&gt;The following topic will explain with more details about how to do it.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="configuration-example"&gt;
+&lt;h2&gt;Configuration Example&lt;/h2&gt;
+&lt;p&gt;First step is to create the modules, that is, files with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt;, and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; in separate files each one focused on their specifics and atomic needs.&lt;/p&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ tree /usr/share/logstash/pipeline/&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;filter-app-a.cfg&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# filter of the application-a logic parser&lt;/span&gt;
+├──&lt;span class="w"&gt; &lt;/span&gt;filter-app-b.cfg&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# filter of the application-b logic parser&lt;/span&gt;
+├──&lt;span class="w"&gt; &lt;/span&gt;input-http.cfg&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# input to receive logs from http protocol&lt;/span&gt;
+├──&lt;span class="w"&gt; &lt;/span&gt;input-rabbitmq.cfg&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# input to receive logs from rabbitmq rabbit&lt;/span&gt;
+├──&lt;span class="w"&gt; &lt;/span&gt;output-opensearch.cfg&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# output to forward logs processed to opensearch server &lt;/span&gt;
+└──&lt;span class="w"&gt; &lt;/span&gt;output-http.cfg&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# output to forward logs processed to http server&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Next, for each application, configure one with &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html"&gt;Environment Variable&lt;/a&gt; Logstash notation:&lt;/p&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ cat /usr/share/logstash/config/pipeline.yml&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;pipeline.id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;application-a-pipeline&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;path.config&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/usr/share/logstash/pipeline/${LOGSTASH_PIPELINE_APPLICATION_A}.cfg&amp;quot;&lt;/span&gt;
+
+&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;pipeline.id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;application-a-pipeline&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;path.config&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/usr/share/logstash/pipeline/${LOGSTASH_PIPELINE_APPLICATION_B}.cfg&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Finally, the key point of this approach. You will define the pipeline composition based on modules through environment variables. Check the following example:&lt;/p&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ env&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;LOGSTASH_PIPELINE_APPLICATION_A&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{input-http,input-rabbitmq,filter-app-a,output-opensearch,output-http}&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;LOGSTASH_PIPELINE_APPLICATION_B&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{input-http,filter-app-b,output-opensearch}&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;LOGSTASH_PIPELINE_APPLICATION_A&lt;/span&gt;&lt;/code&gt; environment variable value configures the Logstash pipeline &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;application-a-pipeline&lt;/span&gt;&lt;/code&gt; to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter-app-a.cfg&lt;/span&gt;&lt;/code&gt; and forwarded to OpenSearch and HTTP server.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;LOGSTASH_PIPELINE_APPLICATION_B&lt;/span&gt;&lt;/code&gt; environment variable value configures the Logstash pipeline &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;application-b-pipeline&lt;/span&gt;&lt;/code&gt; to receive logs from HTTP and RabbitMQ, and the logs will be processed by logic defined in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter-app-a.cfg&lt;/span&gt;&lt;/code&gt; and forwarded to OpenSearch and HTTP server.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;section id="main-advantages"&gt;
+&lt;h3&gt;Main Advantages:&lt;/h3&gt;
+&lt;p&gt;This approach brings the following advantages:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Reusable Code&lt;/strong&gt;: Avoid code duplication of the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; statements, because the pipelines will define which inputs will be used.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Decrease Complexity&lt;/strong&gt;: Decrease the complexity of the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt; avoiding long pipeline files with conditional logic based on application.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Troubleshooting&lt;/strong&gt;: Preserve the troubleshooting and metrics because pipelines are traceable in the logstash metic API.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Tests&lt;/strong&gt;: Make it easier to test &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt; code because the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; changes are simple, and can be changed with a mock log source and output to stdout to check if the logic is working as expected.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;section id="docker-compose-lab"&gt;
+&lt;h3&gt;Docker Compose Lab&lt;/h3&gt;
+&lt;p&gt;I created a docker-compose lab to test and explore the possibilities of the content presented in this post. Check in my GitHub: &lt;i class="fa-brands fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/"&gt;c-neto/my-devops-lab/blog/2023-11-12/&lt;/a&gt;.&lt;/p&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;section id="conclusion-author-opinion"&gt;
+&lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
+&lt;p&gt;Logstash is a versatile tool for processing logs, offering well-configured solutions for both small and large workloads to meet Observability needs. The Logstash Module structure provides a straightforward approach to prevent recurring issues in pipeline creation, although it is not the sole solution to this problem.&lt;/p&gt;
+&lt;p&gt;Understanding the Observability requirements is crucial for leveraging the tool’s features effectively. At times, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.&lt;/p&gt;
+&lt;p&gt;It is advisable to adopt this structure only when addressing an existing problem.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="references"&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure"&gt;https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html"&gt;https://www.elastic.co/guide/en/logstash/current/glob-support.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html"&gt;https://www.elastic.co/guide/en/logstash/current/environment-variables.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="github reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/"&gt;c-neto/my-devops-labs&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2023/2023-11-02-logstash/" rel="alternate"/>
+    <summary>Blog Post Publish Date: 2023/11/12This blog post covers structuring Logstash pipelines to avoid pipeline code duplication.</summary>
+    <category term="logstash" label="logstash"/>
+    <published>2023-11-12T00:00:00+00:00</published>
+  </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2023/2023-10-21-cloud-concepts/</id>
     <title>Cloud Computing: Overview and Concepts</title>

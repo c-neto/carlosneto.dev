@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta property="og:title" content="AWS Well-Architected Framework: A Beginner’s Guide to Building Robust Cloud Solutions" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/in-progress/2022-05-11-well-architected-framework/" />
@@ -30,39 +29,36 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=b0aa92a3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
-  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/clipboard.min.js"></script>
-    <script src="../../_static/copybutton.js"></script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'in-progress/2022-05-11-well-architected-framework';</script>
-    <link rel="shortcut icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../genindex/" />
     <link rel="search" title="Search" href="../../search/" />
 
@@ -142,6 +138,7 @@
   
 
 <a class="navbar-brand logo" href="../../">
+  
   
   
   
@@ -400,10 +397,10 @@ document.write(`
 <p><em><strong>Blog Post Publish Date:</strong> 2022/05/11</em></p>
 <hr class="docutils" />
 <section id="aws-well-architected-framework-a-beginner-s-guide-to-building-robust-cloud-solutions">
-<h1>AWS Well-Architected Framework: A Beginner’s Guide to Building Robust Cloud Solutions<a class="headerlink" href="#aws-well-architected-framework-a-beginner-s-guide-to-building-robust-cloud-solutions" title="Permalink to this heading">#</a></h1>
+<h1>AWS Well-Architected Framework: A Beginner’s Guide to Building Robust Cloud Solutions<a class="headerlink" href="#aws-well-architected-framework-a-beginner-s-guide-to-building-robust-cloud-solutions" title="Link to this heading">#</a></h1>
 <p>This guide aims to provide a clear and simple understanding of the AWS Well-Architected Framework, equipping you with the knowledge to build solid cloud solutions.</p>
 <section id="understanding-aws-well-architected-framework">
-<h2>Understanding AWS Well-Architected Framework<a class="headerlink" href="#understanding-aws-well-architected-framework" title="Permalink to this heading">#</a></h2>
+<h2>Understanding AWS Well-Architected Framework<a class="headerlink" href="#understanding-aws-well-architected-framework" title="Link to this heading">#</a></h2>
 <p>The AWS Well-Architected Framework is a set of best practices and guidelines designed to help you build secure, high-performing, resilient, and efficient infrastructure for your applications and workloads on AWS. Think of it as a blueprint for building a strong foundation in the AWS cloud.
 The Five Pillars of the Framework</p>
 <p>The AWS Well-Architected Framework is built on five key pillars, each addressing a critical aspect of cloud architecture:</p>
@@ -416,7 +413,7 @@ The Five Pillars of the Framework</p>
 </ul>
 </section>
 <section id="applying-the-framework-a-step-by-step-approach">
-<h2>Applying the Framework: A Step-by-Step Approach<a class="headerlink" href="#applying-the-framework-a-step-by-step-approach" title="Permalink to this heading">#</a></h2>
+<h2>Applying the Framework: A Step-by-Step Approach<a class="headerlink" href="#applying-the-framework-a-step-by-step-approach" title="Link to this heading">#</a></h2>
 <p>Let’s break down the process of applying the AWS Well-Architected Framework into manageable steps:</p>
 <ul class="simple">
 <li><p><strong>Step 1</strong>: Understand Your Application</p></li>
@@ -438,7 +435,7 @@ Conclusion</p>
 <p>The AWS Well-Architected Framework offers a robust foundation for designing and building efficient, secure, and cost-effective cloud solutions on AWS. By understanding and applying the principles of the five pillars—operational excellence, security, reliability, performance efficiency, and cost optimization—you’ll be well on your way to creating a successful cloud architecture that meets your business needs.</p>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>AWS Well-Architected Tool: <a class="reference external" href="https://aws.amazon.com/well-architected-tool/%5D(https://aws.amazon.com/well-architected-tool/">https://aws.amazon.com/well-architected-tool/](https://aws.amazon.com/well-architected-tool/</a></p></li>
 <li><p>AWS Well-Architected Doc: <a class="reference external" href="https://aws.amazon.com/architecture/well-architected/%5D(https://aws.amazon.com/architecture/well-architected/">https://aws.amazon.com/architecture/well-architected/](https://aws.amazon.com/architecture/well-architected/</a></p></li>
@@ -497,8 +494,8 @@ Conclusion</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -516,7 +513,7 @@ Conclusion</p>
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     <br/>
   </p>
 </div>
@@ -528,7 +525,7 @@ Conclusion</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
 </p></div>
       
     </div>

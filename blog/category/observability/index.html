@@ -6,20 +6,8 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="s3 vpc endpoint" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://carlosneto.dev/in-progress/network-costs-tips/" />
-<meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="network cross region price: nat gateway: vpc peering:" />
-<meta property="og:image:width" content="1146" />
-<meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_in-progress_network-costs-tips_1c037241.png" />
-<meta property="og:image:alt" content="network cross region price: nat gateway: vpc peering:" />
-<meta name="description" content="network cross region price: nat gateway: vpc peering:" />
-<meta name="twitter:card" content="summary_large_image" />
-
-    <title>s3 vpc endpoint &#8212; Carlos Neto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Posts in Observability &#8212; Carlos Neto</title>
   
   
   
@@ -29,38 +17,38 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=b0aa92a3" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=b0aa92a3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
-  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
 
-    <script src="../../_static/documentation_options.js?v=187304be"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/design-tabs.js?v=36754332"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'in-progress/network-costs-tips';</script>
-    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
-    <link rel="index" title="Index" href="../../genindex/" />
-    <link rel="search" title="Search" href="../../search/" />
+    <script src="../../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/category/observability';</script>
+    <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../../genindex/" />
+    <link rel="search" title="Search" href="../../../search/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -68,8 +56,8 @@
 <link
   rel="alternate"
   type="application/atom+xml"
-  href="../../blog/atom.xml"
-  title="Carlos Neto"
+  href="../../../blog/atom.xml"
+  title="Posts in Observability"
 />
 
 
@@ -108,7 +96,7 @@
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
-      action="../../search/"
+      action="../../../search/"
       method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search"
@@ -137,7 +125,7 @@
       <div class="navbar-item">
   
 
-<a class="navbar-brand logo" href="../../">
+<a class="navbar-brand logo" href="../../../">
   
   
   
@@ -164,14 +152,14 @@
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../blog/">
+                      <a class="nav-link nav-internal" href="../../">
                         Blog
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../whoami/">
+                      <a class="nav-link nav-internal" href="../../../whoami/">
                         whoami
                       </a>
                     </li>
@@ -275,7 +263,7 @@ document.write(`
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -294,14 +282,14 @@ document.write(`
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../blog/">
+                      <a class="nav-link nav-internal" href="../../">
                         Blog
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../whoami/">
+                      <a class="nav-link nav-internal" href="../../../whoami/">
                         whoami
                       </a>
                     </li>
@@ -370,6 +358,37 @@ document.write(`
     
   </div>
   
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<div class="ablog-sidebar-item ablog__category">
+<h3>
+  <a href="../">Categories</a>
+</h3>
+<ul>
+  
+  
+  <li>
+    <a href="../cloud/">Cloud (1)</a>
+  </li>
+  
+  
+  
+  <li>
+    <a href="#">Observability (1)</a>
+  </li>
+  
+  
+  
+  <li>
+    <a href="../git/">git (1)</a>
+  </li>
+  
+  
+</ul>
+</div>
+</div>
+    </div>
+  
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
   </div>
@@ -394,20 +413,76 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-<section id="s3-vpc-endpoint">
-<h1>s3 vpc endpoint<a class="headerlink" href="#s3-vpc-endpoint" title="Link to this heading">#</a></h1>
-</section>
-<section id="network-cross-region-price">
-<h1>network cross region price<a class="headerlink" href="#network-cross-region-price" title="Link to this heading">#</a></h1>
-</section>
-<section id="nat-gateway">
-<h1>nat gateway<a class="headerlink" href="#nat-gateway" title="Link to this heading">#</a></h1>
-</section>
-<section id="vpc-peering">
-<h1>vpc peering<a class="headerlink" href="#vpc-peering" title="Link to this heading">#</a></h1>
-</section>
 
-<div class="section ablog__blog_comments">
+<div class="section ablog__collection">
+  <h1>
+    
+      Posts in
+      
+    Observability
+    
+  </h1>
+  
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2023/2023-11-02-logstash/">Logstash Modular Pipelines: A Solution to Avoid Code Duplication</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+        
+        
+        <i class="fa fa-calendar"></i>
+        
+        12 November 2023
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+
+
+
+
+
+<li id="ablog-sidebar-item category ablog__category">
+  <span>
+    
+    <i class="fa-fw fa fa-folder-open"></i>
+    
+    </span>
+  
+  
+  <a href="#">Observability</a>
+  
+  
+  
+</li>
+
+
+<li id="ablog-sidebar-item tags ablog__tags">
+  <span>
+    
+    
+    <i class="fa-fw fa fa-tag"></i>
+    
+    </span>
+  
+  
+  <a href="../../tag/logstash/">logstash</a>
+  
+  
+  
+</li>
+
+
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/11/12</em></p>
+<p>This blog post covers structuring Logstash pipelines to avoid pipeline code duplication.</p>
+</p>
+
+    <p class="ablog-post-expand"><a href="../../2023/2023-11-02-logstash/"><em>Read more ...</em></a></p>
+    <hr/>
+  </div>
   
   
 </div>
@@ -456,8 +531,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
