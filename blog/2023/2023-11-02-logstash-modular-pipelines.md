@@ -94,7 +94,7 @@ This approach brings the following advantages:
 
 ### Docker Compose Lab
 
-I created a docker-compose lab to test and explore the possibilities of the content presented in this post. Check in my GitHub: <i class="fa-brands fa-github"></i> [c-neto/my-devops-lab/blog/2023-11-12/](https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/).
+I created a docker-compose lab to test and explore the possibilities of the content presented in this post. Check in my GitHub: <i class="fa-brands fa-github"></i> [c-neto/my-devops-lab/blog/2023-11-12/docker-compose.yaml](https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/).
 
 ## Conclusion (Author Opinion)
 
