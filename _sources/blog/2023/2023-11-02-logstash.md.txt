@@ -8,13 +8,13 @@ category: Observability
 
 ---
 
-# Logstash Modular Pipelines: A Solution to Avoid Code Duplication
+# Logstash Modular Pipelines: A Solution to Avoid Code Duplicated
 
-This blog post covers how to structure the Logstash pipelines to avoid pipeline code duplication and an graceful way to reusable code statement and several pipelines. 
+This blog post explores the structuring of Logstash pipelines to mitigate code duplicated and presents an elegant method for reusing code statements across multiple pipelines.
 
-It is addressed a straight forward explanation about the Logstash configuration structure, explained the problem that the modular pipeline solves, a example of the configuration and a link to a  docker-compose lab to test and explore the possibilities. Finally, it wi
+The post provides a clear explanation of the Logstash configuration structure, outlining the problem addressed by modular pipelines. It includes an example configuration and directs readers to a Docker-compose lab for hands-on testing and exploration of the possibilities. Finally, the post concludes with my personal opinion on the effectiveness of this structure.
 
-## A little about Logstash and Pipeline Structure
+## A Little About Logstash and Pipelines Structure
 
 The Logstash is an amazing tool for crafting robust log pipelines. Several plugins empower the ingestion, process, enrich, and output integration with external stacks. The pipelines are created using Logstash Configuration DSL (_Domain-Specific Language_), a high-level configuration language designed to be efficient and flexible, and focused on Log Pipeline needs.
 
@@ -26,15 +26,15 @@ The Logstash pipeline configuration is composed of three main statements:
 
 > _<i class="fa-solid fa-link"></i> More Details: [Logstash - Configuration File Structure](https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure)_
 
-## The Problem: More Pipelines, More Code Duplication
+## The Problem: Scaling Up Pipelines == Growing Code Duplication
 
-When the number of the log pipeline increase, the complexity and code duplication tends to grow along with it. In simple Application observability needs, pipelines with `input`, `filter`, and `output` configured together in the same file can fit the needs. Otherwise, in complex and big Applications scenarios, like distributed Applications deployed over Kubernetes, some complexity challenges are occurring. One of the main challenges is __code deduplication avoiding__.
+When the number of the log pipeline increase, the complexity and code duplicated tends to grow along with it. In simple Application observability needs, pipelines with `input`, `filter`, and `output` configured together in the same file can fit the needs. Otherwise, in complex and big Applications scenarios, like distributed Applications deployed over Kubernetes, some complexity challenges are occurring. One of the main challenges is __code deduplicated avoiding__.
 
-When you have many applications to process the logs, each one with distinct logical needs, you can create only one pipeline composed with logical condition to use specific process statement based on the source identification field in the events, for example, Tags that identifies the module that generated the event. This approach is good because avoids duplication of the `input` and `output` configuration, but is bad because creates an overhead in the `filter` statement, and makes it hard to do troubleshooting in the Logstash API metrics to detect the Application process offenders.
+When you have many applications to process the logs, each one with distinct logical needs, you can create only one pipeline composed with logical condition to use specific process statement based on the source identification field in the events, for example, Tags that identifies the module that generated the event. This approach is good because avoids duplicated of the `input` and `output` configuration, but is bad because creates an overhead in the `filter` statement, and makes it hard to do troubleshooting in the Logstash API metrics to detect the Application process offenders.
 
 Another possibility is to create a distinct pipeline, in distinct configuration files, dedicated for each Application. This approach solves the `filter` overhead, but duplicates the `input` and `output`.
 
-## The Solution: Modularize the Pipeline 
+## The Solution: Modularize the Pipeline
 
 A good way to solve the problems mentioned before is: __modularize the Logstash statements to load them in dedicated Application log pipelines based on needs__.
 
@@ -87,7 +87,7 @@ LOGSTASH_PIPELINE_APPLICATION_B="{input-http,filter-app-b,output-opensearch}"
 
 This approach brings the following advantages:
 
-- __Reusable Code__: Avoid code duplication of the `input` and `output` statements, because the pipelines will define which inputs will be used.
+- __Reusable Code__: Avoid code duplicated of the `input` and `output` statements, because the pipelines will define which inputs will be used.
 - __Decrease Complexity__: Decrease the complexity of the `filter` avoiding long pipeline files with conditional logic based on application.
 - __Troubleshooting__: Preserve the troubleshooting and metrics because pipelines are traceable in the logstash metic API.
 - __Tests__: Make it easier to test `filter` code because the `input` and `output` changes are simple, and can be changed with a mock log source and output to stdout to check if the logic is working as expected.
