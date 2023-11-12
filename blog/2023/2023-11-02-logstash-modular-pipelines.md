@@ -105,7 +105,7 @@ Understanding Observability requirements is essential for effectively harnessing
 
 I have implemented this structure and witnessed significant improvements in maintainability, particularly in the advantages it brings to testing, where I can easily assess my filter logics with a simple a environment variable value change.
 
-I genuinely appreciate this structure because my primary goal is to simplify maintainability, but it's important to recognize that __every case is unique, and each context presents its own complexity and challenges__. Therefore, only adopt this structure if solve a real and existing code duplication problem and `filter` code is hard to test.
+I genuinely appreciate this structure because my primary goal is to simplify and make it easier the maintainability, but it’s important to recognize that __every case is unique, and each context presents its own complexity and challenges__. Therefore, only adopt this structure if solves a real and existing code duplication problem and the `filter` code is hard to test.
 
 ## References
 
