@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-12T21:33:40.161771+00:00</updated>
+  <updated>2023-11-12T21:47:40.736689+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -15,7 +15,8 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="logstash-modular-pipelines-a-solution-to-avoid-code-duplication"&gt;
 
-&lt;p&gt;This blog post covers structuring Logstash pipelines to avoid pipeline code duplication.&lt;/p&gt;
+&lt;p&gt;This blog post covers how to structure the Logstash pipelines to avoid pipeline code duplication and an graceful way to reusable code statement and several pipelines.&lt;/p&gt;
+&lt;p&gt;It is addressed a straight forward explanation about the Logstash configuration structure, explained the problem that the modular pipeline solves, a example of the configuration and a link to a  docker-compose lab to test and explore the possibilities. Finally, it wi&lt;/p&gt;
 &lt;section id="a-little-about-logstash-and-pipeline-structure"&gt;
 &lt;h2&gt;A little about Logstash and Pipeline Structure&lt;/h2&gt;
 &lt;p&gt;The Logstash is an amazing tool for crafting robust log pipelines. Several plugins empower the ingestion, process, enrich, and output integration with external stacks. The pipelines are created using Logstash Configuration DSL (&lt;em&gt;Domain-Specific Language&lt;/em&gt;), a high-level configuration language designed to be efficient and flexible, and focused on Log Pipeline needs.&lt;/p&gt;
@@ -96,9 +97,10 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;/section&gt;
 &lt;section id="conclusion-author-opinion"&gt;
 &lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
-&lt;p&gt;Logstash is a versatile tool for processing logs, offering well-configured solutions for both small and large workloads to meet Observability needs. The Logstash Module structure provides a straightforward approach to prevent recurring issues in pipeline creation, although it is not the sole solution to this problem.&lt;/p&gt;
-&lt;p&gt;Understanding the Observability requirements is crucial for leveraging the tool’s features effectively. At times, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.&lt;/p&gt;
-&lt;p&gt;It is advisable to adopt this structure only when addressing an existing problem.&lt;/p&gt;
+&lt;p&gt;Logstash is a versatile tool for log processing, providing well-configured solutions for both small and large workloads to meet Observability needs. While the Logstash Module structure offers a straightforward approach to mitigate recurring issues in pipeline creation, it is not the exclusive remedy for this challenge.&lt;/p&gt;
+&lt;p&gt;Understanding Observability requirements is essential for effectively harnessing the tool’s features. Occasionally, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.&lt;/p&gt;
+&lt;p&gt;I have implemented this structure and witnessed significant improvements in maintainability tasks, particularly in the advantages it brings to testing, where I can easily assess my filter logics with minimal cognitive effort.&lt;/p&gt;
+&lt;p&gt;I genuinely appreciate this structure, but it’s important to recognize that &lt;strong&gt;every case is unique, and each context presents its own complexity and challenges&lt;/strong&gt;. In some instances, I opt against this approach because my primary goal is to simplify maintainability. Therefore, it is advisable to adopt this structure only when addressing a specific existing problem.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="references"&gt;
 &lt;h2&gt;References&lt;/h2&gt;
@@ -112,7 +114,7 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2023/2023-11-02-logstash/" rel="alternate"/>
-    <summary>Blog Post Publish Date: 2023/11/12This blog post covers structuring Logstash pipelines to avoid pipeline code duplication.</summary>
+    <summary>Blog Post Publish Date: 2023/11/12This blog post covers how to structure the Logstash pipelines to avoid pipeline code duplication and an graceful way to reusable code statement and several pipelines.</summary>
     <category term="logstash" label="logstash"/>
     <published>2023-11-12T00:00:00+00:00</published>
   </entry>

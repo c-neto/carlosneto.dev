@@ -11,12 +11,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2023/2023-11-02-logstash/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2023/11/12 This blog post covers structuring Logstash pipelines to avoid pipeline code duplication. A little about Logstash and Pipeline Structure: The Logstash is an amazin..." />
+<meta property="og:description" content="Blog Post Publish Date: 2023/11/12 This blog post covers how to structure the Logstash pipelines to avoid pipeline code duplication and an graceful way to reusable code statement and several pipeli..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2023_2023-11-02-logstash_db72dce1.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2023/11/12 This blog post covers structuring Logstash pipelines to avoid pipeline code duplication. A little about Logstash and Pipel..." />
-<meta name="description" content="Blog Post Publish Date: 2023/11/12 This blog post covers structuring Logstash pipelines to avoid pipeline code duplication. A little about Logstash and Pipeline Structure: The Logstash is an amazin..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2023_2023-11-02-logstash_2b897dff.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2023/11/12 This blog post covers how to structure the Logstash pipelines to avoid pipeline code duplication and an graceful way to re..." />
+<meta name="description" content="Blog Post Publish Date: 2023/11/12 This blog post covers how to structure the Logstash pipelines to avoid pipeline code duplication and an graceful way to reusable code statement and several pipeli..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Logstash Modular Pipelines: A Solution to Avoid Code Duplication &#8212; Carlos Neto</title>
@@ -442,7 +442,8 @@ document.write(`
 <hr class="docutils" />
 <section id="logstash-modular-pipelines-a-solution-to-avoid-code-duplication">
 <h1>Logstash Modular Pipelines: A Solution to Avoid Code Duplication<a class="headerlink" href="#logstash-modular-pipelines-a-solution-to-avoid-code-duplication" title="Link to this heading">#</a></h1>
-<p>This blog post covers structuring Logstash pipelines to avoid pipeline code duplication.</p>
+<p>This blog post covers how to structure the Logstash pipelines to avoid pipeline code duplication and an graceful way to reusable code statement and several pipelines.</p>
+<p>It is addressed a straight forward explanation about the Logstash configuration structure, explained the problem that the modular pipeline solves, a example of the configuration and a link to a  docker-compose lab to test and explore the possibilities. Finally, it wi</p>
 <section id="a-little-about-logstash-and-pipeline-structure">
 <h2>A little about Logstash and Pipeline Structure<a class="headerlink" href="#a-little-about-logstash-and-pipeline-structure" title="Link to this heading">#</a></h2>
 <p>The Logstash is an amazing tool for crafting robust log pipelines. Several plugins empower the ingestion, process, enrich, and output integration with external stacks. The pipelines are created using Logstash Configuration DSL (<em>Domain-Specific Language</em>), a high-level configuration language designed to be efficient and flexible, and focused on Log Pipeline needs.</p>
@@ -523,9 +524,10 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 </section>
 <section id="conclusion-author-opinion">
 <h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
-<p>Logstash is a versatile tool for processing logs, offering well-configured solutions for both small and large workloads to meet Observability needs. The Logstash Module structure provides a straightforward approach to prevent recurring issues in pipeline creation, although it is not the sole solution to this problem.</p>
-<p>Understanding the Observability requirements is crucial for leveraging the tool’s features effectively. At times, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.</p>
-<p>It is advisable to adopt this structure only when addressing an existing problem.</p>
+<p>Logstash is a versatile tool for log processing, providing well-configured solutions for both small and large workloads to meet Observability needs. While the Logstash Module structure offers a straightforward approach to mitigate recurring issues in pipeline creation, it is not the exclusive remedy for this challenge.</p>
+<p>Understanding Observability requirements is essential for effectively harnessing the tool’s features. Occasionally, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.</p>
+<p>I have implemented this structure and witnessed significant improvements in maintainability tasks, particularly in the advantages it brings to testing, where I can easily assess my filter logics with minimal cognitive effort.</p>
+<p>I genuinely appreciate this structure, but it’s important to recognize that <strong>every case is unique, and each context presents its own complexity and challenges</strong>. In some instances, I opt against this approach because my primary goal is to simplify maintainability. Therefore, it is advisable to adopt this structure only when addressing a specific existing problem.</p>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
