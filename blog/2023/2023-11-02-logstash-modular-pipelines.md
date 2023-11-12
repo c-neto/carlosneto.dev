@@ -53,7 +53,7 @@ First step is to create the modules, that is, files with `input`, `filter`, and 
 ├── filter-app-a.cfg        # filter of the application-a logic parser
 ├── filter-app-b.cfg        # filter of the application-b logic parser
 ├── input-http.cfg          # input to receive logs from http protocol
-├── input-rabbitmq.cfg      # input to receive logs from rabbitmq rabbit
+├── input-rabbitmq.cfg      # input to receive logs from rabbitmq queue
 ├── output-opensearch.cfg   # output to forward logs processed to opensearch server 
 └── output-http.cfg         # output to forward logs processed to http server
 ```
