@@ -103,7 +103,7 @@ Logstash is a versatile tool for log processing, providing well-configured solut
 
 Understanding Observability requirements is essential for effectively harnessing the tool's features. Occasionally, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.
 
-I have implemented this structure and witnessed significant improvements in maintainability, particularly in the __Tests__ advantages mentioned, where I can easily test my `filter` logics with a simple a environment variable value change.
+I have implemented this structure and witnessed significant improvements in maintainability, particularly in the __Tests__ advantages mentioned, where I can easily test my `filter` logics with a simple a environment variable value changing.
 
 I genuinely appreciate this structure because my primary goal is to simplify and make it easier the maintainability, but it’s important to recognize that __every case is unique, and each context presents its own complexity and challenges__. Therefore, I recommend adopting this structure when the maintenance of pipelines becomes complex, code duplication is on the rise, and the configuration of Logstash becomes prone to errors, ultimately rendering it difficult to maintain.
 
