@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-12T23:54:24.393736+00:00</updated>
+  <updated>2023-11-13T01:02:22.697728+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -39,13 +39,13 @@
 &lt;section id="the-solution-modularize-the-pipeline"&gt;
 &lt;h2&gt;The Solution: Modularize the Pipeline&lt;/h2&gt;
 &lt;p&gt;A good way to solve the problem mentioned before is &lt;strong&gt;modularize the Logstash main statements to load them in dedicated pipelines based on their needs&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;For this, it is necessary to create separate files with only one statements definition (&lt;em&gt;input&lt;/em&gt;, &lt;em&gt;filter&lt;/em&gt;, and &lt;em&gt;output&lt;/em&gt;), create dedicated pipelines for each Application, and configure them using &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html"&gt;
+&lt;p&gt;For this, it is necessary to create separate files with only one statement definition (&lt;em&gt;input&lt;/em&gt;, &lt;em&gt;filter&lt;/em&gt;, and &lt;em&gt;output&lt;/em&gt;), create dedicated pipelines for each Application, and configure them using &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html"&gt;
 Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html"&gt;Environment Variable&lt;/a&gt; notation.&lt;/p&gt;
 &lt;p&gt;The following sub topic will explain with more details about how to do it.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="configuration-example"&gt;
 &lt;h2&gt;Configuration Example&lt;/h2&gt;
-&lt;p&gt;First step is to create the modules, that is, files with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt;, and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; in separate files each one focused on their specifics and atomic needs.&lt;/p&gt;
+&lt;p&gt;First step is to create the modules, that is, the code of the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt;, and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; in separate files each one focused on their specifics and atomic needs.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ tree /usr/share/logstash/pipeline/&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;filter-app-a.cfg&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# filter of the application-a logic parser&lt;/span&gt;

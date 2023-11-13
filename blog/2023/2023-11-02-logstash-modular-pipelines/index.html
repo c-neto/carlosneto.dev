@@ -466,13 +466,13 @@ document.write(`
 <section id="the-solution-modularize-the-pipeline">
 <h2>The Solution: Modularize the Pipeline<a class="headerlink" href="#the-solution-modularize-the-pipeline" title="Link to this heading">#</a></h2>
 <p>A good way to solve the problem mentioned before is <strong>modularize the Logstash main statements to load them in dedicated pipelines based on their needs</strong>.</p>
-<p>For this, it is necessary to create separate files with only one statements definition (<em>input</em>, <em>filter</em>, and <em>output</em>), create dedicated pipelines for each Application, and configure them using <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html">
+<p>For this, it is necessary to create separate files with only one statement definition (<em>input</em>, <em>filter</em>, and <em>output</em>), create dedicated pipelines for each Application, and configure them using <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html">
 Glob Pattern Support</a> and <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html">Environment Variable</a> notation.</p>
 <p>The following sub topic will explain with more details about how to do it.</p>
 </section>
 <section id="configuration-example">
 <h2>Configuration Example<a class="headerlink" href="#configuration-example" title="Link to this heading">#</a></h2>
-<p>First step is to create the modules, that is, files with <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> in separate files each one focused on their specifics and atomic needs.</p>
+<p>First step is to create the modules, that is, the code of the <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> in separate files each one focused on their specifics and atomic needs.</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">$ tree /usr/share/logstash/pipeline/</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>├──<span class="w"> </span>filter-app-a.cfg<span class="w">        </span><span class="c1"># filter of the application-a logic parser</span>
