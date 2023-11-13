@@ -10,9 +10,9 @@ category: Observability
 
 # Logstash Modular Pipelines: An Elegant Structure for Code Reusability and Duplication Avoiding
 
-This blog post explores the structuring of Logstash pipelines to mitigate code duplicated and presents an elegant method for reusing code statements across multiple pipelines.
+This blog post explores a Logstash pipelines structure to mitigate code duplicated and presents an elegant method for reusing code statements across multiple pipelines.
 
-The post provides a clear explanation of the Logstash configuration structure, outlining the problem addressed by modular pipelines. It includes an example configuration and directs readers to a Docker-compose lab for hands-on testing and exploration of the possibilities. Finally, the post concludes with my personal opinion on the effectiveness of this structure.
+The post provides a clear explanation of the Logstash configuration structure, outlining the problem addressed by modular pipelines. It includes an example configuration and a Docker-compose lab for hands-on testing and exploration of the possibilities. Finally, the post concludes with my personal opinion on the effectiveness of this structure.
 
 ## A Little About Logstash and Pipelines Structure
 
@@ -87,9 +87,9 @@ LOGSTASH_PIPELINE_APPLICATION_B="{input-http,filter-app-b,output-opensearch}"
 
 This approach brings the following advantages:
 
-- __Avoid Code Duplication__: Avoid code duplicated of the `input` and `output` statements, because the pipelines will define which inputs will be used.
-- __Reusable Code__: Allows the _import_ modules in multiple pipelines.
-- __Decrease Complexity__: The `filter` code is composed of only the application log parser logic.
+- __Avoid Code Duplication__: Allows to use modules across multiple pipelines (for example, configure the same `input` and `output` module for all pipelines).
+- __Reusable Code__: Allows a simple configurable way to use more than one module of the same type (for example, two `output`, and three `input` in one specific pipeline).
+- __Decrease Complexity__: The `filter` code is composed of only the application parser logic.
 - __Troubleshooting__: Preserve the traceable of the pipelines in the logstash metric API.
 - __Tests__: Make it easier to test `filter` code because the `input` and `output` modules is simple to change, allowing a configuration of the _mock_ log source as `input` and _stdout_ as a `output` to check if the logic is working as expected.
 
@@ -103,9 +103,9 @@ Logstash is a versatile tool for log processing, providing well-configured solut
 
 Understanding Observability requirements is essential for effectively harnessing the tool's features. Occasionally, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.
 
-I have implemented this structure and witnessed significant improvements in maintainability, particularly in the advantages it brings to testing, where I can easily assess my filter logics with a simple a environment variable value change.
+I have implemented this structure and witnessed significant improvements in maintainability, particularly in the __Tests__ advantages mentioned, where I can easily test my `filter` logics with a simple a environment variable value change.
 
-I genuinely appreciate this structure because my primary goal is to simplify and make it easier the maintainability, but it’s important to recognize that __every case is unique, and each context presents its own complexity and challenges__. Therefore, only adopt this structure if solves a real and existing code duplication problem and the `filter` code is hard to test.
+I genuinely appreciate this structure because my primary goal is to simplify and make it easier the maintainability, but it’s important to recognize that __every case is unique, and each context presents its own complexity and challenges__. Therefore, I suggests this structure only if solves a existing code duplication case or if `filter` code is hard to test.
 
 ## References
 
