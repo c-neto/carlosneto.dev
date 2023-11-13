@@ -38,14 +38,14 @@ Alternatively, another approach is to establish separate pipelines, each with it
 
 A good way to solve the problem mentioned before is __modularize the Logstash main statements to load them in dedicated pipelines based on their needs__.
 
-For this, it is necessary to create separate files with only one statements definition (_input_, _filter_, and _output_), create dedicated pipelines for each Application, and configure them using [
+For this, it is necessary to create separate files with only one statement definition (_input_, _filter_, and _output_), create dedicated pipelines for each Application, and configure them using [
 Glob Pattern Support](https://www.elastic.co/guide/en/logstash/current/glob-support.html) and [Environment Variable](https://www.elastic.co/guide/en/logstash/current/environment-variables.html) notation.
 
 The following sub topic will explain with more details about how to do it.
 
 ## Configuration Example
 
-First step is to create the modules, that is, files with `input`, `filter`, and `output` in separate files each one focused on their specifics and atomic needs.
+First step is to create the modules, that is, the code of the `input`, `filter`, and `output` in separate files each one focused on their specifics and atomic needs.
 
 ```{code-block} bash
 :caption: $ tree /usr/share/logstash/pipeline/
