@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-13T01:02:22.697728+00:00</updated>
+  <updated>2023-11-13T02:40:48.978900+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -15,8 +15,8 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="logstash-modular-pipelines-an-elegant-structure-for-code-reusability-and-duplication-avoiding"&gt;
 
-&lt;p&gt;This blog post explores the structuring of Logstash pipelines to mitigate code duplicated and presents an elegant method for reusing code statements across multiple pipelines.&lt;/p&gt;
-&lt;p&gt;The post provides a clear explanation of the Logstash configuration structure, outlining the problem addressed by modular pipelines. It includes an example configuration and directs readers to a Docker-compose lab for hands-on testing and exploration of the possibilities. Finally, the post concludes with my personal opinion on the effectiveness of this structure.&lt;/p&gt;
+&lt;p&gt;This blog post explores a Logstash pipelines structure to mitigate code duplicated and presents an elegant method for reusing code statements across multiple pipelines.&lt;/p&gt;
+&lt;p&gt;The post provides a clear explanation of the Logstash configuration structure, outlining the problem addressed by modular pipelines. It includes an example configuration and a Docker-compose lab for hands-on testing and exploration of the possibilities. Finally, the post concludes with my personal opinion on the effectiveness of this structure.&lt;/p&gt;
 &lt;section id="a-little-about-logstash-and-pipelines-structure"&gt;
 &lt;h2&gt;A Little About Logstash and Pipelines Structure&lt;/h2&gt;
 &lt;p&gt;The Logstash is an amazing tool for crafting robust log pipelines. Several plugins empower the ingestion, process, enrich, and output integration with external stacks. The pipelines are created using Logstash Configuration DSL (&lt;em&gt;Domain-Specific Language&lt;/em&gt;), a high-level configuration language designed to be efficient and flexible, and focused on Log Pipeline needs.&lt;/p&gt;
@@ -84,9 +84,9 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;h3&gt;Main Advantages:&lt;/h3&gt;
 &lt;p&gt;This approach brings the following advantages:&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Avoid Code Duplication&lt;/strong&gt;: Avoid code duplicated of the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; statements, because the pipelines will define which inputs will be used.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Reusable Code&lt;/strong&gt;: Allows the &lt;em&gt;import&lt;/em&gt; modules in multiple pipelines.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Decrease Complexity&lt;/strong&gt;: The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt; code is composed of only the application log parser logic.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Avoid Code Duplication&lt;/strong&gt;: Allows to use modules across multiple pipelines (for example, configure the same &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; module for all pipelines).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Reusable Code&lt;/strong&gt;: Allows a simple configurable way to use more than one module of the same type (for example, two &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt;, and three &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt; in one specific pipeline).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Decrease Complexity&lt;/strong&gt;: The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt; code is composed of only the application parser logic.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Troubleshooting&lt;/strong&gt;: Preserve the traceable of the pipelines in the logstash metric API.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Tests&lt;/strong&gt;: Make it easier to test &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt; code because the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; modules is simple to change, allowing a configuration of the &lt;em&gt;mock&lt;/em&gt; log source as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt; and &lt;em&gt;stdout&lt;/em&gt; as a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; to check if the logic is working as expected.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -100,8 +100,8 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
 &lt;p&gt;Logstash is a versatile tool for log processing, providing well-configured solutions for both small and large workloads to meet Observability needs. While the Logstash Module structure offers a straightforward approach to mitigate recurring issues in pipeline creation, it is not the exclusive remedy for this challenge.&lt;/p&gt;
 &lt;p&gt;Understanding Observability requirements is essential for effectively harnessing the tool’s features. Occasionally, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.&lt;/p&gt;
-&lt;p&gt;I have implemented this structure and witnessed significant improvements in maintainability, particularly in the advantages it brings to testing, where I can easily assess my filter logics with a simple a environment variable value change.&lt;/p&gt;
-&lt;p&gt;I genuinely appreciate this structure because my primary goal is to simplify and make it easier the maintainability, but it’s important to recognize that &lt;strong&gt;every case is unique, and each context presents its own complexity and challenges&lt;/strong&gt;. Therefore, only adopt this structure if solves a real and existing code duplication problem and the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt; code is hard to test.&lt;/p&gt;
+&lt;p&gt;I have implemented this structure and witnessed significant improvements in maintainability, particularly in the &lt;strong&gt;Tests&lt;/strong&gt; advantages mentioned, where I can easily test my &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt; logics with a simple a environment variable value change.&lt;/p&gt;
+&lt;p&gt;I genuinely appreciate this structure because my primary goal is to simplify and make it easier the maintainability, but it’s important to recognize that &lt;strong&gt;every case is unique, and each context presents its own complexity and challenges&lt;/strong&gt;. Therefore, I suggests this structure only if solves a existing code duplication case or if &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt; code is hard to test.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="references"&gt;
 &lt;h2&gt;References&lt;/h2&gt;
@@ -115,7 +115,7 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2023/2023-11-02-logstash-modular-pipelines/" rel="alternate"/>
-    <summary>Blog Post Publish Date: 2023/11/12This blog post explores the structuring of Logstash pipelines to mitigate code duplicated and presents an elegant method for reusing code statements across multiple pipelines.</summary>
+    <summary>Blog Post Publish Date: 2023/11/12This blog post explores a Logstash pipelines structure to mitigate code duplicated and presents an elegant method for reusing code statements across multiple pipelines.</summary>
     <category term="logstash" label="logstash"/>
     <published>2023-11-12T00:00:00+00:00</published>
   </entry>
