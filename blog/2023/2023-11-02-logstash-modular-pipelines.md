@@ -105,7 +105,7 @@ Understanding Observability requirements is essential for effectively harnessing
 
 I have implemented this structure and witnessed significant improvements in maintainability, particularly in the __Tests__ advantages mentioned, where I can easily test my `filter` logics with a simple a environment variable value change.
 
-I genuinely appreciate this structure because my primary goal is to simplify and make it easier the maintainability, but it’s important to recognize that __every case is unique, and each context presents its own complexity and challenges__. Therefore, I suggests this structure only if solves a existing code duplication case or if `filter` code is hard to test.
+I genuinely appreciate this structure because my primary goal is to simplify and make it easier the maintainability, but it’s important to recognize that __every case is unique, and each context presents its own complexity and challenges__. Therefore, I recommend adopting this structure when the maintenance of pipelines becomes complex, code duplication is on the rise, and the configuration of Logstash becomes prone to errors, ultimately rendering it difficult to maintain.
 
 ## References
 
