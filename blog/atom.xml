@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-19T23:11:46.492750+00:00</updated>
+  <updated>2023-11-19T23:14:50.787454+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -19,7 +19,7 @@
 &lt;p&gt;This blog post delivers a explanation of the systemd &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;override.conf&lt;/span&gt;&lt;/code&gt; file. It elucidates the drawbacks of directly altering unit service configurations, introduces the overriding approach as a solution, presents a practical, hands-on example, and culminates with my personal perspective on the effectiveness of this structural methodology.&lt;/p&gt;
 &lt;section id="drawbacks-of-direct-unit-service-editing"&gt;
 &lt;h2&gt;Drawbacks of Direct Unit Service Editing&lt;/h2&gt;
-&lt;p&gt;At times, there’s a need to modify certain properties within a particular systemd unit service, such as adjusting the value of an environment variable to enhance debug levels for troubleshooting. Traditionally, this involves directly altering the unit service file. For instance, if you wish to modify properties of Docker, you’d edit &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/systemd/system/my-script.service&lt;/span&gt;&lt;/code&gt;, implement the changes, refresh systemd with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;systemctl&lt;/span&gt; &lt;span class="pre"&gt;daemon-reload&lt;/span&gt;&lt;/code&gt;, and then restart the Docker process using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;systemctl&lt;/span&gt; &lt;span class="pre"&gt;restart&lt;/span&gt; &lt;span class="pre"&gt;docker&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;At times, there’s a need to modify certain properties within a particular systemd unit service, such as adjusting the value of an environment variable to enhance debug levels for troubleshooting. Traditionally, this involves directly altering the unit service file. For instance, if you wish to modify properties of Docker, you’d edit &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/systemd/system/docker.service&lt;/span&gt;&lt;/code&gt;, implement the changes, refresh systemd with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;systemctl&lt;/span&gt; &lt;span class="pre"&gt;daemon-reload&lt;/span&gt;&lt;/code&gt;, and then restart the Docker process using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;systemctl&lt;/span&gt; &lt;span class="pre"&gt;restart&lt;/span&gt; &lt;span class="pre"&gt;docker&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;While this approach functions adequately, it introduces certain behaviors that may pose issues depending on your use case.&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;Modifying default unit services elevates the risk of configuring settings incorrectly.&lt;/p&gt;&lt;/li&gt;
