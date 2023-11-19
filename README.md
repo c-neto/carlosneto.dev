@@ -1,6 +1,6 @@
-# My Personal Blog!
+# My Blog!
 
-This is my personal website, built with Sphinx!
+This is my website, built with Sphinx!
 
 URL: https://www.carlosneto.dev/
 

@@ -10,7 +10,7 @@ category: Cloud
 
 # Cloud Computing: Overview and Concepts
 
-This blog post explores the impact of Cloud Computing, essential concepts, primary Cloud models, and my personal opinion about its adoption.
+This blog post explores the impact of Cloud Computing, essential concepts, primary Cloud models, and my opinion about its adoption.
 
 ## The Impact of Cloud Computing
 
