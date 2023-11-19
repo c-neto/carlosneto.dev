@@ -96,7 +96,7 @@ We will create a systemd unit service named `my-script`. To achieve this, we nee
 /etc/systemd/system/my-script.service   # unit service file definition
 ```
 
-> _<i class="fa-solid fa-link"></i> The files can be found in my GitHub: <i class="fa-brands fa-github"></i> [c-neto/my-devops-labs/blog/2023-11-19](https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-19/)_
+> _<i class="fa-solid fa-link"></i> The files can be found on my GitHub: <i class="fa-brands fa-github"></i> [c-neto/my-devops-labs/blog/2023-11-19](https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-19/)_
 
 
 Initially, let's create the working directory for the script.
