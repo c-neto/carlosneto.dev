@@ -210,6 +210,6 @@ The seamless flexibility provided by the `$ systemctl edit` command empowers use
 
 ## Links
 
-- https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-19/
+- <https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-19/>
 - <https://systemd.io/>
 - <https://access.redhat.com/sites/default/files/attachments/12052018_systemd_6.pdf>
