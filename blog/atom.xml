@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-19T23:14:50.787454+00:00</updated>
+  <updated>2023-11-19T23:17:59.021383+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -24,7 +24,7 @@
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;Modifying default unit services elevates the risk of configuring settings incorrectly.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Custom changes can be challenging to discern if they lack proper comments.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Unit service files might be overridden based on the installation method. For instance, the unit service could be replaced according to package update definitions of a package manager like RPM or APT.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Unit service files might be overridden based on the installation method. For instance, the unit service could be replaced according to package update definitions of a package manager like &lt;a class="reference external" href="https://rpm.org/"&gt;rpm&lt;/a&gt; or &lt;a class="reference external" href="https://wiki.debian.org/Apt"&gt;apt&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;In the following section, I will elucidate an elegant workaround for these behaviors.&lt;/p&gt;
 &lt;/section&gt;
