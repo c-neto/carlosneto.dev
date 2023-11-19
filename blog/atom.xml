@@ -2,18 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-19T22:56:55.968580+00:00</updated>
+  <updated>2023-11-19T22:59:15.690513+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
   <entry>
     <id>https://carlosneto.dev/blog/2023/2023-11-19-systemd-override-parameters/</id>
-    <title>service.d: A Smart Way to Customize Systemd Unit Properties</title>
+    <title>Properties Overriding: A Smart Way to Customize Systemd Unit Properties</title>
     <updated>2023-11-19T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2023/11/19&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;section id="service-d-a-smart-way-to-customize-systemd-unit-properties"&gt;
+&lt;section id="properties-overriding-a-smart-way-to-customize-systemd-unit-properties"&gt;
 
 &lt;p&gt;This blog post covers an smart alternative to customize systemd unit process parameters.&lt;/p&gt;
 &lt;p&gt;This blog post delivers a explanation of the systemd &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;override.conf&lt;/span&gt;&lt;/code&gt; file. It elucidates the drawbacks of directly altering unit service configurations, introduces the overriding approach as a solution, presents a practical, hands-on example, and culminates with my personal perspective on the effectiveness of this structural methodology.&lt;/p&gt;
