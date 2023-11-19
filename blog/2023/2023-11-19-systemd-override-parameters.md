@@ -8,7 +8,7 @@ category: Linux
 
 ---
 
-# service.d: A Smart Way to Customize Systemd Unit Properties
+# Properties Overriding: A Smart Way to Customize Systemd Unit Properties
 
 This blog post covers an smart alternative to customize systemd unit process parameters.
 
