@@ -34,7 +34,11 @@ This method enables you to make changes to systemd unit properties while preserv
 
 Override parameters are declared in the following file pattern:
 
-> `/etc/systemd/system/<UNIT-SERVICE-NAME>.service.d/override.conf`
+```
+/etc/systemd/system/<UNIT-SERVICE-NAME>.service.d/override.conf
+```
+
+> _`<UNIT-SERVICE-NAME>` is a placeholder._
 
 All unit service properties defined in `override.conf` will take precedence over those defined in `<UNIT-SERVICE-NAME>.service`.
 
