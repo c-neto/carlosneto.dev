@@ -461,7 +461,9 @@ document.write(`
 <p>A sophisticated approach to customizing unit service parameters involves overriding them.</p>
 <p>This method enables you to make changes to systemd unit properties while preserving the default file without any modifications. This is possible because the method reads custom properties from another file and merges them with the default properties.</p>
 <p>Override parameters are declared in the following file pattern:</p>
-<p><code class="docutils literal notranslate"><span class="pre">/etc/systemd/system/&lt;UNIT-SERVICE-NAME&gt;.service.d/override.conf</span></code></p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">/etc/systemd/system/&lt;UNIT-SERVICE-NAME&gt;.service.d/override.conf</span></code></p>
+</div></blockquote>
 <p>All unit service properties defined in <code class="docutils literal notranslate"><span class="pre">override.conf</span></code> will take precedence over those defined in <code class="docutils literal notranslate"><span class="pre">&lt;UNIT-SERVICE-NAME&gt;.service</span></code>.</p>
 <p>Consider the following example, where both default and override unit properties are illustrated.</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
