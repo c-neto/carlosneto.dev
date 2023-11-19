@@ -16,7 +16,7 @@ This blog post delivers a explanation of the systemd `override.conf` file. It el
 
 ## Drawbacks of Direct Unit Service Editing
 
-At times, there's a need to modify certain properties within a particular systemd unit service, such as adjusting the value of an environment variable to enhance debug levels for troubleshooting. Traditionally, this involves directly altering the unit service file. For instance, if you wish to modify properties of Docker, you'd edit `/etc/systemd/system/my-script.service`, implement the changes, refresh systemd with `$ systemctl daemon-reload`, and then restart the Docker process using `$ systemctl restart docker`.
+At times, there's a need to modify certain properties within a particular systemd unit service, such as adjusting the value of an environment variable to enhance debug levels for troubleshooting. Traditionally, this involves directly altering the unit service file. For instance, if you wish to modify properties of Docker, you'd edit `/etc/systemd/system/docker.service`, implement the changes, refresh systemd with `$ systemctl daemon-reload`, and then restart the Docker process using `$ systemctl restart docker`.
 
 While this approach functions adequately, it introduces certain behaviors that may pose issues depending on your use case.
 
