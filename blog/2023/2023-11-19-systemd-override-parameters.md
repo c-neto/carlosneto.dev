@@ -22,7 +22,7 @@ While this approach functions adequately, it introduces certain behaviors that m
 
 - Modifying default unit services elevates the risk of configuring settings incorrectly.
 - Custom changes can be challenging to discern if they lack proper comments.
-- Unit service files might be overridden based on the installation method. For instance, the unit service could be replaced according to package update definitions of a package manager like RPM or APT.
+- Unit service files might be overridden based on the installation method. For instance, the unit service could be replaced according to package update definitions of a package manager like [rpm](https://rpm.org/) or [apt](https://wiki.debian.org/Apt).
 
 In the following section, I will elucidate an elegant workaround for these behaviors.
 
