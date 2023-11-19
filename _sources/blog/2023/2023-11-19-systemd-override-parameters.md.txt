@@ -12,7 +12,7 @@ category: Linux
 
 This blog post covers an smart alternative to customize systemd unit process parameters.
 
-This blog post delivers a explanation of the systemd `override.conf` file. It elucidates the drawbacks of directly altering unit service configurations, introduces the overriding approach as a solution, presents a practical, hands-on example, and culminates with my personal perspective on the effectiveness of this structural methodology.
+This blog post delivers a explanation of the systemd `override.conf` file. It elucidates the drawbacks of directly altering unit service configurations, introduces the overriding approach as a solution, presents a practical, hands-on example, and culminates with my perspective on the effectiveness of this structural methodology.
 
 ## Drawbacks of Direct Unit Service Editing
 

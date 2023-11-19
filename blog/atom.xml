@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-19T23:55:33.358796+00:00</updated>
+  <updated>2023-11-19T23:57:11.418182+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -16,7 +16,7 @@
 &lt;section id="properties-overriding-a-smart-way-to-customize-systemd-unit-properties"&gt;
 
 &lt;p&gt;This blog post covers an smart alternative to customize systemd unit process parameters.&lt;/p&gt;
-&lt;p&gt;This blog post delivers a explanation of the systemd &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;override.conf&lt;/span&gt;&lt;/code&gt; file. It elucidates the drawbacks of directly altering unit service configurations, introduces the overriding approach as a solution, presents a practical, hands-on example, and culminates with my personal perspective on the effectiveness of this structural methodology.&lt;/p&gt;
+&lt;p&gt;This blog post delivers a explanation of the systemd &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;override.conf&lt;/span&gt;&lt;/code&gt; file. It elucidates the drawbacks of directly altering unit service configurations, introduces the overriding approach as a solution, presents a practical, hands-on example, and culminates with my perspective on the effectiveness of this structural methodology.&lt;/p&gt;
 &lt;section id="drawbacks-of-direct-unit-service-editing"&gt;
 &lt;h2&gt;Drawbacks of Direct Unit Service Editing&lt;/h2&gt;
 &lt;p&gt;At times, there’s a need to modify certain properties within a particular systemd unit service, such as adjusting the value of an environment variable to enhance debug levels for troubleshooting. Traditionally, this involves directly altering the unit service file. For instance, if you wish to modify properties of Docker, you’d edit &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/systemd/system/docker.service&lt;/span&gt;&lt;/code&gt;, implement the changes, refresh systemd with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;systemctl&lt;/span&gt; &lt;span class="pre"&gt;daemon-reload&lt;/span&gt;&lt;/code&gt;, and then restart the Docker process using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;systemctl&lt;/span&gt; &lt;span class="pre"&gt;restart&lt;/span&gt; &lt;span class="pre"&gt;docker&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
@@ -229,7 +229,7 @@ Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;
 &lt;section id="logstash-modular-pipelines-an-elegant-structure-for-code-reusability-and-duplication-avoiding"&gt;
 
 &lt;p&gt;This blog post explores a Logstash pipelines structure to mitigate code duplicated and presents an elegant method for reusing code section across multiple pipelines.&lt;/p&gt;
-&lt;p&gt;The post provides a clear explanation of the Logstash configuration structure, outlining the problem addressed by modular pipelines. It includes an example configuration and a Docker-compose lab for hands-on testing and exploration of the possibilities. Finally, the post concludes with my personal opinion on the effectiveness of this structure.&lt;/p&gt;
+&lt;p&gt;The post provides a clear explanation of the Logstash configuration structure, outlining the problem addressed by modular pipelines. It includes an example configuration and a Docker-compose lab for hands-on testing and exploration of the possibilities. Finally, the post concludes with my opinion on the effectiveness of this structure.&lt;/p&gt;
 &lt;section id="a-little-about-logstash-and-pipelines-structure"&gt;
 &lt;h2&gt;A Little About Logstash and Pipelines Structure&lt;/h2&gt;
 &lt;p&gt;The Logstash is an amazing tool for crafting robust log pipelines. Several plugins empower the ingestion, process, enrich, and output integration with external stacks. The pipelines are created using Logstash Configuration DSL (&lt;em&gt;Domain-Specific Language&lt;/em&gt;), a high-level configuration language designed to be efficient and flexible, and focused on Log Pipeline needs.&lt;/p&gt;
@@ -341,7 +341,7 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;hr class="docutils" /&gt;
 &lt;section id="cloud-computing-overview-and-concepts"&gt;
 
-&lt;p&gt;This blog post explores the impact of Cloud Computing, essential concepts, primary Cloud models, and my personal opinion about its adoption.&lt;/p&gt;
+&lt;p&gt;This blog post explores the impact of Cloud Computing, essential concepts, primary Cloud models, and my opinion about its adoption.&lt;/p&gt;
 &lt;section id="the-impact-of-cloud-computing"&gt;
 &lt;h2&gt;The Impact of Cloud Computing&lt;/h2&gt;
 &lt;p&gt;Historically, Development teams emphasized agility in contributions, while Operations/Infrastructure teams focused more on stability due to hardware interactions. However, with the advent of technologies like virtualization, manual infrastructure tasks became obsolete, and infrastructure components started being provided as a service by Cloud providers like AWS, Google, Microsoft, and others.&lt;/p&gt;
@@ -462,7 +462,7 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2023/2023-10-21-cloud-concepts/" rel="alternate"/>
-    <summary>Blog Post Publish Date: 2023/10/21This blog post explores the impact of Cloud Computing, essential concepts, primary Cloud models, and my personal opinion about its adoption.</summary>
+    <summary>Blog Post Publish Date: 2023/10/21This blog post explores the impact of Cloud Computing, essential concepts, primary Cloud models, and my opinion about its adoption.</summary>
     <category term="aws" label="aws"/>
     <category term="azure" label="azure"/>
     <category term="gcp" label="gcp"/>
