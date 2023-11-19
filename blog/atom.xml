@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-19T23:01:35.780300+00:00</updated>
+  <updated>2023-11-19T23:02:50.596641+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -33,8 +33,11 @@
 &lt;p&gt;A sophisticated approach to customizing unit service parameters involves overriding them.&lt;/p&gt;
 &lt;p&gt;This method enables you to make changes to systemd unit properties while preserving the default file without any modifications. This is possible because the method reads custom properties from another file and merges them with the default properties.&lt;/p&gt;
 &lt;p&gt;Override parameters are declared in the following file pattern:&lt;/p&gt;
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;systemd&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;system&lt;/span&gt;&lt;span class="o"&gt;/&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;UNIT&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;SERVICE&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;NAME&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;.&lt;/span&gt;&lt;span class="n"&gt;service&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;override&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/systemd/system/&amp;lt;UNIT-SERVICE-NAME&amp;gt;.service.d/override.conf&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;lt;UNIT-SERVICE-NAME&amp;gt;&lt;/span&gt;&lt;/code&gt; is a placeholder.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;All unit service properties defined in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;override.conf&lt;/span&gt;&lt;/code&gt; will take precedence over those defined in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;lt;UNIT-SERVICE-NAME&amp;gt;.service&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Consider the following example, where both default and override unit properties are illustrated.&lt;/p&gt;

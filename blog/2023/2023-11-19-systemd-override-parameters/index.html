@@ -461,8 +461,11 @@ document.write(`
 <p>A sophisticated approach to customizing unit service parameters involves overriding them.</p>
 <p>This method enables you to make changes to systemd unit properties while preserving the default file without any modifications. This is possible because the method reads custom properties from another file and merges them with the default properties.</p>
 <p>Override parameters are declared in the following file pattern:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">systemd</span><span class="o">/</span><span class="n">system</span><span class="o">/&lt;</span><span class="n">UNIT</span><span class="o">-</span><span class="n">SERVICE</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;.</span><span class="n">service</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">override</span><span class="o">.</span><span class="n">conf</span>
+</pre></div>
+</div>
 <blockquote>
-<div><p><code class="docutils literal notranslate"><span class="pre">/etc/systemd/system/&lt;UNIT-SERVICE-NAME&gt;.service.d/override.conf</span></code></p>
+<div><p><em><code class="docutils literal notranslate"><span class="pre">&lt;UNIT-SERVICE-NAME&gt;</span></code> is a placeholder.</em></p>
 </div></blockquote>
 <p>All unit service properties defined in <code class="docutils literal notranslate"><span class="pre">override.conf</span></code> will take precedence over those defined in <code class="docutils literal notranslate"><span class="pre">&lt;UNIT-SERVICE-NAME&gt;.service</span></code>.</p>
 <p>Consider the following example, where both default and override unit properties are illustrated.</p>
