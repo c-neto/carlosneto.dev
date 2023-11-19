@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-19T23:24:17.403474+00:00</updated>
+  <updated>2023-11-19T23:46:56.882213+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -86,7 +86,7 @@
 &lt;/div&gt;
 &lt;p&gt;When the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-script.service&lt;/span&gt;&lt;/code&gt; be executed, the &lt;em&gt;ExecStart&lt;/em&gt; command will be &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-script.sh&lt;/span&gt; &lt;span class="pre"&gt;--dev&lt;/span&gt;&lt;/code&gt; because it were declared in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;override.conf&lt;/span&gt;&lt;/code&gt; that replace the &lt;em&gt;ExecStart&lt;/em&gt; defined in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-script.service&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;p&gt;An efficient shortcut to execute this action is through the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;systemctl&lt;/span&gt; &lt;span class="pre"&gt;edit&lt;/span&gt; &lt;span class="pre"&gt;docker&lt;/span&gt;&lt;/code&gt; command.&lt;/p&gt;
+&lt;p&gt;An efficient shortcut to execute this action is through the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;systemctl&lt;/span&gt; &lt;span class="pre"&gt;edit&lt;/span&gt; &lt;span class="pre"&gt;&amp;lt;UNIT-SERVICE-NAME&amp;gt;&lt;/span&gt;&lt;/code&gt; command.&lt;/p&gt;
 &lt;p&gt;This command creates a directory and file at &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/systemd/system/&amp;lt;UNIT-SERVICE-NAME&amp;gt;.service.d/override.conf&lt;/span&gt;&lt;/code&gt;, opens your text editor for making the necessary changes, and upon closing it, automatically executes &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;systemctl&lt;/span&gt; &lt;span class="pre"&gt;daemon-reload&lt;/span&gt;&lt;/code&gt; behind the scenes. The only additional step is to execute &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;systemctl&lt;/span&gt; &lt;span class="pre"&gt;restart&lt;/span&gt; &lt;span class="pre"&gt;UNIT-NAME&lt;/span&gt;&lt;/code&gt; when necessary to apply the changes.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="hands-on"&gt;
