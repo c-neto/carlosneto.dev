@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-19T23:46:56.882213+00:00</updated>
+  <updated>2023-11-19T23:55:33.358796+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -130,8 +130,8 @@
 &lt;div class="sd-card-body docutils"&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id4"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ vim /tmp/my-script/env_default.env&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;APP_NAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;my-script&amp;quot;&lt;/span&gt;
-&lt;span class="nv"&gt;MY_CUSTOM_ENV_VAR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;irish blood&amp;quot;&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;APP_NAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;My Awesome Script&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;MY_CUSTOM_ENV_VAR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Irish Blood&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -143,7 +143,7 @@
 &lt;div class="sd-card-body docutils"&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id5"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ vim /tmp/my-script/env_custom.env&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;MY_CUSTOM_ENV_VAR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;england heart&amp;quot;&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;MY_CUSTOM_ENV_VAR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;English Heart&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -174,8 +174,8 @@ $ systemctl start my-script
 &lt;p&gt;To inspect the log of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-script&lt;/span&gt;&lt;/code&gt;, you can verify the value of the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/tmp/my-script/env_default.env&lt;/span&gt;&lt;/code&gt; file.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id7"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ journalctl -u my-script -f&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:11:29&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;33631&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;irish&lt;span class="w"&gt; &lt;/span&gt;blood
-Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:11:30&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;33631&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;irish&lt;span class="w"&gt; &lt;/span&gt;blood
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:11:29&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;33631&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;My&lt;span class="w"&gt; &lt;/span&gt;Awesome&lt;span class="w"&gt; &lt;/span&gt;Script&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;Irish&lt;span class="w"&gt; &lt;/span&gt;Blood
+Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:11:30&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;33631&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;My&lt;span class="w"&gt; &lt;/span&gt;Awesome&lt;span class="w"&gt; &lt;/span&gt;Script&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;Irish&lt;span class="w"&gt; &lt;/span&gt;Blood
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -194,8 +194,8 @@ Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;
 &lt;p&gt;This time, variables from the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;env_custom.env&lt;/span&gt;&lt;/code&gt; file will replace those present in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;env_default.env&lt;/span&gt;&lt;/code&gt; file.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id9"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ systemctl edit my-script&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:21:42&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;58573&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;my-script&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;england&lt;span class="w"&gt; &lt;/span&gt;heart
-Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:21:43&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;58573&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;my-script&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;england&lt;span class="w"&gt; &lt;/span&gt;heart
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:21:42&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;58573&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;My&lt;span class="w"&gt; &lt;/span&gt;Awesome&lt;span class="w"&gt; &lt;/span&gt;Script&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;English&lt;span class="w"&gt; &lt;/span&gt;Heart
+Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:21:43&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;58573&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;My&lt;span class="w"&gt; &lt;/span&gt;Awesome&lt;span class="w"&gt; &lt;/span&gt;Script&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;English&lt;span class="w"&gt; &lt;/span&gt;Heart
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

@@ -132,8 +132,8 @@ We will create two files that will serve as the source for environment variables
 ```{code-block} bash
 :caption: $ vim /tmp/my-script/env_default.env
 
-APP_NAME="my-script"
-MY_CUSTOM_ENV_VAR="irish blood"
+APP_NAME="My Awesome Script"
+MY_CUSTOM_ENV_VAR="Irish Blood"
 ```
 :::
 
@@ -141,7 +141,7 @@ MY_CUSTOM_ENV_VAR="irish blood"
 ```{code-block} bash
 :caption: $ vim /tmp/my-script/env_custom.env
 
-MY_CUSTOM_ENV_VAR="england heart"
+MY_CUSTOM_ENV_VAR="English Heart"
 ```
 :::
 
@@ -175,8 +175,8 @@ To inspect the log of `my-script`, you can verify the value of the `/tmp/my-scri
 ```{code-block} bash
 :caption: $ journalctl -u my-script -f
 
-Nov 19 16:11:29 fedora my-script.sh[33631]: >>> irish blood
-Nov 19 16:11:30 fedora my-script.sh[33631]: >>> irish blood
+Nov 19 16:11:29 fedora my-script.sh[33631]: >>> My Awesome Script - Irish Blood
+Nov 19 16:11:30 fedora my-script.sh[33631]: >>> My Awesome Script - Irish Blood
 ```
 
 Next, we will override the source file for environment variables.
@@ -198,8 +198,8 @@ This time, variables from the `env_custom.env` file will replace those present i
 ```{code-block} bash
 :caption: $ systemctl edit my-script
 
-Nov 19 16:21:42 fedora my-script.sh[58573]: >>> my-script - england heart
-Nov 19 16:21:43 fedora my-script.sh[58573]: >>> my-script - england heart
+Nov 19 16:21:42 fedora my-script.sh[58573]: >>> My Awesome Script - English Heart
+Nov 19 16:21:43 fedora my-script.sh[58573]: >>> My Awesome Script - English Heart
 ```
 
 ## Conclusion (Author Opinion)
