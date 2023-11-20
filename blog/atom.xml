@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-20T00:22:59.482438+00:00</updated>
+  <updated>2023-11-20T00:43:52.184710+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -53,13 +53,13 @@
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;/etc/systemd/system/my-script.service&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-toml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;
 &lt;span class="k"&gt;[Description]&lt;/span&gt;
-&lt;span class="c1"&gt;# collapsed definitions...&lt;/span&gt;
+&lt;span class="c1"&gt;# collapsed parameters...&lt;/span&gt;
 
 &lt;span class="k"&gt;[Service]&lt;/span&gt;
 &lt;span class="n"&gt;ExecStart&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;my-script.sh --prod&lt;/span&gt;
 
 &lt;span class="k"&gt;[Install]&lt;/span&gt;
-&lt;span class="c1"&gt;# collapsed definitions...&lt;/span&gt;
+&lt;span class="c1"&gt;# collapsed parameters...&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
