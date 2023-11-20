@@ -83,7 +83,7 @@ An efficient shortcut to execute this action is through the `$ systemctl edit <U
 
 This command creates a directory and file at `/etc/systemd/system/<UNIT-SERVICE-NAME>.service.d/override.conf`, opens your text editor for making the necessary changes, and upon closing it, automatically executes `$ systemctl daemon-reload` behind the scenes. The only additional step is to execute `$ systemctl restart UNIT-NAME` when necessary to apply the changes.
 
-## Hands On
+## Hands-On
 
 Let's get hands-on! This section will delve into a detailed example of the override method.
 
