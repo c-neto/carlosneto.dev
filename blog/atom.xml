@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-11-19T23:57:11.418182+00:00</updated>
+  <updated>2023-11-20T00:11:26.163357+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -90,7 +90,7 @@
 &lt;p&gt;This command creates a directory and file at &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/systemd/system/&amp;lt;UNIT-SERVICE-NAME&amp;gt;.service.d/override.conf&lt;/span&gt;&lt;/code&gt;, opens your text editor for making the necessary changes, and upon closing it, automatically executes &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;systemctl&lt;/span&gt; &lt;span class="pre"&gt;daemon-reload&lt;/span&gt;&lt;/code&gt; behind the scenes. The only additional step is to execute &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;systemctl&lt;/span&gt; &lt;span class="pre"&gt;restart&lt;/span&gt; &lt;span class="pre"&gt;UNIT-NAME&lt;/span&gt;&lt;/code&gt; when necessary to apply the changes.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="hands-on"&gt;
-&lt;h2&gt;Hands On&lt;/h2&gt;
+&lt;h2&gt;Hands-On&lt;/h2&gt;
 &lt;p&gt;Let’s get hands-on! This section will delve into a detailed example of the override method.&lt;/p&gt;
 &lt;p&gt;We will create a systemd unit service named &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-script&lt;/span&gt;&lt;/code&gt;. To achieve this, we need to create the following files:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/tmp/my-script/env_custom.env&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# env vars source of the my-script process&lt;/span&gt;

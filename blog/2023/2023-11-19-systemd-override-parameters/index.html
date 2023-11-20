@@ -379,7 +379,7 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#drawbacks-of-direct-unit-service-editing">Drawbacks of Direct Unit Service Editing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-solution-parameters-overriding">The Solution: Parameters Overriding</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on">Hands On</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hands-on">Hands-On</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion-author-opinion">Conclusion (Author Opinion)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#links">Links</a></li>
 </ul>
@@ -518,7 +518,7 @@ document.write(`
 <p>This command creates a directory and file at <code class="docutils literal notranslate"><span class="pre">/etc/systemd/system/&lt;UNIT-SERVICE-NAME&gt;.service.d/override.conf</span></code>, opens your text editor for making the necessary changes, and upon closing it, automatically executes <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">daemon-reload</span></code> behind the scenes. The only additional step is to execute <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">UNIT-NAME</span></code> when necessary to apply the changes.</p>
 </section>
 <section id="hands-on">
-<h2>Hands On<a class="headerlink" href="#hands-on" title="Link to this heading">#</a></h2>
+<h2>Hands-On<a class="headerlink" href="#hands-on" title="Link to this heading">#</a></h2>
 <p>Let’s get hands-on! This section will delve into a detailed example of the override method.</p>
 <p>We will create a systemd unit service named <code class="docutils literal notranslate"><span class="pre">my-script</span></code>. To achieve this, we need to create the following files:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/tmp/my-script/env_custom.env<span class="w">           </span><span class="c1"># env vars source of the my-script process</span>
