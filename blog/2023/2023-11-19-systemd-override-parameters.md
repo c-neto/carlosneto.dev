@@ -196,7 +196,7 @@ EnvironmentFile=/tmp/my-script/env_custom.env
 This time, variables from the `env_custom.env` file will replace those present in the `env_default.env` file.
 
 ```{code-block} bash
-:caption: $ systemctl edit my-script
+:caption: $ journalctl -u my-script -f
 
 Nov 19 16:21:42 fedora my-script.sh[58573]: >>> My Awesome Script - English Heart
 Nov 19 16:21:43 fedora my-script.sh[58573]: >>> My Awesome Script - English Heart
