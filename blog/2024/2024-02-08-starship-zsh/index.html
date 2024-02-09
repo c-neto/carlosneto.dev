@@ -11,12 +11,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2024/2024-02-08-starship-zsh/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2024/02/08 This blog post covers my experience in the prompts usage, my evolution until ZSH and Starship, and my setup configuration. About my Prompts Experiences: Productiv..." />
+<meta property="og:description" content="Blog Post Publish Date: 2024/02/08 This blog post covers my experience in the prompts usage, my evolution until ZSH+ Starship, and my setup configuration. About my Prompts Experiences: Productivity..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2024_2024-02-08-starship-zsh_c863960f.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2024/02/08 This blog post covers my experience in the prompts usage, my evolution until ZSH and Starship, and my setup configuration...." />
-<meta name="description" content="Blog Post Publish Date: 2024/02/08 This blog post covers my experience in the prompts usage, my evolution until ZSH and Starship, and my setup configuration. About my Prompts Experiences: Productiv..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2024_2024-02-08-starship-zsh_d3bd9080.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2024/02/08 This blog post covers my experience in the prompts usage, my evolution until ZSH+ Starship, and my setup configuration. Ab..." />
+<meta name="description" content="Blog Post Publish Date: 2024/02/08 This blog post covers my experience in the prompts usage, my evolution until ZSH+ Starship, and my setup configuration. About my Prompts Experiences: Productivity..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>ZSH + Starship: A Productivity Masterpiece &#8212; Carlos Neto</title>
@@ -379,7 +379,7 @@ document.write(`
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about-my-prompts-experiences">About my Prompts Experiences</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-setup-the">How to Setup the</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-setup-my-zsh-starship">How to Setup: My ZSH + Starship</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion-author-opinion">Conclusion (Author Opinion)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#links">Links</a></li>
 </ul>
@@ -449,45 +449,62 @@ document.write(`
 <hr class="docutils" />
 <section id="zsh-starship-a-productivity-masterpiece">
 <h1>ZSH + Starship: A Productivity Masterpiece<a class="headerlink" href="#zsh-starship-a-productivity-masterpiece" title="Link to this heading">#</a></h1>
-<p>This blog post covers my experience in the prompts usage, my evolution until ZSH and Starship, and my setup configuration.</p>
+<p>This blog post covers my experience in the prompts usage, my evolution until <a class="reference external" href="https://www.zsh.org/">ZSH</a> + <a class="reference external" href="https://starship.rs/">Starship</a>, and my setup configuration.</p>
 <section id="about-my-prompts-experiences">
 <h2>About my Prompts Experiences<a class="headerlink" href="#about-my-prompts-experiences" title="Link to this heading">#</a></h2>
 <p>Productivity is a topic that I definitely like. I always look better ways to execute the bored daily tasks, mainly in the terminal. For long time in my tech life, I used the raw terminal over Bash, It is force me to memorize the commands, but the productivity is not so good. I felt the necessity in the new shell adoption, focused in productivity.</p>
-<p>I adopted the Xonsh as my primary shell. It was a great and funny experience. The xonsh extend the shell commands base set with Python. I felt like a real <em>hackerman</em> (<em>even if alternatives simple commands in the Bash performed exactly the same behavior</em>). The only limit my restriction, until the day that I wasn’t understand that I’m doing. The union Bash + Python is funny, but is a chaos to debug (<em>to improve my position: Imagine the list comprehension with dicts and pipe grep… no more words is necessary.</em>).</p>
-<p>I needed come back the real world again, then I gave a chance for zsh, which brings the productivity with several plugins, and the syntax almost the same the Bash. I really liked It, mainly when I tested the Spaceship (<em>“minimalistic, powerful and extremely customizable Zsh prompt”</em>), and the plugin manager oh-my-zsh, which makes simple installation and tests new plugins and utility commands. Finally, I had reached a stable terminal setup, a good balance between productivity and simplicity.</p>
-<p>Over the course of the months, the startup delay got on my nerves (<em>to be honest, in MacOs only, in my Fedora workstation everything to be right</em>). I had read some articles and Youtube videos about how to improve the performance, but the result don’t satisfied myself. Then, I tested the Starship, in my words, is the “<em>Spaceship alternative in Rust, blazing-fast, rocket emoji, with many stars in the GitHub</em>”. I tested, and the results blew my mind. I had no efforts to rewrite my plugins customizations from the Spaceship to Starship, and the performance is excellent, and all my problems were solved.</p>
+<p>I adopted the <a class="reference external" href="https://xon.sh/">xonsh</a> as my primary shell. It was a great and funny experience. The <a class="reference external" href="https://xon.sh/">xonsh</a> extend the shell commands base set with Python. I felt like a real <em>hackerman</em> (<em>even if alternatives simple commands in the Bash performed exactly the same behavior</em>). The only limit my restriction, until the day that I wasn’t understand that I’m doing. The union Bash + Python is funny, but is a chaos to debug (<em>to improve my position: Imagine the list comprehension with dicts and pipe grep… no more words is necessary.</em>).</p>
+<p>I needed come back the real world again, then I gave a chance for zsh, which brings the productivity with several plugins, and the syntax almost the same the Bash. I really liked It, mainly when I tested the <a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a> (<em>“minimalistic, powerful and extremely customizable Zsh prompt”</em>), and the plugin manager <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a>, which makes simple installation and tests new plugins and utility commands. Finally, I had reached a stable terminal setup, a good balance between productivity and simplicity.</p>
+<p>Over the course of the months, the startup delay got on my nerves (<em>to be honest, in MacOs only, in my Fedora workstation everything to be right</em>). I had read some articles and Youtube videos about how to improve the performance, but the result don’t satisfied myself. Then, I tested the <a class="reference external" href="https://starship.rs/">Starship</a>, in my words, is the “<em><a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a> alternative in Rust, blazing-fast, rocket emoji, with many stars in the GitHub</em>”. I tested, and the results blew my mind. I had no efforts to rewrite my plugins customizations from the <a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a> to <a class="reference external" href="https://starship.rs/">Starship</a>, and the performance is excellent, and all my problems were solved.</p>
 </section>
-<section id="how-to-setup-the">
-<h2>How to Setup the<a class="headerlink" href="#how-to-setup-the" title="Link to this heading">#</a></h2>
+<section id="how-to-setup-my-zsh-starship">
+<h2>How to Setup: My ZSH + Starship<a class="headerlink" href="#how-to-setup-my-zsh-starship" title="Link to this heading">#</a></h2>
 <p>I will explain how I configured my ZSH + Starship.</p>
-<p>First step, it to install the zsh:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Install the <a class="reference external" href="https://www.zsh.org/">ZSH</a>:</p></li>
+</ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>zsh
 </pre></div>
 </div>
-<p>Install the Starship:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code>: Install the <a class="reference external" href="https://starship.rs/">Starship</a>:</p></li>
+</ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>-sS<span class="w"> </span>https://starship.rs/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 </pre></div>
 </div>
-<p>Create a directory in your home to save the zsh plugin:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">3</span></code>: Create a directory in your home to save the <a class="reference external" href="https://www.zsh.org/">ZSH</a> plugins and the Starship configuration:</p></li>
+</ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span><span class="nv">$HOME</span>/.config
+$<span class="w"> </span>mkdir<span class="w"> </span><span class="nv">$HOME</span>/.my-custom-zsh/
 </pre></div>
 </div>
-<p>Download my custom starship configuration:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>curl -XGET https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml $HOME/.config/starship.toml
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">4</span></code>: Download my custom starship configuration:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>-XGET<span class="w"> </span>https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml<span class="w"> </span><span class="nv">$HOME</span>/.config/starship.toml
 </pre></div>
 </div>
-<p>Install <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">k</span></code> alias for <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">5</span></code>: Install <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">k</span></code> alias for <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span></code>:</p></li>
+</ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>-XGET<span class="w"> </span>https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh<span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$HOME</span>/.my-custom-zsh/kubectl.plugin.zsh
 </pre></div>
 </div>
-<p>Install the ZSH plugin <a class="reference external" href="https://github.com/zsh-users/zsh-autosuggestions">zsh-autosuggestions</a>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">6</span></code>: Install the ZSH plugin <a class="reference external" href="https://github.com/zsh-users/zsh-autosuggestions">zsh-autosuggestions</a>.</p></li>
+</ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>https://github.com/zsh-users/zsh-autosuggestions<span class="w"> </span>~/.my-custom-zsh/zsh-autosuggestions
 </pre></div>
 </div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">7</span></code>: Restart your terminal, the results will be like this:</p></li>
+</ul>
+<p><img alt="alt text" src="../../../_images/image.png" /></p>
 </section>
 <section id="conclusion-author-opinion">
 <h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
-<p>Productivity is a target in movement. Tools that satisfies your need now, and process need to be improve based on demands. The ZSH + Starship today, for my DevOps routine is the good approach in balance of the perfomance + simplicity + productity + extensionable</p>
+<p>Productivity is a dynamic goal. Utilize tools that meet your current needs, and continually enhance processes based on demands. Currently, for my DevOps routine, the combination of ZSH and Starship proves to be a balanced approach, offering a blend of performance, simplicity, productivity, and extendability.</p>
 </section>
 <section id="links">
 <h2>Links<a class="headerlink" href="#links" title="Link to this heading">#</a></h2>
