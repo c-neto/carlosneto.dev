@@ -2,11 +2,73 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2023-12-01T00:25:42.811366+00:00</updated>
+  <updated>2024-02-09T02:07:57.325982+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2024/2024-02-08-starship-zsh/</id>
+    <title>ZSH + Starship: A Productivity Masterpiece</title>
+    <updated>2024-02-08T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2024/02/08&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="zsh-starship-a-productivity-masterpiece"&gt;
+
+&lt;p&gt;This blog post covers my experience in the prompts usage, my evolution until ZSH and Starship, and my setup configuration.&lt;/p&gt;
+&lt;section id="about-my-prompts-experiences"&gt;
+&lt;h2&gt;About my Prompts Experiences&lt;/h2&gt;
+&lt;p&gt;Productivity is a topic that I definitely like. I always look better ways to execute the bored daily tasks, mainly in the terminal. For long time in my tech life, I used the raw terminal over Bash, It is force me to memorize the commands, but the productivity is not so good. I felt the necessity in the new shell adoption, focused in productivity.&lt;/p&gt;
+&lt;p&gt;I adopted the Xonsh as my primary shell. It was a great and funny experience. The xonsh extend the shell commands base set with Python. I felt like a real &lt;em&gt;hackerman&lt;/em&gt; (&lt;em&gt;even if alternatives simple commands in the Bash performed exactly the same behavior&lt;/em&gt;). The only limit my restriction, until the day that I wasn’t understand that I’m doing. The union Bash + Python is funny, but is a chaos to debug (&lt;em&gt;to improve my position: Imagine the list comprehension with dicts and pipe grep… no more words is necessary.&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;I needed come back the real world again, then I gave a chance for zsh, which brings the productivity with several plugins, and the syntax almost the same the Bash. I really liked It, mainly when I tested the Spaceship (&lt;em&gt;“minimalistic, powerful and extremely customizable Zsh prompt”&lt;/em&gt;), and the plugin manager oh-my-zsh, which makes simple installation and tests new plugins and utility commands. Finally, I had reached a stable terminal setup, a good balance between productivity and simplicity.&lt;/p&gt;
+&lt;p&gt;Over the course of the months, the startup delay got on my nerves (&lt;em&gt;to be honest, in MacOs only, in my Fedora workstation everything to be right&lt;/em&gt;). I had read some articles and Youtube videos about how to improve the performance, but the result don’t satisfied myself. Then, I tested the Starship, in my words, is the “&lt;em&gt;Spaceship alternative in Rust, blazing-fast, rocket emoji, with many stars in the GitHub&lt;/em&gt;”. I tested, and the results blew my mind. I had no efforts to rewrite my plugins customizations from the Spaceship to Starship, and the performance is excellent, and all my problems were solved.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="how-to-setup-the"&gt;
+&lt;h2&gt;How to Setup the&lt;/h2&gt;
+&lt;p&gt;I will explain how I configured my ZSH + Starship.&lt;/p&gt;
+&lt;p&gt;First step, it to install the zsh:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;dnf&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;zsh
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Install the Starship:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;-sS&lt;span class="w"&gt; &lt;/span&gt;https://starship.rs/install.sh&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sh
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Create a directory in your home to save the zsh plugin:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/.config
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Download my custom starship configuration:&lt;/p&gt;
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -XGET https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml $HOME/.config/starship.toml
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Install &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;k&lt;/span&gt;&lt;/code&gt; alias for &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kubectl&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;-XGET&lt;span class="w"&gt; &lt;/span&gt;https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/.my-custom-zsh/kubectl.plugin.zsh
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Install the ZSH plugin &lt;a class="reference external" href="https://github.com/zsh-users/zsh-autosuggestions"&gt;zsh-autosuggestions&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;--depth&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;https://github.com/zsh-users/zsh-autosuggestions&lt;span class="w"&gt; &lt;/span&gt;~/.my-custom-zsh/zsh-autosuggestions
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="conclusion-author-opinion"&gt;
+&lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
+&lt;p&gt;Productivity is a target in movement. Tools that satisfies your need now, and process need to be improve based on demands. The ZSH + Starship today, for my DevOps routine is the good approach in balance of the perfomance + simplicity + productity + extensionable&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="links"&gt;
+&lt;h2&gt;Links&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://starship.rs/"&gt;https://starship.rs/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="github reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles"&gt;c-neto/ansible-configure-fedora&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2024/2024-02-08-starship-zsh/"/>
+    <summary>Blog Post Publish Date: 2024/02/08This blog post covers my experience in the prompts usage, my evolution until ZSH and Starship, and my setup configuration.</summary>
+    <category term="systemd" label="systemd"/>
+    <published>2024-02-08T00:00:00+00:00</published>
+  </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2023/2023-11-19-systemd-override-parameters/</id>
     <title>Properties Overriding: A Smart Way to Customize Systemd Unit Properties</title>
@@ -215,7 +277,7 @@ Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;
 &lt;/section&gt;
 &lt;/section&gt;
 </content>
-    <link href="https://carlosneto.dev/blog/2023/2023-11-19-systemd-override-parameters/" rel="alternate"/>
+    <link href="https://carlosneto.dev/blog/2023/2023-11-19-systemd-override-parameters/"/>
     <summary>Blog Post Publish Date: 2023/11/19This blog post covers an smart alternative to customize systemd unit process parameters.</summary>
     <category term="systemd" label="systemd"/>
     <published>2023-11-19T00:00:00+00:00</published>
@@ -328,7 +390,7 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;/section&gt;
 &lt;/section&gt;
 </content>
-    <link href="https://carlosneto.dev/blog/2023/2023-11-02-logstash-modular-pipelines/" rel="alternate"/>
+    <link href="https://carlosneto.dev/blog/2023/2023-11-02-logstash-modular-pipelines/"/>
     <summary>Blog Post Publish Date: 2023/11/12This blog post explores a Logstash pipelines structure to mitigate code duplicated and presents an elegant method for reusing code section across multiple pipelines.</summary>
     <category term="logstash" label="logstash"/>
     <published>2023-11-12T00:00:00+00:00</published>
@@ -461,7 +523,7 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
-    <link href="https://carlosneto.dev/blog/2023/2023-10-21-cloud-concepts/" rel="alternate"/>
+    <link href="https://carlosneto.dev/blog/2023/2023-10-21-cloud-concepts/"/>
     <summary>Blog Post Publish Date: 2023/10/21This blog post explores the impact of Cloud Computing, essential concepts, primary Cloud models, and my opinion about its adoption.</summary>
     <category term="aws" label="aws"/>
     <category term="azure" label="azure"/>
@@ -701,7 +763,7 @@ Pros:&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;/section&gt;
 </content>
-    <link href="https://carlosneto.dev/blog/2023/2023-10-19-git-cli-gui/" rel="alternate"/>
+    <link href="https://carlosneto.dev/blog/2023/2023-10-19-git-cli-gui/"/>
     <summary>Blog Post Publish Date: 2023/10/19This blog post is aimed at helping you understand the pros and cons of the most popular Git repository clients.</summary>
     <category term="benchmarking" label="benchmarking"/>
     <published>2023-10-19T00:00:00+00:00</published>
