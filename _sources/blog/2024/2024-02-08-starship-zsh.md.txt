@@ -18,11 +18,11 @@ Productivity is a topic that I definitely like. For long time, I used the raw Te
 
 Because my Python expertise, I tested the [xonsh](https://xon.sh/) around 6 months. The [xonsh](https://xon.sh/) is a superset of Python with additional shell primitives that you are used to from Bash. The union Bash + Python brings the productive of the simplicity syntax of the Python with the possibilities of the Bash, but the debug is a chaos (_imagine a list comprehension in Python syntax with dicts and environments variables in Bash syntax..._).
 
-I needed come back the real world again, then I gave a chance for [ZSH](https://www.zsh.org/), a advanced and highly customizable command-line interface with enhanced productivity features and a large Plugins. It greatly appealed to me, mainly when I tested the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) a _"minimalistic, powerful and extremely customizable Zsh prompt"_, and the [oh-my-zsh](https://ohmyz.sh/) framework that provides a simple way to manage Plugins and Themes. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the delay of the commands got on my nerves.
+I needed come back the real world again, then I gave a chance for [ZSH](https://www.zsh.org/), a advanced and highly customizable command-line interface with enhanced productivity features and a large Plugins. It greatly appealed to me, mainly when I tested the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) a _"minimalistic, powerful and extremely customizable Zsh prompt"_, and the [oh-my-zsh](https://ohmyz.sh/) framework that provides a simple way to manage Plugins and Themes. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the input and startup delay of the commands got on my nerves.
 
 I searched improvements tips in the Blog Posts and Youtube videos, but the result don't satisfied myself. Then, I opted to install the Plugins manually avoiding the [oh-my-zsh](https://ohmyz.sh/), and I tested the [Starship](https://starship.rs/) (in my words: "... a _[Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) in Rust, blazing-fast, with many stars in the GitHub_").
 
-The results blew my mind. I had no efforts to rewrite my theme configuration from the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) to [Starship](https://starship.rs/), and the performance really works a expected.
+The results blew my mind. I had no efforts to rewrite my theme configuration from the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) to [Starship](https://starship.rs/), and the performance works a expected.
 
 ## My ZSH Favorite Plugins
 
@@ -32,15 +32,17 @@ I will present in the following sub-topics, my indispensable [ZSH](https://www.z
 
 > _I only used the plugin that really make the difference in my work. Thus, don't feel strange about the low number._
 
-### `zsh-autosuggestions`: Commands Recall Assistant
+### » `zsh-autosuggestions`: Commands Recall Assistant
 
-No doubts, this is my favorite Plugin. This Plugin suggests command completion based on history. It is really cool.
+No doubts, this is my favorite Plugin. This Plugin suggests command completion based on history. It is amazing.
 
 ![](image-1.png)
 
 > <i class="fa-solid fa-link"></i> More Details: <https://github.com/zsh-users/zsh-autosuggestions>
 
-### `zsh-syntax-highlighting`: Valid Commands by Color
+---
+
+### » `zsh-syntax-highlighting`: Valid Commands by Color
 
 This Plugin help to detect the typo in the commands typing in real time. When command is correctly typed, the color is Green, otherwise, the color is Red.
 
@@ -48,7 +50,9 @@ This Plugin help to detect the typo in the commands typing in real time. When co
 
 > <i class="fa-solid fa-link"></i> More Details: <https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/>
 
-### `kubectl`: k alias for kubectl
+---
+
+### » `kubectl`: k alias for kubectl
 
 This plugin adds completion for the Kubernetes, as well as some aliases for common kubectl commands.
 
@@ -67,9 +71,11 @@ $ kubectl get cj
 
 > <i class="fa-solid fa-link"></i> More Details: <https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl>
 
+---
+
 ## My Starship Configuration
 
-The simplicity is elegance. I customized my Starship prompt with only attributes of the tools that is are really important for me.
+The simplicity is elegance. I customized my Starship prompt with only attributes of the tools important for me.
 
 - [aws](https://starship.rs/config/#aws): Only the profile name of the my AWS session;
 - [git](https://starship.rs/config/#git-branch): Only the Branch, no more info;
@@ -90,6 +96,13 @@ Some behaviors in the [ZSH](https://www.zsh.org/) can be enabled based on list o
 > <i class="fa-solid fa-link"></i> More Details: <https://zsh.sourceforge.io/Doc/Release/Options.html>
 
 ## How to Setup My ZSH From Scratch
+
+You can check my `.zshrc` and `starship.toml` in my GitHub in the Following Links:
+
+- `.zshrc`: <https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc>
+- `starship.toml`: <https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml>
+
+---
 
 - `1`: Install the [ZSH](https://www.zsh.org/) with your package manager.
 
@@ -127,10 +140,10 @@ $ curl -XGET https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/m
 $ curl -XGET https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh > $HOME/.my-custom-zsh/kubectl.plugin.zsh
 
 # zsh-syntax-highlighting
-$ git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.my-custom-zsh/zsh-syntax-highlighting
+$ git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.my-custom-zsh/zsh-syntax-highlighting
 
 # zsh-autosuggestions
-$ git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions ~/.my-custom-zsh/zsh-autosuggestions
+$ git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions $HOME/.my-custom-zsh/zsh-autosuggestions
 ```
 
 - `6`: Restart your terminal, the results will be like this:
@@ -139,20 +152,24 @@ $ git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions ~/.my-cus
 
 ## Conclusion (Author Opinion)
 
-Productivity is a dynamic goal. Utilize tools that meet your current needs, and continually enhance processes based on demands. Currently, for my DevOps routine, the combination of ZSH and Starship proves to be a balanced approach, offering a blend of performance, simplicity, productivity, and extendability.
+Productivity is a dynamic goal, and tools must fit your current needs and continually may be changed to enhance processes based on demands. Currently, for my DevOps routine, the combination of ZSH and Starship proves to be a balanced approach, offering a blend of performance, simplicity, productivity, and extendability.
 
 ## Links
 
-- <https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles>
-- <https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl>
-- <https://github.com/spaceship-prompt/spaceship-prompt>
-- <https://github.com/zsh-users/zsh-autosuggestions>
-- <https://github.com/zsh-users/zsh-syntax-highlighting.git>
-- <https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/>
-- <https://ohmyz.sh/>
-- <https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml>
-- <https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh>
-- <https://starship.rs/>
-- <https://www.zsh.org/>
-- <https://xon.sh/>
-- <https://zsh.sourceforge.io/Doc/Release/Options.html>
+- My dotfiles:
+    - `.zshrc`: <https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc>
+    - `starship.toml`: <https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml>
+- ZSH Reference:
+    - <https://www.zsh.org/>
+    - <https://zsh.sourceforge.io/Doc/Release/Options.html>
+- ZSH Plugins:
+    - <https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl>
+    - <https://github.com/zsh-users/zsh-autosuggestions>
+    - <https://github.com/zsh-users/zsh-syntax-highlighting>
+    - <https://github.com/spaceship-prompt/spaceship-prompt>
+- Starship:
+    - <https://starship.rs/>
+    - <https://github.com/starship/starship>
+- Other links:
+    - <https://xon.sh/>
+    - <https://ohmyz.sh/>
