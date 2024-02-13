@@ -152,7 +152,9 @@ $ git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions $HOME/.my
 
 ## Conclusion (Author Opinion)
 
-Productivity is a dynamic goal, and tools must fit your current needs and continually may be changed to enhance processes based on demands. Currently, for my DevOps routine, the combination of ZSH and Starship proves to be a balanced approach, offering a blend of performance, simplicity, productivity, and extendability.
+Productivity is a dynamic goal, and tools must fit your current needs and continually may be changed to enhance processes based on demands.
+
+Currently, for my DevOps routine, the combination of ZSH and Starship proves to be a balanced approach, offering a blend of performance, simplicity, productivity, and extendability.
 
 ## Links
 
