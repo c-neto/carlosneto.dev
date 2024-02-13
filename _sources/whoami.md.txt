@@ -6,7 +6,7 @@
 
 I'm Carlos Neto, a DevOps Engineer with a strong focus on Cloud, Programming, and Technical Writing.
 
-My primary expertise lies in AWS, Python Programming, and the management of ELK + OpenSearch clusters.
+My primary expertise lies in AWS, Python Programming, and ELK + OpenSearch Clusters management.
 
 Check my professional experiences:
 
