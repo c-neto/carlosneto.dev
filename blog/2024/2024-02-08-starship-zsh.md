@@ -59,7 +59,7 @@ For example:
 $ kgp
 
 # shortcut for: kubectl delete cm foobar-config-map
-$ kdelcm foobar-config-map`
+$ kdelcm foobar-config-map
 
 # shortcut for: kubectl get cronjob
 $ kubectl get cj
