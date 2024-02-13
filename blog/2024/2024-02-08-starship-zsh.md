@@ -34,7 +34,7 @@ I will present in the following sub-topics, my indispensable [ZSH](https://www.z
 
 ### » `zsh-autosuggestions`: Commands Recall Assistant
 
-No doubts, this is my favorite Plugin. This Plugin suggests command completion based on history. It is amazing.
+No doubts, It is my favorite Plugin. It suggested commands completion based on history with significant delay.
 
 ![](image-1.png)
 
@@ -89,7 +89,7 @@ Some behaviors in the [ZSH](https://www.zsh.org/) can be enabled based on list o
 - `INTERACTIVE_COMMENTS`: Enable comments "#" expressions in the prompt shell;
 - `APPEND_HISTORY`: Append new history entries to the history file;
 - `INC_APPEND_HISTORY`: Save each command to the history file as soon as it is executed;
-- `HIST_IGNORE_DUPS`: Ignore recording duplicate consecutive commands in the history;
+- `HIST_IGNORE_DUPS`: Ignore recording duplicate consecutive commands in the history (improve the performance of the `zsh-autosuggestions`);
 - `HIST_IGNORE_SPACE`: Ignore commands that start with a space in the history;
 - `SHARE_HISTORY`: Share the command history among multiple ZSH sessions.
 
