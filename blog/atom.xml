@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-02-13T21:49:13.234881+00:00</updated>
+  <updated>2024-02-13T21:51:47.379710+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -33,7 +33,7 @@
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;section id="zsh-autosuggestions-commands-recall-assistant"&gt;
 &lt;h3&gt;» &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;zsh-autosuggestions&lt;/span&gt;&lt;/code&gt;: Commands Recall Assistant&lt;/h3&gt;
-&lt;p&gt;No doubts, this is my favorite Plugin. This Plugin suggests command completion based on history. It is amazing.&lt;/p&gt;
+&lt;p&gt;No doubts, It is my favorite Plugin. It suggested commands completion based on history with significant delay.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/image-1.png" /&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; More Details: &lt;a class="github reference external" href="https://github.com/zsh-users/zsh-autosuggestions"&gt;zsh-users/zsh-autosuggestions&lt;/a&gt;&lt;/p&gt;
@@ -86,7 +86,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;kubectl&lt;span class="w"&gt; &lt;/span&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INTERACTIVE_COMMENTS&lt;/span&gt;&lt;/code&gt;: Enable comments “#” expressions in the prompt shell;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;APPEND_HISTORY&lt;/span&gt;&lt;/code&gt;: Append new history entries to the history file;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INC_APPEND_HISTORY&lt;/span&gt;&lt;/code&gt;: Save each command to the history file as soon as it is executed;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;HIST_IGNORE_DUPS&lt;/span&gt;&lt;/code&gt;: Ignore recording duplicate consecutive commands in the history;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;HIST_IGNORE_DUPS&lt;/span&gt;&lt;/code&gt;: Ignore recording duplicate consecutive commands in the history (improve the performance of the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;zsh-autosuggestions&lt;/span&gt;&lt;/code&gt;);&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;HIST_IGNORE_SPACE&lt;/span&gt;&lt;/code&gt;: Ignore commands that start with a space in the history;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;SHARE_HISTORY&lt;/span&gt;&lt;/code&gt;: Share the command history among multiple ZSH sessions.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
