@@ -89,7 +89,7 @@ Some behaviors in the [ZSH](https://www.zsh.org/) can be enabled based on list o
 - `INTERACTIVE_COMMENTS`: Enable comments "#" expressions in the prompt shell;
 - `APPEND_HISTORY`: Append new history entries to the history file;
 - `INC_APPEND_HISTORY`: Save each command to the history file as soon as it is executed;
-- `HIST_IGNORE_DUPS`: Ignore recording duplicate consecutive commands in the history (improve the performance of the `zsh-autosuggestions`);
+- `HIST_IGNORE_DUPS`: Ignore recording duplicate consecutive commands in the history (improve the performance of the _zsh-autosuggestions_);
 - `HIST_IGNORE_SPACE`: Ignore commands that start with a space in the history;
 - `SHARE_HISTORY`: Share the command history among multiple ZSH sessions.
 
