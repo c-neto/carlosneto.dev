@@ -457,18 +457,19 @@ document.write(`
 <hr class="docutils" />
 <section id="zsh-starship-a-productivity-masterpiece">
 <h1>ZSH + Starship: A Productivity Masterpiece<a class="headerlink" href="#zsh-starship-a-productivity-masterpiece" title="Link to this heading">#</a></h1>
-<p>This blog post covers my prompt customization experience, my favorites <a class="reference external" href="https://www.zsh.org/">ZSH</a> Plugins, <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">options</a>, and my <a class="reference external" href="https://starship.rs/">Starship</a> configuration. Finally, I introduce a simple guide to configure my setup from scratch.</p>
+<p>This blog post covers my prompt customization experience, my favorites <a class="reference external" href="https://www.zsh.org/">ZSH</a> Plugins, <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">options</a>, and my <a class="reference external" href="https://starship.rs/">Starship</a> configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.</p>
 <section id="my-prompts-customization-experiences">
 <h2>My Prompts Customization Experiences<a class="headerlink" href="#my-prompts-customization-experiences" title="Link to this heading">#</a></h2>
-<p>Productivity is a topic that I definitely like. I always look better ways to execute the bored daily tasks, mainly in my terminal. For long time, I used the raw terminal over Bash, It is force me to memorize the commands, but the productivity is not so good. I felt the necessity in the new shell adoption, focused in productivity.</p>
-<p>Because my Python expertise, I tested the <a class="reference external" href="https://xon.sh/">xonsh</a> as my primary shell. The <a class="reference external" href="https://xon.sh/">xonsh</a>is a superset of Python with additional shell primitives that you are used to from Bash. The union Bash + Python is funny, but is a chaos to debug (<em>Imagine a list comprehension with dicts and environments variables in bash syntax…</em>).</p>
-<p>I needed come back the real world again, then I gave a chance for <a class="reference external" href="https://www.zsh.org/">ZSH</a>, which brings the productivity with several plugins, and the syntax almost the same the Bash. I really liked it, mainly when I tested the <a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a> (<em>“minimalistic, powerful and extremely customizable Zsh prompt”</em>), and the framework <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a>, which makes simple installation and tests new plugins. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the delay of the commands got on my nerves.</p>
-<p>I read some articles and see Youtube videos about how to improve the performance of the ZSH + Spaceship + oh-my-zsh, but the result don’t satisfied myself. Then, I opted to install the Plugins manually avoiding the [oh-my-zsh] Framework, and I tested the <a class="reference external" href="https://starship.rs/">Starship</a>, in my words, is the “<em><a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a> alternative in Rust, blazing-fast, with many stars in the GitHub</em>”. The results blew my mind. I had no efforts to rewrite my plugins customizations from the <a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a> to <a class="reference external" href="https://starship.rs/">Starship</a>, and the performance really works a expected.</p>
+<p>Productivity is a topic that I definitely like. For long time, I used the raw Terminal over Bash, It is force me to memorize the commands, but the productivity is not so good. I felt that I need to improve my Terminal setup to focus in productivity.</p>
+<p>Because my Python expertise, I tested the <a class="reference external" href="https://xon.sh/">xonsh</a> around 6 months. The <a class="reference external" href="https://xon.sh/">xonsh</a> is a superset of Python with additional shell primitives that you are used to from Bash. The union Bash + Python brings the productive of the simplicity syntax of the Python with the possibilities of the Bash, but the debug is a chaos (<em>imagine a list comprehension in Python syntax with dicts and environments variables in Bash syntax…</em>).</p>
+<p>I needed come back the real world again, then I gave a chance for <a class="reference external" href="https://www.zsh.org/">ZSH</a>, a advanced and highly customizable command-line interface with enhanced productivity features and a large Plugins. It greatly appealed to me, mainly when I tested the <a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a> a <em>“minimalistic, powerful and extremely customizable Zsh prompt”</em>, and the <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a> framework that provides a simple way to manage Plugins and Themes. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the delay of the commands got on my nerves.</p>
+<p>I searched improvements tips in the Blog Posts and Youtube videos, but the result don’t satisfied myself. Then, I opted to install the Plugins manually avoiding the <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a>, and I tested the <a class="reference external" href="https://starship.rs/">Starship</a> (in my words: “… a <em><a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a> in Rust, blazing-fast, with many stars in the GitHub</em>”).</p>
+<p>The results blew my mind. I had no efforts to rewrite my theme configuration from the <a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a> to <a class="reference external" href="https://starship.rs/">Starship</a>, and the performance really works a expected.</p>
 </section>
 <section id="my-zsh-favorite-plugins">
 <h2>My ZSH Favorite Plugins<a class="headerlink" href="#my-zsh-favorite-plugins" title="Link to this heading">#</a></h2>
-<p>There are so many plugins for ZSH which extends the basic functionality. Usually, these plugins it is managed <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a>, a framework to make simple the ZSH customization. Normally, these plugins are single zsh scripts files with predefined set of the functions and routines. I used <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a> to make easy the Plugins world exploration. When I found the Plugins that make sense for me, I installed my favorite plugins standalone, download the source code directly without intermediate. It can removed a unnecessary workload in my Terminal boot, a possible step to delay.</p>
-<p>I will introduce in the following sub-topics, my indispensable ZSH Plugins.</p>
+<p>There are so many plugins for <a class="reference external" href="https://www.zsh.org/">ZSH</a>. Usually, these plugins it is managed by <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a>. I used the <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a> to make easy the Plugins world exploration, but I could notice that Plugins are simple single scripts files with predefined set of the functions and routines. When I found the Plugins that make sense for me, I installed them standalone to remove a possible delay source from the <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a>.</p>
+<p>I will present in the following sub-topics, my indispensable <a class="reference external" href="https://www.zsh.org/">ZSH</a> Plugins.</p>
 <blockquote>
 <div><p><em>I only used the plugin that really make the difference in my work. Thus, don’t feel strange about the low number.</em></p>
 </div></blockquote>
@@ -482,7 +483,7 @@ document.write(`
 </section>
 <section id="zsh-syntax-highlighting-valid-commands-by-color">
 <h3><code class="docutils literal notranslate"><span class="pre">zsh-syntax-highlighting</span></code>: Valid Commands by Color<a class="headerlink" href="#zsh-syntax-highlighting-valid-commands-by-color" title="Link to this heading">#</a></h3>
-<p>This Plugin help you fix the typo in the commands. In real time, when command is correctly typed, the color is green, otherwise, the color is red.</p>
+<p>This Plugin help to detect the typo in the commands typing in real time. When command is correctly typed, the color is Green, otherwise, the color is Red.</p>
 <p><img alt="" src="../../../_images/image-2.png" /></p>
 <blockquote>
 <div><p><i class="fa-solid fa-link"></i> More Details: <a class="github reference external" href="https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/">zsh-users/zsh-syntax-highlighting</a></p>
@@ -490,13 +491,18 @@ document.write(`
 </section>
 <section id="kubectl-k-alias-for-kubectl">
 <h3><code class="docutils literal notranslate"><span class="pre">kubectl</span></code>: k alias for kubectl<a class="headerlink" href="#kubectl-k-alias-for-kubectl" title="Link to this heading">#</a></h3>
-<p>This plugin adds completion for the Kubernetes cluster manager, as well as some aliases for common kubectl commands.</p>
+<p>This plugin adds completion for the Kubernetes, as well as some aliases for common kubectl commands.</p>
 <p>For example:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">pods</span></code> is <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kgp</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">delete</span> <span class="pre">cm</span> <span class="pre">foobar-config-map</span></code> is <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kdelcm</span> <span class="pre">foobar-config-map</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">cronjob</span></code> is <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">cj</span></code></p></li>
-</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># shortcut for: kubectl get pods</span>
+$<span class="w"> </span>kgp
+
+<span class="c1"># shortcut for: kubectl delete cm foobar-config-map</span>
+$<span class="w"> </span>kdelcm<span class="w"> </span>foobar-config-map<span class="sb">`</span>
+
+<span class="c1"># shortcut for: kubectl get cronjob</span>
+$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>cj
+</pre></div>
+</div>
 <blockquote>
 <div><p><i class="fa-solid fa-link"></i> More Details: <a class="github reference external" href="https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl">ohmyzsh/ohmyzsh</a></p>
 </div></blockquote>
@@ -504,17 +510,17 @@ document.write(`
 </section>
 <section id="my-starship-configuration">
 <h2>My Starship Configuration<a class="headerlink" href="#my-starship-configuration" title="Link to this heading">#</a></h2>
-<p>The simplicity is elegance. I customize my Starship prompt with only attributes that I really are important for me.</p>
+<p>The simplicity is elegance. I customized my Starship prompt with only attributes of the tools that is are really important for me.</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://starship.rs/config/#aws">aws</a>: Only the profile name of the my AWS session.</p></li>
-<li><p><a class="reference external" href="https://starship.rs/config/#git-branch">git</a>: Only the Branch, no more info.</p></li>
-<li><p><a class="reference external" href="https://starship.rs/config/#python">python</a>: The current activated virtualenv parent directory indicator.</p></li>
-<li><p><a class="reference external" href="https://starship.rs/config/#kubernetes">kubernetes</a>: The Kubernetes context name. Based on Kubernetes context name, I applied the diffents style to explicit the differences in the study, tests, and production workloads.</p></li>
+<li><p><a class="reference external" href="https://starship.rs/config/#aws">aws</a>: Only the profile name of the my AWS session;</p></li>
+<li><p><a class="reference external" href="https://starship.rs/config/#git-branch">git</a>: Only the Branch, no more info;</p></li>
+<li><p><a class="reference external" href="https://starship.rs/config/#python">python</a>: The current activated virtualenv;</p></li>
+<li><p><a class="reference external" href="https://starship.rs/config/#kubernetes">kubernetes</a>: The Kubernetes context name. Based on the name, I applied the different styles to explicit the study, tests, and production workloads.</p></li>
 </ul>
 </section>
 <section id="my-favorite-zsh-options-setopt">
 <h2>My favorite ZSH options (<em>setopt</em>)<a class="headerlink" href="#my-favorite-zsh-options-setopt" title="Link to this heading">#</a></h2>
-<p>Some behaviors in the ZSH can be enabled based on list of the <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">ZSH Options</a>. There are my options that I enabled in my setup.</p>
+<p>Some behaviors in the <a class="reference external" href="https://www.zsh.org/">ZSH</a> can be enabled based on list of the <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">ZSH Options</a>. Check the options that I enabled:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">INTERACTIVE_COMMENTS</span></code>: Enable comments “#” expressions in the prompt shell;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">APPEND_HISTORY</span></code>: Append new history entries to the history file;</p></li>
@@ -530,7 +536,7 @@ document.write(`
 <section id="how-to-setup-my-zsh-from-scratch">
 <h2>How to Setup My ZSH From Scratch<a class="headerlink" href="#how-to-setup-my-zsh-from-scratch" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Install the <a class="reference external" href="https://www.zsh.org/">ZSH</a> with your package manage.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Install the <a class="reference external" href="https://www.zsh.org/">ZSH</a> with your package manager.</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># if fedora</span>
 $<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>zsh

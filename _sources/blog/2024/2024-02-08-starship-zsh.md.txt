@@ -10,23 +10,25 @@ category: Linux
 
 # ZSH + Starship: A Productivity Masterpiece
 
-This blog post covers my prompt customization experience, my favorites [ZSH](https://www.zsh.org/) Plugins, [options](https://zsh.sourceforge.io/Doc/Release/Options.html), and my [Starship](https://starship.rs/) configuration. Finally, I introduce a simple guide to configure my setup from scratch.
+This blog post covers my prompt customization experience, my favorites [ZSH](https://www.zsh.org/) Plugins, [options](https://zsh.sourceforge.io/Doc/Release/Options.html), and my [Starship](https://starship.rs/) configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.
 
 ## My Prompts Customization Experiences
 
-Productivity is a topic that I definitely like. I always look better ways to execute the bored daily tasks, mainly in my terminal. For long time, I used the raw terminal over Bash, It is force me to memorize the commands, but the productivity is not so good. I felt the necessity in the new shell adoption, focused in productivity.
+Productivity is a topic that I definitely like. For long time, I used the raw Terminal over Bash, It is force me to memorize the commands, but the productivity is not so good. I felt that I need to improve my Terminal setup to focus in productivity.
 
-Because my Python expertise, I tested the [xonsh](https://xon.sh/) as my primary shell. The [xonsh](https://xon.sh/)is a superset of Python with additional shell primitives that you are used to from Bash. The union Bash + Python is funny, but is a chaos to debug (_Imagine a list comprehension with dicts and environments variables in bash syntax..._).
+Because my Python expertise, I tested the [xonsh](https://xon.sh/) around 6 months. The [xonsh](https://xon.sh/) is a superset of Python with additional shell primitives that you are used to from Bash. The union Bash + Python brings the productive of the simplicity syntax of the Python with the possibilities of the Bash, but the debug is a chaos (_imagine a list comprehension in Python syntax with dicts and environments variables in Bash syntax..._).
 
-I needed come back the real world again, then I gave a chance for [ZSH](https://www.zsh.org/), which brings the productivity with several plugins, and the syntax almost the same the Bash. I really liked it, mainly when I tested the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) (_"minimalistic, powerful and extremely customizable Zsh prompt"_), and the framework [oh-my-zsh](https://ohmyz.sh/), which makes simple installation and tests new plugins. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the delay of the commands got on my nerves.
+I needed come back the real world again, then I gave a chance for [ZSH](https://www.zsh.org/), a advanced and highly customizable command-line interface with enhanced productivity features and a large Plugins. It greatly appealed to me, mainly when I tested the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) a _"minimalistic, powerful and extremely customizable Zsh prompt"_, and the [oh-my-zsh](https://ohmyz.sh/) framework that provides a simple way to manage Plugins and Themes. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the delay of the commands got on my nerves.
 
-I read some articles and see Youtube videos about how to improve the performance of the ZSH + Spaceship + oh-my-zsh, but the result don't satisfied myself. Then, I opted to install the Plugins manually avoiding the [oh-my-zsh] Framework, and I tested the [Starship](https://starship.rs/), in my words, is the "_[Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) alternative in Rust, blazing-fast, with many stars in the GitHub_". The results blew my mind. I had no efforts to rewrite my plugins customizations from the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) to [Starship](https://starship.rs/), and the performance really works a expected.
+I searched improvements tips in the Blog Posts and Youtube videos, but the result don't satisfied myself. Then, I opted to install the Plugins manually avoiding the [oh-my-zsh](https://ohmyz.sh/), and I tested the [Starship](https://starship.rs/) (in my words: "... a _[Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) in Rust, blazing-fast, with many stars in the GitHub_").
+
+The results blew my mind. I had no efforts to rewrite my theme configuration from the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) to [Starship](https://starship.rs/), and the performance really works a expected.
 
 ## My ZSH Favorite Plugins
 
-There are so many plugins for ZSH which extends the basic functionality. Usually, these plugins it is managed [oh-my-zsh](https://ohmyz.sh/), a framework to make simple the ZSH customization. Normally, these plugins are single zsh scripts files with predefined set of the functions and routines. I used [oh-my-zsh](https://ohmyz.sh/) to make easy the Plugins world exploration. When I found the Plugins that make sense for me, I installed my favorite plugins standalone, download the source code directly without intermediate. It can removed a unnecessary workload in my Terminal boot, a possible step to delay.
+There are so many plugins for [ZSH](https://www.zsh.org/). Usually, these plugins it is managed by [oh-my-zsh](https://ohmyz.sh/). I used the [oh-my-zsh](https://ohmyz.sh/) to make easy the Plugins world exploration, but I could notice that Plugins are simple single scripts files with predefined set of the functions and routines. When I found the Plugins that make sense for me, I installed them standalone to remove a possible delay source from the [oh-my-zsh](https://ohmyz.sh/).
 
-I will introduce in the following sub-topics, my indispensable ZSH Plugins.
+I will present in the following sub-topics, my indispensable [ZSH](https://www.zsh.org/) Plugins.
 
 > _I only used the plugin that really make the difference in my work. Thus, don't feel strange about the low number._
 
@@ -40,7 +42,7 @@ No doubts, this is my favorite Plugin. This Plugin suggests command completion b
 
 ### `zsh-syntax-highlighting`: Valid Commands by Color
 
-This Plugin help you fix the typo in the commands. In real time, when command is correctly typed, the color is green, otherwise, the color is red.
+This Plugin help to detect the typo in the commands typing in real time. When command is correctly typed, the color is Green, otherwise, the color is Red.
 
 ![](image-2.png)
 
@@ -48,27 +50,35 @@ This Plugin help you fix the typo in the commands. In real time, when command is
 
 ### `kubectl`: k alias for kubectl
 
-This plugin adds completion for the Kubernetes cluster manager, as well as some aliases for common kubectl commands.
+This plugin adds completion for the Kubernetes, as well as some aliases for common kubectl commands.
 
 For example:
-- `$ kubectl get pods` is `$ kgp`
-- `$ kubectl delete cm foobar-config-map` is `$ kdelcm foobar-config-map`
-- `$ kubectl get cronjob` is `$ kubectl get cj`
+
+```{code-block} bash
+# shortcut for: kubectl get pods
+$ kgp
+
+# shortcut for: kubectl delete cm foobar-config-map
+$ kdelcm foobar-config-map`
+
+# shortcut for: kubectl get cronjob
+$ kubectl get cj
+```
 
 > <i class="fa-solid fa-link"></i> More Details: <https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl>
 
 ## My Starship Configuration
 
-The simplicity is elegance. I customize my Starship prompt with only attributes that I really are important for me.
+The simplicity is elegance. I customized my Starship prompt with only attributes of the tools that is are really important for me.
 
-- [aws](https://starship.rs/config/#aws): Only the profile name of the my AWS session.
-- [git](https://starship.rs/config/#git-branch): Only the Branch, no more info.
-- [python](https://starship.rs/config/#python): The current activated virtualenv parent directory indicator.
-- [kubernetes](https://starship.rs/config/#kubernetes): The Kubernetes context name. Based on Kubernetes context name, I applied the diffents style to explicit the differences in the study, tests, and production workloads.
+- [aws](https://starship.rs/config/#aws): Only the profile name of the my AWS session;
+- [git](https://starship.rs/config/#git-branch): Only the Branch, no more info;
+- [python](https://starship.rs/config/#python): The current activated virtualenv;
+- [kubernetes](https://starship.rs/config/#kubernetes): The Kubernetes context name. Based on the name, I applied the different styles to explicit the study, tests, and production workloads.
 
 ## My favorite ZSH options (_setopt_)
 
-Some behaviors in the ZSH can be enabled based on list of the [ZSH Options](https://zsh.sourceforge.io/Doc/Release/Options.html). There are my options that I enabled in my setup.
+Some behaviors in the [ZSH](https://www.zsh.org/) can be enabled based on list of the [ZSH Options](https://zsh.sourceforge.io/Doc/Release/Options.html). Check the options that I enabled:
 
 - `INTERACTIVE_COMMENTS`: Enable comments "#" expressions in the prompt shell;
 - `APPEND_HISTORY`: Append new history entries to the history file;
@@ -81,7 +91,7 @@ Some behaviors in the ZSH can be enabled based on list of the [ZSH Options](http
 
 ## How to Setup My ZSH From Scratch
 
-- `1`: Install the [ZSH](https://www.zsh.org/) with your package manage.
+- `1`: Install the [ZSH](https://www.zsh.org/) with your package manager.
 
 ```{code-block} bash
 # if fedora
