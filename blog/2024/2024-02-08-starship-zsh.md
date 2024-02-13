@@ -10,7 +10,7 @@ category: Linux
 
 # ZSH + Starship: A Productivity Masterpiece
 
-This blog post covers my prompt customization experience, my favorites [ZSH](https://www.zsh.org/) Plugins, [options](https://zsh.sourceforge.io/Doc/Release/Options.html), and my [Starship](https://starship.rs/) configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.
+This blog post covers my prompt customization experience, favorite [ZSH](https://www.zsh.org/) Plugins, [options](https://zsh.sourceforge.io/Doc/Release/Options.html), and [Starship](https://starship.rs/) configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.
 
 ## My Prompts Customization Experiences
 
