@@ -99,8 +99,8 @@ Some behaviors in the [ZSH](https://www.zsh.org/) can be enabled based on list o
 
 You can check my `.zshrc` and `starship.toml` in my GitHub in the Following Links:
 
-- `.zshrc`: <https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc>
-- `starship.toml`: <https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml>
+- `.zshrc`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
+- `starship.toml`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml)
 
 ---
 
