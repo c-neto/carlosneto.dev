@@ -159,8 +159,8 @@ Currently, for my DevOps routine, the combination of ZSH and Starship proves to 
 ## Links
 
 - My dotfiles:
-    - `.zshrc`: <https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc>
-    - `starship.toml`: <https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml>
+    - `.zshrc`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
+    - `starship.toml`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml)
 - ZSH Reference:
     - <https://www.zsh.org/>
     - <https://zsh.sourceforge.io/Doc/Release/Options.html>
