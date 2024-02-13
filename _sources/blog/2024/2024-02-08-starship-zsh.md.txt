@@ -20,7 +20,7 @@ Because my Python expertise, I tested the [xonsh](https://xon.sh/) around 6 mont
 
 I needed come back the real world again, then I gave a chance for [ZSH](https://www.zsh.org/), a advanced and highly customizable command-line interface with enhanced productivity features and a large Plugins. It greatly appealed to me, mainly when I tested the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) a _"minimalistic, powerful and extremely customizable Zsh prompt"_, and the [oh-my-zsh](https://ohmyz.sh/) framework that provides a simple way to manage Plugins and Themes. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the input and startup delay of the commands got on my nerves.
 
-I searched improvements tips in the Blog Posts and Youtube videos, but the result don't satisfied myself. Then, I opted to install the Plugins manually avoiding the [oh-my-zsh](https://ohmyz.sh/), and I tested the [Starship](https://starship.rs/) (in my words: "... a _[Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) in Rust, blazing-fast, with many stars in the GitHub_").
+I searched improvements tips in the Blog Posts and Youtube videos, but the result don't satisfied myself. Then, I opted to install the Plugins manually avoiding the [oh-my-zsh](https://ohmyz.sh/), and I tested the [Starship](https://starship.rs/) (in my words: "_... a [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) in Rust, blazing-fast, with many stars in the GitHub..._").
 
 The results blew my mind. I had no efforts to rewrite my theme configuration from the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) to [Starship](https://starship.rs/), and the performance works a expected.
 
@@ -168,10 +168,10 @@ Currently, for my DevOps routine, the combination of ZSH and Starship proves to 
     - <https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl>
     - <https://github.com/zsh-users/zsh-autosuggestions>
     - <https://github.com/zsh-users/zsh-syntax-highlighting>
-    - <https://github.com/spaceship-prompt/spaceship-prompt>
 - Starship:
     - <https://starship.rs/>
     - <https://github.com/starship/starship>
 - Other links:
     - <https://xon.sh/>
     - <https://ohmyz.sh/>
+    - <https://github.com/spaceship-prompt/spaceship-prompt>
