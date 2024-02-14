@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-02-14T18:14:01.025940+00:00</updated>
+  <updated>2024-02-14T18:24:19.356098+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -15,18 +15,18 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="zsh-starship-a-productivity-masterpiece"&gt;
 
-&lt;p&gt;This blog post covers my prompt customization experience, favorite &lt;a class="reference external" href="https://www.zsh.org/"&gt;ZSH&lt;/a&gt; Plugins, &lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html"&gt;options&lt;/a&gt;, and &lt;a class="reference external" href="https://starship.rs/"&gt;Starship&lt;/a&gt; configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.&lt;/p&gt;
+&lt;p&gt;This blog post covers my prompt customization experience, favorite &lt;a class="reference external" href="https://www.zsh.org/"&gt;ZSH&lt;/a&gt; Plugins, &lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html"&gt;ZSH options&lt;/a&gt;, and &lt;a class="reference external" href="https://starship.rs/"&gt;Starship&lt;/a&gt; configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.&lt;/p&gt;
 &lt;section id="my-prompts-customization-experiences"&gt;
 &lt;h2&gt;My Prompts Customization Experiences&lt;/h2&gt;
 &lt;p&gt;Productivity is a topic that I definitely like. For long time, I used the raw Terminal over Bash, It is force me to memorize the commands, but the productivity is not so good. I felt that I need to improve my Terminal setup to focus in productivity.&lt;/p&gt;
 &lt;p&gt;Due to my expertise in Python, I have been testing &lt;a class="reference external" href="https://xon.sh/"&gt;xonsh&lt;/a&gt; for approximately six months. The xonsh is a superset of Python that includes additional shell primitives familiar to Bash users. The combination of Bash and Python enhances productivity by blending the simplicity of Python syntax with the versatility of Bash. However, debugging can be challenging (&lt;em&gt;imagine a list comprehension in Python syntax combined with dictionaries and environment variables in Bash syntax&lt;/em&gt;).&lt;/p&gt;
 &lt;p&gt;I needed come back the real world again, then I gave a chance for Zsh, a advanced and highly customizable command-line interface with enhanced productivity features and a large Plugins. It greatly appealed to me, mainly when I tested the &lt;a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt"&gt;Spaceship&lt;/a&gt; a &lt;em&gt;“minimalistic, powerful and extremely customizable Zsh prompt”&lt;/em&gt;, and the &lt;a class="reference external" href="https://ohmyz.sh/"&gt;oh-my-zsh&lt;/a&gt; framework that provides a simple way to manage Plugins and Themes. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the input and startup delay of the commands got on my nerves.&lt;/p&gt;
-&lt;p&gt;I searched improvements tips in the Blog Posts and Youtube videos, but the result don’t satisfied myself. Then, I opted to install the Plugins manually avoiding the oh-my-zsh, and I tested the &lt;a class="reference external" href="https://starship.rs/"&gt;Starship&lt;/a&gt; (in my words: “&lt;em&gt;a &lt;a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt"&gt;Spaceship&lt;/a&gt; alternative, in Rust, blazing-fast, with many stars in the GitHub&lt;/em&gt;”).&lt;/p&gt;
+&lt;p&gt;I searched improvements tips in the Blog Posts and Youtube videos, but the result don’t satisfied myself. Then, I opted to install the Plugins manually avoiding the &lt;em&gt;oh-my-zsh&lt;/em&gt;, and I tested the &lt;a class="reference external" href="https://starship.rs/"&gt;Starship&lt;/a&gt; (in my words: “&lt;em&gt;a Spaceship alternative, in Rust, blazing-fast, with many stars in the GitHub&lt;/em&gt;”).&lt;/p&gt;
 &lt;p&gt;The results were astonishing. I didn’t have to put in any effort to transition my theme configuration from Spaceship to Starship, and the performance is exactly as I expected.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="my-zsh-favorite-plugins"&gt;
 &lt;h2&gt;My ZSH Favorite Plugins&lt;/h2&gt;
-&lt;p&gt;There are numerous plugins available for ZSH. Typically, these plugins are managed by oh-my-zsh, which I use to simplify the exploration of plugins. However, I’ve noticed that these plugins are essentially single script files with a predefined set of functions and routines. Once I identify plugins that are relevant to my needs, I install them individually to eliminate any potential delays caused by oh-my-zsh.&lt;/p&gt;
+&lt;p&gt;There are numerous plugins available for ZSH. Typically, these plugins are managed by &lt;em&gt;oh-my-zsh&lt;/em&gt;, which I use to simplify the exploration of plugins. However, I’ve noticed that these plugins are essentially single script files with a predefined set of functions and routines. Once I identify plugins that are relevant to my needs, I install them individually to eliminate any potential delays caused by &lt;em&gt;oh-my-zsh&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;I will present in the following sub-topics, my indispensable ZSH Plugins.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;&lt;em&gt;I only used the plugin that really make the difference in my work. Thus, don’t feel strange about the low number.&lt;/em&gt;&lt;/p&gt;
@@ -152,7 +152,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;section id="conclusion-author-opinion"&gt;
 &lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
 &lt;p&gt;Productivity is a dynamic goal, and tools must fit your current needs and continually may be changed to enhance processes based on demands.&lt;/p&gt;
-&lt;p&gt;Currently, for my DevOps routine, the combination of ZSH and Starship proves to be a balanced approach, offering a blend of performance, simplicity, productivity, and extendability.&lt;/p&gt;
+&lt;p&gt;Currently, for my DevOps routine, the combination of ZSH and Starship proves to be a balanced cross-platform approach, offering a blend of performance, productivity, and extendability.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="links"&gt;
 &lt;h2&gt;Links&lt;/h2&gt;
@@ -194,7 +194,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2024/2024-02-08-starship-zsh/"/>
-    <summary>Blog Post Publish Date: 2024/02/08This blog post covers my prompt customization experience, favorite ZSH Plugins, options, and Starship configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.</summary>
+    <summary>Blog Post Publish Date: 2024/02/08This blog post covers my prompt customization experience, favorite ZSH Plugins, ZSH options, and Starship configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.</summary>
     <category term="systemd" label="systemd"/>
     <published>2024-02-08T00:00:00+00:00</published>
   </entry>

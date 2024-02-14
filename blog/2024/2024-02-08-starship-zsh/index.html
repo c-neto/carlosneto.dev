@@ -11,12 +11,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2024/2024-02-08-starship-zsh/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2024/02/08 This blog post covers my prompt customization experience, favorite ZSH Plugins, options, and Starship configuration. Finally, I introduce a simple guide to config..." />
+<meta property="og:description" content="Blog Post Publish Date: 2024/02/08 This blog post covers my prompt customization experience, favorite ZSH Plugins, ZSH options, and Starship configuration. Finally, I introduce a simple guide to co..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2024_2024-02-08-starship-zsh_da084dab.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2024/02/08 This blog post covers my prompt customization experience, favorite ZSH Plugins, options, and Starship configuration. Final..." />
-<meta name="description" content="Blog Post Publish Date: 2024/02/08 This blog post covers my prompt customization experience, favorite ZSH Plugins, options, and Starship configuration. Finally, I introduce a simple guide to config..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2024_2024-02-08-starship-zsh_984a6cbb.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2024/02/08 This blog post covers my prompt customization experience, favorite ZSH Plugins, ZSH options, and Starship configuration. F..." />
+<meta name="description" content="Blog Post Publish Date: 2024/02/08 This blog post covers my prompt customization experience, favorite ZSH Plugins, ZSH options, and Starship configuration. Finally, I introduce a simple guide to co..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>ZSH + Starship: A Productivity Masterpiece &#8212; Carlos Neto</title>
@@ -457,18 +457,18 @@ document.write(`
 <hr class="docutils" />
 <section id="zsh-starship-a-productivity-masterpiece">
 <h1>ZSH + Starship: A Productivity Masterpiece<a class="headerlink" href="#zsh-starship-a-productivity-masterpiece" title="Link to this heading">#</a></h1>
-<p>This blog post covers my prompt customization experience, favorite <a class="reference external" href="https://www.zsh.org/">ZSH</a> Plugins, <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">options</a>, and <a class="reference external" href="https://starship.rs/">Starship</a> configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.</p>
+<p>This blog post covers my prompt customization experience, favorite <a class="reference external" href="https://www.zsh.org/">ZSH</a> Plugins, <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">ZSH options</a>, and <a class="reference external" href="https://starship.rs/">Starship</a> configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.</p>
 <section id="my-prompts-customization-experiences">
 <h2>My Prompts Customization Experiences<a class="headerlink" href="#my-prompts-customization-experiences" title="Link to this heading">#</a></h2>
 <p>Productivity is a topic that I definitely like. For long time, I used the raw Terminal over Bash, It is force me to memorize the commands, but the productivity is not so good. I felt that I need to improve my Terminal setup to focus in productivity.</p>
 <p>Due to my expertise in Python, I have been testing <a class="reference external" href="https://xon.sh/">xonsh</a> for approximately six months. The xonsh is a superset of Python that includes additional shell primitives familiar to Bash users. The combination of Bash and Python enhances productivity by blending the simplicity of Python syntax with the versatility of Bash. However, debugging can be challenging (<em>imagine a list comprehension in Python syntax combined with dictionaries and environment variables in Bash syntax</em>).</p>
 <p>I needed come back the real world again, then I gave a chance for Zsh, a advanced and highly customizable command-line interface with enhanced productivity features and a large Plugins. It greatly appealed to me, mainly when I tested the <a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a> a <em>“minimalistic, powerful and extremely customizable Zsh prompt”</em>, and the <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a> framework that provides a simple way to manage Plugins and Themes. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the input and startup delay of the commands got on my nerves.</p>
-<p>I searched improvements tips in the Blog Posts and Youtube videos, but the result don’t satisfied myself. Then, I opted to install the Plugins manually avoiding the oh-my-zsh, and I tested the <a class="reference external" href="https://starship.rs/">Starship</a> (in my words: “<em>a <a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a> alternative, in Rust, blazing-fast, with many stars in the GitHub</em>”).</p>
+<p>I searched improvements tips in the Blog Posts and Youtube videos, but the result don’t satisfied myself. Then, I opted to install the Plugins manually avoiding the <em>oh-my-zsh</em>, and I tested the <a class="reference external" href="https://starship.rs/">Starship</a> (in my words: “<em>a Spaceship alternative, in Rust, blazing-fast, with many stars in the GitHub</em>”).</p>
 <p>The results were astonishing. I didn’t have to put in any effort to transition my theme configuration from Spaceship to Starship, and the performance is exactly as I expected.</p>
 </section>
 <section id="my-zsh-favorite-plugins">
 <h2>My ZSH Favorite Plugins<a class="headerlink" href="#my-zsh-favorite-plugins" title="Link to this heading">#</a></h2>
-<p>There are numerous plugins available for ZSH. Typically, these plugins are managed by oh-my-zsh, which I use to simplify the exploration of plugins. However, I’ve noticed that these plugins are essentially single script files with a predefined set of functions and routines. Once I identify plugins that are relevant to my needs, I install them individually to eliminate any potential delays caused by oh-my-zsh.</p>
+<p>There are numerous plugins available for ZSH. Typically, these plugins are managed by <em>oh-my-zsh</em>, which I use to simplify the exploration of plugins. However, I’ve noticed that these plugins are essentially single script files with a predefined set of functions and routines. Once I identify plugins that are relevant to my needs, I install them individually to eliminate any potential delays caused by <em>oh-my-zsh</em>.</p>
 <p>I will present in the following sub-topics, my indispensable ZSH Plugins.</p>
 <blockquote>
 <div><p><em>I only used the plugin that really make the difference in my work. Thus, don’t feel strange about the low number.</em></p>
@@ -594,7 +594,7 @@ $<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span
 <section id="conclusion-author-opinion">
 <h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
 <p>Productivity is a dynamic goal, and tools must fit your current needs and continually may be changed to enhance processes based on demands.</p>
-<p>Currently, for my DevOps routine, the combination of ZSH and Starship proves to be a balanced approach, offering a blend of performance, simplicity, productivity, and extendability.</p>
+<p>Currently, for my DevOps routine, the combination of ZSH and Starship proves to be a balanced cross-platform approach, offering a blend of performance, productivity, and extendability.</p>
 </section>
 <section id="links">
 <h2>Links<a class="headerlink" href="#links" title="Link to this heading">#</a></h2>
