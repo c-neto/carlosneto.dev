@@ -16,25 +16,25 @@ This blog post covers my prompt customization experience, favorite [ZSH](https:/
 
 Productivity is a topic that I definitely like. For long time, I used the raw Terminal over Bash, It is force me to memorize the commands, but the productivity is not so good. I felt that I need to improve my Terminal setup to focus in productivity.
 
-Because my Python expertise, I tested the [xonsh](https://xon.sh/) around 6 months. The [xonsh](https://xon.sh/) is a superset of Python with additional shell primitives that you are used to from Bash. The union Bash + Python brings the productive of the simplicity syntax of the Python with the possibilities of the Bash, but the debug is a chaos (_imagine a list comprehension in Python syntax with dicts and environments variables in Bash syntax_).
+Due to my expertise in Python, I have been testing [xonsh](https://xon.sh/) for approximately six months. The xonsh is a superset of Python that includes additional shell primitives familiar to Bash users. The combination of Bash and Python enhances productivity by blending the simplicity of Python syntax with the versatility of Bash. However, debugging can be challenging (_imagine a list comprehension in Python syntax combined with dictionaries and environment variables in Bash syntax_).
 
-I needed come back the real world again, then I gave a chance for [ZSH](https://www.zsh.org/), a advanced and highly customizable command-line interface with enhanced productivity features and a large Plugins. It greatly appealed to me, mainly when I tested the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) a _"minimalistic, powerful and extremely customizable Zsh prompt"_, and the [oh-my-zsh](https://ohmyz.sh/) framework that provides a simple way to manage Plugins and Themes. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the input and startup delay of the commands got on my nerves.
+I needed come back the real world again, then I gave a chance for Zsh, a advanced and highly customizable command-line interface with enhanced productivity features and a large Plugins. It greatly appealed to me, mainly when I tested the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) a _"minimalistic, powerful and extremely customizable Zsh prompt"_, and the [oh-my-zsh](https://ohmyz.sh/) framework that provides a simple way to manage Plugins and Themes. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the input and startup delay of the commands got on my nerves.
 
-I searched improvements tips in the Blog Posts and Youtube videos, but the result don't satisfied myself. Then, I opted to install the Plugins manually avoiding the [oh-my-zsh](https://ohmyz.sh/), and I tested the [Starship](https://starship.rs/) (in my words: "_a [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) in Rust, blazing-fast, with many stars in the GitHub_").
+I searched improvements tips in the Blog Posts and Youtube videos, but the result don't satisfied myself. Then, I opted to install the Plugins manually avoiding the oh-my-zsh, and I tested the [Starship](https://starship.rs/) (in my words: "_a [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) alternative, in Rust, blazing-fast, with many stars in the GitHub_").
 
-The results blew my mind. I had no efforts to rewrite my theme configuration from the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) to [Starship](https://starship.rs/), and the performance works a expected.
+The results were astonishing. I didn't have to put in any effort to transition my theme configuration from Spaceship to Starship, and the performance is exactly as I expected.
 
 ## My ZSH Favorite Plugins
 
-There are so many plugins for [ZSH](https://www.zsh.org/). Usually, these plugins it is managed by [oh-my-zsh](https://ohmyz.sh/). I used the [oh-my-zsh](https://ohmyz.sh/) to make easy the Plugins world exploration, but I could notice that Plugins are simple single scripts files with predefined set of the functions and routines. When I found the Plugins that make sense for me, I installed them standalone to remove a possible delay source from the [oh-my-zsh](https://ohmyz.sh/).
+There are numerous plugins available for ZSH. Typically, these plugins are managed by oh-my-zsh, which I use to simplify the exploration of plugins. However, I've noticed that these plugins are essentially single script files with a predefined set of functions and routines. Once I identify plugins that are relevant to my needs, I install them individually to eliminate any potential delays caused by oh-my-zsh.
 
-I will present in the following sub-topics, my indispensable [ZSH](https://www.zsh.org/) Plugins.
+I will present in the following sub-topics, my indispensable ZSH Plugins.
 
 > _I only used the plugin that really make the difference in my work. Thus, don't feel strange about the low number._
 
 ### » `zsh-autosuggestions`: Commands Recall Assistant
 
-No doubts, It is my favorite Plugin. It suggested commands completion based on history with significant delay.
+No doubts, It is my favorite Plugin. It suggested commands completion based on history.
 
 ![](image-1.png)
 
