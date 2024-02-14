@@ -10,7 +10,7 @@ category: Linux
 
 # ZSH + Starship: A Productivity Masterpiece
 
-This blog post covers my prompt customization experience, favorite [ZSH](https://www.zsh.org/) Plugins, [options](https://zsh.sourceforge.io/Doc/Release/Options.html), and [Starship](https://starship.rs/) configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.
+This blog post covers my prompt customization experience, favorite [ZSH](https://www.zsh.org/) Plugins, [ZSH options](https://zsh.sourceforge.io/Doc/Release/Options.html), and [Starship](https://starship.rs/) configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.
 
 ## My Prompts Customization Experiences
 
@@ -20,13 +20,13 @@ Due to my expertise in Python, I have been testing [xonsh](https://xon.sh/) for 
 
 I needed come back the real world again, then I gave a chance for Zsh, a advanced and highly customizable command-line interface with enhanced productivity features and a large Plugins. It greatly appealed to me, mainly when I tested the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) a _"minimalistic, powerful and extremely customizable Zsh prompt"_, and the [oh-my-zsh](https://ohmyz.sh/) framework that provides a simple way to manage Plugins and Themes. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the input and startup delay of the commands got on my nerves.
 
-I searched improvements tips in the Blog Posts and Youtube videos, but the result don't satisfied myself. Then, I opted to install the Plugins manually avoiding the oh-my-zsh, and I tested the [Starship](https://starship.rs/) (in my words: "_a [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) alternative, in Rust, blazing-fast, with many stars in the GitHub_").
+I searched improvements tips in the Blog Posts and Youtube videos, but the result don't satisfied myself. Then, I opted to install the Plugins manually avoiding the _oh-my-zsh_, and I tested the [Starship](https://starship.rs/) (in my words: "_a Spaceship alternative, in Rust, blazing-fast, with many stars in the GitHub_").
 
 The results were astonishing. I didn't have to put in any effort to transition my theme configuration from Spaceship to Starship, and the performance is exactly as I expected.
 
 ## My ZSH Favorite Plugins
 
-There are numerous plugins available for ZSH. Typically, these plugins are managed by oh-my-zsh, which I use to simplify the exploration of plugins. However, I've noticed that these plugins are essentially single script files with a predefined set of functions and routines. Once I identify plugins that are relevant to my needs, I install them individually to eliminate any potential delays caused by oh-my-zsh.
+There are numerous plugins available for ZSH. Typically, these plugins are managed by _oh-my-zsh_, which I use to simplify the exploration of plugins. However, I've noticed that these plugins are essentially single script files with a predefined set of functions and routines. Once I identify plugins that are relevant to my needs, I install them individually to eliminate any potential delays caused by _oh-my-zsh_.
 
 I will present in the following sub-topics, my indispensable ZSH Plugins.
 
@@ -154,7 +154,7 @@ $ git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions $HOME/.my
 
 Productivity is a dynamic goal, and tools must fit your current needs and continually may be changed to enhance processes based on demands.
 
-Currently, for my DevOps routine, the combination of ZSH and Starship proves to be a balanced approach, offering a blend of performance, simplicity, productivity, and extendability.
+Currently, for my DevOps routine, the combination of ZSH and Starship proves to be a balanced cross-platform approach, offering a blend of performance, productivity, and extendability.
 
 ## Links
 
