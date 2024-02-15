@@ -127,7 +127,7 @@ $ brew install zsh
 $ curl -sS https://starship.rs/install.sh | sh
 ```
 
-> <i class="fa-solid fa-circle-info"></i> __Nerd Font Intentionally Avoiding__: My `~/.config/starship.toml` (it will be download in the step `5`) not need of [Nerd Font](https://www.nerdfonts.com/). Thus, I not installed it._
+> <i class="fa-solid fa-circle-info"></i> __Nerd Font Intentionally Avoiding__: My `~/.config/starship.toml` (it will be downloaded in step __5__) does not need of [Nerd Font](https://www.nerdfonts.com/).
 
 - `4`: Create a directory in your home to save the ZSH plugins and the Starship configuration:
 
