@@ -84,7 +84,7 @@ The simplicity is elegance. I customized my Starship prompt with only attributes
 
 ## My favorite ZSH options (_setopt_)
 
-Some behaviors in the [ZSH](https://www.zsh.org/) can be enabled based on list of the [ZSH Options](https://zsh.sourceforge.io/Doc/Release/Options.html). Check the options that I enabled:
+Some behaviors in the ZSH can be enabled based on list of the [ZSH Options](https://zsh.sourceforge.io/Doc/Release/Options.html). Check the options that I enabled:
 
 - `INTERACTIVE_COMMENTS`: Enable comments "#" expressions in the prompt shell;
 - `APPEND_HISTORY`: Append new history entries to the history file;
@@ -104,7 +104,14 @@ You can check my `.zshrc` and `starship.toml` in my GitHub in the Following Link
 
 ---
 
-- `1`: Install the [ZSH](https://www.zsh.org/) with your package manager.
+- `1` _optional_: Save a backup of your current dotfiles (`~/.zshrc` and `~/.zsh_history`):
+
+```{code-block}bash
+$ cp "$HOME/.zshrc" "$HOME/.zshrc.backup"
+$ cp "$HOME/.zsh_history" "$HOME/.zsh_history.backup"
+```
+
+- `2`: Install the [ZSH](https://www.zsh.org/) with your package manager.
 
 ```{code-block} bash
 # if fedora
@@ -114,39 +121,49 @@ $ dnf install zsh
 $ brew install zsh
 ```
 
-- `2`: Install the [Starship](https://starship.rs/):
+- `3`: Install the [Starship](https://starship.rs/):
 
 ```{code-block} bash
 $ curl -sS https://starship.rs/install.sh | sh
 ```
 
-- `3`: Create a directory in your home to save the ZSH plugins and the Starship configuration:
+> _My `~/.config/starship.toml` (it will be download in the step `5`) not use the [Nerd Font](https://www.nerdfonts.com/). Thus, I not installed it._
+
+- `4`: Create a directory in your home to save the ZSH plugins and the Starship configuration:
 
 ```{code-block} bash
-$ mkdir $HOME/.config
-$ mkdir $HOME/.my-custom-zsh/
+$ mkdir "$HOME/.config/"
+$ mkdir "$HOME/.my-custom-zsh/"
 ```
 
-- `4`: Download my custom starship configuration:
+- `5`: Download my custom [~/.config/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml):
 
 ```{code-block} bash
-$ curl -XGET https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml $HOME/.config/starship.toml
+$ curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml' > "$HOME/.config/starship.toml"
 ```
 
-- `5`: Install the plugins manually:
+- `6`: Install the plugins manually:
 
 ```{code-block} bash
 # k alias
-$ curl -XGET https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh > $HOME/.my-custom-zsh/kubectl.plugin.zsh
+$ curl 'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh' > "$HOME/.my-custom-zsh/kubectl.plugin.zsh"
 
 # zsh-syntax-highlighting
-$ git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.my-custom-zsh/zsh-syntax-highlighting
+$ git clone --depth 1 'https://github.com/zsh-users/zsh-syntax-highlighting.git' "$HOME/.my-custom-zsh/zsh-syntax-highlighting"
 
 # zsh-autosuggestions
-$ git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions $HOME/.my-custom-zsh/zsh-autosuggestions
+$ git clone --depth 1 'https://github.com/zsh-users/zsh-autosuggestions' "$HOME/.my-custom-zsh/zsh-autosuggestions"
 ```
 
-- `6`: Restart your terminal, the results will be like this:
+- `7`: Download my custom [~/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc):
+
+```{code-block} bash
+$ curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/.zshrc' > "$HOME/.zshrc"
+```
+
+> __Key Binding Tip__: You can customize the `bindkey` values according to your preferences. To find the code for your keys, run `$ cat -v` and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like `forward-word`, `backward-word` based on your key preferences.
+
+- `8`: Restart your terminal, the results will be like this:
 
 ![](image-3.png)
 
