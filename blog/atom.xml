@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-02-15T23:06:52.877850+00:00</updated>
+  <updated>2024-02-15T23:09:22.083598+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -126,7 +126,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;brew&lt;span class="w"&gt; &lt;/span&gt;ins
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;em&gt;My &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.config/starship.toml&lt;/span&gt;&lt;/code&gt; (it will be download in the step &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;5&lt;/span&gt;&lt;/code&gt;) not use the &lt;a class="reference external" href="https://www.nerdfonts.com/"&gt;Nerd Font&lt;/a&gt;. Thus, I not installed it.&lt;/em&gt;&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; &lt;em&gt;My &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.config/starship.toml&lt;/span&gt;&lt;/code&gt; (it will be download in the step &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;5&lt;/span&gt;&lt;/code&gt;) not use the &lt;a class="reference external" href="https://www.nerdfonts.com/"&gt;Nerd Font&lt;/a&gt;. Thus, I not installed it.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;4&lt;/span&gt;&lt;/code&gt;: Create a directory in your home to save the ZSH plugins and the Starship configuration:&lt;/p&gt;&lt;/li&gt;
@@ -161,7 +161,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;strong&gt;Key Binding Tip&lt;/strong&gt;: You can customize the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bindkey&lt;/span&gt;&lt;/code&gt; values according to your preferences. To find the code for your keys, run &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;cat&lt;/span&gt; &lt;span class="pre"&gt;-v&lt;/span&gt;&lt;/code&gt; and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;forward-word&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;backward-word&lt;/span&gt;&lt;/code&gt; based on your key preferences.&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; &lt;strong&gt;Key Binding Tip&lt;/strong&gt;: You can customize the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bindkey&lt;/span&gt;&lt;/code&gt; values according to your preferences. To find the code for your keys, run &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;cat&lt;/span&gt; &lt;span class="pre"&gt;-v&lt;/span&gt;&lt;/code&gt; and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;forward-word&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;backward-word&lt;/span&gt;&lt;/code&gt; based on your key preferences.&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;8&lt;/span&gt;&lt;/code&gt;: Restart your terminal, the results will be like this:&lt;/p&gt;&lt;/li&gt;
