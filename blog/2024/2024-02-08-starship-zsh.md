@@ -127,7 +127,7 @@ $ brew install zsh
 $ curl -sS https://starship.rs/install.sh | sh
 ```
 
-> _My `~/.config/starship.toml` (it will be download in the step `5`) not use the [Nerd Font](https://www.nerdfonts.com/). Thus, I not installed it._
+> <i class="fa-solid fa-circle-info"></i> _My `~/.config/starship.toml` (it will be download in the step `5`) not use the [Nerd Font](https://www.nerdfonts.com/). Thus, I not installed it._
 
 - `4`: Create a directory in your home to save the ZSH plugins and the Starship configuration:
 
@@ -161,7 +161,7 @@ $ git clone --depth 1 'https://github.com/zsh-users/zsh-autosuggestions' "$HOME/
 $ curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/.zshrc' > "$HOME/.zshrc"
 ```
 
-> __Key Binding Tip__: You can customize the `bindkey` values according to your preferences. To find the code for your keys, run `$ cat -v` and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like `forward-word`, `backward-word` based on your key preferences.
+> <i class="fa-solid fa-circle-info"></i> __Key Binding Tip__: You can customize the `bindkey` values according to your preferences. To find the code for your keys, run `$ cat -v` and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like `forward-word`, `backward-word` based on your key preferences.
 
 - `8`: Restart your terminal, the results will be like this:
 
