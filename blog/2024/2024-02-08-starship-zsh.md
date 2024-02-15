@@ -95,7 +95,7 @@ Some behaviors in the ZSH can be enabled based on list of the [ZSH Options](http
 
 > <i class="fa-solid fa-link"></i> More Details: <https://zsh.sourceforge.io/Doc/Release/Options.html>
 
-## How to Setup My ZSH From Scratch
+## How to Setup My ZSH + Starship From Scratch
 
 You can check my `.zshrc` and `starship.toml` in my GitHub in the Following Links:
 
