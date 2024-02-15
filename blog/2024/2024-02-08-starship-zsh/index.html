@@ -523,7 +523,7 @@ $<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </sp
 </section>
 <section id="my-favorite-zsh-options-setopt">
 <h2>My favorite ZSH options (<em>setopt</em>)<a class="headerlink" href="#my-favorite-zsh-options-setopt" title="Link to this heading">#</a></h2>
-<p>Some behaviors in the <a class="reference external" href="https://www.zsh.org/">ZSH</a> can be enabled based on list of the <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">ZSH Options</a>. Check the options that I enabled:</p>
+<p>Some behaviors in the ZSH can be enabled based on list of the <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">ZSH Options</a>. Check the options that I enabled:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">INTERACTIVE_COMMENTS</span></code>: Enable comments “#” expressions in the prompt shell;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">APPEND_HISTORY</span></code>: Append new history entries to the history file;</p></li>
@@ -545,7 +545,14 @@ $<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </sp
 </ul>
 <hr class="docutils" />
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Install the <a class="reference external" href="https://www.zsh.org/">ZSH</a> with your package manager.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code> <em>optional</em>: Save a backup of your current dotfiles (<code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> and <code class="docutils literal notranslate"><span class="pre">~/.zsh_history</span></code>):</p></li>
+</ul>
+<div class="highlight-{code-block}bash notranslate"><div class="highlight"><pre><span></span>$ cp &quot;$HOME/.zshrc&quot; &quot;$HOME/.zshrc.backup&quot;
+$ cp &quot;$HOME/.zsh_history&quot; &quot;$HOME/.zsh_history.backup&quot;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code>: Install the <a class="reference external" href="https://www.zsh.org/">ZSH</a> with your package manager.</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># if fedora</span>
 $<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>zsh
@@ -555,39 +562,51 @@ $<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </s
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code>: Install the <a class="reference external" href="https://starship.rs/">Starship</a>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">3</span></code>: Install the <a class="reference external" href="https://starship.rs/">Starship</a>:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>-sS<span class="w"> </span>https://starship.rs/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 </pre></div>
 </div>
+<blockquote>
+<div><p><em>My <code class="docutils literal notranslate"><span class="pre">~/.config/starship.toml</span></code> (it will be download in the step <code class="docutils literal notranslate"><span class="pre">5</span></code>) not use the <a class="reference external" href="https://www.nerdfonts.com/">Nerd Font</a>. Thus, I not installed it.</em></p>
+</div></blockquote>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">3</span></code>: Create a directory in your home to save the ZSH plugins and the Starship configuration:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">4</span></code>: Create a directory in your home to save the ZSH plugins and the Starship configuration:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span><span class="nv">$HOME</span>/.config
-$<span class="w"> </span>mkdir<span class="w"> </span><span class="nv">$HOME</span>/.my-custom-zsh/
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.config/&quot;</span>
+$<span class="w"> </span>mkdir<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/&quot;</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">4</span></code>: Download my custom starship configuration:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">5</span></code>: Download my custom <a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml">~/.config/starship.toml</a>:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>-XGET<span class="w"> </span>https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml<span class="w"> </span><span class="nv">$HOME</span>/.config/starship.toml
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span><span class="s1">&#39;https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml&#39;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.config/starship.toml&quot;</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">5</span></code>: Install the plugins manually:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">6</span></code>: Install the plugins manually:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># k alias</span>
-$<span class="w"> </span>curl<span class="w"> </span>-XGET<span class="w"> </span>https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh<span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$HOME</span>/.my-custom-zsh/kubectl.plugin.zsh
+$<span class="w"> </span>curl<span class="w"> </span><span class="s1">&#39;https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh&#39;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/kubectl.plugin.zsh&quot;</span>
 
 <span class="c1"># zsh-syntax-highlighting</span>
-$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>https://github.com/zsh-users/zsh-syntax-highlighting.git<span class="w"> </span><span class="nv">$HOME</span>/.my-custom-zsh/zsh-syntax-highlighting
+$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="s1">&#39;https://github.com/zsh-users/zsh-syntax-highlighting.git&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/zsh-syntax-highlighting&quot;</span>
 
 <span class="c1"># zsh-autosuggestions</span>
-$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>https://github.com/zsh-users/zsh-autosuggestions<span class="w"> </span><span class="nv">$HOME</span>/.my-custom-zsh/zsh-autosuggestions
+$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="s1">&#39;https://github.com/zsh-users/zsh-autosuggestions&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/zsh-autosuggestions&quot;</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">6</span></code>: Restart your terminal, the results will be like this:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">7</span></code>: Download my custom <a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc">~/.zshrc</a>:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span><span class="s1">&#39;https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/.zshrc&#39;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.zshrc&quot;</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>Key Binding Tip</strong>: You can customize the <code class="docutils literal notranslate"><span class="pre">bindkey</span></code> values according to your preferences. To find the code for your keys, run <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cat</span> <span class="pre">-v</span></code> and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like <code class="docutils literal notranslate"><span class="pre">forward-word</span></code>, <code class="docutils literal notranslate"><span class="pre">backward-word</span></code> based on your key preferences.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">8</span></code>: Restart your terminal, the results will be like this:</p></li>
 </ul>
 <p><img alt="" src="../../../_images/image-3.png" /></p>
 </section>
