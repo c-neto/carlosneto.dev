@@ -106,7 +106,7 @@ You can check my `.zshrc` and `starship.toml` in my GitHub in the Following Link
 
 - `1` _optional_: Save a backup of your current dotfiles (`~/.zshrc` and `~/.zsh_history`):
 
-```{code-block}bash
+```{code-block} bash
 $ cp "$HOME/.zshrc" "$HOME/.zshrc.backup"
 $ cp "$HOME/.zsh_history" "$HOME/.zsh_history.backup"
 ```
