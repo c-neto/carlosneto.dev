@@ -24,6 +24,10 @@ I searched improvements tips in the Blog Posts and Youtube videos, but the resul
 
 The results were astonishing. I didn't have to put in any effort to transition my theme configuration from Spaceship to Starship, and the performance is exactly as I expected.
 
+In the past few days, I tried out [Fish](https://fishshell.com/), described as "_a smart and user-friendly command line shell._". I was impressed by its performance and the built-in features in the default setup. _Starship_ also supports _Fish_, earning some positive points from me. I noticed better performance compared to ZSH, and the default configuration already includes features like dynamic syntax checking with color indicators, dynamic autocompletion based on the history file, and menu selection for command options and arguments. It's simple and __Ready to Use__.
+
+However, there's a drawback: Fish is not compliant with the [POSIX sh definition](http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html). For instance, declaring variables using `$ FOOBAR=123` won't work, instead, you should use the correct syntax like `$ set FOOBAR 123` in Fish. This lack of compliance with POSIX is a downside for me, as it rules out the possibility of using Fish in my daily work. Nevertheless, if ZSH is not an option, I'd still be willing to use Fish without any issues.
+
 ## My ZSH Favorite Plugins
 
 There are numerous plugins available for ZSH. Typically, these plugins are managed by _oh-my-zsh_, which I use to simplify the exploration of plugins. However, I've noticed that these plugins are essentially single script files with a predefined set of functions and routines. Once I identify plugins that are relevant to my needs, I install them individually to eliminate any potential delays caused by _oh-my-zsh_.
@@ -193,3 +197,4 @@ Currently, for my DevOps routine, the combination of ZSH and Starship proves to 
     - <https://xon.sh/>
     - <https://ohmyz.sh/>
     - <https://github.com/spaceship-prompt/spaceship-prompt>
+    - [POSIX sh definition](http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)
