@@ -177,6 +177,8 @@ Productivity is a dynamic goal, and tools must fit your current needs and contin
 
 Currently, for my DevOps routine, the combination of ZSH and Starship proves to be a balanced cross-platform approach, offering a blend of performance, productivity, and extendability.
 
+Ultimately, I reserve an honorable mention for _Fish_ which your default configuration is a source of inspiration for the plugins I use in ZSH.
+
 ## Links
 
 - My dotfiles:
