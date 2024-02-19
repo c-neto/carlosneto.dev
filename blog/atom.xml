@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-02-15T23:24:16.831175+00:00</updated>
+  <updated>2024-02-19T01:54:10.312330+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -60,7 +60,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;kgp
 $&lt;span class="w"&gt; &lt;/span&gt;kdelcm&lt;span class="w"&gt; &lt;/span&gt;foobar-config-map
 
 &lt;span class="c1"&gt;# shortcut for: kubectl get cronjob&lt;/span&gt;
-$&lt;span class="w"&gt; &lt;/span&gt;kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&gt;cj
+$&lt;span class="w"&gt; &lt;/span&gt;k&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&gt;cj
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
@@ -161,7 +161,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; &lt;strong&gt;Key Binding Tip&lt;/strong&gt;: You can customize the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bindkey&lt;/span&gt;&lt;/code&gt; values according to your preferences. To find the code for your keys, run &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;cat&lt;/span&gt; &lt;span class="pre"&gt;-v&lt;/span&gt;&lt;/code&gt; and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;forward-word&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;backward-word&lt;/span&gt;&lt;/code&gt; based on your key preferences.&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; &lt;strong&gt;Key Binding Tip&lt;/strong&gt;: You can customize the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bindkey&lt;/span&gt;&lt;/code&gt; values according to your preferences. To find the code for your keys, run &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;cat&lt;/span&gt; &lt;span class="pre"&gt;-v&lt;/span&gt;&lt;/code&gt; and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;forward-word&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;backward-word&lt;/span&gt;&lt;/code&gt; based on your key preferences. More details about &lt;em&gt;bindkey&lt;/em&gt; options (&lt;em&gt;Standard Widgets&lt;/em&gt;): &lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets"&gt;https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;8&lt;/span&gt;&lt;/code&gt;: Restart your terminal, the results will be like this:&lt;/p&gt;&lt;/li&gt;
@@ -178,14 +178,15 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;My dotfiles:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.zshrc&lt;/span&gt;&lt;/code&gt;: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc"&gt;c-neto/ansible-configure-fedora/files/dotfiles/.zshrc&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;starship.toml&lt;/span&gt;&lt;/code&gt;: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml"&gt;c-neto/ansible-configure-fedora/files/dotfiles/starship.toml&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.zshrc&lt;/span&gt;&lt;/code&gt;: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc"&gt;c-neto/ansible-configure-fedora/files/dotfiles/.zshrc&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.config/starship.toml&lt;/span&gt;&lt;/code&gt;: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml"&gt;c-neto/ansible-configure-fedora/files/dotfiles/starship.toml&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;ZSH Reference:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.zsh.org/"&gt;https://www.zsh.org/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html"&gt;https://zsh.sourceforge.io/Doc/Release/Options.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets"&gt;https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;ZSH Plugins:&lt;/p&gt;
