@@ -1,0 +1,3 @@
+- opensearch hot warm architecture
+- vscode tips
+- elixir
