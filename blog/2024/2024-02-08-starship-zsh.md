@@ -66,7 +66,7 @@ $ kgp
 $ kdelcm foobar-config-map
 
 # shortcut for: kubectl get cronjob
-$ kubectl get cj
+$ k get cj
 ```
 
 > <i class="fa-solid fa-link"></i> More Details: <i class="fab fa-github"></i> [ohmyzsh/ohmyzsh/plugins/kubectl](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl)
@@ -161,7 +161,7 @@ $ git clone --depth 1 'https://github.com/zsh-users/zsh-autosuggestions' "$HOME/
 $ curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/.zshrc' > "$HOME/.zshrc"
 ```
 
-> <i class="fa-solid fa-circle-info"></i> __Key Binding Tip__: You can customize the `bindkey` values according to your preferences. To find the code for your keys, run `$ cat -v` and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like `forward-word`, `backward-word` based on your key preferences.
+> <i class="fa-solid fa-circle-info"></i> __Key Binding Tip__: You can customize the `bindkey` values according to your preferences. To find the code for your keys, run `$ cat -v` and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like `forward-word`, `backward-word` based on your key preferences. More details about _bindkey_ options (_Standard Widgets_): <https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets>
 
 - `8`: Restart your terminal, the results will be like this:
 
@@ -176,11 +176,12 @@ Currently, for my DevOps routine, the combination of ZSH and Starship proves to 
 ## Links
 
 - My dotfiles:
-    - `.zshrc`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
-    - `starship.toml`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml)
+    - `~/.zshrc`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
+    - `~/.config/starship.toml`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml)
 - ZSH Reference:
     - <https://www.zsh.org/>
     - <https://zsh.sourceforge.io/Doc/Release/Options.html>
+    - <https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets>
 - ZSH Plugins:
     - <https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl>
     - <https://github.com/zsh-users/zsh-autosuggestions>
