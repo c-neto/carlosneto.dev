@@ -38,7 +38,7 @@ I will present in the following sub-topics, my indispensable ZSH Plugins.
 
 ### » `zsh-autosuggestions`: Commands Recall Assistant
 
-No doubts, It is my favorite Plugin. It suggested commands completion based on history.
+No doubt, it is my favorite plugin. This plugin emulates the behavior of the _Fish_ shell, suggesting command completions dynamically based on history.
 
 ![](image-1.png)
 
@@ -48,7 +48,7 @@ No doubts, It is my favorite Plugin. It suggested commands completion based on h
 
 ### » `zsh-syntax-highlighting`: Valid Commands by Color
 
-This Plugin help to detect the typo in the commands typing in real time. When command is correctly typed, the color is Green, otherwise, the color is Red.
+Another Plugin which emulate the _Fish_ shell. When a command is correctly typed, the color turns green. Otherwise, it changes to red. This feature is handy for detecting typos in a dynamic way
 
 ![](image-2.png)
 
