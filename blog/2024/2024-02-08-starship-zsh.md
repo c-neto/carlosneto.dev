@@ -111,45 +111,58 @@ You can check my dotfiles in my GitHub: <i class="fab fa-github"></i> [c-neto/an
 
 ---
 
-- `1` _optional_: Save a backup of your current dotfiles (`~/.zshrc` and `~/.zsh_history`):
+- __1__ _optional_: Save a backup of your current dotfiles (`~/.zshrc` and `~/.zsh_history`):
 
 ```{code-block} bash
 $ cp "$HOME/.zshrc" "$HOME/.zshrc.backup"
 $ cp "$HOME/.zsh_history" "$HOME/.zsh_history.backup"
 ```
 
-- `2`: Install the [ZSH](https://www.zsh.org/) with your package manager.
+- __2__: Install the [ZSH](https://www.zsh.org/) with your package manager.
 
+::::{grid}
+
+:::{grid-item-card}
 ```{code-block} bash
-# if fedora
+# if Linux (Fedora)
 $ dnf install zsh
+```
+:::
 
-# if macos
+:::{grid-item-card}
+```{code-block} bash
+# if MacOS
 $ brew install zsh
 ```
+:::
 
-- `3`: Install the [Starship](https://starship.rs/):
+::::
+
+- __3__: Install the [Starship](https://starship.rs/):
 
 ```{code-block} bash
 $ curl -sS https://starship.rs/install.sh | sh
 ```
 
-> <i class="fa-solid fa-circle-info"></i> __Nerd Font Intentionally Avoiding__: My `~/.config/starship.toml` (it will be downloaded in step __5__) does not need of [Nerd Font](https://www.nerdfonts.com/).
+> <i class="fa-solid fa-circle-info"></i> __About Nerd Fonts__:
+>
+> The `~/.config/starship.toml` file (which will be downloaded in step __5__) does not necessitate [Nerd Fonts](https://www.nerdfonts.com/). However, if you encounter issues with emoji rendering, consider the installation.
 
-- `4`: Create a directory in your home to save the ZSH plugins and the Starship configuration:
+
+- __4__: Create a directory in your home to save the ZSH plugins and the Starship configuration:
 
 ```{code-block} bash
 $ mkdir "$HOME/.config/"
 $ mkdir "$HOME/.my-custom-zsh/"
 ```
 
-- `5`: Download my custom [~/.config/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml):
+- __5__: Download my <i class="fab fa-github"></i> [~/.config/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml):
 
 ```{code-block} bash
 $ curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml' > "$HOME/.config/starship.toml"
 ```
 
-- `6`: Install the plugins manually:
+- __6__: Install the plugins manually:
 
 ```{code-block} bash
 # k alias
@@ -162,13 +175,15 @@ $ git clone --depth 1 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
 $ git clone --depth 1 'https://github.com/zsh-users/zsh-autosuggestions' "$HOME/.my-custom-zsh/zsh-autosuggestions"
 ```
 
-- `7`: Download my custom [~/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc):
+- __7__: Download my <i class="fab fa-github"></i> [~/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc):
 
 ```{code-block} bash
 $ curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/.zshrc' > "$HOME/.zshrc"
 ```
 
-> <i class="fa-solid fa-circle-info"></i> __Key Binding Tip__: You can customize the `bindkey` values according to your preferences. To find the code for your keys, run `$ cat -v` and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like `forward-word`, `backward-word` based on your key preferences.
+> <i class="fa-solid fa-circle-info"></i> __Key Binding Tip__
+>
+> You can customize the `bindkey` values according to your preferences. To find the code for your keys, run `$ cat -v` and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like `forward-word`, `backward-word` based on key code displayed.
 >
 > More details about _bindkey_ options (_Standard Widgets_): <https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets>
 
