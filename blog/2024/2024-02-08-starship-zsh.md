@@ -166,6 +166,7 @@ $ curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/f
 ```
 
 > <i class="fa-solid fa-circle-info"></i> __Key Binding Tip__: You can customize the `bindkey` values according to your preferences. To find the code for your keys, run `$ cat -v` and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like `forward-word`, `backward-word` based on your key preferences.
+>
 > More details about _bindkey_ options (_Standard Widgets_): <https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets>
 
 - `8`: Restart your terminal, the results will be like this:
