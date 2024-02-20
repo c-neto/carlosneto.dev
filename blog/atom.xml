@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-02-19T23:56:48.030180+00:00</updated>
+  <updated>2024-02-20T00:05:48.124814+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -35,7 +35,7 @@
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;section id="zsh-autosuggestions-commands-recall-assistant"&gt;
 &lt;h3&gt;» &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;zsh-autosuggestions&lt;/span&gt;&lt;/code&gt;: Commands Recall Assistant&lt;/h3&gt;
-&lt;p&gt;No doubts, It is my favorite Plugin. It suggested commands completion based on history.&lt;/p&gt;
+&lt;p&gt;No doubt, it is my favorite plugin. This plugin emulates the behavior of the &lt;em&gt;Fish&lt;/em&gt; shell, suggesting command completions dynamically based on history.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/image-1.png" /&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; More Details: &lt;a class="github reference external" href="https://github.com/zsh-users/zsh-autosuggestions"&gt;zsh-users/zsh-autosuggestions&lt;/a&gt;&lt;/p&gt;
@@ -44,7 +44,7 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="zsh-syntax-highlighting-valid-commands-by-color"&gt;
 &lt;h3&gt;» &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;zsh-syntax-highlighting&lt;/span&gt;&lt;/code&gt;: Valid Commands by Color&lt;/h3&gt;
-&lt;p&gt;This Plugin help to detect the typo in the commands typing in real time. When command is correctly typed, the color is Green, otherwise, the color is Red.&lt;/p&gt;
+&lt;p&gt;Another Plugin which emulate the &lt;em&gt;Fish&lt;/em&gt; shell. When a command is correctly typed, the color turns green. Otherwise, it changes to red. This feature is handy for detecting typos in a dynamic way&lt;/p&gt;
 &lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/image-2.png" /&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; More Details: &lt;a class="github reference external" href="https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/"&gt;zsh-users/zsh-syntax-highlighting&lt;/a&gt;&lt;/p&gt;
