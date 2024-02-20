@@ -36,7 +36,7 @@ I will present in the following sub-topics, my indispensable ZSH Plugins.
 
 > _I only used the plugin that really make the difference in my work. Thus, don't feel strange about the low number._
 
-### » `zsh-autosuggestions`: Commands Recall Assistant
+### » `zsh-autosuggestions`: Dynamic Assistant to Remember Commands
 
 No doubt, it is my favorite plugin. This plugin emulates the behavior of the _Fish_ shell, suggesting command completions dynamically based on history.
 
