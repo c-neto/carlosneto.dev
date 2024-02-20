@@ -86,9 +86,13 @@ The simplicity is elegance. I customized my Starship prompt with only attributes
 - [python](https://starship.rs/config/#python): The current activated virtualenv;
 - [kubernetes](https://starship.rs/config/#kubernetes): The Kubernetes context name. Based on the name, I applied the different styles to explicit the study, tests, and production workloads.
 
+> Check my `~/.config/starship.toml` entire content: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml)
+
 ## My favorite ZSH options (_setopt_)
 
-Some behaviors in the ZSH can be enabled based on list of the [ZSH Options](https://zsh.sourceforge.io/Doc/Release/Options.html). Check the options that I enabled:
+Some usually features (like comments, history file) from other shells like _Bash_ or _Fish_ must be explicit enabled in ZSH. These features are enabled by `$ setopt` command in `~/.zshrc`. You can get all options available in the `$ zle -al` command execution or in the following [ZSH Options Reference](https://zsh.sourceforge.io/Doc/Release/Options.html).
+
+Check the options that I enabled:
 
 - `INTERACTIVE_COMMENTS`: Enable comments "#" expressions in the prompt shell;
 - `APPEND_HISTORY`: Append new history entries to the history file;
@@ -97,14 +101,11 @@ Some behaviors in the ZSH can be enabled based on list of the [ZSH Options](http
 - `HIST_IGNORE_SPACE`: Ignore commands that start with a space in the history;
 - `SHARE_HISTORY`: Share the command history among multiple ZSH sessions.
 
-> <i class="fa-solid fa-link"></i> More Details: <https://zsh.sourceforge.io/Doc/Release/Options.html>
+> Check my `~/.zshrc` entire content: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
 
 ## How to Setup My ZSH + Starship From Scratch
 
-You can check my dotfiles contents in my GitHub in the Following Links:
-
-- `~/.zshrc`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
-- `~/.config/starship.toml`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml)
+You can check my dotfiles contents in my GitHub in the Following Link: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/)
 
 ---
 
