@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-02-20T00:21:45.982836+00:00</updated>
+  <updated>2024-02-20T00:38:56.431157+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -80,10 +80,14 @@ $&lt;span class="w"&gt; &lt;/span&gt;k&lt;span class="w"&gt; &lt;/span&gt;get&lt
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://starship.rs/config/#python"&gt;python&lt;/a&gt;: The current activated virtualenv;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://starship.rs/config/#kubernetes"&gt;kubernetes&lt;/a&gt;: The Kubernetes context name. Based on the name, I applied the different styles to explicit the study, tests, and production workloads.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;Check my &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.config/starship.toml&lt;/span&gt;&lt;/code&gt; entire content: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml"&gt;c-neto/ansible-configure-fedora/files/dotfiles/starship.toml&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;/section&gt;
 &lt;section id="my-favorite-zsh-options-setopt"&gt;
 &lt;h2&gt;My favorite ZSH options (&lt;em&gt;setopt&lt;/em&gt;)&lt;/h2&gt;
-&lt;p&gt;Some behaviors in the ZSH can be enabled based on list of the &lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html"&gt;ZSH Options&lt;/a&gt;. Check the options that I enabled:&lt;/p&gt;
+&lt;p&gt;Some usually features (like comments, history file) from other shells like &lt;em&gt;Bash&lt;/em&gt; or &lt;em&gt;Fish&lt;/em&gt; must be explicit enabled in ZSH. These features are enabled by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;setopt&lt;/span&gt;&lt;/code&gt; command in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.zshrc&lt;/span&gt;&lt;/code&gt;. You can get all options available in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;zle&lt;/span&gt; &lt;span class="pre"&gt;-al&lt;/span&gt;&lt;/code&gt; command execution or in the following &lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html"&gt;ZSH Options Reference&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Check the options that I enabled:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INTERACTIVE_COMMENTS&lt;/span&gt;&lt;/code&gt;: Enable comments “#” expressions in the prompt shell;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;APPEND_HISTORY&lt;/span&gt;&lt;/code&gt;: Append new history entries to the history file;&lt;/p&gt;&lt;/li&gt;
@@ -93,16 +97,12 @@ $&lt;span class="w"&gt; &lt;/span&gt;k&lt;span class="w"&gt; &lt;/span&gt;get&lt
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;SHARE_HISTORY&lt;/span&gt;&lt;/code&gt;: Share the command history among multiple ZSH sessions.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; More Details: &lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html"&gt;https://zsh.sourceforge.io/Doc/Release/Options.html&lt;/a&gt;&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;Check my &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.zshrc&lt;/span&gt;&lt;/code&gt; entire content: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc"&gt;c-neto/ansible-configure-fedora/files/dotfiles/.zshrc&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;/section&gt;
 &lt;section id="how-to-setup-my-zsh-starship-from-scratch"&gt;
 &lt;h2&gt;How to Setup My ZSH + Starship From Scratch&lt;/h2&gt;
-&lt;p&gt;You can check my dotfiles contents in my GitHub in the Following Links:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.zshrc&lt;/span&gt;&lt;/code&gt;: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc"&gt;c-neto/ansible-configure-fedora/files/dotfiles/.zshrc&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.config/starship.toml&lt;/span&gt;&lt;/code&gt;: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml"&gt;c-neto/ansible-configure-fedora/files/dotfiles/starship.toml&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;You can check my dotfiles contents in my GitHub in the Following Link: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/"&gt;c-neto/ansible-configure-fedora/files/dotfiles/&lt;/a&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;1&lt;/span&gt;&lt;/code&gt; &lt;em&gt;optional&lt;/em&gt;: Save a backup of your current dotfiles (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.zshrc&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.zsh_history&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;&lt;/li&gt;
