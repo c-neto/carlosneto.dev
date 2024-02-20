@@ -548,46 +548,64 @@ $<span class="w"> </span>k<span class="w"> </span>get<span class="w"> </span>cj
 <p>You can check my dotfiles in my GitHub: <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/">c-neto/ansible-configure-fedora/files/dotfiles/</a></p>
 <hr class="docutils" />
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code> <em>optional</em>: Save a backup of your current dotfiles (<code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> and <code class="docutils literal notranslate"><span class="pre">~/.zsh_history</span></code>):</p></li>
+<li><p><strong>1</strong> <em>optional</em>: Save a backup of your current dotfiles (<code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> and <code class="docutils literal notranslate"><span class="pre">~/.zsh_history</span></code>):</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.zshrc&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.zshrc.backup&quot;</span>
 $<span class="w"> </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.zsh_history&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.zsh_history.backup&quot;</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code>: Install the <a class="reference external" href="https://www.zsh.org/">ZSH</a> with your package manager.</p></li>
+<li><p><strong>2</strong>: Install the <a class="reference external" href="https://www.zsh.org/">ZSH</a> with your package manager.</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># if fedora</span>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># if Linux (Fedora)</span>
 $<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>zsh
-
-<span class="c1"># if macos</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># if MacOS</span>
 $<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>zsh
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">3</span></code>: Install the <a class="reference external" href="https://starship.rs/">Starship</a>:</p></li>
+<li><p><strong>3</strong>: Install the <a class="reference external" href="https://starship.rs/">Starship</a>:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>-sS<span class="w"> </span>https://starship.rs/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 </pre></div>
 </div>
 <blockquote>
-<div><p><i class="fa-solid fa-circle-info"></i> <strong>Nerd Font Intentionally Avoiding</strong>: My <code class="docutils literal notranslate"><span class="pre">~/.config/starship.toml</span></code> (it will be downloaded in step <strong>5</strong>) does not need of <a class="reference external" href="https://www.nerdfonts.com/">Nerd Font</a>.</p>
+<div><p><i class="fa-solid fa-circle-info"></i> <strong>About Nerd Fonts</strong>:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">~/.config/starship.toml</span></code> file (which will be downloaded in step <strong>5</strong>) does not necessitate <a class="reference external" href="https://www.nerdfonts.com/">Nerd Fonts</a>. However, if you encounter issues with emoji rendering, consider the installation.</p>
 </div></blockquote>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">4</span></code>: Create a directory in your home to save the ZSH plugins and the Starship configuration:</p></li>
+<li><p><strong>4</strong>: Create a directory in your home to save the ZSH plugins and the Starship configuration:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.config/&quot;</span>
 $<span class="w"> </span>mkdir<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/&quot;</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">5</span></code>: Download my custom <a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml">~/.config/starship.toml</a>:</p></li>
+<li><p><strong>5</strong>: Download my <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml">~/.config/starship.toml</a>:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span><span class="s1">&#39;https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml&#39;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.config/starship.toml&quot;</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">6</span></code>: Install the plugins manually:</p></li>
+<li><p><strong>6</strong>: Install the plugins manually:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># k alias</span>
 $<span class="w"> </span>curl<span class="w"> </span><span class="s1">&#39;https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh&#39;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/kubectl.plugin.zsh&quot;</span>
@@ -600,13 +618,14 @@ $<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">7</span></code>: Download my custom <a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc">~/.zshrc</a>:</p></li>
+<li><p><strong>7</strong>: Download my <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc">~/.zshrc</a>:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span><span class="s1">&#39;https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/.zshrc&#39;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.zshrc&quot;</span>
 </pre></div>
 </div>
 <blockquote>
-<div><p><i class="fa-solid fa-circle-info"></i> <strong>Key Binding Tip</strong>: You can customize the <code class="docutils literal notranslate"><span class="pre">bindkey</span></code> values according to your preferences. To find the code for your keys, run <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cat</span> <span class="pre">-v</span></code> and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like <code class="docutils literal notranslate"><span class="pre">forward-word</span></code>, <code class="docutils literal notranslate"><span class="pre">backward-word</span></code> based on your key preferences.</p>
+<div><p><i class="fa-solid fa-circle-info"></i> <strong>Key Binding Tip</strong></p>
+<p>You can customize the <code class="docutils literal notranslate"><span class="pre">bindkey</span></code> values according to your preferences. To find the code for your keys, run <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cat</span> <span class="pre">-v</span></code> and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like <code class="docutils literal notranslate"><span class="pre">forward-word</span></code>, <code class="docutils literal notranslate"><span class="pre">backward-word</span></code> based on key code displayed.</p>
 <p>More details about <em>bindkey</em> options (<em>Standard Widgets</em>): <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets">https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets</a></p>
 </div></blockquote>
 <ul class="simple">
