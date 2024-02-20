@@ -90,9 +90,11 @@ The simplicity is elegance. I customized my Starship prompt with only attributes
 
 ## My favorite ZSH options (_setopt_)
 
-Some usually features (like comments, history file) from other shells like _Bash_ or _Fish_ must be explicit enabled in ZSH. These features are enabled by `$ setopt` command in `~/.zshrc`. You can get all options available in the `$ zle -al` command execution or in the following [ZSH Options Reference](https://zsh.sourceforge.io/Doc/Release/Options.html).
+Some usually features (like comments, history file) from other shells like _Bash_ or _Fish_ must be explicit enabled in ZSH. These features are enabled by `$ setopt` command in `~/.zshrc`.
 
-Check the options that I enabled:
+You can get all options available in the `$ zle -al` command execution or in the following [ZSH Options Reference](https://zsh.sourceforge.io/Doc/Release/Options.html).
+
+Check the _ZSH Options_ that I have enabled:
 
 - `INTERACTIVE_COMMENTS`: Enable comments "#" expressions in the prompt shell;
 - `APPEND_HISTORY`: Append new history entries to the history file;
@@ -105,7 +107,7 @@ Check the options that I enabled:
 
 ## How to Setup My ZSH + Starship From Scratch
 
-You can check my dotfiles contents in my GitHub in the Following Link: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/)
+You can check my dotfiles in my GitHub: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/)
 
 ---
 
