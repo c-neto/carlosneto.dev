@@ -378,7 +378,12 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-prompts-customization-experiences">My Prompts Customization Experiences</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-prompts-customization-experiences">My Prompts Customization Experiences</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xonsh-python-bash-advantages-and-disadvantages"><strong>xonsh</strong>: Python + Bash Advantages (<em>and Disadvantages</em>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zsh-extensible-and-product-ready-if-customized"><strong>zsh</strong>: Extensible and Product Ready (<em>If Customized</em>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fish-ready-to-use-but-non-posix-compliant"><strong>fish</strong>: Ready to Use (<em>But non-POSIX Compliant</em>)</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-zsh-favorite-plugins">My ZSH Favorite Plugins</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zsh-autosuggestions-dynamic-assistant-to-remember-commands">» <code class="docutils literal notranslate"><span class="pre">zsh-autosuggestions</span></code>: Dynamic Assistant to Remember Commands</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zsh-syntax-highlighting-valid-commands-by-color">» <code class="docutils literal notranslate"><span class="pre">zsh-syntax-highlighting</span></code>: Valid Commands by Color</a></li>
@@ -461,12 +466,21 @@ document.write(`
 <section id="my-prompts-customization-experiences">
 <h2>My Prompts Customization Experiences<a class="headerlink" href="#my-prompts-customization-experiences" title="Link to this heading">#</a></h2>
 <p>Productivity is a topic that I definitely like. For long time, I used the raw Terminal over Bash, It is force me to memorize the commands, but the productivity is not so good. I felt that I need to improve my Terminal setup to focus in productivity.</p>
+<section id="xonsh-python-bash-advantages-and-disadvantages">
+<h3><strong>xonsh</strong>: Python + Bash Advantages (<em>and Disadvantages</em>)<a class="headerlink" href="#xonsh-python-bash-advantages-and-disadvantages" title="Link to this heading">#</a></h3>
 <p>Due to my expertise in Python, I have been testing <a class="reference external" href="https://xon.sh/">xonsh</a> for approximately six months. The xonsh is a superset of Python that includes additional shell primitives familiar to Bash users. The combination of Bash and Python enhances productivity by blending the simplicity of Python syntax with the versatility of Bash. However, debugging can be challenging (<em>imagine a list comprehension in Python syntax combined with dictionaries and environment variables in Bash syntax</em>).</p>
+</section>
+<section id="zsh-extensible-and-product-ready-if-customized">
+<h3><strong>zsh</strong>: Extensible and Product Ready (<em>If Customized</em>)<a class="headerlink" href="#zsh-extensible-and-product-ready-if-customized" title="Link to this heading">#</a></h3>
 <p>I needed come back the real world again, then I gave a chance for ZSH, a advanced and highly customizable command-line interface with enhanced productivity features and a large Plugins. It greatly appealed to me, mainly when I tested the <a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a> a <em>“minimalistic, powerful and extremely customizable ZSH prompt”</em>, and the <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a> framework that provides a simple way to manage Plugins and Themes. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the input and startup delay of the commands got on my nerves.</p>
 <p>I searched improvements tips in the Blog Posts and Youtube videos, but the result don’t satisfied myself. Then, I opted to install the Plugins manually avoiding the <em>oh-my-zsh</em>, and I tested the <a class="reference external" href="https://starship.rs/">Starship</a> (in my words: “<em>a Spaceship alternative, in Rust, blazing-fast, with many stars in the GitHub</em>”).</p>
 <p>The results were astonishing. I didn’t have to put in any effort to transition my theme configuration from Spaceship to Starship, and the performance is exactly as I expected.</p>
+</section>
+<section id="fish-ready-to-use-but-non-posix-compliant">
+<h3><strong>fish</strong>: Ready to Use (<em>But non-POSIX Compliant</em>)<a class="headerlink" href="#fish-ready-to-use-but-non-posix-compliant" title="Link to this heading">#</a></h3>
 <p>In the past few days, I tried out <a class="reference external" href="https://fishshell.com/">Fish</a>, described as “<em>a smart and user-friendly command line shell</em>”. I was impressed by its performance and the built-in features in the default setup. <em>Starship</em> also supports <em>Fish</em>, earning some positive points from me. I noticed better performance compared to ZSH, and the default configuration already includes features like dynamic syntax checking with color indicators, dynamic autocompletion based on the history file, and menu selection for command options and arguments. It’s simple and <strong>Ready to Use</strong>.</p>
 <p>However, there’s a drawback: Fish is not compliant with the <a class="reference external" href="http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html">POSIX sh definition</a>. For instance, declaring variables using <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">FOOBAR=123</span></code> won’t work, instead, you should use the correct syntax like <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">set</span> <span class="pre">FOOBAR</span> <span class="pre">123</span></code>. This lack of compliance with POSIX is a downside for me, as it rules out the possibility of using <em>Fish</em> in my daily work. Nevertheless, if ZSH is not an option, I’d still be willing to use Fish without any issues.</p>
+</section>
 </section>
 <section id="my-zsh-favorite-plugins">
 <h2>My ZSH Favorite Plugins<a class="headerlink" href="#my-zsh-favorite-plugins" title="Link to this heading">#</a></h2>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-02-20T01:02:55.596887+00:00</updated>
+  <updated>2024-02-27T00:55:43.057966+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -19,12 +19,21 @@
 &lt;section id="my-prompts-customization-experiences"&gt;
 &lt;h2&gt;My Prompts Customization Experiences&lt;/h2&gt;
 &lt;p&gt;Productivity is a topic that I definitely like. For long time, I used the raw Terminal over Bash, It is force me to memorize the commands, but the productivity is not so good. I felt that I need to improve my Terminal setup to focus in productivity.&lt;/p&gt;
+&lt;section id="xonsh-python-bash-advantages-and-disadvantages"&gt;
+&lt;h3&gt;&lt;strong&gt;xonsh&lt;/strong&gt;: Python + Bash Advantages (&lt;em&gt;and Disadvantages&lt;/em&gt;)&lt;/h3&gt;
 &lt;p&gt;Due to my expertise in Python, I have been testing &lt;a class="reference external" href="https://xon.sh/"&gt;xonsh&lt;/a&gt; for approximately six months. The xonsh is a superset of Python that includes additional shell primitives familiar to Bash users. The combination of Bash and Python enhances productivity by blending the simplicity of Python syntax with the versatility of Bash. However, debugging can be challenging (&lt;em&gt;imagine a list comprehension in Python syntax combined with dictionaries and environment variables in Bash syntax&lt;/em&gt;).&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="zsh-extensible-and-product-ready-if-customized"&gt;
+&lt;h3&gt;&lt;strong&gt;zsh&lt;/strong&gt;: Extensible and Product Ready (&lt;em&gt;If Customized&lt;/em&gt;)&lt;/h3&gt;
 &lt;p&gt;I needed come back the real world again, then I gave a chance for ZSH, a advanced and highly customizable command-line interface with enhanced productivity features and a large Plugins. It greatly appealed to me, mainly when I tested the &lt;a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt"&gt;Spaceship&lt;/a&gt; a &lt;em&gt;“minimalistic, powerful and extremely customizable ZSH prompt”&lt;/em&gt;, and the &lt;a class="reference external" href="https://ohmyz.sh/"&gt;oh-my-zsh&lt;/a&gt; framework that provides a simple way to manage Plugins and Themes. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the input and startup delay of the commands got on my nerves.&lt;/p&gt;
 &lt;p&gt;I searched improvements tips in the Blog Posts and Youtube videos, but the result don’t satisfied myself. Then, I opted to install the Plugins manually avoiding the &lt;em&gt;oh-my-zsh&lt;/em&gt;, and I tested the &lt;a class="reference external" href="https://starship.rs/"&gt;Starship&lt;/a&gt; (in my words: “&lt;em&gt;a Spaceship alternative, in Rust, blazing-fast, with many stars in the GitHub&lt;/em&gt;”).&lt;/p&gt;
 &lt;p&gt;The results were astonishing. I didn’t have to put in any effort to transition my theme configuration from Spaceship to Starship, and the performance is exactly as I expected.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="fish-ready-to-use-but-non-posix-compliant"&gt;
+&lt;h3&gt;&lt;strong&gt;fish&lt;/strong&gt;: Ready to Use (&lt;em&gt;But non-POSIX Compliant&lt;/em&gt;)&lt;/h3&gt;
 &lt;p&gt;In the past few days, I tried out &lt;a class="reference external" href="https://fishshell.com/"&gt;Fish&lt;/a&gt;, described as “&lt;em&gt;a smart and user-friendly command line shell&lt;/em&gt;”. I was impressed by its performance and the built-in features in the default setup. &lt;em&gt;Starship&lt;/em&gt; also supports &lt;em&gt;Fish&lt;/em&gt;, earning some positive points from me. I noticed better performance compared to ZSH, and the default configuration already includes features like dynamic syntax checking with color indicators, dynamic autocompletion based on the history file, and menu selection for command options and arguments. It’s simple and &lt;strong&gt;Ready to Use&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;However, there’s a drawback: Fish is not compliant with the &lt;a class="reference external" href="http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html"&gt;POSIX sh definition&lt;/a&gt;. For instance, declaring variables using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;FOOBAR=123&lt;/span&gt;&lt;/code&gt; won’t work, instead, you should use the correct syntax like &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;FOOBAR&lt;/span&gt; &lt;span class="pre"&gt;123&lt;/span&gt;&lt;/code&gt;. This lack of compliance with POSIX is a downside for me, as it rules out the possibility of using &lt;em&gt;Fish&lt;/em&gt; in my daily work. Nevertheless, if ZSH is not an option, I’d still be willing to use Fish without any issues.&lt;/p&gt;
+&lt;/section&gt;
 &lt;/section&gt;
 &lt;section id="my-zsh-favorite-plugins"&gt;
 &lt;h2&gt;My ZSH Favorite Plugins&lt;/h2&gt;
