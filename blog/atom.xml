@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-02-27T00:55:43.057966+00:00</updated>
+  <updated>2024-03-02T20:47:46.581880+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
@@ -43,7 +43,7 @@
 &lt;div&gt;&lt;p&gt;&lt;em&gt;I only used the plugin that really make the difference in my work. Thus, don’t feel strange about the low number.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;section id="zsh-autosuggestions-dynamic-assistant-to-remember-commands"&gt;
-&lt;h3&gt;» &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;zsh-autosuggestions&lt;/span&gt;&lt;/code&gt;: Dynamic Assistant to Remember Commands&lt;/h3&gt;
+&lt;h3&gt;&lt;strong&gt;zsh-autosuggestions&lt;/strong&gt;: Dynamic Assistant to Remember Commands&lt;/h3&gt;
 &lt;p&gt;No doubt, it is my favorite plugin. This plugin emulates the behavior of the &lt;em&gt;Fish&lt;/em&gt; shell, suggesting command completions dynamically based on history.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/image-1.png" /&gt;&lt;/p&gt;
 &lt;blockquote&gt;
@@ -52,7 +52,7 @@
 &lt;/section&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="zsh-syntax-highlighting-valid-commands-by-color"&gt;
-&lt;h3&gt;» &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;zsh-syntax-highlighting&lt;/span&gt;&lt;/code&gt;: Valid Commands by Color&lt;/h3&gt;
+&lt;h3&gt;&lt;strong&gt;zsh-syntax-highlighting&lt;/strong&gt;: Valid Commands by Color&lt;/h3&gt;
 &lt;p&gt;Another Plugin which emulate the &lt;em&gt;Fish&lt;/em&gt; shell. When a command is correctly typed, the color turns green. Otherwise, it changes to red. This feature is handy for detecting typos in a dynamic way&lt;/p&gt;
 &lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/image-2.png" /&gt;&lt;/p&gt;
 &lt;blockquote&gt;
@@ -61,7 +61,7 @@
 &lt;/section&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="kubectl-k-alias-for-kubectl"&gt;
-&lt;h3&gt;» &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt;&lt;/code&gt;: k alias for kubectl&lt;/h3&gt;
+&lt;h3&gt;&lt;strong&gt;kubectl&lt;/strong&gt;: k alias for kubectl&lt;/h3&gt;
 &lt;p&gt;This plugin adds completion for the Kubernetes, as well as some aliases for common kubectl commands.&lt;/p&gt;
 &lt;p&gt;For example:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# shortcut for: kubectl get pods&lt;/span&gt;
@@ -196,7 +196,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;p&gt;More details about &lt;em&gt;bindkey&lt;/em&gt; options (&lt;em&gt;Standard Widgets&lt;/em&gt;): &lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets"&gt;https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;8&lt;/span&gt;&lt;/code&gt;: Restart your terminal, the results will be like this:&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;8&lt;/strong&gt;: Restart your terminal, the results will be like this:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="" src="https://carlosneto.dev/_images/image-3.png" /&gt;&lt;/p&gt;
 &lt;/section&gt;
