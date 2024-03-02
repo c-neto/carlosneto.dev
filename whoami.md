@@ -58,8 +58,9 @@ __[OpenSearch](https://opensearch.org/docs/latest/):__ It is an open-source sear
 
 - <i class="fa-solid fa-code-pull-request"></i>: [#459](https://github.com/opensearch-project/documentation-website/pull/459): Described the behavior and outlined best practices for Searchable Snapshots cluster nodes.
 - <i class="fa-solid fa-code-pull-request"></i>: [#6051](https://github.com/opensearch-project/documentation-website/pull/6051) Described the behavior and security recommendations for the HTTP Compression setting.
-- <i class="fa-solid fa-code-pull-request"></i>: [#570](https://github.com/opensearch-project/documentation-website/pull/570): Addressed a deprecated parameter related to the precedence order of Index Template configuration.
+- <i class="fa-solid fa-code-pull-request"></i>: [#570](https://github.com/opensearch-project/documentation-website/pull/570), [#4524](https://github.com/opensearch-project/OpenSearch-Dashboards/issues/4524): Addressed a deprecated parameter related to the precedence order of Index Template configuration.
 - <i class="fa-solid fa-bug"></i>: [#4529](https://github.com/opensearch-project/OpenSearch-Dashboards/issues/4529): Identified and reproduced problems related to exporting OpenSearch-Dashboards objects.
+
 ````
 
 `````
@@ -83,7 +84,8 @@ __[OpenSearch](https://opensearch.org/docs/latest/):__ It is an open-source sear
 
 __[OpenCTI](https://github.com/OpenCTI-Platform/opencti):__ It is an open-source platform for managing and sharing Cyber Threat Intelligence, fostering collaboration among organizations in analyzing and responding to cybersecurity incidents.
 
-- <i class="fa-solid fa-code-pull-request"></i> [#138](https://github.com/OpenCTI-Platform/docs/pull/138) + [#139](https://github.com/OpenCTI-Platform/docs/pull/139): Clarified user permissions required for OpenCTI in the OpenSearch integration, emphasizing adherence to the Principle of Least Privilege.
+- <i class="fa-solid fa-code-pull-request"></i> [#138](https://github.com/OpenCTI-Platform/docs/pull/138), [#139](https://github.com/OpenCTI-Platform/docs/pull/139): Clarified user permissions required for OpenCTI in the OpenSearch integration, emphasizing adherence to the Principle of Least Privilege.
 - <i class="fa-solid fa-code-pull-request"></i> [#137](https://github.com/OpenCTI-Platform/docs/pull/137): Conducted a comprehensive refactoring of configuration settings in the integration of the OpenCTI Platform and the S3 Bucket service.
 - <i class="fa-solid fa-code-pull-request"></i> [#144](https://github.com/OpenCTI-Platform/docs/pull/144): Addressed a documentation gap by adding the flag to verify the Search Engine, applicable to both Elasticsearch and OpenSearch.
 ````
+
