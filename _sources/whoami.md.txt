@@ -58,9 +58,9 @@ __[OpenSearch](https://opensearch.org/docs/latest/):__ It is an open-source sear
 
 - <i class="fa-solid fa-code-pull-request"></i>: [#459](https://github.com/opensearch-project/documentation-website/pull/459): Described the behavior and outlined best practices for Searchable Snapshots cluster nodes.
 - <i class="fa-solid fa-code-pull-request"></i>: [#6051](https://github.com/opensearch-project/documentation-website/pull/6051) Described the behavior and security recommendations for the HTTP Compression setting.
-- <i class="fa-solid fa-code-pull-request"></i>: [#570](https://github.com/opensearch-project/documentation-website/pull/570), [#4524](https://github.com/opensearch-project/OpenSearch-Dashboards/issues/4524): Addressed a deprecated parameter related to the precedence order of Index Template configuration.
+- <i class="fa-solid fa-code-pull-request"></i>: [#570](https://github.com/opensearch-project/documentation-website/pull/570): Addressed a deprecated parameter related to the precedence order of Index Template configuration.
 - <i class="fa-solid fa-bug"></i>: [#4529](https://github.com/opensearch-project/OpenSearch-Dashboards/issues/4529): Identified and reproduced problems related to exporting OpenSearch-Dashboards objects.
-
+- <i class="fa-solid fa-bug"></i>: [#4524](https://github.com/opensearch-project/OpenSearch-Dashboards/issues/4524): Identified connection problem in OpenSearch-Dashboards when connecting to a remote cluster using self-signed certificates.
 ````
 
 `````
