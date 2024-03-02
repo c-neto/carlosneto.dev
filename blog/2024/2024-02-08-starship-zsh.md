@@ -42,7 +42,7 @@ I will present in the following sub-topics, my indispensable ZSH Plugins.
 
 > _I only used the plugin that really make the difference in my work. Thus, don't feel strange about the low number._
 
-### » `zsh-autosuggestions`: Dynamic Assistant to Remember Commands
+### __zsh-autosuggestions__: Dynamic Assistant to Remember Commands
 
 No doubt, it is my favorite plugin. This plugin emulates the behavior of the _Fish_ shell, suggesting command completions dynamically based on history.
 
@@ -52,7 +52,7 @@ No doubt, it is my favorite plugin. This plugin emulates the behavior of the _Fi
 
 ---
 
-### » `zsh-syntax-highlighting`: Valid Commands by Color
+### __zsh-syntax-highlighting__: Valid Commands by Color
 
 Another Plugin which emulate the _Fish_ shell. When a command is correctly typed, the color turns green. Otherwise, it changes to red. This feature is handy for detecting typos in a dynamic way
 
@@ -62,7 +62,7 @@ Another Plugin which emulate the _Fish_ shell. When a command is correctly typed
 
 ---
 
-### » `kubectl`: k alias for kubectl
+### __kubectl__: k alias for kubectl
 
 This plugin adds completion for the Kubernetes, as well as some aliases for common kubectl commands.
 
@@ -193,7 +193,7 @@ $ curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/f
 >
 > More details about _bindkey_ options (_Standard Widgets_): <https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets>
 
-- `8`: Restart your terminal, the results will be like this:
+- __8__: Restart your terminal, the results will be like this:
 
 ![](image-3.png)
 
