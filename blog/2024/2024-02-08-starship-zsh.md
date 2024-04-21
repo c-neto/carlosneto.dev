@@ -1,5 +1,5 @@
 ---
-tags: systemd
+tags: zsh
 date: "2024-02-08"
 category: Linux
 ---
@@ -36,11 +36,9 @@ However, there's a drawback: Fish is not compliant with the [POSIX sh definition
 
 ## My ZSH Favorite Plugins
 
-There are numerous plugins available for ZSH. Typically, these plugins are managed by _oh-my-zsh_, which I use to simplify the exploration of plugins. However, I've noticed that these plugins are essentially single script files with a predefined set of functions and routines. Once I identify plugins that are relevant to my needs, I install them individually to eliminate any potential delays caused by _oh-my-zsh_.
+There are numerous plugins available for ZSH. Typically, these plugins are installed and managed by [oh-my-zsh](https://ohmyz.sh/), but you can install them directly, once these plugins are essentially script files with a predefined set of functions and routines.
 
 I will present in the following sub-topics, my indispensable ZSH Plugins.
-
-> _I only used the plugin that really make the difference in my work. Thus, don't feel strange about the low number._
 
 ### __zsh-autosuggestions__: Dynamic Assistant to Remember Commands
 
@@ -100,14 +98,13 @@ Some usually features (like comments, history file) from other shells like _Bash
 
 You can get all options available in the `$ zle -al` command execution or in the following [ZSH Options Reference](https://zsh.sourceforge.io/Doc/Release/Options.html).
 
-Check the _ZSH Options_ that I have enabled:
+Check the _ZSH Options_ I have enabled:
 
 - `INTERACTIVE_COMMENTS`: Enable comments "#" expressions in the prompt shell;
 - `APPEND_HISTORY`: Append new history entries to the history file;
 - `INC_APPEND_HISTORY`: Save each command to the history file as soon as it is executed;
 - `HIST_IGNORE_DUPS`: Ignore recording duplicate consecutive commands in the history (improve the performance of the _zsh-autosuggestions_);
 - `HIST_IGNORE_SPACE`: Ignore commands that start with a space in the history;
-- `SHARE_HISTORY`: Share the command history among multiple ZSH sessions.
 
 > Check my `~/.zshrc` entire content: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
 
