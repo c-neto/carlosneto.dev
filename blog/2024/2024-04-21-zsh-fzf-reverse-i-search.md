@@ -8,7 +8,7 @@ category: Linux
 
 ---
 
-# FZF: A Nice Reverse History Search Alternative
+# FZF: A Nice Shell History Search Alternative
 
 This blog post covers how to use the [FZF - Fuzzy Finder](https://github.com/junegunn/fzf?tab=readme-ov-file) in [ZSH](https://www.zsh.org/) as an alternative to _reverse-i-search_ widget.
 
