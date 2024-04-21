@@ -2,18 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-04-21T21:52:49.805419+00:00</updated>
+  <updated>2024-04-21T21:54:11.076423+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.8">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
   <entry>
     <id>https://carlosneto.dev/blog/2024/2024-04-21-zsh-fzf-reverse-i-search/</id>
-    <title>FZF: A Nice Reverse History Search Alternative</title>
+    <title>FZF: A Nice Shell History Search Alternative</title>
     <updated>2024-04-21T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2024/04/21&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;section id="fzf-a-nice-reverse-history-search-alternative"&gt;
+&lt;section id="fzf-a-nice-shell-history-search-alternative"&gt;
 
 &lt;p&gt;This blog post covers how to use the &lt;a class="reference external" href="https://github.com/junegunn/fzf?tab=readme-ov-file"&gt;FZF - Fuzzy Finder&lt;/a&gt; in &lt;a class="reference external" href="https://www.zsh.org/"&gt;ZSH&lt;/a&gt; as an alternative to &lt;em&gt;reverse-i-search&lt;/em&gt; widget.&lt;/p&gt;
 &lt;section id="my-journey-from-reverse-i-search-until-fzf-history-widget"&gt;
