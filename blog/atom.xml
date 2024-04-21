@@ -2,11 +2,105 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-03-03T19:28:01.201685+00:00</updated>
+  <updated>2024-04-21T21:17:58.950783+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
-  <generator uri="https://ablog.readthedocs.io/" version="0.11.6">ABlog</generator>
+  <generator uri="https://ablog.readthedocs.io/" version="0.11.8">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2024/2024-04-21-zsh-fzf-reverse-i-search/</id>
+    <title>FZF: A Smart Reverse History Search</title>
+    <updated>2024-04-21T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2024/04/21&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="fzf-a-smart-reverse-history-search"&gt;
+
+&lt;p&gt;This blog post covers how to use the &lt;a class="reference external" href="https://github.com/junegunn/fzf?tab=readme-ov-file"&gt;FZF - Fuzzy Finder&lt;/a&gt; in &lt;a class="reference external" href="https://www.zsh.org/"&gt;ZSH&lt;/a&gt; as an alternative to &lt;em&gt;reverse-i-search&lt;/em&gt; widget.&lt;/p&gt;
+&lt;section id="my-journey-from-reverse-i-search-until-fzf-history-widget"&gt;
+&lt;h2&gt;My journey from &lt;strong&gt;reverse-i-search&lt;/strong&gt; until &lt;strong&gt;fzf-history-widget&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Remember executed commands can be a bored task, mainly in the current days there are so many tools and differents stack technologies each one with their your specific commands lines programs. For help in this need, the shells like Zsh, Fish, and Bash implements a widget for interactive searching executed commands based on terms saved in the history file.&lt;/p&gt;
+&lt;p&gt;In Zsh is implemented &lt;em&gt;reverse-i-search&lt;/em&gt; widget by default, called by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;CTRL&lt;/span&gt;&lt;/code&gt; + &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;R&lt;/span&gt;&lt;/code&gt;. The default implementaion is good, but the commands remenbering results is limited by one result, and you need to press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;CTRL&lt;/span&gt;&lt;/code&gt; + &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;R&lt;/span&gt;&lt;/code&gt; again to see next results. This behavior can be a problem if you need to remember a commands using little terms, large commands, and commands with multiple executions with differents arguments, letting you to press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;CTRL&lt;/span&gt;&lt;/code&gt; + &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;R&lt;/span&gt;&lt;/code&gt; many times.&lt;/p&gt;
+&lt;p&gt;I searched by alternatives to better my experience over the &lt;em&gt;reverse-i-search&lt;/em&gt; widget. I checked Fish implementation, and I liked the implementation. The Fish show a interactive menu with commands executed matched by typed term. It is really nice! and turns my challenge to replicated the behavior in the Zsh.&lt;/p&gt;
+&lt;p&gt;I searched ways to replicate the Fish behavior in Zsh. After some research days, I found the amazing project &lt;a class="reference external" href="https://github.com/junegunn/fzf"&gt;FZF - Fuzzy Finder&lt;/a&gt;. FZF is a command-line fuzzy finder written in Go, designed to help users quickly search and select items from large datasets and files. There are some shells widgets available to search files, directories, and &lt;strong&gt;all I want, a widget dedicated to reverse history search&lt;/strong&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; There are widgets available for Fish, Bash, Zsh. You can check the implementaion in the following directory in the GitHub project https://github.com/junegunn/fzf/tree/master/shell.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;/section&gt;
+&lt;section id="how-to-setup"&gt;
+&lt;h2&gt;How to Setup&lt;/h2&gt;
+&lt;p&gt;The first step, install fzf:&lt;/p&gt;
+&lt;div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils"&gt;
+&lt;div class="sd-row docutils"&gt;
+&lt;div class="sd-col sd-d-flex-row docutils"&gt;
+&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
+&lt;div class="sd-card-body docutils"&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# if Linux (Fedora)&lt;/span&gt;
+$&lt;span class="w"&gt; &lt;/span&gt;dnf&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;fzf
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sd-col sd-d-flex-row docutils"&gt;
+&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
+&lt;div class="sd-card-body docutils"&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# if MacOS&lt;/span&gt;
+$&lt;span class="w"&gt; &lt;/span&gt;brew&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;fzf
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;After that, you need to load the fzf widgets and keybindings.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;-s&lt;span class="w"&gt; &lt;/span&gt;https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;fzf-key-bindings.zsh
+$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;fzf-key-bindings.zsh
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; After fzf versions 0.48.0, you can load the keybindings and completions with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;eval&lt;/span&gt; &lt;span class="pre"&gt;(fzf&lt;/span&gt; &lt;span class="pre"&gt;--zsh)&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;p&gt;To check the keybindings configuration in the previous step, you can run the following command:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;bindkey&lt;span class="w"&gt; &lt;/span&gt;-a&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;grep&lt;span class="w"&gt; &lt;/span&gt;fzf
+
+&lt;span class="s2"&gt;&amp;quot;^R&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;fzf-history-widget&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# CTRL + R: reverse history search&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;^T&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;fzf-file-widget&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# CTRL + T: search files&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;^[c&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;fzf-cd-widget&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# ALT  + C: search directories&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;You can customize the fzf display by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;FZF_CTRL_R_OPTS&lt;/span&gt;&lt;/code&gt; environment variable value. I configured a vertical window to show the full command wrapped (useful in large command rendering).&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_CTRL_R_OPTS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--height 100% --layout reverse --preview &amp;#39;echo {}&amp;#39; --preview-window=wrap&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="results"&gt;
+&lt;h2&gt;Results&lt;/h2&gt;
+&lt;p&gt;The next video, show the results of the previous step.&lt;/p&gt;
+&lt;video width="100%" height="100%" controls&gt;
+    &lt;source src="/_static/2024/2024-04-21/fzf-setup.mp4" type="video/mp4"&gt;
+    Your browser does not support the video tag.
+&lt;/video&gt;
+&lt;/section&gt;
+&lt;section id="conclusion-author-opinion"&gt;
+&lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
+&lt;p&gt;The fzf is an amazing, performative, and portable project. Certainly, It is a good alternative for the default search history widget for Fish and Zsh. The results are incredibly blazingly fast, even in large history file commands. The customization by environment variable &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;FZF_CTRL_R_OPTS&lt;/span&gt;&lt;/code&gt; is good for expanding the possibilities based on your needs.&lt;/p&gt;
+&lt;p&gt;I really like the fzf. I approve and recommend the usage.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="links"&gt;
+&lt;h2&gt;Links&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;My custom fzf configuration in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.zshrc&lt;/span&gt;&lt;/code&gt;: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc"&gt;c-neto/ansible-configure-fedora/files/dotfiles/.zshrc&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;fzf project: https://github.com/junegunn/fzf/tree/master/shell&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2024/2024-04-21-zsh-fzf-reverse-i-search/"/>
+    <summary>Blog Post Publish Date: 2024/04/21This blog post covers how to use the FZF - Fuzzy Finder in ZSH as an alternative to reverse-i-search widget.</summary>
+    <category term="zsh" label="zsh"/>
+    <published>2024-04-21T00:00:00+00:00</published>
+  </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2024/2024-02-08-starship-zsh/</id>
     <title>ZSH + Starship: A Productivity Masterpiece</title>
@@ -37,11 +131,8 @@
 &lt;/section&gt;
 &lt;section id="my-zsh-favorite-plugins"&gt;
 &lt;h2&gt;My ZSH Favorite Plugins&lt;/h2&gt;
-&lt;p&gt;There are numerous plugins available for ZSH. Typically, these plugins are managed by &lt;em&gt;oh-my-zsh&lt;/em&gt;, which I use to simplify the exploration of plugins. However, I’ve noticed that these plugins are essentially single script files with a predefined set of functions and routines. Once I identify plugins that are relevant to my needs, I install them individually to eliminate any potential delays caused by &lt;em&gt;oh-my-zsh&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;There are numerous plugins available for ZSH. Typically, these plugins are installed and managed by &lt;a class="reference external" href="https://ohmyz.sh/"&gt;oh-my-zsh&lt;/a&gt;, but you can install them directly, once these plugins are essentially script files with a predefined set of functions and routines.&lt;/p&gt;
 &lt;p&gt;I will present in the following sub-topics, my indispensable ZSH Plugins.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;em&gt;I only used the plugin that really make the difference in my work. Thus, don’t feel strange about the low number.&lt;/em&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
 &lt;section id="zsh-autosuggestions-dynamic-assistant-to-remember-commands"&gt;
 &lt;h3&gt;&lt;strong&gt;zsh-autosuggestions&lt;/strong&gt;: Dynamic Assistant to Remember Commands&lt;/h3&gt;
 &lt;p&gt;No doubt, it is my favorite plugin. This plugin emulates the behavior of the &lt;em&gt;Fish&lt;/em&gt; shell, suggesting command completions dynamically based on history.&lt;/p&gt;
@@ -97,14 +188,13 @@ $&lt;span class="w"&gt; &lt;/span&gt;k&lt;span class="w"&gt; &lt;/span&gt;get&lt
 &lt;h2&gt;My favorite ZSH options (&lt;em&gt;setopt&lt;/em&gt;)&lt;/h2&gt;
 &lt;p&gt;Some usually features (like comments, history file) from other shells like &lt;em&gt;Bash&lt;/em&gt; or &lt;em&gt;Fish&lt;/em&gt; must be explicit enabled in ZSH. These features are enabled by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;setopt&lt;/span&gt;&lt;/code&gt; command in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.zshrc&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;You can get all options available in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;zle&lt;/span&gt; &lt;span class="pre"&gt;-al&lt;/span&gt;&lt;/code&gt; command execution or in the following &lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html"&gt;ZSH Options Reference&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Check the &lt;em&gt;ZSH Options&lt;/em&gt; that I have enabled:&lt;/p&gt;
+&lt;p&gt;Check the &lt;em&gt;ZSH Options&lt;/em&gt; I have enabled:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INTERACTIVE_COMMENTS&lt;/span&gt;&lt;/code&gt;: Enable comments “#” expressions in the prompt shell;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;APPEND_HISTORY&lt;/span&gt;&lt;/code&gt;: Append new history entries to the history file;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;INC_APPEND_HISTORY&lt;/span&gt;&lt;/code&gt;: Save each command to the history file as soon as it is executed;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;HIST_IGNORE_DUPS&lt;/span&gt;&lt;/code&gt;: Ignore recording duplicate consecutive commands in the history (improve the performance of the &lt;em&gt;zsh-autosuggestions&lt;/em&gt;);&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;HIST_IGNORE_SPACE&lt;/span&gt;&lt;/code&gt;: Ignore commands that start with a space in the history;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;SHARE_HISTORY&lt;/span&gt;&lt;/code&gt;: Share the command history among multiple ZSH sessions.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;Check my &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.zshrc&lt;/span&gt;&lt;/code&gt; entire content: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc"&gt;c-neto/ansible-configure-fedora/files/dotfiles/.zshrc&lt;/a&gt;&lt;/p&gt;
@@ -249,7 +339,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 </content>
     <link href="https://carlosneto.dev/blog/2024/2024-02-08-starship-zsh/"/>
     <summary>Blog Post Publish Date: 2024/02/08This blog post covers my prompt customization experience, favorite ZSH Plugins, ZSH options, and Starship configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.</summary>
-    <category term="systemd" label="systemd"/>
+    <category term="zsh" label="zsh"/>
     <published>2024-02-08T00:00:00+00:00</published>
   </entry>
   <entry>

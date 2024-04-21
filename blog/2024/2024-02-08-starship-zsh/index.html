@@ -52,7 +52,7 @@
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script src="../../../_static/documentation_options.js?v=187304be"></script>
-    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
@@ -406,6 +406,12 @@ document.write(`
   
   
   <li>
+    <a href="../2024-04-21-zsh-fzf-reverse-i-search/">
+      21 April - FZF: A Smart Reverse History Search
+    </a>
+  </li>
+  
+  <li>
     <a href="../../2023/2023-11-19-systemd-override-parameters/">
       19 November - Properties Overriding: A Smart Way to Customize Systemd Unit Properties
     </a>
@@ -484,11 +490,8 @@ document.write(`
 </section>
 <section id="my-zsh-favorite-plugins">
 <h2>My ZSH Favorite Plugins<a class="headerlink" href="#my-zsh-favorite-plugins" title="Link to this heading">#</a></h2>
-<p>There are numerous plugins available for ZSH. Typically, these plugins are managed by <em>oh-my-zsh</em>, which I use to simplify the exploration of plugins. However, I’ve noticed that these plugins are essentially single script files with a predefined set of functions and routines. Once I identify plugins that are relevant to my needs, I install them individually to eliminate any potential delays caused by <em>oh-my-zsh</em>.</p>
+<p>There are numerous plugins available for ZSH. Typically, these plugins are installed and managed by <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a>, but you can install them directly, once these plugins are essentially script files with a predefined set of functions and routines.</p>
 <p>I will present in the following sub-topics, my indispensable ZSH Plugins.</p>
-<blockquote>
-<div><p><em>I only used the plugin that really make the difference in my work. Thus, don’t feel strange about the low number.</em></p>
-</div></blockquote>
 <section id="zsh-autosuggestions-dynamic-assistant-to-remember-commands">
 <h3><strong>zsh-autosuggestions</strong>: Dynamic Assistant to Remember Commands<a class="headerlink" href="#zsh-autosuggestions-dynamic-assistant-to-remember-commands" title="Link to this heading">#</a></h3>
 <p>No doubt, it is my favorite plugin. This plugin emulates the behavior of the <em>Fish</em> shell, suggesting command completions dynamically based on history.</p>
@@ -544,14 +547,13 @@ $<span class="w"> </span>k<span class="w"> </span>get<span class="w"> </span>cj
 <h2>My favorite ZSH options (<em>setopt</em>)<a class="headerlink" href="#my-favorite-zsh-options-setopt" title="Link to this heading">#</a></h2>
 <p>Some usually features (like comments, history file) from other shells like <em>Bash</em> or <em>Fish</em> must be explicit enabled in ZSH. These features are enabled by <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">setopt</span></code> command in <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>.</p>
 <p>You can get all options available in the <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">zle</span> <span class="pre">-al</span></code> command execution or in the following <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">ZSH Options Reference</a>.</p>
-<p>Check the <em>ZSH Options</em> that I have enabled:</p>
+<p>Check the <em>ZSH Options</em> I have enabled:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">INTERACTIVE_COMMENTS</span></code>: Enable comments “#” expressions in the prompt shell;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">APPEND_HISTORY</span></code>: Append new history entries to the history file;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">INC_APPEND_HISTORY</span></code>: Save each command to the history file as soon as it is executed;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">HIST_IGNORE_DUPS</span></code>: Ignore recording duplicate consecutive commands in the history (improve the performance of the <em>zsh-autosuggestions</em>);</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">HIST_IGNORE_SPACE</span></code>: Ignore commands that start with a space in the history;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SHARE_HISTORY</span></code>: Share the command history among multiple ZSH sessions.</p></li>
 </ul>
 <blockquote>
 <div><p>Check my <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> entire content: <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc">c-neto/ansible-configure-fedora/files/dotfiles/.zshrc</a></p>
@@ -714,6 +716,14 @@ $<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span
   <span class="ablog__spacer">&nbsp;</span>
   <span class="ablog__next">
     
+    
+    <a href="../2024-04-21-zsh-fzf-reverse-i-search/">
+      <span>FZF: A Smart Reverse History Search</span>
+      
+      <i class="fa fa-arrow-circle-right" ></i>
+      
+    </a>
+    
   </span>
 </div>
 
@@ -786,7 +796,7 @@ $<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
     <br/>
   </p>
 </div>
