@@ -82,7 +82,7 @@ The following picture is the result of the FZF configured in previous step:
 
 ---
 
-The next video is demo about how to configure the results of the picure above from scracth.
+The next video is demo about how to configure the results of the picure above from scratch.
 
 <video width="100%" height="100%" controls>
     <source src="/_static/2024/2024-04-21/fzf-setup.mp4" type="video/mp4">
