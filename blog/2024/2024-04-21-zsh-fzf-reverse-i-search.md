@@ -94,7 +94,7 @@ The next video is demo about how to configure the results of the picure above fr
 
 The FZF is an amazing, performative, and portable project. Certainly, It is a good alternative for the default search history widget for Zsh and even for the Fish shell, which already has a good history search widget. The results blazingly fast, even in large history file. The customization by environment variable `FZF_CTRL_R_OPTS` is good for expanding the possibilities based on your needs.
 
-I really like the FZF! I approve and recommend the usage.
+I really like the FZF, I approve and recommend!.
 
 ## Links
 
