@@ -24,7 +24,7 @@ After some research days, I found the amazing project [FZF - Fuzzy Finder](https
 
 There are some shells widgets available to search files, directories, and __all I want, a widget dedicated to reverse history search__.
 
-> <i class="fa-solid fa-circle-info"></i> There are widgets available for Fish, Bash, Zsh. You can check the implementaions in the following directory in the GitHub project https://github.com/junegunn/fzf/tree/master/shell.
+> <i class="fa-solid fa-circle-info"></i> There are widgets available for Fish, Bash, Zsh. You can check the implementaions in the following directory in the GitHub project [github.com/junegunn/fzf/shell](https://github.com/junegunn/fzf/tree/master/shell)
 
 ## How to Setup
 
