@@ -1,3 +1,6 @@
 - opensearch hot warm architecture
 - vscode tips
 - elixir
+- how to built your custom zsh widgets
+- vault
+- SSO with token review API
