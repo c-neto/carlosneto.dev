@@ -80,6 +80,8 @@ export FZF_CTRL_T_COMMAND="fd --exclude .git"
 export FZF_CTRL_T_OPTS="--preview '[ -d {} ] && tree -C {} || bat --color=always --style=numbers {}'"
 ```
 
+The next section will present some prints of the fzf widgets execution configured with the presented parameters.
+
 > You can check out the fzf parametrization present in my `.zshrc` in the following link:
 > - https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc
 

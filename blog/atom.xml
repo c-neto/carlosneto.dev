@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-04-28T03:01:38.063836+00:00</updated>
+  <updated>2024-04-28T03:06:03.488194+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.8">ABlog</generator>
@@ -72,6 +72,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;mv&lt;span class="w"&gt; &lt;/span&gt;fzf&l
 &lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_CTRL_T_OPTS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--preview &amp;#39;[ -d {} ] &amp;amp;&amp;amp; tree -C {} || bat --color=always --style=numbers {}&amp;#39;&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
+&lt;p&gt;The next section will present some prints of the fzf widgets execution configured with the presented parameters.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;You can check out the fzf parametrization present in my &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.zshrc&lt;/span&gt;&lt;/code&gt; in the following link:&lt;/p&gt;
 &lt;ul class="simple"&gt;
