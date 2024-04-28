@@ -91,15 +91,15 @@ The next section will present some prints of the fzf widgets execution configure
 
 - _fzf-history-widget_ executed by `CTRL` + `R`.
 
-![](/_static/2024/2024-04-21/results-1.png)
+![fzf-history-widget execution print](/_static/2024/2024-04-21/results-1.png)
 
 - _fzf-cd-widget_ executed by `ALT` + `C`.
 
-![](/_static/2024/2024-04-21/results-2.png)
+![fzf-cd-widget execution print](/_static/2024/2024-04-21/results-2.png)
 
 - _fzf-file-widget_ executed by `CTRL` + `T`.
 
-![](/_static/2024/2024-04-21/results-3.png)
+![fzf-file-widget execution print](/_static/2024/2024-04-21/results-3.png)
 
 
 ## Conclusion (Author Opinion)
