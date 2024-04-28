@@ -495,15 +495,45 @@ $<span class="w"> </span>mv<span class="w"> </span>fzf<span class="w"> </span>~/
 <span class="s2">&quot;^[c&quot;</span><span class="w"> </span>fzf-cd-widget<span class="w">      </span><span class="c1"># ALT  + C: search directories</span>
 </pre></div>
 </div>
-<p>You can customize the fzf results prompt editing the <code class="docutils literal notranslate"><span class="pre">FZF_CTRL_R_OPTS</span></code> environment variable value. I configured a vertical window to show the full command wrapped (useful in large command rendering).</p>
+<p>You can customize the layout and others options of the fzf over some envioronment variables described in <a class="reference external" href="https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases">fzf — environment variables</a>. I will update the layout of the fzf when executed vy <em>fzf-history-widget</em>. For this, I will set the <code class="docutils literal notranslate"><span class="pre">FZF_CTRL_R_OPTS</span></code> environment variable with some fzf parameters to launch a vertical window for to show the full command (useful in large command rendering).</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">FZF_CTRL_R_OPTS</span><span class="o">=</span><span class="s2">&quot;--height 100% --layout reverse --preview &#39;echo {}&#39; --preview-window=wrap&quot;</span>
 </pre></div>
 </div>
+<p>There are others options can you use to customize the behavior of the fzf. Check the following examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ALT + C: set &quot;fd-find&quot; as directory search engine instead of &quot;find&quot; and exclude venv of the results during searching</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">FZF_ALT_C_COMMAND</span><span class="o">=</span><span class="s2">&quot;fd --type directory --exclue&quot;</span>
+
+<span class="c1"># ALT + C: put the tree command output based on item selected ({} is replaced by item selected)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">FZF_ALT_C_OPTS</span><span class="o">=</span><span class="s2">&quot;--preview &#39;tree -C {}&#39;&quot;</span>
+
+<span class="c1"># CTRL + T: set &quot;fd-find&quot; as search engine instead of &quot;find&quot; and exclude .git for the results</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">FZF_CTRL_T_COMMAND</span><span class="o">=</span><span class="s2">&quot;fd --exclude .git&quot;</span>
+
+<span class="c1"># CTRL + T: put the file content if item select is a file, or put tree command output if item selected is directory</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">FZF_CTRL_T_OPTS</span><span class="o">=</span><span class="s2">&quot;--preview &#39;[ -d {} ] &amp;&amp; tree -C {} || bat --color=always --style=numbers {}&#39;&quot;</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>You can check out the fzf parametrization present in my <code class="docutils literal notranslate"><span class="pre">.zshrc</span></code> in the following link:</p>
+<ul class="simple">
+<li><p>https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc</p></li>
+</ul>
+</div></blockquote>
 </section>
 <section id="results">
 <h2>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h2>
-<p>The following picture is the result of the <em>fzf-history-widget</em> executed by <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code>.</p>
-<p><img alt="" src="../../../_images/results.png" /></p>
+<ul class="simple">
+<li><p><em>fzf-history-widget</em> executed by <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code>.</p></li>
+</ul>
+<p><img alt="" src="../../../_images/results-1.png" /></p>
+<ul class="simple">
+<li><p><em>fzf-cd-widget</em> executed by <code class="docutils literal notranslate"><span class="pre">ALT</span></code> + <code class="docutils literal notranslate"><span class="pre">C</span></code>.</p></li>
+</ul>
+<p><img alt="" src="../../../_images/results-2.png" /></p>
+<ul class="simple">
+<li><p><em>fzf-file-widget</em> executed by <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">T</span></code>.</p></li>
+</ul>
+<p><img alt="" src="../../../_images/results-3.png" /></p>
 </section>
 <section id="conclusion-author-opinion">
 <h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
