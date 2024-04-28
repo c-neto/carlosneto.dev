@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-04-28T12:48:22.361475+00:00</updated>
+  <updated>2024-04-28T12:49:19.455756+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.8">ABlog</generator>
@@ -55,7 +55,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;mv&lt;span class="w"&gt; &lt;/span&gt;fzf&l
 &lt;span class="s2"&gt;&amp;quot;^[c&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;fzf-cd-widget&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# ALT  + C: search directories&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;You can customize the fzf parametrization through environment variables described in &lt;a class="reference external" href="https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases"&gt;fzf — environment variables&lt;/a&gt;. For parametrize the fzf executed by &lt;em&gt;wi&lt;/em&gt;, I need to define some parameters in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;FZF_CTRL_R_OPTS&lt;/span&gt;&lt;/code&gt; environment variable. The following example, I give some parameters to fzf show the input text in the top of the terminal, and show vertical window for render the entire text of the command (useful in large command rendering).&lt;/p&gt;
+&lt;p&gt;You can customize the fzf parametrization through environment variables described in &lt;a class="reference external" href="https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases"&gt;fzf — environment variables&lt;/a&gt;. For parametrize the fzf executed by &lt;em&gt;wi&lt;/em&gt;, I need to define some parameters in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;FZF_CTRL_R_OPTS&lt;/span&gt;&lt;/code&gt; environment variable. The following example, I give some parameters to fzf show the input text in the top of the terminal, and show vertical window for render the entire text of the command selected (useful in large command rendering).&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_CTRL_R_OPTS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--height 100% --layout reverse --preview &amp;#39;echo {}&amp;#39; --preview-window=wrap&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
