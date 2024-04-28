@@ -60,7 +60,7 @@ $ bindkey -a | grep fzf
 "^[c" fzf-cd-widget      # ALT  + C: search directories
 ```
 
-You can customize the fzf parametrization through environment variables described in [fzf — environment variables](https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases). For parametrize the fzf executed by _wi_, I need to define some parameters in `FZF_CTRL_R_OPTS` environment variable. The following example, I give some parameters to fzf show the input text in the top of the terminal, and show vertical window for render the entire text of the command (useful in large command rendering).
+You can customize the fzf parametrization through environment variables described in [fzf — environment variables](https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases). For parametrize the fzf executed by _wi_, I need to define some parameters in `FZF_CTRL_R_OPTS` environment variable. The following example, I give some parameters to fzf show the input text in the top of the terminal, and show vertical window for render the entire text of the command selected (useful in large command rendering).
 
 ```bash
 export FZF_CTRL_R_OPTS="--height 100% --layout reverse --preview 'echo {}' --preview-window=wrap"
