@@ -50,6 +50,14 @@ $ ./fzf --help
 $ mv fzf ~/.local/bin/
 ```
 
+The fzf use the command `$ find` as a search engine behind the scenes. You can change it. In this example, I will configure the [fd-find](https://github.com/sharkdp/fd) that is a fast and user-friendly alternative to `$ find`. Thus, It is necessary install it.
+
+```bash
+$ dnf install fd-find
+```
+
+> In macos workstation the package can be installed with homebrew `$ brew install fd`
+
 You can get the widget setup source-code given the shell name as argument, for instance `--zsh`, `--fish`, and `--bash`. In this case, I will setup the widgets for Zsh.
 
 ```bash
