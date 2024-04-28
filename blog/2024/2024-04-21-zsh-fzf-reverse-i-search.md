@@ -26,7 +26,7 @@ After a few days of research, I found an amazing project: [fzf — command-line 
 
 ## How to Use
 
-The first step is to install fzf. There are some distinct ways to install described in the [fzf — installation section](https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation). Depending of your System, the latest version can be older. I will download the binary of the latest version available in GitHub Releases section.
+The first step is to install fzf. There are some distinct ways to install it described in the [fzf — installation section](https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation). Depending of your System, the latest version can be older. I will download the binary of the latest version available in GitHub Releases section.
 
 ```{code-block} bash
 # download the latest version (in blog publish date, the latest version is 0.50.0)
