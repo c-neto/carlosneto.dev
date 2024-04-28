@@ -106,9 +106,9 @@ The next section will present some prints of the fzf widgets execution configure
 
 My reasearch for improvements in search history commands brings to me results which exceeds my expectation. The fzf open my mind for Fuzzy Finder tools purpose, not be limited to command history searching, but extending the possibilities to search anything, for instance you can execute `$ kgp -A | fzf` to search a pods in all Kubernetes cluster. It is really nice!
 
-Certainly, I think that is a much better alternative for the command history search available as default in any Shell, even for the Fish shell which already has a good history search widget.
+Certainly, I think is a much better alternative to command history search widget default, even for the Fish shell which already has a good history search widget.
 
-The interactive searching are blazingly fast, even in large datasets. The customization available is good for expanding the possibilities based on your needs.
+The interactive searching are blazingly fast and customization expanding the possibilities based on your needs.
 
 The productivity which fzf provides is really awesome! In a fact, that its justifies more than __59K stars__ in your GitHub repo.
 
