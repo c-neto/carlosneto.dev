@@ -114,5 +114,6 @@ I approve and recommend!
 
 ## Links
 
-- fzf GitHub Repository: <i class="fab fa-github"></i> <https://github.com/junegunn/fzf/>
+- fzf GitHub Repository: <https://github.com/junegunn/fzf/>
+- skim, a fzf implemented in rust: <https://github.com/lotabout/skim>
 - My custom fzf configuration in `~/.zshrc`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
