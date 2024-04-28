@@ -29,7 +29,7 @@ After a few days of research, I found an amazing project: [fzf — command-line 
 The first step is to install fzf. There are some distinct ways to install it described in the [fzf — installation section](https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation). Depending of the package manager of the your workstation, the latest version available can be older. Thus, I will download and install the latest version available in GitHub Releases section.
 
 ```{code-block} bash
-# download the latest version (in blog publish date, the latest version is 0.50.0)
+# download the latest version (in a moment of the blog publish date, the latest version is 0.50.0)
 $ wget https://github.com/junegunn/fzf/releases/latest/download/fzf-0.50.0-linux_amd64.tar.gz
 
 # uncompress the donwloaded file to access the fzf binary
