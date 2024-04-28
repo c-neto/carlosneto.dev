@@ -7,19 +7,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="fzf: The Life is Short to Pipe Grep" />
+<meta property="og:title" content="fzf: Life is Too Short for Pipe Grep" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://carlosneto.dev/blog/2024/2024-04-21-zsh-fzf-reverse-i-search/" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2024/2024-04-21-zsh/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2024/04/28 This blog post outlines the advantages of the fzf(Fuzzy Finder CLI) and explains how to configure its Zsh widgets. Searching in the Terminal - Bored Task: Remembe..." />
+<meta property="og:description" content="Blog Post Publish Date: 2024/04/28 This blog post outlines the advantages of the fzf(Fuzzy Finder CLI) and explains how to configure its Zsh widgets. Searching in the Terminal - Tedious Task: Searc..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2024_2024-04-21-zsh-fzf-reverse-i-search_5076c00d.png" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2024_2024-04-21-zsh_ee678ddd.png" />
 <meta property="og:image:alt" content="Blog Post Publish Date: 2024/04/28 This blog post outlines the advantages of the fzf(Fuzzy Finder CLI) and explains how to configure its Zsh widgets. Searchi..." />
-<meta name="description" content="Blog Post Publish Date: 2024/04/28 This blog post outlines the advantages of the fzf(Fuzzy Finder CLI) and explains how to configure its Zsh widgets. Searching in the Terminal - Bored Task: Remembe..." />
+<meta name="description" content="Blog Post Publish Date: 2024/04/28 This blog post outlines the advantages of the fzf(Fuzzy Finder CLI) and explains how to configure its Zsh widgets. Searching in the Terminal - Tedious Task: Searc..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>fzf: The Life is Short to Pipe Grep &#8212; Carlos Neto</title>
+    <title>fzf: Life is Too Short for Pipe Grep &#8212; Carlos Neto</title>
   
   
   
@@ -57,7 +57,7 @@
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/design-tabs.js?v=36754332"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2024/2024-04-21-zsh-fzf-reverse-i-search';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2024/2024-04-21-zsh';</script>
     <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../../genindex/" />
     <link rel="search" title="Search" href="../../../search/" />
@@ -378,7 +378,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#searching-in-the-terminal-bored-task">Searching in the Terminal - Bored Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#searching-in-the-terminal-tedious-task">Searching in the Terminal - Tedious Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzzy-finders-the-solution">Fuzzy Finders - The Solution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-configure-fzf-widgets-in-zsh">How to Configure fzf Widgets in Zsh</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
@@ -455,15 +455,14 @@ document.write(`
                   
 <p><em><strong>Blog Post Publish Date:</strong> 2024/04/28</em></p>
 <hr class="docutils" />
-<section id="fzf-the-life-is-short-to-pipe-grep">
-<h1>fzf: The Life is Short to Pipe Grep<a class="headerlink" href="#fzf-the-life-is-short-to-pipe-grep" title="Link to this heading">#</a></h1>
+<section id="fzf-life-is-too-short-for-pipe-grep">
+<h1>fzf: Life is Too Short for Pipe Grep<a class="headerlink" href="#fzf-life-is-too-short-for-pipe-grep" title="Link to this heading">#</a></h1>
 <p>This blog post outlines the advantages of the <a class="reference external" href="https://github.com/junegunn/fzf">fzf</a> (Fuzzy Finder CLI) and explains how to configure its <a class="reference external" href="https://www.zsh.org/">Zsh</a> widgets.</p>
-<section id="searching-in-the-terminal-bored-task">
-<h2>Searching in the Terminal - Bored Task<a class="headerlink" href="#searching-in-the-terminal-bored-task" title="Link to this heading">#</a></h2>
-<p>Remember executed commands can be a bored task, mainly in current days there are so many tools and differents stack technologies, each one their your specific commands lines programs. For help in this, the shells like Zsh, Fish, and Bash implements a widget for interactive commands history searching.</p>
-<p>In Zsh is implemented <em>reverse-i-search</em> widget by default, called by <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code>. The commands are showed limited by one result. You need to press <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code> again to see next results. This behavior can be a problem if you need to remember commands many times executed with differents arguments.</p>
-<p>I searched by alternatives to better my experience over <em>reverse-i-search</em> widget. I checked Fish implementation to get insights. The Fish launchs a menu with a list of the commands filtered by terms as you type. It was a good insight for me and I used it as my mainline for my Zsh customization.</p>
-<p>It is leveages to research better alternatives for interactive search anything, not only to search history commands.</p>
+<section id="searching-in-the-terminal-tedious-task">
+<h2>Searching in the Terminal - Tedious Task<a class="headerlink" href="#searching-in-the-terminal-tedious-task" title="Link to this heading">#</a></h2>
+<p>Searching for items in the terminal is a trivial activity. Usually, we press arrow up/down to recall last commands executed, or check for matching expressions within a text file or command output using <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">command</span> <span class="pre">|</span> <span class="pre">grep</span></code>. This approach works well, but depending on the case, it is necessary execute <code class="docutils literal notranslate"><span class="pre">grep</span></code> multiple times until you find the elements that you need.</p>
+<p>When the task is remember history commands, in Zsh is implemented <em>reverse-i-search</em> widget by default, called by <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code> shortcut. The commands are showed limited by one result. You need to press the shortcut again to see next results. This behavior can be a problem if you need to recall commands executed multiple times with differents arguments.</p>
+<p>This tedious task prompted me to research better alternatives for interactive searching.</p>
 </section>
 <section id="fuzzy-finders-the-solution">
 <h2>Fuzzy Finders - The Solution<a class="headerlink" href="#fuzzy-finders-the-solution" title="Link to this heading">#</a></h2>
@@ -523,10 +522,7 @@ $<span class="w"> </span><span class="nb">source</span><span class="w"> </span><
 </div>
 <p>The next section will present widgets executions preview.</p>
 <blockquote>
-<div><p>You can check my <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> file content in the following link. It contains my personal fzf parametrization:</p>
-<ul class="simple">
-<li><p><i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc">github.com/c-neto/ansible-configure-fedora/files/dotfiles/.zshrc</a></p></li>
-</ul>
+<div><p>You can check my <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> file content in the following link. It contains my personal fzf parametrization: <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc">github.com/c-neto/ansible-configure-fedora/files/dotfiles/.zshrc</a></p>
 </div></blockquote>
 </section>
 <section id="results">
