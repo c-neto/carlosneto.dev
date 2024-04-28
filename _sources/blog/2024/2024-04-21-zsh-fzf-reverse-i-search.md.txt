@@ -20,13 +20,13 @@ In Zsh is implemented _reverse-i-search_ widget by default, called by `CTRL` + `
 
 I searched by alternatives to better my experience over _reverse-i-search_ widget. I checked Fish implementation to get insights. The Fish launchs a menu with a list of the commands filtered by terms as you type. It was a good insight for me and I used it as my mainline for my Zsh customization.
 
-After a few days of research, I found an amazing project: [fzf — command-line fuzzy finder](https://github.com/junegunn/fzf). fzf is a command-line written in Go for interactive searching. Imagine you have a large list of items (like files, text lines, command history) and you need to find something within them quickly. fzf filters the list of items as you type. This makes your searching much more efficient, avoiding `$ | grep` execution. In addition, fzf has additional resources like integration with other commands and predefined shells widgets like search files, directories, and the __main interest point of this blog post: a widget dedicated to search history commands.__
+After a few days of research, I found an amazing project: [fzf — command-line fuzzy finder](https://github.com/junegunn/fzf). fzf is a cross-platform command-line written in Go for interactive searching. Imagine you have a large list of items (like files, text lines, command history) and you need to find something within them quickly. fzf filters the list of items as you type. This makes your searching much more efficient, avoiding `$ | grep` execution. In addition, fzf has additional resources like integration with other commands and predefined shells widgets like search files, directories, and the __main interest point of this blog post: a widget dedicated to search history commands.__
 
 > <i class="fa-solid fa-circle-info"></i> There are widgets available for Fish, Bash, Zsh. You can check the implementations in the following directory in the GitHub project [github.com/junegunn/fzf/shell](https://github.com/junegunn/fzf/tree/master/shell)
 
 ## How to Use
 
-The first step is to install fzf. There are some distinct ways to install it described in the [fzf — installation section](https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation). Depending of your System, the latest version can be older. I will download the binary of the latest version available in GitHub Releases section.
+The first step is to install fzf. There are some distinct ways to install it described in the [fzf — installation section](https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation). Depending of the package manager of the your workstation, the latest version available can be older. Thus, I will download and install the latest version available in GitHub Releases section.
 
 ```{code-block} bash
 # download the latest version (in blog publish date, the latest version is 0.50.0)
