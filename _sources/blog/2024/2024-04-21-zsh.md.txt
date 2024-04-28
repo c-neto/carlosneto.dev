@@ -16,7 +16,7 @@ This blog post outlines the advantages of the [fzf](https://github.com/junegunn/
 
 Searching for items in the terminal is a trivial activity. Usually, we press arrow up/down to recall last commands executed, or check for matching expressions within a text file or command output using `$ command | grep`. This approach works well, but depending on the case, it is necessary execute `grep` multiple times until you find the elements that you need.
 
-The most used Shells implemented a interactive search tool called by `CTRL` + `R` shortcut. In Zsh is implemented _reverse-i-search_ that works well, but you need to press the shortcut again to see next results. This behavior can be a problem if you need to recall commands executed multiple times with differents arguments.
+The most used Shells implemented an interactive search tool called by `CTRL` + `R` shortcut. In Zsh is implemented _reverse-i-search_ which works well, but you need to press the shortcut again to see the next results. This behavior can be a problem if you need to recall commands executed multiple times with different arguments.
 
 This tedious task prompted me to research better alternatives for interactive searching.
 
