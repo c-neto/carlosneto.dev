@@ -61,7 +61,7 @@ $ bindkey -a | grep fzf
 You can customize the fzf results prompt editing the `FZF_CTRL_R_OPTS` environment variable value. I configured a vertical window to show the full command wrapped (useful in large command rendering).
 
 ```bash
-export fzf_CTRL_R_OPTS="--height 100% --layout reverse --preview 'echo {}' --preview-window=wrap"
+export FZF_CTRL_R_OPTS="--height 100% --layout reverse --preview 'echo {}' --preview-window=wrap"
 ```
 
 ## Results
