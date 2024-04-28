@@ -18,7 +18,7 @@ Remember executed commands can be a bored task, mainly in current days there are
 
 In Zsh is implemented _reverse-i-search_ widget by default, called by `CTRL` + `R`. The default implementation is good, but the commands are showed limited by one result. You need to press `CTRL` + `R` again to see next results. This behavior can be a problem if you need to remember commands executed many times with differents arguments.
 
-I searched by alternatives to better my experience over _reverse-i-search_ widget. I checked Fish implementation to get insights. The Fish launch a manu with a list of the commands filterd by terms as you type. It was a good insight for me and I used it as my mainline for my Zsh customization.
+I searched by alternatives to better my experience over _reverse-i-search_ widget. I checked Fish implementation to get insights. The Fish launch a menu with a list of the commands filterd by terms as you type. It was a good insight for me and I used it as my mainline for my Zsh customization.
 
 After a few days of research, I found the amazing project [fzf](https://github.com/junegunn/fzf), a command-line fuzzy finder written in Go. fzf is a command-line tool for interactive searching. Imagine you have a large list of items (like files, text lines, command history) and you need to find something within them quickly. fzf filters the list of items as you type. This makes your searching much more efficient, avoiding `$ | grep` execution. In addition, fzf has additional resources like integration with other commands and predefined shells widgets like search files, directories, and the __main interest point of this blog post, a widget dedicated to search history commands.__
 
