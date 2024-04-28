@@ -114,5 +114,5 @@ I approve and recommend!
 
 ## Links
 
-- fzf project: https://github.com/junegunn/fzf/tree/master/shell
+- fzf project [github.com/junegunn/fzf/shell](https://github.com/junegunn/fzf/tree/master/shell)
 - My custom fzf configuration in `~/.zshrc`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
