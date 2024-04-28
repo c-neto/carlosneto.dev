@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-04-28T03:53:54.849293+00:00</updated>
+  <updated>2024-04-28T03:55:35.780430+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.8">ABlog</generator>
@@ -15,7 +15,7 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="fzf-a-better-tool-for-history-commands-searching"&gt;
 
-&lt;p&gt;This blog post outlines the advantages of the &lt;a class="reference external" href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; (Fuzzy Finder CLI) and explain how to configure their &lt;a class="reference external" href="https://www.zsh.org/"&gt;Zsh&lt;/a&gt; widgets, in special the &lt;em&gt;fzf-history-widget&lt;/em&gt;, a better alternative than &lt;em&gt;reverse-i-search&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;This blog post outlines the advantages of the &lt;a class="reference external" href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; (Fuzzy Finder CLI) and explains how to configure its &lt;a class="reference external" href="https://www.zsh.org/"&gt;Zsh&lt;/a&gt; widgets, especially the &lt;em&gt;fzf-history-widget&lt;/em&gt;, which offers a better alternative than &lt;em&gt;reverse-i-search&lt;/em&gt;.&lt;/p&gt;
 &lt;section id="from-reverse-i-search-to-fzf-history-widget"&gt;
 &lt;h2&gt;From &lt;strong&gt;reverse-i-search&lt;/strong&gt; To &lt;strong&gt;fzf-history-widget&lt;/strong&gt;&lt;/h2&gt;
 &lt;p&gt;Remember executed commands can be a bored task, mainly in current days there are so many tools and differents stack technologies, each one their your specific commands lines programs. For help in this, the shells like Zsh, Fish, and Bash implements a widget for interactive commands history searching.&lt;/p&gt;
@@ -114,7 +114,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;mv&lt;span class="w"&gt; &lt;/span&gt;fzf&l
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2024/2024-04-21-zsh-fzf-reverse-i-search/"/>
-    <summary>Blog Post Publish Date: 2024/04/21This blog post outlines the advantages of the fzf (Fuzzy Finder CLI) and explain how to configure their Zsh widgets, in special the fzf-history-widget, a better alternative than reverse-i-search.</summary>
+    <summary>Blog Post Publish Date: 2024/04/21This blog post outlines the advantages of the fzf (Fuzzy Finder CLI) and explains how to configure its Zsh widgets, especially the fzf-history-widget, which offers a better alternative than reverse-i-search.</summary>
     <category term="zsh" label="zsh"/>
     <published>2024-04-21T00:00:00+00:00</published>
   </entry>
