@@ -28,7 +28,7 @@ After a few days of research, I found an amazing project: [fzf — command-line 
 
 The first step is to install fzf. There are some distinct ways to install it described in the [fzf — installation section](https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation). Depending on the package manager on your workstation, the version available can be older. Thus, I will download and install the latest version available in GitHub Releases section.
 
-```{code-block} bash
+```bash
 # download the latest version (in a moment of the blog publish date, the latest version is 0.50.0)
 $ wget https://github.com/junegunn/fzf/releases/latest/download/fzf-0.50.0-linux_amd64.tar.gz
 
@@ -58,17 +58,44 @@ $ bindkey -a | grep fzf
 "^[c" fzf-cd-widget      # ALT  + C: search directories
 ```
 
-You can customize the fzf results prompt editing the `FZF_CTRL_R_OPTS` environment variable value. I configured a vertical window to show the full command wrapped (useful in large command rendering).
+You can customize the layout and others options of the fzf over some envioronment variables described in [fzf — environment variables](https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases). I will update the layout of the fzf when executed vy _fzf-history-widget_. For this, I will set the `FZF_CTRL_R_OPTS` environment variable with some fzf parameters to launch a vertical window for to show the full command (useful in large command rendering).
 
 ```bash
 export FZF_CTRL_R_OPTS="--height 100% --layout reverse --preview 'echo {}' --preview-window=wrap"
 ```
 
+There are others options can you use to customize the behavior of the fzf. Check the following examples:
+
+```bash
+# ALT + C: set "fd-find" as directory search engine instead of "find" and exclude venv of the results during searching
+export FZF_ALT_C_COMMAND="fd --type directory --exclue"
+
+# ALT + C: put the tree command output based on item selected ({} is replaced by item selected)
+export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
+
+# CTRL + T: set "fd-find" as search engine instead of "find" and exclude .git for the results
+export FZF_CTRL_T_COMMAND="fd --exclude .git"
+
+# CTRL + T: put the file content if item select is a file, or put tree command output if item selected is directory
+export FZF_CTRL_T_OPTS="--preview '[ -d {} ] && tree -C {} || bat --color=always --style=numbers {}'"
+```
+
+> You can check out the fzf parametrization present in my `.zshrc` in the following link:
+> - https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc
+
 ## Results
 
-The following picture is the result of the _fzf-history-widget_ executed by `CTRL` + `R`.
+- _fzf-history-widget_ executed by `CTRL` + `R`.
 
-![](/_static/2024/2024-04-21/results.png)
+![](/_static/2024/2024-04-21/results-1.png)
+
+- _fzf-cd-widget_ executed by `ALT` + `C`.
+
+![](/_static/2024/2024-04-21/results-2.png)
+
+- _fzf-file-widget_ executed by `CTRL` + `T`.
+
+![](/_static/2024/2024-04-21/results-3.png)
 
 
 ## Conclusion (Author Opinion)
