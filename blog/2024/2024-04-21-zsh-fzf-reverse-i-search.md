@@ -60,7 +60,7 @@ $ bindkey -a | grep fzf
 "^[c" fzf-cd-widget      # ALT  + C: search directories
 ```
 
-You can customize the layout and others options of the fzf over some envioronment variables described in [fzf — environment variables](https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases). I will update the layout of the fzf when executed vy _fzf-history-widget_. For this, I will set the `FZF_CTRL_R_OPTS` environment variable with some fzf parameters to launch a vertical window for to show the full command (useful in large command rendering).
+You can customize the layout and others options of the fzf over some envioronment variables described in [fzf — environment variables](https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases). I will update the layout of the fzf when executed by _fzf-history-widget_. For this, I will set the `FZF_CTRL_R_OPTS` environment variable with some fzf parameters to launch a vertical window for to show the full command (useful in large command rendering).
 
 ```bash
 export FZF_CTRL_R_OPTS="--height 100% --layout reverse --preview 'echo {}' --preview-window=wrap"
