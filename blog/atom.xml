@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-04-28T02:25:01.095072+00:00</updated>
+  <updated>2024-04-28T02:26:04.371103+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.8">ABlog</generator>
@@ -29,7 +29,7 @@
 &lt;section id="how-to-use"&gt;
 &lt;h2&gt;How to Use&lt;/h2&gt;
 &lt;p&gt;The first step is to install fzf. There are some distinct ways to install it described in the &lt;a class="reference external" href="https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation"&gt;fzf — installation section&lt;/a&gt;. Depending of the package manager of the your workstation, the latest version available can be older. Thus, I will download and install the latest version available in GitHub Releases section.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# download the latest version (in blog publish date, the latest version is 0.50.0)&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# download the latest version (in a moment of the blog publish date, the latest version is 0.50.0)&lt;/span&gt;
 $&lt;span class="w"&gt; &lt;/span&gt;wget&lt;span class="w"&gt; &lt;/span&gt;https://github.com/junegunn/fzf/releases/latest/download/fzf-0.50.0-linux_amd64.tar.gz
 
 &lt;span class="c1"&gt;# uncompress the donwloaded file to access the fzf binary&lt;/span&gt;
