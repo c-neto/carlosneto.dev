@@ -16,19 +16,19 @@ This blog post outlines the advantages of the [fzf](https://github.com/junegunn/
 
 Remember executed commands can be a bored task, mainly in current days there are so many tools and differents stack technologies, each one their your specific commands lines programs. For help in this, the shells like Zsh, Fish, and Bash implements a widget for interactive commands history searching.
 
-In Zsh is implemented _reverse-i-search_ widget by default, called by `CTRL` + `R`. The default implementation is good, but the commands are showed limited by one result. You need to press `CTRL` + `R` again to see next results. This behavior can be a problem if you need to remember commands executed many times with differents arguments.
+In Zsh is implemented _reverse-i-search_ widget by default, called by `CTRL` + `R`. The default implementation is good, but the commands are showed limited by one result. You need to press `CTRL` + `R` again to see next results. This behavior can be a problem if you need to remember commands many times executed with differents arguments.
 
 I searched by alternatives to better my experience over _reverse-i-search_ widget. I checked Fish implementation to get insights. The Fish launchs a menu with a list of the commands filtered by terms as you type. It was a good insight for me and I used it as my mainline for my Zsh customization.
 
-After a few days of research, I found an amazing project: [fzf — command-line fuzzy finder](https://github.com/junegunn/fzf). It is a cross-platform command-line written in Go for interactive searching. Imagine you have a large list of items (like files, text lines, command history) and you need to find something within them quickly. fzf filters the list of items as you type. This makes your searching much more efficient, avoiding `$ | grep` execution. In addition, fzf has additional resources like integration with other commands and predefined shells widgets like search files, directories, and the __main interest point of this blog post: a widget dedicated to search history commands.__ 
+After a few days of research, I found an amazing project: [fzf — command-line fuzzy finder](https://github.com/junegunn/fzf). It is a cross-platform Fuzzy Finder command-line written in Go.A Fuzzy Finder is a search tool that allows users to quickly and flexibly find files, directories, or other elements, even when they don't remember the precise names. It employs fuzzy matching to find results based on partial words, erratic characters, or typographical errors. Imagine you have a large list of items (like files, text lines, command history) and you need to find something within them quickly. fzf filters the list of items as you type. This makes your searching much more efficient, avoiding `$ | grep` execution. In addition, fzf can receive output of the other commands for searching, and some predefined shells widgets to search files, directories, and __search history commands__.
 
-The next section will explain how to configure these widget in the Zsh.
+The next section will explain how to configure these widgets in Zsh.
 
-> <i class="fa-solid fa-circle-info"></i> There are widgets available for Fish, Bash, Zsh. You can check the implementations in the following directory in the GitHub project [github.com/junegunn/fzf/shell](https://github.com/junegunn/fzf/tree/master/shell)
+> <i class="fa-solid fa-circle-info"></i> There are widgets available for Fish, Bash, Zsh. You can check the available implementations in [github.com/junegunn/fzf/shell](https://github.com/junegunn/fzf/tree/master/shell)
 
 ## How to Configure fzf Widgets in Zsh
 
-The first step is to install fzf. There are some distinct ways to install it described in the [fzf — installation section](https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation). Depending on the package manager on your workstation, the version available can be older. Thus, I will download and install the latest version available in GitHub Releases section.
+The first step is to install fzf. There are some distinct ways to install it described in [fzf — installation section](https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation). Depending on the package manager on your workstation, the version available can be older. Thus, I will download and install the latest version available in GitHub Releases section.
 
 ```bash
 # download the latest version (in a moment of the blog publish date, the latest version is 0.50.0)
@@ -44,7 +44,7 @@ $ ./fzf --help
 $ mv fzf ~/.local/bin/
 ```
 
-fzf has source-code of the shell widgets embedded in a binary (only available in 0.48.0 or later). You can get the source-code given the shell name as argument, for instance `--zsh`, `--fish`, and `--bash`. In this case, I will load the widgets for Zsh.
+The shell source-code and completions can be get through source-code of the shell widgets embedded in a binary (only available in 0.48.0 or later). You can get the source-code given the shell name as argument, for instance `--zsh`, `--fish`, and `--bash`. In this case, I will load the widgets for Zsh.
 
 ```bash
 $ source $(fzf --zsh)
@@ -60,13 +60,13 @@ $ bindkey -a | grep fzf
 "^[c" fzf-cd-widget      # ALT  + C: search directories
 ```
 
-You can customize the layout and others options of the fzf over some envioronment variables described in [fzf — environment variables](https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases). I will update the layout of the fzf when executed by _fzf-history-widget_. For this, I will set the `FZF_CTRL_R_OPTS` environment variable with some fzf parameters to launch a vertical window for to show the full command (useful in large command rendering).
+You can customize the fzf parametrization through environment variables described in [fzf — environment variables](https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases). For parametrize the fzf executed by _wi_, I need to define some parameters in `FZF_CTRL_R_OPTS` environment variable. The following example, I give some parameters to fzf show the input text in the top of the terminal, and show vertical window for render the entire text of the command (useful in large command rendering).
 
 ```bash
 export FZF_CTRL_R_OPTS="--height 100% --layout reverse --preview 'echo {}' --preview-window=wrap"
 ```
 
-There are others options can you use to customize the behavior of the fzf. Check the following examples:
+Each widget has its own environments variables you can customize the fzf execution based on your needs. The following example demonstrates how to parametrize the _fzf-file-widget_ and _fzf-cd-widget_.
 
 ```bash
 # ALT + C: set "fd-find" as directory search engine instead of "find" and exclude venv of the results during searching
