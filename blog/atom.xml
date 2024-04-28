@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-04-28T19:39:44.781273+00:00</updated>
+  <updated>2024-04-28T19:44:05.499633+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.8">ABlog</generator>
@@ -26,7 +26,7 @@
 &lt;h2&gt;Fuzzy Finders - The Solution&lt;/h2&gt;
 &lt;p&gt;After a few days of research, I found an amazing project that solves my problems: &lt;a class="reference external" href="https://github.com/junegunn/fzf"&gt;fzf — command-line fuzzy finder&lt;/a&gt;. It is a cross-platform Fuzzy Finder command-line written in Go. But, what is Fuzzy Finder?&lt;/p&gt;
 &lt;p&gt;Fuzzy Finder is a search tool category for providing a quickly and flexibly way to find files, directories, or other elements, even when they don’t remember the precise names. It employs fuzzy matching to find results based on partial words, erratic characters, or typographical errors.&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; filters the list of items as you type. This makes your searching much more efficient, avoiding &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;|&lt;/span&gt; &lt;span class="pre"&gt;grep&lt;/span&gt;&lt;/code&gt; execution. It can receive output of the other commands for interative searching, for instance you can execute &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kgp&lt;/span&gt; &lt;span class="pre"&gt;-A&lt;/span&gt; &lt;span class="pre"&gt;|&lt;/span&gt; &lt;span class="pre"&gt;fzf&lt;/span&gt;&lt;/code&gt; to find pods in all Kubernetes cluster. In addition, it has some predefined shells widgets to search files, directories, and search history commands.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; filters the list of items as you type. This makes your searching much more efficient, avoiding &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;command&lt;/span&gt; &lt;span class="pre"&gt;|&lt;/span&gt; &lt;span class="pre"&gt;grep&lt;/span&gt;&lt;/code&gt; execution. It can receive output of the other commands for interative searching, for instance you can execute &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kgp&lt;/span&gt; &lt;span class="pre"&gt;-A&lt;/span&gt; &lt;span class="pre"&gt;|&lt;/span&gt; &lt;span class="pre"&gt;fzf&lt;/span&gt;&lt;/code&gt; to find pods in all Kubernetes cluster. In addition, it has some predefined shells widgets to search files, directories, and search history commands.&lt;/p&gt;
 &lt;p&gt;The next section will explain how to configure these widgets in Zsh.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; There are widgets available for Fish, Bash, Zsh. You can check the available implementations in &lt;a class="reference external" href="https://github.com/junegunn/fzf/tree/master/shell"&gt;github.com/junegunn/fzf/shell&lt;/a&gt;&lt;/p&gt;
