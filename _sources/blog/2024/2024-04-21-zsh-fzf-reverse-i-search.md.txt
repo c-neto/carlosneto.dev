@@ -4,25 +4,31 @@ date: "2024-04-21"
 category: Linux
 ---
 
-*__Blog Post Publish Date:__ 2024/04/21*
+*__Blog Post Publish Date:__ 2024/04/28*
 
 ---
 
-# fzf: A Better Tool for History Commands Searching
+# fzf: The Life is Short to Pipe Grep
 
-This blog post outlines the advantages of the [fzf](https://github.com/junegunn/fzf) (Fuzzy Finder CLI) and explains how to configure its [Zsh](https://www.zsh.org/) widgets, especially the _fzf-history-widget_, which offers a better alternative than _reverse-i-search_.
+This blog post outlines the advantages of the [fzf](https://github.com/junegunn/fzf) (Fuzzy Finder CLI) and explains how to configure its [Zsh](https://www.zsh.org/) widgets.
 
-## From __reverse-i-search__ To __fzf-history-widget__
+## Searching in the Terminal - Bored Task
 
 Remember executed commands can be a bored task, mainly in current days there are so many tools and differents stack technologies, each one their your specific commands lines programs. For help in this, the shells like Zsh, Fish, and Bash implements a widget for interactive commands history searching.
 
-In Zsh is implemented _reverse-i-search_ widget by default, called by `CTRL` + `R`. The default implementation is good, but the commands are showed limited by one result. You need to press `CTRL` + `R` again to see next results. This behavior can be a problem if you need to remember commands many times executed with differents arguments.
+In Zsh is implemented _reverse-i-search_ widget by default, called by `CTRL` + `R`. The commands are showed limited by one result. You need to press `CTRL` + `R` again to see next results. This behavior can be a problem if you need to remember commands many times executed with differents arguments.
 
 I searched by alternatives to better my experience over _reverse-i-search_ widget. I checked Fish implementation to get insights. The Fish launchs a menu with a list of the commands filtered by terms as you type. It was a good insight for me and I used it as my mainline for my Zsh customization.
 
-After a few days of research, I found an amazing project: [fzf — command-line fuzzy finder](https://github.com/junegunn/fzf). It is a cross-platform Fuzzy Finder command-line written in Go. A Fuzzy Finder is a search tool that allows users to quickly and flexibly find files, directories, or other elements, even when they don't remember the precise names. It employs fuzzy matching to find results based on partial words, erratic characters, or typographical errors. Imagine you have a large list of items (like files, text lines, command history) and you need to find something within them quickly.
+It is leveages to research better alternatives for interactive search anything, not only to search history commands.
 
-fzf filters the list of items as you type. This makes your searching much more efficient, avoiding `$ | grep` execution. It can receive output of the other commands for interative searching, for instance you can execute `$ kgp -A | fzf` to find pods in all Kubernetes cluster. In addition, it has some predefined shells widgets to search files, directories, and __search history commands__.
+## Fuzzy Finders - The Solution
+
+After a few days of research, I found an amazing project which solves my problems: [fzf — command-line fuzzy finder](https://github.com/junegunn/fzf). It is a cross-platform Fuzzy Finder command-line written in Go. But, what are A Fuzzy Finder?
+
+Fuzzy Finder is a search tool that allows users to quickly and flexibly find files, directories, or other elements, even when they don't remember the precise names. It employs fuzzy matching to find results based on partial words, erratic characters, or typographical errors. Imagine you have a large list of items (like files, text lines, command history) and you need to find something within them quickly.
+
+[fzf — command-line fuzzy finder](https://github.com/junegunn/fzf) filters the list of items as you type. This makes your searching much more efficient, avoiding `$ | grep` execution. It can receive output of the other commands for interative searching, for instance you can execute `$ kgp -A | fzf` to find pods in all Kubernetes cluster. In addition, it has some predefined shells widgets to search files, directories, and __search history commands__.
 
 The next section will explain how to configure these widgets in Zsh.
 
@@ -63,15 +69,12 @@ $ bindkey -a | grep fzf
 "^[c" fzf-cd-widget      # ALT  + C: search directories
 ```
 
-You can customize the widgets fzf parameters through environment variables described in [fzf — environment variables](https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases). The _fzf-history-widget_ parametrization is defined in the `FZF_CTRL_R_OPTS` environment variable. The following example, I give some parameters to show the input text in the top of the terminal, and show vertical window for render the entire text of the command selected (useful in large command rendering).
+You can customize the widgets fzf parameters through environment variables described in [fzf — environment variables](https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases). The _fzf-history-widget_ parametrization is defined in the `FZF_CTRL_R_OPTS` environment variable. Each widget has its own environments variables you can customize based on your needs. The following example demonstrates how to parametrize the _fzf-file-widget_ and _fzf-cd-widget_.
 
 ```bash
+# CTRL + R: set vertical window for render the entire text of the command selected (useful in large command rendering).
 export FZF_CTRL_R_OPTS="--height 100% --layout reverse --preview 'echo {}' --preview-window=wrap"
-```
 
-Each widget has its own environments variables you can customize based on your needs. The following example demonstrates how to parametrize the _fzf-file-widget_ and _fzf-cd-widget_.
-
-```bash
 # ALT + C: set "fd-find" as directory search engine instead of "find" and exclude venv of the results during searching
 export FZF_ALT_C_COMMAND="fd --type directory --exclue"
 

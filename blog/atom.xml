@@ -2,27 +2,32 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-04-28T13:03:30.486703+00:00</updated>
+  <updated>2024-04-28T13:22:34.365176+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.8">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
   <entry>
     <id>https://carlosneto.dev/blog/2024/2024-04-21-zsh-fzf-reverse-i-search/</id>
-    <title>fzf: A Better Tool for History Commands Searching</title>
+    <title>fzf: The Life is Short to Pipe Grep</title>
     <updated>2024-04-21T00:00:00+00:00</updated>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2024/04/21&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2024/04/28&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;section id="fzf-a-better-tool-for-history-commands-searching"&gt;
+&lt;section id="fzf-the-life-is-short-to-pipe-grep"&gt;
 
-&lt;p&gt;This blog post outlines the advantages of the &lt;a class="reference external" href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; (Fuzzy Finder CLI) and explains how to configure its &lt;a class="reference external" href="https://www.zsh.org/"&gt;Zsh&lt;/a&gt; widgets, especially the &lt;em&gt;fzf-history-widget&lt;/em&gt;, which offers a better alternative than &lt;em&gt;reverse-i-search&lt;/em&gt;.&lt;/p&gt;
-&lt;section id="from-reverse-i-search-to-fzf-history-widget"&gt;
-&lt;h2&gt;From &lt;strong&gt;reverse-i-search&lt;/strong&gt; To &lt;strong&gt;fzf-history-widget&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;This blog post outlines the advantages of the &lt;a class="reference external" href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; (Fuzzy Finder CLI) and explains how to configure its &lt;a class="reference external" href="https://www.zsh.org/"&gt;Zsh&lt;/a&gt; widgets.&lt;/p&gt;
+&lt;section id="searching-in-the-terminal-bored-task"&gt;
+&lt;h2&gt;Searching in the Terminal - Bored Task&lt;/h2&gt;
 &lt;p&gt;Remember executed commands can be a bored task, mainly in current days there are so many tools and differents stack technologies, each one their your specific commands lines programs. For help in this, the shells like Zsh, Fish, and Bash implements a widget for interactive commands history searching.&lt;/p&gt;
-&lt;p&gt;In Zsh is implemented &lt;em&gt;reverse-i-search&lt;/em&gt; widget by default, called by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;CTRL&lt;/span&gt;&lt;/code&gt; + &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;R&lt;/span&gt;&lt;/code&gt;. The default implementation is good, but the commands are showed limited by one result. You need to press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;CTRL&lt;/span&gt;&lt;/code&gt; + &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;R&lt;/span&gt;&lt;/code&gt; again to see next results. This behavior can be a problem if you need to remember commands many times executed with differents arguments.&lt;/p&gt;
+&lt;p&gt;In Zsh is implemented &lt;em&gt;reverse-i-search&lt;/em&gt; widget by default, called by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;CTRL&lt;/span&gt;&lt;/code&gt; + &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;R&lt;/span&gt;&lt;/code&gt;. The commands are showed limited by one result. You need to press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;CTRL&lt;/span&gt;&lt;/code&gt; + &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;R&lt;/span&gt;&lt;/code&gt; again to see next results. This behavior can be a problem if you need to remember commands many times executed with differents arguments.&lt;/p&gt;
 &lt;p&gt;I searched by alternatives to better my experience over &lt;em&gt;reverse-i-search&lt;/em&gt; widget. I checked Fish implementation to get insights. The Fish launchs a menu with a list of the commands filtered by terms as you type. It was a good insight for me and I used it as my mainline for my Zsh customization.&lt;/p&gt;
-&lt;p&gt;After a few days of research, I found an amazing project: &lt;a class="reference external" href="https://github.com/junegunn/fzf"&gt;fzf — command-line fuzzy finder&lt;/a&gt;. It is a cross-platform Fuzzy Finder command-line written in Go. A Fuzzy Finder is a search tool that allows users to quickly and flexibly find files, directories, or other elements, even when they don’t remember the precise names. It employs fuzzy matching to find results based on partial words, erratic characters, or typographical errors. Imagine you have a large list of items (like files, text lines, command history) and you need to find something within them quickly.&lt;/p&gt;
-&lt;p&gt;fzf filters the list of items as you type. This makes your searching much more efficient, avoiding &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;|&lt;/span&gt; &lt;span class="pre"&gt;grep&lt;/span&gt;&lt;/code&gt; execution. It can receive output of the other commands for interative searching, for instance you can execute &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kgp&lt;/span&gt; &lt;span class="pre"&gt;-A&lt;/span&gt; &lt;span class="pre"&gt;|&lt;/span&gt; &lt;span class="pre"&gt;fzf&lt;/span&gt;&lt;/code&gt; to find pods in all Kubernetes cluster. In addition, it has some predefined shells widgets to search files, directories, and &lt;strong&gt;search history commands&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;It is leveages to research better alternatives for interactive search anything, not only to search history commands.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="fuzzy-finders-the-solution"&gt;
+&lt;h2&gt;Fuzzy Finders - The Solution&lt;/h2&gt;
+&lt;p&gt;After a few days of research, I found an amazing project which solves my problems: &lt;a class="reference external" href="https://github.com/junegunn/fzf"&gt;fzf — command-line fuzzy finder&lt;/a&gt;. It is a cross-platform Fuzzy Finder command-line written in Go. But, what are A Fuzzy Finder?&lt;/p&gt;
+&lt;p&gt;Fuzzy Finder is a search tool that allows users to quickly and flexibly find files, directories, or other elements, even when they don’t remember the precise names. It employs fuzzy matching to find results based on partial words, erratic characters, or typographical errors. Imagine you have a large list of items (like files, text lines, command history) and you need to find something within them quickly.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/junegunn/fzf"&gt;fzf — command-line fuzzy finder&lt;/a&gt; filters the list of items as you type. This makes your searching much more efficient, avoiding &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;|&lt;/span&gt; &lt;span class="pre"&gt;grep&lt;/span&gt;&lt;/code&gt; execution. It can receive output of the other commands for interative searching, for instance you can execute &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kgp&lt;/span&gt; &lt;span class="pre"&gt;-A&lt;/span&gt; &lt;span class="pre"&gt;|&lt;/span&gt; &lt;span class="pre"&gt;fzf&lt;/span&gt;&lt;/code&gt; to find pods in all Kubernetes cluster. In addition, it has some predefined shells widgets to search files, directories, and &lt;strong&gt;search history commands&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;The next section will explain how to configure these widgets in Zsh.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; There are widgets available for Fish, Bash, Zsh. You can check the available implementations in &lt;a class="reference external" href="https://github.com/junegunn/fzf/tree/master/shell"&gt;github.com/junegunn/fzf/shell&lt;/a&gt;&lt;/p&gt;
@@ -57,12 +62,11 @@ $&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt;&
 &lt;span class="s2"&gt;&amp;quot;^[c&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;fzf-cd-widget&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# ALT  + C: search directories&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;You can customize the widgets fzf parameters through environment variables described in &lt;a class="reference external" href="https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases"&gt;fzf — environment variables&lt;/a&gt;. The &lt;em&gt;fzf-history-widget&lt;/em&gt; parametrization is defined in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;FZF_CTRL_R_OPTS&lt;/span&gt;&lt;/code&gt; environment variable. The following example, I give some parameters to show the input text in the top of the terminal, and show vertical window for render the entire text of the command selected (useful in large command rendering).&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_CTRL_R_OPTS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--height 100% --layout reverse --preview &amp;#39;echo {}&amp;#39; --preview-window=wrap&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;Each widget has its own environments variables you can customize based on your needs. The following example demonstrates how to parametrize the &lt;em&gt;fzf-file-widget&lt;/em&gt; and &lt;em&gt;fzf-cd-widget&lt;/em&gt;.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# ALT + C: set &amp;quot;fd-find&amp;quot; as directory search engine instead of &amp;quot;find&amp;quot; and exclude venv of the results during searching&lt;/span&gt;
+&lt;p&gt;You can customize the widgets fzf parameters through environment variables described in &lt;a class="reference external" href="https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases"&gt;fzf — environment variables&lt;/a&gt;. The &lt;em&gt;fzf-history-widget&lt;/em&gt; parametrization is defined in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;FZF_CTRL_R_OPTS&lt;/span&gt;&lt;/code&gt; environment variable. Each widget has its own environments variables you can customize based on your needs. The following example demonstrates how to parametrize the &lt;em&gt;fzf-file-widget&lt;/em&gt; and &lt;em&gt;fzf-cd-widget&lt;/em&gt;.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# CTRL + R: set vertical window for render the entire text of the command selected (useful in large command rendering).&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_CTRL_R_OPTS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--height 100% --layout reverse --preview &amp;#39;echo {}&amp;#39; --preview-window=wrap&amp;quot;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# ALT + C: set &amp;quot;fd-find&amp;quot; as directory search engine instead of &amp;quot;find&amp;quot; and exclude venv of the results during searching&lt;/span&gt;
 &lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_ALT_C_COMMAND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;fd --type directory --exclue&amp;quot;&lt;/span&gt;
 
 &lt;span class="c1"&gt;# ALT + C: put the tree command output based on item selected (&amp;quot;{}&amp;quot; will be replaced by item selected in fzf execution runtime)&lt;/span&gt;
@@ -116,7 +120,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt;&
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2024/2024-04-21-zsh-fzf-reverse-i-search/"/>
-    <summary>Blog Post Publish Date: 2024/04/21This blog post outlines the advantages of the fzf (Fuzzy Finder CLI) and explains how to configure its Zsh widgets, especially the fzf-history-widget, which offers a better alternative than reverse-i-search.</summary>
+    <summary>Blog Post Publish Date: 2024/04/28This blog post outlines the advantages of the fzf (Fuzzy Finder CLI) and explains how to configure its Zsh widgets.</summary>
     <category term="zsh" label="zsh"/>
     <published>2024-04-21T00:00:00+00:00</published>
   </entry>
