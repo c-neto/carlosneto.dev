@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-04-28T14:58:13.080580+00:00</updated>
+  <updated>2024-04-28T15:22:30.715786+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.8">ABlog</generator>
@@ -61,12 +61,12 @@ $&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt;&
 &lt;span class="s2"&gt;&amp;quot;^[c&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;fzf-cd-widget&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# ALT  + C: search directories&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;You can customize the widgets fzf parameters through environment variables described in &lt;a class="reference external" href="https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases"&gt;fzf — environment variables&lt;/a&gt;. The &lt;em&gt;fzf-history-widget&lt;/em&gt; parametrization is defined in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;FZF_CTRL_R_OPTS&lt;/span&gt;&lt;/code&gt; environment variable. Each widget has its own environments variables you can customize based on your needs. The following example demonstrates how to parametrize the &lt;em&gt;fzf-file-widget&lt;/em&gt; and &lt;em&gt;fzf-cd-widget&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;You can customize the widgets fzf parameters through environment variables described in &lt;a class="reference external" href="https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases"&gt;fzf — environment variables&lt;/a&gt;. Each widget has its own environments variables you can customize based on your needs. The following code block demonstrates a parametrization exemple.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# CTRL + R: set vertical window for render the entire text of the command selected (useful in large command rendering).&lt;/span&gt;
 &lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_CTRL_R_OPTS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--height 100% --layout reverse --preview &amp;#39;echo {}&amp;#39; --preview-window=wrap&amp;quot;&lt;/span&gt;
 
-&lt;span class="c1"&gt;# ALT + C: set &amp;quot;fd-find&amp;quot; as directory search engine instead of &amp;quot;find&amp;quot; and exclude venv of the results during searching&lt;/span&gt;
-&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_ALT_C_COMMAND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;fd --type directory --exclue&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;# ALT + C: set &amp;quot;fd-find&amp;quot; as directory search engine instead of &amp;quot;find&amp;quot; and exclude &amp;quot;venv|virtualenv&amp;quot; of the results during searching&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_ALT_C_COMMAND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;fd --type directory --exclude venv --exclude virtualenv&amp;quot;&lt;/span&gt;
 
 &lt;span class="c1"&gt;# ALT + C: put the tree command output based on item selected (&amp;quot;{}&amp;quot; will be replaced by item selected in fzf execution runtime)&lt;/span&gt;
 &lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_ALT_C_OPTS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--preview &amp;#39;tree -C {}&amp;#39;&amp;quot;&lt;/span&gt;
@@ -106,8 +106,8 @@ $&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt;&
 &lt;section id="conclusion-author-opinion"&gt;
 &lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
 &lt;p&gt;My research for improvements in searching history commands has yielded results that exceed my expectations. fzf opened my mind to understand what is Fuzzy Finder and it purpose. It not limited to be command history searching only, it is a tool that you can search anything. It is really nice!&lt;/p&gt;
-&lt;p&gt;Certainly, I think it is a much better alternative to command history search widget default in Zsh, Bash, and Fish (&lt;em&gt;which already has a good history search widget&lt;/em&gt;). The interactive searching are blazingly fast and customization expanding the possibilities based on your needs.&lt;/p&gt;
-&lt;p&gt;The productivity which fzf provides is really awesome! In a fact, that its justifies more than &lt;strong&gt;59K stars&lt;/strong&gt; in your GitHub repo.&lt;/p&gt;
+&lt;p&gt;Certainly, I think it is a much better alternative to command history search widget default in Zsh, Bash, and Fish (&lt;em&gt;which already has a good history search widget&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;The interactive searching are blazingly fast and customization expanding the possibilities based on your needs. The productivity which fzf provides is really awesome! In a fact, that its justifies more than &lt;strong&gt;59K stars&lt;/strong&gt; in your GitHub repo.&lt;/p&gt;
 &lt;p&gt;I approve and recommend!&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="links"&gt;
