@@ -53,7 +53,7 @@ $ mv fzf ~/.local/bin/
 The fzf use the command `$ find` behind the scenes as engine to search directories and files. You can change it. In this example, I will configure the [fd-find](https://github.com/sharkdp/fd) that is a fast and user-friendly alternative to `$ find`. Thus, It is necessary install it.
 
 ```bash
-# In Linux workstaion wirh dnf package manager
+# In Linux workstaion with dnf package manager
 $ dnf install fd-find
 
 # In MacOs workstation with homebrew package manager
