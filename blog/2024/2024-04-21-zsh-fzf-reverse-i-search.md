@@ -10,7 +10,7 @@ category: Linux
 
 # fzf: A Better Tool for History Commands Searching
 
-This blog post outlines the advantages of the [fzf](https://github.com/junegunn/fzf) (Fuzzy Finder CLI) and explain how to configure their [Zsh](https://www.zsh.org/) widgets, in special the _fzf-history-widget_, a better alternative than _reverse-i-search_.
+This blog post outlines the advantages of the [fzf](https://github.com/junegunn/fzf) (Fuzzy Finder CLI) and explains how to configure its [Zsh](https://www.zsh.org/) widgets, especially the _fzf-history-widget_, which offers a better alternative than _reverse-i-search_.
 
 ## From __reverse-i-search__ To __fzf-history-widget__
 
