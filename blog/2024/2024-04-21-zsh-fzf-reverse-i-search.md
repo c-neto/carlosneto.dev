@@ -8,9 +8,9 @@ category: Linux
 
 ---
 
-# FZF: A Nice Shell History Search Alternative
+# fzf — A Better Tool for History Commands Search
 
-This blog post covers how to use the [FZF - Fuzzy Finder](https://github.com/junegunn/fzf?tab=readme-ov-file) in [ZSH](https://www.zsh.org/) as an alternative to _reverse-i-search_ widget.
+This blog post outlines the advantages of the Fuzzy Finder CLI [fzf](https://github.com/junegunn/fzf) and explain how to use in [Zsh](https://www.zsh.org/) as an alternative to reverse-i-search widget.
 
 ## My journey from __reverse-i-search__ until __fzf-history-widget__
 
@@ -20,44 +20,35 @@ In Zsh is implemented _reverse-i-search_ widget by default, called by `CTRL` + `
 
 I searched by alternatives to better my experience over the _reverse-i-search_ widget. Then, I checked Fish implementation to get insights. The Fish show a interactive menu with commands executed matched by typed term. I liked the implementation, and I used it as my mainline to configure my Zsh.
 
-After some research days, I found the amazing project [FZF - Fuzzy Finder](https://github.com/junegunn/fzf), a command-line fuzzy finder written in Go, designed to help users quickly search and select items from large datasets and files.
+After a few days of research, I found the amazing project [fzf](https://github.com/junegunn/fzf), a command-line fuzzy finder written in Go. fzf is a command-line tool for interactive searching. Imagine you have a large list of items (like files, text lines, command history) and you need to find something within them quickly. fzf filters the list of items as you type. This makes your searching much more efficient, avoiding `$ | grep` execution. In addition, fzf has additional resources like integration with other commands and predefined shells widgets like search files, directories, and the __main interest point of this blog post, a widget dedicated to search history commands.__
 
-There are some shells widgets available to search files, directories, and __all I want, a widget dedicated to reverse history search__.
+> <i class="fa-solid fa-circle-info"></i> There are widgets available for Fish, Bash, Zsh. You can check the implementations in the following directory in the GitHub project [github.com/junegunn/fzf/shell](https://github.com/junegunn/fzf/tree/master/shell)
 
-> <i class="fa-solid fa-circle-info"></i> There are widgets available for Fish, Bash, Zsh. You can check the implementaions in the following directory in the GitHub project [github.com/junegunn/fzf/shell](https://github.com/junegunn/fzf/tree/master/shell)
+## How to Use
 
-## How to Setup
+The first step, install fzf. There are some distinct ways to install described in the [fzf - installation section](https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation). Depending of your System, the lastest version can be older. I will download the binary of the latest version available in GitHub Releases section.
 
-The first step, install FZF:
-
-::::{grid}
-
-:::{grid-item-card}
 ```{code-block} bash
-# if Linux (Fedora)
-$ dnf install fzf
+# download the latest version (in blog publish date, the latest version is 0.50.0)
+$ wget https://github.com/junegunn/fzf/releases/latest/download/fzf-0.50.0-linux_amd64.tar.gz
+
+# uncompress the donwloaded file to access the fzf binary
+$ tar -xzvf fzf-0.50.0-linux_amd64.tar.gz
+
+# check fzf binary execution
+$ ./fzf --help
+
+# move the binary to a folder present in your path
+$ mv fzf ~/.local/bin/
 ```
-:::
 
-:::{grid-item-card}
-```{code-block} bash
-# if MacOS
-$ brew install fzf
-```
-:::
-
-::::
-
-After that, you need to load the FZF widgets and keybindings.
+The fzf has source code of the shell widgets embedded in a binary. You can show the source code given shell name as argument like `--zsh`, `--fish`, and `--bash`. In this case, we will load the widgets for Zsh.
 
 ```bash
-$ curl -s https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh > fzf-key-bindings.zsh
-$ source fzf-key-bindings.zsh
+$ source $(fzf --zsh)
 ```
 
-> <i class="fa-solid fa-circle-info"></i> After fzf versions 0.48.0, you can load the keybindings and completions with `$ eval (fzf --zsh)`.
-
-To check the keybindings configuration in the previous step, you can run the following command:
+Run the following command to check the keybindings loaded in the previous step.
 
 ```bash
 $ bindkey -a | grep fzf
@@ -67,36 +58,32 @@ $ bindkey -a | grep fzf
 "^[c" fzf-cd-widget      # ALT  + C: search directories
 ```
 
-You can customize the FZF results prompt editing the `FZF_CTRL_R_OPTS` environment variable value. I configured a vertical window to show the full command wrapped (useful in large command rendering).
+You can customize the fzf results prompt editing the `FZF_CTRL_R_OPTS` environment variable value. I configured a vertical window to show the full command wrapped (useful in large command rendering).
 
 ```bash
-export FZF_CTRL_R_OPTS="--height 100% --layout reverse --preview 'echo {}' --preview-window=wrap"
+export fzf_CTRL_R_OPTS="--height 100% --layout reverse --preview 'echo {}' --preview-window=wrap"
 ```
-
 
 ## Results
 
-The following picture is the result of the FZF configured in previous step:
+The following picture is the result of the _fzf-history-widget_ executed by `CTRL` + `R`.
 
 ![](/_static/2024/2024-04-21/results.png)
-
----
-
-The next video is demo about how to configure the results of the picure above from scratch.
-
-<video width="100%" height="100%" controls>
-    <source src="/_static/2024/2024-04-21/fzf-setup.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
 
 
 ## Conclusion (Author Opinion)
 
-The FZF is an amazing, performative, and portable project. Certainly, It is a good alternative for the default search history widget for Zsh and even for the Fish shell, which already has a good history search widget. The results blazingly fast, even in large history file. For the last, the customization is good for expanding the possibilities based on your needs.
+My reasearch for improvements in search history commands brings to me a results that exceeds my needs. The fzf open my mind to a Fuzzy Finder tools purpose, extending the productivity not be limited by command history search, brings the possibilities to search anything, for example `$ kgp -A | fzf` to find a pods in Kubernetes cluster.
 
-I really like the FZF, I approve and recommend!.
+Certainly, I think that is much better alternative for the default search history widget of any Shell, even for the Fish shell, which already has a good history search widget.
+
+The interactive searching are blazingly fast, even in large history file. For the last, the customization is good for expanding the possibilities based on your needs.
+
+The productivity that fzf provides it is really awesome, justify the more than 59K stars in your GitHub repo.
+
+I approve and recommend!
 
 ## Links
 
-- FZF project: https://github.com/junegunn/fzf/tree/master/shell
-- My custom FZF configuration in `~/.zshrc`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
+- fzf project: https://github.com/junegunn/fzf/tree/master/shell
+- My custom fzf configuration in `~/.zshrc`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
