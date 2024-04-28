@@ -82,8 +82,8 @@ export FZF_CTRL_T_OPTS="--preview '[ -d {} ] && tree -C {} || bat --color=always
 
 The next section will present some prints of the fzf widgets execution configured with the presented parameters.
 
-> You can check out the fzf parametrization present in my `.zshrc` in the following link:
-> - https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc
+> You can check my `~/.zshrc` file content in the following link. It contains my personal fzf parametrization:
+> - <i class="fab fa-github"></i> [github.com/c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc)
 
 ## Results
 
