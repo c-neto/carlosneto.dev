@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-04-28T14:54:21.517853+00:00</updated>
+  <updated>2024-04-28T14:58:13.080580+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.8">ABlog</generator>
@@ -19,7 +19,7 @@
 &lt;section id="searching-in-the-terminal-tedious-task"&gt;
 &lt;h2&gt;Searching in the Terminal - Tedious Task&lt;/h2&gt;
 &lt;p&gt;Searching for items in the terminal is a trivial activity. Usually, we press arrow up/down to recall last commands executed, or check for matching expressions within a text file or command output using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;command&lt;/span&gt; &lt;span class="pre"&gt;|&lt;/span&gt; &lt;span class="pre"&gt;grep&lt;/span&gt;&lt;/code&gt;. This approach works well, but depending on the case, it is necessary execute &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;grep&lt;/span&gt;&lt;/code&gt; multiple times until you find the elements that you need.&lt;/p&gt;
-&lt;p&gt;When the activity is remember history commands, the Shells implemented a interactive search tool called by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;CTRL&lt;/span&gt;&lt;/code&gt; + &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;R&lt;/span&gt;&lt;/code&gt; shortcut. In Zsh is implemented &lt;em&gt;reverse-i-search&lt;/em&gt; that works well, but you need to press the shortcut again to see next results. This behavior can be a problem if you need to recall commands executed multiple times with differents arguments.&lt;/p&gt;
+&lt;p&gt;The most used Shells implemented a interactive search tool called by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;CTRL&lt;/span&gt;&lt;/code&gt; + &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;R&lt;/span&gt;&lt;/code&gt; shortcut. In Zsh is implemented &lt;em&gt;reverse-i-search&lt;/em&gt; that works well, but you need to press the shortcut again to see next results. This behavior can be a problem if you need to recall commands executed multiple times with differents arguments.&lt;/p&gt;
 &lt;p&gt;This tedious task prompted me to research better alternatives for interactive searching.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="fuzzy-finders-the-solution"&gt;
