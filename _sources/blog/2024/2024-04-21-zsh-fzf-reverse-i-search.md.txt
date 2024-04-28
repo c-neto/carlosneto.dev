@@ -108,7 +108,7 @@ Certainly, I think that is a much better alternative for the command history sea
 
 The interactive searching are blazingly fast, even in large datasets. The customization available is good for expanding the possibilities based on your needs.
 
-The productivity which fzf provides is really awesome! In a fact, that its justifies more than 59K stars in your GitHub repo.
+The productivity which fzf provides is really awesome! In a fact, that its justifies more than __59K stars__ in your GitHub repo.
 
 I approve and recommend!
 
