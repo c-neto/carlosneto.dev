@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-04-28T15:27:19.276841+00:00</updated>
+  <updated>2024-04-28T15:33:54.113657+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.8">ABlog</generator>
@@ -62,13 +62,16 @@ $&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt;&
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;You can customize the widgets fzf parameters through environment variables described in &lt;a class="reference external" href="https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases"&gt;fzf — environment variables&lt;/a&gt;. Each widget has its own environments variables you can customize based on your needs. The following code block demonstrates a parametrization exemple.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# CTRL + R: set vertical window for render the entire text of the command selected (useful in large command rendering).&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# fzf parameters used in all widgets - configure layout and wrapped the preview results (useful in large command rendering)&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_DEFAULT_OPTS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--height 100% --layout reverse --preview-window=wrap&amp;quot;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# CTRL + R: put the selected history command in the preview window - &amp;quot;{}&amp;quot; will be replaced by item selected in fzf execution runtime&lt;/span&gt;
 &lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_CTRL_R_OPTS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--height 100% --layout reverse --preview &amp;#39;echo {}&amp;#39; --preview-window=wrap&amp;quot;&lt;/span&gt;
 
 &lt;span class="c1"&gt;# ALT + C: set &amp;quot;fd-find&amp;quot; as directory search engine instead of &amp;quot;find&amp;quot; and exclude &amp;quot;venv|virtualenv&amp;quot; of the results during searching&lt;/span&gt;
 &lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_ALT_C_COMMAND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;fd --type directory --exclude venv --exclude virtualenv&amp;quot;&lt;/span&gt;
 
-&lt;span class="c1"&gt;# ALT + C: put the tree command output based on item selected (&amp;quot;{}&amp;quot; will be replaced by item selected in fzf execution runtime)&lt;/span&gt;
+&lt;span class="c1"&gt;# ALT + C: put the tree command output based on item selected&lt;/span&gt;
 &lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_ALT_C_OPTS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--preview &amp;#39;tree -C {}&amp;#39;&amp;quot;&lt;/span&gt;
 
 &lt;span class="c1"&gt;# CTRL + T: set &amp;quot;fd-find&amp;quot; as search engine instead of &amp;quot;find&amp;quot; and exclude .git for the results&lt;/span&gt;
