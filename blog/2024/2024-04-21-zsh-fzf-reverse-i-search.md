@@ -12,7 +12,7 @@ category: Linux
 
 This blog post outlines the advantages of the [fzf](https://github.com/junegunn/fzf) (Fuzzy Finder CLI) and explain how to configure their [Zsh](https://www.zsh.org/) widgets, in special the _fzf-history-widget_, a better alternative than _reverse-i-search_.
 
-## From __reverse-i-search__ Until __fzf-history-widget__
+## From __reverse-i-search__ To __fzf-history-widget__
 
 Remember executed commands can be a bored task, mainly in current days there are so many tools and differents stack technologies, each one their your specific commands lines programs. For help in this, the shells like Zsh, Fish, and Bash implements a widget for interactive commands history searching.
 
