@@ -7,19 +7,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="fzf — A Better Tool for History Commands Search" />
+<meta property="og:title" content="fzf — A Better Tool for History Commands Searching" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2024/2024-04-21-zsh-fzf-reverse-i-search/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2024/04/21 This blog post outlines the advantages of the Fuzzy Finder CLI fzf and explain how to use in Zsh as an alternative to reverse-i-search widget. My journey from rev..." />
+<meta property="og:description" content="Blog Post Publish Date: 2024/04/21 This blog post outlines the advantages of the fzf(Fuzzy Finder CLI) and explain how to use in Zsh as an alternative to reverse-i-search widget. From reverse-i-sea..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2024_2024-04-21-zsh-fzf-reverse-i-search_157dae75.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2024/04/21 This blog post outlines the advantages of the Fuzzy Finder CLI fzf and explain how to use in Zsh as an alternative to reve..." />
-<meta name="description" content="Blog Post Publish Date: 2024/04/21 This blog post outlines the advantages of the Fuzzy Finder CLI fzf and explain how to use in Zsh as an alternative to reverse-i-search widget. My journey from rev..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2024_2024-04-21-zsh-fzf-reverse-i-search_3f37cb1a.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2024/04/21 This blog post outlines the advantages of the fzf(Fuzzy Finder CLI) and explain how to use in Zsh as an alternative to rev..." />
+<meta name="description" content="Blog Post Publish Date: 2024/04/21 This blog post outlines the advantages of the fzf(Fuzzy Finder CLI) and explain how to use in Zsh as an alternative to reverse-i-search widget. From reverse-i-sea..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>fzf — A Better Tool for History Commands Search &#8212; Carlos Neto</title>
+    <title>fzf — A Better Tool for History Commands Searching &#8212; Carlos Neto</title>
   
   
   
@@ -378,7 +378,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-journey-from-reverse-i-search-until-fzf-history-widget">My journey from <strong>reverse-i-search</strong> until <strong>fzf-history-widget</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-reverse-i-search-until-fzf-history-widget">From <strong>reverse-i-search</strong> Until <strong>fzf-history-widget</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use">How to Use</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion-author-opinion">Conclusion (Author Opinion)</a></li>
@@ -454,14 +454,14 @@ document.write(`
                   
 <p><em><strong>Blog Post Publish Date:</strong> 2024/04/21</em></p>
 <hr class="docutils" />
-<section id="fzf-a-better-tool-for-history-commands-search">
-<h1>fzf — A Better Tool for History Commands Search<a class="headerlink" href="#fzf-a-better-tool-for-history-commands-search" title="Link to this heading">#</a></h1>
-<p>This blog post outlines the advantages of the Fuzzy Finder CLI <a class="reference external" href="https://github.com/junegunn/fzf">fzf</a> and explain how to use in <a class="reference external" href="https://www.zsh.org/">Zsh</a> as an alternative to reverse-i-search widget.</p>
-<section id="my-journey-from-reverse-i-search-until-fzf-history-widget">
-<h2>My journey from <strong>reverse-i-search</strong> until <strong>fzf-history-widget</strong><a class="headerlink" href="#my-journey-from-reverse-i-search-until-fzf-history-widget" title="Link to this heading">#</a></h2>
-<p>Remember executed commands can be a bored task, mainly in current days there are so many tools and differents stack technologies, each one with their your specific commands lines programs. For help in this, the shells like Zsh, Fish, and Bash implements a widget for interactive searching executed commands based on terms.</p>
-<p>In Zsh is implemented <em>reverse-i-search</em> widget by default, called by <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code>. The default implementation is good, but the commands are showed limited by one result, and you need to press <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code> again to see next results. This behavior can be a problem if you need to remember a commands using few terms in commands with multiple executions with differents arguments, letting you check the next results many times.</p>
-<p>I searched by alternatives to better my experience over the <em>reverse-i-search</em> widget. Then, I checked Fish implementation to get insights. The Fish show a interactive menu with commands executed matched by typed term. I liked the implementation, and I used it as my mainline to configure my Zsh.</p>
+<section id="fzf-a-better-tool-for-history-commands-searching">
+<h1>fzf — A Better Tool for History Commands Searching<a class="headerlink" href="#fzf-a-better-tool-for-history-commands-searching" title="Link to this heading">#</a></h1>
+<p>This blog post outlines the advantages of the <a class="reference external" href="https://github.com/junegunn/fzf">fzf</a> (Fuzzy Finder CLI) and explain how to use in <a class="reference external" href="https://www.zsh.org/">Zsh</a> as an alternative to <em>reverse-i-search</em> widget.</p>
+<section id="from-reverse-i-search-until-fzf-history-widget">
+<h2>From <strong>reverse-i-search</strong> Until <strong>fzf-history-widget</strong><a class="headerlink" href="#from-reverse-i-search-until-fzf-history-widget" title="Link to this heading">#</a></h2>
+<p>Remember executed commands can be a bored task, mainly in current days there are so many tools and differents stack technologies, each one their your specific commands lines programs. For help in this, the shells like Zsh, Fish, and Bash implements a widget for interactive commands history searching.</p>
+<p>In Zsh is implemented <em>reverse-i-search</em> widget by default, called by <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code>. The default implementation is good, but the commands are showed limited by one result. You need to press <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code> again to see next results. This behavior can be a problem if you need to remember commands executed many times with differents arguments.</p>
+<p>I searched by alternatives to better my experience over <em>reverse-i-search</em> widget. I checked Fish implementation to get insights. The Fish launch a manu with a list of the commands filterd by terms as you type. It was a good insight for me and I used it as my mainline for my Zsh customization.</p>
 <p>After a few days of research, I found the amazing project <a class="reference external" href="https://github.com/junegunn/fzf">fzf</a>, a command-line fuzzy finder written in Go. fzf is a command-line tool for interactive searching. Imagine you have a large list of items (like files, text lines, command history) and you need to find something within them quickly. fzf filters the list of items as you type. This makes your searching much more efficient, avoiding <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">|</span> <span class="pre">grep</span></code> execution. In addition, fzf has additional resources like integration with other commands and predefined shells widgets like search files, directories, and the <strong>main interest point of this blog post, a widget dedicated to search history commands.</strong></p>
 <blockquote>
 <div><p><i class="fa-solid fa-circle-info"></i> There are widgets available for Fish, Bash, Zsh. You can check the implementations in the following directory in the GitHub project <a class="reference external" href="https://github.com/junegunn/fzf/tree/master/shell">github.com/junegunn/fzf/shell</a></p>
@@ -469,7 +469,7 @@ document.write(`
 </section>
 <section id="how-to-use">
 <h2>How to Use<a class="headerlink" href="#how-to-use" title="Link to this heading">#</a></h2>
-<p>The first step, install fzf. There are some distinct ways to install described in the <a class="reference external" href="https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation">fzf - installation section</a>. Depending of your System, the lastest version can be older. I will download the binary of the latest version available in GitHub Releases section.</p>
+<p>The first step is to install fzf. There are some distinct ways to install described in the <a class="reference external" href="https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation">fzf — installation section</a>. Depending of your System, the latest version can be older. I will download the binary of the latest version available in GitHub Releases section.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># download the latest version (in blog publish date, the latest version is 0.50.0)</span>
 $<span class="w"> </span>wget<span class="w"> </span>https://github.com/junegunn/fzf/releases/latest/download/fzf-0.50.0-linux_amd64.tar.gz
 
@@ -483,11 +483,11 @@ $<span class="w"> </span>./fzf<span class="w"> </span>--help
 $<span class="w"> </span>mv<span class="w"> </span>fzf<span class="w"> </span>~/.local/bin/
 </pre></div>
 </div>
-<p>The fzf has source code of the shell widgets embedded in a binary. You can show the source code given shell name as argument like <code class="docutils literal notranslate"><span class="pre">--zsh</span></code>, <code class="docutils literal notranslate"><span class="pre">--fish</span></code>, and <code class="docutils literal notranslate"><span class="pre">--bash</span></code>. In this case, we will load the widgets for Zsh.</p>
+<p>The fzf has source-code of the shell widgets embedded in a binary (only available in 0.48.0 or later). You can get the source-code given the shell name as argument, for instance <code class="docutils literal notranslate"><span class="pre">--zsh</span></code>, <code class="docutils literal notranslate"><span class="pre">--fish</span></code>, and <code class="docutils literal notranslate"><span class="pre">--bash</span></code>. In this case, I will load the widgets for Zsh.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">source</span><span class="w"> </span><span class="k">$(</span>fzf<span class="w"> </span>--zsh<span class="k">)</span>
 </pre></div>
 </div>
-<p>Run the following command to check the keybindings loaded in the previous step.</p>
+<p>Run the following command to check the keybindings are correctly loaded.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>bindkey<span class="w"> </span>-a<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>fzf
 
 <span class="s2">&quot;^R&quot;</span><span class="w"> </span>fzf-history-widget<span class="w">  </span><span class="c1"># CTRL + R: reverse history search</span>
@@ -507,10 +507,10 @@ $<span class="w"> </span>mv<span class="w"> </span>fzf<span class="w"> </span>~/
 </section>
 <section id="conclusion-author-opinion">
 <h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
-<p>My reasearch for improvements in search history commands brings to me a results that exceeds my needs. The fzf open my mind to a Fuzzy Finder tools purpose, extending the productivity not be limited by command history search, brings the possibilities to search anything, for example <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kgp</span> <span class="pre">-A</span> <span class="pre">|</span> <span class="pre">fzf</span></code> to find a pods in Kubernetes cluster.</p>
-<p>Certainly, I think that is much better alternative for the default search history widget of any Shell, even for the Fish shell, which already has a good history search widget.</p>
-<p>The interactive searching are blazingly fast, even in large history file. For the last, the customization is good for expanding the possibilities based on your needs.</p>
-<p>The productivity that fzf provides it is really awesome, justify the more than 59K stars in your GitHub repo.</p>
+<p>My reasearch for improvements in search history commands brings to me a results that exceeds my needs. The fzf open my mind for Fuzzy Finder tools purpose, not be limited only by command history searching. You can search anything, for instance you can execute <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kgp</span> <span class="pre">-A</span> <span class="pre">|</span> <span class="pre">fzf</span></code> to search a pods in all Kubernetes cluster.</p>
+<p>Certainly, I think that is a much better alternative for the command history search available as default in any Shell, even for the Fish shell which already has a good history search widget.</p>
+<p>The interactive searching are blazingly fast, even in large datasets. The customization available is good for expanding the possibilities based on your needs.</p>
+<p>The productivity which fzf provides is really awesome! In a fact, that its justifies more than 59K stars in your GitHub repo.</p>
 <p>I approve and recommend!</p>
 </section>
 <section id="links">
