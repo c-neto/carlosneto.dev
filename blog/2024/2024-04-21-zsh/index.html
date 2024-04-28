@@ -508,16 +508,16 @@ $<span class="w"> </span><span class="nb">source</span><span class="w"> </span><
 <span class="nb">export</span><span class="w"> </span><span class="nv">FZF_DEFAULT_OPTS</span><span class="o">=</span><span class="s2">&quot;--height 100% --layout reverse --preview-window=wrap&quot;</span>
 
 <span class="c1"># CTRL + R: put the selected history command in the preview window - &quot;{}&quot; will be replaced by item selected in fzf execution runtime</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">FZF_CTRL_R_OPTS</span><span class="o">=</span><span class="s2">&quot;--height 100% --layout reverse --preview &#39;echo {}&#39; --preview-window=wrap&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">FZF_CTRL_R_OPTS</span><span class="o">=</span><span class="s2">&quot;--preview &#39;echo {}&#39;&quot;</span>
 
-<span class="c1"># ALT + C: set &quot;fd-find&quot; as directory search engine instead of &quot;find&quot; and exclude &quot;venv|virtualenv&quot; of the results during searching</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">FZF_ALT_C_COMMAND</span><span class="o">=</span><span class="s2">&quot;fd --type directory --exclude venv --exclude virtualenv&quot;</span>
+<span class="c1"># ALT + C: set &quot;fd-find&quot; as directory search engine instead of &quot;find&quot; and exclude &quot;venv|virtualenv|.git&quot; of the results during searching</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">FZF_ALT_C_COMMAND</span><span class="o">=</span><span class="s2">&quot;fd --type directory --exclude venv --exclude virtualenv --exclude .git&quot;</span>
 
 <span class="c1"># ALT + C: put the tree command output based on item selected</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">FZF_ALT_C_OPTS</span><span class="o">=</span><span class="s2">&quot;--preview &#39;tree -C {}&#39;&quot;</span>
 
-<span class="c1"># CTRL + T: set &quot;fd-find&quot; as search engine instead of &quot;find&quot; and exclude .git for the results</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">FZF_CTRL_T_COMMAND</span><span class="o">=</span><span class="s2">&quot;fd --exclude .git&quot;</span>
+<span class="c1"># CTRL + T: set &quot;fd-find&quot; as search engine instead of &quot;find&quot; and exclude &quot;venv|virtualenv|.git&quot; for the results</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">FZF_CTRL_T_COMMAND</span><span class="o">=</span><span class="s2">&quot;fd --exclude venv --exclude virtualenv --exclude .git&quot;</span>
 
 <span class="c1"># CTRL + T: put the file content if item select is a file, or put tree command output if item selected is directory</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">FZF_CTRL_T_OPTS</span><span class="o">=</span><span class="s2">&quot;--preview &#39;[ -d {} ] &amp;&amp; tree -C {} || bat --color=always --style=numbers {}&#39;&quot;</span>
