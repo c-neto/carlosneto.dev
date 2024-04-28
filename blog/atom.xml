@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-04-28T15:53:14.475887+00:00</updated>
+  <updated>2024-04-28T15:54:10.301321+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.8">ABlog</generator>
@@ -49,12 +49,10 @@ $&lt;span class="w"&gt; &lt;/span&gt;mv&lt;span class="w"&gt; &lt;/span&gt;fzf&l
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;The fzf use the command &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;find&lt;/span&gt;&lt;/code&gt; as a search engine behind the scenes. You can change it. In this example, I will configure the &lt;a class="reference external" href="https://github.com/sharkdp/fd"&gt;fd-find&lt;/a&gt; that is a fast and user-friendly alternative to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;find&lt;/span&gt;&lt;/code&gt;. Thus, It is necessary install it.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;dnf&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;fd-find
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# In MacOs workstation, the package can be installed with homebrew `$ brew install fd`&lt;/span&gt;
+$&lt;span class="w"&gt; &lt;/span&gt;dnf&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;fd-find
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;In macos workstation the package can be installed with homebrew &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;brew&lt;/span&gt; &lt;span class="pre"&gt;install&lt;/span&gt; &lt;span class="pre"&gt;fd&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Now, it is necessary load the Shell widgets. For this, you can get the widget setup source-code given the shell name as argument (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--zsh&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--fish&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--bash&lt;/span&gt;&lt;/code&gt;). In this case, I will setup the widgets for Zsh.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# only available in 0.48.0 or later&lt;/span&gt;
 $&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;fzf&lt;span class="w"&gt; &lt;/span&gt;--zsh&lt;span class="k"&gt;)&lt;/span&gt;
