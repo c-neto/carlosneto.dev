@@ -42,7 +42,7 @@ $ ./fzf --help
 $ mv fzf ~/.local/bin/
 ```
 
-The fzf has source-code of the shell widgets embedded in a binary (only available in 0.48.0 or later). You can get the source-code given the shell name as argument, for instance `--zsh`, `--fish`, and `--bash`. In this case, I will load the widgets for Zsh.
+fzf has source-code of the shell widgets embedded in a binary (only available in 0.48.0 or later). You can get the source-code given the shell name as argument, for instance `--zsh`, `--fish`, and `--bash`. In this case, I will load the widgets for Zsh.
 
 ```bash
 $ source $(fzf --zsh)
