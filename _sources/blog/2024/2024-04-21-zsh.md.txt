@@ -36,50 +36,74 @@ The next section will explain how to configure these widgets in Zsh.
 
 The first step is to install fzf. There are some distinct ways to install it described in [fzf — installation section](https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation). Depending on the package manager on your workstation, the version available can be older. Thus, I will download and install the latest version available in GitHub Releases section.
 
-```bash
+```zsh
+setopt INTERACTIVE_COMMENTS
+
 # download the latest version (in a moment of the blog publish date, the latest version is 0.50.0)
-$ wget https://github.com/junegunn/fzf/releases/latest/download/fzf-0.50.0-linux_amd64.tar.gz
+curl -L https://github.com/junegunn/fzf/releases/latest/download/fzf-0.50.0-linux_amd64.tar.gz > fzf-0.50.0-linux_amd64.tar.gz
 
 # uncompress the donwloaded file to access the fzf binary
-$ tar -xzvf fzf-0.50.0-linux_amd64.tar.gz
+tar -xzvf fzf-0.50.0-linux_amd64.tar.gz
 
 # check fzf binary execution
-$ ./fzf --help
+./fzf --help
 
 # move the binary to a folder present in your path
-$ mv fzf ~/.local/bin/
+mv fzf /usr/local/bin/
 ```
 
 The fzf use the command `$ find` behind the scenes as engine to search directories and files. You can change it. In this example, I will configure the [fd-find](https://github.com/sharkdp/fd), a fast and user-friendly alternative to `$ find`. Thus, It is necessary install it.
 
-```bash
+```zsh
 # In Linux workstation with dnf package manager
-$ dnf install fd-find
+dnf install fd-find
 
 # In MacOs workstation with homebrew package manager
-$ brew install fd
+brew install fd
+```
+
+For file content preview, I will install and configure [bat](https://github.com/sharkdp/bat), a `$ cat` clone with syntax highlighting.
+
+```zsh
+# In Linux workstation with dnf package manager
+dnf install bat
+
+# In MacOs workstation with homebrew package manager
+brew install bat
+```
+
+For directory and sub directories preview, I will install and configure [tree](https://www.cyberciti.biz/faq/linux-show-directory-structure-command-line/), a utility which recursively displays the contents of directories in a tree-like format.
+
+```zsh
+# In Linux workstation with dnf package manager
+dnf install tree
+
+# In MacOs workstation with homebrew package manager
+brew install tree
 ```
 
 Now, it is necessary load the Shell widgets. For this, you can get the widget setup source-code given the shell name as argument (`--zsh`, `--fish`, `--bash`). In this case, I will setup the widgets for Zsh.
 
-```bash
-# only available in 0.48.0 or later
-$ source $(fzf --zsh)
+```zsh
+# Set up fzf key bindings and fuzzy completion (only available in 0.48.0 or later)
+eval "$(fzf --zsh)"
 ```
 
 Run the following command to check the keybindings are correctly loaded.
 
-```bash
-$ bindkey -a | grep fzf
+```zsh
+bindkey -a | grep fzf
 
-"^R" fzf-history-widget  # CTRL + R: reverse history search
-"^T" fzf-file-widget     # CTRL + T: search files
-"^[c" fzf-cd-widget      # ALT  + C: search directories
+# output expected:
+#
+# "^R" fzf-history-widget  # CTRL + R: reverse history search
+# "^T" fzf-file-widget     # CTRL + T: search files
+# "^[c" fzf-cd-widget      # ALT  + C: search directories
 ```
 
 You can customize the widgets fzf parameters through environment variables described in [fzf — environment variables](https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases). Each widget has its own environments variables you can customize based on your needs. The following code block demonstrates a parametrization exemple.
 
-```bash
+```zsh
 # fzf parameters used in all widgets - configure layout and wrapped the preview results (useful in large command rendering)
 export FZF_DEFAULT_OPTS="--height 100% --layout reverse --preview-window=wrap"
 
