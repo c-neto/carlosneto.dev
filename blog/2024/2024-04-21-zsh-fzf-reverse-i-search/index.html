@@ -378,7 +378,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-reverse-i-search-until-fzf-history-widget">From <strong>reverse-i-search</strong> Until <strong>fzf-history-widget</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-reverse-i-search-to-fzf-history-widget">From <strong>reverse-i-search</strong> To <strong>fzf-history-widget</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-configure-fzf-widgets-in-zsh">How to Configure fzf Widgets in Zsh</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion-author-opinion">Conclusion (Author Opinion)</a></li>
@@ -457,8 +457,8 @@ document.write(`
 <section id="fzf-a-better-tool-for-history-commands-searching">
 <h1>fzf: A Better Tool for History Commands Searching<a class="headerlink" href="#fzf-a-better-tool-for-history-commands-searching" title="Link to this heading">#</a></h1>
 <p>This blog post outlines the advantages of the <a class="reference external" href="https://github.com/junegunn/fzf">fzf</a> (Fuzzy Finder CLI) and explain how to configure their <a class="reference external" href="https://www.zsh.org/">Zsh</a> widgets, in special the <em>fzf-history-widget</em>, a better alternative than <em>reverse-i-search</em>.</p>
-<section id="from-reverse-i-search-until-fzf-history-widget">
-<h2>From <strong>reverse-i-search</strong> Until <strong>fzf-history-widget</strong><a class="headerlink" href="#from-reverse-i-search-until-fzf-history-widget" title="Link to this heading">#</a></h2>
+<section id="from-reverse-i-search-to-fzf-history-widget">
+<h2>From <strong>reverse-i-search</strong> To <strong>fzf-history-widget</strong><a class="headerlink" href="#from-reverse-i-search-to-fzf-history-widget" title="Link to this heading">#</a></h2>
 <p>Remember executed commands can be a bored task, mainly in current days there are so many tools and differents stack technologies, each one their your specific commands lines programs. For help in this, the shells like Zsh, Fish, and Bash implements a widget for interactive commands history searching.</p>
 <p>In Zsh is implemented <em>reverse-i-search</em> widget by default, called by <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code>. The default implementation is good, but the commands are showed limited by one result. You need to press <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code> again to see next results. This behavior can be a problem if you need to remember commands executed many times with differents arguments.</p>
 <p>I searched by alternatives to better my experience over <em>reverse-i-search</em> widget. I checked Fish implementation to get insights. The Fish launchs a menu with a list of the commands filtered by terms as you type. It was a good insight for me and I used it as my mainline for my Zsh customization.</p>
