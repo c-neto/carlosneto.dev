@@ -20,7 +20,9 @@ In Zsh is implemented _reverse-i-search_ widget by default, called by `CTRL` + `
 
 I searched by alternatives to better my experience over _reverse-i-search_ widget. I checked Fish implementation to get insights. The Fish launchs a menu with a list of the commands filtered by terms as you type. It was a good insight for me and I used it as my mainline for my Zsh customization.
 
-After a few days of research, I found an amazing project: [fzf — command-line fuzzy finder](https://github.com/junegunn/fzf). It is a cross-platform Fuzzy Finder command-line written in Go.A Fuzzy Finder is a search tool that allows users to quickly and flexibly find files, directories, or other elements, even when they don't remember the precise names. It employs fuzzy matching to find results based on partial words, erratic characters, or typographical errors. Imagine you have a large list of items (like files, text lines, command history) and you need to find something within them quickly. fzf filters the list of items as you type. This makes your searching much more efficient, avoiding `$ | grep` execution. In addition, fzf can receive output of the other commands for searching, and some predefined shells widgets to search files, directories, and __search history commands__.
+After a few days of research, I found an amazing project: [fzf — command-line fuzzy finder](https://github.com/junegunn/fzf). It is a cross-platform Fuzzy Finder command-line written in Go. A Fuzzy Finder is a search tool that allows users to quickly and flexibly find files, directories, or other elements, even when they don't remember the precise names. It employs fuzzy matching to find results based on partial words, erratic characters, or typographical errors. Imagine you have a large list of items (like files, text lines, command history) and you need to find something within them quickly.
+
+fzf filters the list of items as you type. This makes your searching much more efficient, avoiding `$ | grep` execution. It can receive output of the other commands for interative searching, for instance you can execute `$ kgp -A | fzf` to find pods in all Kubernetes cluster. In addition, it has some predefined shells widgets to search files, directories, and __search history commands__.
 
 The next section will explain how to configure these widgets in Zsh.
 
@@ -44,9 +46,10 @@ $ ./fzf --help
 $ mv fzf ~/.local/bin/
 ```
 
-The shell source-code and completions can be get through source-code of the shell widgets embedded in a binary (only available in 0.48.0 or later). You can get the source-code given the shell name as argument, for instance `--zsh`, `--fish`, and `--bash`. In this case, I will load the widgets for Zsh.
+You can get the widget setup source-code given the shell name as argument, for instance `--zsh`, `--fish`, and `--bash`. In this case, I will setup the widgets for Zsh.
 
 ```bash
+# only available in 0.48.0 or later
 $ source $(fzf --zsh)
 ```
 
@@ -60,13 +63,13 @@ $ bindkey -a | grep fzf
 "^[c" fzf-cd-widget      # ALT  + C: search directories
 ```
 
-You can customize the fzf parametrization through environment variables described in [fzf — environment variables](https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases). For parametrize the fzf executed by _wi_, I need to define some parameters in `FZF_CTRL_R_OPTS` environment variable. The following example, I give some parameters to fzf show the input text in the top of the terminal, and show vertical window for render the entire text of the command selected (useful in large command rendering).
+You can customize the widgets fzf parameters through environment variables described in [fzf — environment variables](https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases). The _fzf-history-widget_ parametrization is defined in the `FZF_CTRL_R_OPTS` environment variable. The following example, I give some parameters to show the input text in the top of the terminal, and show vertical window for render the entire text of the command selected (useful in large command rendering).
 
 ```bash
 export FZF_CTRL_R_OPTS="--height 100% --layout reverse --preview 'echo {}' --preview-window=wrap"
 ```
 
-Each widget has its own environments variables you can customize the fzf execution based on your needs. The following example demonstrates how to parametrize the _fzf-file-widget_ and _fzf-cd-widget_.
+Each widget has its own environments variables you can customize based on your needs. The following example demonstrates how to parametrize the _fzf-file-widget_ and _fzf-cd-widget_.
 
 ```bash
 # ALT + C: set "fd-find" as directory search engine instead of "find" and exclude venv of the results during searching
@@ -82,7 +85,7 @@ export FZF_CTRL_T_COMMAND="fd --exclude .git"
 export FZF_CTRL_T_OPTS="--preview '[ -d {} ] && tree -C {} || bat --color=always --style=numbers {}'"
 ```
 
-The next section will present some prints of the fzf widgets execution configured with the presented parameters.
+The next section will present widgets executions preview.
 
 > You can check my `~/.zshrc` file content in the following link. It contains my personal fzf parametrization:
 > - <i class="fab fa-github"></i> [github.com/c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc)
@@ -104,7 +107,7 @@ The next section will present some prints of the fzf widgets execution configure
 
 ## Conclusion (Author Opinion)
 
-My research for improvements in searching history commands has yielded results that exceed my expectations. fzf opened my mind to understand what is Fuzzy Finder and the problem which resolves. It not limited to be command history searching only, it is a tool that you can search anything, for instance you can execute `$ kgp -A | fzf` to search a pods in all Kubernetes cluster. It is really nice!
+My research for improvements in searching history commands has yielded results that exceed my expectations. fzf opened my mind to understand what is Fuzzy Finder and the problem which resolves. It not limited to be command history searching only, it is a tool that you can search anything. It is really nice!
 
 Certainly, I think it is a much better alternative to command history search widget default in Zsh, Bash, and Fish (_which already has a good history search widget_). The interactive searching are blazingly fast and customization expanding the possibilities based on your needs.
 
