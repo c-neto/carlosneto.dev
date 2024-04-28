@@ -2,13 +2,13 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-04-28T03:19:57.377988+00:00</updated>
+  <updated>2024-04-28T03:23:06.923608+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.8">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
   <entry>
-    <id>https://carlosneto.dev/blog/2024/2024-04-21-zsh-fzf-reverse-i-search/</id>
+    <id>https://carlosneto.dev/blog/2024/2024-04-21-fzf/</id>
     <title>fzf: A Better Tool for History Commands Searching</title>
     <updated>2024-04-21T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2024/04/21&lt;/em&gt;&lt;/p&gt;
@@ -112,7 +112,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;mv&lt;span class="w"&gt; &lt;/span&gt;fzf&l
 &lt;/section&gt;
 &lt;/section&gt;
 </content>
-    <link href="https://carlosneto.dev/blog/2024/2024-04-21-zsh-fzf-reverse-i-search/"/>
+    <link href="https://carlosneto.dev/blog/2024/2024-04-21-fzf/"/>
     <summary>Blog Post Publish Date: 2024/04/21This blog post outlines the advantages of the fzf (Fuzzy Finder CLI) and explain how to configure their Zsh widgets, in special the fzf-history-widget, a better alternative than reverse-i-search.</summary>
     <category term="zsh" label="zsh"/>
     <published>2024-04-21T00:00:00+00:00</published>
