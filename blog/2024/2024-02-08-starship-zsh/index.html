@@ -43,7 +43,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=2ef4ebbe" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=e869902c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -278,7 +278,7 @@ document.write(`
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -368,77 +368,6 @@ document.write(`
       </div>
     
   </div>
-  
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
-<div
-    id="pst-page-navigation-heading-2"
-    class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-prompts-customization-experiences">My Prompts Customization Experiences</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xonsh-python-bash-advantages-and-disadvantages"><strong>xonsh</strong>: Python + Bash Advantages (<em>and Disadvantages</em>)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zsh-extensible-and-product-ready-if-customized"><strong>zsh</strong>: Extensible and Product Ready (<em>If Customized</em>)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fish-ready-to-use-but-non-posix-compliant"><strong>fish</strong>: Ready to Use (<em>But non-POSIX Compliant</em>)</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-zsh-favorite-plugins">My ZSH Favorite Plugins</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zsh-autosuggestions-dynamic-assistant-to-remember-commands"><strong>zsh-autosuggestions</strong>: Dynamic Assistant to Remember Commands</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zsh-syntax-highlighting-valid-commands-by-color"><strong>zsh-syntax-highlighting</strong>: Valid Commands by Color</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kubectl-k-alias-for-kubectl"><strong>kubectl</strong>: k alias for kubectl</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-starship-configuration">My Starship Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-favorite-zsh-options-setopt">My favorite ZSH options (<em>setopt</em>)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-setup-my-zsh-starship-from-scratch">How to Setup My ZSH + Starship From Scratch</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion-author-opinion">Conclusion (Author Opinion)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#links">Links</a></li>
-</ul>
-  </nav></div>
-        <div class="sidebar-primary-item">
-<div class="ablog-sidebar-item ablog__recentposts">
-<h3>
-  <a href="../../">Recent Posts</a>
-</h3>
-<ul>
-  
-  
-  <li>
-    <a href="../2024-04-21-zsh/">
-      21 April - fzf: Life is Too Short for Pipe Grep
-    </a>
-  </li>
-  
-  <li>
-    <a href="../../2023/2023-11-19-systemd-override-parameters/">
-      19 November - Properties Overriding: A Smart Way to Customize Systemd Unit Properties
-    </a>
-  </li>
-  
-  <li>
-    <a href="../../2023/2023-11-02-logstash-modular-pipelines/">
-      12 November - Logstash Modular Pipelines: An Elegant Structure for Code Reusability and Duplication Avoiding
-    </a>
-  </li>
-  
-  <li>
-    <a href="../../2023/2023-10-21-cloud-concepts/">
-      21 October - Cloud Computing: Overview and Concepts
-    </a>
-  </li>
-  
-  <li>
-    <a href="../../2023/2023-10-19-git-cli-gui/">
-      19 October - Git Clients Benchmarking: CLI vs. Graphical Interfaces
-    </a>
-  </li>
-  
-</ul>
-</div>
-</div>
-    </div>
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
@@ -734,20 +663,21 @@ $<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span
                 </article>
               
 <!-- Add a comment box underneath the page's content -->
-<script src="https://giscus.app/client.js"
-        data-repo="c-neto/carlosneto.dev"
-        data-repo-id="R_kgDOKgwGNA"
-        data-category="General"
-        data-category-id="DIC_kwDOKgwGNM4CaKBI"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="light"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
 </script>
 
               
