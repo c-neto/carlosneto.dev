@@ -44,7 +44,7 @@ I will present in the following sub-topics, my indispensable ZSH Plugins.
 
 No doubt, it is my favorite plugin. This plugin emulates the behavior of the _Fish_ shell, suggesting command completions dynamically based on history.
 
-![](image-1.png)
+![](/_static/2024/2024-02-08/image-1.png)
 
 > <i class="fa-solid fa-link"></i> More Details: <https://github.com/zsh-users/zsh-autosuggestions>
 
@@ -54,7 +54,7 @@ No doubt, it is my favorite plugin. This plugin emulates the behavior of the _Fi
 
 Another Plugin which emulate the _Fish_ shell. When a command is correctly typed, the color turns green. Otherwise, it changes to red. This feature is handy for detecting typos in a dynamic way
 
-![](image-2.png)
+![](/_static/2024/2024-02-08/image-2.png)
 
 > <i class="fa-solid fa-link"></i> More Details: <https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/>
 
@@ -192,7 +192,7 @@ $ curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/f
 
 - __8__: Restart your terminal, the results will be like this:
 
-![](image-3.png)
+![](/_static/2024/2024-02-08/image-3.png)
 
 ## Conclusion (Author Opinion)
 
