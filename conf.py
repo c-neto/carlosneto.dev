@@ -61,7 +61,7 @@ html_theme_options = {
 }
 
 html_favicon = "_static/profile-color-circle-small.png"
-html_title = "Carlos Neto"
+html_title = "Carlos Neto's Tech Blog"
 html_static_path = ["_static"]
 html_extra_path = ["feed.xml"]
 html_sidebars = {
