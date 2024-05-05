@@ -96,10 +96,10 @@ html_sidebars = {
         "ablog/tagcloud.html",
     ],
 
-    "blog/**": [
-        "page-toc",
-        "ablog/recentposts.html"
-    ],
+    # "blog/**": [
+    #     "page-toc",
+    #     "ablog/recentposts.html"
+    # ],
 }
 
 
