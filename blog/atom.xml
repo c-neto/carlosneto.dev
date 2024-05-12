@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-05-05T15:04:03.486041+00:00</updated>
+  <updated>2024-05-12T22:51:50.147367+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.10">ABlog</generator>
@@ -37,7 +37,7 @@
 &lt;section id="how-to-configure-fzf-widgets-in-zsh"&gt;
 &lt;h2&gt;How to Configure fzf Widgets in Zsh&lt;/h2&gt;
 &lt;p&gt;The first step is to install fzf. There are some distinct ways to install it described in &lt;a class="reference external" href="https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation"&gt;fzf — installation section&lt;/a&gt;. Depending on the package manager on your workstation, the version available can be older. Thus, I will download and install the latest version available in GitHub Releases section.&lt;/p&gt;
-&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;setopt&lt;span class="w"&gt; &lt;/span&gt;INTERACTIVE_COMMENTS
+&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;setopt&lt;span class="w"&gt; &lt;/span&gt;INTERACTIVE_COMMENTS
 
 &lt;span class="c1"&gt;# download the latest version (in a moment of the blog publish date, the latest version is 0.50.0)&lt;/span&gt;
 curl&lt;span class="w"&gt; &lt;/span&gt;-L&lt;span class="w"&gt; &lt;/span&gt;https://github.com/junegunn/fzf/releases/latest/download/fzf-0.50.0-linux_amd64.tar.gz&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;fzf-0.50.0-linux_amd64.tar.gz
@@ -53,7 +53,7 @@ mv&lt;span class="w"&gt; &lt;/span&gt;fzf&lt;span class="w"&gt; &lt;/span&gt;/us
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;The fzf use the command &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;find&lt;/span&gt;&lt;/code&gt; behind the scenes as engine to search directories and files. You can change it. In this example, I will install and configure the &lt;a class="reference external" href="https://github.com/sharkdp/fd"&gt;fd-find&lt;/a&gt;, a fast and user-friendly alternative to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;find&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
-&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# In Linux workstation with dnf package manager&lt;/span&gt;
+&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# In Linux workstation with dnf package manager&lt;/span&gt;
 dnf&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;fd-find
 
 &lt;span class="c1"&gt;# In MacOs workstation with homebrew package manager&lt;/span&gt;
@@ -61,7 +61,7 @@ brew&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;For file content preview, I will install and configure &lt;a class="reference external" href="https://github.com/sharkdp/bat"&gt;bat&lt;/a&gt;, a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;cat&lt;/span&gt;&lt;/code&gt; clone with syntax highlighting.&lt;/p&gt;
-&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# In Linux workstation with dnf package manager&lt;/span&gt;
+&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# In Linux workstation with dnf package manager&lt;/span&gt;
 dnf&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;bat
 
 &lt;span class="c1"&gt;# In MacOs workstation with homebrew package manager&lt;/span&gt;
@@ -69,7 +69,7 @@ brew&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;For directory and sub directories preview, I will install and configure &lt;a class="reference external" href="https://www.cyberciti.biz/faq/linux-show-directory-structure-command-line/"&gt;tree&lt;/a&gt;, a utility which recursively displays the contents of directories in a tree-like format.&lt;/p&gt;
-&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# In Linux workstation with dnf package manager&lt;/span&gt;
+&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# In Linux workstation with dnf package manager&lt;/span&gt;
 dnf&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;tree
 
 &lt;span class="c1"&gt;# In MacOs workstation with homebrew package manager&lt;/span&gt;
@@ -77,12 +77,12 @@ brew&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Now, it is necessary load the Shell widgets. For this, you can get the widget setup source-code given the shell name as argument (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--zsh&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--fish&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--bash&lt;/span&gt;&lt;/code&gt;). In this case, I will setup the widgets for Zsh.&lt;/p&gt;
-&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Set up fzf key bindings and fuzzy completion (only available in 0.48.0 or later)&lt;/span&gt;
+&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Set up fzf key bindings and fuzzy completion (only available in 0.48.0 or later)&lt;/span&gt;
 &lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;fzf&lt;span class="w"&gt; &lt;/span&gt;--zsh&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Run the following command to check the keybindings are correctly loaded.&lt;/p&gt;
-&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;bindkey&lt;span class="w"&gt; &lt;/span&gt;-a&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;grep&lt;span class="w"&gt; &lt;/span&gt;fzf
+&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;bindkey&lt;span class="w"&gt; &lt;/span&gt;-a&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;grep&lt;span class="w"&gt; &lt;/span&gt;fzf
 
 &lt;span class="c1"&gt;# output expected:&lt;/span&gt;
 &lt;span class="c1"&gt;#&lt;/span&gt;
@@ -92,7 +92,7 @@ brew&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;You can customize the widgets fzf parameters through environment variables described in &lt;a class="reference external" href="https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases"&gt;fzf — environment variables&lt;/a&gt;. Each widget has its own environments variables you can customize based on your needs. Take a look at following code block for an example of the how to parametrize fzf widgets.&lt;/p&gt;
-&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# fzf parameters used in all widgets - configure layout and wrapped the preview results (useful in large command rendering)&lt;/span&gt;
+&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# fzf parameters used in all widgets - configure layout and wrapped the preview results (useful in large command rendering)&lt;/span&gt;
 &lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;FZF_DEFAULT_OPTS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--height 100% --layout reverse --preview-window=wrap&amp;quot;&lt;/span&gt;
 
 &lt;span class="c1"&gt;# CTRL + R: put the selected history command in the preview window - &amp;quot;{}&amp;quot; will be replaced by item selected in fzf execution runtime&lt;/span&gt;
@@ -216,7 +216,7 @@ brew&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&
 &lt;h3&gt;&lt;strong&gt;kubectl&lt;/strong&gt;: k alias for kubectl&lt;/h3&gt;
 &lt;p&gt;This plugin adds completion for the Kubernetes, as well as some aliases for common kubectl commands.&lt;/p&gt;
 &lt;p&gt;For example:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# shortcut for: kubectl get pods&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# shortcut for: kubectl get pods&lt;/span&gt;
 $&lt;span class="w"&gt; &lt;/span&gt;kgp
 
 &lt;span class="c1"&gt;# shortcut for: kubectl delete cm foobar-config-map&lt;/span&gt;
@@ -268,7 +268,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;k&lt;span class="w"&gt; &lt;/span&gt;get&lt
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;1&lt;/strong&gt; &lt;em&gt;optional&lt;/em&gt;: Save a backup of your current dotfiles (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.zshrc&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.zsh_history&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;cp&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.zshrc&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.zshrc.backup&amp;quot;&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;cp&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.zshrc&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.zshrc.backup&amp;quot;&lt;/span&gt;
 $&lt;span class="w"&gt; &lt;/span&gt;cp&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.zsh_history&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.zsh_history.backup&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -280,7 +280,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;cp&lt;span class="w"&gt; &lt;/span&gt;&lt;s
 &lt;div class="sd-col sd-d-flex-row docutils"&gt;
 &lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
 &lt;div class="sd-card-body docutils"&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# if Linux (Fedora)&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# if Linux (Fedora)&lt;/span&gt;
 $&lt;span class="w"&gt; &lt;/span&gt;dnf&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;zsh
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -290,7 +290,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;dnf&lt;span class="w"&gt; &lt;/span&gt;inst
 &lt;div class="sd-col sd-d-flex-row docutils"&gt;
 &lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
 &lt;div class="sd-card-body docutils"&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# if MacOS&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# if MacOS&lt;/span&gt;
 $&lt;span class="w"&gt; &lt;/span&gt;brew&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;zsh
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -302,7 +302,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;brew&lt;span class="w"&gt; &lt;/span&gt;ins
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;3&lt;/strong&gt;: Install the &lt;a class="reference external" href="https://starship.rs/"&gt;Starship&lt;/a&gt;:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;-sS&lt;span class="w"&gt; &lt;/span&gt;https://starship.rs/install.sh&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sh
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;-sS&lt;span class="w"&gt; &lt;/span&gt;https://starship.rs/install.sh&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sh
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
@@ -312,20 +312,20 @@ $&lt;span class="w"&gt; &lt;/span&gt;brew&lt;span class="w"&gt; &lt;/span&gt;ins
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;4&lt;/strong&gt;: Create a directory in your home to save the ZSH plugins and the Starship configuration:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.config/&amp;quot;&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.config/&amp;quot;&lt;/span&gt;
 $&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.my-custom-zsh/&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;5&lt;/strong&gt;: Download my &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml"&gt;~/.config/starship.toml&lt;/a&gt;:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.config/starship.toml&amp;quot;&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.config/starship.toml&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;6&lt;/strong&gt;: Install the plugins manually:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# k alias&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# k alias&lt;/span&gt;
 $&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.my-custom-zsh/kubectl.plugin.zsh&amp;quot;&lt;/span&gt;
 
 &lt;span class="c1"&gt;# zsh-syntax-highlighting&lt;/span&gt;
@@ -338,7 +338,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;7&lt;/strong&gt;: Download my &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc"&gt;~/.zshrc&lt;/a&gt;:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/.zshrc&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.zshrc&amp;quot;&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;curl&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/.zshrc&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.zshrc&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
@@ -429,7 +429,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;p&gt;A sophisticated approach to customizing unit service parameters involves overriding them.&lt;/p&gt;
 &lt;p&gt;This method enables you to make changes to systemd unit properties while preserving the default file without any modifications. This is possible because the method reads custom properties from another file and merges them with the default properties.&lt;/p&gt;
 &lt;p&gt;Override parameters are declared in the following file pattern:&lt;/p&gt;
-&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;systemd&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;system&lt;/span&gt;&lt;span class="o"&gt;/&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;UNIT&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;SERVICE&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;NAME&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;.&lt;/span&gt;&lt;span class="n"&gt;service&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;override&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;systemd&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;system&lt;/span&gt;&lt;span class="o"&gt;/&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;UNIT&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;SERVICE&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;NAME&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;.&lt;/span&gt;&lt;span class="n"&gt;service&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;override&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
@@ -447,7 +447,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;/ul&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;/etc/systemd/system/my-script.service&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-toml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;div class="highlight-toml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;
 &lt;span class="k"&gt;[Description]&lt;/span&gt;
 &lt;span class="c1"&gt;# collapsed parameters...&lt;/span&gt;
 
@@ -470,7 +470,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;/ul&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;/etc/systemd/system/my-script.service.d/override.conf&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-toml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[Service]&lt;/span&gt;
+&lt;div class="highlight-toml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[Service]&lt;/span&gt;
 &lt;span class="n"&gt;ExecStart&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;my-script.sh --dev&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -489,7 +489,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;h2&gt;Hands-On&lt;/h2&gt;
 &lt;p&gt;Let’s get hands-on! This section will delve into a detailed example of the override method.&lt;/p&gt;
 &lt;p&gt;We will create a systemd unit service named &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-script&lt;/span&gt;&lt;/code&gt;. To achieve this, we need to create the following files:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/tmp/my-script/env_custom.env&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# env vars source of the my-script process&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;/tmp/my-script/env_custom.env&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# env vars source of the my-script process&lt;/span&gt;
 /tmp/my-script/env_default.env&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# other env vars source of the my-script process&lt;/span&gt;
 /tmp/my-script/my-script.sh&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# script that my-script process run&lt;/span&gt;
 /etc/systemd/system/my-script.service&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# unit service file definition&lt;/span&gt;
@@ -499,13 +499,13 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; The files can be found on my GitHub: &lt;i class="fa-brands fa-github"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-19/"&gt;c-neto/my-devops-labs/blog/2023-11-19&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Initially, let’s create the working directory for the script.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;/tmp/my-script/
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;/tmp/my-script/
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Following that, we’ll generate the source code for the script.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ vim /tmp/my-script/my-script.sh&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
 
 &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;true&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;do&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;&lt;span class="nv"&gt;$APP_NAME&lt;/span&gt;&lt;span class="s2"&gt; - &lt;/span&gt;&lt;span class="nv"&gt;$MY_CUSTOM_ENV_VAR&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
@@ -515,7 +515,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Assign the source code to the execution file parameter.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;chmod&lt;span class="w"&gt; &lt;/span&gt;+x&lt;span class="w"&gt; &lt;/span&gt;/tmp/my-script/my-script.sh
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;chmod&lt;span class="w"&gt; &lt;/span&gt;+x&lt;span class="w"&gt; &lt;/span&gt;/tmp/my-script/my-script.sh
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;We will create two files that will serve as the source for environment variables in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-script&lt;/span&gt;&lt;/code&gt; unit service.&lt;/p&gt;
@@ -526,7 +526,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;div class="sd-card-body docutils"&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id4"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ vim /tmp/my-script/env_default.env&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;APP_NAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;My Awesome Script&amp;quot;&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;APP_NAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;My Awesome Script&amp;quot;&lt;/span&gt;
 &lt;span class="nv"&gt;MY_CUSTOM_ENV_VAR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Irish Blood&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -539,7 +539,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;div class="sd-card-body docutils"&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id5"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ vim /tmp/my-script/env_custom.env&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;MY_CUSTOM_ENV_VAR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;English Heart&amp;quot;&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;MY_CUSTOM_ENV_VAR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;English Heart&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -552,7 +552,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;p&gt;Next, we will create the systemd unit service file.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id6"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ vim /etc/systemd/system/my-script.service&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;Service&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;Service&lt;span class="o"&gt;]&lt;/span&gt;
 &lt;span class="nv"&gt;WorkingDirectory&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/tmp/my-script/
 &lt;span class="nv"&gt;ExecStart&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;my-script.sh
 &lt;span class="nv"&gt;EnvironmentFile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/tmp/my-script/env_default.env
@@ -563,26 +563,26 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Now, let’s reload the systemd daemon so that &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-script&lt;/span&gt;&lt;/code&gt; can be managed as a service by systemd, and then start it.&lt;/p&gt;
-&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ systemctl daemon-reload
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;$ systemctl daemon-reload
 $ systemctl start my-script
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;To inspect the log of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-script&lt;/span&gt;&lt;/code&gt;, you can verify the value of the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/tmp/my-script/env_default.env&lt;/span&gt;&lt;/code&gt; file.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id7"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ journalctl -u my-script -f&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:11:29&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;33631&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;My&lt;span class="w"&gt; &lt;/span&gt;Awesome&lt;span class="w"&gt; &lt;/span&gt;Script&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;Irish&lt;span class="w"&gt; &lt;/span&gt;Blood
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:11:29&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;33631&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;My&lt;span class="w"&gt; &lt;/span&gt;Awesome&lt;span class="w"&gt; &lt;/span&gt;Script&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;Irish&lt;span class="w"&gt; &lt;/span&gt;Blood
 Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:11:30&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;33631&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;My&lt;span class="w"&gt; &lt;/span&gt;Awesome&lt;span class="w"&gt; &lt;/span&gt;Script&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;Irish&lt;span class="w"&gt; &lt;/span&gt;Blood
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Next, we will override the source file for environment variables.&lt;/p&gt;
-&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ mkdir /etc/systemd/system/my-script.service.d/
+&lt;div class="highlight-default notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;$ mkdir /etc/systemd/system/my-script.service.d/
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;We will override the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;EnvironmentFile&lt;/span&gt;&lt;/code&gt; parameter.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id8"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ vim /etc/systemd/system/my-script.service.d/override.conf&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;Service&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;Service&lt;span class="o"&gt;]&lt;/span&gt;
 &lt;span class="nv"&gt;EnvironmentFile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/tmp/my-script/env_custom.env
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -590,7 +590,7 @@ Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;
 &lt;p&gt;This time, variables from the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;env_custom.env&lt;/span&gt;&lt;/code&gt; file will replace those present in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;env_default.env&lt;/span&gt;&lt;/code&gt; file.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id9"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ journalctl -u my-script -f&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:21:42&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;58573&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;My&lt;span class="w"&gt; &lt;/span&gt;Awesome&lt;span class="w"&gt; &lt;/span&gt;Script&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;English&lt;span class="w"&gt; &lt;/span&gt;Heart
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:21:42&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;58573&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;My&lt;span class="w"&gt; &lt;/span&gt;Awesome&lt;span class="w"&gt; &lt;/span&gt;Script&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;English&lt;span class="w"&gt; &lt;/span&gt;Heart
 Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;16&lt;/span&gt;:21:43&lt;span class="w"&gt; &lt;/span&gt;fedora&lt;span class="w"&gt; &lt;/span&gt;my-script.sh&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;58573&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;My&lt;span class="w"&gt; &lt;/span&gt;Awesome&lt;span class="w"&gt; &lt;/span&gt;Script&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;English&lt;span class="w"&gt; &lt;/span&gt;Heart
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -657,7 +657,7 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;p&gt;First step, is to create the modules, that is, the code of the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;input&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;filter&lt;/span&gt;&lt;/code&gt;, and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;output&lt;/span&gt;&lt;/code&gt; in separate files, each one focused on their specifics and atomic needs.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ tree /usr/share/logstash/pipeline/&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;filter-app-a.cfg&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# filter of the application-a logic parser&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;filter-app-a.cfg&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# filter of the application-a logic parser&lt;/span&gt;
 ├──&lt;span class="w"&gt; &lt;/span&gt;filter-app-b.cfg&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# filter of the application-b logic parser&lt;/span&gt;
 ├──&lt;span class="w"&gt; &lt;/span&gt;input-http.cfg&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# input to receive logs from http protocol&lt;/span&gt;
 ├──&lt;span class="w"&gt; &lt;/span&gt;input-rabbitmq.cfg&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# input to receive logs from rabbitmq queue&lt;/span&gt;
@@ -669,7 +669,7 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;p&gt;Next, for each application, configure them with &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html"&gt;Environment Variable&lt;/a&gt; Logstash notation:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ cat /usr/share/logstash/config/pipeline.yml&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;pipeline.id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;application-a-pipeline&lt;/span&gt;
+&lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;pipeline.id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;application-a-pipeline&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;path.config&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/usr/share/logstash/pipeline/${LOGSTASH_PIPELINE_APPLICATION_A}.cfg&amp;quot;&lt;/span&gt;
 
 &lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;pipeline.id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;application-b-pipeline&lt;/span&gt;
@@ -680,7 +680,7 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;p&gt;Finally, configure the composition of the pipeline with &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html"&gt;Glob Pattern Support&lt;/a&gt; notation. Consider the following example:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ env&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;LOGSTASH_PIPELINE_APPLICATION_A&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{input-http,input-rabbitmq,filter-app-a,output-opensearch,output-http}&amp;quot;&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre data-tabindex="0"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;LOGSTASH_PIPELINE_APPLICATION_A&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{input-http,input-rabbitmq,filter-app-a,output-opensearch,output-http}&amp;quot;&lt;/span&gt;
 &lt;span class="nv"&gt;LOGSTASH_PIPELINE_APPLICATION_B&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{input-http,filter-app-b,output-opensearch}&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
