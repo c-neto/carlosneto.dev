@@ -22,4 +22,4 @@ $ make live
 
 ---
 
-> _The contents of this repository were inspired by the fantastic content in the [choldgraf/choldgraf.github.io](https://github.com/choldgraf/choldgraf.github.io) repository created by [@choldgraf](https://github.com/choldgraf). Many thanks for sharing such excellent content with us!_
+> _Inspired in [choldgraf/choldgraf.github.io](https://github.com/choldgraf/choldgraf.github.io) created by [@choldgraf](https://github.com/choldgraf)!_
