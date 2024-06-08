@@ -29,12 +29,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=f91d6a3704ddd3a9dc0f" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=f91d6a3704ddd3a9dc0f" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=f91d6a3704ddd3a9dc0f" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=f91d6a3704ddd3a9dc0f" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
@@ -44,19 +44,19 @@
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6f08b11e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=f91d6a3704ddd3a9dc0f" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=f91d6a3704ddd3a9dc0f" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=f91d6a3704ddd3a9dc0f"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
     <script src="../../_static/documentation_options.js?v=187304be"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'in-progress/2021-05-05-git-basic-operations';</script>
     <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../genindex/" />
@@ -81,7 +81,7 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link"><a href="#main-content">Skip to main content</a></div>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
@@ -119,8 +119,13 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -154,19 +159,19 @@
 <nav class="navbar-nav">
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item pst-header-nav-item ">
-                      <a class="nav-link nav-internal" href="../../blog/">
-                        Blog
-                      </a>
-                    </li>
-                
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
 
-                    <li class="nav-item pst-header-nav-item ">
-                      <a class="nav-link nav-internal" href="../../whoami/">
-                        whoami
-                      </a>
-                    </li>
-                
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../whoami/">
+    whoami
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -283,25 +288,28 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item">
+          
+          
+            <div class="navbar-item">
 <nav class="navbar-nav">
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item pst-header-nav-item ">
-                      <a class="nav-link nav-internal" href="../../blog/">
-                        Blog
-                      </a>
-                    </li>
-                
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
 
-                    <li class="nav-item pst-header-nav-item ">
-                      <a class="nav-link nav-internal" href="../../whoami/">
-                        whoami
-                      </a>
-                    </li>
-                
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../whoami/">
+    whoami
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -380,7 +388,7 @@ document.write(`
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article"></div>
+              <div class="bd-header-article d-print-none"></div>
               
               
 
@@ -406,7 +414,7 @@ document.write(`
 </ul>
 <hr class="docutils" />
 <p>Specify the name of the person making changes to the project:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre data-tabindex="0"><span></span>git<span class="w"> </span>config<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;your-email&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;your-email&quot;</span>
 </pre></div>
 </div>
 <blockquote>
@@ -414,7 +422,7 @@ document.write(`
 </div></blockquote>
 <hr class="docutils" />
 <p>Specify the name of the person making changes to the project:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre data-tabindex="0"><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Carlos Neto&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Carlos Neto&quot;</span>
 </pre></div>
 </div>
 <blockquote>
@@ -422,7 +430,7 @@ document.write(`
 </div></blockquote>
 <hr class="docutils" />
 <p>Specify the text editor Git will use when writing a message:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre data-tabindex="0"><span></span>git<span class="w"> </span>config<span class="w"> </span>core.editor<span class="w"> </span>/usr/bin/code<span class="w"> </span>--wait
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>core.editor<span class="w"> </span>/usr/bin/code<span class="w"> </span>--wait
 </pre></div>
 </div>
 <blockquote>
@@ -435,7 +443,7 @@ document.write(`
 <section id="basic-usage">
 <h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">#</a></h3>
 <p>To use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code>, simply type the following in your terminal:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre data-tabindex="0"><span></span>git<span class="w"> </span>log
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log
 </pre></div>
 </div>
 <p>This command will display a list of commits in reverse chronological order (from the latest to the earliest). Each commit is accompanied by information such as the commit hash, author details, date, and commit message.</p>
@@ -446,13 +454,13 @@ document.write(`
 <ul class="simple">
 <li><p>Display the last N commits:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre data-tabindex="0"><span></span>git<span class="w"> </span>log<span class="w"> </span>-n<span class="w"> </span>N
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>-n<span class="w"> </span>N
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Show a specific range of commits:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre data-tabindex="0"><span></span>git<span class="w"> </span>log<span class="w"> </span>&lt;commit-hash-start&gt;..&lt;commit-hash-end&gt;
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>&lt;commit-hash-start&gt;..&lt;commit-hash-end&gt;
 </pre></div>
 </div>
 </section>
@@ -462,19 +470,19 @@ document.write(`
 <ul class="simple">
 <li><p>Display a compact representation of commits:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre data-tabindex="0"><span></span>git<span class="w"> </span>log<span class="w"> </span>--pretty<span class="o">=</span>oneline
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--pretty<span class="o">=</span>oneline
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Show a detailed log with the commit message and changes:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre data-tabindex="0"><span></span>git<span class="w"> </span>log<span class="w"> </span>--pretty<span class="o">=</span>full
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--pretty<span class="o">=</span>full
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Customize the format using placeholders:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre data-tabindex="0"><span></span>git<span class="w"> </span>log<span class="w"> </span>--pretty<span class="o">=</span>format:<span class="s2">&quot;%h - %an</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--pretty<span class="o">=</span>format:<span class="s2">&quot;%h - %an</span>
 </pre></div>
 </div>
 </section>
@@ -484,42 +492,42 @@ document.write(`
 <section id="listing-local-branches">
 <h3>Listing Local Branches<a class="headerlink" href="#listing-local-branches" title="Link to this heading">#</a></h3>
 <p>To list all local branches, use:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre data-tabindex="0"><span></span><span class="n">git</span> <span class="n">branch</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">branch</span>
 </pre></div>
 </div>
 </section>
 <section id="listing-all-branches">
 <h3>Listing All Branches<a class="headerlink" href="#listing-all-branches" title="Link to this heading">#</a></h3>
 <p>To list all branches, including remote branches:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre data-tabindex="0"><span></span><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">a</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">a</span>
 </pre></div>
 </div>
 </section>
 <section id="creating-a-new-branch">
 <h3>Creating a New Branch<a class="headerlink" href="#creating-a-new-branch" title="Link to this heading">#</a></h3>
 <p>To create a new branch from the current branch:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre data-tabindex="0"><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="o">&lt;</span><span class="n">BRANCH</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="o">&lt;</span><span class="n">BRANCH</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="switching-to-a-branch">
 <h3>Switching to a Branch<a class="headerlink" href="#switching-to-a-branch" title="Link to this heading">#</a></h3>
 <p>To switch to a specified branch:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre data-tabindex="0"><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="o">&lt;</span><span class="n">BRANCH</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="o">&lt;</span><span class="n">BRANCH</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="merging-branches">
 <h3>Merging Branches<a class="headerlink" href="#merging-branches" title="Link to this heading">#</a></h3>
 <p>To merge changes from another branch into the current branch:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre data-tabindex="0"><span></span><span class="n">git</span> <span class="n">merge</span> <span class="o">&lt;</span><span class="n">BRANCH</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">merge</span> <span class="o">&lt;</span><span class="n">BRANCH</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="showing-modified-lines-between-tags">
 <h3>Showing Modified Lines between Tags<a class="headerlink" href="#showing-modified-lines-between-tags" title="Link to this heading">#</a></h3>
 <p>To display modified lines between two tags:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre data-tabindex="0"><span></span><span class="n">git</span> <span class="n">diff</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="mi">1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="mi">2</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">diff</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="mi">1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="mi">2</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </section>
@@ -531,28 +539,28 @@ Before exploring the commands, it’s important to know that there are two types
 <section id="listing-all-tags-with-tag-messages">
 <h3>Listing All Tags with Tag Messages<a class="headerlink" href="#listing-all-tags-with-tag-messages" title="Link to this heading">#</a></h3>
 <p>To list all tags in the project along with their tag messages, use:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre data-tabindex="0"><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">n</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">n</span>
 </pre></div>
 </div>
 </section>
 <section id="creating-an-annotated-tag">
 <h3>Creating an Annotated Tag<a class="headerlink" href="#creating-an-annotated-tag" title="Link to this heading">#</a></h3>
 <p>To create an annotated tag, use:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre data-tabindex="0"><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">a</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;&lt;TAG-DESCRIPTION-MESSAGE&gt;&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">a</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;&lt;TAG-DESCRIPTION-MESSAGE&gt;&quot;</span>
 </pre></div>
 </div>
 </section>
 <section id="creating-a-lightweight-tag">
 <h3>Creating a Lightweight Tag<a class="headerlink" href="#creating-a-lightweight-tag" title="Link to this heading">#</a></h3>
 <p>To create a lightweight tag, use:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre data-tabindex="0"><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </section>
 <section id="adding-a-tag-to-a-specific-commit">
 <h3>Adding a Tag to a Specific Commit<a class="headerlink" href="#adding-a-tag-to-a-specific-commit" title="Link to this heading">#</a></h3>
 <p>To add a tag to a specific commit:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre data-tabindex="0"><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">a</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;&lt;TAG-DESCRIPTION-MESSAGE&gt;&quot;</span> <span class="o">&lt;</span><span class="n">HASH</span><span class="o">-</span><span class="n">OF</span><span class="o">-</span><span class="n">COMMIT</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">a</span> <span class="o">&lt;</span><span class="n">TAG</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;&lt;TAG-DESCRIPTION-MESSAGE&gt;&quot;</span> <span class="o">&lt;</span><span class="n">HASH</span><span class="o">-</span><span class="n">OF</span><span class="o">-</span><span class="n">COMMIT</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </section>
@@ -588,7 +596,7 @@ Before exploring the commands, it’s important to know that there are two types
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
 </div>
@@ -609,8 +617,8 @@ Before exploring the commands, it’s important to know that there are two types
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=f91d6a3704ddd3a9dc0f"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=f91d6a3704ddd3a9dc0f"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -643,7 +651,7 @@ Before exploring the commands, it’s important to know that there are two types
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.3rc1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.3.
 </p></div>
       
     </div>

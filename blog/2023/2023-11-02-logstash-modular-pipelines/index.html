@@ -29,12 +29,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=f91d6a3704ddd3a9dc0f" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=f91d6a3704ddd3a9dc0f" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=f91d6a3704ddd3a9dc0f" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
 
   
-  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=f91d6a3704ddd3a9dc0f" rel="stylesheet" />
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
@@ -44,19 +44,19 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=6f08b11e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=87e54e7c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=f91d6a3704ddd3a9dc0f" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=f91d6a3704ddd3a9dc0f" />
-  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=f91d6a3704ddd3a9dc0f"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
     <script src="../../../_static/documentation_options.js?v=187304be"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2023/2023-11-02-logstash-modular-pipelines';</script>
     <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../../genindex/" />
@@ -81,7 +81,7 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link"><a href="#main-content">Skip to main content</a></div>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
@@ -119,8 +119,13 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -154,19 +159,19 @@
 <nav class="navbar-nav">
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item pst-header-nav-item ">
-                      <a class="nav-link nav-internal" href="../../">
-                        Blog
-                      </a>
-                    </li>
-                
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
 
-                    <li class="nav-item pst-header-nav-item ">
-                      <a class="nav-link nav-internal" href="../../../whoami/">
-                        whoami
-                      </a>
-                    </li>
-                
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../../whoami/">
+    whoami
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -283,25 +288,28 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item">
+          
+          
+            <div class="navbar-item">
 <nav class="navbar-nav">
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item pst-header-nav-item ">
-                      <a class="nav-link nav-internal" href="../../">
-                        Blog
-                      </a>
-                    </li>
-                
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
 
-                    <li class="nav-item pst-header-nav-item ">
-                      <a class="nav-link nav-internal" href="../../../whoami/">
-                        whoami
-                      </a>
-                    </li>
-                
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../../whoami/">
+    whoami
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -380,7 +388,7 @@ document.write(`
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article"></div>
+              <div class="bd-header-article d-print-none"></div>
               
               
 
@@ -426,7 +434,7 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 <p>First step, is to create the modules, that is, the code of the <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> in separate files, each one focused on their specifics and atomic needs.</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">$ tree /usr/share/logstash/pipeline/</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre data-tabindex="0"><span></span>├──<span class="w"> </span>filter-app-a.cfg<span class="w">        </span><span class="c1"># filter of the application-a logic parser</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>├──<span class="w"> </span>filter-app-a.cfg<span class="w">        </span><span class="c1"># filter of the application-a logic parser</span>
 ├──<span class="w"> </span>filter-app-b.cfg<span class="w">        </span><span class="c1"># filter of the application-b logic parser</span>
 ├──<span class="w"> </span>input-http.cfg<span class="w">          </span><span class="c1"># input to receive logs from http protocol</span>
 ├──<span class="w"> </span>input-rabbitmq.cfg<span class="w">      </span><span class="c1"># input to receive logs from rabbitmq queue</span>
@@ -438,7 +446,7 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 <p>Next, for each application, configure them with <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html">Environment Variable</a> Logstash notation:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">$ cat /usr/share/logstash/config/pipeline.yml</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre data-tabindex="0"><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pipeline.id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">application-a-pipeline</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pipeline.id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">application-a-pipeline</span>
 <span class="w">  </span><span class="nt">path.config</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/usr/share/logstash/pipeline/${LOGSTASH_PIPELINE_APPLICATION_A}.cfg&quot;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pipeline.id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">application-b-pipeline</span>
@@ -449,7 +457,7 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 <p>Finally, configure the composition of the pipeline with <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html">Glob Pattern Support</a> notation. Consider the following example:</p>
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text">$ env</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre data-tabindex="0"><span></span><span class="nv">LOGSTASH_PIPELINE_APPLICATION_A</span><span class="o">=</span><span class="s2">&quot;{input-http,input-rabbitmq,filter-app-a,output-opensearch,output-http}&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">LOGSTASH_PIPELINE_APPLICATION_A</span><span class="o">=</span><span class="s2">&quot;{input-http,input-rabbitmq,filter-app-a,output-opensearch,output-http}&quot;</span>
 <span class="nv">LOGSTASH_PIPELINE_APPLICATION_B</span><span class="o">=</span><span class="s2">&quot;{input-http,filter-app-b,output-opensearch}&quot;</span>
 </pre></div>
 </div>
@@ -552,7 +560,7 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
 </div>
@@ -573,8 +581,8 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=f91d6a3704ddd3a9dc0f"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=f91d6a3704ddd3a9dc0f"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -607,7 +615,7 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.3rc1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.3.
 </p></div>
       
     </div>

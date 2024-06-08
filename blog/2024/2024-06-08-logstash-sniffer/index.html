@@ -6,8 +6,20 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Posts tagged gcp &#8212; Carlos Neto&#39;s Tech Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Logstash Sniffing: Improving Log Ingestion in OpenSearch Scalable Clusters" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2024/2024-06-08-logstash-sniffer/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2024/06/08 This blog post outlines an optimize log ingestion in OpenSearch using Logstash. It will address a common issue related to shipping logs to scalable OpenSearch clu..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2024_2024-06-08-logstash-sniffer_a7d15099.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2024/06/08 This blog post outlines an optimize log ingestion in OpenSearch using Logstash. It will address a common issue related to..." />
+<meta name="description" content="Blog Post Publish Date: 2024/06/08 This blog post outlines an optimize log ingestion in OpenSearch using Logstash. It will address a common issue related to shipping logs to scalable OpenSearch clu..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Logstash Sniffing: Improving Log Ingestion in OpenSearch Scalable Clusters &#8212; Carlos Neto&#39;s Tech Blog</title>
   
   
   
@@ -45,7 +57,7 @@
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/tag/gcp';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2024/2024-06-08-logstash-sniffer';</script>
     <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../../genindex/" />
     <link rel="search" title="Search" href="../../../search/" />
@@ -57,7 +69,7 @@
   rel="alternate"
   type="application/atom+xml"
   href="../../../blog/atom.xml"
-  title="Posts tagged gcp"
+  title="Carlos Neto"
 />
 
 
@@ -267,7 +279,7 @@ document.write(`
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -361,72 +373,6 @@ document.write(`
     
   </div>
   
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
-<div class="ablog-sidebar-item ablog__tags">
-<link rel="stylesheet" href="../../../_static/ablog/tagcloud.css" type="text/css" />
-<h3><a href="../">Tags</a></h3>
-<ul class="ablog-cloud">
-  
-  
-  <li class="ablog-cloud ablog-cloud-1">
-    <a href="../aws/">aws</a>
-  </li>
-  
-  
-  
-  <li class="ablog-cloud ablog-cloud-1">
-    <a href="../azure/">azure</a>
-  </li>
-  
-  
-  
-  <li class="ablog-cloud ablog-cloud-1">
-    <a href="../benchmarking/">benchmarking</a>
-  </li>
-  
-  
-  
-  <li class="ablog-cloud ablog-cloud-1">
-    <a href="#">gcp</a>
-  </li>
-  
-  
-  
-  <li class="ablog-cloud ablog-cloud-5">
-    <a href="../logstash/">logstash</a>
-  </li>
-  
-  
-  
-  <li class="ablog-cloud ablog-cloud-1">
-    <a href="../opensearch/">opensearch</a>
-  </li>
-  
-  
-  
-  <li class="ablog-cloud ablog-cloud-1">
-    <a href="../oracle/">oracle</a>
-  </li>
-  
-  
-  
-  <li class="ablog-cloud ablog-cloud-1">
-    <a href="../systemd/">systemd</a>
-  </li>
-  
-  
-  
-  <li class="ablog-cloud ablog-cloud-5">
-    <a href="../zsh/">zsh</a>
-  </li>
-  
-  
-</ul>
-</div>
-</div>
-    </div>
-  
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
   </div>
@@ -451,96 +397,76 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
+<p><em><strong>Blog Post Publish Date:</strong> 2024/06/08</em></p>
+<hr class="docutils" />
+<section id="logstash-sniffing-improving-log-ingestion-in-opensearch-scalable-clusters">
+<h1>Logstash Sniffing: Improving Log Ingestion in OpenSearch Scalable Clusters<a class="headerlink" href="#logstash-sniffing-improving-log-ingestion-in-opensearch-scalable-clusters" title="Link to this heading">#</a></h1>
+<p>This blog post outlines an optimize log ingestion in OpenSearch using Logstash. It will address a common issue related to shipping logs to scalable OpenSearch clusters and provide an effective solution to enhance resource utilization.</p>
+<section id="the-problem-unbalanced-node-utilization-in-opensearch-clusters">
+<h2>The Problem - Unbalanced Node Utilization in OpenSearch Clusters<a class="headerlink" href="#the-problem-unbalanced-node-utilization-in-opensearch-clusters" title="Link to this heading">#</a></h2>
+<p>When managing an OpenSearch cluster with scalable <a class="reference external" href="https://opensearch.org/docs/2.14/tuning-your-cluster/">Ingest Nodes</a> accessed through a load balancer and using Logstash to ingest logs, the Elasticsearch/OpenSearch output plugin requires customization to optimally utilize the available OpenSearch resources.</p>
+<p>Although log shipping to OpenSearch is stateless over the HTTP protocol, Logstash establishes a fixed connection with a specific OpenSearch ingest node. When a load balancer selects a node, Logstash will keep to send all logs to this node as long as the connection remains active. This can overwhelm the selected node, leaving other Ingest Nodes underutilized. Additionally, if you use average resource metrics for scaling Ingest Nodes with Horizontal Pod Autoscaling (HPA), this imbalance can impact performance.</p>
+</section>
+<section id="the-solution-utilizing-opensearch-api-for-dynamic-hosts-registration">
+<h2>The Solution - Utilizing OpenSearch API for Dynamic Hosts Registration<a class="headerlink" href="#the-solution-utilizing-opensearch-api-for-dynamic-hosts-registration" title="Link to this heading">#</a></h2>
+<p>The <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-hosts">hosts</a> parameter in the OpenSearch output plugin can be configured with a single address or multiple addresses. Using multiple addresses allows Logstash to manage and balance log shipping across declared hosts. For non-scalable Ingest Nodes, specifying multiple hosts is a solution of the issue described above. However, for scalable Ingest Nodes, this static approach is insufficient due to the dynamic nature of node scaling.</p>
+<p>To address this, the OpenSearch output plugin offers parameters to dynamically retrieve the current OpenSearch nodes addresses from the <a class="reference external" href="https://opensearch.org/docs/latest/api-reference/nodes-apis/nodes-info/">OpenSearch API</a> and update the hosts configuration accordingly.</p>
+<p>Consider the following example:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">output</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">opensearch</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">hosts</span><span class="w">           </span><span class="p">=&gt;</span><span class="w"> </span><span class="s2">&quot;https://opensearch-load-balancer:9200&quot;</span>
+<span class="w">    </span><span class="nx">sniffing</span><span class="w">        </span><span class="p">=&gt;</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="nx">sniffing_delay</span><span class="w">  </span><span class="p">=&gt;</span><span class="w"> </span><span class="mf">30</span>
+<span class="w">    </span><span class="nx">sniffing_path</span><span class="w">   </span><span class="p">=&gt;</span><span class="w"> </span><span class="s2">&quot;/_nodes/ingest:true&quot;</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>When Logstash starts, it sends a request to the OpenSearch API endpoint <code class="docutils literal notranslate"><span class="pre">/_nodes/ingest:true</span></code> to retrieve the addresses of all Ingest Nodes. These addresses are dynamically added to and removed from the hosts list. Every <code class="docutils literal notranslate"><span class="pre">30</span></code> seconds, the node pool addresses are updated. The Load Balancer address <code class="docutils literal notranslate"><span class="pre">https://opensearch-load-balancer:9200</span></code> is used only to fetch the IP addresses.</p>
+<blockquote>
+<div><p><i class="fa-solid fa-circle-info"></i> You can specify other OpenSearch node types using the <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-sniffing_path">sniffing_path</a> parameter. For instance, to use <a class="reference external" href="https://opensearch.org/docs/2.14/tuning-your-cluster/">Data nodes</a>, set the parameter to <code class="docutils literal notranslate"><span class="pre">/_nodes/data:true</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>This approach ensures better traffic distribution to OpenSearch, significantly reduces load balancer traffic, eliminates an extra network hop, and enhances resource usage, thereby improving Horizontal Pod Autoscaling in OpenSearch.</p>
+<p>This solution is so effective and straightforward that I’m beginning to miss its presence in other log shipping tools like Fluentbit.</p>
+<p>I have been using this approach and the results are really nice!</p>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Logstash Output ElasticSearch/OpenSearch: <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-sniffing">https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-sniffing</a></p></li>
+<li><p>OpenSearch Cluster Formation (Node Types): <a class="reference external" href="https://opensearch.org/docs/2.14/tuning-your-cluster/">https://opensearch.org/docs/2.14/tuning-your-cluster/</a></p></li>
+<li><p>OpenSearch Nodes API: <a class="reference external" href="https://opensearch.org/docs/latest/api-reference/nodes-apis/nodes-info/">https://opensearch.org/docs/latest/api-reference/nodes-apis/nodes-info/</a></p></li>
+</ul>
+</section>
+</section>
 
-<div class="section ablog__collection">
-  <h1>
+<div class="section ablog__blog_comments">
+  
+  
+
+
+<div class="section ablog__prev-next">
+  <span class="ablog__prev">
     
-      <span>Posts tagged
+    
+    <a href="../2024-04-21-zsh/">
       
-    gcp
+      <i class="fa fa-arrow-circle-left"></i>
+      
+      <span>fzf: Life is Too Short for Pipe Grep</span>
+    </a>
     
   </span>
-  </h1>
-  
-  
-  <div class="section ablog-post">
-    <h2 class="ablog-post-title">
-      <a href="../../2023/2023-10-21-cloud-concepts/">Cloud Computing: Overview and Concepts</a>
-    </h2>
-    <ul class="ablog-archive">
-      <li>
-        
-        
-        <i class="fa fa-calendar"></i>
-        
-        <span>21 October 2023</span>
-        
-      </li>
-      <div class="ablog-sidebar-item ablog__postcard2">
-
-
-
-
-
-<li id="ablog-sidebar-item category ablog__category">
-  <span>
+  <span class="ablog__spacer">&nbsp;</span>
+  <span class="ablog__next">
     
-    <i class="fa-fw fa fa-folder-open"></i>
-    
-    </span>
-  
-  
-  <a href="../../category/cloud/">Cloud</a>
-  
-  
-  
-</li>
-
-
-<li id="ablog-sidebar-item tags ablog__tags">
-  <span>
-    
-    
-    <i class="fa-fw fa fa-tags"></i>
-    
-    
-    </span>
-  
-  
-  <a href="../aws/">aws</a>
-  
-  
-  
-  
-  
-  <a href="#">gcp</a>
-  
-  
-  
-  
-  
-  <a href="../azure/">azure</a>
-  
-  
-  
-  
-  
-  <a href="../oracle/">oracle</a>
-  
-  
-  
-</li>
-
-
+  </span>
 </div>
-    </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/10/21</em></p>
-<p>This blog post explores the impact of Cloud Computing, essential concepts, primary Cloud models, and my opinion about its adoption.</p>
-</p>
 
-    <p class="ablog-post-expand"><a href="../../2023/2023-10-21-cloud-concepts/"><em>Read more ...</em></a></p>
-    <hr/>
-  </div>
   
   
 </div>
