@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-06-08T23:24:16.855454+00:00</updated>
+  <updated>2024-06-08T23:25:25.781732+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.10">ABlog</generator>
@@ -16,8 +16,8 @@
 &lt;section id="logstash-sniffing-improving-log-ingestion-in-opensearch-scalable-clusters"&gt;
 
 &lt;p&gt;This blog post outlines an optimize log ingestion in OpenSearch using Logstash. It will address a common issue related to shipping logs to scalable OpenSearch clusters and provide an effective solution to enhance resource utilization.&lt;/p&gt;
-&lt;section id="the-problem-unbalanced-node-utilization-in-opensearch-clusters"&gt;
-&lt;h2&gt;The Problem - Unbalanced Node Utilization in OpenSearch Clusters&lt;/h2&gt;
+&lt;section id="the-problem-unbalanced-node-utilization-in-opensearch-cluster"&gt;
+&lt;h2&gt;The Problem - Unbalanced Node Utilization in OpenSearch Cluster&lt;/h2&gt;
 &lt;p&gt;When managing an OpenSearch cluster with scalable &lt;a class="reference external" href="https://opensearch.org/docs/2.14/tuning-your-cluster/"&gt;Ingest Nodes&lt;/a&gt; accessed through a load balancer and using Logstash to ingest logs, the Elasticsearch/OpenSearch output plugin requires customization to optimally utilize the available OpenSearch resources.&lt;/p&gt;
 &lt;p&gt;Although log shipping to OpenSearch is stateless over the HTTP protocol, Logstash establishes a fixed connection with a specific OpenSearch ingest node. When a load balancer selects a node, Logstash will keep to send all logs to this node as long as the connection remains active. This can overwhelm the selected node, leaving other Ingest Nodes underutilized. Additionally, if you use average resource metrics for scaling Ingest Nodes with Horizontal Pod Autoscaling (HPA), this imbalance can impact performance.&lt;/p&gt;
 &lt;/section&gt;

@@ -12,7 +12,7 @@ category: Log Analytics
 
 This blog post outlines an optimize log ingestion in OpenSearch using Logstash. It will address a common issue related to shipping logs to scalable OpenSearch clusters and provide an effective solution to enhance resource utilization.
 
-## The Problem - Unbalanced Node Utilization in OpenSearch Clusters
+## The Problem - Unbalanced Node Utilization in OpenSearch Cluster
 
 When managing an OpenSearch cluster with scalable [Ingest Nodes](https://opensearch.org/docs/2.14/tuning-your-cluster/) accessed through a load balancer and using Logstash to ingest logs, the Elasticsearch/OpenSearch output plugin requires customization to optimally utilize the available OpenSearch resources.
 
