@@ -22,7 +22,7 @@ Although log shipping to OpenSearch is stateless over the HTTP protocol, Logstas
 
 The [hosts](https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-hosts) parameter in the OpenSearch output plugin can be configured with a single address or multiple addresses. Using multiple addresses allows Logstash to manage and balance log shipping across declared hosts. For non-scalable Ingest Nodes, specifying multiple hosts is a solution of the issue described above. However, for scalable Ingest Nodes, this static approach is insufficient due to the dynamic nature of node scaling.
 
-To address this, the OpenSearch output plugin offers parameters to dynamically retrieve the current OpenSearch nodes addresses from the [OpenSearch API](https://opensearch.org/docs/latest/api-reference/nodes-apis/nodes-info/) and update the hosts configuration accordingly.
+To address this, the OpenSearch output plugin offers [sniffing parameters](https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-sniffing) to dynamically retrieve the current OpenSearch nodes addresses from the [OpenSearch API](https://opensearch.org/docs/latest/api-reference/nodes-apis/nodes-info/) and update the hosts configuration accordingly.
 
 Consider the following example:
 
