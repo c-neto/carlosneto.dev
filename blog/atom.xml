@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-06-08T23:25:25.781732+00:00</updated>
+  <updated>2024-06-08T23:27:13.062758+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.10">ABlog</generator>
@@ -24,7 +24,7 @@
 &lt;section id="the-solution-utilizing-opensearch-api-for-dynamic-hosts-registration"&gt;
 &lt;h2&gt;The Solution - Utilizing OpenSearch API for Dynamic Hosts Registration&lt;/h2&gt;
 &lt;p&gt;The &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-hosts"&gt;hosts&lt;/a&gt; parameter in the OpenSearch output plugin can be configured with a single address or multiple addresses. Using multiple addresses allows Logstash to manage and balance log shipping across declared hosts. For non-scalable Ingest Nodes, specifying multiple hosts is a solution of the issue described above. However, for scalable Ingest Nodes, this static approach is insufficient due to the dynamic nature of node scaling.&lt;/p&gt;
-&lt;p&gt;To address this, the OpenSearch output plugin offers parameters to dynamically retrieve the current OpenSearch nodes addresses from the &lt;a class="reference external" href="https://opensearch.org/docs/latest/api-reference/nodes-apis/nodes-info/"&gt;OpenSearch API&lt;/a&gt; and update the hosts configuration accordingly.&lt;/p&gt;
+&lt;p&gt;To address this, the OpenSearch output plugin offers &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-sniffing"&gt;sniffing parameters&lt;/a&gt; to dynamically retrieve the current OpenSearch nodes addresses from the &lt;a class="reference external" href="https://opensearch.org/docs/latest/api-reference/nodes-apis/nodes-info/"&gt;OpenSearch API&lt;/a&gt; and update the hosts configuration accordingly.&lt;/p&gt;
 &lt;p&gt;Consider the following example:&lt;/p&gt;
 &lt;div class="highlight-js notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;output&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nx"&gt;opensearch&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
