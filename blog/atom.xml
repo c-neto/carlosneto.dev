@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-06-08T23:27:13.062758+00:00</updated>
+  <updated>2024-06-09T19:28:48.477717+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.10">ABlog</generator>
@@ -37,7 +37,7 @@
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;When Logstash starts, it sends a request to the OpenSearch API endpoint &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/_nodes/ingest:true&lt;/span&gt;&lt;/code&gt; to retrieve the addresses of all Ingest Nodes. These addresses are dynamically added to and removed from the hosts list. Every &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;30&lt;/span&gt;&lt;/code&gt; seconds, the node pool addresses are updated. The Load Balancer address &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;https://opensearch-load-balancer:9200&lt;/span&gt;&lt;/code&gt; is used only to fetch the IP addresses.&lt;/p&gt;
+&lt;p&gt;When Logstash starts, it sends a request to the OpenSearch API endpoint &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/_nodes/ingest:true&lt;/span&gt;&lt;/code&gt; to retrieve the addresses of all Ingest Nodes. These addresses are dynamically added and removed from the hosts list. Every &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;30&lt;/span&gt;&lt;/code&gt; seconds, the node pool addresses are updated. The Load Balancer address &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;https://opensearch-load-balancer:9200&lt;/span&gt;&lt;/code&gt; is used only to fetch the IP addresses.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; You can specify other OpenSearch node types using the &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-sniffing_path"&gt;sniffing_path&lt;/a&gt; parameter. For instance, to use &lt;a class="reference external" href="https://opensearch.org/docs/2.14/tuning-your-cluster/"&gt;Data nodes&lt;/a&gt;, set the parameter to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/_nodes/data:true&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
