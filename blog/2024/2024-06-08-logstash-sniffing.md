@@ -38,7 +38,7 @@ output {
 }
 ```
 
-When Logstash starts, it sends a request to the OpenSearch API endpoint `/_nodes/ingest:true` to retrieve the addresses of all Ingest Nodes. These addresses are dynamically added to and removed from the hosts list. Every `30` seconds, the node pool addresses are updated. The Load Balancer address `https://opensearch-load-balancer:9200` is used only to fetch the IP addresses.
+When Logstash starts, it sends a request to the OpenSearch API endpoint `/_nodes/ingest:true` to retrieve the addresses of all Ingest Nodes. These addresses are dynamically added and removed from the hosts list. Every `30` seconds, the node pool addresses are updated. The Load Balancer address `https://opensearch-load-balancer:9200` is used only to fetch the IP addresses.
 
 > <i class="fa-solid fa-circle-info"></i> You can specify other OpenSearch node types using the [sniffing_path](https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-sniffing_path) parameter. For instance, to use [Data nodes](https://opensearch.org/docs/2.14/tuning-your-cluster/), set the parameter to `/_nodes/data:true`.
 
