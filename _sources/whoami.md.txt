@@ -40,7 +40,7 @@ Check my professional experiences:
 ````{grid-item}
 :columns: 3
 
-```{image} _static/opensearch.png
+```{image} _static/opensearch-border.png
 :align: center
 :alt: opensearch logo
 :target: https://opensearch.org/docs/latest/
