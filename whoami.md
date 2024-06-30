@@ -47,6 +47,7 @@ Check my professional experiences:
 :height: 100%
 :width: 100%
 :subtitle: 123
+:class: opensource-project-logo
 ```
 
 ````
@@ -77,6 +78,7 @@ Check my professional experiences:
 :alt: opencti logo
 :target: https://docs.opencti.io/latest/
 :width: 100%
+:class: opensource-project-logo
 ```
 ````
 
