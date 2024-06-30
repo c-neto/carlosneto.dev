@@ -56,11 +56,18 @@ Check my professional experiences:
 
 <i class="fab fa-github"></i> __[OpenSearch](https://github.com/opensearch-project/):__ OpenSource search and analytics engine used for applications requiring powerful search and data analytics capabilities, including logging, business intelligence, monitoring, and security information and event management (SIEM).
 
-- <i class="fa-solid fa-code-pull-request"></i>: [#459](https://github.com/opensearch-project/documentation-website/pull/459): Described the behavior and outlined best practices for Searchable Snapshots cluster nodes.
+- <i class="fa-solid fa-code-pull-request"></i>: [#459](https://github.com/opensearch-project/documentation-website/pull/4597): Described the behavior and outlined best practices for Searchable Snapshots cluster nodes.
 - <i class="fa-solid fa-code-pull-request"></i>: [#6051](https://github.com/opensearch-project/documentation-website/pull/6051) Described the behavior and security recommendations for the HTTP Compression setting.
+- <i class="fa-solid fa-code-pull-request"></i>: [#7564](https://github.com/opensearch-project/documentation-website/pull/7564): Detailed JVM memory allocation default parameters with the default values (_Xms/Xmx_ and _XX:MinRamPercent/XX:MaxRamPercent_).
 - <i class="fa-solid fa-code-pull-request"></i>: [#570](https://github.com/opensearch-project/documentation-website/pull/570): Addressed a deprecated parameter related to the precedence order of Index Template configuration.
 - <i class="fa-solid fa-bug"></i>: [#4529](https://github.com/opensearch-project/OpenSearch-Dashboards/issues/4529): Identified and reproduced problems related to exporting OpenSearch-Dashboards objects.
 - <i class="fa-solid fa-bug"></i>: [#4524](https://github.com/opensearch-project/OpenSearch-Dashboards/issues/4524): Identified connection problem in OpenSearch-Dashboards when connecting to a remote cluster using self-signed certificates.
+
+
+
+
+
+
 ````
 
 `````
