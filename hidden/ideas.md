@@ -4,3 +4,4 @@
 - how to built your custom zsh widgets
 - vault
 - SSO with token review API
+- repoquery
