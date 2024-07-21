@@ -2,13 +2,13 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-07-21T20:06:01.839743+00:00</updated>
+  <updated>2024-07-21T20:12:35.020999+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.10">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
   <entry>
-    <id>https://carlosneto.dev/blog/2024/2024-07-20-dynaconf/</id>
+    <id>https://carlosneto.dev/blog/2024/2024-07-21-dynaconf/</id>
     <title>Dynaconf: The Python Config Silver Bullet!</title>
     <updated>2024-07-21T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2024/07/21&lt;/em&gt;&lt;/p&gt;
@@ -250,7 +250,7 @@ aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;pu
 &lt;/section&gt;
 &lt;/section&gt;
 </content>
-    <link href="https://carlosneto.dev/blog/2024/2024-07-20-dynaconf/"/>
+    <link href="https://carlosneto.dev/blog/2024/2024-07-21-dynaconf/"/>
     <summary>Blog Post Publish Date: 2024/07/21This blog post outlines a brief overview of best practices for application configuration, explains the main features of Dynaconf, and provides a hands-on example of how to extend it to retrieve parameters from AWS Parameter Store.</summary>
     <category term="dynaconf" label="dynaconf"/>
     <category term="python" label="python"/>
