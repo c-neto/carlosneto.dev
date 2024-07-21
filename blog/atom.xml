@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-07-21T20:14:10.299288+00:00</updated>
+  <updated>2024-07-21T20:18:10.243265+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.10">ABlog</generator>
@@ -37,7 +37,7 @@
 &lt;p&gt;To exemplify how to use Dynaconf, I will show a step-by-step guide on how to configure and use it from scratch. The example covers how to set up multiple settings files and how to extend the parameter source to retrieve parameters from the AWS Parameter Store service (simulated by &lt;a class="reference external" href="https://github.com/localstack/localstack"&gt;LocalStack&lt;/a&gt; in a Docker container).&lt;/p&gt;
 &lt;div class="admonition note"&gt;
 &lt;p class="admonition-title"&gt;Note&lt;/p&gt;
-&lt;p&gt;All code is in the following GitHub repository: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;em&gt;&lt;a class="reference external" href="https://github.com/c-neto/my-code-playground/tree/main/blog-code-examples/2024-07-20-dynaconf-loaders"&gt;github.com/c-neto/my-code-playground/blog-code-examples/2024-07-20-dynaconf-loaders&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;All code is in the following GitHub repository: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;em&gt;&lt;a class="reference external" href="https://github.com/c-neto/my-code-playground/tree/main/blog-code-examples/2024-07-21-dynaconf-loaders"&gt;github.com/c-neto/my-code-playground/blog-code-examples/2024-07-21-dynaconf-loaders&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="step-by-step"&gt;
