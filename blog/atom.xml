@@ -2,11 +2,260 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-07-21T03:56:26.794256+00:00</updated>
+  <updated>2024-07-21T20:02:36.906864+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.10">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2024/2024-07-20-dynaconf/</id>
+    <title>Dynaconf: The Python Config Silver Bullet!</title>
+    <updated>2024-07-21T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2024/07/21&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="dynaconf-the-python-config-silver-bullet"&gt;
+
+&lt;p&gt;This blog post outlines a brief overview of best practices for application configuration, explains the main features of Dynaconf, and provides a hands-on example of how to extend it to retrieve parameters from AWS Parameter Store.&lt;/p&gt;
+&lt;section id="twelve-factor-app-good-practices-in-application-config"&gt;
+&lt;h2&gt;Twelve-Factor App: Good Practices in Application Config&lt;/h2&gt;
+&lt;p&gt;Before starting to talk about Dynaconf or any code implementation for configuration, it’s necessary to understand the best practices used behind the scenes in systems with portable running requirements.&lt;/p&gt;
+&lt;p&gt;One of the main best practices references is the &lt;a class="reference external" href="https://12factor.net/"&gt;Twelve-Factor App&lt;/a&gt;, which is a methodology with a bundle of good practices for building modern applications with portable requirements, such as applications running on SaaS platforms and Kubernetes clusters. There is a chapter dedicated to application configuration: &lt;a class="reference external" href="https://12factor.net/config"&gt;12 Factor » Config&lt;/a&gt;. In summary, the guide explains what (and what not) categorizes an application parameter, and emphasizes the separation of configuration from code.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="python-config-libraries"&gt;
+&lt;h2&gt;Python Config Libraries&lt;/h2&gt;
+&lt;p&gt;Like almost all recurring generic needs and well-defined best practices, there are modules and frameworks to help us implement them. In Python, several tools can help achieve these best practices. I have used some nice tools like &lt;a class="reference external" href="https://github.com/theskumar/python-dotenv"&gt;python-dotenv&lt;/a&gt;, which focuses on reading simple key-value pairs from a &lt;em&gt;.env&lt;/em&gt; file and can set them as environment variables, and &lt;a class="reference external" href="https://github.com/HBNetwork/python-decouple"&gt;python-decouple&lt;/a&gt;, which provides a dynamic settings interface to help change parameters without having to redeploy your app (useful for web applications). Additionally, there are modules for parsing structured files that can be used as config files, such as &lt;a class="reference external" href="https://pyyaml.org/wiki/PyYAMLDocumentation"&gt;PyYAML&lt;/a&gt;, &lt;a class="reference external" href="https://docs.python.org/3/library/json.html#module-json"&gt;json&lt;/a&gt;, &lt;a class="reference external" href="https://docs.python.org/3/library/tomllib.html#module-tomllib"&gt;tomllib&lt;/a&gt;, &lt;a class="reference external" href="https://docs.python.org/3/library/shlex.html#module-shlex"&gt;shlex&lt;/a&gt;, and &lt;a class="reference external" href="https://docs.python.org/3/library/configparser.html"&gt;configparser&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;These modules are really nice and have specific use cases, especially when you can use a native approach and simple programs like routine scripts. But, with the provocative blog post title, I will present Dynaconf.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="dynaconf"&gt;
+&lt;h2&gt;Dynaconf!&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/dynaconf/dynaconf"&gt;Dynaconf&lt;/a&gt; is a robust configuration management for Python, designed to follow &lt;a class="reference external" href="https://12factor.net/config"&gt;Twelve-Factor App&lt;/a&gt; config principles. It serves as an abstraction layer between code and settings, providing a simple interface to retrieve parameters and secrets from files or external system sources.&lt;/p&gt;
+&lt;p&gt;The highlight features include support for multiple config files in various formats (&lt;em&gt;toml, yaml, json, ini&lt;/em&gt;), parameters via environment variables, and multi-hierarchical parameter set profiles support (e.g., &lt;em&gt;default, development, production&lt;/em&gt;). Additionally, there is a CLI that is useful for debugging.&lt;/p&gt;
+&lt;p&gt;A notable feature is the capability to retrieve parameters from external parameter/secrets storage systems. There is built-in support for HashiCorp Vault and Redis, but it is also possible to extend it to retrieve parameters from any source based on your needs. This feature is really awesome! I will show an example of how to use it to retrieve parameters from AWS Parameter Store.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="talk-is-cheap-show-me-the-code"&gt;
+&lt;h2&gt;Talk is cheap, Show me the code!&lt;/h2&gt;
+&lt;p&gt;To exemplify how to use Dynaconf, I will show a step-by-step guide on how to configure and use it from scratch. The example covers how to set up multiple settings files and how to extend the parameter source to retrieve parameters from the AWS Parameter Store service (simulated by &lt;a class="reference external" href="https://github.com/localstack/localstack"&gt;LocalStack&lt;/a&gt; in a Docker container).&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;All code is in the following GitHub repository: &lt;i class="fab fa-github"&gt;&lt;/i&gt; &lt;em&gt;&lt;a class="reference external" href="https://github.com/c-neto/my-code-playground/tree/main/blog-code-examples/2024-07-20-dynaconf-loaders"&gt;github.com/c-neto/my-code-playground/blog-code-examples/2024-07-20-dynaconf-loaders&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="step-by-step"&gt;
+&lt;h3&gt;Step-by-step&lt;/h3&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;&lt;p&gt;Create a virtual environment and install dependencies:&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python3&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;venv&lt;span class="w"&gt; &lt;/span&gt;venv
+venv/bin/pip&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;dynaconf&lt;span class="w"&gt; &lt;/span&gt;boto3&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="nb"&gt;source&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;venv/bin/activate
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ol class="arabic simple" start="2"&gt;
+&lt;li&gt;&lt;p&gt;Use the dynaconf-cli to speed up the settings and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;config.py&lt;/span&gt;&lt;/code&gt; files creation:&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dynaconf&lt;span class="w"&gt; &lt;/span&gt;init&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;-v&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;PARAMETER_FROM_SETTINGS_TOML_FILE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;foobar from settings.toml&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;-s&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;PARAMETER_FROM_SECRETS_TOML_FILE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;foobar from .secrets.toml&amp;quot;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# » output&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# ├── config.py       » python module with dynaconf instance&lt;/span&gt;
+&lt;span class="c1"&gt;# ├── .secrets.toml   » settings files with: PARAMETER_FROM_SECRETS_TOML_FILE&lt;/span&gt;
+&lt;span class="c1"&gt;# └── settings.toml   » settings files with: PARAMETER_FROM_SETTINGS_TOML_FILE&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;config.py&lt;/span&gt;&lt;/code&gt; source code created by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;dynaconf-cli&lt;/span&gt;&lt;/code&gt; looks like this:&lt;/em&gt;&lt;/p&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;config.py&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;dynaconf&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Dynaconf&lt;/span&gt;
+
+&lt;span class="n"&gt;settings&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Dynaconf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;envvar_prefix&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;DYNACONF&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;settings_files&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;settings.toml&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;.secrets.toml&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;You can use the dynaconf-cli to list parameters based on the configuration defined in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;config.py&lt;/span&gt;&lt;/code&gt;:&lt;/em&gt;&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dynaconf&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;config.settings&lt;span class="w"&gt; &lt;/span&gt;list&lt;span class="w"&gt; &lt;/span&gt;
+
+&lt;span class="c1"&gt;# » output&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# PARAMETER_FROM_SETTINGS_TOML_FILE&amp;lt;str&amp;gt; &amp;#39;foobar from settings.toml&amp;#39;&lt;/span&gt;
+&lt;span class="c1"&gt;# PARAMETER_FROM_SECRETS_TOML_FILE&amp;lt;str&amp;gt; &amp;#39;foobar from .secrets.toml&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ol class="arabic simple" start="3"&gt;
+&lt;li&gt;&lt;p&gt;Run LocalStack in a container to simulate the AWS Parameter Store service:&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;docker&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;--rm&lt;span class="w"&gt; &lt;/span&gt;-it&lt;span class="w"&gt; &lt;/span&gt;--detach&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;--name&lt;span class="w"&gt; &lt;/span&gt;localstack&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;-p&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;4566&lt;/span&gt;:4566&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;-e&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;SERVICES&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;ssm,sts&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;-e&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;DEFAULT_REGION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;us-east-1&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;-e&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;AWS_ACCESS_KEY_ID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;test&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;-e&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;AWS_SECRET_ACCESS_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;test&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;localstack/localstack:latest
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ol class="arabic simple" start="4"&gt;
+&lt;li&gt;&lt;p&gt;With LocalStack running, export the AWS environment variables to access the LocalStack API.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;AWS_ACCESS_KEY_ID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;test&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;AWS_SECRET_ACCESS_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;test&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;AWS_ENDPOINT_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://localhost:4566
+&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;AWS_DEFAULT_REGION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;us-east-1
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ol class="arabic simple" start="5"&gt;
+&lt;li&gt;&lt;p&gt;Create two parameters prefixed by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/my-application/&lt;/span&gt;&lt;/code&gt; named &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;PARAMETER_FROM_AWS_PARAMETER_STORE_1&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;PARAMETER_FROM_AWS_PARAMETER_STORE_2&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;put-parameter&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;--name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/my-application/PARAMETER_FROM_AWS_PARAMETER_STORE_1&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;--value&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;--type&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;SecureString&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;--endpoint-url&lt;span class="w"&gt; &lt;/span&gt;http://localhost:4566
+
+aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;put-parameter&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;--name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/my-application/PARAMETER_FROM_AWS_PARAMETER_STORE_2&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;--value&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;--type&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;SecureString&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;--endpoint-url&lt;span class="w"&gt; &lt;/span&gt;http://localhost:4566
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ol class="arabic simple" start="6"&gt;
+&lt;li&gt;&lt;p&gt;Edit the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;conf.py&lt;/span&gt;&lt;/code&gt; to add the custom loaders to retrieve the parameters from AWS Parameter Store. All parameters within the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/my-application/&lt;/span&gt;&lt;/code&gt; namespace will be retrieved&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;config.py&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;boto3&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;botocore.exceptions&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ClientError&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;BotoCoreError&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;dynaconf&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Dynaconf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;LazySettings&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;logging&lt;/span&gt;
+
+&lt;span class="n"&gt;logger&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getLogger&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="vm"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;PARAMETERS_PREFIX&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/my-application/&amp;quot;&lt;/span&gt;
+
+
+&lt;span class="c1"&gt;# Retrieve parameters from AWS Parameter Store recursively by prefix&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_aws_parameter_store_loader&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;parameters_prefix&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;ssm_client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;boto3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ssm&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;paginator&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ssm_client&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_paginator&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;get_parameters_by_path&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;pages&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;paginator&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;paginate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Path&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;parameters_prefix&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Recursive&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;WithDecryption&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;parameters_from_aws_raw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;pages&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;param&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Parameters&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+            &lt;span class="n"&gt;name_full&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;param&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+            &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;param&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Value&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+            &lt;span class="n"&gt;parameters_from_aws_raw&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;name_full&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;
+
+    &lt;span class="n"&gt;parameters_from_aws&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;name_full&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;parameters_from_aws_raw&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+        &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;name_full&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;ValueError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;warning&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Parameter name pattern outside of expected format, skipping: &amp;quot;&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;name_full&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;parameters_from_aws&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;parameters_from_aws&lt;/span&gt;
+
+
+&lt;span class="c1"&gt;# Dynaconf callback - used in this case for retrieve parameters from AWS Parameter Store&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;LazySettings&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;silent&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;bool&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;global&lt;/span&gt; &lt;span class="n"&gt;parameters_from_aws&lt;/span&gt;
+
+    &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Parameters loaded from AWS Parameter Store: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;parameters_from_aws&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;parameters_from_aws&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="c1"&gt;# Attempt to load parameters from AWS Parameter Store and update Dynaconf loaders&lt;/span&gt;
+&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;parameters_from_aws&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_aws_parameter_store_loader&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PARAMETERS_PREFIX&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;BotoCoreError&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ClientError&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;LOADERS_FOR_DYNACONF&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;dynaconf.loaders.env_loader&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;warning&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;AWS active session not detected, skipping load parameters from AWS Parameter Store&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c1"&gt;# __name__ is module name that have &amp;quot;load()&amp;quot; callback. It could be another module...&lt;/span&gt;
+    &lt;span class="n"&gt;LOADERS_FOR_DYNACONF&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="vm"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;dynaconf.loaders.env_loader&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+
+&lt;span class="c1"&gt;# Initialize Dynaconf settings with specified files and loaders&lt;/span&gt;
+&lt;span class="n"&gt;settings&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Dynaconf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;settings_files&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;settings.toml&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;.secrets.toml&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="n"&gt;envvar_prefix&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;MY_APP&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;LOADERS_FOR_DYNACONF&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;LOADERS_FOR_DYNACONF&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;ol class="arabic simple" start="7"&gt;
+&lt;li&gt;&lt;p&gt;Check the variables and note the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;PARAMETER_FROM_AWS_PARAMETER_STORE_1&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;PARAMETER_FROM_AWS_PARAMETER_STORE_2&lt;/span&gt;&lt;/code&gt; that were retrieved from AWS Parameter Store.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dynaconf&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;config.settings&lt;span class="w"&gt; &lt;/span&gt;list
+
+&lt;span class="c1"&gt;# » output&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# PARAMETER_FROM_SETTINGS_TOML_FILE&amp;lt;str&amp;gt; &amp;#39;foobar from settings.toml&amp;#39;&lt;/span&gt;
+&lt;span class="c1"&gt;# PARAMETER_FROM_SECRETS_TOML_FILE&amp;lt;str&amp;gt; &amp;#39;foobar from .secrets.toml&amp;#39;&lt;/span&gt;
+&lt;span class="c1"&gt;# PARAMETER_FROM_AWS_PARAMETER_STORE_1&amp;lt;str&amp;gt; &amp;#39;foo&amp;#39;&lt;/span&gt;
+&lt;span class="c1"&gt;# PARAMETER_FROM_AWS_PARAMETER_STORE_2&amp;lt;str&amp;gt; &amp;#39;bar&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ol class="arabic simple" start="8"&gt;
+&lt;li&gt;&lt;p&gt;The environment variables take precedence over other settings sources, following the Unix philosophy. To test this behavior, export &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;MY_APP_PARAMETER_FROM_AWS_PARAMETER_STORE_2&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;MY_APP_PARAMETER_FROM_AWS_PARAMETER_STORE_2&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;param from environment variable&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;Dynaconf will retrieve only variables that are prefixed by the value defined in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;envvar_prefix&lt;/span&gt;&lt;/code&gt; instance argument; in this case, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;MY_APP&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;Now, when &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;PARAMETER_FROM_AWS_PARAMETER_STORE_2&lt;/span&gt;&lt;/code&gt; is accessed, the value will be the one defined in the environment variable.&lt;/em&gt;&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dynaconf&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;config.settings&lt;span class="w"&gt; &lt;/span&gt;list
+
+&lt;span class="c1"&gt;# » output&lt;/span&gt;
+&lt;span class="c1"&gt;# &lt;/span&gt;
+&lt;span class="c1"&gt;# PARAMETER_FROM_SETTINGS_TOML_FILE&amp;lt;str&amp;gt; &amp;#39;foobar from settings.toml&amp;#39;&lt;/span&gt;
+&lt;span class="c1"&gt;# PARAMETER_FROM_SECRETS_TOML_FILE&amp;lt;str&amp;gt; &amp;#39;foobar from .secrets.toml&amp;#39;&lt;/span&gt;
+&lt;span class="c1"&gt;# PARAMETER_FROM_AWS_PARAMETER_STORE_1&amp;lt;str&amp;gt; &amp;#39;foo&amp;#39;&lt;/span&gt;
+&lt;span class="c1"&gt;# PARAMETER_FROM_AWS_PARAMETER_STORE_2&amp;lt;str&amp;gt; &amp;#39;param from environment variable&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;section id="conclusion-author-opinion"&gt;
+&lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
+&lt;p&gt;I have been using Dynaconf for the last 4 years, and I really appreciate how the module is designed to address recurring challenges in a simple and straightforward manner. Previously, I used &lt;a class="reference external" href="https://pyyaml.org/wiki/PyYAMLDocumentation"&gt;PyYAML&lt;/a&gt;, but I frequently created repetitive code when reading configurations and secrets from distinct files. When a mix of input parameter sources was required, such as YAML and environment variables, the code complexity increased, diverting attention from the core problem my systems aimed to solve.&lt;/p&gt;
+&lt;p&gt;When I first tried Dynaconf, I was impressed by its ability to manage multiple config files while merging the parameters and sub-parameters structure. This feature is very useful to me, especially for separating sensitive information into specific files.&lt;/p&gt;
+&lt;p&gt;Now, I only avoid using Dynaconf in cases where there is a Software Requirement to use only built-in modules. Otherwise, I don’t see a reason not to use it, especially in applications designed to run in Kubernetes.&lt;/p&gt;
+&lt;p&gt;I really like the module and suggest you give it a try!&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="links"&gt;
+&lt;h2&gt;Links&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://12factor.net"&gt;https://12factor.net&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://12factor.net/config"&gt;https://12factor.net/config&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.python.org/3/library/json.html"&gt;https://docs.python.org/3/library/json.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.python.org/3/library/shlex.html"&gt;https://docs.python.org/3/library/shlex.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.python.org/3/library/tomllib.html"&gt;https://docs.python.org/3/library/tomllib.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="github reference external" href="https://github.com/c-neto/my-code-playground/tree/main/blog-code-examples/2024-07-20-dynaconf-loaders"&gt;c-neto/my-code-playground&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="github reference external" href="https://github.com/HBNetwork/python-decouple"&gt;HBNetwork/python-decouple&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="github reference external" href="https://github.com/theskumar/python-dotenv"&gt;theskumar/python-dotenv&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2024/2024-07-20-dynaconf/"/>
+    <summary>Blog Post Publish Date: 2024/07/21This blog post outlines a brief overview of best practices for application configuration, explains the main features of Dynaconf, and provides a hands-on example of how to extend it to retrieve parameters from AWS Parameter Store.</summary>
+    <category term="dynaconf" label="dynaconf"/>
+    <category term="python" label="python"/>
+    <published>2024-07-21T00:00:00+00:00</published>
+  </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2024/2024-06-08-logstash-sniffing/</id>
     <title>Logstash Sniffing: Improving Log Ingestion in OpenSearch Scalable Clusters</title>
