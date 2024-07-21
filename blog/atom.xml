@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-07-21T20:12:35.020999+00:00</updated>
+  <updated>2024-07-21T20:14:10.299288+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.10">ABlog</generator>
@@ -19,7 +19,7 @@
 &lt;section id="twelve-factor-app-good-practices-in-application-config"&gt;
 &lt;h2&gt;Twelve-Factor App: Good Practices in Application Config&lt;/h2&gt;
 &lt;p&gt;Before starting to talk about Dynaconf or any code implementation for configuration, it’s necessary to understand the best practices used behind the scenes in systems with portable running requirements.&lt;/p&gt;
-&lt;p&gt;One of the main best practices references is the &lt;a class="reference external" href="https://12factor.net/"&gt;Twelve-Factor App&lt;/a&gt;, which is a methodology with a bundle of good practices for building modern applications with portable requirements, such as applications running on SaaS platforms and Kubernetes clusters. There is a chapter dedicated to application configuration: &lt;a class="reference external" href="https://12factor.net/config"&gt;12 Factor » Config&lt;/a&gt;. In summary, the guide explains what (and what not) categorizes an application parameter, and emphasizes the separation of configuration from code.&lt;/p&gt;
+&lt;p&gt;One of the main best practices references is the &lt;a class="reference external" href="https://12factor.net/"&gt;Twelve-Factor App&lt;/a&gt;, which is a methodology with a bundle of good practices for building modern applications with portable requirements, such as applications running on SaaS platforms and Kubernetes clusters. There is a chapter dedicated to application configuration: &lt;a class="reference external" href="https://12factor.net/config"&gt;12 Factor » Config&lt;/a&gt;.In summary, the config chapter explains what (and what not) categorizes an application parameter, and emphasizes the separation of configuration from code.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="python-config-libraries"&gt;
 &lt;h2&gt;Python Config Libraries&lt;/h2&gt;
