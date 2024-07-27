@@ -407,7 +407,8 @@ document.write(`
 <section id="twelve-factor-app-good-practices-in-application-config">
 <h2>Twelve-Factor App: Good Practices in Application Config<a class="headerlink" href="#twelve-factor-app-good-practices-in-application-config" title="Link to this heading">#</a></h2>
 <p>Before starting to talk about Dynaconf or any code implementation for configuration, it’s necessary to understand the best practices used behind the scenes in systems with portable running requirements.</p>
-<p>One of the main best practices references is the <a class="reference external" href="https://12factor.net/">Twelve-Factor App</a>, which is a methodology with a bundle of good practices for building modern applications with portable requirements, such as applications running on SaaS platforms and Kubernetes clusters. There is a chapter dedicated to application configuration: <a class="reference external" href="https://12factor.net/config">12 Factor » Config</a>.In summary, the config chapter explains what (and what not) categorizes an application parameter, and emphasizes the separation of configuration from code.</p>
+<p>One of the main best practices references is the <a class="reference external" href="https://12factor.net/">Twelve-Factor App</a>, which is a methodology with a bundle of good practices for building modern applications with portable requirements, such as applications running on SaaS platforms and Kubernetes clusters. There is a chapter dedicated to application configuration: <a class="reference external" href="https://12factor.net/config">12 Factor » Config</a>.</p>
+<p>In summary, the config chapter explains what (and what not) categorizes an application parameter, and emphasizes the separation of configuration from code.</p>
 </section>
 <section id="python-config-libraries">
 <h2>Python Config Libraries<a class="headerlink" href="#python-config-libraries" title="Link to this heading">#</a></h2>
@@ -516,10 +517,12 @@ aws<span class="w"> </span>ssm<span class="w"> </span>put-parameter<span class="
 </ol>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">config.py</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">boto3</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">boto3</span>
 <span class="kn">from</span> <span class="nn">botocore.exceptions</span> <span class="kn">import</span> <span class="n">ClientError</span><span class="p">,</span> <span class="n">BotoCoreError</span>
 <span class="kn">from</span> <span class="nn">dynaconf</span> <span class="kn">import</span> <span class="n">Dynaconf</span><span class="p">,</span> <span class="n">LazySettings</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">dynaconf.loaders.base</span> <span class="kn">import</span> <span class="n">SourceMetadata</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="n">PARAMETERS_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;/my-application/&quot;</span>
@@ -557,8 +560,9 @@ aws<span class="w"> </span>ssm<span class="w"> </span>put-parameter<span class="
 <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">LazySettings</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">global</span> <span class="n">parameters_from_aws</span>
 
+    <span class="n">source_metadata</span> <span class="o">=</span> <span class="n">SourceMetadata</span><span class="p">(</span><span class="s1">&#39;aws-parameter-store&#39;</span><span class="p">,</span> <span class="n">PARAMETERS_PREFIX</span><span class="p">)</span>
+    <span class="n">obj</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parameters_from_aws</span><span class="p">,</span> <span class="n">loader_identifier</span><span class="o">=</span><span class="n">source_metadata</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameters loaded from AWS Parameter Store: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">parameters_from_aws</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">obj</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parameters_from_aws</span><span class="p">)</span>
 
 
 <span class="c1"># Attempt to load parameters from AWS Parameter Store and update Dynaconf loaders</span>
@@ -614,11 +618,92 @@ aws<span class="w"> </span>ssm<span class="w"> </span>put-parameter<span class="
 <span class="c1"># PARAMETER_FROM_AWS_PARAMETER_STORE_2&lt;str&gt; &#39;param from environment variable&#39;</span>
 </pre></div>
 </div>
+<p><em>In addition, you can inspect the parameters to ensure source of each them.</em></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dynaconf<span class="w"> </span>-i<span class="w"> </span>config.settings<span class="w"> </span>inspect
+
+<span class="c1"># » output</span>
+<span class="c1"># </span>
+<span class="c1"># {</span>
+<span class="c1">#   &quot;header&quot;: {</span>
+<span class="c1">#     &quot;env_filter&quot;: &quot;None&quot;,</span>
+<span class="c1">#     &quot;key_filter&quot;: &quot;None&quot;,</span>
+<span class="c1">#     &quot;new_first&quot;: &quot;True&quot;,</span>
+<span class="c1">#     &quot;history_limit&quot;: &quot;None&quot;,</span>
+<span class="c1">#     &quot;include_internal&quot;: &quot;False&quot;</span>
+<span class="c1">#   },</span>
+<span class="c1">#   &quot;current&quot;: {</span>
+<span class="c1">#     &quot;PARAMETER_FROM_SETTINGS_TOML_FILE&quot;: &quot;foobar from settings.toml&quot;,</span>
+<span class="c1">#     &quot;PARAMETER_FROM_SECRETS_TOML_FILE&quot;: &quot;foobar from .secrets.toml&quot;,</span>
+<span class="c1">#     &quot;PARAMETER_FROM_AWS_PARAMETER_STORE_1&quot;: &quot;foo&quot;,</span>
+<span class="c1">#     &quot;PARAMETER_FROM_AWS_PARAMETER_STORE_2&quot;: &quot;bar&quot;</span>
+<span class="c1">#   },</span>
+<span class="c1">#   &quot;history&quot;: [</span>
+<span class="c1">#     {</span>
+<span class="c1">#       &quot;loader&quot;: &quot;aws-parameter-store&quot;,</span>
+<span class="c1">#       &quot;identifier&quot;: &quot;/my-application/&quot;,</span>
+<span class="c1">#       &quot;env&quot;: &quot;global&quot;,</span>
+<span class="c1">#       &quot;merged&quot;: false,</span>
+<span class="c1">#       &quot;value&quot;: {</span>
+<span class="c1">#         &quot;PARAMETER_FROM_AWS_PARAMETER_STORE_1&quot;: &quot;foo&quot;,</span>
+<span class="c1">#         &quot;PARAMETER_FROM_AWS_PARAMETER_STORE_2&quot;: &quot;bar&quot;</span>
+<span class="c1">#       }</span>
+<span class="c1">#     },</span>
+<span class="c1">#     {</span>
+<span class="c1">#       &quot;loader&quot;: &quot;toml&quot;,</span>
+<span class="c1">#       &quot;identifier&quot;: &quot;.secrets.toml&quot;,</span>
+<span class="c1">#       &quot;env&quot;: &quot;default&quot;,</span>
+<span class="c1">#       &quot;merged&quot;: false,</span>
+<span class="c1">#       &quot;value&quot;: {</span>
+<span class="c1">#         &quot;PARAMETER_FROM_SECRETS_TOML_FILE&quot;: &quot;foobar from .secrets.toml&quot;</span>
+<span class="c1">#       }</span>
+<span class="c1">#     },</span>
+<span class="c1">#     {</span>
+<span class="c1">#       &quot;loader&quot;: &quot;toml&quot;,</span>
+<span class="c1">#       &quot;identifier&quot;: &quot;settings.toml&quot;,</span>
+<span class="c1">#       &quot;env&quot;: &quot;default&quot;,</span>
+<span class="c1">#       &quot;merged&quot;: false,</span>
+<span class="c1">#       &quot;value&quot;: {</span>
+<span class="c1">#         &quot;PARAMETER_FROM_SETTINGS_TOML_FILE&quot;: &quot;foobar from settings.toml&quot;</span>
+<span class="c1">#       }</span>
+<span class="c1">#     },</span>
+<span class="c1">#     {</span>
+<span class="c1">#       &quot;loader&quot;: &quot;set_method&quot;,</span>
+<span class="c1">#       &quot;identifier&quot;: &quot;settings_module_method&quot;,</span>
+<span class="c1">#       &quot;env&quot;: &quot;global&quot;,</span>
+<span class="c1">#       &quot;merged&quot;: false,</span>
+<span class="c1">#       &quot;value&quot;: {</span>
+<span class="c1">#         &quot;SETTINGS_MODULE&quot;: [</span>
+<span class="c1">#           &quot;settings.toml&quot;,</span>
+<span class="c1">#           &quot;.secrets.toml&quot;</span>
+<span class="c1">#         ]</span>
+<span class="c1">#       }</span>
+<span class="c1">#     },</span>
+<span class="c1">#     {</span>
+<span class="c1">#       &quot;loader&quot;: &quot;set_method&quot;,</span>
+<span class="c1">#       &quot;identifier&quot;: &quot;init_kwargs&quot;,</span>
+<span class="c1">#       &quot;env&quot;: &quot;global&quot;,</span>
+<span class="c1">#       &quot;merged&quot;: false,</span>
+<span class="c1">#       &quot;value&quot;: {</span>
+<span class="c1">#         &quot;LOADERS_FOR_DYNACONF&quot;: [</span>
+<span class="c1">#           &quot;config&quot;,</span>
+<span class="c1">#           &quot;dynaconf.loaders.env_loader&quot;</span>
+<span class="c1">#         ],</span>
+<span class="c1">#         &quot;SETTINGS_FILE_FOR_DYNACONF&quot;: [</span>
+<span class="c1">#           &quot;settings.toml&quot;,</span>
+<span class="c1">#           &quot;.secrets.toml&quot;</span>
+<span class="c1">#         ],</span>
+<span class="c1">#         &quot;ENVVAR_PREFIX_FOR_DYNACONF&quot;: &quot;MY_APP&quot;</span>
+<span class="c1">#       }</span>
+<span class="c1">#     }</span>
+<span class="c1">#   ]</span>
+<span class="c1"># }</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="conclusion-author-opinion">
 <h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
-<p>I have been using Dynaconf for the last 4 years, and I really appreciate how the module is designed to address recurring challenges in a simple and straightforward manner. Previously, I used <a class="reference external" href="https://pyyaml.org/wiki/PyYAMLDocumentation">PyYAML</a>, but I frequently created repetitive code when reading configurations and secrets from distinct files. When a mix of input parameter sources was required, such as YAML and environment variables, the code complexity increased, diverting attention from the core problem my systems aimed to solve.</p>
+<p>I have been using Dynaconf around 4 years, and I really appreciate how the module is designed to address recurring challenges in a simple and straightforward manner. Previously, I used <a class="reference external" href="https://pyyaml.org/wiki/PyYAMLDocumentation">PyYAML</a>, but I frequently created repetitive code when reading configurations and secrets from distinct files. When a mix of input parameter sources was required, such as YAML and environment variables, the code complexity increased, diverting attention from the core problem my systems aimed to solve.</p>
 <p>When I first tried Dynaconf, I was impressed by its ability to manage multiple config files while merging the parameters and sub-parameters structure. This feature is very useful to me, especially for separating sensitive information into specific files.</p>
 <p>Now, I only avoid using Dynaconf in cases where there is a Software Requirement to use only built-in modules. Otherwise, I don’t see a reason not to use it, especially in applications designed to run in Kubernetes.</p>
 <p>I really like the module and suggest you give it a try!</p>

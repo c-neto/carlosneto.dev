@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-07-21T20:18:10.243265+00:00</updated>
+  <updated>2024-07-27T20:23:22.841283+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.10">ABlog</generator>
@@ -19,7 +19,8 @@
 &lt;section id="twelve-factor-app-good-practices-in-application-config"&gt;
 &lt;h2&gt;Twelve-Factor App: Good Practices in Application Config&lt;/h2&gt;
 &lt;p&gt;Before starting to talk about Dynaconf or any code implementation for configuration, it’s necessary to understand the best practices used behind the scenes in systems with portable running requirements.&lt;/p&gt;
-&lt;p&gt;One of the main best practices references is the &lt;a class="reference external" href="https://12factor.net/"&gt;Twelve-Factor App&lt;/a&gt;, which is a methodology with a bundle of good practices for building modern applications with portable requirements, such as applications running on SaaS platforms and Kubernetes clusters. There is a chapter dedicated to application configuration: &lt;a class="reference external" href="https://12factor.net/config"&gt;12 Factor » Config&lt;/a&gt;.In summary, the config chapter explains what (and what not) categorizes an application parameter, and emphasizes the separation of configuration from code.&lt;/p&gt;
+&lt;p&gt;One of the main best practices references is the &lt;a class="reference external" href="https://12factor.net/"&gt;Twelve-Factor App&lt;/a&gt;, which is a methodology with a bundle of good practices for building modern applications with portable requirements, such as applications running on SaaS platforms and Kubernetes clusters. There is a chapter dedicated to application configuration: &lt;a class="reference external" href="https://12factor.net/config"&gt;12 Factor » Config&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In summary, the config chapter explains what (and what not) categorizes an application parameter, and emphasizes the separation of configuration from code.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="python-config-libraries"&gt;
 &lt;h2&gt;Python Config Libraries&lt;/h2&gt;
@@ -128,10 +129,12 @@ aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;pu
 &lt;/ol&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;config.py&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;boto3&lt;/span&gt;
+&lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;logging&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;boto3&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;botocore.exceptions&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ClientError&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;BotoCoreError&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;dynaconf&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Dynaconf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;LazySettings&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;logging&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;dynaconf.loaders.base&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;SourceMetadata&lt;/span&gt;
 
 &lt;span class="n"&gt;logger&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getLogger&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="vm"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;PARAMETERS_PREFIX&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/my-application/&amp;quot;&lt;/span&gt;
@@ -169,8 +172,9 @@ aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;pu
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;LazySettings&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;silent&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;bool&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="k"&gt;global&lt;/span&gt; &lt;span class="n"&gt;parameters_from_aws&lt;/span&gt;
 
+    &lt;span class="n"&gt;source_metadata&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SourceMetadata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;aws-parameter-store&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PARAMETERS_PREFIX&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;parameters_from_aws&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;loader_identifier&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;source_metadata&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Parameters loaded from AWS Parameter Store: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;parameters_from_aws&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;parameters_from_aws&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 
 &lt;span class="c1"&gt;# Attempt to load parameters from AWS Parameter Store and update Dynaconf loaders&lt;/span&gt;
@@ -226,11 +230,92 @@ aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;pu
 &lt;span class="c1"&gt;# PARAMETER_FROM_AWS_PARAMETER_STORE_2&amp;lt;str&amp;gt; &amp;#39;param from environment variable&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
+&lt;p&gt;&lt;em&gt;In addition, you can inspect the parameters to ensure source of each them.&lt;/em&gt;&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dynaconf&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;config.settings&lt;span class="w"&gt; &lt;/span&gt;inspect
+
+&lt;span class="c1"&gt;# » output&lt;/span&gt;
+&lt;span class="c1"&gt;# &lt;/span&gt;
+&lt;span class="c1"&gt;# {&lt;/span&gt;
+&lt;span class="c1"&gt;#   &amp;quot;header&amp;quot;: {&lt;/span&gt;
+&lt;span class="c1"&gt;#     &amp;quot;env_filter&amp;quot;: &amp;quot;None&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#     &amp;quot;key_filter&amp;quot;: &amp;quot;None&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#     &amp;quot;new_first&amp;quot;: &amp;quot;True&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#     &amp;quot;history_limit&amp;quot;: &amp;quot;None&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#     &amp;quot;include_internal&amp;quot;: &amp;quot;False&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#   },&lt;/span&gt;
+&lt;span class="c1"&gt;#   &amp;quot;current&amp;quot;: {&lt;/span&gt;
+&lt;span class="c1"&gt;#     &amp;quot;PARAMETER_FROM_SETTINGS_TOML_FILE&amp;quot;: &amp;quot;foobar from settings.toml&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#     &amp;quot;PARAMETER_FROM_SECRETS_TOML_FILE&amp;quot;: &amp;quot;foobar from .secrets.toml&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#     &amp;quot;PARAMETER_FROM_AWS_PARAMETER_STORE_1&amp;quot;: &amp;quot;foo&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#     &amp;quot;PARAMETER_FROM_AWS_PARAMETER_STORE_2&amp;quot;: &amp;quot;bar&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#   },&lt;/span&gt;
+&lt;span class="c1"&gt;#   &amp;quot;history&amp;quot;: [&lt;/span&gt;
+&lt;span class="c1"&gt;#     {&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;loader&amp;quot;: &amp;quot;aws-parameter-store&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;identifier&amp;quot;: &amp;quot;/my-application/&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;env&amp;quot;: &amp;quot;global&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;merged&amp;quot;: false,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;value&amp;quot;: {&lt;/span&gt;
+&lt;span class="c1"&gt;#         &amp;quot;PARAMETER_FROM_AWS_PARAMETER_STORE_1&amp;quot;: &amp;quot;foo&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#         &amp;quot;PARAMETER_FROM_AWS_PARAMETER_STORE_2&amp;quot;: &amp;quot;bar&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#       }&lt;/span&gt;
+&lt;span class="c1"&gt;#     },&lt;/span&gt;
+&lt;span class="c1"&gt;#     {&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;loader&amp;quot;: &amp;quot;toml&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;identifier&amp;quot;: &amp;quot;.secrets.toml&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;env&amp;quot;: &amp;quot;default&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;merged&amp;quot;: false,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;value&amp;quot;: {&lt;/span&gt;
+&lt;span class="c1"&gt;#         &amp;quot;PARAMETER_FROM_SECRETS_TOML_FILE&amp;quot;: &amp;quot;foobar from .secrets.toml&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#       }&lt;/span&gt;
+&lt;span class="c1"&gt;#     },&lt;/span&gt;
+&lt;span class="c1"&gt;#     {&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;loader&amp;quot;: &amp;quot;toml&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;identifier&amp;quot;: &amp;quot;settings.toml&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;env&amp;quot;: &amp;quot;default&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;merged&amp;quot;: false,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;value&amp;quot;: {&lt;/span&gt;
+&lt;span class="c1"&gt;#         &amp;quot;PARAMETER_FROM_SETTINGS_TOML_FILE&amp;quot;: &amp;quot;foobar from settings.toml&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#       }&lt;/span&gt;
+&lt;span class="c1"&gt;#     },&lt;/span&gt;
+&lt;span class="c1"&gt;#     {&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;loader&amp;quot;: &amp;quot;set_method&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;identifier&amp;quot;: &amp;quot;settings_module_method&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;env&amp;quot;: &amp;quot;global&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;merged&amp;quot;: false,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;value&amp;quot;: {&lt;/span&gt;
+&lt;span class="c1"&gt;#         &amp;quot;SETTINGS_MODULE&amp;quot;: [&lt;/span&gt;
+&lt;span class="c1"&gt;#           &amp;quot;settings.toml&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#           &amp;quot;.secrets.toml&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#         ]&lt;/span&gt;
+&lt;span class="c1"&gt;#       }&lt;/span&gt;
+&lt;span class="c1"&gt;#     },&lt;/span&gt;
+&lt;span class="c1"&gt;#     {&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;loader&amp;quot;: &amp;quot;set_method&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;identifier&amp;quot;: &amp;quot;init_kwargs&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;env&amp;quot;: &amp;quot;global&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;merged&amp;quot;: false,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;quot;value&amp;quot;: {&lt;/span&gt;
+&lt;span class="c1"&gt;#         &amp;quot;LOADERS_FOR_DYNACONF&amp;quot;: [&lt;/span&gt;
+&lt;span class="c1"&gt;#           &amp;quot;config&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#           &amp;quot;dynaconf.loaders.env_loader&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#         ],&lt;/span&gt;
+&lt;span class="c1"&gt;#         &amp;quot;SETTINGS_FILE_FOR_DYNACONF&amp;quot;: [&lt;/span&gt;
+&lt;span class="c1"&gt;#           &amp;quot;settings.toml&amp;quot;,&lt;/span&gt;
+&lt;span class="c1"&gt;#           &amp;quot;.secrets.toml&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#         ],&lt;/span&gt;
+&lt;span class="c1"&gt;#         &amp;quot;ENVVAR_PREFIX_FOR_DYNACONF&amp;quot;: &amp;quot;MY_APP&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#       }&lt;/span&gt;
+&lt;span class="c1"&gt;#     }&lt;/span&gt;
+&lt;span class="c1"&gt;#   ]&lt;/span&gt;
+&lt;span class="c1"&gt;# }&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;/section&gt;
 &lt;/section&gt;
 &lt;section id="conclusion-author-opinion"&gt;
 &lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
-&lt;p&gt;I have been using Dynaconf for the last 4 years, and I really appreciate how the module is designed to address recurring challenges in a simple and straightforward manner. Previously, I used &lt;a class="reference external" href="https://pyyaml.org/wiki/PyYAMLDocumentation"&gt;PyYAML&lt;/a&gt;, but I frequently created repetitive code when reading configurations and secrets from distinct files. When a mix of input parameter sources was required, such as YAML and environment variables, the code complexity increased, diverting attention from the core problem my systems aimed to solve.&lt;/p&gt;
+&lt;p&gt;I have been using Dynaconf around 4 years, and I really appreciate how the module is designed to address recurring challenges in a simple and straightforward manner. Previously, I used &lt;a class="reference external" href="https://pyyaml.org/wiki/PyYAMLDocumentation"&gt;PyYAML&lt;/a&gt;, but I frequently created repetitive code when reading configurations and secrets from distinct files. When a mix of input parameter sources was required, such as YAML and environment variables, the code complexity increased, diverting attention from the core problem my systems aimed to solve.&lt;/p&gt;
 &lt;p&gt;When I first tried Dynaconf, I was impressed by its ability to manage multiple config files while merging the parameters and sub-parameters structure. This feature is very useful to me, especially for separating sensitive information into specific files.&lt;/p&gt;
 &lt;p&gt;Now, I only avoid using Dynaconf in cases where there is a Software Requirement to use only built-in modules. Otherwise, I don’t see a reason not to use it, especially in applications designed to run in Kubernetes.&lt;/p&gt;
 &lt;p&gt;I really like the module and suggest you give it a try!&lt;/p&gt;
