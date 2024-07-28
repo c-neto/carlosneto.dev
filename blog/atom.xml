@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-07-27T20:23:22.841283+00:00</updated>
+  <updated>2024-07-28T14:20:46.588934+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.10">ABlog</generator>
@@ -230,7 +230,7 @@ aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;pu
 &lt;span class="c1"&gt;# PARAMETER_FROM_AWS_PARAMETER_STORE_2&amp;lt;str&amp;gt; &amp;#39;param from environment variable&amp;#39;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;em&gt;In addition, you can inspect the parameters to ensure source of each them.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;In addition, you can peform inspect action to check the parameters to ensure source of each them.&lt;/em&gt;&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dynaconf&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;config.settings&lt;span class="w"&gt; &lt;/span&gt;inspect
 
 &lt;span class="c1"&gt;# » output&lt;/span&gt;
