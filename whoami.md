@@ -74,7 +74,7 @@ Check my professional experiences:
 ````{grid-item}
 :columns: 3
 :align: center
-```{image} _static/opencti.png
+```{image} _static/opencti-logo.png
 :alt: opencti logo
 :target: https://docs.opencti.io/latest/
 :width: 100%
@@ -91,3 +91,27 @@ Check my professional experiences:
 - <i class="fa-solid fa-code-pull-request"></i> [#137](https://github.com/OpenCTI-Platform/docs/pull/137): Conducted a comprehensive refactoring of configuration settings in the integration of the OpenCTI Platform and the S3 Bucket service.
 - <i class="fa-solid fa-code-pull-request"></i> [#144](https://github.com/OpenCTI-Platform/docs/pull/144): Addressed a documentation gap by adding the flag to verify the Search Engine, applicable to both Elasticsearch and OpenSearch.
 ````
+
+`````
+
+---
+
+`````{grid} 2
+
+````{grid-item}
+:columns: 3
+:align: center
+```{image} _static/eso-logo.png
+:alt: opencti logo
+:target: https://docs.opencti.io/latest/
+:width: 100%
+:class: opensource-project-logo
+```
+````
+
+````{grid-item}
+:columns: 9
+
+<i class="fab fa-github"></i> __[External Secrets Operator](https://github.com/external-secrets/external-secrets):__ Kubernetes operator that integrates external secret management system and automatically injects the values into a Kubernetes Secret.
+
+- <i class="fa-solid fa-code-pull-request"></i> [#3725](https://github.com/external-secrets/external-secrets/pull/3725): Clarified the lifecycle of ExternalSecret and its relation to the created Secret, enhancing the description and available options.
