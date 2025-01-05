@@ -18,22 +18,23 @@ This article provides a high-level explanation of these concepts and includes us
 
 An **index** is a logical namespace that organizes a collection of documents along with their associated characteristics, such as field types, life cycle policies, and storage layer state. These documents are stored on disk within logical partitions called **shards**.  
 
-### **Shards: Primary and Replica**  
+### Shards: Primary and Replica
 
 Shards can be classified as **primary** or **replica**:  
 
-- **Primary shards** handle write operations and can also serve read requests when needed.  
-- **Replica shards** are exact copies of primary shards, designed to ensure fault tolerance and improve query performance by handling read operations.  
+**Primary shards** handle write operations and can also serve read requests when needed.
 
-The number of primary shards can only be defined during the creation of an index. Carefully consider the number of shards needed to meet your current requirements, factoring in query demands and, most importantly, write performance. Replica shards, however, can be adjusted on demand.  
+**Replica shards** are exact copies of primary shards, designed to ensure fault tolerance and improve query performance by handling read operations.  
+
+An index can consist of one or more shards distributed across multiple nodes. This distributed nature enables OpenSearch to form clusters, allowing indices to span across different machines for improved scalability and reliability.  
 
 Increasing the number of primary shards improves throughput and indexing performance by distributing data across multiple partitions. Conversely, increasing the number of replica shards enhances fault tolerance and boosts query performance by providing additional nodes to handle read operations.
+
+The number of primary shards can only be defined during the creation of an index. Carefully consider the number of shards needed to meet your current requirements, factoring in query demands and, most importantly, write performance. Replica shards, however, can be adjusted on demand.
 
 :::{note}
 A primary shard and its corresponding replica cannot reside on the same node within a cluster, ensuring fault tolerance in case of node failure.
 :::
-
-An index can consist of one or more shards distributed across multiple nodes. This distributed nature enables OpenSearch to form clusters, allowing indices to span across different machines for improved scalability and reliability.  
 
 ## Useful Commands for Managing Indices and Shards Using the OpenSearch API
 
