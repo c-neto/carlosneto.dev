@@ -16,15 +16,10 @@ This article provides a high-level explanation of these concepts and includes us
 
 ## Understanding Indices and Shards
 
-An **index** is a logical namespace that organizes a collection of documents along with their associated characteristics, such as field types, life cycle policies, and storage layer state. These documents are stored on disk within logical partitions called **shards**.  
+An **index** is a logical namespace that organizes a collection of documents along with their associated characteristics, such as field types, life cycle policies, and storage layer state. These documents are stored on disk within logical partitions called **shards**. Shards can be classified as **primary** or **replica**:  
 
-### Shards: Primary and Replica
-
-Shards can be classified as **primary** or **replica**:  
-
-**Primary shards** handle write operations and can also serve read requests when needed.
-
-**Replica shards** are exact copies of primary shards, designed to ensure fault tolerance and improve query performance by handling read operations.  
+- **Primary shards** handle write operations and can also serve read requests when needed;
+- **Replica shards** are exact copies of primary shards, designed to ensure fault tolerance and improve query performance by handling read operations.
 
 An index can consist of one or more shards distributed across multiple nodes. This distributed nature enables OpenSearch to form clusters, allowing indices to span across different machines for improved scalability and reliability.  
 

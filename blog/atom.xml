@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-01-05T03:11:04.330688+00:00</updated>
+  <updated>2025-01-05T03:13:02.879881+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -19,12 +19,11 @@
 &lt;p&gt;This article provides a high-level explanation of these concepts and includes useful commands for retrieving information about indices and shards—particularly helpful during troubleshooting.&lt;/p&gt;
 &lt;section id="understanding-indices-and-shards"&gt;
 &lt;h2&gt;Understanding Indices and Shards&lt;/h2&gt;
-&lt;p&gt;An &lt;strong&gt;index&lt;/strong&gt; is a logical namespace that organizes a collection of documents along with their associated characteristics, such as field types, life cycle policies, and storage layer state. These documents are stored on disk within logical partitions called &lt;strong&gt;shards&lt;/strong&gt;.&lt;/p&gt;
-&lt;section id="shards-primary-and-replica"&gt;
-&lt;h3&gt;Shards: Primary and Replica&lt;/h3&gt;
-&lt;p&gt;Shards can be classified as &lt;strong&gt;primary&lt;/strong&gt; or &lt;strong&gt;replica&lt;/strong&gt;:&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Primary shards&lt;/strong&gt; handle write operations and can also serve read requests when needed.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Replica shards&lt;/strong&gt; are exact copies of primary shards, designed to ensure fault tolerance and improve query performance by handling read operations.&lt;/p&gt;
+&lt;p&gt;An &lt;strong&gt;index&lt;/strong&gt; is a logical namespace that organizes a collection of documents along with their associated characteristics, such as field types, life cycle policies, and storage layer state. These documents are stored on disk within logical partitions called &lt;strong&gt;shards&lt;/strong&gt;. Shards can be classified as &lt;strong&gt;primary&lt;/strong&gt; or &lt;strong&gt;replica&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Primary shards&lt;/strong&gt; handle write operations and can also serve read requests when needed;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Replica shards&lt;/strong&gt; are exact copies of primary shards, designed to ensure fault tolerance and improve query performance by handling read operations.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;An index can consist of one or more shards distributed across multiple nodes. This distributed nature enables OpenSearch to form clusters, allowing indices to span across different machines for improved scalability and reliability.&lt;/p&gt;
 &lt;p&gt;Increasing the number of primary shards improves throughput and indexing performance by distributing data across multiple partitions. Conversely, increasing the number of replica shards enhances fault tolerance and boosts query performance by providing additional nodes to handle read operations.&lt;/p&gt;
 &lt;p&gt;The number of primary shards can only be defined during the creation of an index. Carefully consider the number of shards needed to meet your current requirements, factoring in query demands and, most importantly, write performance. Replica shards, however, can be adjusted on demand.&lt;/p&gt;
@@ -32,7 +31,6 @@
 &lt;p class="admonition-title"&gt;Note&lt;/p&gt;
 &lt;p&gt;A primary shard and its corresponding replica cannot reside on the same node within a cluster, ensuring fault tolerance in case of node failure.&lt;/p&gt;
 &lt;/div&gt;
-&lt;/section&gt;
 &lt;/section&gt;
 &lt;section id="useful-commands-for-managing-indices-and-shards-using-the-opensearch-api"&gt;
 &lt;h2&gt;Useful Commands for Managing Indices and Shards Using the OpenSearch API&lt;/h2&gt;

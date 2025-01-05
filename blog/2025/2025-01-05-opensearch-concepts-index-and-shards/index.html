@@ -384,12 +384,11 @@
 <p>This article provides a high-level explanation of these concepts and includes useful commands for retrieving information about indices and shards—particularly helpful during troubleshooting.</p>
 <section id="understanding-indices-and-shards">
 <h2>Understanding Indices and Shards<a class="headerlink" href="#understanding-indices-and-shards" title="Link to this heading">#</a></h2>
-<p>An <strong>index</strong> is a logical namespace that organizes a collection of documents along with their associated characteristics, such as field types, life cycle policies, and storage layer state. These documents are stored on disk within logical partitions called <strong>shards</strong>.</p>
-<section id="shards-primary-and-replica">
-<h3>Shards: Primary and Replica<a class="headerlink" href="#shards-primary-and-replica" title="Link to this heading">#</a></h3>
-<p>Shards can be classified as <strong>primary</strong> or <strong>replica</strong>:</p>
-<p><strong>Primary shards</strong> handle write operations and can also serve read requests when needed.</p>
-<p><strong>Replica shards</strong> are exact copies of primary shards, designed to ensure fault tolerance and improve query performance by handling read operations.</p>
+<p>An <strong>index</strong> is a logical namespace that organizes a collection of documents along with their associated characteristics, such as field types, life cycle policies, and storage layer state. These documents are stored on disk within logical partitions called <strong>shards</strong>. Shards can be classified as <strong>primary</strong> or <strong>replica</strong>:</p>
+<ul class="simple">
+<li><p><strong>Primary shards</strong> handle write operations and can also serve read requests when needed;</p></li>
+<li><p><strong>Replica shards</strong> are exact copies of primary shards, designed to ensure fault tolerance and improve query performance by handling read operations.</p></li>
+</ul>
 <p>An index can consist of one or more shards distributed across multiple nodes. This distributed nature enables OpenSearch to form clusters, allowing indices to span across different machines for improved scalability and reliability.</p>
 <p>Increasing the number of primary shards improves throughput and indexing performance by distributing data across multiple partitions. Conversely, increasing the number of replica shards enhances fault tolerance and boosts query performance by providing additional nodes to handle read operations.</p>
 <p>The number of primary shards can only be defined during the creation of an index. Carefully consider the number of shards needed to meet your current requirements, factoring in query demands and, most importantly, write performance. Replica shards, however, can be adjusted on demand.</p>
@@ -397,7 +396,6 @@
 <p class="admonition-title">Note</p>
 <p>A primary shard and its corresponding replica cannot reside on the same node within a cluster, ensuring fault tolerance in case of node failure.</p>
 </div>
-</section>
 </section>
 <section id="useful-commands-for-managing-indices-and-shards-using-the-opensearch-api">
 <h2>Useful Commands for Managing Indices and Shards Using the OpenSearch API<a class="headerlink" href="#useful-commands-for-managing-indices-and-shards-using-the-opensearch-api" title="Link to this heading">#</a></h2>
