@@ -12,7 +12,7 @@ category: Log Analytics
 
 OpenSearch is a powerful platform, but having a solid understanding of its basic concepts is essential for a seamless experience with the stack. In this blog post, we’ll cover one of the most fundamental aspects of OpenSearch administration: **Indices and Shards**. 
 
-This article provides a high-level explanation of these concepts and includes useful commands for retrieving information about indices and shards—particularly helpful during troubleshooting.  
+This article provides a high-level explanation of these concepts and includes useful commands for retrieving information about indices and shards helpful during troubleshooting.  
 
 ## Understanding Indices and Shards
 
