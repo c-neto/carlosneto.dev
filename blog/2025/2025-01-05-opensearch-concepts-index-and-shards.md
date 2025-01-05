@@ -1,10 +1,10 @@
 ---
 tags: opensearch
-date: "2025-01-04"
+date: "2025-01-05"
 category: Log Analytics
 ---
 
-*__Blog Post Publish Date:__ 2025/01/04*
+*__Blog Post Publish Date:__ 2025/01/05*
 
 ---
 
