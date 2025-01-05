@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-01-05T03:13:02.879881+00:00</updated>
+  <updated>2025-01-05T03:14:02.911913+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -16,7 +16,7 @@
 &lt;section id="opensearch-concepts-index-and-shards"&gt;
 
 &lt;p&gt;OpenSearch is a powerful platform, but having a solid understanding of its basic concepts is essential for a seamless experience with the stack. In this blog post, we’ll cover one of the most fundamental aspects of OpenSearch administration: &lt;strong&gt;Indices and Shards&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;This article provides a high-level explanation of these concepts and includes useful commands for retrieving information about indices and shards—particularly helpful during troubleshooting.&lt;/p&gt;
+&lt;p&gt;This article provides a high-level explanation of these concepts and includes useful commands for retrieving information about indices and shards helpful during troubleshooting.&lt;/p&gt;
 &lt;section id="understanding-indices-and-shards"&gt;
 &lt;h2&gt;Understanding Indices and Shards&lt;/h2&gt;
 &lt;p&gt;An &lt;strong&gt;index&lt;/strong&gt; is a logical namespace that organizes a collection of documents along with their associated characteristics, such as field types, life cycle policies, and storage layer state. These documents are stored on disk within logical partitions called &lt;strong&gt;shards&lt;/strong&gt;. Shards can be classified as &lt;strong&gt;primary&lt;/strong&gt; or &lt;strong&gt;replica&lt;/strong&gt;:&lt;/p&gt;
