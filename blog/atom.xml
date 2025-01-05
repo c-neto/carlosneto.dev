@@ -2,11 +2,112 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2024-07-30T01:01:32.664142+00:00</updated>
+  <updated>2025-01-05T03:04:20.230389+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
-  <generator uri="https://ablog.readthedocs.io/" version="0.11.10">ABlog</generator>
+  <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2025/2025-01-04-opensearch-concepts-index-and-shards/</id>
+    <title>OpenSearch Concepts - Index and Shards</title>
+    <updated>2025-01-04T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2025/01/04&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="opensearch-concepts-index-and-shards"&gt;
+
+&lt;p&gt;OpenSearch is a powerful platform, but having a solid understanding of its basic concepts is essential for a seamless experience with the stack. In this blog post, we’ll cover one of the most fundamental aspects of OpenSearch administration: &lt;strong&gt;Indices and Shards&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;This article provides a high-level explanation of these concepts and includes useful commands for retrieving information about indices and shards—particularly helpful during troubleshooting.&lt;/p&gt;
+&lt;section id="understanding-indices-and-shards"&gt;
+&lt;h2&gt;Understanding Indices and Shards&lt;/h2&gt;
+&lt;p&gt;An &lt;strong&gt;index&lt;/strong&gt; is a logical namespace that organizes a collection of documents along with their associated characteristics, such as field types, life cycle policies, and storage layer state. These documents are stored on disk within logical partitions called &lt;strong&gt;shards&lt;/strong&gt;.&lt;/p&gt;
+&lt;section id="shards-primary-and-replica"&gt;
+&lt;h3&gt;&lt;strong&gt;Shards: Primary and Replica&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Shards can be classified as &lt;strong&gt;primary&lt;/strong&gt; or &lt;strong&gt;replica&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Primary shards&lt;/strong&gt; handle write operations and can also serve read requests when needed.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Replica shards&lt;/strong&gt; are exact copies of primary shards, designed to ensure fault tolerance and improve query performance by handling read operations.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The number of primary shards can only be defined during the creation of an index. Carefully consider the number of shards needed to meet your current requirements, factoring in query demands and, most importantly, write performance. Replica shards, however, can be adjusted on demand.&lt;/p&gt;
+&lt;p&gt;Increasing the number of primary shards improves throughput and indexing performance by distributing data across multiple partitions. Conversely, increasing the number of replica shards enhances fault tolerance and boosts query performance by providing additional nodes to handle read operations.&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;A primary shard and its corresponding replica cannot reside on the same node within a cluster, ensuring fault tolerance in case of node failure.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;An index can consist of one or more shards distributed across multiple nodes. This distributed nature enables OpenSearch to form clusters, allowing indices to span across different machines for improved scalability and reliability.&lt;/p&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;section id="useful-commands-for-managing-indices-and-shards-using-the-opensearch-api"&gt;
+&lt;h2&gt;Useful Commands for Managing Indices and Shards Using the OpenSearch API&lt;/h2&gt;
+&lt;p&gt;The following commands are especially useful for troubleshooting and monitoring the status of indices and shards. They can be executed in &lt;em&gt;OpenSearch Dashboards » Dev Tools&lt;/em&gt; or via an HTTP client like &lt;em&gt;cURL&lt;/em&gt; or &lt;em&gt;Postman&lt;/em&gt;.&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;List all indices, sorted by name:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_cat/indices?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;List the shards composing a specific index:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;INDEX-NAME&amp;gt;/_search_shards
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Get index metadata (e.g., number of shards, replicas, creation time):&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;INDEX-NAME&amp;gt;/_settings
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Retrieve field types defined in the index mapping:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;INDEX-NAME&amp;gt;/_mapping
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;List the ISM Policy attached to an index during creation:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_plugins/ism/explain/&amp;lt;INDEX-NAME&amp;gt;?show_policy&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;List shards not currently allocated to any node (status: &lt;em&gt;UNASSIGNED&lt;/em&gt;):&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;h&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index,shard,prirep,state,unassigned.reason&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Check shard allocation across cluster nodes:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_cat/allocation?v
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Monitor shard recovery or relocation progress:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_cat/recovery/&amp;lt;INDEX-NAME&amp;gt;?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;stage:desc
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;List all shards, sorted by index:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;List indices, sorted by size:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_cat/indices?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;h&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index,store.size&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;store.size:desc
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;With these commands you can efficiently get useful information about your OpenSearch clusters and streamline troubleshooting processes. If you have any questions or need further insights into OpenSearch, feel free to leave a comment below!&lt;/p&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2025/2025-01-04-opensearch-concepts-index-and-shards/"/>
+    <summary>Blog Post Publish Date: 2025/01/04OpenSearch is a powerful platform, but having a solid understanding of its basic concepts is essential for a seamless experience with the stack. In this blog post, we’ll cover one of the most fundamental aspects of OpenSearch administration: Indices and Shards.</summary>
+    <category term="opensearch" label="opensearch"/>
+    <published>2025-01-04T00:00:00+00:00</published>
+  </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2024/2024-07-21-dynaconf/</id>
     <title>Dynaconf: The Python Config Silver Bullet!</title>

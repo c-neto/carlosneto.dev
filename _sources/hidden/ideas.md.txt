@@ -5,3 +5,5 @@
 - vault
 - SSO with token review API
 - repoquery
+- k8s retry service
+- opensearch filted alias by field
