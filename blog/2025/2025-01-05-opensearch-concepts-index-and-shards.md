@@ -23,7 +23,7 @@ An **index** is a logical namespace that organizes a collection of documents alo
 
 An index can consist of one or more shards distributed across multiple nodes. This distributed nature enables OpenSearch to form clusters, allowing indices to span across different machines for improved scalability and reliability.  
 
-Increasing the number of primary shards improves throughput and indexing performance by distributing data across multiple partitions. Conversely, increasing the number of replica shards enhances fault tolerance and boosts query performance by providing additional nodes to handle read operations.
+Increasing the number of primary shards improves throughput and indexing performance by distributing data across multiple partitions. While increasing the number of replica shards enhances fault tolerance and boosts query performance by providing additional nodes to handle read operations.
 
 The number of primary shards can only be defined during the creation of an index. Carefully consider the number of shards needed to meet your current requirements, factoring in query demands and, most importantly, write performance. Replica shards, however, can be adjusted on demand.
 
