@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-01-05T03:14:02.911913+00:00</updated>
+  <updated>2025-01-05T03:16:31.633304+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -25,7 +25,7 @@
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Replica shards&lt;/strong&gt; are exact copies of primary shards, designed to ensure fault tolerance and improve query performance by handling read operations.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;An index can consist of one or more shards distributed across multiple nodes. This distributed nature enables OpenSearch to form clusters, allowing indices to span across different machines for improved scalability and reliability.&lt;/p&gt;
-&lt;p&gt;Increasing the number of primary shards improves throughput and indexing performance by distributing data across multiple partitions. Conversely, increasing the number of replica shards enhances fault tolerance and boosts query performance by providing additional nodes to handle read operations.&lt;/p&gt;
+&lt;p&gt;Increasing the number of primary shards improves throughput and indexing performance by distributing data across multiple partitions. While increasing the number of replica shards enhances fault tolerance and boosts query performance by providing additional nodes to handle read operations.&lt;/p&gt;
 &lt;p&gt;The number of primary shards can only be defined during the creation of an index. Carefully consider the number of shards needed to meet your current requirements, factoring in query demands and, most importantly, write performance. Replica shards, however, can be adjusted on demand.&lt;/p&gt;
 &lt;div class="admonition note"&gt;
 &lt;p class="admonition-title"&gt;Note&lt;/p&gt;
