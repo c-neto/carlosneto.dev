@@ -18,9 +18,11 @@ The examples assume you're running Logstash OSS 8.17 in a Kubernetes cluster wit
 
 I've also created a docker-compose lab for you to explore and test all the tips discussed in this blog post:
 
-- https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment
+- <i class="fab fa-linkedin fa-fade"></i> <https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment>
 
-> _I reserve special thanks to PostgreSQL Database Specialist [Lucio Chiessi](https://www.linkedin.com/in/lucio-chiessi) for helping me explore the JDBC connection string options that can be beneficial for Logstash._
+:::{note}
+_I reserve special thanks to PostgreSQL Database Specialist [Lucio Chiessi](https://www.linkedin.com/in/lucio-chiessi) for helping me explore the JDBC connection string options that can be beneficial for Logstash._ 
+:::
 
 ## Use Prepared Statements
 
