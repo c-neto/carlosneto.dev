@@ -10,13 +10,9 @@ category: Log Analytics
 
 # Logstash DB Enrichment - Tips and Traps!
 
-In this blog post, I share my experiences with Logstash log enrichment using a database. I'll cover some hidden behaviors and the importance of configuring the JDBC connection string parameters to avoid mysterious problems that are hard to replicate and not clearly documented.
+In this blog post, I share my experiences with Logstash log enrichment using a database. I'll cover some hidden behaviors and the importance of configuring the JDBC connection string parameters to avoid mysterious problems that are hard to replicate and not clearly documented. These tips come from real-world scenarios and aren't always obvious in the official documentation. I hope they help you save hours of troubleshooting and searching through forums.
 
-These tips come from real-world scenarios and aren't always obvious in the official documentation. I hope they help you save hours of troubleshooting and searching through forums.
-
-The examples assume you're running Logstash OSS 8.17 in a Kubernetes cluster with a PostgreSQL database. However, the key considerations apply even if you're using a single instance or a different relational database.
-
-I've also created a docker-compose lab for you to explore and test all the tips discussed in this blog post: <i class="fab fa-github fa-fade"></i> [github.com/c-neto/my-devops-labs/logstash/db-enrichment](https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment)
+The examples assume you're running Logstash OSS 8.17 in a Kubernetes cluster with a PostgreSQL database. However, the key considerations apply even if you're using a single instance or a different relational database. I've also created a docker-compose lab for you to explore and test all the tips discussed in this blog post: <i class="fab fa-github fa-fade"></i> [github.com/c-neto/my-devops-labs/logstash/db-enrichment](https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment)
 
 I reserve special thanks to PostgreSQL Database Specialist [Lucio Chiessi](https://www.linkedin.com/in/lucio-chiessi) for helping me explore the JDBC connection string options that can be beneficial for Logstash.
 
