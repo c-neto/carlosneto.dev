@@ -1,0 +1,630 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Logstash DB Enrichment - Tips and Traps!" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2025/2025-02-16-logstash-db-enrichment/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2025/02/16 In this blog post, I share my experiences with Logstash log enrichment using a database. I’ll cover some hidden behaviors and the importance of configuring the JD..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-02-16-logstash-db-enrichment_36ee7769.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2025/02/16 In this blog post, I share my experiences with Logstash log enrichment using a database. I’ll cover some hidden behaviors..." />
+<meta name="description" content="Blog Post Publish Date: 2025/02/16 In this blog post, I share my experiences with Logstash log enrichment using a database. I’ll cover some hidden behaviors and the importance of configuring the JD..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Logstash DB Enrichment - Tips and Traps! &#8212; Carlos Neto&#39;s Tech Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=68e62335" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2025/2025-02-16-logstash-db-enrichment';</script>
+    <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../../genindex/" />
+    <link rel="search" title="Search" href="../../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" /> 
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Tech Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../whoami/">
+    whoami
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../whoami/">
+    whoami
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2025/02/16</em></p>
+<hr class="docutils" />
+<section id="logstash-db-enrichment-tips-and-traps">
+<h1>Logstash DB Enrichment - Tips and Traps!<a class="headerlink" href="#logstash-db-enrichment-tips-and-traps" title="Link to this heading">#</a></h1>
+<p>In this blog post, I share my experiences with Logstash log enrichment using a database. I’ll cover some hidden behaviors and the importance of configuring the JDBC connection string to avoid mysterious problems that are hard to replicate and not clearly documented.</p>
+<p>These tips come from real-world scenarios and aren’t always obvious in the official documentation. I hope they help you save hours of troubleshooting and searching through forums.</p>
+<p>The examples assume you’re running Logstash OSS 8.17 in a Kubernetes cluster with a PostgreSQL database. However, the key considerations apply even if you’re using a single instance or a different relational database.</p>
+<p>I’ve also created a docker-compose lab for you to explore and test all the tips discussed in this blog post:</p>
+<ul class="simple">
+<li><p>https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment</p></li>
+</ul>
+<blockquote>
+<div><p><em>I reserve special thanks to PostgreSQL Database Specialist <a class="reference external" href="https://www.linkedin.com/in/lucio-chiessi">Lucio Chiessi</a> for helping me explore the JDBC connection string options that can be beneficial for Logstash.</em></p>
+</div></blockquote>
+<section id="use-prepared-statements">
+<h2>Use Prepared Statements<a class="headerlink" href="#use-prepared-statements" title="Link to this heading">#</a></h2>
+<p>The first tip is to use the <code class="docutils literal notranslate"><span class="pre">use_prepared_statements</span></code> option in the <code class="docutils literal notranslate"><span class="pre">jdbc_streaming</span></code> filter plugin.</p>
+<p>A Prepared Statement in PostgreSQL is a pre-compiled SQL query that improves performance and security by allowing repeated execution with different parameters while preventing SQL injection.</p>
+<p>Normally, the query in the log ingestion pipeline has a defined structure, changing only the parameters, and it is frequently executed. It is an ideal use case for log enrichment.</p>
+<p>When a query is prepared, PostgreSQL analyzes and optimizes the execution plan once. In subsequent calls, only the parameters are replaced, avoiding recompilation and improving efficiency.</p>
+<p>Example:</p>
+<div class="highlight-conf notranslate"><div class="highlight"><pre><span></span>jdbc_streaming {
+  jdbc_driver_library =&gt; &quot;/usr/share/logstash/postgresql.jar&quot;
+  jdbc_driver_class =&gt; &quot;org.postgresql.Driver&quot;
+  jdbc_connection_string =&gt; &quot;${DB_JDBC_CONNECTION_STRING}&quot;
+  jdbc_user =&gt; &quot;${DB_USER}&quot;
+  jdbc_password =&gt; &quot;${DB_PASSWORD}&quot;
+  use_prepared_statements =&gt; true
+  prepared_statement_name =&gt; &quot;logstash_enrich_query&quot;
+  prepared_statement_bind_values =&gt; [
+    &quot;[document][user_id]&quot;
+  ]
+  statement =&gt; &quot;
+  SELECT
+    user_name,
+    user_email,
+    user_group
+  FROM table_users
+  WHERE id = ?
+  &quot;
+  target =&gt; &quot;sql&quot;
+}
+</pre></div>
+</div>
+</section>
+<section id="when-the-database-is-out-your-pipeline-won-t-start">
+<h2>When the Database is Out, Your Pipeline Won’t Start!<a class="headerlink" href="#when-the-database-is-out-your-pipeline-won-t-start" title="Link to this heading">#</a></h2>
+<p>When you configure a Logstash pipeline that uses log enrichment by <code class="docutils literal notranslate"><span class="pre">jdbc_streaming</span></code>, Logstash verifies the connection with the database <strong>before starting</strong> to receive the logs. If the database is out, the pipeline will not be registered, and log ingestion will be removed. Pay attention, Logstash verifies the database connection before starting to receive logs, not when receiving logs that will use the <code class="docutils literal notranslate"><span class="pre">jdbc_streaming</span></code>. In other words, if your database is out, the log ingestion pipeline that has <code class="docutils literal notranslate"><span class="pre">jdbc_streaming</span></code> will not start, even if all logs don’t satisfy <code class="docutils literal notranslate"><span class="pre">if</span></code> conditions to be enriched.</p>
+<p>However, there is one detail that causes confusion in the behavior mentioned above: If the database is running when the Logstash pipeline starts, and the database connection is broken, the pipeline will continue working with log enrichment errors only. When the database connection is live again, the enrichment will be re-established and work.</p>
+<p>It is important to understand because when you configure a database log enrichment, indirectly, you are configuring a hard dependency between Logstash new instances and database health.</p>
+<p>It is a problem because if the database is out, it invalidates scaling the Logstash pods, and if Logstash restarts, the log ingestion will be blocked because of the hard dependency on the database.</p>
+<p>Ok, but… How to fix this behavior? I didn’t find any parameter in the Logstash documentation to prevent this behavior… In this case, you can organize distinct pipelines in a way that one pipeline is only for logs that will always be enriched, and another pipeline for logs that will not be enriched. This approach can avoid stopping log ingestion of logs that don’t need to be enriched when the database is out. But, this approach can increase the duplicate code. Thus, my suggestion is to use templates of your log pipeline to have a fallback pipeline without log enrichment to avoid rendering the <code class="docutils literal notranslate"><span class="pre">jdbc_streaming</span></code> statements. If you are working in Kubernetes, I suggest templating the pipeline using Helm; if not, you can use another template engine like Jinja2.</p>
+</section>
+<section id="lock-table-lock-log-ingestion">
+<h2>Lock Table == Lock Log Ingestion<a class="headerlink" href="#lock-table-lock-log-ingestion" title="Link to this heading">#</a></h2>
+<p>This case is the worst problem that can be faced when problems are occurring, and logs are frozen without an explicit problem to indicate the root cause.</p>
+<p>When a log is performing the <code class="docutils literal notranslate"><span class="pre">jdbc_streaming</span></code> filter plugin, and at that moment, the table defined in the query is locked, all logs will be stopped, even logs that will not perform <code class="docutils literal notranslate"><span class="pre">jdbc_streaming</span></code>. The worst thing is that Logstash service logs don’t generate logs to explicitly indicate this behavior (<em>at least in the default log level</em>).</p>
+<p>I explored the documentation of the <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-jdbc_streaming.html">jdbc_streaming</a> to check parameters that can help avoid this behavior, and I didn’t find any. At this moment, I realized that I needed to explore the PostgreSQL JDBC connection string. I explored https://jdbc.postgresql.org/ and found important things that explain the behavior. By default, if a query execution is on a table that is locked, the timeout for query execution is infinite!</p>
+<p>To solve this problem, it is necessary to explicitly set the parameter <code class="docutils literal notranslate"><span class="pre">options=-c</span> <span class="pre">lock_timeout=1000</span></code> in the JDBC connection string to set the maximum time in milliseconds to wait for a lock on a table. If the lock cannot be acquired within 1 second, an error is thrown in Logstash service explicitly indicating that the log was not enriched due to lock timeout, and the log pipeline will continue, and the log will proceed to the next statement.</p>
+<p>To simulate this case, you can execute the following command in PostgreSQL:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">LOCK</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">table_used_by_logstash</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="k">ACCESS</span><span class="w"> </span><span class="k">EXCLUSIVE</span><span class="w"> </span><span class="k">MODE</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>At this moment, I paid attention to reviewing all JDBC connection parameters with infinite values by default that could cause problems like the one mentioned, and I will present them in the following topics in this blog post.</p>
+</section>
+<section id="slow-query-slow-log-ingestion">
+<h2>Slow Query == Slow Log Ingestion<a class="headerlink" href="#slow-query-slow-log-ingestion" title="Link to this heading">#</a></h2>
+<p>Another JDBC connection parameter that defaults to infinite is the query execution timeout. If the database is overloaded and facing throttling, your log ingestion will be affected. If an enrichment query execution takes a long time, all logs in this pipeline will be queued, similar to the behavior explained in the previous topic.</p>
+<p>The default connection parameter in PostgreSQL for query execution timeout is infinite, thus, database overload will impact log ingestion.</p>
+<p>To solve this case, you can explicitly set the JDBC connection parameter <code class="docutils literal notranslate"><span class="pre">options=-c</span> <span class="pre">statement_timeout=5000</span></code> to set the maximum time in milliseconds that a query can run before being terminated. In this case, queries running longer than 5 seconds will be aborted, and it will be explicitly logged in Logstash service logs, the pipeline will continue working, and log enrichment will be skipped, adding the tag.</p>
+<p>To simulate a slow query, you can add the function <a class="reference external" href="https://pgpedia.info/p/pg_sleep.html">pg_sleep</a>. In the example below, <code class="docutils literal notranslate"><span class="pre">pg_sleep(10)::text</span></code> is introduced to artificially simulate a slow query:</p>
+<div class="highlight-conf notranslate"><div class="highlight"><pre><span></span>jdbc_streaming {
+  jdbc_driver_library =&gt; &quot;/usr/share/logstash/postgresql.jar&quot;
+  jdbc_driver_class =&gt; &quot;org.postgresql.Driver&quot;
+  jdbc_connection_string =&gt; &quot;${DB_JDBC_CONNECTION_STRING}&quot;
+  jdbc_user =&gt; &quot;${DB_USER}&quot;
+  jdbc_password =&gt; &quot;${DB_PASSWORD}&quot;
+  use_prepared_statements =&gt; true
+  prepared_statement_name =&gt; &quot;logstash_enrich_query&quot;
+  prepared_statement_bind_values =&gt; [&quot;[document][user_id]&quot;]
+  statement =&gt; &quot;
+    SELECT
+      pg_sleep(10)::text,    
+      user_name,
+      user_email,
+      user_group
+    FROM table_users
+    WHERE id = ?
+  &quot;
+  target =&gt; &quot;sql&quot;
+}
+</pre></div>
+</div>
+</section>
+<section id="define-timeouts-for-database-login-and-socket">
+<h2>Define Timeouts for Database Login and Socket<a class="headerlink" href="#define-timeouts-for-database-login-and-socket" title="Link to this heading">#</a></h2>
+<p>In the same context as the previously presented timeout parameters, it is important to define <code class="docutils literal notranslate"><span class="pre">loginTimeout=10</span></code> to specify the maximum time in seconds to wait for a connection to be established. If the connection cannot be established within this time, an error is thrown, and <code class="docutils literal notranslate"><span class="pre">socketTimeout=10</span></code> to set the maximum time in seconds for reading data from the database. If the database does not respond within this time, the connection is closed.</p>
+</section>
+<section id="explicit-application-name">
+<h2>Explicit Application Name<a class="headerlink" href="#explicit-application-name" title="Link to this heading">#</a></h2>
+<p>The Logstash enrichment queries can be offensive to the database. In this case, it is necessary to tag the connections to make it easier to identify in the aspect of database administration.</p>
+<p>To define the connection identification, use the JDBC Connection String parameter <code class="docutils literal notranslate"><span class="pre">ApplicationName=logstash</span></code> to set the application name to <code class="docutils literal notranslate"><span class="pre">logstash</span></code> for easier identification in PostgreSQL logs.</p>
+<p>Thus, you can identify the connection from Logstash by the following PostgreSQL query:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="n">application_name</span><span class="p">,</span><span class="w"> </span><span class="n">usename</span><span class="p">,</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">client_addr</span><span class="p">,</span><span class="w"> </span><span class="k">state</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">application_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;logstash&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="thread-pool-timeout-connection-timeout">
+<h2>Thread Pool Timeout != Connection Timeout<a class="headerlink" href="#thread-pool-timeout-connection-timeout" title="Link to this heading">#</a></h2>
+<p>Don’t be confused, the <a class="reference external" href="https://github.com/jeremyevans/sequel/blob/master/doc/opening_databases.rdoc#label-postgres">sequel_opts</a> parameter in the <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-jdbc.html#plugins-inputs-jdbc-sequel_opts">jdbc_streaming</a>. Logstash connects to databases using <strong>JDBC</strong>, but it internally manages the connection and query execution through the <strong>Sequel</strong> library in JRuby, allowing for additional configuration via <code class="docutils literal notranslate"><span class="pre">sequel_opts</span></code>. Thus, the JDBC connection string defines behavior with the database, and Sequel defines connection characteristics to manage this connection.</p>
+<p>The example below is ideal to explain it. The <code class="docutils literal notranslate"><span class="pre">sequel_opts::pool_timeout</span></code> defines a timeout for Logstash to wait for an available pool connection to use, which is not related to the timeout of query execution, which is the parameter related to the database, defined in the <code class="docutils literal notranslate"><span class="pre">jdbc_connection_string</span></code>.</p>
+<div class="highlight-conf notranslate"><div class="highlight"><pre><span></span>jdbc_streaming {
+  sequel_opts =&gt; {
+    max_connections =&gt; 4
+    pool_timeout =&gt; 5
+  }
+  jdbc_connection_string =&gt; &quot;jdbc:postgresql://postgres:5432/db?options=-c%20statement_timeout=1000%20&quot;
+}
+</pre></div>
+</div>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
+<p>When working with Logstash, I initially assumed that its behaviors were straightforward and default. However, Logstash has many nuances that can impact log ingestion and even halt it.</p>
+<p>As requirements grow, so do the challenges. Paying close attention to details is crucial. Nothing should be taken for granted, and everything needs to be validated. I highly recommend setting up a docker-compose lab to test features in various contexts. This ensures reliability, helps plan workarounds, and prevents unexpected issues, especially late on a Friday night.</p>
+<p>Don’t forget to check out the docker-compose lab:</p>
+<p>https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>https://jdbc.postgresql.org/documentation/use/</p></li>
+<li><p>https://www.postgresql.org/docs/current/runtime-config-client.html</p></li>
+<li><p>https://www.elastic.co/guide/en/logstash/current/plugins-filters-jdbc_streaming.html</p></li>
+<li><p>https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment</p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+     
+<div class="section ablog__prev-next">
+  <span class="ablog__prev">
+     
+    <a href="../2025-01-05-opensearch-concepts-index-and-shards/">
+      
+      <i class="fa fa-arrow-circle-left"></i>
+      
+      <span>OpenSearch Concepts - Index and Shards</span>
+    </a>
+    
+  </span>
+  <span class="ablog__spacer">&nbsp;</span>
+  <span class="ablog__next">
+    
+  </span>
+</div>
+  
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

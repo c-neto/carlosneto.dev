@@ -41,7 +41,7 @@
   <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
@@ -433,7 +433,7 @@ venv/bin/pip<span class="w"> </span>install<span class="w"> </span>dynaconf<span
 <p><em>The <code class="docutils literal notranslate"><span class="pre">config.py</span></code> source code created by <code class="docutils literal notranslate"><span class="pre">dynaconf-cli</span></code> looks like this:</em></p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">config.py</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dynaconf</span> <span class="kn">import</span> <span class="n">Dynaconf</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dynaconf</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dynaconf</span>
 
 <span class="n">settings</span> <span class="o">=</span> <span class="n">Dynaconf</span><span class="p">(</span>
     <span class="n">envvar_prefix</span><span class="o">=</span><span class="s2">&quot;DYNACONF&quot;</span><span class="p">,</span>
@@ -494,19 +494,19 @@ aws<span class="w"> </span>ssm<span class="w"> </span>put-parameter<span class="
 </ol>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">config.py</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">import</span> <span class="nn">boto3</span>
-<span class="kn">from</span> <span class="nn">botocore.exceptions</span> <span class="kn">import</span> <span class="n">ClientError</span><span class="p">,</span> <span class="n">BotoCoreError</span>
-<span class="kn">from</span> <span class="nn">dynaconf</span> <span class="kn">import</span> <span class="n">Dynaconf</span><span class="p">,</span> <span class="n">LazySettings</span>
-<span class="kn">from</span> <span class="nn">dynaconf.loaders.base</span> <span class="kn">import</span> <span class="n">SourceMetadata</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">boto3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">botocore.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientError</span><span class="p">,</span> <span class="n">BotoCoreError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dynaconf</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dynaconf</span><span class="p">,</span> <span class="n">LazySettings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dynaconf.loaders.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">SourceMetadata</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="n">PARAMETERS_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;/my-application/&quot;</span>
 
 
 <span class="c1"># Retrieve parameters from AWS Parameter Store recursively by prefix</span>
-<span class="k">def</span> <span class="nf">_aws_parameter_store_loader</span><span class="p">(</span><span class="n">parameters_prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_aws_parameter_store_loader</span><span class="p">(</span><span class="n">parameters_prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="n">ssm_client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;ssm&#39;</span><span class="p">)</span>
 
     <span class="n">paginator</span> <span class="o">=</span> <span class="n">ssm_client</span><span class="o">.</span><span class="n">get_paginator</span><span class="p">(</span><span class="s2">&quot;get_parameters_by_path&quot;</span><span class="p">)</span>
@@ -534,7 +534,7 @@ aws<span class="w"> </span>ssm<span class="w"> </span>put-parameter<span class="
 
 
 <span class="c1"># Dynaconf callback - used in this case for retrieve parameters from AWS Parameter Store</span>
-<span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">LazySettings</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">LazySettings</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">global</span> <span class="n">parameters_from_aws</span>
 
     <span class="n">source_metadata</span> <span class="o">=</span> <span class="n">SourceMetadata</span><span class="p">(</span><span class="s1">&#39;aws-parameter-store&#39;</span><span class="p">,</span> <span class="n">PARAMETERS_PREFIX</span><span class="p">)</span>
