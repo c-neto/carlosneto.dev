@@ -7,3 +7,5 @@
 - repoquery
 - k8s retry service
 - opensearch filted alias by field
+- opensearch increase performance
+- ansible-lint
