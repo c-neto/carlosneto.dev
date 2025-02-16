@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-02-16T18:41:06.764663+00:00</updated>
+  <updated>2025-02-16T19:16:09.310667+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -15,45 +15,40 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="logstash-db-enrichment-tips-and-traps"&gt;
 
-&lt;p&gt;In this blog post, I share my experiences with Logstash log enrichment using a database. I’ll cover some hidden behaviors and the importance of configuring the JDBC connection string to avoid mysterious problems that are hard to replicate and not clearly documented.&lt;/p&gt;
+&lt;p&gt;In this blog post, I share my experiences with Logstash log enrichment using a database. I’ll cover some hidden behaviors and the importance of configuring the JDBC connection string parameters to avoid mysterious problems that are hard to replicate and not clearly documented.&lt;/p&gt;
 &lt;p&gt;These tips come from real-world scenarios and aren’t always obvious in the official documentation. I hope they help you save hours of troubleshooting and searching through forums.&lt;/p&gt;
 &lt;p&gt;The examples assume you’re running Logstash OSS 8.17 in a Kubernetes cluster with a PostgreSQL database. However, the key considerations apply even if you’re using a single instance or a different relational database.&lt;/p&gt;
 &lt;p&gt;I’ve also created a docker-compose lab for you to explore and test all the tips discussed in this blog post:&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;i class="fab fa-linkedin fa-fade"&gt;&lt;/i&gt; &lt;a class="github reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment"&gt;c-neto/my-devops-labs&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;i class="fab fa-github fa-fade"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment"&gt;github.com/c-neto/my-devops-labs/logstash/db-enrichment&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="admonition note"&gt;
-&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;I reserve special thanks to PostgreSQL Database Specialist &lt;a class="reference external" href="https://www.linkedin.com/in/lucio-chiessi"&gt;Lucio Chiessi&lt;/a&gt; for helping me explore the JDBC connection string options that can be beneficial for Logstash.&lt;/em&gt;&lt;/p&gt;
-&lt;/div&gt;
+&lt;p&gt;I reserve special thanks to PostgreSQL Database Specialist &lt;a class="reference external" href="https://www.linkedin.com/in/lucio-chiessi"&gt;Lucio Chiessi&lt;/a&gt; for helping me explore the JDBC connection string options that can be beneficial for Logstash.&lt;/p&gt;
 &lt;section id="use-prepared-statements"&gt;
 &lt;h2&gt;Use Prepared Statements&lt;/h2&gt;
-&lt;p&gt;The first tip is to use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;use_prepared_statements&lt;/span&gt;&lt;/code&gt; option in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;jdbc_streaming&lt;/span&gt;&lt;/code&gt; filter plugin.&lt;/p&gt;
-&lt;p&gt;A Prepared Statement in PostgreSQL is a pre-compiled SQL query that improves performance and security by allowing repeated execution with different parameters while preventing SQL injection.&lt;/p&gt;
+&lt;p&gt;The first tip is to use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;use_prepared_statements&lt;/span&gt;&lt;/code&gt; option in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;jdbc_streaming&lt;/span&gt;&lt;/code&gt; filter plugin. A Prepared Statement in PostgreSQL is a pre-compiled SQL query that improves performance and security by allowing repeated execution with different parameters while preventing SQL injection. When a query is prepared, PostgreSQL analyzes and optimizes the execution plan once. In subsequent calls, only the parameters are replaced, avoiding recompilation and improving efficiency.&lt;/p&gt;
 &lt;p&gt;Normally, the query in the log ingestion pipeline has a defined structure, changing only the parameters, and it is frequently executed. It is an ideal use case for log enrichment.&lt;/p&gt;
-&lt;p&gt;When a query is prepared, PostgreSQL analyzes and optimizes the execution plan once. In subsequent calls, only the parameters are replaced, avoiding recompilation and improving efficiency.&lt;/p&gt;
-&lt;p&gt;Example:&lt;/p&gt;
-&lt;div class="highlight-conf notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;jdbc_streaming {
-  jdbc_driver_library =&amp;gt; &amp;quot;/usr/share/logstash/postgresql.jar&amp;quot;
-  jdbc_driver_class =&amp;gt; &amp;quot;org.postgresql.Driver&amp;quot;
-  jdbc_connection_string =&amp;gt; &amp;quot;${DB_JDBC_CONNECTION_STRING}&amp;quot;
-  jdbc_user =&amp;gt; &amp;quot;${DB_USER}&amp;quot;
-  jdbc_password =&amp;gt; &amp;quot;${DB_PASSWORD}&amp;quot;
-  use_prepared_statements =&amp;gt; true
-  prepared_statement_name =&amp;gt; &amp;quot;logstash_enrich_query&amp;quot;
-  prepared_statement_bind_values =&amp;gt; [
-    &amp;quot;[document][user_id]&amp;quot;
-  ]
-  statement =&amp;gt; &amp;quot;
-  SELECT
-    user_name,
-    user_email,
-    user_group
-  FROM table_users
-  WHERE id = ?
-  &amp;quot;
-  target =&amp;gt; &amp;quot;sql&amp;quot;
-}
+&lt;p&gt;Example of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;use_prepared_statements&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight-lua notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;jdbc_streaming&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;jdbc_driver_library&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/share/logstash/postgresql.jar&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;jdbc_driver_class&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;org.postgresql.Driver&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;jdbc_connection_string&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;${DB_JDBC_CONNECTION_STRING}&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;jdbc_user&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;${DB_USER}&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;jdbc_password&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;${DB_PASSWORD}&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;use_prepared_statements&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;prepared_statement_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;logstash_enrich_query&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;prepared_statement_bind_values&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;[document][user_id]&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;statement&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;  SELECT&lt;/span&gt;
+&lt;span class="s2"&gt;    user_name,&lt;/span&gt;
+&lt;span class="s2"&gt;    user_email,&lt;/span&gt;
+&lt;span class="s2"&gt;    user_group&lt;/span&gt;
+&lt;span class="s2"&gt;  FROM table_users&lt;/span&gt;
+&lt;span class="s2"&gt;  WHERE id = ?&lt;/span&gt;
+&lt;span class="s2"&gt;  &amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;target&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sql&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
@@ -63,13 +58,13 @@
 &lt;p&gt;However, there is one detail that causes confusion in the behavior mentioned above: If the database is running when the Logstash pipeline starts, and the database connection is broken, the pipeline will continue working with log enrichment errors only. When the database connection is live again, the enrichment will be re-established and work.&lt;/p&gt;
 &lt;p&gt;It is important to understand because when you configure a database log enrichment, indirectly, you are configuring a hard dependency between Logstash new instances and database health.&lt;/p&gt;
 &lt;p&gt;It is a problem because if the database is out, it invalidates scaling the Logstash pods, and if Logstash restarts, the log ingestion will be blocked because of the hard dependency on the database.&lt;/p&gt;
-&lt;p&gt;Ok, but… How to fix this behavior? I didn’t find any parameter in the Logstash documentation to prevent this behavior… In this case, you can organize distinct pipelines in a way that one pipeline is only for logs that will always be enriched, and another pipeline for logs that will not be enriched. This approach can avoid stopping log ingestion of logs that don’t need to be enriched when the database is out. But, this approach can increase the duplicate code. Thus, my suggestion is to use templates of your log pipeline to have a fallback pipeline without log enrichment to avoid rendering the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;jdbc_streaming&lt;/span&gt;&lt;/code&gt; statements. If you are working in Kubernetes, I suggest templating the pipeline using Helm; if not, you can use another template engine like Jinja2.&lt;/p&gt;
+&lt;p&gt;Ok, but… How to fix this behavior? I didn’t find any parameter in the Logstash documentation to prevent this behavior… In this case, you can organize distinct pipelines in a way that one pipeline is only for logs that will always be enriched, and another pipeline for logs that will not be enriched. This approach can avoid stopping log ingestion of logs that don’t need to be enriched when the database is out. But, this approach can increase the duplicate code. Thus, my suggestion is to use templates of your log pipeline to have a fallback pipeline without log enrichment to avoid rendering the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;jdbc_streaming&lt;/span&gt;&lt;/code&gt; statements. If you are working in Kubernetes, I suggest templating the pipeline using &lt;a class="reference external" href="https://helm.sh/"&gt;Helm&lt;/a&gt;; if not, you can use another template engine like &lt;a class="reference external" href="https://jinja.palletsprojects.com/en/stable/"&gt;Jinja&lt;/a&gt;.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="lock-table-lock-log-ingestion"&gt;
 &lt;h2&gt;Lock Table == Lock Log Ingestion&lt;/h2&gt;
-&lt;p&gt;This case is the worst problem that can be faced when problems are occurring, and logs are frozen without an explicit problem to indicate the root cause.&lt;/p&gt;
+&lt;p&gt;This is the worst problem that can occur: when issues arise, and service logs are frozen without an explicit indication of the root cause.&lt;/p&gt;
 &lt;p&gt;When a log is performing the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;jdbc_streaming&lt;/span&gt;&lt;/code&gt; filter plugin, and at that moment, the table defined in the query is locked, all logs will be stopped, even logs that will not perform &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;jdbc_streaming&lt;/span&gt;&lt;/code&gt;. The worst thing is that Logstash service logs don’t generate logs to explicitly indicate this behavior (&lt;em&gt;at least in the default log level&lt;/em&gt;).&lt;/p&gt;
-&lt;p&gt;I explored the documentation of the &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-jdbc_streaming.html"&gt;jdbc_streaming&lt;/a&gt; to check parameters that can help avoid this behavior, and I didn’t find any. At this moment, I realized that I needed to explore the PostgreSQL JDBC connection string. I explored https://jdbc.postgresql.org/ and found important things that explain the behavior. By default, if a query execution is on a table that is locked, the timeout for query execution is infinite!&lt;/p&gt;
+&lt;p&gt;I explored the documentation of the &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-jdbc_streaming.html"&gt;jdbc_streaming&lt;/a&gt; to check parameters that can help avoid this behavior, and I didn’t find any. At this moment, I realized that I needed to explore the PostgreSQL JDBC connection string. I explored &lt;a class="reference external" href="https://jdbc.postgresql.org/"&gt;https://jdbc.postgresql.org/&lt;/a&gt; and found important things that explain the behavior. By default, if a query execution is on a table that is locked, the timeout for query execution is infinite!&lt;/p&gt;
 &lt;p&gt;To solve this problem, it is necessary to explicitly set the parameter &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;options=-c&lt;/span&gt; &lt;span class="pre"&gt;lock_timeout=1000&lt;/span&gt;&lt;/code&gt; in the JDBC connection string to set the maximum time in milliseconds to wait for a lock on a table. If the lock cannot be acquired within 1 second, an error is thrown in Logstash service explicitly indicating that the log was not enriched due to lock timeout, and the log pipeline will continue, and the log will proceed to the next statement.&lt;/p&gt;
 &lt;p&gt;To simulate this case, you can execute the following command in PostgreSQL:&lt;/p&gt;
 &lt;div class="highlight-sql notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;LOCK&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;TABLE&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;table_used_by_logstash&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;IN&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;ACCESS&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;EXCLUSIVE&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;MODE&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
@@ -79,30 +74,29 @@
 &lt;/section&gt;
 &lt;section id="slow-query-slow-log-ingestion"&gt;
 &lt;h2&gt;Slow Query == Slow Log Ingestion&lt;/h2&gt;
-&lt;p&gt;Another JDBC connection parameter that defaults to infinite is the query execution timeout. If the database is overloaded and facing throttling, your log ingestion will be affected. If an enrichment query execution takes a long time, all logs in this pipeline will be queued, similar to the behavior explained in the previous topic.&lt;/p&gt;
-&lt;p&gt;The default connection parameter in PostgreSQL for query execution timeout is infinite, thus, database overload will impact log ingestion.&lt;/p&gt;
+&lt;p&gt;Another JDBC connection parameter that defaults to infinite is the query execution timeout. If the database is overloaded and facing throttling, your log ingestion will be affected. If an enrichment query execution takes a long time, all logs in this pipeline will be queued, similar to the behavior explained in the previous topic. The default connection parameter in PostgreSQL for query execution timeout is infinite, thus, database overload will impact log ingestion.&lt;/p&gt;
 &lt;p&gt;To solve this case, you can explicitly set the JDBC connection parameter &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;options=-c&lt;/span&gt; &lt;span class="pre"&gt;statement_timeout=5000&lt;/span&gt;&lt;/code&gt; to set the maximum time in milliseconds that a query can run before being terminated. In this case, queries running longer than 5 seconds will be aborted, and it will be explicitly logged in Logstash service logs, the pipeline will continue working, and log enrichment will be skipped, adding the tag.&lt;/p&gt;
 &lt;p&gt;To simulate a slow query, you can add the function &lt;a class="reference external" href="https://pgpedia.info/p/pg_sleep.html"&gt;pg_sleep&lt;/a&gt;. In the example below, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;pg_sleep(10)::text&lt;/span&gt;&lt;/code&gt; is introduced to artificially simulate a slow query:&lt;/p&gt;
-&lt;div class="highlight-conf notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;jdbc_streaming {
-  jdbc_driver_library =&amp;gt; &amp;quot;/usr/share/logstash/postgresql.jar&amp;quot;
-  jdbc_driver_class =&amp;gt; &amp;quot;org.postgresql.Driver&amp;quot;
-  jdbc_connection_string =&amp;gt; &amp;quot;${DB_JDBC_CONNECTION_STRING}&amp;quot;
-  jdbc_user =&amp;gt; &amp;quot;${DB_USER}&amp;quot;
-  jdbc_password =&amp;gt; &amp;quot;${DB_PASSWORD}&amp;quot;
-  use_prepared_statements =&amp;gt; true
-  prepared_statement_name =&amp;gt; &amp;quot;logstash_enrich_query&amp;quot;
-  prepared_statement_bind_values =&amp;gt; [&amp;quot;[document][user_id]&amp;quot;]
-  statement =&amp;gt; &amp;quot;
-    SELECT
-      pg_sleep(10)::text,    
-      user_name,
-      user_email,
-      user_group
-    FROM table_users
-    WHERE id = ?
-  &amp;quot;
-  target =&amp;gt; &amp;quot;sql&amp;quot;
-}
+&lt;div class="highlight-lua notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;jdbc_streaming&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;jdbc_driver_library&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/share/logstash/postgresql.jar&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;jdbc_driver_class&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;org.postgresql.Driver&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;jdbc_connection_string&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;${DB_JDBC_CONNECTION_STRING}&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;jdbc_user&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;${DB_USER}&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;jdbc_password&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;${DB_PASSWORD}&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;use_prepared_statements&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;prepared_statement_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;logstash_enrich_query&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;prepared_statement_bind_values&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;[document][user_id]&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;statement&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;    SELECT&lt;/span&gt;
+&lt;span class="s2"&gt;      pg_sleep(10)::text,    &lt;/span&gt;
+&lt;span class="s2"&gt;      user_name,&lt;/span&gt;
+&lt;span class="s2"&gt;      user_email,&lt;/span&gt;
+&lt;span class="s2"&gt;      user_group&lt;/span&gt;
+&lt;span class="s2"&gt;    FROM table_users&lt;/span&gt;
+&lt;span class="s2"&gt;    WHERE id = ?&lt;/span&gt;
+&lt;span class="s2"&gt;  &amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;target&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sql&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
@@ -110,10 +104,9 @@
 &lt;h2&gt;Define Timeouts for Database Login and Socket&lt;/h2&gt;
 &lt;p&gt;In the same context as the previously presented timeout parameters, it is important to define &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;loginTimeout=10&lt;/span&gt;&lt;/code&gt; to specify the maximum time in seconds to wait for a connection to be established. If the connection cannot be established within this time, an error is thrown, and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;socketTimeout=10&lt;/span&gt;&lt;/code&gt; to set the maximum time in seconds for reading data from the database. If the database does not respond within this time, the connection is closed.&lt;/p&gt;
 &lt;/section&gt;
-&lt;section id="explicit-application-name"&gt;
-&lt;h2&gt;Explicit Application Name&lt;/h2&gt;
-&lt;p&gt;The Logstash enrichment queries can be offensive to the database. In this case, it is necessary to tag the connections to make it easier to identify in the aspect of database administration.&lt;/p&gt;
-&lt;p&gt;To define the connection identification, use the JDBC Connection String parameter &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;ApplicationName=logstash&lt;/span&gt;&lt;/code&gt; to set the application name to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;logstash&lt;/span&gt;&lt;/code&gt; for easier identification in PostgreSQL logs.&lt;/p&gt;
+&lt;section id="ensure-db-connection-identification"&gt;
+&lt;h2&gt;Ensure DB Connection Identification&lt;/h2&gt;
+&lt;p&gt;The Logstash enrichment queries can be offensive to the database. In this case, it is necessary to tag the connections to make it easier to identify in the aspect of database administration. To define the connection identification, use the JDBC Connection String parameter &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;ApplicationName=logstash&lt;/span&gt;&lt;/code&gt; to set the application name to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;logstash&lt;/span&gt;&lt;/code&gt; for easier identification in PostgreSQL logs.&lt;/p&gt;
 &lt;p&gt;Thus, you can identify the connection from Logstash by the following PostgreSQL query:&lt;/p&gt;
 &lt;div class="highlight-sql notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;application_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;usename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;datname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;client_addr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;state&lt;/span&gt;
 &lt;span class="k"&gt;FROM&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pg_stat_activity&lt;/span&gt;
@@ -121,40 +114,43 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
-&lt;section id="thread-pool-timeout-connection-timeout"&gt;
-&lt;h2&gt;Thread Pool Timeout != Connection Timeout&lt;/h2&gt;
-&lt;p&gt;Don’t be confused, the &lt;a class="reference external" href="https://github.com/jeremyevans/sequel/blob/master/doc/opening_databases.rdoc#label-postgres"&gt;sequel_opts&lt;/a&gt; parameter in the &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-jdbc.html#plugins-inputs-jdbc-sequel_opts"&gt;jdbc_streaming&lt;/a&gt;. Logstash connects to databases using &lt;strong&gt;JDBC&lt;/strong&gt;, but it internally manages the connection and query execution through the &lt;strong&gt;Sequel&lt;/strong&gt; library in JRuby, allowing for additional configuration via &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;sequel_opts&lt;/span&gt;&lt;/code&gt;. Thus, the JDBC connection string defines behavior with the database, and Sequel defines connection characteristics to manage this connection.&lt;/p&gt;
+&lt;section id="sequel-opts-database-connection-parameters"&gt;
+&lt;h2&gt;Sequel Opts != Database Connection Parameters&lt;/h2&gt;
+&lt;p&gt;Don’t be confused, the &lt;a class="reference external" href="https://github.com/jeremyevans/sequel/blob/master/doc/opening_databases.rdoc#label-postgres"&gt;jdbc_streaming::sequel_opts&lt;/a&gt; parameters and &lt;a class="reference external" href="https://jdbc.postgresql.org/documentation/use/"&gt;JDBC Connection String&lt;/a&gt; performing distinct roles. Logstash connects to databases using &lt;strong&gt;JDBC&lt;/strong&gt;, but it internally manages the connection through the &lt;strong&gt;Sequel&lt;/strong&gt; library in JRuby, allowing for additional configuration via &lt;a class="reference external" href="https://github.com/jeremyevans/sequel/blob/master/doc/opening_databases.rdoc#label-postgres"&gt;sequel_opts&lt;/a&gt;. Thus, the JDBC connection string defines behavior with the database, and Sequel defines connection characteristics to manage this connection.&lt;/p&gt;
 &lt;p&gt;The example below is ideal to explain it. The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;sequel_opts::pool_timeout&lt;/span&gt;&lt;/code&gt; defines a timeout for Logstash to wait for an available pool connection to use, which is not related to the timeout of query execution, which is the parameter related to the database, defined in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;jdbc_connection_string&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
-&lt;div class="highlight-conf notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;jdbc_streaming {
-  sequel_opts =&amp;gt; {
-    max_connections =&amp;gt; 4
-    pool_timeout =&amp;gt; 5
-  }
-  jdbc_connection_string =&amp;gt; &amp;quot;jdbc:postgresql://postgres:5432/db?options=-c%20statement_timeout=1000%20&amp;quot;
-}
+&lt;div class="highlight-lua notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;jdbc_streaming&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;sequel_opts&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;max_connections&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;pool_timeout&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;jdbc_connection_string&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;jdbc:postgresql://postgres:5432/db?options=-c%20statement_timeout=1000%20&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
 &lt;section id="conclusion"&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;When working with Logstash, I initially assumed that its behaviors were straightforward and default. However, Logstash has many nuances that can impact log ingestion and even halt it.&lt;/p&gt;
-&lt;p&gt;As requirements grow, so do the challenges. Paying close attention to details is crucial. Nothing should be taken for granted, and everything needs to be validated. I highly recommend setting up a docker-compose lab to test features in various contexts. This ensures reliability, helps plan workarounds, and prevents unexpected issues, especially late on a Friday night.&lt;/p&gt;
+&lt;p&gt;As requirements grow, so do the challenges. Nothing should be taken for granted, and everything needs to be validated. I highly recommend setting up a docker-compose lab to test features in various contexts. This ensures reliability, helps plan workarounds, and prevents unexpected issues, especially late on a Friday night.&lt;/p&gt;
 &lt;p&gt;Don’t forget to check out the docker-compose lab:&lt;/p&gt;
-&lt;p&gt;https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;i class="fab fa-github fa-fade"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment"&gt;github.com/c-neto/my-devops-labs/logstash/db-enrichment&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/section&gt;
 &lt;section id="references"&gt;
 &lt;h2&gt;References&lt;/h2&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;https://jdbc.postgresql.org/documentation/use/&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;https://www.postgresql.org/docs/current/runtime-config-client.html&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;https://www.elastic.co/guide/en/logstash/current/plugins-filters-jdbc_streaming.html&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://jdbc.postgresql.org/documentation/use/"&gt;https://jdbc.postgresql.org/documentation/use/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.postgresql.org/docs/current/runtime-config-client.html"&gt;https://www.postgresql.org/docs/current/runtime-config-client.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-jdbc_streaming.html"&gt;https://www.elastic.co/guide/en/logstash/current/plugins-filters-jdbc_streaming.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="github reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment"&gt;c-neto/my-devops-labs&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="github reference external" href="https://github.com/jeremyevans/sequel/blob/master/doc/opening_databases.rdoc#label-postgres"&gt;jeremyevans/sequel&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/section&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2025/2025-02-16-logstash-db-enrichment/"/>
-    <summary>Blog Post Publish Date: 2025/02/16In this blog post, I share my experiences with Logstash log enrichment using a database. I’ll cover some hidden behaviors and the importance of configuring the JDBC connection string to avoid mysterious problems that are hard to replicate and not clearly documented.</summary>
+    <summary>Blog Post Publish Date: 2025/02/16In this blog post, I share my experiences with Logstash log enrichment using a database. I’ll cover some hidden behaviors and the importance of configuring the JDBC connection string parameters to avoid mysterious problems that are hard to replicate and not clearly documented.</summary>
     <category term="logstash" label="logstash"/>
     <published>2025-02-16T00:00:00+00:00</published>
   </entry>
