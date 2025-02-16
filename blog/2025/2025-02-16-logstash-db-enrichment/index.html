@@ -385,11 +385,12 @@
 <p>The examples assume you’re running Logstash OSS 8.17 in a Kubernetes cluster with a PostgreSQL database. However, the key considerations apply even if you’re using a single instance or a different relational database.</p>
 <p>I’ve also created a docker-compose lab for you to explore and test all the tips discussed in this blog post:</p>
 <ul class="simple">
-<li><p>https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment</p></li>
+<li><p><i class="fab fa-linkedin fa-fade"></i> <a class="github reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment">c-neto/my-devops-labs</a></p></li>
 </ul>
-<blockquote>
-<div><p><em>I reserve special thanks to PostgreSQL Database Specialist <a class="reference external" href="https://www.linkedin.com/in/lucio-chiessi">Lucio Chiessi</a> for helping me explore the JDBC connection string options that can be beneficial for Logstash.</em></p>
-</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><em>I reserve special thanks to PostgreSQL Database Specialist <a class="reference external" href="https://www.linkedin.com/in/lucio-chiessi">Lucio Chiessi</a> for helping me explore the JDBC connection string options that can be beneficial for Logstash.</em></p>
+</div>
 <section id="use-prepared-statements">
 <h2>Use Prepared Statements<a class="headerlink" href="#use-prepared-statements" title="Link to this heading">#</a></h2>
 <p>The first tip is to use the <code class="docutils literal notranslate"><span class="pre">use_prepared_statements</span></code> option in the <code class="docutils literal notranslate"><span class="pre">jdbc_streaming</span></code> filter plugin.</p>

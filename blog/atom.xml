@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-02-16T18:36:40.713753+00:00</updated>
+  <updated>2025-02-16T18:41:06.764663+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -20,11 +20,12 @@
 &lt;p&gt;The examples assume you’re running Logstash OSS 8.17 in a Kubernetes cluster with a PostgreSQL database. However, the key considerations apply even if you’re using a single instance or a different relational database.&lt;/p&gt;
 &lt;p&gt;I’ve also created a docker-compose lab for you to explore and test all the tips discussed in this blog post:&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;i class="fab fa-linkedin fa-fade"&gt;&lt;/i&gt; &lt;a class="github reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment"&gt;c-neto/my-devops-labs&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;em&gt;I reserve special thanks to PostgreSQL Database Specialist &lt;a class="reference external" href="https://www.linkedin.com/in/lucio-chiessi"&gt;Lucio Chiessi&lt;/a&gt; for helping me explore the JDBC connection string options that can be beneficial for Logstash.&lt;/em&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;I reserve special thanks to PostgreSQL Database Specialist &lt;a class="reference external" href="https://www.linkedin.com/in/lucio-chiessi"&gt;Lucio Chiessi&lt;/a&gt; for helping me explore the JDBC connection string options that can be beneficial for Logstash.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
 &lt;section id="use-prepared-statements"&gt;
 &lt;h2&gt;Use Prepared Statements&lt;/h2&gt;
 &lt;p&gt;The first tip is to use the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;use_prepared_statements&lt;/span&gt;&lt;/code&gt; option in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;jdbc_streaming&lt;/span&gt;&lt;/code&gt; filter plugin.&lt;/p&gt;
