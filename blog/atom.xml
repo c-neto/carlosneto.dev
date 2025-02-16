@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-02-16T19:16:09.310667+00:00</updated>
+  <updated>2025-02-16T19:18:14.991666+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -18,10 +18,7 @@
 &lt;p&gt;In this blog post, I share my experiences with Logstash log enrichment using a database. I’ll cover some hidden behaviors and the importance of configuring the JDBC connection string parameters to avoid mysterious problems that are hard to replicate and not clearly documented.&lt;/p&gt;
 &lt;p&gt;These tips come from real-world scenarios and aren’t always obvious in the official documentation. I hope they help you save hours of troubleshooting and searching through forums.&lt;/p&gt;
 &lt;p&gt;The examples assume you’re running Logstash OSS 8.17 in a Kubernetes cluster with a PostgreSQL database. However, the key considerations apply even if you’re using a single instance or a different relational database.&lt;/p&gt;
-&lt;p&gt;I’ve also created a docker-compose lab for you to explore and test all the tips discussed in this blog post:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;i class="fab fa-github fa-fade"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment"&gt;github.com/c-neto/my-devops-labs/logstash/db-enrichment&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;I’ve also created a docker-compose lab for you to explore and test all the tips discussed in this blog post: &lt;i class="fab fa-github fa-fade"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment"&gt;github.com/c-neto/my-devops-labs/logstash/db-enrichment&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;I reserve special thanks to PostgreSQL Database Specialist &lt;a class="reference external" href="https://www.linkedin.com/in/lucio-chiessi"&gt;Lucio Chiessi&lt;/a&gt; for helping me explore the JDBC connection string options that can be beneficial for Logstash.&lt;/p&gt;
 &lt;section id="use-prepared-statements"&gt;
 &lt;h2&gt;Use Prepared Statements&lt;/h2&gt;
@@ -132,10 +129,7 @@
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;When working with Logstash, I initially assumed that its behaviors were straightforward and default. However, Logstash has many nuances that can impact log ingestion and even halt it.&lt;/p&gt;
 &lt;p&gt;As requirements grow, so do the challenges. Nothing should be taken for granted, and everything needs to be validated. I highly recommend setting up a docker-compose lab to test features in various contexts. This ensures reliability, helps plan workarounds, and prevents unexpected issues, especially late on a Friday night.&lt;/p&gt;
-&lt;p&gt;Don’t forget to check out the docker-compose lab:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;i class="fab fa-github fa-fade"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment"&gt;github.com/c-neto/my-devops-labs/logstash/db-enrichment&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;Don’t forget to check out the docker-compose lab: &lt;i class="fab fa-github fa-fade"&gt;&lt;/i&gt; &lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment"&gt;github.com/c-neto/my-devops-labs/logstash/db-enrichment&lt;/a&gt;&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="references"&gt;
 &lt;h2&gt;References&lt;/h2&gt;

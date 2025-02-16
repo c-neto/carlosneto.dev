@@ -383,10 +383,7 @@
 <p>In this blog post, I share my experiences with Logstash log enrichment using a database. I’ll cover some hidden behaviors and the importance of configuring the JDBC connection string parameters to avoid mysterious problems that are hard to replicate and not clearly documented.</p>
 <p>These tips come from real-world scenarios and aren’t always obvious in the official documentation. I hope they help you save hours of troubleshooting and searching through forums.</p>
 <p>The examples assume you’re running Logstash OSS 8.17 in a Kubernetes cluster with a PostgreSQL database. However, the key considerations apply even if you’re using a single instance or a different relational database.</p>
-<p>I’ve also created a docker-compose lab for you to explore and test all the tips discussed in this blog post:</p>
-<ul class="simple">
-<li><p><i class="fab fa-github fa-fade"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment">github.com/c-neto/my-devops-labs/logstash/db-enrichment</a></p></li>
-</ul>
+<p>I’ve also created a docker-compose lab for you to explore and test all the tips discussed in this blog post: <i class="fab fa-github fa-fade"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment">github.com/c-neto/my-devops-labs/logstash/db-enrichment</a></p>
 <p>I reserve special thanks to PostgreSQL Database Specialist <a class="reference external" href="https://www.linkedin.com/in/lucio-chiessi">Lucio Chiessi</a> for helping me explore the JDBC connection string options that can be beneficial for Logstash.</p>
 <section id="use-prepared-statements">
 <h2>Use Prepared Statements<a class="headerlink" href="#use-prepared-statements" title="Link to this heading">#</a></h2>
@@ -497,10 +494,7 @@
 <h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
 <p>When working with Logstash, I initially assumed that its behaviors were straightforward and default. However, Logstash has many nuances that can impact log ingestion and even halt it.</p>
 <p>As requirements grow, so do the challenges. Nothing should be taken for granted, and everything needs to be validated. I highly recommend setting up a docker-compose lab to test features in various contexts. This ensures reliability, helps plan workarounds, and prevents unexpected issues, especially late on a Friday night.</p>
-<p>Don’t forget to check out the docker-compose lab:</p>
-<ul class="simple">
-<li><p><i class="fab fa-github fa-fade"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment">github.com/c-neto/my-devops-labs/logstash/db-enrichment</a></p></li>
-</ul>
+<p>Don’t forget to check out the docker-compose lab: <i class="fab fa-github fa-fade"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment">github.com/c-neto/my-devops-labs/logstash/db-enrichment</a></p>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
