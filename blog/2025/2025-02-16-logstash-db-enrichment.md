@@ -16,9 +16,7 @@ These tips come from real-world scenarios and aren't always obvious in the offic
 
 The examples assume you're running Logstash OSS 8.17 in a Kubernetes cluster with a PostgreSQL database. However, the key considerations apply even if you're using a single instance or a different relational database.
 
-I've also created a docker-compose lab for you to explore and test all the tips discussed in this blog post:
-
-- <i class="fab fa-github fa-fade"></i> [github.com/c-neto/my-devops-labs/logstash/db-enrichment](https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment)
+I've also created a docker-compose lab for you to explore and test all the tips discussed in this blog post: <i class="fab fa-github fa-fade"></i> [github.com/c-neto/my-devops-labs/logstash/db-enrichment](https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment)
 
 I reserve special thanks to PostgreSQL Database Specialist [Lucio Chiessi](https://www.linkedin.com/in/lucio-chiessi) for helping me explore the JDBC connection string options that can be beneficial for Logstash.
 
@@ -153,9 +151,7 @@ When working with Logstash, I initially assumed that its behaviors were straight
 
 As requirements grow, so do the challenges. Nothing should be taken for granted, and everything needs to be validated. I highly recommend setting up a docker-compose lab to test features in various contexts. This ensures reliability, helps plan workarounds, and prevents unexpected issues, especially late on a Friday night.
 
-Don't forget to check out the docker-compose lab:
-
-- <i class="fab fa-github fa-fade"></i> [github.com/c-neto/my-devops-labs/logstash/db-enrichment](https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment)
+Don't forget to check out the docker-compose lab: <i class="fab fa-github fa-fade"></i> [github.com/c-neto/my-devops-labs/logstash/db-enrichment](https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment)
 
 ## References
 
