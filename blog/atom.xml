@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-02-25T03:47:19.309510+00:00</updated>
+  <updated>2025-02-25T03:51:32.210503+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -60,10 +60,8 @@
 &lt;section id="library-charts-ensuring-reusable-patterns"&gt;
 &lt;h2&gt;Library Charts - Ensuring Reusable Patterns&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;em&gt;“The design of reusable libraries should provide clear and simple interfaces, allowing users to interact with them without needing to understand their internal details.”&lt;/em&gt;&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;Paraphrased from the sections on encapsulation and reusability in object-oriented from Design Patterns: Elements of Reusable Object-Oriented Software.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;“The design of reusable libraries should provide clear and simple interfaces, allowing users to interact with them without needing to understand their internal details.”&lt;/em&gt;
+— Design Patterns: Elements of Reusable Object-Oriented Software (&lt;em&gt;paraphrased from the sections on encapsulation and reusability&lt;/em&gt;)&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;There are two types of Helm Charts: &lt;strong&gt;Application&lt;/strong&gt; and &lt;strong&gt;Library&lt;/strong&gt;. Application charts are complete solutions, specifically designed for deployment. They define all the necessary Kubernetes resources required to deploy an application. On the other hand, &lt;strong&gt;Library&lt;/strong&gt; charts contain reusable resources such as templates and functions, which are shared across other charts but are not directly deployed. These library charts act as an abstraction layer, providing common components that can be reused in multiple contexts.&lt;/p&gt;
 &lt;p&gt;A prime example of a well-designed library chart is the Bitnami Common Chart, which consists of reusable functions and patterns that ensure consistency across all Bitnami charts. These patterns are adopted across the entire Bitnami Charts repository, making it easier to maintain and extend their Kubernetes applications. You can find more about the Bitnami Common Library Chart here, and an example of how the common chart is used in practice within Bitnami Fluentbit can be seen here:&lt;/p&gt;

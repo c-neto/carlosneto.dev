@@ -425,10 +425,8 @@
 <section id="library-charts-ensuring-reusable-patterns">
 <h2>Library Charts - Ensuring Reusable Patterns<a class="headerlink" href="#library-charts-ensuring-reusable-patterns" title="Link to this heading">#</a></h2>
 <blockquote>
-<div><p><em>“The design of reusable libraries should provide clear and simple interfaces, allowing users to interact with them without needing to understand their internal details.”</em></p>
-<ul class="simple">
-<li><p>Paraphrased from the sections on encapsulation and reusability in object-oriented from Design Patterns: Elements of Reusable Object-Oriented Software.</p></li>
-</ul>
+<div><p><em>“The design of reusable libraries should provide clear and simple interfaces, allowing users to interact with them without needing to understand their internal details.”</em>
+— Design Patterns: Elements of Reusable Object-Oriented Software (<em>paraphrased from the sections on encapsulation and reusability</em>)</p>
 </div></blockquote>
 <p>There are two types of Helm Charts: <strong>Application</strong> and <strong>Library</strong>. Application charts are complete solutions, specifically designed for deployment. They define all the necessary Kubernetes resources required to deploy an application. On the other hand, <strong>Library</strong> charts contain reusable resources such as templates and functions, which are shared across other charts but are not directly deployed. These library charts act as an abstraction layer, providing common components that can be reused in multiple contexts.</p>
 <p>A prime example of a well-designed library chart is the Bitnami Common Chart, which consists of reusable functions and patterns that ensure consistency across all Bitnami charts. These patterns are adopted across the entire Bitnami Charts repository, making it easier to maintain and extend their Kubernetes applications. You can find more about the Bitnami Common Library Chart here, and an example of how the common chart is used in practice within Bitnami Fluentbit can be seen here:</p>
