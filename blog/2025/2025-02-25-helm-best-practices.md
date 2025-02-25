@@ -83,9 +83,10 @@ These practices allow teams to scale their Kubernetes deployments more efficient
 
 ## References
 
-- [Anti-patterns - Wikipedia](https://pt.wikipedia.org/wiki/Antipadr%C3%A3o)  
-- [Helm Chart Best Practices](https://helm.sh/docs/chart_best_practices/)  
-- [Kubernetes Common Labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/)  
+- [Anti-patterns - Wikipedia](https://en.wikipedia.org/wiki/Anti-pattern)  
+- [Helm Chart Best Practices](https://helm.sh/docs/chart_best_practices/)
 - [Martin Fowler on YAGNI](https://martinfowler.com/bliki/Yagni.html)  
 - [The 12-Factor App](https://12factor.net/)  
 - [Don't Repeat Yourself (DRY) - Wikipedia](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
+- [Bitnami Common Library Chart](https://github.com/bitnami/charts/tree/main/bitnami/common)  
+- [Bitnami Fluentbit Example of Common Chart Usage](https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/configmap.yaml#L11).
