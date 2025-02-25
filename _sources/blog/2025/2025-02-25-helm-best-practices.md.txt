@@ -66,7 +66,6 @@ This follows the YAGNI (You Ain’t Gonna Need It) principle, a fundamental conc
 ## Library Charts - Ensuring Reusable Patterns
 
 > _"The design of reusable libraries should provide clear and simple interfaces, allowing users to interact with them without needing to understand their internal details."_
->
 > — Design Patterns: Elements of Reusable Object-Oriented Software (_paraphrased from the sections on encapsulation and reusability_)
 
 There are two types of Helm Charts: __Application__ and __Library__. Application charts are complete solutions, specifically designed for deployment. They define all the necessary Kubernetes resources required to deploy an application. On the other hand, __Library__ charts contain reusable resources such as templates and functions, which are shared across other charts but are not directly deployed. These library charts act as an abstraction layer, providing common components that can be reused in multiple contexts.
