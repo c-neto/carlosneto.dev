@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-02-25T03:51:32.210503+00:00</updated>
+  <updated>2025-02-25T03:53:08.118364+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -78,12 +78,13 @@
 &lt;section id="references"&gt;
 &lt;h2&gt;References&lt;/h2&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://pt.wikipedia.org/wiki/Antipadr%C3%A3o"&gt;Anti-patterns - Wikipedia&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Anti-pattern"&gt;Anti-patterns - Wikipedia&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://helm.sh/docs/chart_best_practices/"&gt;Helm Chart Best Practices&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/"&gt;Kubernetes Common Labels&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://martinfowler.com/bliki/Yagni.html"&gt;Martin Fowler on YAGNI&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://12factor.net/"&gt;The 12-Factor App&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself"&gt;Don’t Repeat Yourself (DRY) - Wikipedia&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/bitnami/charts/tree/main/bitnami/common"&gt;Bitnami Common Library Chart&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/configmap.yaml#L11"&gt;Bitnami Fluentbit Example of Common Chart Usage&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/section&gt;
 &lt;/section&gt;
