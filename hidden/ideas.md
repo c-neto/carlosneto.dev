@@ -1,11 +1,18 @@
-- opensearch hot warm architecture
-- vscode tips
-- elixir
-- how to built your custom zsh widgets
-- vault
+
 - SSO with token review API
-- repoquery
-- k8s retry service
-- opensearch filted alias by field
-- opensearch increase performance
 - ansible-lint
+- bash
+- certificate private key
+- elixir
+- helm charts
+- how to built your custom zsh widgets
+- k8s retry service
+- mtls curl
+- opensearch decomission nodes
+- opensearch filted alias by field
+- opensearch hot warm architecture
+- opensearch increase performance
+- repoquery
+- secrets behavior
+- vault
+- vscode tips
