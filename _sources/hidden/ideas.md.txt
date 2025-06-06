@@ -1,18 +1,42 @@
-
 - SSO with token review API
 - ansible-lint
 - bash
+- blackbox
 - certificate private key
 - elixir
+- external secrets operator
 - helm charts
 - how to built your custom zsh widgets
 - k8s retry service
 - mtls curl
+- node tolaration + nodeSelector + nodeName + nodeAffinity
 - opensearch decomission nodes
 - opensearch filted alias by field
 - opensearch hot warm architecture
 - opensearch increase performance
+- replicaset behavior
 - repoquery
 - secrets behavior
+
 - vault
-- vscode tips
+- vscode tips and extensions
+- helm-library-charts-effective-use
+
+- TLS: Diffie Hellman - RSA
+
+
+- kubernetes saga # | foundations
+- kubernetes saga # | container behind the scenes
+- kubernetes saga # | kubernetes archicture
+- kubernetes saga # | pods
+- kubernetes saga # | static pod
+- kubernetes saga # | daemonsets
+- kubernetes saga # | replicaset
+- kubernetes saga # | deployment
+- kubernetes saga # | services
+- kubernetes saga # | namespace
+- kubernetes saga # | scheduling (manual, taints and toleration, node selector, profiles)
+- kubernetes saga # | sizing (requirements and limits)
+- kubernetes saga # | adminssionController (WIS/WIF, how to check default, disable and enabled)
+- kubernetes saga # | mutate webhook
+

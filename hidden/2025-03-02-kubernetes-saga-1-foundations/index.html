@@ -7,19 +7,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Mastering AWS Identity and Access Management (IAM): A Comprehensive Guide" />
+<meta property="og:title" content="Kubernetes Saga #1 - Foundations" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://carlosneto.dev/in-progress/2022-05-12-security-identity-compliance/" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/2025-03-02-kubernetes-saga-1-foundations/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2022/05/12 In the dynamic realm of Amazon Web Services (AWS), managing user access and permissions is paramount for maintaining a secure and efficient cloud environment. AWS..." />
+<meta property="og:description" content="Blog Post Publish Date: 2025/02/25 What is it for?: Kubernetes is an OpenSource Container Orchestration Platform that provide tooling to manage workload that requires scalable What is it for?: It m..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_in-progress_2022-05-12-security-identity-compliance_604f8a38.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2022/05/12 In the dynamic realm of Amazon Web Services (AWS), managing user access and permissions is paramount for maintaining a secure and efficient cloud environment. AWS..." />
-<meta name="description" content="Blog Post Publish Date: 2022/05/12 In the dynamic realm of Amazon Web Services (AWS), managing user access and permissions is paramount for maintaining a secure and efficient cloud environment. AWS..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_2025-03-02-kubernetes-saga-1-foundations_bc3e22b4.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2025/02/25 What is it for?: Kubernetes is an OpenSource Container Orchestration Platform that provide tooling to manage workload that requires scalable What is it for?: It m..." />
+<meta name="description" content="Blog Post Publish Date: 2025/02/25 What is it for?: Kubernetes is an OpenSource Container Orchestration Platform that provide tooling to manage workload that requires scalable What is it for?: It m..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>Mastering AWS Identity and Access Management (IAM): A Comprehensive Guide &#8212; Carlos Neto&#39;s Tech Blog</title>
+    <title>Kubernetes Saga #1 - Foundations &#8212; Carlos Neto&#39;s Tech Blog</title>
   
   
   
@@ -60,7 +60,7 @@
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'in-progress/2022-05-12-security-identity-compliance';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/2025-03-02-kubernetes-saga-1-foundations';</script>
     <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../genindex/" />
     <link rel="search" title="Search" href="../../search/" /> 
@@ -376,47 +376,67 @@
                 
 <div id="searchbox"></div>
                 <article class="bd-article">
-                   <p><em><strong>Blog Post Publish Date:</strong> 2022/05/12</em></p>
+                   <p><em><strong>Blog Post Publish Date:</strong> 2025/02/25</em></p>
 <hr class="docutils" />
-<section id="mastering-aws-identity-and-access-management-iam-a-comprehensive-guide">
-<h1>Mastering AWS Identity and Access Management (IAM): A Comprehensive Guide<a class="headerlink" href="#mastering-aws-identity-and-access-management-iam-a-comprehensive-guide" title="Link to this heading">#</a></h1>
-<p>In the dynamic realm of Amazon Web Services (AWS), managing user access and permissions is paramount for maintaining a secure and efficient cloud environment. AWS Identity and Access Management (IAM) is a fundamental AWS service dedicated to orchestrating user access and permission protocols. In this blog post, we will delve into the intricate world of IAM, covering essential concepts and best practices for effective user and permission management.</p>
-<section id="understanding-iam-a-crucial-aws-service">
-<h2>Understanding IAM: A Crucial AWS Service<a class="headerlink" href="#understanding-iam-a-crucial-aws-service" title="Link to this heading">#</a></h2>
-<p>AWS Identity and Access Management (IAM) is the linchpin for governing user access and permissions within an AWS account. It provides a comprehensive framework to define and manage the actions and permissions of users, ensuring secure and controlled interactions with AWS resources.</p>
+<section id="kubernetes-saga-1-foundations">
+<h1>Kubernetes Saga #1 - Foundations<a class="headerlink" href="#kubernetes-saga-1-foundations" title="Link to this heading">#</a></h1>
 </section>
-<section id="iam-and-organization-scp-defining-user-permissions-and-conditions">
-<h2>IAM and Organization SCP: Defining User Permissions and Conditions<a class="headerlink" href="#iam-and-organization-scp-defining-user-permissions-and-conditions" title="Link to this heading">#</a></h2>
-<p>IAM, in conjunction with Service Control Policies (SCPs) within AWS Organizations, establishes the groundwork for delineating users’ permissions and action conditions within an AWS account. This integration empowers organizations to maintain granular control over their AWS resources.</p>
+<section id="what-is-it-for">
+<h1><strong>What is it for?</strong><a class="headerlink" href="#what-is-it-for" title="Link to this heading">#</a></h1>
+<p>Kubernetes is an OpenSource Container Orchestration Platform that provide tooling to manage workload that requires scalable</p>
 </section>
-<section id="root-account-vs-iam-users-discerning-the-difference">
-<h2>Root Account vs. IAM Users: Discerning the Difference<a class="headerlink" href="#root-account-vs-iam-users-discerning-the-difference" title="Link to this heading">#</a></h2>
-<p>The Root Account, often referred to as the Master Account, is distinct from IAM users. IAM users are created to represent employees and integration service accounts, while the Root Account holds a more privileged and powerful role within the AWS ecosystem.</p>
+<section id="id1">
+<h1><strong>What is it for?</strong><a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>It manages resource allocation, load balancing, and automatic scaling while ensuring high availability and fault tolerance.</p>
 </section>
-<section id="best-practices-account-structure-and-access-management">
-<h2>Best Practices: Account Structure and Access Management<a class="headerlink" href="#best-practices-account-structure-and-access-management" title="Link to this heading">#</a></h2>
-<p>A best practice is to establish a singular account for identity purposes and utilize policies to switch roles, enabling access to specific accounts. Avoid using the Root Account for operational purposes due to its heightened privileges, and implement Dual-custody Authentication for safeguarding the Root and Master Account passwords.</p>
+<section id="what-problem-does-it-solve">
+<h1><strong>What problem does it solve?</strong><a class="headerlink" href="#what-problem-does-it-solve" title="Link to this heading">#</a></h1>
+<p>It simplifies the operation of large-scale applications by eliminating the need for manual infrastructure management, making systems more resilient and efficient.</p>
 </section>
-<section id="efficient-management-through-iam-services">
-<h2>Efficient Management through IAM Services<a class="headerlink" href="#efficient-management-through-iam-services" title="Link to this heading">#</a></h2>
-<p>IAM offers a host of capabilities, including the creation of custom policies, groups, and users. Implementing user tags and leveraging specific naming conventions, such as ‘svc-*’ for service integration users, streamlines user identification and management.</p>
+<section id="what-makes-it-different">
+<h1><strong>What makes it different?</strong><a class="headerlink" href="#what-makes-it-different" title="Link to this heading">#</a></h1>
+<p>Kubernetes stands out for its <strong>intelligent and automated orchestration</strong>, offering <strong>self-healing, auto-scaling, load balancing, infrastructure portability, and declarative management</strong>, making it the ideal choice for distributed and scalable applications.</p>
 </section>
-<section id="fine-tuning-permissions-access-types-and-options">
-<h2>Fine-tuning Permissions: Access Types and Options<a class="headerlink" href="#fine-tuning-permissions-access-types-and-options" title="Link to this heading">#</a></h2>
-<p>Understanding the two access types—Programmatic Access and AWS Management Console Access—is crucial for setting up permissions effectively. Employing predefined policies like ReadOnlyAccess and FullAccess can simplify the process of assigning permissions and subsequent downgrades.</p>
+<section id="kubernetes-running-only-in-cloud">
+<h1>Kubernetes running only in Cloud?<a class="headerlink" href="#kubernetes-running-only-in-cloud" title="Link to this heading">#</a></h1>
 </section>
-<section id="harnessing-the-power-of-roles-for-aws-resource-communication">
-<h2>Harnessing the Power of Roles for AWS Resource Communication<a class="headerlink" href="#harnessing-the-power-of-roles-for-aws-resource-communication" title="Link to this heading">#</a></h2>
-<p>Roles serve as a pivotal mechanism for enabling communication between AWS resources, enhancing the efficiency and functionality of the AWS ecosystem.</p>
-<p>In this blog post, we’ve unraveled key aspects of AWS IAM, shedding light on its significance in securing and managing AWS resources effectively. Stay tuned for our upcoming posts, where we’ll explore advanced IAM features and delve into practical implementation strategies.</p>
+<section id="it-make-sense-running-kubernetes-in-single-intance">
+<h1>It make sense running Kubernetes in Single Intance?<a class="headerlink" href="#it-make-sense-running-kubernetes-in-single-intance" title="Link to this heading">#</a></h1>
 </section>
-<section id="references">
-<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<section id="kubernetes-is-designed-to-be-scalable">
+<h1>Kubernetes is designed to be Scalable?<a class="headerlink" href="#kubernetes-is-designed-to-be-scalable" title="Link to this heading">#</a></h1>
+</section>
+<section id="the-kubernetes-declarative-language-is-interoperable-to-all-providers">
+<h1>The Kubernetes declarative language is interoperable to all providers?<a class="headerlink" href="#the-kubernetes-declarative-language-is-interoperable-to-all-providers" title="Link to this heading">#</a></h1>
+</section>
+<section id="kubernetes-extensible-what-differences-does-make">
+<h1>Kubernetes Extensible… what differences does make?<a class="headerlink" href="#kubernetes-extensible-what-differences-does-make" title="Link to this heading">#</a></h1>
+<p>Kubernetes is an <strong>open-source container orchestration platform</strong> that automates the deployment, scaling, and management of containerized applications.</p>
+</section>
+<section id="then-kubernets-is-good-and-other-is-bad">
+<h1>Then… Kubernets is good and other is bad?<a class="headerlink" href="#then-kubernets-is-good-and-other-is-bad" title="Link to this heading">#</a></h1>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>AWS IAM Best Practices: <a class="reference external" href="https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html">https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html</a></p></li>
-<li><p>Access keys best practices: <a class="reference external" href="https://medium.com/&#64;ashishrajan/aws-security-best-practices-access-keys-cloudsecurity-facb20aa0db6">https://medium.com/&#64;ashishrajan/aws-security-best-practices-access-keys-cloudsecurity-facb20aa0db6</a></p></li>
+<li><p>kubernetes is complex because solves complex challanges</p></li>
+<li><p>kubernetes is no about run container, is about to offer the tooling to support scalable, distribuited, ireinted by high available application requirements</p></li>
+<li><p>as all technology solution, it is created to solve a problem.</p></li>
 </ul>
-<hr class="docutils" />
+<p>You can find a wide range of additional Kubernetes resources at the following locations:</p>
+<ul class="simple">
+<li><p>The Kubernetes website at https://kubernetes.io</p></li>
+<li><p>The Kubernetes Blog, which regularly posts interesting info (http:/ /blog.kuber-
+netes.io)</p></li>
+<li><p>The Kubernetes community’s Slack channel at http:/ /slack.k8s.io</p></li>
+<li><p>The Kubernetes and Cloud Native Computing Foundation’s YouTube channels:</p></li>
+<li><p>https://www.youtube.com/channel/UCZ2bu0qutTOM0tHYa_jkIwg</p></li>
+<li><p>https://www.youtube.com/channel/UCvqbFHwN-nwalWPjPUKpvTA</p></li>
+</ul>
+<p>To gain a deeper understanding of individual topics or even to help contribute to
+Kubernetes, you can also check out any of the Kubernetes Special Interest Groups (SIGs) at https://github.com/kubernetes/kubernetes/wiki/Special-Interest-Groups-(SIGs).
+And, finally, as Kubernetes is open source, there’s a wealth of information available
+in the Kubernetes source code itself. You’ll find it at https:/ /github.com/kubernetes/
+kubernetes and related repositories.</p>
 </section>
 </section>
 
