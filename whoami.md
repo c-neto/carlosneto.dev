@@ -61,7 +61,7 @@ Check my professional experiences:
 - <i class="fa-solid fa-code-pull-request"></i>: [#6051](https://github.com/opensearch-project/documentation-website/pull/6051) Described the behavior and security recommendations for the HTTP Compression setting.
 - <i class="fa-solid fa-code-pull-request"></i>: [#7564](https://github.com/opensearch-project/documentation-website/pull/7564): Detailed default values related to JVM memory allocation parameters.
 - <i class="fa-solid fa-code-pull-request"></i>: [#570](https://github.com/opensearch-project/documentation-website/pull/570): Addressed a deprecated parameter related to the precedence order of Index Template configuration.
-- <i class="fa-solid fa-code-pull-request"></i>: [#570](https://github.com/opensearch-project/documentation-website/pull/10042): Restricting S3 Bucket IAM policy to minimum required permissions for snapshot operations.
+- <i class="fa-solid fa-code-pull-request"></i>: [#10042](https://github.com/opensearch-project/documentation-website/pull/10042): Restricting S3 Bucket IAM policy to minimum required permissions for snapshot operations.
 - <i class="fa-solid fa-bug"></i>: [#4529](https://github.com/opensearch-project/OpenSearch-Dashboards/issues/4529): Identified and reproduced problems related to exporting OpenSearch-Dashboards objects.
 - <i class="fa-solid fa-bug"></i>: [#4524](https://github.com/opensearch-project/OpenSearch-Dashboards/issues/4524): Identified connection problem in OpenSearch-Dashboards when connecting to a remote cluster using self-signed certificates.
 ````
