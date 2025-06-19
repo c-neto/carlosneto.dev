@@ -52,18 +52,33 @@ pipeline:
             action: hash
             key: _id
 
+    - name: dummy
+      dummy: '{"message": "2025-06-19T17:02:35.123456789Z stdout F This is a Greeting application log sample running in kubernetes persisted on /var/log/containers/*.log"}'
+      tag: dummy.greeting 
+      processors:
+        logs:
+          # Copy the 'message' field to a new field called '_id'.
+          - name: modify
+            copy: message _id
+
+          # Hash the '_id' field to anonymize or deduplicate.
+          - name: content_modifier
+            action: hash
+            key: _id
+
   outputs:
     - name: stdout
       format: json_lines
-      match: "dummy.foobar"
+      match: "dummy.*"
 ```
 
 The output is like:
 
 ```json
-fluentbit  | {"date":1750362419.414721,"message":"2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log","_id":"19a93f55808eb5478c65813c028045f1b354abe12790eb8aee0dd825697aa93e"}
-fluentbit  | {"date":1750362420.41307,"message":"2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log","_id":"19a93f55808eb5478c65813c028045f1b354abe12790eb8aee0dd825697aa93e"}
-fluentbit  | {"date":1750362421.411586,"message":"2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log","_id":"19a93f55808eb5478c65813c028045f1b354abe12790eb8aee0dd825697aa93e"}
+{"date":1750366003.411804,"message":"2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log","_id":"19a93f55808eb5478c65813c028045f1b354abe12790eb8aee0dd825697aa93e"}
+{"date":1750366003.415653,"message":"2025-06-19T17:02:35.123456789Z stdout F This is a Greeting application log sample running in kubernetes persisted on /var/log/containers/*.log","_id":"148917c2efe0114da7f7cef6327bde63f5c9ec5cac5cf05d4a73acefaa69a55c"}
+{"date":1750366004.412541,"message":"2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log","_id":"19a93f55808eb5478c65813c028045f1b354abe12790eb8aee0dd825697aa93e"}
+{"date":1750366004.413101,"message":"2025-06-19T17:02:35.123456789Z stdout F This is a Greeting application log sample running in kubernetes persisted on /var/log/containers/*.log","_id":"148917c2efe0114da7f7cef6327bde63f5c9ec5cac5cf05d4a73acefaa69a55c"}
 ```
 
 The [hash](https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example) action takes the binary value of the log line, applies the SHA-256 algorithm, and outputs the result as a hexadecimal string. Below is a Python script that performs the same hashing process as Fluent Bit.
