@@ -14,15 +14,19 @@ This post explores the root causes of log duplication, the necessity of generati
 
 ## Why Do Duplicate Logs Occur in Fluent Bit?
 
-I encountered issues with duplicated logs being indexed in OpenSearch by Fluent Bit. After some research, I concluded that currently, Fluent Bit, when using the Tail input, offers features designed for the __At Least Once__ delivery strategy. This means that a message may be delivered one or more times, potentially causing duplication. It does not support __Exactly Once__ or __At Most Once__ strategies, where a message is delivered only once or at most once, respectively.
+I encountered issues with duplicated logs being indexed in OpenSearch by Fluent Bit. After some research, I concluded that currently, Fluent Bit, when using the [Tail](https://docs.fluentbit.io/manual/pipeline/inputs/tail) input, offers features designed for the __At Least Once__ delivery strategy. This means that a message may be delivered one or more times, potentially causing duplication. It does not support __Exactly Once__ or __At Most Once__ strategies, where a message is delivered only once or at most once, respectively.
 
-There are several variables that can contribute to this behavior. For example, when using the Tail input plugin, even if you use an SQL database, you may still experience duplicate logs. This is because the database only persists the file reading offset, not the delivery status for each configured output. 
+There are several variables that can contribute to this behavior. For example, when using the [Tail](https://docs.fluentbit.io/manual/pipeline/inputs/tail) input plugin, even if you use an SQL database, you may still experience duplicate logs. This is because the database only persists the file reading offset, not the delivery status for each configured [Output](https://docs.fluentbit.io/manual/pipeline/outputs). 
 
-I plan to write a separate blog post with more details about how Fluent Bit manages log delivery state. For now, it's important to understand that in certain scenarios, like outputs unavailability and Fluent Bit restarts, duplication can occur and is expected not a problem (especially with multiple Output configuration).
+I plan to write a separate blog post with more details about how Fluent Bit manages log delivery state. For now, it's important to understand that in certain scenarios, like outputs unavailability and Fluent Bit restarts, duplication can occur and is expected not a problem (especially with multiple [Output](https://docs.fluentbit.io/manual/pipeline/outputs) configuration).
 
 ## The Importance of Unique Log IDs
 
-If the delivery strategy is __At Least Once__, generating a unique ID is a hard requirement to avoid duplication at the output destination. This unique ID should be created based on the log line content. If you are using Logstash and OpenSearch in your log analytics stack, you can generate IDs using the [Logstash Fingerprint filter plugin](https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint) or the [OpenSearch Fingerprint Ingest Pipeline Processor](https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/), both of which create hashes based on specified log field values. Unfortunately, Fluent Bit does not have a specific native filter plugin to create unique IDs. You can use a Lua script or bash script callback for it, but in both cases, the complexity increases and you become dependent on external crypto libraries. However, don't worry, I will show you a workaround to generate a hash from the log line content using only Fluent Bit's native features.
+If the delivery strategy is __At Least Once__, generating a unique ID is a hard requirement to avoid duplication at the [Output](https://docs.fluentbit.io/manual/pipeline/outputs) destination. This unique ID should be created based on the log line content. If you are using Logstash and OpenSearch in your log analytics stack, you can generate IDs using the [Logstash Fingerprint filter plugin](https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint) or the [OpenSearch Fingerprint Ingest Pipeline Processor](https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/), both of which create hashes based on specified log field values. Unfortunately, Fluent Bit does not have a specific native filter plugin to create unique IDs. You can use a Lua script or bash script callback for it, but in both cases, the complexity increases and you become dependent on external crypto libraries. However, don't worry, I will show you a workaround to generate a hash from the log line content using only Fluent Bit's native features.
+
+:::{note}
+If you are using Fluent Bit to send logs directly to OpenSearch, you can use [OpenSearch Output Plugin](https://docs.fluentbit.io/manual/pipeline/outputs/opensearch) with `Generate_ID` parameter enabled to generate an unique ID for logs.
+:::
 
 ## Generating SHA-256 Hashes for Log Deduplication
 
@@ -70,6 +74,7 @@ pipeline:
     - name: stdout
       format: json_lines
       match: "dummy.*"
+
 ```
 
 The output is like:
