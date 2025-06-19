@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-19T20:49:49.537378+00:00</updated>
+  <updated>2025-06-19T20:59:55.816466+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -15,7 +15,7 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="fluent-bit-generating-log-ids-with-sha-256-hashes-for-log-deduplication"&gt;
 
-&lt;p&gt;This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of unique log IDs, and how to use Fluent Bit’s built-in features to create SHA-256 hashes for deduplication.&lt;/p&gt;
+&lt;p&gt;This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to create SHA-256 hashes for effective deduplication without relying on external scripts or plugins.&lt;/p&gt;
 &lt;section id="why-do-duplicate-logs-occur-in-fluent-bit"&gt;
 &lt;h2&gt;Why Do Duplicate Logs Occur in Fluent Bit?&lt;/h2&gt;
 &lt;p&gt;I encountered issues with duplicated logs being indexed in OpenSearch by Fluent Bit. After some research, I concluded that currently, Fluent Bit, when using the Tail input, offers features designed for the &lt;strong&gt;At Least Once&lt;/strong&gt; delivery strategy. This means that a message may be delivered one or more times, potentially causing duplication. It does not support &lt;strong&gt;Exactly Once&lt;/strong&gt; or &lt;strong&gt;At Most Once&lt;/strong&gt; strategies, where a message is delivered only once or at most once, respectively.&lt;/p&gt;
@@ -110,7 +110,7 @@
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/"/>
-    <summary>Blog Post Publish Date: 2025/06/19This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of unique log IDs, and how to use Fluent Bit’s built-in features to create SHA-256 hashes for deduplication.</summary>
+    <summary>Blog Post Publish Date: 2025/06/19This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to create SHA-256 hashes for effective deduplication without relying on external scripts or plugins.</summary>
     <category term="fluentbit" label="fluentbit"/>
     <category term="logs" label="logs"/>
     <category term="observability" label="observability"/>

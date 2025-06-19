@@ -11,12 +11,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2025/06/19 This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of uniq..." />
+<meta property="og:description" content="Blog Post Publish Date: 2025/06/19 This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-06-19-fluentbit-log-dedup_214f3f61.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2025/06/19 This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of uniq..." />
-<meta name="description" content="Blog Post Publish Date: 2025/06/19 This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of uniq..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-06-19-fluentbit-log-dedup_b786bde8.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2025/06/19 This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to..." />
+<meta name="description" content="Blog Post Publish Date: 2025/06/19 This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication &#8212; Carlos Neto&#39;s Tech Blog</title>
@@ -380,7 +380,7 @@
 <hr class="docutils" />
 <section id="fluent-bit-generating-log-ids-with-sha-256-hashes-for-log-deduplication">
 <h1>Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication<a class="headerlink" href="#fluent-bit-generating-log-ids-with-sha-256-hashes-for-log-deduplication" title="Link to this heading">#</a></h1>
-<p>This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of unique log IDs, and how to use Fluent Bit’s built-in features to create SHA-256 hashes for deduplication.</p>
+<p>This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to create SHA-256 hashes for effective deduplication without relying on external scripts or plugins.</p>
 <section id="why-do-duplicate-logs-occur-in-fluent-bit">
 <h2>Why Do Duplicate Logs Occur in Fluent Bit?<a class="headerlink" href="#why-do-duplicate-logs-occur-in-fluent-bit" title="Link to this heading">#</a></h2>
 <p>I encountered issues with duplicated logs being indexed in OpenSearch by Fluent Bit. After some research, I concluded that currently, Fluent Bit, when using the Tail input, offers features designed for the <strong>At Least Once</strong> delivery strategy. This means that a message may be delivered one or more times, potentially causing duplication. It does not support <strong>Exactly Once</strong> or <strong>At Most Once</strong> strategies, where a message is delivered only once or at most once, respectively.</p>
