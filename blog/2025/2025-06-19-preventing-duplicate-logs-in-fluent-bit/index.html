@@ -1,0 +1,575 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Preventing Duplicate Logs in Fluent Bit Using SHA-256 Log ID" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2025/2025-06-19-preventing-duplicate-logs-in-fluent-bit/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2025/06/19 This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of uniq..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-06-19-preventing-duplicate-logs-in-fluent-bit_5ee05a66.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2025/06/19 This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of uniq..." />
+<meta name="description" content="Blog Post Publish Date: 2025/06/19 This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of uniq..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Preventing Duplicate Logs in Fluent Bit Using SHA-256 Log ID &#8212; Carlos Neto&#39;s Tech Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=68e62335" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2025/2025-06-19-preventing-duplicate-logs-in-fluent-bit';</script>
+    <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../../genindex/" />
+    <link rel="search" title="Search" href="../../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" /> 
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Tech Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../whoami/">
+    whoami
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../whoami/">
+    whoami
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2025/06/19</em></p>
+<hr class="docutils" />
+<section id="preventing-duplicate-logs-in-fluent-bit-using-sha-256-log-id">
+<h1>Preventing Duplicate Logs in Fluent Bit Using SHA-256 Log ID<a class="headerlink" href="#preventing-duplicate-logs-in-fluent-bit-using-sha-256-log-id" title="Link to this heading">#</a></h1>
+<p>This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of unique log IDs, and how to use Fluent Bit’s built-in features to create SHA-256 hashes for deduplication.</p>
+<section id="why-do-duplicate-logs-occur-in-fluent-bit">
+<h2>Why Do Duplicate Logs Occur in Fluent Bit?<a class="headerlink" href="#why-do-duplicate-logs-occur-in-fluent-bit" title="Link to this heading">#</a></h2>
+<p>I encountered issues with duplicated logs being indexed in OpenSearch by Fluent Bit. After some research, I concluded that currently, Fluent Bit, when using the Tail input, offers features designed for the <strong>At Least Once</strong> delivery strategy. This means that a message may be delivered one or more times, potentially causing duplication. It does not support <strong>Exactly Once</strong> or <strong>At Most Once</strong> strategies, where a message is delivered only once or at most once, respectively.</p>
+<p>There are several variables that can contribute to this behavior. For example, when using the Tail input plugin, even if you use an SQL database, you may still experience duplicate logs. This is because the database only persists the file reading offset, not the delivery status for each configured output.</p>
+<p>I plan to write a separate blog post with more details about how Fluent Bit manages log delivery state. For now, it’s important to understand that in certain scenarios, like outputs unavailability and Fluent Bit restarts, duplication can occur and is expected not a problem (especially with multiple Output configuration).</p>
+</section>
+<section id="the-importance-of-unique-log-ids">
+<h2>The Importance of Unique Log IDs<a class="headerlink" href="#the-importance-of-unique-log-ids" title="Link to this heading">#</a></h2>
+<p>If the delivery strategy is <strong>At Least Once</strong>, generating a unique ID is a hard requirement to avoid duplication at the output destination. This unique ID should be created based on the log line content. If you are using Logstash and OpenSearch in your log analytics stack, you can generate IDs using the <a class="reference external" href="https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint">Logstash Fingerprint filter plugin</a> or the <a class="reference external" href="https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/">OpenSearch Fingerprint Ingest Pipeline Processor</a>, both of which create hashes based on specified log field values. Unfortunately, Fluent Bit does not have a specific native filter plugin to create unique IDs. You can use a Lua script or bash script callback for it, but in both cases, the complexity increases and you become dependent on external crypto libraries. However, don’t worry, I will show you a workaround to generate a hash from the log line content using only Fluent Bit’s native features.</p>
+</section>
+<section id="generating-sha-256-hashes-for-log-deduplication">
+<h2>Generating SHA-256 Hashes for Log Deduplication<a class="headerlink" href="#generating-sha-256-hashes-for-log-deduplication" title="Link to this heading">#</a></h2>
+<p>I reviewed the available Fluent Bit filter plugins and did not find any that generate hash values based on a log key. However, I discovered a <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier">Processor Content Modifier Action</a> called <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example">hash</a>. This action takes a log event key as an argument and replaces its value with a SHA-256 hash. While this feature is primarily intended for masking sensitive data such as passwords and PII, it can also be used to generate unique identifiers for log events.</p>
+<p>The <strong>key insight</strong> is to copy the log line content to a new key and hash this new field, keeping the original log line content intact and using the hashed field as the log ID. Check example:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">fluentbit.yaml</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># The `pipeline.inputs.processors` feature is only available when using the `yaml` configuration format.  </span>
+<span class="c1"># It is not supported in the legacy `.conf` configuration format.</span>
+
+<span class="nt">pipeline</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">inputs</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dummy</span>
+<span class="w">      </span><span class="nt">dummy</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{&quot;message&quot;:</span><span class="nv"> </span><span class="s">&quot;2025-06-19T17:02:35.123456789Z</span><span class="nv"> </span><span class="s">stdout</span><span class="nv"> </span><span class="s">F</span><span class="nv"> </span><span class="s">This</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">Foobar</span><span class="nv"> </span><span class="s">application</span><span class="nv"> </span><span class="s">log</span><span class="nv"> </span><span class="s">sample</span><span class="nv"> </span><span class="s">running</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">kubernetes</span><span class="nv"> </span><span class="s">persisted</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">/var/log/containers/*.log&quot;}&#39;</span>
+<span class="w">      </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dummy.foobar</span>
+<span class="w">      </span><span class="nt">processors</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">logs</span><span class="p">:</span>
+<span class="w">          </span><span class="c1"># Copy the &#39;message&#39; field to a new field called &#39;_id&#39;.</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">modify</span>
+<span class="w">            </span><span class="nt">copy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">message _id</span>
+
+<span class="w">          </span><span class="c1"># Hash the &#39;_id&#39; field to anonymize or deduplicate.</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">content_modifier</span>
+<span class="w">            </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hash</span>
+<span class="w">            </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">_id</span>
+
+<span class="w">  </span><span class="nt">outputs</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stdout</span>
+<span class="w">      </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">json_lines</span>
+<span class="w">      </span><span class="nt">match</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dummy.foobar&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>The output is like:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="kc">fluent</span><span class="err">bi</span><span class="kc">t</span><span class="w">  </span><span class="err">|</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="mf">1750362419.414721</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log&quot;</span><span class="p">,</span><span class="nt">&quot;_id&quot;</span><span class="p">:</span><span class="s2">&quot;19a93f55808eb5478c65813c028045f1b354abe12790eb8aee0dd825697aa93e&quot;</span><span class="p">}</span>
+<span class="kc">fluent</span><span class="err">bi</span><span class="kc">t</span><span class="w">  </span><span class="err">|</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="mf">1750362420.41307</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log&quot;</span><span class="p">,</span><span class="nt">&quot;_id&quot;</span><span class="p">:</span><span class="s2">&quot;19a93f55808eb5478c65813c028045f1b354abe12790eb8aee0dd825697aa93e&quot;</span><span class="p">}</span>
+<span class="kc">fluent</span><span class="err">bi</span><span class="kc">t</span><span class="w">  </span><span class="err">|</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="mf">1750362421.411586</span><span class="p">,</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log&quot;</span><span class="p">,</span><span class="nt">&quot;_id&quot;</span><span class="p">:</span><span class="s2">&quot;19a93f55808eb5478c65813c028045f1b354abe12790eb8aee0dd825697aa93e&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example">hash</a> action takes the binary value of the log line, applies the SHA-256 algorithm, and outputs the result as a hexadecimal string. Below is a Python script that performs the same hashing process as Fluent Bit.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+
+<span class="n">log_line_in_string</span> <span class="o">=</span> <span class="s2">&quot;2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log&quot;</span>
+
+<span class="n">log_line_in_bytes</span> <span class="o">=</span> <span class="n">log_line_in_string</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<span class="n">log_line_in_sha256_hexa_decimal</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">log_line_in_bytes</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">log_line_in_sha256_hexa_decimal</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;19a93f55808eb5478c65813c028045f1b354abe12790eb8aee0dd825697aa93e&quot;</span>
+</pre></div>
+</div>
+<p>Now, you can use the <code class="docutils literal notranslate"><span class="pre">_id</span></code> as log unique ID field!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can find a complete, working example of this configuration in my Docker Compose lab repository:</p>
+<ul class="simple">
+<li><p><a class="github reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml">c-neto/my-devops-labs</a></p></li>
+</ul>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Docker-Compose Lab: <a class="github reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml">c-neto/my-devops-labs</a></p></li>
+<li><p>Logstash Fingerprint Filter Plugin: https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint</p></li>
+<li><p>OpenSearch Fingerprint Ingest Pipeline Processor: https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/</p></li>
+<li><p>Fluent Bit Processors Reference: <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier">https://docs.fluentbit.io/manual/pipeline/processors/content-modifier</a></p></li>
+<li><p>Fluent Bit Hash Example: <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example">https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+     
+<div class="section ablog__prev-next">
+  <span class="ablog__prev">
+     
+    <a href="../2025-02-25-helm-best-practices/">
+      
+      <i class="fa fa-arrow-circle-left"></i>
+      
+      <span>Helm Charts: Development Practices from a Programmer’s Perspective</span>
+    </a>
+    
+  </span>
+  <span class="ablog__spacer">&nbsp;</span>
+  <span class="ablog__next">
+    
+  </span>
+</div>
+  
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
