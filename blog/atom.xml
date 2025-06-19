@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-19T20:42:14.413231+00:00</updated>
+  <updated>2025-06-19T20:44:12.712261+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -31,7 +31,7 @@
 &lt;p&gt;I reviewed the available Fluent Bit filter plugins and did not find any that generate hash values based on a log key. However, I discovered a &lt;a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier"&gt;Processor Content Modifier Action&lt;/a&gt; called &lt;a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example"&gt;hash&lt;/a&gt;. This action takes a log event key as an argument and replaces its value with a SHA-256 hash. While this feature is primarily intended for masking sensitive data such as passwords and PII, it can also be used to generate unique identifiers for log events.&lt;/p&gt;
 &lt;p&gt;The &lt;strong&gt;key insight&lt;/strong&gt; is to copy the log line content to a new key and hash this new field, keeping the original log line content intact and using the hashed field as the log ID. Check example:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
-&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;&lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/fluent-bit.yaml"&gt;github.com/c-neto/my-devops-labs/blog/2025-06-19/fluent-bit.yaml&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;&lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/fluent-bit.yaml"&gt;/fluent-bit/fluent-bit.yaml&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# The `pipeline.inputs.processors` feature is only available when using the `yaml` configuration format.  &lt;/span&gt;
 &lt;span class="c1"&gt;# It is not supported in the legacy `.conf` configuration format.&lt;/span&gt;
 
