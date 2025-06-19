@@ -31,7 +31,7 @@ I reviewed the available Fluent Bit filter plugins and did not find any that gen
 The __key insight__ is to copy the log line content to a new key and hash this new field, keeping the original log line content intact and using the hashed field as the log ID. Check example:
 
 ```{code-block} yaml
-:caption: [github.com/c-neto/my-devops-labs/blog/2025-06-19/fluent-bit.yaml](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/fluent-bit.yaml)
+:caption: [/fluent-bit/fluent-bit.yaml](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/fluent-bit.yaml)
 
 # The `pipeline.inputs.processors` feature is only available when using the `yaml` configuration format.  
 # It is not supported in the legacy `.conf` configuration format.
