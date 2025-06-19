@@ -31,7 +31,7 @@ I reviewed the available Fluent Bit filter plugins and did not find any that gen
 The __key insight__ is to copy the log line content to a new key and hash this new field, keeping the original log line content intact and using the hashed field as the log ID. Check example:
 
 ```{code-block} yaml
-:caption: fluentbit.yaml
+:caption: [github.com/c-neto/my-devops-labs/blog/2025-06-19/fluent-bit.yaml](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/fluent-bit.yaml)
 
 # The `pipeline.inputs.processors` feature is only available when using the `yaml` configuration format.  
 # It is not supported in the legacy `.conf` configuration format.
@@ -83,8 +83,7 @@ print(log_line_in_sha256_hexa_decimal)
 Now, you can use the `_id` as log unique ID field!
 
 :::{note}
-You can find a complete, working example of this configuration in my Docker Compose lab repository: 
-- <https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml>
+You can find a complete, working example of this configuration in my Docker Compose lab repository: <i class="fab fa-github fa-fade"></i> [github.com/c-neto/my-devops-labs/blog/2025-06-19/docker-compose.yml](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml)
 :::
 
 ## References
