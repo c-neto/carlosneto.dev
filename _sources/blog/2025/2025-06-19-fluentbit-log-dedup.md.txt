@@ -8,7 +8,7 @@ category: Log Analytics
 
 ---
 
-# Preventing Duplicate Logs in Fluent Bit Using SHA-256 Log ID  
+# Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication
 
 This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of unique log IDs, and how to use Fluent Bit’s built-in features to create SHA-256 hashes for deduplication.
 

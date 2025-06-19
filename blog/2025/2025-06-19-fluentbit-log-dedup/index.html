@@ -7,19 +7,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Preventing Duplicate Logs in Fluent Bit Using SHA-256 Log ID" />
+<meta property="og:title" content="Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://carlosneto.dev/blog/2025/2025-06-19-preventing-duplicate-logs-in-fluent-bit/" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/" />
 <meta property="og:site_name" content="Carlos Neto" />
 <meta property="og:description" content="Blog Post Publish Date: 2025/06/19 This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of uniq..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-06-19-preventing-duplicate-logs-in-fluent-bit_5ee05a66.png" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-06-19-fluentbit-log-dedup_214f3f61.png" />
 <meta property="og:image:alt" content="Blog Post Publish Date: 2025/06/19 This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of uniq..." />
 <meta name="description" content="Blog Post Publish Date: 2025/06/19 This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of uniq..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>Preventing Duplicate Logs in Fluent Bit Using SHA-256 Log ID &#8212; Carlos Neto&#39;s Tech Blog</title>
+    <title>Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication &#8212; Carlos Neto&#39;s Tech Blog</title>
   
   
   
@@ -60,7 +60,7 @@
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2025/2025-06-19-preventing-duplicate-logs-in-fluent-bit';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2025/2025-06-19-fluentbit-log-dedup';</script>
     <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../../genindex/" />
     <link rel="search" title="Search" href="../../../search/" /> 
@@ -378,8 +378,8 @@
                 <article class="bd-article">
                    <p><em><strong>Blog Post Publish Date:</strong> 2025/06/19</em></p>
 <hr class="docutils" />
-<section id="preventing-duplicate-logs-in-fluent-bit-using-sha-256-log-id">
-<h1>Preventing Duplicate Logs in Fluent Bit Using SHA-256 Log ID<a class="headerlink" href="#preventing-duplicate-logs-in-fluent-bit-using-sha-256-log-id" title="Link to this heading">#</a></h1>
+<section id="fluent-bit-generating-log-ids-with-sha-256-hashes-for-log-deduplication">
+<h1>Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication<a class="headerlink" href="#fluent-bit-generating-log-ids-with-sha-256-hashes-for-log-deduplication" title="Link to this heading">#</a></h1>
 <p>This post explains how to prevent duplicate logs in Fluent Bit, especially when sending logs to OpenSearch. It covers why duplicates occur, the importance of unique log IDs, and how to use Fluent Bit’s built-in features to create SHA-256 hashes for deduplication.</p>
 <section id="why-do-duplicate-logs-occur-in-fluent-bit">
 <h2>Why Do Duplicate Logs Occur in Fluent Bit?<a class="headerlink" href="#why-do-duplicate-logs-occur-in-fluent-bit" title="Link to this heading">#</a></h2>
