@@ -109,7 +109,7 @@ You can find a complete, working example of this configuration in my Docker Comp
 ## References
 
 - Docker-Compose Lab: <https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml>
-- Logstash Fingerprint Filter Plugin: https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint
+- Logstash Fingerprint Filter Plugin: <https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint>
 - OpenSearch Fingerprint Ingest Pipeline Processor: <https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/>
 - Fluent Bit Processors Reference: <https://docs.fluentbit.io/manual/pipeline/processors/content-modifier>
 - Fluent Bit Hash Example: <https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example>
