@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-20T03:37:10.970008+00:00</updated>
+  <updated>2025-06-20T03:41:53.904111+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -19,7 +19,7 @@
 &lt;section id="why-do-duplicate-logs-occur-in-fluent-bit"&gt;
 &lt;h2&gt;Why Do Duplicate Logs Occur in Fluent Bit?&lt;/h2&gt;
 &lt;p&gt;I encountered issues with duplicated logs being indexed in OpenSearch by Fluent Bit. After some research, I concluded that currently, Fluent Bit, when using the &lt;a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/inputs/tail"&gt;Tail&lt;/a&gt; input, offers features designed for the &lt;strong&gt;At Least Once&lt;/strong&gt; delivery strategy. This means that a message may be delivered one or more times, potentially causing duplication. It does not support &lt;strong&gt;Exactly Once&lt;/strong&gt; or &lt;strong&gt;At Most Once&lt;/strong&gt; strategies, where a message is delivered only once or at most once, respectively.&lt;/p&gt;
-&lt;p&gt;There are several variables that can contribute to this behavior. For example, when using the &lt;a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/inputs/tail"&gt;Tail&lt;/a&gt; input plugin, even if you use an SQL database &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;DB&lt;/span&gt; &lt;span class="pre"&gt;On&lt;/span&gt;&lt;/code&gt; parameter, you may still experience duplicate logs. This is because the database only persists the file reading offset, not the delivery status for each configured &lt;a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs"&gt;Output&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;There are several variables that can contribute to this behavior. For example, when using the &lt;a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/inputs/tail"&gt;Tail&lt;/a&gt; input plugin, even if you use an SQL database with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;DB&lt;/span&gt; &lt;span class="pre"&gt;On&lt;/span&gt;&lt;/code&gt; parameter, you may still experience duplicate logs. This is because the database only persists the file reading offset, not the delivery status for each configured &lt;a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs"&gt;Output&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;I plan to write a separate blog post with more details about how Fluent Bit manages log delivery state. For now, it’s important to understand that in certain scenarios, like outputs unavailability and Fluent Bit restarts, duplication can occur and is expected not a problem (especially with multiple &lt;a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs"&gt;Output&lt;/a&gt; configuration).&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="the-importance-of-unique-log-ids"&gt;
