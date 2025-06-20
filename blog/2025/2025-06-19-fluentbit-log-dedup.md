@@ -103,7 +103,7 @@ print(log_line_in_sha256_hexa_decimal)
 Now, you can use the `_id` as log unique ID field!
 
 :::{note}
-You can find a complete, working example of this configuration in my Docker Compose lab repository: <i class="fab fa-github fa-fade"></i> [github.com/c-neto/my-devops-labs/blog/2025-06-19/docker-compose.yml](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml)
+You can find a complete, working example of this configuration in my Docker Compose lab repository: <i class="fab fa-github"></i> [github.com/c-neto/my-devops-labs/blog/2025-06-19/docker-compose.yml](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml)
 :::
 
 ## References
