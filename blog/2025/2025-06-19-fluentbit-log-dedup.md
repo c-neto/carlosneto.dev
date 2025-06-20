@@ -18,7 +18,7 @@ I encountered issues with duplicated logs being indexed in OpenSearch by Fluent 
 
 There are several variables that can contribute to this behavior. For example, when using the [Tail](https://docs.fluentbit.io/manual/pipeline/inputs/tail) input plugin, even if you use an SQL database with `DB On` parameter, you may still experience duplicate logs. This is because the database only persists the file reading offset, not the delivery status for each configured [Output](https://docs.fluentbit.io/manual/pipeline/outputs). 
 
-I plan to write a separate blog post with more details about how Fluent Bit manages log delivery state. For now, it's important to understand that in certain scenarios, like outputs unavailability and Fluent Bit restarts, duplication can occur and is expected not a problem (especially with multiple [Output](https://docs.fluentbit.io/manual/pipeline/outputs) configuration).
+I plan to write a separate blog post with more details about how Fluent Bit manages log delivery state. For now, it's important to understand that in certain scenarios such as output unavailability and Fluent Bit restarts—duplication can occur. This is expected behavior and not necessarily a problem, especially when multiple [Output](https://docs.fluentbit.io/manual/pipeline/outputs) configurations are used.
 
 ## The Importance of Unique Log IDs
 
