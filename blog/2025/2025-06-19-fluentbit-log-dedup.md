@@ -43,7 +43,10 @@ The __key insight__ is to copy the log line content to a new key and hash this n
 pipeline:
   inputs:
     - name: dummy
-      dummy: '{"message": "2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log"}'
+      dummy: |
+        {
+          "message": "2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log"
+        }
       tag: dummy.foobar
       processors:
         logs:
@@ -57,7 +60,10 @@ pipeline:
             key: _id
 
     - name: dummy
-      dummy: '{"message": "2025-06-19T17:02:35.123456789Z stdout F This is a Greeting application log sample running in kubernetes persisted on /var/log/containers/*.log"}'
+      dummy: |
+        {
+          "message": "2025-06-19T17:02:35.123456789Z stdout F This is a Greeting application log sample running in kubernetes persisted on /var/log/containers/*.log"
+        }
       tag: dummy.greeting 
       processors:
         logs:
