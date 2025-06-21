@@ -407,7 +407,10 @@
 <span class="nt">pipeline</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">inputs</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dummy</span>
-<span class="w">      </span><span class="nt">dummy</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{&quot;message&quot;:</span><span class="nv"> </span><span class="s">&quot;2025-06-19T17:02:35.123456789Z</span><span class="nv"> </span><span class="s">stdout</span><span class="nv"> </span><span class="s">F</span><span class="nv"> </span><span class="s">This</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">Foobar</span><span class="nv"> </span><span class="s">application</span><span class="nv"> </span><span class="s">log</span><span class="nv"> </span><span class="s">sample</span><span class="nv"> </span><span class="s">running</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">kubernetes</span><span class="nv"> </span><span class="s">persisted</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">/var/log/containers/*.log&quot;}&#39;</span>
+<span class="w">      </span><span class="nt">dummy</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">{</span>
+<span class="w">          </span><span class="no">&quot;message&quot;: &quot;2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log&quot;</span>
+<span class="w">        </span><span class="no">}</span>
 <span class="w">      </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dummy.foobar</span>
 <span class="w">      </span><span class="nt">processors</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">logs</span><span class="p">:</span>
@@ -421,7 +424,10 @@
 <span class="w">            </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">_id</span>
 
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dummy</span>
-<span class="w">      </span><span class="nt">dummy</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{&quot;message&quot;:</span><span class="nv"> </span><span class="s">&quot;2025-06-19T17:02:35.123456789Z</span><span class="nv"> </span><span class="s">stdout</span><span class="nv"> </span><span class="s">F</span><span class="nv"> </span><span class="s">This</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">Greeting</span><span class="nv"> </span><span class="s">application</span><span class="nv"> </span><span class="s">log</span><span class="nv"> </span><span class="s">sample</span><span class="nv"> </span><span class="s">running</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">kubernetes</span><span class="nv"> </span><span class="s">persisted</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">/var/log/containers/*.log&quot;}&#39;</span>
+<span class="w">      </span><span class="nt">dummy</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">{</span>
+<span class="w">          </span><span class="no">&quot;message&quot;: &quot;2025-06-19T17:02:35.123456789Z stdout F This is a Greeting application log sample running in kubernetes persisted on /var/log/containers/*.log&quot;</span>
+<span class="w">        </span><span class="no">}</span>
 <span class="w">      </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dummy.greeting</span><span class="w"> </span>
 <span class="w">      </span><span class="nt">processors</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">logs</span><span class="p">:</span>
