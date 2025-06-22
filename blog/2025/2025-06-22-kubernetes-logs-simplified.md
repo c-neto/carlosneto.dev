@@ -177,14 +177,14 @@ Some log ingestion tools offer features to enrich logs with metadata from the lo
 
 ## References
 
-- http://kubernetes.io/docs/user-guide/kubectl/kubectl_logs/
-- https://docs.docker.com/engine/admin/logging/overview/
-- https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md
-- https://github.com/kubernetes/kubernetes/issues/17183
-- https://github.com/kubernetes/kubernetes/issues/24677
-- https://github.com/kubernetes/kubernetes/issues/30709
-- https://github.com/kubernetes/kubernetes/issues/31459
-- https://github.com/kubernetes/kubernetes/pull/13010
-- https://github.com/kubernetes/kubernetes/pull/33111
-- https://kubernetes.io/docs/concepts/cluster-administration/logging/
-- https://en.wikipedia.org/wiki/Standard_streams
+- <http://kubernetes.io/docs/user-guide/kubectl/kubectl_logs/>
+- <https://docs.docker.com/engine/admin/logging/overview/>
+- <https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md>
+- <https://github.com/kubernetes/kubernetes/issues/17183>
+- <https://github.com/kubernetes/kubernetes/issues/24677>
+- <https://github.com/kubernetes/kubernetes/issues/30709>
+- <https://github.com/kubernetes/kubernetes/issues/31459>
+- <https://github.com/kubernetes/kubernetes/pull/13010>
+- <https://github.com/kubernetes/kubernetes/pull/33111>
+- <https://kubernetes.io/docs/concepts/cluster-administration/logging/>
+- <https://en.wikipedia.org/wiki/Standard_streams>
