@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-22T07:21:23.423277+00:00</updated>
+  <updated>2025-06-22T07:22:04.637624+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -21,10 +21,9 @@
 &lt;p&gt;Kubernetes is essentially composed of containers, which are managed by container runtimes. These container runtimes must implement the &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/"&gt;Container Runtime Interface (CRI)&lt;/a&gt;, which defines how Kubernetes interacts with the containers. One of the specifications in the &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/"&gt;CRI&lt;/a&gt; is container log handling, which standardizes details such as log names, directory locations, and formats.&lt;/p&gt;
 &lt;div class="admonition note"&gt;
 &lt;p class="admonition-title"&gt;Note&lt;/p&gt;
-&lt;p&gt;More Details:&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;CRI Logs Desing Proposal: https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Kubernetes Logging Reference: https://kubernetes.io/docs/concepts/cluster-administration/logging/&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;CRI Logs Desing Proposal: &lt;a class="github reference external" href="https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md"&gt;kubernetes/design-proposals-archive&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Kubernetes Logging Reference: &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/logging/"&gt;https://kubernetes.io/docs/concepts/cluster-administration/logging/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;p&gt;Each pod container has an isolated file, and logs are composed of the content that the application writes to &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams"&gt;stdout&lt;/a&gt; and &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams"&gt;stderr&lt;/a&gt;. The logs are written to the Node where the pod container is running, in the following location:&lt;/p&gt;
@@ -97,21 +96,21 @@ part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;
 &lt;p&gt;Logs can grow uncontrollably, causing disk overflow, which can impact observability in your cluster and degrade application performance. Even if the application generates a low volume of logs, it is a best practice and highly recommended to enforce limits and implement log rotation routines. The best approach to control log size limits is to define the values using container runtime parameters. It is not recommended to use third-party tools like &lt;a class="reference external" href="https://github.com/logrotate/logrotate"&gt;logrotate&lt;/a&gt; for this task, as file operations such as renaming, truncating, and closing file descriptors can corrupt Kubernetes’ log management state. Additionally, the container runtime’s log management architecture may change in future Kubernetes versions, requiring updates to third-party tools to align with the new behavior.&lt;/p&gt;
 &lt;p&gt;Thus, the configuration defines the Container Runtime’s log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.&lt;/p&gt;
 &lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 108)&lt;/p&gt;
+&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 107)&lt;/p&gt;
 &lt;p&gt;Unknown directive type: ‘codeblock’ [myst.directive_unknown]&lt;/p&gt;
 &lt;/aside&gt;
 &lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 108)&lt;/p&gt;
+&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 107)&lt;/p&gt;
 &lt;p&gt;No directive entry for “codeblock” in module “docutils.parsers.rst.languages.en”.
 Trying “codeblock” as canonical directive name.&lt;/p&gt;
 &lt;/aside&gt;
 &lt;p&gt;Also, you can introduce this parameters via environment variables to kubelet service. Below as example using systemd, to define the log rotate parameters for kubelet process to inject log rotate parameters to containerd.&lt;/p&gt;
 &lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 118)&lt;/p&gt;
+&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 117)&lt;/p&gt;
 &lt;p&gt;Unknown directive type: ‘codeblock’ [myst.directive_unknown]&lt;/p&gt;
 &lt;/aside&gt;
 &lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 118)&lt;/p&gt;
+&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 117)&lt;/p&gt;
 &lt;p&gt;No directive entry for “codeblock” in module “docutils.parsers.rst.languages.en”.
 Trying “codeblock” as canonical directive name.&lt;/p&gt;
 &lt;/aside&gt;
