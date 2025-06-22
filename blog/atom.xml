@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-22T07:28:46.852496+00:00</updated>
+  <updated>2025-06-22T07:32:49.783742+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -27,10 +27,10 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;p&gt;Each pod container has an isolated file, and logs are composed of the content that the application writes to &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams"&gt;stdout&lt;/a&gt; and &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams"&gt;stderr&lt;/a&gt;. The logs are written to the Node where the pod container is running, in the following location:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# PATTERN&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# pod container log file pattern&lt;/span&gt;
 /var/log/pods/&amp;lt;namespace&amp;gt;_&amp;lt;podname&amp;gt;_&amp;lt;uid&amp;gt;/&amp;lt;container_name&amp;gt;/&amp;lt;execution-id&amp;gt;.log
 
-&lt;span class="c1"&gt;# EXAMPLE&lt;/span&gt;
+&lt;span class="c1"&gt;# example&lt;/span&gt;
 /var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/
 &lt;span class="w"&gt;  &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;.log&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# current container live running log&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;.log&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# last container log that exited on failure or was restarted&lt;/span&gt;
@@ -40,13 +40,13 @@
 &lt;/div&gt;
 &lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt; file contains the current container’s live running logs. If the container crashes and restarts, Kubernetes renames &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;1.log&lt;/span&gt;&lt;/code&gt; and creates a new &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt; for the new run. This process continues with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;2.log&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;3.log&lt;/span&gt;&lt;/code&gt;, and so on. When you execute &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;logs&lt;/span&gt; &lt;span class="pre"&gt;--previous&lt;/span&gt; &lt;span class="pre"&gt;&amp;lt;pod&amp;gt;&lt;/span&gt; &lt;span class="pre"&gt;-c&lt;/span&gt; &lt;span class="pre"&gt;&amp;lt;container&amp;gt;&lt;/span&gt;&lt;/code&gt;, the kubelet searches for logs in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;1.log&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;2.log&lt;/span&gt;&lt;/code&gt;, and subsequent files.&lt;/p&gt;
 &lt;p&gt;To simplify log ingestion for third-party tools, the kubelet creates symbolic links for the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt; files in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/var/log/containers/&lt;/span&gt;&lt;/code&gt; directory on the node.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# symbolic link log file name pattern&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; symbolic link log file name pattern&lt;/span&gt;
 /var/log/containers/&amp;lt;pod_name&amp;gt;_&amp;lt;namespace&amp;gt;_&amp;lt;container_name&amp;gt;-&amp;lt;container_id&amp;gt;.log
 
-&lt;span class="c1"&gt;# symbolic link log file name example&lt;/span&gt;
+&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; symbolic link log file name example&lt;/span&gt;
 /var/log/containers/nginx-deployment-7f5c7d4f9b-abcde_default_nginx-container-12345.log
 
-&lt;span class="c1"&gt;# Real file that the symbolic link points to&lt;/span&gt;
+&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; real file that the symbolic link points to&lt;/span&gt;
 /var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/0.log
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -55,12 +55,12 @@
 &lt;section id="understanding-kubernetes-log-format"&gt;
 &lt;h2&gt;Understanding Kubernetes Log Format&lt;/h2&gt;
 &lt;p&gt;The log file content is saved in a specific pattern defined by the CRI. This log line format is:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# log line pattern&lt;/span&gt;
-&amp;lt;timestamp&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;stream&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;flags&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;message&amp;gt;
+&lt;div class="highlight-log notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# &amp;gt;&amp;gt;&amp;gt; log line pattern
+&amp;lt;timestamp&amp;gt; &amp;lt;stream&amp;gt; &amp;lt;flags&amp;gt; &amp;lt;message&amp;gt;
 
-&lt;span class="c1"&gt;# log line examples&lt;/span&gt;
-&lt;span class="m"&gt;2023&lt;/span&gt;-10-06T00:17:09.669794202Z&lt;span class="w"&gt; &lt;/span&gt;stdout&lt;span class="w"&gt; &lt;/span&gt;F&lt;span class="w"&gt; &lt;/span&gt;Your&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;message&lt;span class="w"&gt; &lt;/span&gt;here
-&lt;span class="m"&gt;2023&lt;/span&gt;-10-06T00:17:09.669794202Z&lt;span class="w"&gt; &lt;/span&gt;stdout&lt;span class="w"&gt; &lt;/span&gt;P&lt;span class="w"&gt; &lt;/span&gt;Another&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;pt&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+# &amp;gt;&amp;gt;&amp;gt; log line examples
+2023-10-06T00:17:09.669794202Z stdout F Your log message here
+2023-10-06T00:17:09.669794202Z stdout P Another log pt 1
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
@@ -71,17 +71,19 @@
 &lt;/ul&gt;
 &lt;p&gt;About &lt;strong&gt;flags&lt;/strong&gt;: The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;F&lt;/span&gt;&lt;/code&gt; flag indicates a complete log line (ending with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;\n&lt;/span&gt;&lt;/code&gt;). The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;P&lt;/span&gt;&lt;/code&gt; flag signifies that the application has not finished writing the line yet, so the runtime is writing it in parts. When logs are retrieved using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;logs&lt;/span&gt;&lt;/code&gt;, the tool merges these parts together before displaying them to the user.&lt;/p&gt;
 &lt;p&gt;To understand this better, check the following Python application code:&lt;/p&gt;
-&lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;part 1 - &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/python&lt;/span&gt;
+
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;part 1 - &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;part 2 - &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;part 3 - &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;log line completed!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;The logs are saved in the following format:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="m"&gt;2025&lt;/span&gt;-06-21T22:15:10.123456789Z&lt;span class="w"&gt; &lt;/span&gt;stdout&lt;span class="w"&gt; &lt;/span&gt;P&lt;span class="w"&gt; &lt;/span&gt;part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;
-&lt;span class="m"&gt;2025&lt;/span&gt;-06-21T22:15:10.123456790Z&lt;span class="w"&gt; &lt;/span&gt;stdout&lt;span class="w"&gt; &lt;/span&gt;P&lt;span class="w"&gt; &lt;/span&gt;part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;
-&lt;span class="m"&gt;2025&lt;/span&gt;-06-21T22:15:10.123456791Z&lt;span class="w"&gt; &lt;/span&gt;stdout&lt;span class="w"&gt; &lt;/span&gt;P&lt;span class="w"&gt; &lt;/span&gt;part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;
-&lt;span class="m"&gt;2025&lt;/span&gt;-06-21T22:15:10.123456792Z&lt;span class="w"&gt; &lt;/span&gt;stdout&lt;span class="w"&gt; &lt;/span&gt;F&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;line&lt;span class="w"&gt; &lt;/span&gt;completed!
+&lt;div class="highlight-log notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;2025-06-21T22:15:10.123456789Z stdout P part 1 - 
+2025-06-21T22:15:10.123456790Z stdout P part 2 - 
+2025-06-21T22:15:10.123456791Z stdout P part 3 - 
+2025-06-21T22:15:10.123456792Z stdout F log line completed!
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;When a pod log is retrieved using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;logs&lt;/span&gt;&lt;/code&gt;, the output will concatenate partial logs:&lt;/p&gt;
@@ -96,21 +98,21 @@ part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;
 &lt;p&gt;Logs can grow uncontrollably, causing disk overflow, which can impact observability in your cluster and degrade application performance. Even if the application generates a low volume of logs, it is a best practice and highly recommended to enforce limits and implement log rotation routines. The best approach to control log size limits is to define the values using container runtime parameters. It is not recommended to use third-party tools like &lt;a class="reference external" href="https://github.com/logrotate/logrotate"&gt;logrotate&lt;/a&gt; for this task, as file operations such as renaming, truncating, and closing file descriptors can corrupt Kubernetes’ log management state. Additionally, the container runtime’s log management architecture may change in future Kubernetes versions, requiring updates to third-party tools to align with the new behavior.&lt;/p&gt;
 &lt;p&gt;Thus, the configuration defines the Container Runtime’s log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.&lt;/p&gt;
 &lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 107)&lt;/p&gt;
+&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 109)&lt;/p&gt;
 &lt;p&gt;Unknown directive type: ‘codeblock’ [myst.directive_unknown]&lt;/p&gt;
 &lt;/aside&gt;
 &lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 107)&lt;/p&gt;
+&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 109)&lt;/p&gt;
 &lt;p&gt;No directive entry for “codeblock” in module “docutils.parsers.rst.languages.en”.
 Trying “codeblock” as canonical directive name.&lt;/p&gt;
 &lt;/aside&gt;
 &lt;p&gt;Also, you can introduce this parameters via environment variables to kubelet service. Below as example using systemd, to define the log rotate parameters for kubelet process to inject log rotate parameters to containerd.&lt;/p&gt;
 &lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 117)&lt;/p&gt;
+&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 119)&lt;/p&gt;
 &lt;p&gt;Unknown directive type: ‘codeblock’ [myst.directive_unknown]&lt;/p&gt;
 &lt;/aside&gt;
 &lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 117)&lt;/p&gt;
+&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 119)&lt;/p&gt;
 &lt;p&gt;No directive entry for “codeblock” in module “docutils.parsers.rst.languages.en”.
 Trying “codeblock” as canonical directive name.&lt;/p&gt;
 &lt;/aside&gt;

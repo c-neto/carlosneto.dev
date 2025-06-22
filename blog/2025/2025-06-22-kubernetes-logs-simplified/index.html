@@ -392,10 +392,10 @@
 </ul>
 </div>
 <p>Each pod container has an isolated file, and logs are composed of the content that the application writes to <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams">stdout</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams">stderr</a>. The logs are written to the Node where the pod container is running, in the following location:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># PATTERN</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># pod container log file pattern</span>
 /var/log/pods/&lt;namespace&gt;_&lt;podname&gt;_&lt;uid&gt;/&lt;container_name&gt;/&lt;execution-id&gt;.log
 
-<span class="c1"># EXAMPLE</span>
+<span class="c1"># example</span>
 /var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/
 <span class="w">  </span>├──<span class="w"> </span><span class="m">0</span>.log<span class="w">   </span><span class="c1"># current container live running log</span>
 <span class="w">  </span>├──<span class="w"> </span><span class="m">1</span>.log<span class="w">   </span><span class="c1"># last container log that exited on failure or was restarted</span>
@@ -405,13 +405,13 @@
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">0.log</span></code> file contains the current container’s live running logs. If the container crashes and restarts, Kubernetes renames <code class="docutils literal notranslate"><span class="pre">0.log</span></code> to <code class="docutils literal notranslate"><span class="pre">1.log</span></code> and creates a new <code class="docutils literal notranslate"><span class="pre">0.log</span></code> for the new run. This process continues with <code class="docutils literal notranslate"><span class="pre">2.log</span></code>, <code class="docutils literal notranslate"><span class="pre">3.log</span></code>, and so on. When you execute <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">logs</span> <span class="pre">--previous</span> <span class="pre">&lt;pod&gt;</span> <span class="pre">-c</span> <span class="pre">&lt;container&gt;</span></code>, the kubelet searches for logs in <code class="docutils literal notranslate"><span class="pre">1.log</span></code>, <code class="docutils literal notranslate"><span class="pre">2.log</span></code>, and subsequent files.</p>
 <p>To simplify log ingestion for third-party tools, the kubelet creates symbolic links for the <code class="docutils literal notranslate"><span class="pre">0.log</span></code> files in the <code class="docutils literal notranslate"><span class="pre">/var/log/containers/</span></code> directory on the node.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># symbolic link log file name pattern</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># &gt;&gt;&gt; symbolic link log file name pattern</span>
 /var/log/containers/&lt;pod_name&gt;_&lt;namespace&gt;_&lt;container_name&gt;-&lt;container_id&gt;.log
 
-<span class="c1"># symbolic link log file name example</span>
+<span class="c1"># &gt;&gt;&gt; symbolic link log file name example</span>
 /var/log/containers/nginx-deployment-7f5c7d4f9b-abcde_default_nginx-container-12345.log
 
-<span class="c1"># Real file that the symbolic link points to</span>
+<span class="c1"># &gt;&gt;&gt; real file that the symbolic link points to</span>
 /var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/0.log
 </pre></div>
 </div>
@@ -420,12 +420,12 @@
 <section id="understanding-kubernetes-log-format">
 <h2>Understanding Kubernetes Log Format<a class="headerlink" href="#understanding-kubernetes-log-format" title="Link to this heading">#</a></h2>
 <p>The log file content is saved in a specific pattern defined by the CRI. This log line format is:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># log line pattern</span>
-&lt;timestamp&gt;<span class="w"> </span>&lt;stream&gt;<span class="w"> </span>&lt;flags&gt;<span class="w"> </span>&lt;message&gt;
+<div class="highlight-log notranslate"><div class="highlight"><pre><span></span># &gt;&gt;&gt; log line pattern
+&lt;timestamp&gt; &lt;stream&gt; &lt;flags&gt; &lt;message&gt;
 
-<span class="c1"># log line examples</span>
-<span class="m">2023</span>-10-06T00:17:09.669794202Z<span class="w"> </span>stdout<span class="w"> </span>F<span class="w"> </span>Your<span class="w"> </span>log<span class="w"> </span>message<span class="w"> </span>here
-<span class="m">2023</span>-10-06T00:17:09.669794202Z<span class="w"> </span>stdout<span class="w"> </span>P<span class="w"> </span>Another<span class="w"> </span>log<span class="w"> </span>pt<span class="w"> </span><span class="m">1</span>
+# &gt;&gt;&gt; log line examples
+2023-10-06T00:17:09.669794202Z stdout F Your log message here
+2023-10-06T00:17:09.669794202Z stdout P Another log pt 1
 </pre></div>
 </div>
 <ul class="simple">
@@ -436,17 +436,19 @@
 </ul>
 <p>About <strong>flags</strong>: The <code class="docutils literal notranslate"><span class="pre">F</span></code> flag indicates a complete log line (ending with <code class="docutils literal notranslate"><span class="pre">\n</span></code>). The <code class="docutils literal notranslate"><span class="pre">P</span></code> flag signifies that the application has not finished writing the line yet, so the runtime is writing it in parts. When logs are retrieved using <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">logs</span></code>, the tool merges these parts together before displaying them to the user.</p>
 <p>To understand this better, check the following Python application code:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;part 1 - &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/python</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;part 1 - &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;part 2 - &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;part 3 - &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;log line completed!&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The logs are saved in the following format:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2025</span>-06-21T22:15:10.123456789Z<span class="w"> </span>stdout<span class="w"> </span>P<span class="w"> </span>part<span class="w"> </span><span class="m">1</span><span class="w"> </span>-<span class="w"> </span>
-<span class="m">2025</span>-06-21T22:15:10.123456790Z<span class="w"> </span>stdout<span class="w"> </span>P<span class="w"> </span>part<span class="w"> </span><span class="m">2</span><span class="w"> </span>-<span class="w"> </span>
-<span class="m">2025</span>-06-21T22:15:10.123456791Z<span class="w"> </span>stdout<span class="w"> </span>P<span class="w"> </span>part<span class="w"> </span><span class="m">3</span><span class="w"> </span>-<span class="w"> </span>
-<span class="m">2025</span>-06-21T22:15:10.123456792Z<span class="w"> </span>stdout<span class="w"> </span>F<span class="w"> </span>log<span class="w"> </span>line<span class="w"> </span>completed!
+<div class="highlight-log notranslate"><div class="highlight"><pre><span></span>2025-06-21T22:15:10.123456789Z stdout P part 1 - 
+2025-06-21T22:15:10.123456790Z stdout P part 2 - 
+2025-06-21T22:15:10.123456791Z stdout P part 3 - 
+2025-06-21T22:15:10.123456792Z stdout F log line completed!
 </pre></div>
 </div>
 <p>When a pod log is retrieved using <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code>, the output will concatenate partial logs:</p>

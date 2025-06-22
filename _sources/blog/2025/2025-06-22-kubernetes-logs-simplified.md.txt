@@ -24,10 +24,10 @@ Kubernetes is essentially composed of containers, which are managed by container
 Each pod container has an isolated file, and logs are composed of the content that the application writes to [stdout](https://en.wikipedia.org/wiki/Standard_streams) and [stderr](https://en.wikipedia.org/wiki/Standard_streams). The logs are written to the Node where the pod container is running, in the following location:
 
 ```bash
-# PATTERN
+# pod container log file pattern
 /var/log/pods/<namespace>_<podname>_<uid>/<container_name>/<execution-id>.log
 
-# EXAMPLE
+# example
 /var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/
   ├── 0.log   # current container live running log
   ├── 1.log   # last container log that exited on failure or was restarted
@@ -40,13 +40,13 @@ The `0.log` file contains the current container's live running logs. If the cont
 To simplify log ingestion for third-party tools, the kubelet creates symbolic links for the `0.log` files in the `/var/log/containers/` directory on the node.
 
 ```bash
-# symbolic link log file name pattern
+# >>> symbolic link log file name pattern
 /var/log/containers/<pod_name>_<namespace>_<container_name>-<container_id>.log
 
-# symbolic link log file name example
+# >>> symbolic link log file name example
 /var/log/containers/nginx-deployment-7f5c7d4f9b-abcde_default_nginx-container-12345.log
 
-# Real file that the symbolic link points to
+# >>> real file that the symbolic link points to
 /var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/0.log
 ```
 
@@ -56,11 +56,11 @@ The `$ kubectl logs` command always uses the absolute path of the log file and n
 
 The log file content is saved in a specific pattern defined by the CRI. This log line format is:
 
-```bash
-# log line pattern
+```log
+# >>> log line pattern
 <timestamp> <stream> <flags> <message>
 
-# log line examples
+# >>> log line examples
 2023-10-06T00:17:09.669794202Z stdout F Your log message here
 2023-10-06T00:17:09.669794202Z stdout P Another log pt 1
 ```
@@ -75,6 +75,8 @@ About __flags__: The `F` flag indicates a complete log line (ending with `\n`). 
 To understand this better, check the following Python application code:
 
 ```python
+#!/bin/python
+
 print("part 1 - ", end="")
 print("part 2 - ", end="")
 print("part 3 - ", end="")
@@ -83,7 +85,7 @@ print("log line completed!", end="\n")
 
 The logs are saved in the following format:
 
-```bash
+```log
 2025-06-21T22:15:10.123456789Z stdout P part 1 - 
 2025-06-21T22:15:10.123456790Z stdout P part 2 - 
 2025-06-21T22:15:10.123456791Z stdout P part 3 - 
