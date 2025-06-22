@@ -37,7 +37,7 @@ Each container in a pod writes its logs to a separate file. These logs capture e
 
 The `0.log` file contains the current container's live running logs. If the container crashes and restarts, Kubernetes renames `0.log` to `1.log` and creates a new `0.log` for the new run. This process continues with `2.log`, `3.log`, and so on. When you execute `kubectl logs --previous <pod> -c <container>`, the kubelet searches for logs in `1.log`, `2.log`, and subsequent files.
 
-To simplify log ingestion for third-party tools, the kubelet creates symbolic links for the `0.log` files in the `/var/log/containers/` directory on the node.
+To make log ingestion easier for third-party tools, the kubelet creates symbolic links to each container's current log file (`0.log`) in the `/var/log/containers/` directory. Each symbolic link is named using the pod name, namespace, container name, and container ID, making it easy for log shippers to identify and process logs for each container.
 
 ```bash
 # >>> symbolic link log file name pattern
@@ -176,7 +176,7 @@ spec:
             type: Directory
 ```
 
-Some log ingestion tools can add extra metadata to logs, such as labels and annotations from Kubernetes. To do this, you need to give the log ingestion pods the right permissions using a [Cluster RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) policy. For example, see [this Fluent Bit ClusterRole](https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/clusterrole.yaml). With these permissions, the tool can fetch metadata from the Kubernetes API and enrich the logs before sending them to your log system. I'll cover this process in detail in a future post about [Fluent Bit](https://docs.fluentbit.io/manual).
+Many log collection tools can add extra information to your logs, like pod labels and annotations. To do this, the log collector needs permission to talk to the Kubernetes API. This is usually done by giving the tool a [ClusterRole](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) with the right permissions and linking it to the service account the tool uses. For example, you can look at [this Fluent Bit ClusterRole](https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/clusterrole.yaml) to see how it works. With these permissions, the tool can get metadata from Kubernetes and add it to each log before sending it to your log system. Setting up metadata enrichment with [Fluent Bit](https://docs.fluentbit.io/manual) will be explained in a future post.
 
 ## References
 
