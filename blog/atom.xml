@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-22T07:09:08.384305+00:00</updated>
+  <updated>2025-06-22T07:16:43.280025+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -15,8 +15,7 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="kubernetes-logs-simplified-everything-you-need-to-know-about-pod-logging"&gt;
 
-&lt;p&gt;Have you ever wondered how the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;logs&lt;/span&gt;&lt;/code&gt; command retrieves logs? Where are these logs stored, and how can you access both current and past logs? Kubernetes logging might seem complex, but understanding it is important for better troubleshooting and monitoring.&lt;/p&gt;
-&lt;p&gt;This blog post explains where Kubernetes stores logs, how they are organized, and how Kubernetes handles them. It also describes how to send logs to external systems and shares tips to prevent running out of disk space due to logs.&lt;/p&gt;
+&lt;p&gt;Have you ever wondered how &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;logs&lt;/span&gt;&lt;/code&gt; retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex, but understanding it is key to troubleshooting and monitoring. This blog post outlines how Kubernetes organizes logs, how to send them to external systems, and tips to manage log growth effectively.&lt;/p&gt;
 &lt;section id="how-kubernetes-manages-and-stores-logs"&gt;
 &lt;h2&gt;How Kubernetes Manages and Stores Logs&lt;/h2&gt;
 &lt;p&gt;Kubernetes is essentially composed of containers, which are managed by container runtimes. These container runtimes must implement the &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/"&gt;Container Runtime Interface (CRI)&lt;/a&gt;, which defines how Kubernetes interacts with the containers. One of the specifications in the &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/"&gt;CRI&lt;/a&gt; is container log handling, which standardizes details such as log names, directory locations, and formats.&lt;/p&gt;
@@ -98,21 +97,21 @@ part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;
 &lt;p&gt;Logs can grow uncontrollably, causing disk overflow, which can impact observability in your cluster and degrade application performance. Even if the application generates a low volume of logs, it is a best practice and highly recommended to enforce limits and implement log rotation routines. The best approach to control log size limits is to define the values using container runtime parameters. It is not recommended to use third-party tools like &lt;a class="reference external" href="https://github.com/logrotate/logrotate"&gt;logrotate&lt;/a&gt; for this task, as file operations such as renaming, truncating, and closing file descriptors can corrupt Kubernetes’ log management state. Additionally, the container runtime’s log management architecture may change in future Kubernetes versions, requiring updates to third-party tools to align with the new behavior.&lt;/p&gt;
 &lt;p&gt;Thus, the configuration defines the Container Runtime’s log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.&lt;/p&gt;
 &lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 110)&lt;/p&gt;
+&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 108)&lt;/p&gt;
 &lt;p&gt;Unknown directive type: ‘codeblock’ [myst.directive_unknown]&lt;/p&gt;
 &lt;/aside&gt;
 &lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 110)&lt;/p&gt;
+&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 108)&lt;/p&gt;
 &lt;p&gt;No directive entry for “codeblock” in module “docutils.parsers.rst.languages.en”.
 Trying “codeblock” as canonical directive name.&lt;/p&gt;
 &lt;/aside&gt;
 &lt;p&gt;Also, you can introduce this parameters via environment variables to kubelet service. Below as example using systemd, to define the log rotate parameters for kubelet process to inject log rotate parameters to containerd.&lt;/p&gt;
 &lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 120)&lt;/p&gt;
+&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 118)&lt;/p&gt;
 &lt;p&gt;Unknown directive type: ‘codeblock’ [myst.directive_unknown]&lt;/p&gt;
 &lt;/aside&gt;
 &lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 120)&lt;/p&gt;
+&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 118)&lt;/p&gt;
 &lt;p&gt;No directive entry for “codeblock” in module “docutils.parsers.rst.languages.en”.
 Trying “codeblock” as canonical directive name.&lt;/p&gt;
 &lt;/aside&gt;
@@ -189,7 +188,7 @@ Trying “codeblock” as canonical directive name.&lt;/p&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified/"/>
-    <summary>Blog Post Publish Date: 2025/06/22Have you ever wondered how the $ kubectl logs command retrieves logs? Where are these logs stored, and how can you access both current and past logs? Kubernetes logging might seem complex, but understanding it is important for better troubleshooting and monitoring.</summary>
+    <summary>Blog Post Publish Date: 2025/06/22Have you ever wondered how $ kubectl logs retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex, but understanding it is key to troubleshooting and monitoring. This blog post outlines how Kubernetes organizes logs, how to send them to external systems, and tips to manage log growth effectively.</summary>
     <category term="fluentbit" label="fluentbit"/>
     <category term="logs" label="logs"/>
     <category term="observability" label="observability"/>

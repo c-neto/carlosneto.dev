@@ -11,12 +11,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2025/06/22 Have you ever wondered how the$ kubectl logs command retrieves logs? Where are these logs stored, and how can you access both current and past logs? Kubernetes lo..." />
+<meta property="og:description" content="Blog Post Publish Date: 2025/06/22 Have you ever wondered how$ kubectl logs retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex,..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-06-22-kubernetes-logs-simplified_9a869ebe.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2025/06/22 Have you ever wondered how the$ kubectl logs command retrieves logs? Where are these logs stored, and how can you access both current and past logs? Kubernetes lo..." />
-<meta name="description" content="Blog Post Publish Date: 2025/06/22 Have you ever wondered how the$ kubectl logs command retrieves logs? Where are these logs stored, and how can you access both current and past logs? Kubernetes lo..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-06-22-kubernetes-logs-simplified_01e70403.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2025/06/22 Have you ever wondered how$ kubectl logs retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex,..." />
+<meta name="description" content="Blog Post Publish Date: 2025/06/22 Have you ever wondered how$ kubectl logs retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex,..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging &#8212; Carlos Neto&#39;s Tech Blog</title>
@@ -380,8 +380,7 @@
 <hr class="docutils" />
 <section id="kubernetes-logs-simplified-everything-you-need-to-know-about-pod-logging">
 <h1>Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging<a class="headerlink" href="#kubernetes-logs-simplified-everything-you-need-to-know-about-pod-logging" title="Link to this heading">#</a></h1>
-<p>Have you ever wondered how the <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> command retrieves logs? Where are these logs stored, and how can you access both current and past logs? Kubernetes logging might seem complex, but understanding it is important for better troubleshooting and monitoring.</p>
-<p>This blog post explains where Kubernetes stores logs, how they are organized, and how Kubernetes handles them. It also describes how to send logs to external systems and shares tips to prevent running out of disk space due to logs.</p>
+<p>Have you ever wondered how <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex, but understanding it is key to troubleshooting and monitoring. This blog post outlines how Kubernetes organizes logs, how to send them to external systems, and tips to manage log growth effectively.</p>
 <section id="how-kubernetes-manages-and-stores-logs">
 <h2>How Kubernetes Manages and Stores Logs<a class="headerlink" href="#how-kubernetes-manages-and-stores-logs" title="Link to this heading">#</a></h2>
 <p>Kubernetes is essentially composed of containers, which are managed by container runtimes. These container runtimes must implement the <a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/">Container Runtime Interface (CRI)</a>, which defines how Kubernetes interacts with the containers. One of the specifications in the <a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/">CRI</a> is container log handling, which standardizes details such as log names, directory locations, and formats.</p>

@@ -10,9 +10,7 @@ category: Log Analytics
 
 # Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging
 
-Have you ever wondered how the `$ kubectl logs` command retrieves logs? Where are these logs stored, and how can you access both current and past logs? Kubernetes logging might seem complex, but understanding it is important for better troubleshooting and monitoring.
-
-This blog post explains where Kubernetes stores logs, how they are organized, and how Kubernetes handles them. It also describes how to send logs to external systems and shares tips to prevent running out of disk space due to logs.
+Have you ever wondered how `$ kubectl logs` retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex, but understanding it is key to troubleshooting and monitoring. This blog post outlines how Kubernetes organizes logs, how to send them to external systems, and tips to manage log growth effectively.
 
 ## How Kubernetes Manages and Stores Logs
 
