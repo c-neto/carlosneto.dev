@@ -98,7 +98,7 @@ $ kubectl logs -f python-app
 part 1 - part 2 - part 3 - log line completed!
 ```
 
-## Log Rotate
+## Managing Log Growth with Log Rotation
 
 Logs can grow uncontrollably, causing disk overflow, which can impact observability in your cluster and degrade application performance. Even if the application generates a low volume of logs, it is a best practice and highly recommended to enforce limits and implement log rotation routines. The best approach to control log size limits is to define the values using container runtime parameters. It is not recommended to use third-party tools like [logrotate](https://github.com/logrotate/logrotate) for this task, as file operations such as renaming, truncating, and closing file descriptors can corrupt Kubernetes' log management state. Additionally, the container runtime's log management architecture may change in future Kubernetes versions, requiring updates to third-party tools to align with the new behavior.
 

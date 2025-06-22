@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-22T07:22:04.637624+00:00</updated>
+  <updated>2025-06-22T07:23:07.152222+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -91,8 +91,8 @@ part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
-&lt;section id="log-rotate"&gt;
-&lt;h2&gt;Log Rotate&lt;/h2&gt;
+&lt;section id="managing-log-growth-with-log-rotation"&gt;
+&lt;h2&gt;Managing Log Growth with Log Rotation&lt;/h2&gt;
 &lt;p&gt;Logs can grow uncontrollably, causing disk overflow, which can impact observability in your cluster and degrade application performance. Even if the application generates a low volume of logs, it is a best practice and highly recommended to enforce limits and implement log rotation routines. The best approach to control log size limits is to define the values using container runtime parameters. It is not recommended to use third-party tools like &lt;a class="reference external" href="https://github.com/logrotate/logrotate"&gt;logrotate&lt;/a&gt; for this task, as file operations such as renaming, truncating, and closing file descriptors can corrupt Kubernetes’ log management state. Additionally, the container runtime’s log management architecture may change in future Kubernetes versions, requiring updates to third-party tools to align with the new behavior.&lt;/p&gt;
 &lt;p&gt;Thus, the configuration defines the Container Runtime’s log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.&lt;/p&gt;
 &lt;aside class="system-message"&gt;

@@ -456,8 +456,8 @@ part<span class="w"> </span><span class="m">1</span><span class="w"> </span>-<sp
 </pre></div>
 </div>
 </section>
-<section id="log-rotate">
-<h2>Log Rotate<a class="headerlink" href="#log-rotate" title="Link to this heading">#</a></h2>
+<section id="managing-log-growth-with-log-rotation">
+<h2>Managing Log Growth with Log Rotation<a class="headerlink" href="#managing-log-growth-with-log-rotation" title="Link to this heading">#</a></h2>
 <p>Logs can grow uncontrollably, causing disk overflow, which can impact observability in your cluster and degrade application performance. Even if the application generates a low volume of logs, it is a best practice and highly recommended to enforce limits and implement log rotation routines. The best approach to control log size limits is to define the values using container runtime parameters. It is not recommended to use third-party tools like <a class="reference external" href="https://github.com/logrotate/logrotate">logrotate</a> for this task, as file operations such as renaming, truncating, and closing file descriptors can corrupt Kubernetes’ log management state. Additionally, the container runtime’s log management architecture may change in future Kubernetes versions, requiring updates to third-party tools to align with the new behavior.</p>
 <p>Thus, the configuration defines the Container Runtime’s log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.</p>
 <p>Also, you can introduce this parameters via environment variables to kubelet service. Below as example using systemd, to define the log rotate parameters for kubelet process to inject log rotate parameters to containerd.</p>
