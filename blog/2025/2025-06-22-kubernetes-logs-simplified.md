@@ -107,7 +107,7 @@ Logs can grow uncontrollably, causing disk overflow, which can impact observabil
 Thus, the configuration defines the Container Runtime's log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.
 
 ```{code-block} toml
-:caption: /etc/containerd/config.toml
+:caption: [/etc/containerd/config.toml](https://github.com/containerd/containerd/blob/main/docs/man/containerd-config.toml.5.md)
 
 [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
   LogSizeMax = 104857600  # set log file size limit to 100MB
@@ -117,7 +117,7 @@ Thus, the configuration defines the Container Runtime's log rotation process. Th
 Also, you can introduce this parameters via environment variables to kubelet service. Below as example using systemd, to define the log rotate parameters for kubelet process to inject log rotate parameters to containerd.
 
 ```{code-block} ini
-:caption: /etc/systemd/system/kubelet.service
+:caption: [/etc/systemd/system/kubelet.service](https://github.com/kubernetes/release/blob/cd53840/cmd/krel/templates/latest/kubelet/kubelet.service)
 
 Environment="KUBELET_EXTRA_ARGS=--container-log-max-size=100Mi --container-log-max-files=5"
 ```
@@ -181,6 +181,8 @@ Some log ingestion tools can add extra metadata to logs, such as labels and anno
 ## References
 
 - <http://kubernetes.io/docs/user-guide/kubectl/kubectl_logs/>
+- <https://github.com/containerd/containerd/blob/main/docs/man/containerd-config.toml.5.md>
+- <https://github.com/kubernetes/release/blob/cd53840/cmd/krel/templates/latest/kubelet/kubelet.service>
 - <https://docs.docker.com/engine/admin/logging/overview/>
 - <https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md>
 - <https://github.com/kubernetes/kubernetes/issues/17183>
