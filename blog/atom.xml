@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-22T07:16:43.280025+00:00</updated>
+  <updated>2025-06-22T07:20:41.847456+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -164,10 +164,7 @@ Trying “codeblock” as canonical directive name.&lt;/p&gt;
 &lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;type&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;Directory&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class="admonition note"&gt;
-&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
-&lt;p&gt;Some log ingestion tools offer features to enrich logs with metadata from the log source. To enable this capability, in addition to configuring the tool, it is necessary to create a ClusterRoleBinding and attach it to the &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt; pods. This allows the pods to request metadata from the Kubernetes API server. For example, in &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt;, the log file name provides the base metadata &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/var/log/containers/&amp;lt;pod_name&amp;gt;_&amp;lt;namespace&amp;gt;_&amp;lt;container_name&amp;gt;-&amp;lt;container_id&amp;gt;.log&lt;/span&gt;&lt;/code&gt;. Using this metadata, &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt; queries the Kubernetes API server to enrich the logs with additional data, such as label values, annotations, and more. I plan to write a separate blog post focusing solely on how to use &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt; to ingest logs from Kubernetes. :)&lt;/p&gt;
-&lt;/div&gt;
+&lt;p&gt;Some log ingestion tools offer features to enrich logs with metadata from the log source. To enable this capability, in addition to configuring the tool, it is necessary to create a &lt;a class="reference external" href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/"&gt;ClusterRoleBinding&lt;/a&gt; and attach it to the &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt; pods. This allows the pods to request metadata from the Kubernetes API server using the metadata embedded in the log file. Using this metadata, &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt; queries the Kubernetes API server to enrich the logs with additional data, such as label values, annotations, and more. I plan to write a separate blog post focusing solely on how to use &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt; to ingest logs from Kubernetes. :)&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="references"&gt;
 &lt;h2&gt;References&lt;/h2&gt;
