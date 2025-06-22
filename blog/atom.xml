@@ -2,11 +2,199 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-21T15:22:29.978931+00:00</updated>
+  <updated>2025-06-22T07:09:08.384305+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified/</id>
+    <title>Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging</title>
+    <updated>2025-06-22T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2025/06/22&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="kubernetes-logs-simplified-everything-you-need-to-know-about-pod-logging"&gt;
+
+&lt;p&gt;Have you ever wondered how the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;logs&lt;/span&gt;&lt;/code&gt; command retrieves logs? Where are these logs stored, and how can you access both current and past logs? Kubernetes logging might seem complex, but understanding it is important for better troubleshooting and monitoring.&lt;/p&gt;
+&lt;p&gt;This blog post explains where Kubernetes stores logs, how they are organized, and how Kubernetes handles them. It also describes how to send logs to external systems and shares tips to prevent running out of disk space due to logs.&lt;/p&gt;
+&lt;section id="how-kubernetes-manages-and-stores-logs"&gt;
+&lt;h2&gt;How Kubernetes Manages and Stores Logs&lt;/h2&gt;
+&lt;p&gt;Kubernetes is essentially composed of containers, which are managed by container runtimes. These container runtimes must implement the &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/"&gt;Container Runtime Interface (CRI)&lt;/a&gt;, which defines how Kubernetes interacts with the containers. One of the specifications in the &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/"&gt;CRI&lt;/a&gt; is container log handling, which standardizes details such as log names, directory locations, and formats.&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;More Details:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;CRI Logs Desing Proposal: https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Kubernetes Logging Reference: https://kubernetes.io/docs/concepts/cluster-administration/logging/&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;p&gt;Each pod container has an isolated file, and logs are composed of the content that the application writes to &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams"&gt;stdout&lt;/a&gt; and &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams"&gt;stderr&lt;/a&gt;. The logs are written to the Node where the pod container is running, in the following location:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# PATTERN&lt;/span&gt;
+/var/log/pods/&amp;lt;namespace&amp;gt;_&amp;lt;podname&amp;gt;_&amp;lt;uid&amp;gt;/&amp;lt;container_name&amp;gt;/&amp;lt;execution-id&amp;gt;.log
+
+&lt;span class="c1"&gt;# EXAMPLE&lt;/span&gt;
+/var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/
+&lt;span class="w"&gt;  &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;.log&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# current container live running log&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;.log&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# last container log that exited on failure or was restarted&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;.log&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# second to last container log that exited on failure or was restarted&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;└──&lt;span class="w"&gt; &lt;/span&gt;...
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt; file contains the current container’s live running logs. If the container crashes and restarts, Kubernetes renames &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;1.log&lt;/span&gt;&lt;/code&gt; and creates a new &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt; for the new run. This process continues with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;2.log&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;3.log&lt;/span&gt;&lt;/code&gt;, and so on. When you execute &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;logs&lt;/span&gt; &lt;span class="pre"&gt;--previous&lt;/span&gt; &lt;span class="pre"&gt;&amp;lt;pod&amp;gt;&lt;/span&gt; &lt;span class="pre"&gt;-c&lt;/span&gt; &lt;span class="pre"&gt;&amp;lt;container&amp;gt;&lt;/span&gt;&lt;/code&gt;, the kubelet searches for logs in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;1.log&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;2.log&lt;/span&gt;&lt;/code&gt;, and subsequent files.&lt;/p&gt;
+&lt;p&gt;To simplify log ingestion for third-party tools, the kubelet creates symbolic links for the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt; files in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/var/log/containers/&lt;/span&gt;&lt;/code&gt; directory on the node.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# symbolic link log file name pattern&lt;/span&gt;
+/var/log/containers/&amp;lt;pod_name&amp;gt;_&amp;lt;namespace&amp;gt;_&amp;lt;container_name&amp;gt;-&amp;lt;container_id&amp;gt;.log
+
+&lt;span class="c1"&gt;# symbolic link log file name example&lt;/span&gt;
+/var/log/containers/nginx-deployment-7f5c7d4f9b-abcde_default_nginx-container-12345.log
+
+&lt;span class="c1"&gt;# Real file that the symbolic link points to&lt;/span&gt;
+/var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/0.log
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;logs&lt;/span&gt;&lt;/code&gt; command always uses the absolute path of the log file and never the symbolic link path. The symbolic link is a mechanism that the kubelet uses to simplify log ingestion for third-party log shipping tools like &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt;, &lt;a class="reference external" href="https://vector.dev/"&gt;Vector&lt;/a&gt;, &lt;a class="reference external" href="https://www.elastic.co/pt/beats/filebeat"&gt;Filebeat&lt;/a&gt;, and &lt;a class="reference external" href="https://www.rsyslog.com/"&gt;Rsyslog&lt;/a&gt;. It is important to understand that the files present in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/var/log/containers/&lt;/span&gt;&lt;/code&gt; point to the current container execution log (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt;) and do not concatenate the files &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;1.log&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;2.log&lt;/span&gt;&lt;/code&gt;, and so on.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="understanding-kubernetes-log-format"&gt;
+&lt;h2&gt;Understanding Kubernetes Log Format&lt;/h2&gt;
+&lt;p&gt;The log file content is saved in a specific pattern defined by the CRI. This log line format is:&lt;/p&gt;
+&lt;div class="highlight-log notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# log line pattern
+&amp;lt;timestamp&amp;gt; &amp;lt;stream&amp;gt; &amp;lt;flags&amp;gt; &amp;lt;message&amp;gt;
+
+# log line examples
+2023-10-06T00:17:09.669794202Z stdout F Your log message here
+2023-10-06T00:17:09.669794202Z stdout P Another log pt 1
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;timestamp&lt;/strong&gt;: The date and time when the log line was written, formatted according to &lt;a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc3339"&gt;RFC3339&lt;/a&gt; with nanosecond precision.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;stream&lt;/strong&gt;: Specifies whether the log line was written to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;stdout&lt;/span&gt;&lt;/code&gt; or &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;stderr&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;flags&lt;/strong&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;F&lt;/span&gt;&lt;/code&gt; indicates a completed log line, delimited by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;\n&lt;/span&gt;&lt;/code&gt;, while &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;P&lt;/span&gt;&lt;/code&gt; indicates a partial log line. More details will be explained below.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;log message&lt;/strong&gt;: The container’s log message in its raw format.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;About &lt;strong&gt;flags&lt;/strong&gt;: The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;F&lt;/span&gt;&lt;/code&gt; flag indicates a complete log line (ending with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;\n&lt;/span&gt;&lt;/code&gt;). The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;P&lt;/span&gt;&lt;/code&gt; flag signifies that the application has not finished writing the line yet, so the runtime is writing it in parts. When logs are retrieved using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;logs&lt;/span&gt;&lt;/code&gt;, the tool merges these parts together before displaying them to the user.&lt;/p&gt;
+&lt;p&gt;To understand this better, check the following Python application code:&lt;/p&gt;
+&lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;part 1 - &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;part 2 - &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;part 3 - &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;log line completed!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The logs are saved in the following format:&lt;/p&gt;
+&lt;div class="highlight-log notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;2025-06-21T22:15:10.123456789Z stdout P part 1 - 
+2025-06-21T22:15:10.123456790Z stdout P part 2 - 
+2025-06-21T22:15:10.123456791Z stdout P part 3 - 
+2025-06-21T22:15:10.123456792Z stdout F log line completed!
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;When a pod log is retrieved using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;logs&lt;/span&gt;&lt;/code&gt;, the output will concatenate partial logs:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;kubectl&lt;span class="w"&gt; &lt;/span&gt;logs&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;python-app
+
+part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;line&lt;span class="w"&gt; &lt;/span&gt;completed!
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="log-rotate"&gt;
+&lt;h2&gt;Log Rotate&lt;/h2&gt;
+&lt;p&gt;Logs can grow uncontrollably, causing disk overflow, which can impact observability in your cluster and degrade application performance. Even if the application generates a low volume of logs, it is a best practice and highly recommended to enforce limits and implement log rotation routines. The best approach to control log size limits is to define the values using container runtime parameters. It is not recommended to use third-party tools like &lt;a class="reference external" href="https://github.com/logrotate/logrotate"&gt;logrotate&lt;/a&gt; for this task, as file operations such as renaming, truncating, and closing file descriptors can corrupt Kubernetes’ log management state. Additionally, the container runtime’s log management architecture may change in future Kubernetes versions, requiring updates to third-party tools to align with the new behavior.&lt;/p&gt;
+&lt;p&gt;Thus, the configuration defines the Container Runtime’s log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.&lt;/p&gt;
+&lt;aside class="system-message"&gt;
+&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 110)&lt;/p&gt;
+&lt;p&gt;Unknown directive type: ‘codeblock’ [myst.directive_unknown]&lt;/p&gt;
+&lt;/aside&gt;
+&lt;aside class="system-message"&gt;
+&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 110)&lt;/p&gt;
+&lt;p&gt;No directive entry for “codeblock” in module “docutils.parsers.rst.languages.en”.
+Trying “codeblock” as canonical directive name.&lt;/p&gt;
+&lt;/aside&gt;
+&lt;p&gt;Also, you can introduce this parameters via environment variables to kubelet service. Below as example using systemd, to define the log rotate parameters for kubelet process to inject log rotate parameters to containerd.&lt;/p&gt;
+&lt;aside class="system-message"&gt;
+&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 120)&lt;/p&gt;
+&lt;p&gt;Unknown directive type: ‘codeblock’ [myst.directive_unknown]&lt;/p&gt;
+&lt;/aside&gt;
+&lt;aside class="system-message"&gt;
+&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 120)&lt;/p&gt;
+&lt;p&gt;No directive entry for “codeblock” in module “docutils.parsers.rst.languages.en”.
+Trying “codeblock” as canonical directive name.&lt;/p&gt;
+&lt;/aside&gt;
+&lt;/section&gt;
+&lt;section id="how-log-ingestion-working"&gt;
+&lt;h2&gt;How Log Ingestion Working?&lt;/h2&gt;
+&lt;p&gt;For a better observability experience, it is highly recommended to use a third-party, dedicated log analytics system like &lt;a class="reference external" href="https://opensearch.org/"&gt;OpenSearch&lt;/a&gt;, &lt;a class="reference external" href="https://www.elastic.co/pt/elasticsearch"&gt;ElasticSearch&lt;/a&gt;, &lt;a class="reference external" href="https://grafana.com/oss/loki/"&gt;Grafani Loki&lt;/a&gt;, &lt;a class="reference external" href="https://www.splunk.com/"&gt;Splunk&lt;/a&gt;, or &lt;a class="reference external" href="https://www.datadoghq.com/"&gt;Datadog&lt;/a&gt;. To achieve this, it is necessary to ingest the log file content from Kubernetes nodes into the third-party log system. For log reading, there are specific tools optimized for reading, processing, and shipping logs to external systems, such as &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt;, &lt;a class="reference external" href="https://www.elastic.co/pt/beats/filebeat"&gt;Filebeat&lt;/a&gt;, and &lt;a class="reference external" href="https://vector.dev/"&gt;Vector&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Regardless of the log shipping tool you choose, the configuration format for the tool remains the same. The log ingestion tool is deployed using a &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/"&gt;DaemonSet&lt;/a&gt;, which schedules one pod on each node in the cluster. The &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/"&gt;DaemonSet&lt;/a&gt; is configured with a &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/storage/volumes/#hostpath"&gt;hostPath&lt;/a&gt; volume mount, allowing the pod to access files stored on the node’s disk. This enables the log ingestion tool to read log files for all pod containers scheduled on the node at &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/var/log/containers/*.log&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Below is an example of a &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/"&gt;DaemonSet&lt;/a&gt; configuration for implementing &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;apiVersion&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;apps/v1&lt;/span&gt;
+&lt;span class="nt"&gt;kind&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;DaemonSet&lt;/span&gt;
+&lt;span class="nt"&gt;metadata&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;fluent-bit&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;namespace&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;default&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;labels&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;app&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;fluent-bit&lt;/span&gt;
+&lt;span class="nt"&gt;spec&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;selector&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;matchLabels&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;app&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;fluent-bit&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;template&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;metadata&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;labels&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;app&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;fluent-bit&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;spec&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;serviceAccountName&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;fluent-bit&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;containers&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;fluent-bit&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;docker.io/bitnami/fluent-bit:4.0.3-debian-12-r0&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="nt"&gt;resources&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;limits&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;memory&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;200Mi&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;cpu&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;100m&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;requests&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;memory&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;100Mi&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;cpu&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;50m&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="nt"&gt;volumeMounts&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;config&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;mountPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;/opt/bitnami/fluent-bit/conf/fluent-bit.conf&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;subPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;fluent-bit.conf&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;varlog&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;mountPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;/var/log/containers&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;volumes&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;config&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="nt"&gt;configMap&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;fluent-bit-config&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;varlog&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="nt"&gt;hostPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;path&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;/var/log/containers&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;type&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;Directory&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;Some log ingestion tools offer features to enrich logs with metadata from the log source. To enable this capability, in addition to configuring the tool, it is necessary to create a ClusterRoleBinding and attach it to the &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt; pods. This allows the pods to request metadata from the Kubernetes API server. For example, in &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt;, the log file name provides the base metadata &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/var/log/containers/&amp;lt;pod_name&amp;gt;_&amp;lt;namespace&amp;gt;_&amp;lt;container_name&amp;gt;-&amp;lt;container_id&amp;gt;.log&lt;/span&gt;&lt;/code&gt;. Using this metadata, &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt; queries the Kubernetes API server to enrich the logs with additional data, such as label values, annotations, and more. I plan to write a separate blog post focusing solely on how to use &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt; to ingest logs from Kubernetes. :)&lt;/p&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="references"&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;http://kubernetes.io/docs/user-guide/kubectl/kubectl_logs/&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;https://docs.docker.com/engine/admin/logging/overview/&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;https://github.com/kubernetes/kubernetes/issues/17183&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;https://github.com/kubernetes/kubernetes/issues/24677&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;https://github.com/kubernetes/kubernetes/issues/30709&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;https://github.com/kubernetes/kubernetes/issues/31459&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;https://github.com/kubernetes/kubernetes/pull/13010&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;https://github.com/kubernetes/kubernetes/pull/33111&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;https://kubernetes.io/docs/concepts/cluster-administration/logging/&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;https://en.wikipedia.org/wiki/Standard_streams&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified/"/>
+    <summary>Blog Post Publish Date: 2025/06/22Have you ever wondered how the $ kubectl logs command retrieves logs? Where are these logs stored, and how can you access both current and past logs? Kubernetes logging might seem complex, but understanding it is important for better troubleshooting and monitoring.</summary>
+    <category term="fluentbit" label="fluentbit"/>
+    <category term="logs" label="logs"/>
+    <category term="observability" label="observability"/>
+    <published>2025-06-22T00:00:00+00:00</published>
+  </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/</id>
     <title>Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication</title>

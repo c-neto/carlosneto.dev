@@ -1,0 +1,648 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2025/06/22 Have you ever wondered how the$ kubectl logs command retrieves logs? Where are these logs stored, and how can you access both current and past logs? Kubernetes lo..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-06-22-kubernetes-logs-simplified_9a869ebe.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2025/06/22 Have you ever wondered how the$ kubectl logs command retrieves logs? Where are these logs stored, and how can you access both current and past logs? Kubernetes lo..." />
+<meta name="description" content="Blog Post Publish Date: 2025/06/22 Have you ever wondered how the$ kubectl logs command retrieves logs? Where are these logs stored, and how can you access both current and past logs? Kubernetes lo..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging &#8212; Carlos Neto&#39;s Tech Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=68e62335" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2025/2025-06-22-kubernetes-logs-simplified';</script>
+    <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../../genindex/" />
+    <link rel="search" title="Search" href="../../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" /> 
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Tech Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../whoami/">
+    whoami
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../whoami/">
+    whoami
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2025/06/22</em></p>
+<hr class="docutils" />
+<section id="kubernetes-logs-simplified-everything-you-need-to-know-about-pod-logging">
+<h1>Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging<a class="headerlink" href="#kubernetes-logs-simplified-everything-you-need-to-know-about-pod-logging" title="Link to this heading">#</a></h1>
+<p>Have you ever wondered how the <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> command retrieves logs? Where are these logs stored, and how can you access both current and past logs? Kubernetes logging might seem complex, but understanding it is important for better troubleshooting and monitoring.</p>
+<p>This blog post explains where Kubernetes stores logs, how they are organized, and how Kubernetes handles them. It also describes how to send logs to external systems and shares tips to prevent running out of disk space due to logs.</p>
+<section id="how-kubernetes-manages-and-stores-logs">
+<h2>How Kubernetes Manages and Stores Logs<a class="headerlink" href="#how-kubernetes-manages-and-stores-logs" title="Link to this heading">#</a></h2>
+<p>Kubernetes is essentially composed of containers, which are managed by container runtimes. These container runtimes must implement the <a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/">Container Runtime Interface (CRI)</a>, which defines how Kubernetes interacts with the containers. One of the specifications in the <a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/">CRI</a> is container log handling, which standardizes details such as log names, directory locations, and formats.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>More Details:</p>
+<ul class="simple">
+<li><p>CRI Logs Desing Proposal: https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md</p></li>
+<li><p>Kubernetes Logging Reference: https://kubernetes.io/docs/concepts/cluster-administration/logging/</p></li>
+</ul>
+</div>
+<p>Each pod container has an isolated file, and logs are composed of the content that the application writes to <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams">stdout</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams">stderr</a>. The logs are written to the Node where the pod container is running, in the following location:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># PATTERN</span>
+/var/log/pods/&lt;namespace&gt;_&lt;podname&gt;_&lt;uid&gt;/&lt;container_name&gt;/&lt;execution-id&gt;.log
+
+<span class="c1"># EXAMPLE</span>
+/var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/
+<span class="w">  </span>├──<span class="w"> </span><span class="m">0</span>.log<span class="w">   </span><span class="c1"># current container live running log</span>
+<span class="w">  </span>├──<span class="w"> </span><span class="m">1</span>.log<span class="w">   </span><span class="c1"># last container log that exited on failure or was restarted</span>
+<span class="w">  </span>├──<span class="w"> </span><span class="m">2</span>.log<span class="w">   </span><span class="c1"># second to last container log that exited on failure or was restarted</span>
+<span class="w">  </span>└──<span class="w"> </span>...
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">0.log</span></code> file contains the current container’s live running logs. If the container crashes and restarts, Kubernetes renames <code class="docutils literal notranslate"><span class="pre">0.log</span></code> to <code class="docutils literal notranslate"><span class="pre">1.log</span></code> and creates a new <code class="docutils literal notranslate"><span class="pre">0.log</span></code> for the new run. This process continues with <code class="docutils literal notranslate"><span class="pre">2.log</span></code>, <code class="docutils literal notranslate"><span class="pre">3.log</span></code>, and so on. When you execute <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">logs</span> <span class="pre">--previous</span> <span class="pre">&lt;pod&gt;</span> <span class="pre">-c</span> <span class="pre">&lt;container&gt;</span></code>, the kubelet searches for logs in <code class="docutils literal notranslate"><span class="pre">1.log</span></code>, <code class="docutils literal notranslate"><span class="pre">2.log</span></code>, and subsequent files.</p>
+<p>To simplify log ingestion for third-party tools, the kubelet creates symbolic links for the <code class="docutils literal notranslate"><span class="pre">0.log</span></code> files in the <code class="docutils literal notranslate"><span class="pre">/var/log/containers/</span></code> directory on the node.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># symbolic link log file name pattern</span>
+/var/log/containers/&lt;pod_name&gt;_&lt;namespace&gt;_&lt;container_name&gt;-&lt;container_id&gt;.log
+
+<span class="c1"># symbolic link log file name example</span>
+/var/log/containers/nginx-deployment-7f5c7d4f9b-abcde_default_nginx-container-12345.log
+
+<span class="c1"># Real file that the symbolic link points to</span>
+/var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/0.log
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> command always uses the absolute path of the log file and never the symbolic link path. The symbolic link is a mechanism that the kubelet uses to simplify log ingestion for third-party log shipping tools like <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a>, <a class="reference external" href="https://vector.dev/">Vector</a>, <a class="reference external" href="https://www.elastic.co/pt/beats/filebeat">Filebeat</a>, and <a class="reference external" href="https://www.rsyslog.com/">Rsyslog</a>. It is important to understand that the files present in <code class="docutils literal notranslate"><span class="pre">/var/log/containers/</span></code> point to the current container execution log (<code class="docutils literal notranslate"><span class="pre">0.log</span></code>) and do not concatenate the files <code class="docutils literal notranslate"><span class="pre">0.log</span></code>, <code class="docutils literal notranslate"><span class="pre">1.log</span></code>, <code class="docutils literal notranslate"><span class="pre">2.log</span></code>, and so on.</p>
+</section>
+<section id="understanding-kubernetes-log-format">
+<h2>Understanding Kubernetes Log Format<a class="headerlink" href="#understanding-kubernetes-log-format" title="Link to this heading">#</a></h2>
+<p>The log file content is saved in a specific pattern defined by the CRI. This log line format is:</p>
+<div class="highlight-log notranslate"><div class="highlight"><pre><span></span># log line pattern
+&lt;timestamp&gt; &lt;stream&gt; &lt;flags&gt; &lt;message&gt;
+
+# log line examples
+2023-10-06T00:17:09.669794202Z stdout F Your log message here
+2023-10-06T00:17:09.669794202Z stdout P Another log pt 1
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>timestamp</strong>: The date and time when the log line was written, formatted according to <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a> with nanosecond precision.</p></li>
+<li><p><strong>stream</strong>: Specifies whether the log line was written to <code class="docutils literal notranslate"><span class="pre">stdout</span></code> or <code class="docutils literal notranslate"><span class="pre">stderr</span></code>.</p></li>
+<li><p><strong>flags</strong>: <code class="docutils literal notranslate"><span class="pre">F</span></code> indicates a completed log line, delimited by <code class="docutils literal notranslate"><span class="pre">\n</span></code>, while <code class="docutils literal notranslate"><span class="pre">P</span></code> indicates a partial log line. More details will be explained below.</p></li>
+<li><p><strong>log message</strong>: The container’s log message in its raw format.</p></li>
+</ul>
+<p>About <strong>flags</strong>: The <code class="docutils literal notranslate"><span class="pre">F</span></code> flag indicates a complete log line (ending with <code class="docutils literal notranslate"><span class="pre">\n</span></code>). The <code class="docutils literal notranslate"><span class="pre">P</span></code> flag signifies that the application has not finished writing the line yet, so the runtime is writing it in parts. When logs are retrieved using <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">logs</span></code>, the tool merges these parts together before displaying them to the user.</p>
+<p>To understand this better, check the following Python application code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;part 1 - &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;part 2 - &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;part 3 - &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;log line completed!&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The logs are saved in the following format:</p>
+<div class="highlight-log notranslate"><div class="highlight"><pre><span></span>2025-06-21T22:15:10.123456789Z stdout P part 1 - 
+2025-06-21T22:15:10.123456790Z stdout P part 2 - 
+2025-06-21T22:15:10.123456791Z stdout P part 3 - 
+2025-06-21T22:15:10.123456792Z stdout F log line completed!
+</pre></div>
+</div>
+<p>When a pod log is retrieved using <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code>, the output will concatenate partial logs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>python-app
+
+part<span class="w"> </span><span class="m">1</span><span class="w"> </span>-<span class="w"> </span>part<span class="w"> </span><span class="m">2</span><span class="w"> </span>-<span class="w"> </span>part<span class="w"> </span><span class="m">3</span><span class="w"> </span>-<span class="w"> </span>log<span class="w"> </span>line<span class="w"> </span>completed!
+</pre></div>
+</div>
+</section>
+<section id="log-rotate">
+<h2>Log Rotate<a class="headerlink" href="#log-rotate" title="Link to this heading">#</a></h2>
+<p>Logs can grow uncontrollably, causing disk overflow, which can impact observability in your cluster and degrade application performance. Even if the application generates a low volume of logs, it is a best practice and highly recommended to enforce limits and implement log rotation routines. The best approach to control log size limits is to define the values using container runtime parameters. It is not recommended to use third-party tools like <a class="reference external" href="https://github.com/logrotate/logrotate">logrotate</a> for this task, as file operations such as renaming, truncating, and closing file descriptors can corrupt Kubernetes’ log management state. Additionally, the container runtime’s log management architecture may change in future Kubernetes versions, requiring updates to third-party tools to align with the new behavior.</p>
+<p>Thus, the configuration defines the Container Runtime’s log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.</p>
+<p>Also, you can introduce this parameters via environment variables to kubelet service. Below as example using systemd, to define the log rotate parameters for kubelet process to inject log rotate parameters to containerd.</p>
+</section>
+<section id="how-log-ingestion-working">
+<h2>How Log Ingestion Working?<a class="headerlink" href="#how-log-ingestion-working" title="Link to this heading">#</a></h2>
+<p>For a better observability experience, it is highly recommended to use a third-party, dedicated log analytics system like <a class="reference external" href="https://opensearch.org/">OpenSearch</a>, <a class="reference external" href="https://www.elastic.co/pt/elasticsearch">ElasticSearch</a>, <a class="reference external" href="https://grafana.com/oss/loki/">Grafani Loki</a>, <a class="reference external" href="https://www.splunk.com/">Splunk</a>, or <a class="reference external" href="https://www.datadoghq.com/">Datadog</a>. To achieve this, it is necessary to ingest the log file content from Kubernetes nodes into the third-party log system. For log reading, there are specific tools optimized for reading, processing, and shipping logs to external systems, such as <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a>, <a class="reference external" href="https://www.elastic.co/pt/beats/filebeat">Filebeat</a>, and <a class="reference external" href="https://vector.dev/">Vector</a>.</p>
+<p>Regardless of the log shipping tool you choose, the configuration format for the tool remains the same. The log ingestion tool is deployed using a <a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/">DaemonSet</a>, which schedules one pod on each node in the cluster. The <a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/">DaemonSet</a> is configured with a <a class="reference external" href="https://kubernetes.io/docs/concepts/storage/volumes/#hostpath">hostPath</a> volume mount, allowing the pod to access files stored on the node’s disk. This enables the log ingestion tool to read log files for all pod containers scheduled on the node at <code class="docutils literal notranslate"><span class="pre">/var/log/containers/*.log</span></code>.</p>
+<p>Below is an example of a <a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/">DaemonSet</a> configuration for implementing <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DaemonSet</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fluent-bit</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fluent-bit</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fluent-bit</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fluent-bit</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">serviceAccountName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fluent-bit</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fluent-bit</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/bitnami/fluent-bit:4.0.3-debian-12-r0</span>
+<span class="w">          </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;200Mi&quot;</span>
+<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;100m&quot;</span>
+<span class="w">            </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;100Mi&quot;</span>
+<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;50m&quot;</span>
+<span class="w">          </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config</span>
+<span class="w">              </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/bitnami/fluent-bit/conf/fluent-bit.conf</span>
+<span class="w">              </span><span class="nt">subPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fluent-bit.conf</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">varlog</span>
+<span class="w">              </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/log/containers</span>
+<span class="w">      </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config</span>
+<span class="w">          </span><span class="nt">configMap</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fluent-bit-config</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">varlog</span>
+<span class="w">          </span><span class="nt">hostPath</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/log/containers</span>
+<span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Directory</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some log ingestion tools offer features to enrich logs with metadata from the log source. To enable this capability, in addition to configuring the tool, it is necessary to create a ClusterRoleBinding and attach it to the <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a> pods. This allows the pods to request metadata from the Kubernetes API server. For example, in <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a>, the log file name provides the base metadata <code class="docutils literal notranslate"><span class="pre">/var/log/containers/&lt;pod_name&gt;_&lt;namespace&gt;_&lt;container_name&gt;-&lt;container_id&gt;.log</span></code>. Using this metadata, <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a> queries the Kubernetes API server to enrich the logs with additional data, such as label values, annotations, and more. I plan to write a separate blog post focusing solely on how to use <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a> to ingest logs from Kubernetes. :)</p>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>http://kubernetes.io/docs/user-guide/kubectl/kubectl_logs/</p></li>
+<li><p>https://docs.docker.com/engine/admin/logging/overview/</p></li>
+<li><p>https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md</p></li>
+<li><p>https://github.com/kubernetes/kubernetes/issues/17183</p></li>
+<li><p>https://github.com/kubernetes/kubernetes/issues/24677</p></li>
+<li><p>https://github.com/kubernetes/kubernetes/issues/30709</p></li>
+<li><p>https://github.com/kubernetes/kubernetes/issues/31459</p></li>
+<li><p>https://github.com/kubernetes/kubernetes/pull/13010</p></li>
+<li><p>https://github.com/kubernetes/kubernetes/pull/33111</p></li>
+<li><p>https://kubernetes.io/docs/concepts/cluster-administration/logging/</p></li>
+<li><p>https://en.wikipedia.org/wiki/Standard_streams</p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+     
+<div class="section ablog__prev-next">
+  <span class="ablog__prev">
+     
+    <a href="../2025-06-19-fluentbit-log-dedup/">
+      
+      <i class="fa fa-arrow-circle-left"></i>
+      
+      <span>Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication</span>
+    </a>
+    
+  </span>
+  <span class="ablog__spacer">&nbsp;</span>
+  <span class="ablog__next">
+    
+  </span>
+</div>
+  
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
