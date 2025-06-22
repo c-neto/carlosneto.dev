@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-22T08:12:51.720730+00:00</updated>
+  <updated>2025-06-22T14:56:24.346699+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -31,7 +31,7 @@
 /var/log/pods/&amp;lt;namespace&amp;gt;_&amp;lt;podname&amp;gt;_&amp;lt;uid&amp;gt;/&amp;lt;container_name&amp;gt;/&amp;lt;execution-id&amp;gt;.log
 
 &lt;span class="c1"&gt;# example&lt;/span&gt;
-/var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/
+/var/log/pods/default_nginx-7f5c7d4f9b-abcde_12345/nginx-container/
 &lt;span class="w"&gt;  &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;.log&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# current container live running log&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;.log&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# last container log that exited on failure or was restarted&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;├──&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;.log&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# second to last container log that exited on failure or was restarted&lt;/span&gt;
@@ -44,13 +44,13 @@
 /var/log/containers/&amp;lt;pod_name&amp;gt;_&amp;lt;namespace&amp;gt;_&amp;lt;container_name&amp;gt;-&amp;lt;container_id&amp;gt;.log
 
 &lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; symbolic link log file name example&lt;/span&gt;
-/var/log/containers/nginx-deployment-7f5c7d4f9b-abcde_default_nginx-container-12345.log
+/var/log/containers/nginx-7f5c7d4f9b-abcde_default_nginx-container-12345.log
 
 &lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; real file that the symbolic link points to&lt;/span&gt;
-/var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/0.log
+/var/log/pods/default_nginx-7f5c7d4f9b-abcde_12345/nginx-container/0.log
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;logs&lt;/span&gt;&lt;/code&gt; command always uses the absolute path of the log file and never the symbolic link path. The symbolic link is a mechanism that the kubelet uses to simplify log ingestion for third-party log shipping tools like &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt;, &lt;a class="reference external" href="https://vector.dev/"&gt;Vector&lt;/a&gt;, &lt;a class="reference external" href="https://www.elastic.co/pt/beats/filebeat"&gt;Filebeat&lt;/a&gt;, and &lt;a class="reference external" href="https://www.rsyslog.com/"&gt;Rsyslog&lt;/a&gt;. It is important to understand that the files present in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/var/log/containers/&lt;/span&gt;&lt;/code&gt; point to the current container execution log (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt;) and do not concatenate the files &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;1.log&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;2.log&lt;/span&gt;&lt;/code&gt;, and so on.&lt;/p&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;logs&lt;/span&gt;&lt;/code&gt; command always uses the absolute path of the log file and never the symbolic link path. The symbolic link is a mechanism that the kubelet uses to simplify log ingestion for third-party log shipping tools like &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt;, &lt;a class="reference external" href="https://vector.dev/"&gt;Vector&lt;/a&gt;, &lt;a class="reference external" href="https://www.elastic.co/pt/beats/filebeat"&gt;Filebeat&lt;/a&gt;, etc. It is important to understand that the files present in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/var/log/containers/&lt;/span&gt;&lt;/code&gt; point to the current container execution log (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt;) and do not concatenate the files &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;1.log&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;2.log&lt;/span&gt;&lt;/code&gt;, and so on. When a container crashes and a new &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt; is created, the symbolic link points to the new &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.log&lt;/span&gt;&lt;/code&gt; file, so the content is overwritten. The log shipping tool should be prepared to handle this behavior. Fluent Bit, for example, uses inode tracking of the symlinked log file. When the file that the symlink points to is rotated, the inode of the file changes as well, and Fluent Bit understands that it is a new log file and needs to read the log content from the start, even though the file name remains the same. For more details, see &lt;a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/inputs/tail#keep_state"&gt;the Fluent Bit Input Plugin reference&lt;/a&gt;.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="understanding-kubernetes-log-format"&gt;
 &lt;h2&gt;Understanding Kubernetes Log Format&lt;/h2&gt;
