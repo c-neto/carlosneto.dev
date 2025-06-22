@@ -107,7 +107,7 @@ Logs can grow uncontrollably, causing disk overflow, which can impact observabil
 Thus, the configuration defines the Container Runtime's log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.
 
 ```{code-block} toml
-# /etc/containerd/config.toml
+:caption: /etc/containerd/config.toml
 
 [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
   LogSizeMax = 104857600  # set log file size limit to 100MB
