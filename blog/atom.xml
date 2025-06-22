@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-22T07:23:07.152222+00:00</updated>
+  <updated>2025-06-22T07:23:55.139705+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -55,12 +55,12 @@
 &lt;section id="understanding-kubernetes-log-format"&gt;
 &lt;h2&gt;Understanding Kubernetes Log Format&lt;/h2&gt;
 &lt;p&gt;The log file content is saved in a specific pattern defined by the CRI. This log line format is:&lt;/p&gt;
-&lt;div class="highlight-log notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# log line pattern
-&amp;lt;timestamp&amp;gt; &amp;lt;stream&amp;gt; &amp;lt;flags&amp;gt; &amp;lt;message&amp;gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# log line pattern&lt;/span&gt;
+&amp;lt;timestamp&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;stream&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;flags&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;message&amp;gt;
 
-# log line examples
-2023-10-06T00:17:09.669794202Z stdout F Your log message here
-2023-10-06T00:17:09.669794202Z stdout P Another log pt 1
+&lt;span class="c1"&gt;# log line examples&lt;/span&gt;
+&lt;span class="m"&gt;2023&lt;/span&gt;-10-06T00:17:09.669794202Z&lt;span class="w"&gt; &lt;/span&gt;stdout&lt;span class="w"&gt; &lt;/span&gt;F&lt;span class="w"&gt; &lt;/span&gt;Your&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;message&lt;span class="w"&gt; &lt;/span&gt;here
+&lt;span class="m"&gt;2023&lt;/span&gt;-10-06T00:17:09.669794202Z&lt;span class="w"&gt; &lt;/span&gt;stdout&lt;span class="w"&gt; &lt;/span&gt;P&lt;span class="w"&gt; &lt;/span&gt;Another&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;pt&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
@@ -78,10 +78,10 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;The logs are saved in the following format:&lt;/p&gt;
-&lt;div class="highlight-log notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;2025-06-21T22:15:10.123456789Z stdout P part 1 - 
-2025-06-21T22:15:10.123456790Z stdout P part 2 - 
-2025-06-21T22:15:10.123456791Z stdout P part 3 - 
-2025-06-21T22:15:10.123456792Z stdout F log line completed!
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="m"&gt;2025&lt;/span&gt;-06-21T22:15:10.123456789Z&lt;span class="w"&gt; &lt;/span&gt;stdout&lt;span class="w"&gt; &lt;/span&gt;P&lt;span class="w"&gt; &lt;/span&gt;part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="m"&gt;2025&lt;/span&gt;-06-21T22:15:10.123456790Z&lt;span class="w"&gt; &lt;/span&gt;stdout&lt;span class="w"&gt; &lt;/span&gt;P&lt;span class="w"&gt; &lt;/span&gt;part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="m"&gt;2025&lt;/span&gt;-06-21T22:15:10.123456791Z&lt;span class="w"&gt; &lt;/span&gt;stdout&lt;span class="w"&gt; &lt;/span&gt;P&lt;span class="w"&gt; &lt;/span&gt;part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="m"&gt;2025&lt;/span&gt;-06-21T22:15:10.123456792Z&lt;span class="w"&gt; &lt;/span&gt;stdout&lt;span class="w"&gt; &lt;/span&gt;F&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;line&lt;span class="w"&gt; &lt;/span&gt;completed!
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;When a pod log is retrieved using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;logs&lt;/span&gt;&lt;/code&gt;, the output will concatenate partial logs:&lt;/p&gt;

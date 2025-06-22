@@ -420,12 +420,12 @@
 <section id="understanding-kubernetes-log-format">
 <h2>Understanding Kubernetes Log Format<a class="headerlink" href="#understanding-kubernetes-log-format" title="Link to this heading">#</a></h2>
 <p>The log file content is saved in a specific pattern defined by the CRI. This log line format is:</p>
-<div class="highlight-log notranslate"><div class="highlight"><pre><span></span># log line pattern
-&lt;timestamp&gt; &lt;stream&gt; &lt;flags&gt; &lt;message&gt;
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># log line pattern</span>
+&lt;timestamp&gt;<span class="w"> </span>&lt;stream&gt;<span class="w"> </span>&lt;flags&gt;<span class="w"> </span>&lt;message&gt;
 
-# log line examples
-2023-10-06T00:17:09.669794202Z stdout F Your log message here
-2023-10-06T00:17:09.669794202Z stdout P Another log pt 1
+<span class="c1"># log line examples</span>
+<span class="m">2023</span>-10-06T00:17:09.669794202Z<span class="w"> </span>stdout<span class="w"> </span>F<span class="w"> </span>Your<span class="w"> </span>log<span class="w"> </span>message<span class="w"> </span>here
+<span class="m">2023</span>-10-06T00:17:09.669794202Z<span class="w"> </span>stdout<span class="w"> </span>P<span class="w"> </span>Another<span class="w"> </span>log<span class="w"> </span>pt<span class="w"> </span><span class="m">1</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -443,10 +443,10 @@
 </pre></div>
 </div>
 <p>The logs are saved in the following format:</p>
-<div class="highlight-log notranslate"><div class="highlight"><pre><span></span>2025-06-21T22:15:10.123456789Z stdout P part 1 - 
-2025-06-21T22:15:10.123456790Z stdout P part 2 - 
-2025-06-21T22:15:10.123456791Z stdout P part 3 - 
-2025-06-21T22:15:10.123456792Z stdout F log line completed!
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2025</span>-06-21T22:15:10.123456789Z<span class="w"> </span>stdout<span class="w"> </span>P<span class="w"> </span>part<span class="w"> </span><span class="m">1</span><span class="w"> </span>-<span class="w"> </span>
+<span class="m">2025</span>-06-21T22:15:10.123456790Z<span class="w"> </span>stdout<span class="w"> </span>P<span class="w"> </span>part<span class="w"> </span><span class="m">2</span><span class="w"> </span>-<span class="w"> </span>
+<span class="m">2025</span>-06-21T22:15:10.123456791Z<span class="w"> </span>stdout<span class="w"> </span>P<span class="w"> </span>part<span class="w"> </span><span class="m">3</span><span class="w"> </span>-<span class="w"> </span>
+<span class="m">2025</span>-06-21T22:15:10.123456792Z<span class="w"> </span>stdout<span class="w"> </span>F<span class="w"> </span>log<span class="w"> </span>line<span class="w"> </span>completed!
 </pre></div>
 </div>
 <p>When a pod log is retrieved using <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code>, the output will concatenate partial logs:</p>

@@ -56,7 +56,7 @@ The `$ kubectl logs` command always uses the absolute path of the log file and n
 
 The log file content is saved in a specific pattern defined by the CRI. This log line format is:
 
-```log
+```bash
 # log line pattern
 <timestamp> <stream> <flags> <message>
 
@@ -83,7 +83,7 @@ print("log line completed!", end="\n")
 
 The logs are saved in the following format:
 
-```log
+```bash
 2025-06-21T22:15:10.123456789Z stdout P part 1 - 
 2025-06-21T22:15:10.123456790Z stdout P part 2 - 
 2025-06-21T22:15:10.123456791Z stdout P part 3 - 
