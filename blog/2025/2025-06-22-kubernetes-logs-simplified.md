@@ -122,7 +122,7 @@ Also, you can introduce this parameters via environment variables to kubelet ser
 Environment="KUBELET_EXTRA_ARGS=--container-log-max-size=100Mi --container-log-max-files=5"
 ```
 
-## How Log Ingestion Working?
+## Strategy to Ingest Kubernetes Logs to External Thirdy Party System
 
 For a better observability experience, it is highly recommended to use a third-party, dedicated log analytics system like [OpenSearch](https://opensearch.org/), [ElasticSearch](https://www.elastic.co/pt/elasticsearch), [Grafani Loki](https://grafana.com/oss/loki/), [Splunk](https://www.splunk.com/), or [Datadog](https://www.datadoghq.com/). To achieve this, it is necessary to ingest the log file content from Kubernetes nodes into the third-party log system. For log reading, there are specific tools optimized for reading, processing, and shipping logs to external systems, such as [Fluent Bit](https://docs.fluentbit.io/manual), [Filebeat](https://www.elastic.co/pt/beats/filebeat), and [Vector](https://vector.dev/).
 
