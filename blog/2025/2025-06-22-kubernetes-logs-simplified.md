@@ -156,16 +156,18 @@ spec:
             requests:
               memory: "100Mi"
               cpu: "50m"
-          volumeMounts:
+          volumeMounts: 
             - name: config
               mountPath: /opt/bitnami/fluent-bit/conf/fluent-bit.conf
               subPath: fluent-bit.conf
+            # >>> THIS LINE MOUNTS THE NODE'S POD CONTAINERS DIRECTORY INSIDE THE CONTAINER.
             - name: varlog
               mountPath: /var/log/containers
       volumes:
         - name: config
           configMap:
             name: fluent-bit-config
+        # >>> THIS LINE ALLOWS THE FLUENT BIT POD TO ACCESS LOG FILES OF PODS SCHEDULED ON THE NODE. 
         - name: varlog
           hostPath:
             path: /var/log/containers
