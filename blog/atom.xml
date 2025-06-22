@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-22T07:59:25.278623+00:00</updated>
+  <updated>2025-06-22T08:00:43.766686+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -97,25 +97,20 @@ part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;
 &lt;h2&gt;Managing Log Growth with Log Rotation&lt;/h2&gt;
 &lt;p&gt;Logs can grow uncontrollably, causing disk overflow, which can impact observability in your cluster and degrade application performance. Even if the application generates a low volume of logs, it is a best practice and highly recommended to enforce limits and implement log rotation routines. The best approach to control log size limits is to define the values using container runtime parameters. It is not recommended to use third-party tools like &lt;a class="reference external" href="https://github.com/logrotate/logrotate"&gt;logrotate&lt;/a&gt; for this task, as file operations such as renaming, truncating, and closing file descriptors can corrupt Kubernetes’ log management state. Additionally, the container runtime’s log management architecture may change in future Kubernetes versions, requiring updates to third-party tools to align with the new behavior.&lt;/p&gt;
 &lt;p&gt;Thus, the configuration defines the Container Runtime’s log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.&lt;/p&gt;
-&lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 109)&lt;/p&gt;
-&lt;p&gt;Unknown directive type: ‘codeblock’ [myst.directive_unknown]&lt;/p&gt;
-&lt;/aside&gt;
-&lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 109)&lt;/p&gt;
-&lt;p&gt;No directive entry for “codeblock” in module “docutils.parsers.rst.languages.en”.
-Trying “codeblock” as canonical directive name.&lt;/p&gt;
-&lt;/aside&gt;
+&lt;div class="highlight-toml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# /etc/containerd/config.toml&lt;/span&gt;
+
+&lt;span class="k"&gt;[plugins.&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;io.containerd.grpc.v1.cri&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;.containerd.runtimes.runc.options]&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;LogSizeMax&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;104857600&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# set log file size limit to 100MB&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;LogFileMax&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# set limit 5 log files&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;p&gt;Also, you can introduce this parameters via environment variables to kubelet service. Below as example using systemd, to define the log rotate parameters for kubelet process to inject log rotate parameters to containerd.&lt;/p&gt;
-&lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: WARNING/2 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 119)&lt;/p&gt;
-&lt;p&gt;Unknown directive type: ‘codeblock’ [myst.directive_unknown]&lt;/p&gt;
-&lt;/aside&gt;
-&lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified.md&lt;/span&gt;, line 119)&lt;/p&gt;
-&lt;p&gt;No directive entry for “codeblock” in module “docutils.parsers.rst.languages.en”.
-Trying “codeblock” as canonical directive name.&lt;/p&gt;
-&lt;/aside&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;/etc/systemd/system/kubelet.service&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-ini notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="na"&gt;Environment&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;KUBELET_EXTRA_ARGS=--container-log-max-size=100Mi --container-log-max-files=5&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 &lt;/section&gt;
 &lt;section id="strategy-to-ingest-kubernetes-logs-to-external-thirdy-party-system"&gt;
 &lt;h2&gt;Strategy to Ingest Kubernetes Logs to External Thirdy Party System&lt;/h2&gt;

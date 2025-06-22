@@ -462,7 +462,20 @@ part<span class="w"> </span><span class="m">1</span><span class="w"> </span>-<sp
 <h2>Managing Log Growth with Log Rotation<a class="headerlink" href="#managing-log-growth-with-log-rotation" title="Link to this heading">#</a></h2>
 <p>Logs can grow uncontrollably, causing disk overflow, which can impact observability in your cluster and degrade application performance. Even if the application generates a low volume of logs, it is a best practice and highly recommended to enforce limits and implement log rotation routines. The best approach to control log size limits is to define the values using container runtime parameters. It is not recommended to use third-party tools like <a class="reference external" href="https://github.com/logrotate/logrotate">logrotate</a> for this task, as file operations such as renaming, truncating, and closing file descriptors can corrupt Kubernetes’ log management state. Additionally, the container runtime’s log management architecture may change in future Kubernetes versions, requiring updates to third-party tools to align with the new behavior.</p>
 <p>Thus, the configuration defines the Container Runtime’s log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># /etc/containerd/config.toml</span>
+
+<span class="k">[plugins.</span><span class="s2">&quot;io.containerd.grpc.v1.cri&quot;</span><span class="k">.containerd.runtimes.runc.options]</span>
+<span class="w">  </span><span class="n">LogSizeMax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">104857600</span><span class="w">  </span><span class="c1"># set log file size limit to 100MB</span>
+<span class="w">  </span><span class="n">LogFileMax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w">          </span><span class="c1"># set limit 5 log files</span>
+</pre></div>
+</div>
 <p>Also, you can introduce this parameters via environment variables to kubelet service. Below as example using systemd, to define the log rotate parameters for kubelet process to inject log rotate parameters to containerd.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">/etc/systemd/system/kubelet.service</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Environment</span><span class="o">=</span><span class="s">&quot;KUBELET_EXTRA_ARGS=--container-log-max-size=100Mi --container-log-max-files=5&quot;</span>
+</pre></div>
+</div>
+</div>
 </section>
 <section id="strategy-to-ingest-kubernetes-logs-to-external-thirdy-party-system">
 <h2>Strategy to Ingest Kubernetes Logs to External Thirdy Party System<a class="headerlink" href="#strategy-to-ingest-kubernetes-logs-to-external-thirdy-party-system" title="Link to this heading">#</a></h2>

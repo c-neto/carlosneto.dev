@@ -106,8 +106,8 @@ Logs can grow uncontrollably, causing disk overflow, which can impact observabil
 
 Thus, the configuration defines the Container Runtime's log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.
 
-```{codeblock} yaml
-:caption: /etc/containerd/config.toml
+```{code-block} toml
+# /etc/containerd/config.toml
 
 [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
   LogSizeMax = 104857600  # set log file size limit to 100MB
@@ -116,7 +116,7 @@ Thus, the configuration defines the Container Runtime's log rotation process. Th
 
 Also, you can introduce this parameters via environment variables to kubelet service. Below as example using systemd, to define the log rotate parameters for kubelet process to inject log rotate parameters to containerd.
 
-```{codeblock} yaml
+```{code-block} ini
 :caption: /etc/systemd/system/kubelet.service
 
 Environment="KUBELET_EXTRA_ARGS=--container-log-max-size=100Mi --container-log-max-files=5"
