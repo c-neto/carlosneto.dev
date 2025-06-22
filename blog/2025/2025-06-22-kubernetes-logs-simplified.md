@@ -21,7 +21,7 @@ Kubernetes is essentially composed of containers, which are managed by container
 - Kubernetes Logging Reference: <https://kubernetes.io/docs/concepts/cluster-administration/logging/>
 :::
 
-Each pod container has an isolated file, and logs are composed of the content that the application writes to [stdout](https://en.wikipedia.org/wiki/Standard_streams) and [stderr](https://en.wikipedia.org/wiki/Standard_streams). The logs are written to the Node where the pod container is running, in the following location:
+Each container in a pod writes its logs to a separate file. These logs capture everything the application outputs to _stdout_ and _stderr_ (see [standard streams](https://en.wikipedia.org/wiki/Standard_streams)). The log files are stored on the node where the pod is running at:
 
 ```bash
 # pod container log file pattern
@@ -176,7 +176,7 @@ spec:
             type: Directory
 ```
 
-Some log ingestion tools offer features to enrich logs with metadata from the log source. To enable this capability, in addition to configuring the tool, it is necessary to create a [ClusterRoleBinding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) and attach it to the [Fluent Bit](https://docs.fluentbit.io/manual) pods. This allows the pods to request metadata from the Kubernetes API server using the metadata embedded in the log file, and enrich the log event to be shipped with additional data, such as label values, annotations, and more. I plan to write a separate blog post focusing solely on how to use [Fluent Bit](https://docs.fluentbit.io/manual) to ingest logs from Kubernetes :)
+Some log ingestion tools can add extra metadata to logs, such as labels and annotations from Kubernetes. To do this, you need to give the log ingestion pods the right permissions using a [Cluster RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) policy. For example, see [this Fluent Bit ClusterRole](https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/clusterrole.yaml). With these permissions, the tool can fetch metadata from the Kubernetes API and enrich the logs before sending them to your log system. I'll cover this process in detail in a future post about [Fluent Bit](https://docs.fluentbit.io/manual).
 
 ## References
 
