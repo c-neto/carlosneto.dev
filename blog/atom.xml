@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-22T07:32:49.783742+00:00</updated>
+  <updated>2025-06-22T07:42:26.304319+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -117,8 +117,8 @@ Trying “codeblock” as canonical directive name.&lt;/p&gt;
 Trying “codeblock” as canonical directive name.&lt;/p&gt;
 &lt;/aside&gt;
 &lt;/section&gt;
-&lt;section id="how-log-ingestion-working"&gt;
-&lt;h2&gt;How Log Ingestion Working?&lt;/h2&gt;
+&lt;section id="strategy-to-ingest-kubernetes-logs-to-external-thirdy-party-system"&gt;
+&lt;h2&gt;Strategy to Ingest Kubernetes Logs to External Thirdy Party System&lt;/h2&gt;
 &lt;p&gt;For a better observability experience, it is highly recommended to use a third-party, dedicated log analytics system like &lt;a class="reference external" href="https://opensearch.org/"&gt;OpenSearch&lt;/a&gt;, &lt;a class="reference external" href="https://www.elastic.co/pt/elasticsearch"&gt;ElasticSearch&lt;/a&gt;, &lt;a class="reference external" href="https://grafana.com/oss/loki/"&gt;Grafani Loki&lt;/a&gt;, &lt;a class="reference external" href="https://www.splunk.com/"&gt;Splunk&lt;/a&gt;, or &lt;a class="reference external" href="https://www.datadoghq.com/"&gt;Datadog&lt;/a&gt;. To achieve this, it is necessary to ingest the log file content from Kubernetes nodes into the third-party log system. For log reading, there are specific tools optimized for reading, processing, and shipping logs to external systems, such as &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt;, &lt;a class="reference external" href="https://www.elastic.co/pt/beats/filebeat"&gt;Filebeat&lt;/a&gt;, and &lt;a class="reference external" href="https://vector.dev/"&gt;Vector&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Regardless of the log shipping tool you choose, the configuration format for the tool remains the same. The log ingestion tool is deployed using a &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/"&gt;DaemonSet&lt;/a&gt;, which schedules one pod on each node in the cluster. The &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/"&gt;DaemonSet&lt;/a&gt; is configured with a &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/storage/volumes/#hostpath"&gt;hostPath&lt;/a&gt; volume mount, allowing the pod to access files stored on the node’s disk. This enables the log ingestion tool to read log files for all pod containers scheduled on the node at &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/var/log/containers/*.log&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Below is an example of a &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/"&gt;DaemonSet&lt;/a&gt; configuration for implementing &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt;:&lt;/p&gt;
