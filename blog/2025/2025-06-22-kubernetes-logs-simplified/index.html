@@ -391,7 +391,7 @@
 <li><p>Kubernetes Logging Reference: <a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/logging/">https://kubernetes.io/docs/concepts/cluster-administration/logging/</a></p></li>
 </ul>
 </div>
-<p>Each pod container has an isolated file, and logs are composed of the content that the application writes to <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams">stdout</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams">stderr</a>. The logs are written to the Node where the pod container is running, in the following location:</p>
+<p>Each container in a pod writes its logs to a separate file. These logs capture everything the application outputs to <em>stdout</em> and <em>stderr</em> (see <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams">standard streams</a>). The log files are stored on the node where the pod is running at:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># pod container log file pattern</span>
 /var/log/pods/&lt;namespace&gt;_&lt;podname&gt;_&lt;uid&gt;/&lt;container_name&gt;/&lt;execution-id&gt;.log
 
@@ -527,7 +527,7 @@ part<span class="w"> </span><span class="m">1</span><span class="w"> </span>-<sp
 <span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Directory</span>
 </pre></div>
 </div>
-<p>Some log ingestion tools offer features to enrich logs with metadata from the log source. To enable this capability, in addition to configuring the tool, it is necessary to create a <a class="reference external" href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">ClusterRoleBinding</a> and attach it to the <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a> pods. This allows the pods to request metadata from the Kubernetes API server using the metadata embedded in the log file, and enrich the log event to be shipped with additional data, such as label values, annotations, and more. I plan to write a separate blog post focusing solely on how to use <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a> to ingest logs from Kubernetes :)</p>
+<p>Some log ingestion tools can add extra metadata to logs, such as labels and annotations from Kubernetes. To do this, you need to give the log ingestion pods the right permissions using a <a class="reference external" href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Cluster RBAC</a> policy. For example, see <a class="reference external" href="https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/clusterrole.yaml">this Fluent Bit ClusterRole</a>. With these permissions, the tool can fetch metadata from the Kubernetes API and enrich the logs before sending them to your log system. I’ll cover this process in detail in a future post about <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a>.</p>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>

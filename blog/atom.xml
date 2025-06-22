@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-22T08:00:43.766686+00:00</updated>
+  <updated>2025-06-22T08:08:26.995760+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -26,7 +26,7 @@
 &lt;li&gt;&lt;p&gt;Kubernetes Logging Reference: &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/logging/"&gt;https://kubernetes.io/docs/concepts/cluster-administration/logging/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;p&gt;Each pod container has an isolated file, and logs are composed of the content that the application writes to &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams"&gt;stdout&lt;/a&gt; and &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams"&gt;stderr&lt;/a&gt;. The logs are written to the Node where the pod container is running, in the following location:&lt;/p&gt;
+&lt;p&gt;Each container in a pod writes its logs to a separate file. These logs capture everything the application outputs to &lt;em&gt;stdout&lt;/em&gt; and &lt;em&gt;stderr&lt;/em&gt; (see &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams"&gt;standard streams&lt;/a&gt;). The log files are stored on the node where the pod is running at:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# pod container log file pattern&lt;/span&gt;
 /var/log/pods/&amp;lt;namespace&amp;gt;_&amp;lt;podname&amp;gt;_&amp;lt;uid&amp;gt;/&amp;lt;container_name&amp;gt;/&amp;lt;execution-id&amp;gt;.log
 
@@ -162,7 +162,7 @@ part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;
 &lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;type&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;Directory&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Some log ingestion tools offer features to enrich logs with metadata from the log source. To enable this capability, in addition to configuring the tool, it is necessary to create a &lt;a class="reference external" href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/"&gt;ClusterRoleBinding&lt;/a&gt; and attach it to the &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt; pods. This allows the pods to request metadata from the Kubernetes API server using the metadata embedded in the log file, and enrich the log event to be shipped with additional data, such as label values, annotations, and more. I plan to write a separate blog post focusing solely on how to use &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt; to ingest logs from Kubernetes :)&lt;/p&gt;
+&lt;p&gt;Some log ingestion tools can add extra metadata to logs, such as labels and annotations from Kubernetes. To do this, you need to give the log ingestion pods the right permissions using a &lt;a class="reference external" href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/"&gt;Cluster RBAC&lt;/a&gt; policy. For example, see &lt;a class="reference external" href="https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/clusterrole.yaml"&gt;this Fluent Bit ClusterRole&lt;/a&gt;. With these permissions, the tool can fetch metadata from the Kubernetes API and enrich the logs before sending them to your log system. I’ll cover this process in detail in a future post about &lt;a class="reference external" href="https://docs.fluentbit.io/manual"&gt;Fluent Bit&lt;/a&gt;.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="references"&gt;
 &lt;h2&gt;References&lt;/h2&gt;
