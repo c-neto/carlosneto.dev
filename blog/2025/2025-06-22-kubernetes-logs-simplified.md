@@ -28,7 +28,7 @@ Each container in a pod writes its logs to a separate file. These logs capture e
 /var/log/pods/<namespace>_<podname>_<uid>/<container_name>/<execution-id>.log
 
 # example
-/var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/
+/var/log/pods/default_nginx-7f5c7d4f9b-abcde_12345/nginx-container/
   ├── 0.log   # current container live running log
   ├── 1.log   # last container log that exited on failure or was restarted
   ├── 2.log   # second to last container log that exited on failure or was restarted
@@ -44,13 +44,13 @@ To simplify log ingestion for third-party tools, the kubelet creates symbolic li
 /var/log/containers/<pod_name>_<namespace>_<container_name>-<container_id>.log
 
 # >>> symbolic link log file name example
-/var/log/containers/nginx-deployment-7f5c7d4f9b-abcde_default_nginx-container-12345.log
+/var/log/containers/nginx-7f5c7d4f9b-abcde_default_nginx-container-12345.log
 
 # >>> real file that the symbolic link points to
-/var/log/pods/default_nginx-deployment-7f5c7d4f9b-abcde_12345/nginx-container/0.log
+/var/log/pods/default_nginx-7f5c7d4f9b-abcde_12345/nginx-container/0.log
 ```
 
-The `$ kubectl logs` command always uses the absolute path of the log file and never the symbolic link path. The symbolic link is a mechanism that the kubelet uses to simplify log ingestion for third-party log shipping tools like [Fluent Bit](https://docs.fluentbit.io/manual), [Vector](https://vector.dev/), [Filebeat](https://www.elastic.co/pt/beats/filebeat), and [Rsyslog](https://www.rsyslog.com/). It is important to understand that the files present in `/var/log/containers/` point to the current container execution log (`0.log`) and do not concatenate the files `0.log`, `1.log`, `2.log`, and so on.
+The `$ kubectl logs` command always uses the absolute path of the log file and never the symbolic link path. The symbolic link is a mechanism that the kubelet uses to simplify log ingestion for third-party log shipping tools like [Fluent Bit](https://docs.fluentbit.io/manual), [Vector](https://vector.dev/), [Filebeat](https://www.elastic.co/pt/beats/filebeat), etc. It is important to understand that the files present in `/var/log/containers/` point to the current container execution log (`0.log`) and do not concatenate the files `0.log`, `1.log`, `2.log`, and so on. When a container crashes and a new `0.log` is created, the symbolic link points to the new `0.log` file, so the content is overwritten. The log shipping tool should be prepared to handle this behavior. Fluent Bit, for example, uses inode tracking of the symlinked log file. When the file that the symlink points to is rotated, the inode of the file changes as well, and Fluent Bit understands that it is a new log file and needs to read the log content from the start, even though the file name remains the same. For more details, see [the Fluent Bit Input Plugin reference](https://docs.fluentbit.io/manual/pipeline/inputs/tail#keep_state).
 
 ## Understanding Kubernetes Log Format
 
