@@ -173,9 +173,7 @@ spec:
             type: Directory
 ```
 
-:::{note}
-Some log ingestion tools offer features to enrich logs with metadata from the log source. To enable this capability, in addition to configuring the tool, it is necessary to create a ClusterRoleBinding and attach it to the [Fluent Bit](https://docs.fluentbit.io/manual) pods. This allows the pods to request metadata from the Kubernetes API server. For example, in [Fluent Bit](https://docs.fluentbit.io/manual), the log file name provides the base metadata `/var/log/containers/<pod_name>_<namespace>_<container_name>-<container_id>.log`. Using this metadata, [Fluent Bit](https://docs.fluentbit.io/manual) queries the Kubernetes API server to enrich the logs with additional data, such as label values, annotations, and more. I plan to write a separate blog post focusing solely on how to use [Fluent Bit](https://docs.fluentbit.io/manual) to ingest logs from Kubernetes. :) 
-:::
+Some log ingestion tools offer features to enrich logs with metadata from the log source. To enable this capability, in addition to configuring the tool, it is necessary to create a [ClusterRoleBinding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) and attach it to the [Fluent Bit](https://docs.fluentbit.io/manual) pods. This allows the pods to request metadata from the Kubernetes API server using the metadata embedded in the log file. Using this metadata, [Fluent Bit](https://docs.fluentbit.io/manual) queries the Kubernetes API server to enrich the logs with additional data, such as label values, annotations, and more. I plan to write a separate blog post focusing solely on how to use [Fluent Bit](https://docs.fluentbit.io/manual) to ingest logs from Kubernetes. :)
 
 ## References
 
