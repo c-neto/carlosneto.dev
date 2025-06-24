@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2025-06-24T00:47:49.840936+00:00</updated>
+  <updated>2025-06-24T23:19:29.079369+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -19,12 +19,10 @@
 &lt;section id="how-kubernetes-manages-and-stores-logs"&gt;
 &lt;h2&gt;How Kubernetes Manages and Stores Logs&lt;/h2&gt;
 &lt;p&gt;Kubernetes is essentially composed of containers, which are managed by container runtimes. These container runtimes must implement the &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/"&gt;Container Runtime Interface (CRI)&lt;/a&gt;, which defines how Kubernetes interacts with the containers. One of the specifications in the &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/"&gt;CRI&lt;/a&gt; is container log handling, which standardizes details such as log names, directory locations, and formats.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;ul class="simple"&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;em&gt;CRI Logs Desing Proposal: &lt;a class="github reference external" href="https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md"&gt;kubernetes/design-proposals-archive&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;em&gt;Kubernetes Logging Reference: &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/logging/"&gt;https://kubernetes.io/docs/concepts/cluster-administration/logging/&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Each container in a pod writes its logs to a separate file. These logs capture everything the application outputs to &lt;em&gt;stdout&lt;/em&gt; and &lt;em&gt;stderr&lt;/em&gt; (see &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams"&gt;standard streams&lt;/a&gt;). The log files are stored on the node where the pod is running at:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# pod container log file pattern&lt;/span&gt;
 /var/log/pods/&amp;lt;namespace&amp;gt;_&amp;lt;podname&amp;gt;_&amp;lt;uid&amp;gt;/&amp;lt;container_name&amp;gt;/&amp;lt;execution-id&amp;gt;.log

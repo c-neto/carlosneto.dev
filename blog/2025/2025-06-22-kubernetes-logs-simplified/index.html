@@ -384,12 +384,10 @@
 <section id="how-kubernetes-manages-and-stores-logs">
 <h2>How Kubernetes Manages and Stores Logs<a class="headerlink" href="#how-kubernetes-manages-and-stores-logs" title="Link to this heading">#</a></h2>
 <p>Kubernetes is essentially composed of containers, which are managed by container runtimes. These container runtimes must implement the <a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/">Container Runtime Interface (CRI)</a>, which defines how Kubernetes interacts with the containers. One of the specifications in the <a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/">CRI</a> is container log handling, which standardizes details such as log names, directory locations, and formats.</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><p><em>CRI Logs Desing Proposal: <a class="github reference external" href="https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md">kubernetes/design-proposals-archive</a></em></p></li>
 <li><p><em>Kubernetes Logging Reference: <a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/logging/">https://kubernetes.io/docs/concepts/cluster-administration/logging/</a></em></p></li>
 </ul>
-</div></blockquote>
 <p>Each container in a pod writes its logs to a separate file. These logs capture everything the application outputs to <em>stdout</em> and <em>stderr</em> (see <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams">standard streams</a>). The log files are stored on the node where the pod is running at:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># pod container log file pattern</span>
 /var/log/pods/&lt;namespace&gt;_&lt;podname&gt;_&lt;uid&gt;/&lt;container_name&gt;/&lt;execution-id&gt;.log
