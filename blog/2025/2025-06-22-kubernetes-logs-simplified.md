@@ -16,9 +16,8 @@ Have you ever wondered how `$ kubectl logs` retrieves logs, where they are store
 
 Kubernetes is essentially composed of containers, which are managed by container runtimes. These container runtimes must implement the [Container Runtime Interface (CRI)](https://kubernetes.io/docs/concepts/architecture/cri/), which defines how Kubernetes interacts with the containers. One of the specifications in the [CRI](https://kubernetes.io/docs/concepts/architecture/cri/) is container log handling, which standardizes details such as log names, directory locations, and formats.
 
-> - _CRI Logs Desing Proposal: <https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md>_
-> - _Kubernetes Logging Reference: <https://kubernetes.io/docs/concepts/cluster-administration/logging/>_
-
+- _CRI Logs Desing Proposal: <https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md>_
+- _Kubernetes Logging Reference: <https://kubernetes.io/docs/concepts/cluster-administration/logging/>_
 
 Each container in a pod writes its logs to a separate file. These logs capture everything the application outputs to _stdout_ and _stderr_ (see [standard streams](https://en.wikipedia.org/wiki/Standard_streams)). The log files are stored on the node where the pod is running at:
 
