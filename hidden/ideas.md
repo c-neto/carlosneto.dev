@@ -1,3 +1,4 @@
+- fluentbit logs as metric 
 - SSO with token review API
 - ansible-lint
 - bash
@@ -14,24 +15,20 @@
 - opensearch filted alias by field
 - opensearch hot warm architecture
 - opensearch increase performance
-- replicaset behavior
 - repoquery
-- secrets behavior
-
+- bad trick secrets behavior
 - vault
 - vscode tips and extensions
 - helm-library-charts-effective-use
-
 - TLS: Diffie Hellman - RSA
-
-
+- ephemeral pods
 - kubernetes saga # | foundations
 - kubernetes saga # | container behind the scenes
 - kubernetes saga # | kubernetes archicture
 - kubernetes saga # | pods
 - kubernetes saga # | static pod
 - kubernetes saga # | daemonsets
-- kubernetes saga # | replicaset
+- kubernetes saga # | replicaset (label selector)
 - kubernetes saga # | deployment
 - kubernetes saga # | services
 - kubernetes saga # | namespace
@@ -39,4 +36,4 @@
 - kubernetes saga # | sizing (requirements and limits)
 - kubernetes saga # | adminssionController (WIS/WIF, how to check default, disable and enabled)
 - kubernetes saga # | mutate webhook
-
+- opensearch: how to speed up the allocation cluster
