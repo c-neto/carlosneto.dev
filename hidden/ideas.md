@@ -21,6 +21,7 @@
 - vscode tips and extensions
 - helm-library-charts-effective-use
 - TLS: Diffie Hellman - RSA
+- ephemeral port
 - ephemeral pods
 - kubernetes saga # | foundations
 - kubernetes saga # | container behind the scenes
@@ -37,3 +38,5 @@
 - kubernetes saga # | adminssionController (WIS/WIF, how to check default, disable and enabled)
 - kubernetes saga # | mutate webhook
 - opensearch: how to speed up the allocation cluster
+
+

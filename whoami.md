@@ -70,6 +70,53 @@ Check my professional experiences:
 
 ---
 
+---
+
+`````{grid} 2
+
+````{grid-item}
+:columns: 3
+:align: center
+```{image} _static/fluent-bit.png
+:alt: fluent bit logo
+:target: https://docs.fluentbit.io/manual
+:width: 100%
+:class: fluent-bit-project-logo
+```
+````
+
+````{grid-item}
+:columns: 9
+
+- <i class="fa-solid fa-code-pull-request"></i>: [#1828](https://github.com/fluent/fluent-bit-docs/pull/1828): Improved documentation to clarify that Conditional Processing does not support using Filters as Processors.
+- <i class="fa-solid fa-bug"></i>: [#10524](https://github.com/fluent/fluent-bit/issues/10524): Reported an issue where Conditional Processing is not supported when Filters are used as Processors.
+`````
+
+---
+
+`````{grid} 2
+
+````{grid-item}
+:columns: 3
+:align: center
+```{image} _static/eso-logo.png
+:alt: opencti logo
+:target: https://docs.opencti.io/latest/
+:width: 100%
+:class: opensource-project-logo
+```
+````
+
+````{grid-item}
+:columns: 9
+
+<i class="fab fa-github"></i> __[External Secrets Operator](https://github.com/external-secrets/external-secrets):__ Kubernetes operator that integrates external secret management system and automatically injects the values into a Kubernetes Secret.
+
+- <i class="fa-solid fa-code-pull-request"></i> [#3725](https://github.com/external-secrets/external-secrets/pull/3725): Clarified the lifecycle of ExternalSecret and its relation to the created Secret, enhancing the description and available options.
+`````
+
+---
+
 `````{grid} 2
 
 ````{grid-item}
@@ -94,25 +141,3 @@ Check my professional experiences:
 ````
 
 `````
-
----
-
-`````{grid} 2
-
-````{grid-item}
-:columns: 3
-:align: center
-```{image} _static/eso-logo.png
-:alt: opencti logo
-:target: https://docs.opencti.io/latest/
-:width: 100%
-:class: opensource-project-logo
-```
-````
-
-````{grid-item}
-:columns: 9
-
-<i class="fab fa-github"></i> __[External Secrets Operator](https://github.com/external-secrets/external-secrets):__ Kubernetes operator that integrates external secret management system and automatically injects the values into a Kubernetes Secret.
-
-- <i class="fa-solid fa-code-pull-request"></i> [#3725](https://github.com/external-secrets/external-secrets/pull/3725): Clarified the lifecycle of ExternalSecret and its relation to the created Secret, enhancing the description and available options.
