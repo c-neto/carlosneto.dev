@@ -9,14 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta property="og:title" content="<no title>" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://carlosneto.dev/hidden/ideas/" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/TODO/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="fluentbit logs as metric, SSO with token review API, ansible-lint, bash, blackbox, certificate private key, elixir, external secrets operator, helm charts, how to built your custom zsh widgets, k8s..." />
+<meta property="og:description" content="Ephemeral Ports. These are temporary, high-numbered ports (e.g., 49152–65535) used by the client to initiate TCP connections., They allow distinguishing multiple simultaneous connections originatin..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_ideas_38f97360.png" />
-<meta property="og:image:alt" content="fluentbit logs as metric, SSO with token review API, ansible-lint, bash, blackbox, certificate private key, elixir, external secrets operator, helm charts, how to built your custom zsh widgets, k8s..." />
-<meta name="description" content="fluentbit logs as metric, SSO with token review API, ansible-lint, bash, blackbox, certificate private key, elixir, external secrets operator, helm charts, how to built your custom zsh widgets, k8s..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_TODO_6a36bc7c.png" />
+<meta property="og:image:alt" content="Ephemeral Ports. These are temporary, high-numbered ports (e.g., 49152–65535) used by the client to initiate TCP connections., They allow distinguishing multiple simultaneous connections originatin..." />
+<meta name="description" content="Ephemeral Ports. These are temporary, high-numbered ports (e.g., 49152–65535) used by the client to initiate TCP connections., They allow distinguishing multiple simultaneous connections originatin..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>&lt;no title&gt; &#8212; Carlos Neto&#39;s Tech Blog</title>
@@ -60,7 +60,7 @@
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/ideas';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/TODO';</script>
     <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../genindex/" />
     <link rel="search" title="Search" href="../../search/" /> 
@@ -376,47 +376,47 @@
                 
 <div id="searchbox"></div>
                 <article class="bd-article">
-                   <ul class="simple">
-<li><p>fluentbit logs as metric</p></li>
-<li><p>SSO with token review API</p></li>
-<li><p>ansible-lint</p></li>
-<li><p>bash</p></li>
-<li><p>blackbox</p></li>
-<li><p>certificate private key</p></li>
-<li><p>elixir</p></li>
-<li><p>external secrets operator</p></li>
-<li><p>helm charts</p></li>
-<li><p>how to built your custom zsh widgets</p></li>
-<li><p>k8s retry service</p></li>
-<li><p>mtls curl</p></li>
-<li><p>node tolaration + nodeSelector + nodeName + nodeAffinity</p></li>
-<li><p>opensearch decomission nodes</p></li>
-<li><p>opensearch filted alias by field</p></li>
-<li><p>opensearch hot warm architecture</p></li>
-<li><p>opensearch increase performance</p></li>
-<li><p>repoquery</p></li>
-<li><p>bad trick secrets behavior</p></li>
-<li><p>vault</p></li>
-<li><p>vscode tips and extensions</p></li>
-<li><p>helm-library-charts-effective-use</p></li>
-<li><p>TLS: Diffie Hellman - RSA</p></li>
-<li><p>ephemeral port</p></li>
-<li><p>ephemeral pods</p></li>
-<li><p>kubernetes saga # | foundations</p></li>
-<li><p>kubernetes saga # | container behind the scenes</p></li>
-<li><p>kubernetes saga # | kubernetes archicture</p></li>
-<li><p>kubernetes saga # | pods</p></li>
-<li><p>kubernetes saga # | static pod</p></li>
-<li><p>kubernetes saga # | daemonsets</p></li>
-<li><p>kubernetes saga # | replicaset (label selector)</p></li>
-<li><p>kubernetes saga # | deployment</p></li>
-<li><p>kubernetes saga # | services</p></li>
-<li><p>kubernetes saga # | namespace</p></li>
-<li><p>kubernetes saga # | scheduling (manual, taints and toleration, node selector, profiles)</p></li>
-<li><p>kubernetes saga # | sizing (requirements and limits)</p></li>
-<li><p>kubernetes saga # | adminssionController (WIS/WIF, how to check default, disable and enabled)</p></li>
-<li><p>kubernetes saga # | mutate webhook</p></li>
-<li><p>opensearch: how to speed up the allocation cluster</p></li>
+                   <ol class="arabic simple">
+<li><p>Ephemeral Ports</p></li>
+</ol>
+<ul class="simple">
+<li><p>These are temporary, high-numbered ports (e.g., 49152–65535) used by the client to initiate TCP connections.</p></li>
+<li><p>They allow distinguishing multiple simultaneous connections originating from the same IP.</p></li>
+<li><p>Example: when opening an SFTP connection (SSH on port 22 of the server), the client uses a local ephemeral port to communicate.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>How Does the Server “Know” the Client’s Port?</p></li>
+</ol>
+<ul class="simple">
+<li><p>In the TCP protocol, each packet carries:</p></li>
+<li><p>Source IP and port (client)</p></li>
+<li><p>Destination IP and port (server)</p></li>
+<li><p>The server sees the client’s ephemeral port and responds directly to it, ensuring proper communication.</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>Stateful vs Stateless</p></li>
+</ol>
+<ul class="simple">
+<li><p>Stateful: the device (firewall, Security Group) tracks the state of connections and automatically allows response traffic.</p></li>
+<li><p>Stateless: the device analyzes each packet in isolation and requires explicit rules for both inbound and outbound traffic.</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p>Security Group in AWS</p></li>
+</ol>
+<ul class="simple">
+<li><p>It is a stateful virtual firewall, applied at the instance level.</p></li>
+<li><p>It has Inbound (incoming) and Outbound (outgoing) rules:</p></li>
+<li><p>Inbound defines who can initiate connections to the instance.</p></li>
+<li><p>Outbound defines where the instance can initiate connections to.</p></li>
+<li><p>Because it is stateful, the SG automatically allows response traffic, even if there is no explicit rule for the opposite direction.</p></li>
+</ul>
+<ol class="arabic simple" start="5">
+<li><p>Why Do Security Groups Have Inbound and Outbound Rules if They Are Stateful?</p></li>
+</ol>
+<ul class="simple">
+<li><p>Because it is necessary to control who can initiate connections to the instance (inbound).</p></li>
+<li><p>And to control where the instance can initiate connections to (outbound).</p></li>
+<li><p>The SG enables granular control and security, even while automatically allowing return packets.</p></li>
 </ul>
 
 <div class="section ablog__blog_comments">
