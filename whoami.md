@@ -55,7 +55,7 @@ Explore my professional journey and Open Source contributions below:
 ````{grid-item}
 :columns: 9
 
-<i class="fab fa-github"></i> __[OpenSearch](https://github.com/opensearch-project/):__ Open source search and analytics engine used for applications requiring powerful search and data analytics capabilities, including logging, business intelligence, monitoring, and security information and event management (SIEM).
+__[OpenSearch](https://github.com/opensearch-project/):__ Open source search and analytics engine used for applications requiring powerful search and data analytics capabilities, including logging, business intelligence, monitoring, and security information and event management (SIEM).
 
 - <i class="fa-solid fa-code-pull-request"></i>: [#4597](https://github.com/opensearch-project/documentation-website/pull/4597): Described the behavior and outlined best practices for Searchable Snapshots cluster nodes.
 - <i class="fa-solid fa-code-pull-request"></i>: [#6051](https://github.com/opensearch-project/documentation-website/pull/6051): Described the behavior and security recommendations for the HTTP Compression setting.
@@ -88,11 +88,11 @@ Explore my professional journey and Open Source contributions below:
 ````{grid-item}
 :columns: 9
 
-<i class="fab fa-github"></i> __[Fluent Bit](https://docs.fluentbit.io/manual):__ Fluent Bit is an open-source log processor and forwarder, used to collect, filter, and send logs from systems like containers, servers, and IoT devices to destinations such as Elasticsearch, OpenSearch, Loki, Kafka, or cloud services for monitoring and analysis.
+__[Fluent Bit](https://docs.fluentbit.io/manual):__ Fluent Bit is an open-source log processor and forwarder, used to collect, filter, and send logs from systems like containers, servers, and IoT devices to destinations such as Elasticsearch, OpenSearch, Loki, Kafka, or cloud services for monitoring and analysis.
 
 - <i class="fa-solid fa-code-pull-request"></i>: [#1828](https://github.com/fluent/fluent-bit-docs/pull/1828): Improved documentation to clarify that Conditional Processing does not support using filters as processors.
 - <i class="fa-solid fa-bug"></i>: [#10524](https://github.com/fluent/fluent-bit/issues/10524): Reported an issue where Conditional Processing is not supported when filters are used as processors.
-- <i class="fa-solid fa-bug"></i>: [#10524](https://github.com/fluent/fluent-bit/issues/10524): Reported an issue where Conditional Processing is not supported when filters are used as processors.
+- <i class="fa-solid fa-star"></i>: [#10394](https://github.com/fluent/fluent-bit/issues/10394): Feature request for dynamic OpenSearch/Elasticsearch node discovery and load balancing with sniffing support.
 `````
 
 ---
@@ -113,7 +113,7 @@ Explore my professional journey and Open Source contributions below:
 ````{grid-item}
 :columns: 9
 
-<i class="fab fa-github"></i> __[External Secrets Operator](https://github.com/external-secrets/external-secrets):__ Kubernetes operator that integrates external secret management systems and automatically injects the values into a Kubernetes Secret.
+__[External Secrets Operator](https://github.com/external-secrets/external-secrets):__ Kubernetes operator that integrates external secret management systems and automatically injects the values into a Kubernetes Secret.
 
 - <i class="fa-solid fa-code-pull-request"></i>: [#3725](https://github.com/external-secrets/external-secrets/pull/3725): Clarified the lifecycle of ExternalSecret and its relation to the created Secret, enhancing the description and available options.
 `````
@@ -136,7 +136,7 @@ Explore my professional journey and Open Source contributions below:
 ````{grid-item}
 :columns: 9
 
-<i class="fab fa-github"></i> __[OpenCTI](https://github.com/OpenCTI-Platform):__ Open source platform for managing and sharing Cyber Threat Intelligence, fostering collaboration among organizations in analyzing and responding to cybersecurity incidents.
+__[OpenCTI](https://github.com/OpenCTI-Platform):__ Open source platform for managing and sharing Cyber Threat Intelligence, fostering collaboration among organizations in analyzing and responding to cybersecurity incidents.
 
 - <i class="fa-solid fa-code-pull-request"></i>: [#138](https://github.com/OpenCTI-Platform/docs/pull/138), [#139](https://github.com/OpenCTI-Platform/docs/pull/139): Clarified user permissions required for OpenCTI in the OpenSearch integration, emphasizing adherence to the Principle of Least Privilege.
 - <i class="fa-solid fa-code-pull-request"></i>: [#137](https://github.com/OpenCTI-Platform/docs/pull/137): Conducted a comprehensive refactoring of configuration settings in the integration of the OpenCTI Platform and the S3 Bucket service.
