@@ -8,7 +8,7 @@ category: code
 
 ---
 
-# groupby + attrgetter = The Pythonic Way to Group Objects
+# groupby + attrgetter: The Pythonic Way to Group Objects
 
 This blog post explores an approach to group objects by mulitple attribute name powered by capabilities of the built-in modules [itertools.groupby](https://docs.python.org/3/library/itertools.html#itertools.groupby) and [operator.attrgetter](https://docs.python.org/3/library/operator.html#operator.attrgetter) module.
 
