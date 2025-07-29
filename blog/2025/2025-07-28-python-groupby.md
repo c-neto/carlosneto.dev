@@ -80,11 +80,11 @@ This approach works, but the code readability can cause confusion. Therefore, I 
 The [groupby](https://docs.python.org/3/library/itertools.groupby) function takes an iterable as its first positional argument and has an optional named argument `key`. The `key` works exactly the same way as in [sorted](https://docs.python.org/3/howto/sorting.html#key-functions), accepting a function that is called to determine the grouping. In the example below, the function is created using a [lambda](https://docs.python.org/2/tutorial/controlflow.html), where the groups are formed based on the `category`, `genre`, and `country` attributes.
 
 ```python
-import group
+from itertools import groupby
 
-group_tuple = lambda item: (item.category, item.genre, item.country)
+attribute_group = lambda item: (item.category, item.genre, item.country)
 
-for (category, genre, country), group in groupby(bands, key=group_tuple):
+for (category, genre, country), group in groupby(bands, key=attribute_group):
     print(f">>> {category=}, {genre=}, {country=}:")
     for band in group:
         print(f"  - {band.name}")
@@ -93,9 +93,12 @@ for (category, genre, country), group in groupby(bands, key=group_tuple):
 This approach offers better readability. However, by using the [attrgetter](https://docs.python.org/3/library/operator.html#operator.attrgetter) function, we can eliminate the [lambda](https://docs.python.org/2/tutorial/controlflow.html) and make the code more self-explanatory. The [attrgetter](https://docs.python.org/3/library/operator.html#operator.attrgetter) returns a callable object that fetches the specified attribute from its operand. If more than one attribute is requested, it returns a tuple of attributes. For practical purposes, this solution works the same way as the [lambda](https://docs.python.org/2/tutorial/controlflow.html), but the code is clearer and easier to understand.
 
 ```python
-group_tuple = attrgetter("category", "genre", "country",)
+from operator import attrgetter
+from itertools import groupby
 
-for (category, genre, country), group in groupby(bands, key=group_tuple):
+attribute_group = attrgetter("category", "genre", "country",)
+
+for (category, genre, country), group in groupby(bands, key=attribute_group):
     print(f">>> {category=}, {genre=}, {country=}:")
     for band in group:
         print(f"  - {band.name}")
