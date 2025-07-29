@@ -162,3 +162,9 @@ The script execution output will be:
 - U2
 - Thin Lizzy
 ```
+
+For the full working example, visit the [GitHub repository](https://github.com/c-neto/my-code-playground/blob/main/2025-07-28/python-groupby-example.py). You can also run the code directly in your terminal:
+
+```sh
+curl -s https://raw.githubusercontent.com/c-neto/my-code-playground/main/2025-07-28/python-groupby-example.py | python -
+```
