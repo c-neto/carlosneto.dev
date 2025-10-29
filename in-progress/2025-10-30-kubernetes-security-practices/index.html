@@ -1,0 +1,533 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Kubernetes Security Practices" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/in-progress/2025-10-30-kubernetes-security-practices/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2025/06/22 Supply-chain Protection in Kubernetes: Protecting the Kubernetes supply chain is essential. Use immutable identifiers (SHAs) for all external dependencies, includ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_in-progress_2025-10-30-kubernetes-security-practices_caff6169.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2025/06/22 Supply-chain Protection in Kubernetes: Protecting the Kubernetes supply chain is essential. Use immutable identifiers (SHAs) for all external dependencies, includ..." />
+<meta name="description" content="Blog Post Publish Date: 2025/06/22 Supply-chain Protection in Kubernetes: Protecting the Kubernetes supply chain is essential. Use immutable identifiers (SHAs) for all external dependencies, includ..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Kubernetes Security Practices &#8212; Carlos Neto&#39;s Tech Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=68e62335" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'in-progress/2025-10-30-kubernetes-security-practices';</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" /> 
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Tech Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../whoami/">
+    whoami
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../whoami/">
+    whoami
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2025/06/22</em></p>
+<hr class="docutils" />
+<section id="kubernetes-security-practices">
+<h1>Kubernetes Security Practices<a class="headerlink" href="#kubernetes-security-practices" title="Link to this heading">#</a></h1>
+<section id="supply-chain-protection-in-kubernetes">
+<h2>Supply-chain Protection in Kubernetes<a class="headerlink" href="#supply-chain-protection-in-kubernetes" title="Link to this heading">#</a></h2>
+<p>Protecting the Kubernetes supply chain is essential. Use immutable identifiers (SHAs) for all external dependencies, including container images and cloud resources like AMIs, so builds are reproducible and tampering is harder.</p>
+<p>Automate dependency management with tools such as Dependabot or Renovate to track, audit, and open PRs for outdated or vulnerable dependencies. In CI/CD, apply least-privilege to tokens (for example, GITHUB_TOKEN) so systems only have the permissions they need.</p>
+<p>Sign artifacts and images to create a verifiable chain of trust. Tools like Cosign and policy-controller can help ensure only trusted artifacts are deployed.</p>
+<ul class="simple">
+<li><p>Use SHAs or other immutable identifiers for everything you download (images, AMIs, libs).</p></li>
+<li><p>Automate audits and PRs for outdated or vulnerable dependencies.</p></li>
+<li><p>Apply least privilege to CI/CD tokens (e.g., GITHUB_TOKEN).</p></li>
+<li><p>Sign images and artifacts.</p></li>
+<li><p>Tooling: Dependabot, Renovate, Cosign, policy-controller</p></li>
+</ul>
+</section>
+<section id="rbac">
+<h2>RBAC<a class="headerlink" href="#rbac" title="Link to this heading">#</a></h2>
+<p>Favor reusable Roles and ClusterRoles for common capabilities to reduce duplication and simplify audits. Balance reuse with least privilege: prefer composing narrow roles when an operation needs fewer permissions.</p>
+<p>Scope access to namespaces when possible. For multi-team clusters, isolate workloads per namespace and grant developers only the namespace-scoped permissions they need. If a workload does not need the Kubernetes API, run it under the default service account without adding extra bindings. Never bind elevated Roles or ClusterRoles to the default service account—create specific service accounts with minimal permissions instead.</p>
+<p>When workloads need cloud APIs, use provider-native identity (for example, IAM Roles for Service Accounts on EKS, Pod Identity, or Workload Identity on GKE) instead of long-lived credentials.</p>
+<ul class="simple">
+<li><p>Share Roles/ClusterRoles where appropriate</p></li>
+<li><p>Balance reusability vs least privilege</p></li>
+<li><p>If a workload doesn’t need the Kubernetes API, use the default service account (no extra bindings)</p></li>
+<li><p>Never bind elevated roles to the default service account</p></li>
+<li><p>For shared clusters, use namespaces and limit developer access by namespace</p></li>
+<li><p>Use cloud-native identity mechanisms for cloud API access (IRSA, Pod Identity, Workload Identity)</p></li>
+</ul>
+</section>
+<section id="secrets-management">
+<h2>Secrets Management<a class="headerlink" href="#secrets-management" title="Link to this heading">#</a></h2>
+<p>Kubernetes Secrets are base64-encoded, not encrypted. Treat them as sensitive: restrict access with RBAC and grant minimal permissions. Use a secrets controller to fetch and sync values from an external vault so short-lived, centrally managed credentials are delivered to the cluster.</p>
+<p>Never commit secrets to version control. Mounting a Secret as an env var or file is not fully secure—compromised pods or nodes can expose them. The safer pattern is having the application fetch secrets at runtime and keep them in memory, using short-lived credentials when possible. For Git-backed workflows, prefer encrypted approaches like Sealed Secrets or external secrets controllers matched to your threat model.</p>
+<ul class="simple">
+<li><p>Secrets are base64-encoded, not encrypted</p></li>
+<li><p>Limit access to secrets via RBAC</p></li>
+<li><p>Use a secrets controller to sync secrets from an external vault</p></li>
+<li><p>Never commit secrets to VCS (GitHub, GitLab, etc.)</p></li>
+<li><p>Mounting env vars or files is not 100% secure</p></li>
+<li><p>Prefer app-runtime secret retrieval and short-lived credentials</p></li>
+<li><p>Tooling: External Secrets, Sealed Secrets, cloud provider secret integrations</p></li>
+</ul>
+</section>
+<section id="hardening">
+<h2>Hardening<a class="headerlink" href="#hardening" title="Link to this heading">#</a></h2>
+<p>Bake security into your delivery pipeline and deployment tooling. Use your deployment wrappers (Helm, operators, kustomize) to codify organization-wide best practices and sane defaults so every release inherits the same protections.</p>
+<p>Make image and build pipelines a security gate: scan for misconfigurations, embedded secrets, SAST findings, and known vulnerabilities, and fail the pipeline when scans do not meet policy. Enforce the same checks at runtime with an admission controller evaluated by the API server to reject non-compliant workloads.</p>
+<p>For OS/host hardening, prefer pre-built, hardened images that are versioned and tested rather than installing packages at startup. Complement with automated checks like kube-bench and image scanners such as trivy and docker scout to keep images and hosts continuously validated.</p>
+<ul class="simple">
+<li><p>Use deployment wrappers (Helm, kustomize, operators) to enforce best practices</p></li>
+<li><p>Scan builds for misconfigurations, secrets, SAST, and vulnerabilities</p></li>
+<li><p>Fail pipelines that don’t meet policy</p></li>
+<li><p>Enforce checks via admission controllers evaluated by the API server</p></li>
+<li><p>Prefer pre-built hardened images over runtime configuration</p></li>
+<li><p>Tooling: kube-bench, trivy, docker scout</p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
