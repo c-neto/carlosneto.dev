@@ -37,6 +37,6 @@
 - kubernetes saga # | sizing (requirements and limits)
 - kubernetes saga # | adminssionController (WIS/WIF, how to check default, disable and enabled)
 - kubernetes saga # | mutate webhook
+- kubernetes saga # | create token of service account to test usage in external applcation
 - opensearch: how to speed up the allocation cluster
-
-
+- Helm Tips: How to Specify Number Values Avoiding Errors
