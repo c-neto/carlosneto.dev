@@ -7,19 +7,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Helm Tips: Dump Helm Context" />
+<meta property="og:title" content="Helm Tips: Inspect Your Chart Context with JSON" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-02-25-helm-tips-dump-context/" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-02-25-helm-tips-inspect-context/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/02/25 One of the most difficult aspects when developing Helm Charts is the debugging experience. It is common to have a bad experience when you create a template that t..." />
+<meta property="og:description" content="Blog Post Publish Date: 2026/02/25 Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide ..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-02-25-helm-tips-dump-context_445df132.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/02/25 One of the most difficult aspects when developing Helm Charts is the debugging experience. It is common to have a bad experience when you create a template that t..." />
-<meta name="description" content="Blog Post Publish Date: 2026/02/25 One of the most difficult aspects when developing Helm Charts is the debugging experience. It is common to have a bad experience when you create a template that t..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-02-25-helm-tips-inspect-context_0bfeffaa.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/02/25 Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide ..." />
+<meta name="description" content="Blog Post Publish Date: 2026/02/25 Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide ..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>Helm Tips: Dump Helm Context &#8212; Carlos Neto&#39;s Tech Blog</title>
+    <title>Helm Tips: Inspect Your Chart Context with JSON &#8212; Carlos Neto&#39;s Tech Blog</title>
   
   
   
@@ -60,7 +60,7 @@
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2026/2026-02-25-helm-tips-dump-context';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2026/2026-02-25-helm-tips-inspect-context';</script>
     <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../../genindex/" />
     <link rel="search" title="Search" href="../../../search/" /> 
@@ -378,9 +378,9 @@
                 <article class="bd-article">
                    <p><em><strong>Blog Post Publish Date:</strong> 2026/02/25</em></p>
 <hr class="docutils" />
-<section id="helm-tips-dump-helm-context">
-<h1>Helm Tips: Dump Helm Context<a class="headerlink" href="#helm-tips-dump-helm-context" title="Link to this heading">#</a></h1>
-<p>One of the most difficult aspects when developing Helm Charts is the debugging experience. It is common to have a bad experience when you create a template that tries to access a parameter defined in the Values files, and for any reason, i.g. a syntax error or typo, the <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">helm</span> <span class="pre">render</span></code> command doesn’t work, and the stack trace shows confusing messages that don’t point to the root cause. Without a doubt, this debugging experience is the main source of frustration when starting with Helm, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother code experience.</p>
+<section id="helm-tips-inspect-your-chart-context-with-json">
+<h1>Helm Tips: Inspect Your Chart Context with JSON<a class="headerlink" href="#helm-tips-inspect-your-chart-context-with-json" title="Link to this heading">#</a></h1>
+<p>Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother development experience. It is common to face issues when you create a template that tries to access a parameter defined in the <code class="docutils literal notranslate"><span class="pre">.Values</span></code> files, and for any reason, whether a syntax error or typo, the <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">helm</span> <span class="pre">template</span></code> command fails, and the stack trace shows confusing messages that don’t point to the root cause. This blog post provides an alternative approach to inspect the Helm Chart context with JSON, helping you understand how to access chart properties for use in your templates.</p>
 <section id="are-there-ides-for-helm-charts">
 <h2>Are There IDEs for Helm Charts?<a class="headerlink" href="#are-there-ides-for-helm-charts" title="Link to this heading">#</a></h2>
 <p>Unfortunately, there is no definitive IDE specifically for Helm. There are plugins for VSCode and JetBrains IDEA that provide some tooling for auto-completion, but they don’t come close to the code experience available with popular programming languages like Python and Java. I use VSCode’s <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools">Kubernetes (by Microsoft)</a> + <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml">YAML (by Red Hat)</a>, which helps avoid typos in <code class="docutils literal notranslate"><span class="pre">.Values</span></code> usage and checks available Go template functions. However, there are limitations, some variables are omitted in auto-complete, which diminishes the experience. I tried the <a class="reference external" href="https://www.jetbrains.com/help/idea/helm.html">JetBrains Helm Plugin</a>, but it doesn’t work as simply as the <em>.gif</em> present in the Plugin shows. Additionally, the Kubernetes plugin is not available in IntelliJ IDEA without an Ultimate subscription.</p>

@@ -8,9 +8,9 @@ category: helm
 
 ---
 
-# Helm Tips: Dump Helm Context
+# Helm Tips: Inspect Your Chart Context with JSON
 
-One of the most difficult aspects when developing Helm Charts is the debugging experience. It is common to have a bad experience when you create a template that tries to access a parameter defined in the Values files, and for any reason, i.g. a syntax error or typo, the `$ helm render` command doesn't work, and the stack trace shows confusing messages that don't point to the root cause. Without a doubt, this debugging experience is the main source of frustration when starting with Helm, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother code experience.
+Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother development experience. It is common to face issues when you create a template that tries to access a parameter defined in the `.Values` files, and for any reason, whether a syntax error or typo, the `$ helm template` command fails, and the stack trace shows confusing messages that don't point to the root cause. This blog post provides an alternative approach to inspect the Helm Chart context with JSON, helping you understand how to access chart properties for use in your templates.
 
 ## Are There IDEs for Helm Charts?
 

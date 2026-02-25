@@ -420,7 +420,7 @@
    
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
-      <a href="../../2026/2026-02-25-helm-tips-dump-context/">Helm Tips: Dump Helm Context</a>
+      <a href="../../2026/2026-02-25-helm-tips-inspect-context/">Helm Tips: Inspect Your Chart Context with JSON</a>
     </h2>
     <ul class="ablog-archive">
       <li>
@@ -457,11 +457,11 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/02/25</em></p>
-<p>One of the most difficult aspects when developing Helm Charts is the debugging experience. It is common to have a bad experience when you create a template that tries to access a parameter defined in the Values files, and for any reason, i.g. a syntax error or typo, the <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">helm</span> <span class="pre">render</span></code> command doesn’t work, and the stack trace shows confusing messages that don’t point to the root cause. Without a doubt, this debugging experience is the main source of frustration when starting with Helm, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother code experience.</p>
+<p>Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother development experience. It is common to face issues when you create a template that tries to access a parameter defined in the <code class="docutils literal notranslate"><span class="pre">.Values</span></code> files, and for any reason, whether a syntax error or typo, the <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">helm</span> <span class="pre">template</span></code> command fails, and the stack trace shows confusing messages that don’t point to the root cause. This blog post provides an alternative approach to inspect the Helm Chart context with JSON, helping you understand how to access chart properties for use in your templates.</p>
 </p>
 
     <p class="ablog-post-expand">
-      <a href="../../2026/2026-02-25-helm-tips-dump-context/"><em>Read more ...</em></a>
+      <a href="../../2026/2026-02-25-helm-tips-inspect-context/"><em>Read more ...</em></a>
     </p>
     <hr />
   </div>

@@ -2,20 +2,20 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-02-25T03:10:21.863576+00:00</updated>
+  <updated>2026-02-25T03:16:15.144348+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
   <entry>
-    <id>https://carlosneto.dev/blog/2026/2026-02-25-helm-tips-dump-context/</id>
-    <title>Helm Tips: Dump Helm Context</title>
+    <id>https://carlosneto.dev/blog/2026/2026-02-25-helm-tips-inspect-context/</id>
+    <title>Helm Tips: Inspect Your Chart Context with JSON</title>
     <updated>2026-02-25T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/02/25&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;section id="helm-tips-dump-helm-context"&gt;
+&lt;section id="helm-tips-inspect-your-chart-context-with-json"&gt;
 
-&lt;p&gt;One of the most difficult aspects when developing Helm Charts is the debugging experience. It is common to have a bad experience when you create a template that tries to access a parameter defined in the Values files, and for any reason, i.g. a syntax error or typo, the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;helm&lt;/span&gt; &lt;span class="pre"&gt;render&lt;/span&gt;&lt;/code&gt; command doesn’t work, and the stack trace shows confusing messages that don’t point to the root cause. Without a doubt, this debugging experience is the main source of frustration when starting with Helm, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother code experience.&lt;/p&gt;
+&lt;p&gt;Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother development experience. It is common to face issues when you create a template that tries to access a parameter defined in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.Values&lt;/span&gt;&lt;/code&gt; files, and for any reason, whether a syntax error or typo, the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;helm&lt;/span&gt; &lt;span class="pre"&gt;template&lt;/span&gt;&lt;/code&gt; command fails, and the stack trace shows confusing messages that don’t point to the root cause. This blog post provides an alternative approach to inspect the Helm Chart context with JSON, helping you understand how to access chart properties for use in your templates.&lt;/p&gt;
 &lt;section id="are-there-ides-for-helm-charts"&gt;
 &lt;h2&gt;Are There IDEs for Helm Charts?&lt;/h2&gt;
 &lt;p&gt;Unfortunately, there is no definitive IDE specifically for Helm. There are plugins for VSCode and JetBrains IDEA that provide some tooling for auto-completion, but they don’t come close to the code experience available with popular programming languages like Python and Java. I use VSCode’s &lt;a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools"&gt;Kubernetes (by Microsoft)&lt;/a&gt; + &lt;a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml"&gt;YAML (by Red Hat)&lt;/a&gt;, which helps avoid typos in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.Values&lt;/span&gt;&lt;/code&gt; usage and checks available Go template functions. However, there are limitations, some variables are omitted in auto-complete, which diminishes the experience. I tried the &lt;a class="reference external" href="https://www.jetbrains.com/help/idea/helm.html"&gt;JetBrains Helm Plugin&lt;/a&gt;, but it doesn’t work as simply as the &lt;em&gt;.gif&lt;/em&gt; present in the Plugin shows. Additionally, the Kubernetes plugin is not available in IntelliJ IDEA without an Ultimate subscription.&lt;/p&gt;
@@ -248,8 +248,8 @@
 &lt;/section&gt;
 &lt;/section&gt;
 </content>
-    <link href="https://carlosneto.dev/blog/2026/2026-02-25-helm-tips-dump-context/"/>
-    <summary>Blog Post Publish Date: 2026/02/25One of the most difficult aspects when developing Helm Charts is the debugging experience. It is common to have a bad experience when you create a template that tries to access a parameter defined in the Values files, and for any reason, i.g. a syntax error or typo, the $ helm render command doesn’t work, and the stack trace shows confusing messages that don’t point to the root cause. Without a doubt, this debugging experience is the main source of frustration when starting with Helm, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother code experience.</summary>
+    <link href="https://carlosneto.dev/blog/2026/2026-02-25-helm-tips-inspect-context/"/>
+    <summary>Blog Post Publish Date: 2026/02/25Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother development experience. It is common to face issues when you create a template that tries to access a parameter defined in the .Values files, and for any reason, whether a syntax error or typo, the $ helm template command fails, and the stack trace shows confusing messages that don’t point to the root cause. This blog post provides an alternative approach to inspect the Helm Chart context with JSON, helping you understand how to access chart properties for use in your templates.</summary>
     <category term="python" label="python"/>
     <published>2026-02-25T00:00:00+00:00</published>
   </entry>
