@@ -89,7 +89,7 @@ scp ~/.inputrc node01:~/.inputrc
 
 ## Setting Up Vim
 
-The exam workstation includes __VSCodium__. However, every exam task requires you to connect to a remote node via SSH, and VSCodium is __not__ available on those remote machines. Therefore, the best approach is ~~unfortunately~~ to use Vim.
+The exam workstation includes __VSCodium__. However, every exam task requires you to connect to a remote node via SSH, and VSCodium is __not__ available on those remote machines. Therefore, the best approach is to use Vim (unfortunately).
 
 The following settings provide a much better editing experience for Kubernetes YAML manifests.
 
