@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-10T03:25:27.637745+00:00</updated>
+  <updated>2026-07-10T03:45:00.348850+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -30,7 +30,7 @@
 &lt;p&gt;&lt;strong&gt;This is probably my most valuable tip!&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;The exam environment uses &lt;strong&gt;Bash&lt;/strong&gt; as the default shell. Behind the scenes, Bash relies on the &lt;strong&gt;GNU Readline&lt;/strong&gt; library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press &lt;strong&gt;Ctrl + R&lt;/strong&gt; is implemented by GNU Readline.&lt;/p&gt;
 &lt;p&gt;Two useful Readline functions are &lt;strong&gt;not bound to keys by default&lt;/strong&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt;. These functions search your command history using the text you’ve already typed at the prompt.&lt;/p&gt;
-&lt;p&gt;For example, suppose you previously executed the following commands:&lt;/p&gt;
+&lt;p&gt;For example to undestand the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt;, suppose you previously executed the following commands:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls&lt;span class="w"&gt; &lt;/span&gt;-lR
 ps&lt;span class="w"&gt; &lt;/span&gt;aux
 touch&lt;span class="w"&gt; &lt;/span&gt;foobar
@@ -51,7 +51,7 @@ ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt
 &lt;/div&gt;
 &lt;p&gt;Press &lt;strong&gt;Arrow Down&lt;/strong&gt; to move forward through the filtered history.&lt;/p&gt;
 &lt;p&gt;These functions are extremely useful during the exam because they save valuable time by avoiding the need to retype long commands or repeatedly use &lt;strong&gt;Ctrl + R&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt; file:&lt;/p&gt;
+&lt;p&gt;To configure the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt;, create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt; file:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;vim&lt;span class="w"&gt; &lt;/span&gt;~/.inputrc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -70,7 +70,7 @@ ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;bind&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;~/.inputrc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Copy the file to the remote node (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
+&lt;p&gt;Copy the file to the exam question remote node (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.inputrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.inputrc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -95,7 +95,7 @@ syntax&lt;span class="w"&gt; &lt;/span&gt;on
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Copy the file to the remote node (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
+&lt;p&gt;Copy the file to the exam question remote node (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -148,6 +148,14 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.bashrc&lt;span class="w"&gt; &lt;/span&gt;root@node01:~/.bashrc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="references"&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029"&gt;https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://vimdoc.sourceforge.net/htmldoc/options.html#'cursorcolumn'"&gt;https://vimdoc.sourceforge.net/htmldoc/options.html#’cursorcolumn’&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://vim.rtorr.com/"&gt;https://vim.rtorr.com/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/section&gt;
 &lt;/section&gt;
 </content>

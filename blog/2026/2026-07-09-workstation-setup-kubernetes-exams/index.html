@@ -410,7 +410,7 @@
 <p><strong>This is probably my most valuable tip!</strong></p>
 <p>The exam environment uses <strong>Bash</strong> as the default shell. Behind the scenes, Bash relies on the <strong>GNU Readline</strong> library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press <strong>Ctrl + R</strong> is implemented by GNU Readline.</p>
 <p>Two useful Readline functions are <strong>not bound to keys by default</strong>: <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code>. These functions search your command history using the text you’ve already typed at the prompt.</p>
-<p>For example, suppose you previously executed the following commands:</p>
+<p>For example to undestand the <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code>, suppose you previously executed the following commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lR
 ps<span class="w"> </span>aux
 touch<span class="w"> </span>foobar
@@ -431,7 +431,7 @@ ls<span class="w"> </span>-lahrt
 </div>
 <p>Press <strong>Arrow Down</strong> to move forward through the filtered history.</p>
 <p>These functions are extremely useful during the exam because they save valuable time by avoiding the need to retype long commands or repeatedly use <strong>Ctrl + R</strong>.</p>
-<p>Create the <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code> file:</p>
+<p>To configure the <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code>, create the <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code> file:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vim<span class="w"> </span>~/.inputrc
 </pre></div>
 </div>
@@ -450,7 +450,7 @@ ls<span class="w"> </span>-lahrt
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">bind</span><span class="w"> </span>-f<span class="w"> </span>~/.inputrc
 </pre></div>
 </div>
-<p>Copy the file to the remote node (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
+<p>Copy the file to the exam question remote node (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.inputrc<span class="w"> </span>node01:~/.inputrc
 </pre></div>
 </div>
@@ -475,7 +475,7 @@ syntax<span class="w"> </span>on
 </pre></div>
 </div>
 </div>
-<p>Copy the file to the remote node (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
+<p>Copy the file to the exam question remote node (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
 </pre></div>
 </div>
@@ -528,6 +528,14 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.bashrc<span class="w"> </span>root@node01:~/.bashrc
 </pre></div>
 </div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029">https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029</a></p></li>
+<li><p><a class="reference external" href="https://vimdoc.sourceforge.net/htmldoc/options.html#'cursorcolumn'">https://vimdoc.sourceforge.net/htmldoc/options.html#’cursorcolumn’</a></p></li>
+<li><p><a class="reference external" href="https://vim.rtorr.com/">https://vim.rtorr.com/</a></p></li>
+</ul>
 </section>
 </section>
 
