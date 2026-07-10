@@ -83,7 +83,7 @@ The file is loaded automatically whenever a new shell session starts. You can al
 bind -f ~/.inputrc
 ```
 
-Copy the file to the exam question remote node (for example, `node01`):
+Copy the file to remote node of the exam question (for example, `node01`):
 
 ```bash
 scp ~/.inputrc node01:~/.inputrc
@@ -111,7 +111,7 @@ set cursorcolumn=on
 syntax on
 ```
 
-Copy the file to the exam question remote node (for example, `node01`):
+Copy the file to remote node of the exam question (for example, `node01`):
 
 ```bash
 scp ~/.vimrc node01:~/.vimrc
