@@ -431,9 +431,12 @@ ls<span class="w"> </span>-lahrt
 </pre></div>
 </div>
 <p>Add the following content:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">~/.inputrc</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;\e[A&quot;</span>:<span class="w"> </span>history-search-backward
 <span class="s2">&quot;\e[B&quot;</span>:<span class="w"> </span>history-search-forward
 </pre></div>
+</div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -452,11 +455,9 @@ ls<span class="w"> </span>-lahrt
 <h2>Setting Up Vim<a class="headerlink" href="#setting-up-vim" title="Link to this heading">#</a></h2>
 <p>The exam workstation includes <strong>VSCodium</strong>. However, every exam task requires you to connect to a remote node via SSH, and VSCodium is <strong>not</strong> available on those remote machines. Therefore, the best approach is ~~unfortunately~~ to use Vim.</p>
 <p>The following settings provide a much better editing experience for Kubernetes YAML manifests.</p>
-<p>Create the <code class="docutils literal notranslate"><span class="pre">.vimrc</span></code> file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vim<span class="w"> </span>~/.vimrc
-</pre></div>
-</div>
-<p>Add the following configuration:</p>
+<p>Create the <code class="docutils literal notranslate"><span class="pre">.vimrc</span></code> file and add the following configuration:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">~/.vimrc</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="w"> </span>nu
 <span class="nb">set</span><span class="w"> </span>ai
 <span class="nb">set</span><span class="w"> </span>et
@@ -468,6 +469,7 @@ ls<span class="w"> </span>-lahrt
 <span class="nb">set</span><span class="w"> </span><span class="nv">cursorcolumn</span><span class="o">=</span>on
 syntax<span class="w"> </span>on
 </pre></div>
+</div>
 </div>
 <p>Copy the file to the remote node (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
@@ -497,7 +499,11 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 </pre></div>
 </div>
 <p>Append the following aliases to the end of the file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">kgp</span><span class="o">=</span><span class="s2">&quot;kubectl get pods&quot;</span>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">.bashrc</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>...
+
+<span class="nb">alias</span><span class="w"> </span><span class="nv">kgp</span><span class="o">=</span><span class="s2">&quot;kubectl get pods&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kgs</span><span class="o">=</span><span class="s2">&quot;kubectl get svc&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kgn</span><span class="o">=</span><span class="s2">&quot;kubectl get nodes&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kd</span><span class="o">=</span><span class="s2">&quot;kubectl describe&quot;</span>
@@ -512,6 +518,7 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <span class="nb">export</span><span class="w"> </span><span class="nv">x</span><span class="o">=</span><span class="s2">&quot;--dry-run=client -o yaml&quot;</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">y</span><span class="o">=</span><span class="s2">&quot;-o yaml&quot;</span>
 </pre></div>
+</div>
 </div>
 <p>Finally, copy the updated configuration files back to the remote node:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.bashrc<span class="w"> </span>~/.inputrc<span class="w"> </span>~/.vimrc<span class="w"> </span>root@node01:~
