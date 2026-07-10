@@ -114,16 +114,16 @@ scp ~/.vimrc node01:~/.vimrc
 
 Parameters Explanation:
 
-* `set nu`: Displays line numbers, making it easier to locate YAML parser errors.
-* `set ai`: Automatically preserves indentation while editing.
-* `set et`: Converts tabs to spaces, preventing invalid YAML indentation.
-* `set ts=2`: Displays tab characters as two spaces.
-* `set sw=2`: Uses a two-space indentation level when indenting or unindenting.
-* `set sts=2`: Makes the Tab and Backspace keys use two-space indentation levels.
-* `set hls`: Highlights all search matches.
-* `set mouse=on`: Enables mouse support for cursor movement and scrolling.
-* `set cursorcolumn=on`: Highlights the current cursor column, making indentation easier to follow.
-* `syntax on`: Enables syntax highlighting for improved readability.
+- `set nu`: Displays line numbers, making it easier to locate YAML parser errors.
+- `set ai`: Automatically preserves indentation while editing.
+- `set et`: Converts tabs to spaces, preventing invalid YAML indentation.
+- `set ts=2`: Displays tab characters as two spaces.
+- `set sw=2`: Uses a two-space indentation level when indenting or unindenting.
+- `set sts=2`: Makes the Tab and Backspace keys use two-space indentation levels.
+- `set hls`: Highlights all search matches.
+- `set mouse=on`: Enables mouse support for cursor movement and scrolling.
+- `set cursorcolumn=on`: Highlights the current cursor column, making indentation easier to follow.
+- `syntax on`: Enables syntax highlighting for improved readability.
 
 ## Kubectl Aliases
 
