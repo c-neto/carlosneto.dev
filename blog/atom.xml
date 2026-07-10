@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-10T03:15:13.597987+00:00</updated>
+  <updated>2026-07-10T03:17:47.080414+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -144,7 +144,7 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Finally, copy the updated configuration files back to the remote node:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.bashrc&lt;span class="w"&gt; &lt;/span&gt;~/.inputrc&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;root@node01:~
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.bashrc&lt;span class="w"&gt; &lt;/span&gt;root@node01:~/.bashrc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
