@@ -143,7 +143,7 @@ scp node01:~/.bashrc ~/.bashrc
 Append the following aliases to the end of the file:
 
 ```{code-block} bash
-:caption: .bashrc
+:caption: ~/.bashrc
 ...
 
 alias kgp="kubectl get pods"
