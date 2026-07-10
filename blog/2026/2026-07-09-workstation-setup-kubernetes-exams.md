@@ -4,7 +4,7 @@ date: "2026-07-09"
 category: kubernetes
 ---
 
-___Blog Post Publish Date:__ 2026/07/09_
+*__Blog Post Publish Date:__ 2026/07/09*
 
 ---
 
@@ -16,9 +16,9 @@ Saving time is one of the most important factors for passing the Linux Foundatio
 
 ## Configure the U.S. Keyboard Layout (MacBooks)
 
-If you're taking the exam on a MacBook, make sure your keyboard layout is set to __U.S.__. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially `~` and `` ` ``, when using layouts such as __Brazilian – ABNT2__.
+If you're taking the exam on a MacBook, make sure your keyboard layout is set to `U.S.`. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially `~` and `` ` ``, when using layouts such as `Brazilian – ABNT2`.
 
-To configure it, open __Settings » Keyboard » Text Input » Edit__ and define __U.S.__ as your only input source. This helps avoid unexpected keyboard mapping issues during the exam.
+To configure it, open __*Settings » Keyboard » Text Input » Edit*__ and define `U.S.` as your only input source. This helps avoid unexpected keyboard mapping issues during the exam.
 
 ## Bash History Search
 
