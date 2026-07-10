@@ -33,10 +33,10 @@ Two useful Readline functions are __not bound to keys by default__: `history-sea
 For example to undestand the `history-search-backward` and `history-search-forward`, suppose you previously executed the following commands:
 
 ```bash
-ls -lR
+ls -lR        # first execution
 ps aux
 touch foobar
-ls -lahrt
+ls -lahrt     # last execution
 ```
 
 If you type:
@@ -48,13 +48,13 @@ ls
 and press __Arrow Up__, Bash autocompletes the first matching command, ignoring `touch foobar` and `ps aux` occourences:
 
 ```bash
-ls -lR
+ls -lahrt
 ```
 
 Press __Arrow Up__ again to move to the previous matching command:
 
 ```bash
-ls -lahrt
+ls -lR
 ```
 
 Press __Arrow Down__ to move forward through the filtered history.
