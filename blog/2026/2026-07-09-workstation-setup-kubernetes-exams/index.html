@@ -405,21 +405,21 @@
 <p>The exam environment uses <strong>Bash</strong> as the default shell. Behind the scenes, Bash relies on the <strong>GNU Readline</strong> library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press <strong>Ctrl + R</strong> is implemented by GNU Readline.</p>
 <p>Two useful Readline functions are <strong>not bound to keys by default</strong>: <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code>. These functions search your command history using the text you’ve already typed at the prompt.</p>
 <p>For example, suppose you previously executed the following commands:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ls -lR
-ps aux
-ls -lahrt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lR
+ps<span class="w"> </span>aux
+ls<span class="w"> </span>-lahrt
 </pre></div>
 </div>
 <p>If you type:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ls
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls
 </pre></div>
 </div>
 <p>and press <strong>Arrow Up</strong>, Bash autocompletes the first matching command:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ls -lR
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lR
 </pre></div>
 </div>
 <p>Press <strong>Arrow Up</strong> again to move to the previous matching command:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ls -lahrt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lahrt
 </pre></div>
 </div>
 <p>Press <strong>Arrow Down</strong> to move forward through the filtered history.</p>

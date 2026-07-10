@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-10T02:32:08.674410+00:00</updated>
+  <updated>2026-07-10T02:34:15.277587+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -25,21 +25,21 @@
 &lt;p&gt;The exam environment uses &lt;strong&gt;Bash&lt;/strong&gt; as the default shell. Behind the scenes, Bash relies on the &lt;strong&gt;GNU Readline&lt;/strong&gt; library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press &lt;strong&gt;Ctrl + R&lt;/strong&gt; is implemented by GNU Readline.&lt;/p&gt;
 &lt;p&gt;Two useful Readline functions are &lt;strong&gt;not bound to keys by default&lt;/strong&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt;. These functions search your command history using the text you’ve already typed at the prompt.&lt;/p&gt;
 &lt;p&gt;For example, suppose you previously executed the following commands:&lt;/p&gt;
-&lt;div class="highlight-text notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls -lR
-ps aux
-ls -lahrt
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls&lt;span class="w"&gt; &lt;/span&gt;-lR
+ps&lt;span class="w"&gt; &lt;/span&gt;aux
+ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;If you type:&lt;/p&gt;
-&lt;div class="highlight-text notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;and press &lt;strong&gt;Arrow Up&lt;/strong&gt;, Bash autocompletes the first matching command:&lt;/p&gt;
-&lt;div class="highlight-text notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls -lR
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls&lt;span class="w"&gt; &lt;/span&gt;-lR
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Press &lt;strong&gt;Arrow Up&lt;/strong&gt; again to move to the previous matching command:&lt;/p&gt;
-&lt;div class="highlight-text notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls -lahrt
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Press &lt;strong&gt;Arrow Down&lt;/strong&gt; to move forward through the filtered history.&lt;/p&gt;
