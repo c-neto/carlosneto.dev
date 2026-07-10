@@ -16,6 +16,11 @@ Saving time is one of the most important factors for passing the Linux Foundatio
 The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won't be able to search for it during the exam.
 :::
 
+## Configure the U.S. Keyboard Layout (MacBooks)
+
+If you're taking the exam on a MacBook, make sure your keyboard layout is set to __U.S.__. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially `~` and `` ` ``, when using layouts such as __Brazilian – ABNT2__.
+
+To configure it, open __Settings » Keyboard » Text Input » Edit__ and define __U.S.__ as your only input source. This helps avoid unexpected keyboard mapping issues during the exam.
 
 ## Bash History Search
 
