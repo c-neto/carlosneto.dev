@@ -166,5 +166,5 @@ export y="-o yaml"
 Finally, copy the updated configuration files back to the remote node:
 
 ```bash
-scp ~/.bashrc ~/.inputrc ~/.vimrc root@node01:~
+scp ~/.bashrc root@node01:~/.bashrc
 ```
