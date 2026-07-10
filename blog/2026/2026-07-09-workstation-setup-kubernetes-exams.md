@@ -64,7 +64,8 @@ vim ~/.inputrc
 
 Add the following content:
 
-```bash
+```{code-block} bash
+:caption: ~/.inputrc
 "\e[A": history-search-backward
 "\e[B": history-search-forward
 ```
@@ -91,15 +92,10 @@ The exam workstation includes __VSCodium__. However, every exam task requires yo
 
 The following settings provide a much better editing experience for Kubernetes YAML manifests.
 
-Create the `.vimrc` file:
+Create the `.vimrc` file and add the following configuration:
 
-```bash
-vim ~/.vimrc
-```
-
-Add the following configuration:
-
-```bash
+```{code-block} bash
+:caption: ~/.vimrc
 set nu
 set ai
 set et
@@ -146,7 +142,10 @@ scp node01:~/.bashrc ~/.bashrc
 
 Append the following aliases to the end of the file:
 
-```bash
+```{code-block} bash
+:caption: .bashrc
+...
+
 alias kgp="kubectl get pods"
 alias kgs="kubectl get svc"
 alias kgn="kubectl get nodes"
