@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-10T03:21:00.163085+00:00</updated>
+  <updated>2026-07-10T03:25:27.637745+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -15,7 +15,8 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="workstation-setup-for-kubernetes-exams-cka-ckad-cks"&gt;
 
-&lt;p&gt;Saving time is one of the most important factors for passing the Linux Foundation Kubernetes certification exams. The Kubernetes hands-on exams are performed on remote Ubuntu instances running an XFCE desktop environment, and the remote connection can be quite slow. Therefore, configuring &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt; and creating useful &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt;&lt;/code&gt; aliases can significantly improve your speed when interacting with the cluster and editing Kubernetes manifests.&lt;/p&gt;
+&lt;p&gt;Time management is one of the most critical factors for passing the Linux Foundation Kubernetes certification exams. The CKA, CKAD, and CKS are hands-on exams conducted on remote Ubuntu instances running the XFCE desktop environment, where network latency and the remote desktop experience can slow you down.&lt;/p&gt;
+&lt;p&gt;This guide walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell aliases, and other tweaks that help reduce friction and save valuable time.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; &lt;em&gt;The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won’t be able to search for it during the exam.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
@@ -151,7 +152,7 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-07-09-workstation-setup-kubernetes-exams/"/>
-    <summary>Blog Post Publish Date: 2026/07/09Saving time is one of the most important factors for passing the Linux Foundation Kubernetes certification exams. The Kubernetes hands-on exams are performed on remote Ubuntu instances running an XFCE desktop environment, and the remote connection can be quite slow. Therefore, configuring vim and creating useful kubectl aliases can significantly improve your speed when interacting with the cluster and editing Kubernetes manifests.</summary>
+    <summary>Blog Post Publish Date: 2026/07/09Time management is one of the most critical factors for passing the Linux Foundation Kubernetes certification exams. The CKA, CKAD, and CKS are hands-on exams conducted on remote Ubuntu instances running the XFCE desktop environment, where network latency and the remote desktop experience can slow you down.</summary>
     <category term="kubernetes" label="kubernetes"/>
     <published>2026-07-09T00:00:00+00:00</published>
   </entry>
