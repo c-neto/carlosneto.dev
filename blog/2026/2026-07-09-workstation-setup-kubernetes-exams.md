@@ -24,7 +24,7 @@ Two useful Readline functions are __not bound to keys by default__: `history-sea
 
 For example, suppose you previously executed the following commands:
 
-```text
+```bash
 ls -lR
 ps aux
 ls -lahrt
@@ -32,19 +32,19 @@ ls -lahrt
 
 If you type:
 
-```text
+```bash
 ls
 ```
 
 and press __Arrow Up__, Bash autocompletes the first matching command:
 
-```text
+```bash
 ls -lR
 ```
 
 Press __Arrow Up__ again to move to the previous matching command:
 
-```text
+```bash
 ls -lahrt
 ```
 
