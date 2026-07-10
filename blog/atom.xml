@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-10T03:04:54.278823+00:00</updated>
+  <updated>2026-07-10T03:15:13.597987+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -76,7 +76,7 @@ ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt
 &lt;/section&gt;
 &lt;section id="setting-up-vim"&gt;
 &lt;h2&gt;Setting Up Vim&lt;/h2&gt;
-&lt;p&gt;The exam workstation includes &lt;strong&gt;VSCodium&lt;/strong&gt;. However, every exam task requires you to connect to a remote node via SSH, and VSCodium is &lt;strong&gt;not&lt;/strong&gt; available on those remote machines. Therefore, the best approach is ~~unfortunately~~ to use Vim.&lt;/p&gt;
+&lt;p&gt;The exam workstation includes &lt;strong&gt;VSCodium&lt;/strong&gt;. However, every exam task requires you to connect to a remote node via SSH, and VSCodium is &lt;strong&gt;not&lt;/strong&gt; available on those remote machines. Therefore, the best approach is to use Vim (unfortunately).&lt;/p&gt;
 &lt;p&gt;The following settings provide a much better editing experience for Kubernetes YAML manifests.&lt;/p&gt;
 &lt;p&gt;Create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.vimrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
