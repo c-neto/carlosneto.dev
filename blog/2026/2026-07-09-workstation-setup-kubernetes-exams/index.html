@@ -411,10 +411,10 @@
 <p>The exam environment uses <strong>Bash</strong> as the default shell. Behind the scenes, Bash relies on the <strong>GNU Readline</strong> library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press <strong>Ctrl + R</strong> is implemented by GNU Readline.</p>
 <p>Two useful Readline functions are <strong>not bound to keys by default</strong>: <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code>. These functions search your command history using the text you’ve already typed at the prompt.</p>
 <p>For example to undestand the <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code>, suppose you previously executed the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lR
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lR<span class="w">        </span><span class="c1"># first execution</span>
 ps<span class="w"> </span>aux
 touch<span class="w"> </span>foobar
-ls<span class="w"> </span>-lahrt
+ls<span class="w"> </span>-lahrt<span class="w">     </span><span class="c1"># last execution</span>
 </pre></div>
 </div>
 <p>If you type:</p>
@@ -422,11 +422,11 @@ ls<span class="w"> </span>-lahrt
 </pre></div>
 </div>
 <p>and press <strong>Arrow Up</strong>, Bash autocompletes the first matching command, ignoring <code class="docutils literal notranslate"><span class="pre">touch</span> <span class="pre">foobar</span></code> and <code class="docutils literal notranslate"><span class="pre">ps</span> <span class="pre">aux</span></code> occourences:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lR
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lahrt
 </pre></div>
 </div>
 <p>Press <strong>Arrow Up</strong> again to move to the previous matching command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lahrt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lR
 </pre></div>
 </div>
 <p>Press <strong>Arrow Down</strong> to move forward through the filtered history.</p>
