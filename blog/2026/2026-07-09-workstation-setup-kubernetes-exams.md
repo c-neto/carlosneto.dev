@@ -30,7 +30,7 @@ The exam environment uses __Bash__ as the default shell. Behind the scenes, Bash
 
 Two useful Readline functions are __not bound to keys by default__: `history-search-backward` and `history-search-forward`. These functions search your command history using the text you've already typed at the prompt.
 
-For example, suppose you previously executed the following commands:
+For example to undestand the `history-search-backward` and `history-search-forward`, suppose you previously executed the following commands:
 
 ```bash
 ls -lR
@@ -61,7 +61,7 @@ Press __Arrow Down__ to move forward through the filtered history.
 
 These functions are extremely useful during the exam because they save valuable time by avoiding the need to retype long commands or repeatedly use __Ctrl + R__.
 
-Create the `.inputrc` file:
+To configure the `history-search-backward` and `history-search-forward`, create the `.inputrc` file:
 
 ```bash
 vim ~/.inputrc
@@ -83,7 +83,7 @@ The file is loaded automatically whenever a new shell session starts. You can al
 bind -f ~/.inputrc
 ```
 
-Copy the file to the remote node (for example, `node01`):
+Copy the file to the exam question remote node (for example, `node01`):
 
 ```bash
 scp ~/.inputrc node01:~/.inputrc
@@ -111,7 +111,7 @@ set cursorcolumn=on
 syntax on
 ```
 
-Copy the file to the remote node (for example, `node01`):
+Copy the file to the exam question remote node (for example, `node01`):
 
 ```bash
 scp ~/.vimrc node01:~/.vimrc
@@ -170,3 +170,9 @@ Finally, copy the updated configuration files back to the remote node:
 ```bash
 scp ~/.bashrc root@node01:~/.bashrc
 ```
+
+## References
+
+- <https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029>
+- <https://vimdoc.sourceforge.net/htmldoc/options.html#'cursorcolumn'>
+- <https://vim.rtorr.com/>
