@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-10T12:11:12.430159+00:00</updated>
+  <updated>2026-07-10T12:14:03.584173+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -64,7 +64,7 @@ ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt&lt;span class="w"&gt;     &lt;/span
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; &lt;em&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;\e[A&amp;quot;&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;\e[B&amp;quot;&lt;/span&gt;&lt;/code&gt; are the escape sequences for the &lt;strong&gt;Arrow Up&lt;/strong&gt; and &lt;strong&gt;Arrow Down&lt;/strong&gt; keys, respectively. This configuration binds those keys to the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt; GNU Readline functions.&lt;/em&gt;&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; &lt;em&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;\e[A&amp;quot;&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;\e[B&amp;quot;&lt;/span&gt;&lt;/code&gt; are the escape sequences for the &lt;strong&gt;Arrow Up&lt;/strong&gt; and &lt;strong&gt;Arrow Down&lt;/strong&gt; keys, respectively.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;The file is loaded automatically whenever a new shell session starts. You can also reload it manually:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;bind&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;~/.inputrc

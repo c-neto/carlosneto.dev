@@ -75,7 +75,7 @@ Add the following content:
 "\e[B": history-search-forward
 ```
 
-> <i class="fa-solid fa-circle-info"></i> _`"\e[A"` and `"\e[B"` are the escape sequences for the __Arrow Up__ and __Arrow Down__ keys, respectively. This configuration binds those keys to the `history-search-backward` and `history-search-forward` GNU Readline functions._
+> <i class="fa-solid fa-circle-info"></i> _`"\e[A"` and `"\e[B"` are the escape sequences for the __Arrow Up__ and __Arrow Down__ keys, respectively._
 
 The file is loaded automatically whenever a new shell session starts. You can also reload it manually:
 
