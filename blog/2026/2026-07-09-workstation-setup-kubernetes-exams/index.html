@@ -396,9 +396,10 @@
 <section id="workstation-setup-for-kubernetes-exams-cka-ckad-cks">
 <h1>Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS)<a class="headerlink" href="#workstation-setup-for-kubernetes-exams-cka-ckad-cks" title="Link to this heading">#</a></h1>
 <p>Saving time is one of the most important factors for passing the Linux Foundation Kubernetes certification exams. The Kubernetes hands-on exams are performed on remote Ubuntu instances running an XFCE desktop environment, and the remote connection can be quite slow. Therefore, configuring <code class="docutils literal notranslate"><span class="pre">vim</span></code> and creating useful <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> aliases can significantly improve your speed when interacting with the cluster and editing Kubernetes manifests.</p>
-<blockquote>
-<div><p><strong>NOTE:</strong> The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won’t be able to search for it during the exam.</p>
-</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won’t be able to search for it during the exam.</p>
+</div>
 <section id="bash-history-search">
 <h2>Bash History Search<a class="headerlink" href="#bash-history-search" title="Link to this heading">#</a></h2>
 <p><strong>This is probably my most valuable tip!</strong></p>
@@ -407,6 +408,7 @@
 <p>For example, suppose you previously executed the following commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lR
 ps<span class="w"> </span>aux
+touch<span class="w"> </span>foobar
 ls<span class="w"> </span>-lahrt
 </pre></div>
 </div>
@@ -414,7 +416,7 @@ ls<span class="w"> </span>-lahrt
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls
 </pre></div>
 </div>
-<p>and press <strong>Arrow Up</strong>, Bash autocompletes the first matching command:</p>
+<p>and press <strong>Arrow Up</strong>, Bash autocompletes the first matching command, ignoring <code class="docutils literal notranslate"><span class="pre">touch</span> <span class="pre">foobar</span></code> and <code class="docutils literal notranslate"><span class="pre">ps</span> <span class="pre">aux</span></code> occourences:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lR
 </pre></div>
 </div>
@@ -433,9 +435,10 @@ ls<span class="w"> </span>-lahrt
 <span class="s2">&quot;\e[B&quot;</span>:<span class="w"> </span>history-search-forward
 </pre></div>
 </div>
-<blockquote>
-<div><p><code class="docutils literal notranslate"><span class="pre">&quot;\e[A&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;\e[B&quot;</span></code> are the escape sequences for the <strong>Arrow Up</strong> and <strong>Arrow Down</strong> keys, respectively. This configuration binds those keys to the <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code> GNU Readline functions.</p>
-</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;\e[A&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;\e[B&quot;</span></code> are the escape sequences for the <strong>Arrow Up</strong> and <strong>Arrow Down</strong> keys, respectively. This configuration binds those keys to the <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code> GNU Readline functions.</p>
+</div>
 <p>The file is loaded automatically whenever a new shell session starts. You can also reload it manually:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">bind</span><span class="w"> </span>-f<span class="w"> </span>~/.inputrc
 </pre></div>

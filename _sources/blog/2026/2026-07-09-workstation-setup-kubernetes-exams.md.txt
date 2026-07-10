@@ -12,7 +12,10 @@ __*Blog Post Publish Date:__ 2026/07/09*
 
 Saving time is one of the most important factors for passing the Linux Foundation Kubernetes certification exams. The Kubernetes hands-on exams are performed on remote Ubuntu instances running an XFCE desktop environment, and the remote connection can be quite slow. Therefore, configuring `vim` and creating useful `kubectl` aliases can significantly improve your speed when interacting with the cluster and editing Kubernetes manifests.
 
-> __NOTE:__ The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won't be able to search for it during the exam.
+:::{note}
+The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won't be able to search for it during the exam.
+:::
+
 
 ## Bash History Search
 
@@ -27,6 +30,7 @@ For example, suppose you previously executed the following commands:
 ```bash
 ls -lR
 ps aux
+touch foobar
 ls -lahrt
 ```
 
@@ -36,7 +40,7 @@ If you type:
 ls
 ```
 
-and press __Arrow Up__, Bash autocompletes the first matching command:
+and press __Arrow Up__, Bash autocompletes the first matching command, ignoring `touch foobar` and `ps aux` occourences:
 
 ```bash
 ls -lR
@@ -65,7 +69,9 @@ Add the following content:
 "\e[B": history-search-forward
 ```
 
-> `"\e[A"` and `"\e[B"` are the escape sequences for the __Arrow Up__ and __Arrow Down__ keys, respectively. This configuration binds those keys to the `history-search-backward` and `history-search-forward` GNU Readline functions.
+:::{note}
+`"\e[A"` and `"\e[B"` are the escape sequences for the __Arrow Up__ and __Arrow Down__ keys, respectively. This configuration binds those keys to the `history-search-backward` and `history-search-forward` GNU Readline functions.
+:::
 
 The file is loaded automatically whenever a new shell session starts. You can also reload it manually:
 

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-10T02:34:15.277587+00:00</updated>
+  <updated>2026-07-10T02:38:08.338743+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -16,9 +16,10 @@
 &lt;section id="workstation-setup-for-kubernetes-exams-cka-ckad-cks"&gt;
 
 &lt;p&gt;Saving time is one of the most important factors for passing the Linux Foundation Kubernetes certification exams. The Kubernetes hands-on exams are performed on remote Ubuntu instances running an XFCE desktop environment, and the remote connection can be quite slow. Therefore, configuring &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt; and creating useful &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt;&lt;/code&gt; aliases can significantly improve your speed when interacting with the cluster and editing Kubernetes manifests.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won’t be able to search for it during the exam.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won’t be able to search for it during the exam.&lt;/p&gt;
+&lt;/div&gt;
 &lt;section id="bash-history-search"&gt;
 &lt;h2&gt;Bash History Search&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;This is probably my most valuable tip!&lt;/strong&gt;&lt;/p&gt;
@@ -27,6 +28,7 @@
 &lt;p&gt;For example, suppose you previously executed the following commands:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls&lt;span class="w"&gt; &lt;/span&gt;-lR
 ps&lt;span class="w"&gt; &lt;/span&gt;aux
+touch&lt;span class="w"&gt; &lt;/span&gt;foobar
 ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -34,7 +36,7 @@ ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;and press &lt;strong&gt;Arrow Up&lt;/strong&gt;, Bash autocompletes the first matching command:&lt;/p&gt;
+&lt;p&gt;and press &lt;strong&gt;Arrow Up&lt;/strong&gt;, Bash autocompletes the first matching command, ignoring &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;touch&lt;/span&gt; &lt;span class="pre"&gt;foobar&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;ps&lt;/span&gt; &lt;span class="pre"&gt;aux&lt;/span&gt;&lt;/code&gt; occourences:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls&lt;span class="w"&gt; &lt;/span&gt;-lR
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -53,9 +55,10 @@ ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt
 &lt;span class="s2"&gt;&amp;quot;\e[B&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-forward
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;\e[A&amp;quot;&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;\e[B&amp;quot;&lt;/span&gt;&lt;/code&gt; are the escape sequences for the &lt;strong&gt;Arrow Up&lt;/strong&gt; and &lt;strong&gt;Arrow Down&lt;/strong&gt; keys, respectively. This configuration binds those keys to the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt; GNU Readline functions.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;\e[A&amp;quot;&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;\e[B&amp;quot;&lt;/span&gt;&lt;/code&gt; are the escape sequences for the &lt;strong&gt;Arrow Up&lt;/strong&gt; and &lt;strong&gt;Arrow Down&lt;/strong&gt; keys, respectively. This configuration binds those keys to the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt; GNU Readline functions.&lt;/p&gt;
+&lt;/div&gt;
 &lt;p&gt;The file is loaded automatically whenever a new shell session starts. You can also reload it manually:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;bind&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;~/.inputrc
 &lt;/pre&gt;&lt;/div&gt;
