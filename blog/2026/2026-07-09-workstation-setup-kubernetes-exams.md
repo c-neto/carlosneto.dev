@@ -1,0 +1,164 @@
+---
+tags: kubernetes
+date: "2026-07-09"
+category: kubernetes
+---
+
+__*Blog Post Publish Date:__ 2026/07/09*
+
+---
+
+# Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS)
+
+Saving time is one of the most important factors for passing the Linux Foundation Kubernetes certification exams. The Kubernetes hands-on exams are performed on remote Ubuntu instances running an XFCE desktop environment, and the remote connection can be quite slow. Therefore, configuring `vim` and creating useful `kubectl` aliases can significantly improve your speed when interacting with the cluster and editing Kubernetes manifests.
+
+> __NOTE:__ The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won't be able to search for it during the exam.
+
+## Bash History Search
+
+__This is probably my most valuable tip!__
+
+The exam environment uses __Bash__ as the default shell. Behind the scenes, Bash relies on the __GNU Readline__ library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press __Ctrl + R__ is implemented by GNU Readline.
+
+Two useful Readline functions are __not bound to keys by default__: `history-search-backward` and `history-search-forward`. These functions search your command history using the text you've already typed at the prompt.
+
+For example, suppose you previously executed the following commands:
+
+```text
+ls -lR
+ps aux
+ls -lahrt
+```
+
+If you type:
+
+```text
+ls
+```
+
+and press __Arrow Up__, Bash autocompletes the first matching command:
+
+```text
+ls -lR
+```
+
+Press __Arrow Up__ again to move to the previous matching command:
+
+```text
+ls -lahrt
+```
+
+Press __Arrow Down__ to move forward through the filtered history.
+
+These functions are extremely useful during the exam because they save valuable time by avoiding the need to retype long commands or repeatedly use __Ctrl + R__.
+
+Create the `.inputrc` file:
+
+```bash
+vim ~/.inputrc
+```
+
+Add the following content:
+
+```bash
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+```
+
+> `"\e[A"` and `"\e[B"` are the escape sequences for the __Arrow Up__ and __Arrow Down__ keys, respectively. This configuration binds those keys to the `history-search-backward` and `history-search-forward` GNU Readline functions.
+
+The file is loaded automatically whenever a new shell session starts. You can also reload it manually:
+
+```bash
+bind -f ~/.inputrc
+```
+
+Copy the file to the remote node (for example, `node01`):
+
+```bash
+scp ~/.inputrc node01:~/.inputrc
+```
+
+## Setting Up Vim
+
+The exam workstation includes __VSCodium__. However, every exam task requires you to connect to a remote node via SSH, and VSCodium is __not__ available on those remote machines. Therefore, the best approach is ~~unfortunately~~ to use Vim.
+
+The following settings provide a much better editing experience for Kubernetes YAML manifests.
+
+Create the `.vimrc` file:
+
+```bash
+vim ~/.vimrc
+```
+
+Add the following configuration:
+
+```bash
+set nu
+set ai
+set et
+set ts=2
+set sw=2
+set sts=2
+set hls
+set mouse=on
+set cursorcolumn=on
+syntax on
+```
+
+Copy the file to the remote node (for example, `node01`):
+
+```bash
+scp ~/.vimrc node01:~/.vimrc
+```
+
+Parameters Explanation:
+
+* `set nu`: Displays line numbers, making it easier to locate YAML parser errors.
+* `set ai`: Automatically preserves indentation while editing.
+* `set et`: Converts tabs to spaces, preventing invalid YAML indentation.
+* `set ts=2`: Displays tab characters as two spaces.
+* `set sw=2`: Uses a two-space indentation level when indenting or unindenting.
+* `set sts=2`: Makes the Tab and Backspace keys use two-space indentation levels.
+* `set hls`: Highlights all search matches.
+* `set mouse=on`: Enables mouse support for cursor movement and scrolling.
+* `set cursorcolumn=on`: Highlights the current cursor column, making indentation easier to follow.
+* `syntax on`: Enables syntax highlighting for improved readability.
+
+## Kubectl Aliases
+
+You'll type `kubectl` hundreds of times during the exam, so creating aliases is well worth it.
+
+Each remote exam node already contains a preconfigured `.bashrc` file with several useful settings. A handy trick is to copy that file back to the main workstation, append your own aliases, and then copy it back to the remote nodes.
+
+First, create a backup and copy the remote `.bashrc`:
+
+```bash
+cp ~/.bashrc ~/.bashrc.bkp
+scp node01:~/.bashrc ~/.bashrc
+```
+
+Append the following aliases to the end of the file:
+
+```bash
+alias kgp="kubectl get pods"
+alias kgs="kubectl get svc"
+alias kgn="kubectl get nodes"
+alias kd="kubectl describe"
+alias ke="kubectl get endpoints"
+alias kaf="kubectl apply -f"
+alias kdel="kubectl delete"
+alias kns="kubectl config set-context --current --namespace"
+alias kgns="kubectl config get-context"
+alias kctx="kubectl config use-context"
+
+export WORDCHARS=""
+export x="--dry-run=client -o yaml"
+export y="-o yaml"
+```
+
+Finally, copy the updated configuration files back to the remote node:
+
+```bash
+scp ~/.bashrc ~/.inputrc ~/.vimrc root@node01:~
+```
