@@ -38,8 +38,8 @@ set completion-ignore-case on
 
 This binds:
 
-* **Up Arrow (↑)** → `history-search-backward`
-* **Down Arrow (↓)** → `history-search-forward`
+* __Up Arrow (↑)__: `history-search-backward`
+* __Down Arrow (↓)__: `history-search-forward`
 
 ```bash
 kubectl get pods
@@ -49,7 +49,7 @@ kubectl get svc
 
 instead of cycling through every command in your history.
 
-**Summary:**
+__Summary:__
 
 > *GNU Readline is a library that adds command-line editing, history navigation, search, and auto-completion capabilities to terminal applications. Through `.inputrc`, you can customize features such as binding ↑ and ↓ to `history-search-backward` and `history-search-forward` for faster command retrieval.*
 
