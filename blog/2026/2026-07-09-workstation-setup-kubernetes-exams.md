@@ -73,6 +73,7 @@ Add the following content:
 :caption: ~/.inputrc
 "\e[A": history-search-backward
 "\e[B": history-search-forward
+"\C-w": unix-filename-rubout
 ```
 
 > <i class="fa-solid fa-circle-info"></i> _`"\e[A"` and `"\e[B"` are the escape sequences for the __Arrow Up__ and __Arrow Down__ keys, respectively._
@@ -160,9 +161,7 @@ alias kns="kubectl config set-context --current --namespace"
 alias kgns="kubectl config get-context"
 alias kctx="kubectl config use-context"
 
-export WORDCHARS=""
 export x="--dry-run=client -o yaml"
-export y="-o yaml"
 ```
 
 Finally, copy the updated configuration files back to the remote node:
