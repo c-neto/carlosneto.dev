@@ -73,7 +73,6 @@ Add the following content:
 :caption: ~/.inputrc
 "\e[A": history-search-backward
 "\e[B": history-search-forward
-"\C-w": backward-kill-word
 ```
 
 > <i class="fa-solid fa-circle-info"></i> _`"\e[A"` and `"\e[B"` are the escape sequences for the __Arrow Up__ and __Arrow Down__ keys, respectively._
