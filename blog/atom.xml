@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-12T23:35:33.767112+00:00</updated>
+  <updated>2026-07-12T23:38:56.495844+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -60,7 +60,7 @@ ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt&lt;span class="w"&gt;     &lt;/span
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.inputrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\e[A&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-backward
 &lt;span class="s2"&gt;&amp;quot;\e[B&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-forward
-&lt;span class="s2"&gt;&amp;quot;\C-w&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;unix-filename-rubout
+&lt;span class="s2"&gt;&amp;quot;\C-w&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;backward-kill-word
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
