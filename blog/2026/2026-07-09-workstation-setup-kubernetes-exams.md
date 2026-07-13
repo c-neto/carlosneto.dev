@@ -163,7 +163,7 @@ alias kns="kubectl config set-context --current --namespace"
 alias kgns="kubectl config get-context"
 alias kctx="kubectl config use-context"
 
-export x="--dry-run=client -o yaml"
+export x="--dry-run=client -oyaml"
 ```
 
 Finally, copy the updated configuration files back to the remote node:
