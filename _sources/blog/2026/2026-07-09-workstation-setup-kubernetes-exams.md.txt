@@ -150,6 +150,8 @@ Append the following aliases to the end of the file:
 :caption: ~/.bashrc
 ...
 
+stty werase undef
+
 alias kgp="kubectl get pods"
 alias kgs="kubectl get svc"
 alias kgn="kubectl get nodes"
