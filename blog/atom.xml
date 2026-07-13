@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-12T23:43:31.874878+00:00</updated>
+  <updated>2026-07-13T00:31:06.369055+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -102,15 +102,15 @@ syntax&lt;span class="w"&gt; &lt;/span&gt;on
 &lt;/div&gt;
 &lt;p&gt;Parameters Explanation:&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;nu&lt;/span&gt;&lt;/code&gt;: Displays line numbers, making it easier to locate YAML parser errors.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;ai&lt;/span&gt;&lt;/code&gt;: Automatically preserves indentation while editing.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;et&lt;/span&gt;&lt;/code&gt;: Converts tabs to spaces, preventing invalid YAML indentation.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;ts=2&lt;/span&gt;&lt;/code&gt;: Displays tab characters as two spaces.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;sw=2&lt;/span&gt;&lt;/code&gt;: Uses a two-space indentation level when indenting or unindenting.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;sts=2&lt;/span&gt;&lt;/code&gt;: Makes the Tab and Backspace keys use two-space indentation levels.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;hls&lt;/span&gt;&lt;/code&gt;: Highlights all search matches.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=on&lt;/span&gt;&lt;/code&gt;: Enables mouse support for cursor movement and scrolling.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;cursorcolumn=on&lt;/span&gt;&lt;/code&gt;: Highlights the current cursor column, making indentation easier to follow.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;nu&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;number&lt;/em&gt;) Displays line numbers, making it easier to locate YAML parser errors.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;ai&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;auto ident&lt;/em&gt;) Automatically preserves indentation while editing.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;et&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;expand tab&lt;/em&gt;) Converts tabs to spaces, preventing invalid YAML indentation.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;ts=2&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;tab stop&lt;/em&gt;) Displays tab characters as two spaces.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;sw=2&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;shift width&lt;/em&gt;) Uses a two-space indentation level when indenting or unindenting.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;sts=2&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;soft tab stop&lt;/em&gt;) Makes the Tab and Backspace keys use two-space indentation levels.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;hls&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;high light search&lt;/em&gt;) Highlights all search matches.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;mouse all&lt;/em&gt;) Enables mouse support for cursor movement and scrolling.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;cuc&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;cursor column&lt;/em&gt;) Highlights the current cursor column, making indentation easier to follow.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;syntax&lt;/span&gt; &lt;span class="pre"&gt;on&lt;/span&gt;&lt;/code&gt;: Enables syntax highlighting for improved readability.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/section&gt;
