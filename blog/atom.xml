@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T16:15:37.950939+00:00</updated>
+  <updated>2026-07-14T16:58:51.926881+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -33,7 +33,7 @@
 &lt;h2&gt;Disable Mission Critical Shortcuts (MacBooks)&lt;/h2&gt;
 &lt;p&gt;If you press CTRL + Arrow (Left/Right) it can change the macOS desktop (Space), which may trigger the exam proctor and can lead to the exam interruption. Disable these shortcuts before the exam:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
-&lt;li&gt;&lt;p&gt;Open &lt;em&gt;&lt;em&gt;System Settings → Keyboard → Keyboard Shortcuts&lt;/em&gt;&lt;/em&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Open &lt;strong&gt;&lt;em&gt;System Settings → Keyboard → Keyboard Shortcuts&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Select &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Mission&lt;/span&gt; &lt;span class="pre"&gt;Control&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Uncheck or change the shortcuts for &lt;em&gt;Move left a space&lt;/em&gt; and &lt;em&gt;Move right a space&lt;/em&gt; (or any shortcuts using CTRL + Left/Right).&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
