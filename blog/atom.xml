@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T15:29:39.045578+00:00</updated>
+  <updated>2026-07-14T15:48:03.613775+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -83,16 +83,16 @@ ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt&lt;span class="w"&gt;     &lt;/span
 &lt;p&gt;Create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.vimrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;nu
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;ai
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;et
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;ts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sw&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;hls
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;mouse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;a
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cursorcolumn
-syntax&lt;span class="w"&gt; &lt;/span&gt;on
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;nu&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# (number) Displays line numbers, making it easier to cursor movement and line range operation.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;ai&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# (auto ident) Automatically preserves indentation while editing.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;et&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# (expand tab) Converts tabs to spaces, preventing invalid YAML indentation.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;ts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# (tab stop) Displays tab characters as two spaces.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sw&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# (shift width) Uses a two-space indentation level when indenting or unindenting.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# (soft tab stop) Makes the Tab and Backspace keys use two-space indentation levels.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;hls&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# (high light search) Highlights all search matches.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;mouse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;a&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# (mouse all) Enables mouse support for cursor movement, scrolling, and visual mode.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cursorcolumn&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# (cursor column) Highlights the current cursor column, useful for YAML files.&lt;/span&gt;
+syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Enables syntax highlighting based on file extension.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -100,19 +100,17 @@ syntax&lt;span class="w"&gt; &lt;/span&gt;on
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Parameters Explanation:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;nu&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;number&lt;/em&gt;) Displays line numbers, making it easier to locate YAML parser errors.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;ai&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;auto ident&lt;/em&gt;) Automatically preserves indentation while editing.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;et&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;expand tab&lt;/em&gt;) Converts tabs to spaces, preventing invalid YAML indentation.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;ts=2&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;tab stop&lt;/em&gt;) Displays tab characters as two spaces.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;sw=2&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;shift width&lt;/em&gt;) Uses a two-space indentation level when indenting or unindenting.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;sts=2&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;soft tab stop&lt;/em&gt;) Makes the Tab and Backspace keys use two-space indentation levels.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;hls&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;high light search&lt;/em&gt;) Highlights all search matches.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;mouse all&lt;/em&gt;) Enables mouse support for cursor movement and scrolling.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;cuc&lt;/span&gt;&lt;/code&gt;: (&lt;em&gt;cursor column&lt;/em&gt;) Highlights the current cursor column, making indentation easier to follow.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;syntax&lt;/span&gt; &lt;span class="pre"&gt;on&lt;/span&gt;&lt;/code&gt;: Enables syntax highlighting for improved readability.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Bonus&lt;/strong&gt;: The following &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt; commands and operations cover all needs for editing files during the exam:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%s/foo/bar/g&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Substitutes (replaces) all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot; globally throughout the entire file.&lt;/span&gt;
+:10,15&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Indents lines 10 through 15 by one shiftwidth.&lt;/span&gt;
+:10,15&amp;lt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Back Indents lines 10 through 15 by one shiftwidth.&lt;/span&gt;
+:30,50d&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Deletes (cuts) lines 30 through 50.&lt;/span&gt;
+:30,50t70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# Copies lines 30 through 50 and pastes them right below line 70&lt;/span&gt;
+:30,50m70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# Move lines 30 through 50 and pastes them right below line 70&lt;/span&gt;
+CTRL+I&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL&lt;span class="w"&gt; &lt;/span&gt;+&lt;span class="w"&gt; &lt;/span&gt;Y&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# CTRL+I jumps forward to the next position in the jump list; CTRL+Y scrolls the screen up by one line (or copies the character above in Insert mode).&lt;/span&gt;
+CTRL+C&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;SHIFT+I&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;column&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;write&lt;span class="w"&gt; &lt;/span&gt;text&lt;span class="w"&gt; &lt;/span&gt;+&lt;span class="w"&gt; &lt;/span&gt;ESC&lt;span class="w"&gt; &lt;/span&gt;+&lt;span class="w"&gt; &lt;/span&gt;ESC&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# Multi-line column insertion (Note: CTRL+V is typically used to block-select, though some terminal setups use CTRL+C/CTRL+Q).&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;/section&gt;
 &lt;section id="kubectl-aliases-and-shortcuts"&gt;
 &lt;h2&gt;Kubectl Aliases and Shortcuts&lt;/h2&gt;
@@ -126,9 +124,9 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 &lt;p&gt;Append the following aliases to the end of the file:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.bashrc&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;### &amp;gt;&amp;gt;&amp;gt; ommited the .bashrc copied from question node&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;### &amp;gt;&amp;gt;&amp;gt; omitted the .bashrc copied from question node&lt;/span&gt;
 
-&lt;span class="c1"&gt;# disable default Ctrl+W word erase behavior in terminal to able use backward-kill-word instead.&lt;/span&gt;
+&lt;span class="c1"&gt;# disable default Ctrl+W word erase behavior in terminal to be able to use backward-kill-word instead.&lt;/span&gt;
 stty&lt;span class="w"&gt; &lt;/span&gt;werase&lt;span class="w"&gt; &lt;/span&gt;undef
 
 &lt;span class="c1"&gt;# create a quick backup copy of a file by appending .bkp&lt;/span&gt;
