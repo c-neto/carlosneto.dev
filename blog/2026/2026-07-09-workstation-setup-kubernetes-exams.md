@@ -118,7 +118,7 @@ Copy the file to the remote node for the exam question (for example, `node01`):
 scp ~/.vimrc node01:~/.vimrc
 ```
 
-__Bonus__: Here is my Vim cheatsheet covering the essential commands to quickly edit YAML and configuration files.
+__Bonus__: Here is my Vim cheatsheet covering commands to quickly edit YAML and configuration files.
 
 ```bash
 ~                 # >>> toggle letter case (upper/lower)
