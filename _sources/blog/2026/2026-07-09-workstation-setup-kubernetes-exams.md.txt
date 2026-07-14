@@ -26,7 +26,7 @@ To configure it, open __*Settings » Keyboard » Text Input » Edit*__ and defin
 
 __This is probably my most valuable tip!__
 
-The exam environment uses __Bash__ as the default shell. Behind the scenes, Bash relies on the __GNU Readline__ library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press __Ctrl + R__ is implemented by GNU Readline.
+The exam environment uses __Bash__ as the default shell. Behind the scenes, Bash relies on the __GNU Readline__ library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press __CTRL + R__ is implemented by GNU Readline.
 
 Two useful Readline functions are __not bound to keys by default__: `history-search-backward` and `history-search-forward`. These functions search your command history using the text you've already typed at the prompt.
 
@@ -59,7 +59,7 @@ ls -lR
 
 Press __Arrow Down__ to move forward through the filtered history.
 
-These functions are extremely useful during the exam because they save valuable time by avoiding the need to retype long commands or repeatedly use __Ctrl + R__.
+These functions are extremely useful during the exam because they save valuable time by avoiding the need to retype long commands or repeatedly use __CTRL + R__.
 
 To configure the `history-search-backward` and `history-search-forward`, create the `.inputrc` file:
 
@@ -131,8 +131,8 @@ u                # undo
 :30,50d          # cuts lines 30 through 50.
 :30,50t70        # copies lines 30 through 50 and pastes them right below line 70
 :30,50m70        # move lines 30 through 50 and pastes them right below line 70
-shift+i » ctrl+y # repeat the line above character by character
-ctrl+c » select column » shift+i » write text + esc + esc  # multi-line column insertion, useful to add comments
+SHIFT+i » CTRL+y # repeat the line above character by character
+CTRL+c » select column » SHIFT+i » write text + esc + esc  # multi-line column insertion, useful to add comments
 ```
 
 ## Kubectl Aliases and Shortcuts
@@ -154,7 +154,7 @@ Append the following aliases to the end of the file:
 :caption: ~/.bashrc
 ### >>> omitted the .bashrc copied from question node
 
-# disable default Ctrl+W word erase behavior in terminal to be able to use backward-kill-word instead.
+# disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.
 stty werase undef
 
 # create a quick backup copy of a file by appending .bkp

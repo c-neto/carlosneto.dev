@@ -408,7 +408,7 @@
 <section id="bash-history-search">
 <h2>Bash History Search<a class="headerlink" href="#bash-history-search" title="Link to this heading">#</a></h2>
 <p><strong>This is probably my most valuable tip!</strong></p>
-<p>The exam environment uses <strong>Bash</strong> as the default shell. Behind the scenes, Bash relies on the <strong>GNU Readline</strong> library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press <strong>Ctrl + R</strong> is implemented by GNU Readline.</p>
+<p>The exam environment uses <strong>Bash</strong> as the default shell. Behind the scenes, Bash relies on the <strong>GNU Readline</strong> library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press <strong>CTRL + R</strong> is implemented by GNU Readline.</p>
 <p>Two useful Readline functions are <strong>not bound to keys by default</strong>: <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code>. These functions search your command history using the text you’ve already typed at the prompt.</p>
 <p>For example to undestand the <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code>, suppose you previously executed the following commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lR<span class="w">        </span><span class="c1"># first execution</span>
@@ -430,7 +430,7 @@ ls<span class="w"> </span>-lahrt<span class="w">     </span><span class="c1"># l
 </pre></div>
 </div>
 <p>Press <strong>Arrow Down</strong> to move forward through the filtered history.</p>
-<p>These functions are extremely useful during the exam because they save valuable time by avoiding the need to retype long commands or repeatedly use <strong>Ctrl + R</strong>.</p>
+<p>These functions are extremely useful during the exam because they save valuable time by avoiding the need to retype long commands or repeatedly use <strong>CTRL + R</strong>.</p>
 <p>To configure the <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code>, create the <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code> file:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vim<span class="w"> </span>~/.inputrc
 </pre></div>
@@ -491,8 +491,8 @@ dd               # cut line
 <span class="p">:</span><span class="m">30</span><span class="p">,</span><span class="m">50</span>d          # cuts <span class="nb">lines</span> <span class="m">30</span> through <span class="m">50</span>.
 <span class="p">:</span><span class="m">30</span><span class="p">,</span><span class="m">50</span>t<span class="m">70</span>        # copies <span class="nb">lines</span> <span class="m">30</span> through <span class="m">50</span> and pastes them <span class="k">right</span> <span class="k">below</span> line <span class="m">70</span>
 <span class="p">:</span><span class="m">30</span><span class="p">,</span><span class="m">50</span>m<span class="m">70</span>        # move <span class="nb">lines</span> <span class="m">30</span> through <span class="m">50</span> and pastes them <span class="k">right</span> <span class="k">below</span> line <span class="m">70</span>
-shift<span class="p">+</span><span class="k">i</span> » ctrl<span class="p">+</span><span class="k">y</span> # repeat the line <span class="k">above</span> character by character
-ctrl<span class="p">+</span><span class="k">c</span> » select column » shift<span class="p">+</span><span class="k">i</span> » <span class="nb">write</span> text <span class="p">+</span> esc <span class="p">+</span> esc  # multi<span class="p">-</span>line column insertion<span class="p">,</span> useful <span class="k">to</span> add <span class="nb">comments</span>
+SHIFT<span class="p">+</span><span class="k">i</span> » CTRL<span class="p">+</span><span class="k">y</span> # repeat the line <span class="k">above</span> character by character
+CTRL<span class="p">+</span><span class="k">c</span> » select column » SHIFT<span class="p">+</span><span class="k">i</span> » <span class="nb">write</span> text <span class="p">+</span> esc <span class="p">+</span> esc  # multi<span class="p">-</span>line column insertion<span class="p">,</span> useful <span class="k">to</span> add <span class="nb">comments</span>
 </pre></div>
 </div>
 </section>
@@ -510,7 +510,7 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <div class="code-block-caption"><span class="caption-text">~/.bashrc</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">### &gt;&gt;&gt; omitted the .bashrc copied from question node</span>
 
-<span class="c1"># disable default Ctrl+W word erase behavior in terminal to be able to use backward-kill-word instead.</span>
+<span class="c1"># disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.</span>
 stty<span class="w"> </span>werase<span class="w"> </span>undef
 
 <span class="c1"># create a quick backup copy of a file by appending .bkp</span>
