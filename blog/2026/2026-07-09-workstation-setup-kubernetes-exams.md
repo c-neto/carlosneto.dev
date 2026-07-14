@@ -27,9 +27,9 @@ This helps avoid unexpected keyboard mapping issues during the exam.
 
 ## Disable Mission Control Shortcuts (MacBooks)
 
-If you press CTRL + Arrow (Left/Right/Up) it change the macOS desktop (Space), which may trigger the exam proctor and can lead to the exam interruption. Disable these shortcuts before the exam:
+If you press __Ctrl + ←/→__ it change the macOS desktop (Space), which may trigger the exam proctor and can lead to the exam interruption. Disable these shortcuts before the exam:
 
-1. Open __*System Settings » Keyboard » Keyboard Shortcuts*__.
+1. Open __*System Settings » Keyboard » Keyboard Shortcuts*__
 2. Select `Mission Control`
 3. Uncheck all shortcuts.
 
@@ -39,65 +39,52 @@ This helps avoid issues that can trigger an exam notification and, in the worst 
 
 __This is probably my most valuable tip!__
 
-The exam environment uses __Bash__ as the default shell. Behind the scenes, Bash relies on the __GNU Readline__ library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press __CTRL + R__ is implemented by GNU Readline.
+The exam environment uses __Bash__ as the default shell. Behind the scenes, Bash relies on the __GNU Readline__ library, which provides command-line editing, key bindings, and history navigation. For example, the interactive reverse search that appears when you press __Ctrl + R__ is implemented by GNU Readline.
 
-Two useful Readline functions are __not bound to keys by default__: `history-search-backward` and `history-search-forward`. These functions search your command history using the text you've already typed at the prompt.
+One of Readline's most useful features is history search by prefix. The [history-search-backward](https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029) and [history-search-forward](https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dforward-_0028_0029) functions search your command history using the text that already exists before the cursor, instead of simply moving to the previous or next command.
 
-For example, to understand the `history-search-backward` and `history-search-forward` functions, suppose you previously executed the following commands:
+For example, imagine your command history contains:
 
 ```bash
-ls -lR        # first execution
-ps aux
-touch foobar
-ls -lahrt     # last execution
+kubectl get pods
+kubectl get nodes
+kubectl describe pod nginx
+helm list
 ```
 
 If you type:
 
 ```bash
-ls
+kubectl g
 ```
 
-and press __Arrow Up__, Bash autocompletes the first matching command, ignoring `touch foobar` and `ps aux` occourences:
+and press __↑__, [history-search-backward](https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029) cycles only through commands that begin with `kubectl g`:
 
 ```bash
-ls -lahrt
+kubectl get nodes
+kubectl get pods
 ```
 
-Press __Arrow Up__ again to move to the previous matching command:
+Commands such as `kubectl describe pod nginx` or `helm list` are skipped because they do not match the typed prefix.
 
-```bash
-ls -lR
-```
+This is much faster than the default __↑__ behavior, which walks through every command in your history, and often more convenient than repeatedly using __Ctrl + R__ during the exam.
 
-Press __Arrow Down__ to move forward through the filtered history.
-
-These functions are extremely useful during the exam because they save valuable time by avoiding the need to retype long commands or repeatedly use __CTRL + R__.
-
-To configure the `history-search-backward` and `history-search-forward`, create the `.inputrc` file:
-
-```bash
-vim ~/.inputrc
-```
-
-Add the following content:
+To enable this behavior, create the `.inputrc` file and add following configuration:
 
 ```{code-block} bash
 :caption: ~/.inputrc
-"\e[A": history-search-backward
-"\e[B": history-search-forward
-"\C-w": backward-kill-word
+"\e[A": history-search-backward   # ↑ (previous matching command)
+"\e[B": history-search-forward    # ↓ (next matching command)
+"\C-w": backward-kill-word        # Ctrl + w (delete the previous path component/word)
 ```
 
-> <i class="fa-solid fa-circle-info"></i> _`"\e[A"` and `"\e[B"` are the escape sequences for the __Arrow Up__ and __Arrow Down__ keys, respectively._
-
-The file is loaded automatically whenever a new shell session starts. You can also reload it manually:
+The file is automatically loaded whenever a new Bash session starts. If you modify it during an existing session, reload it with:
 
 ```bash
 bind -f ~/.inputrc
 ```
 
-Copy the file to remote node of the exam question (for example, `node01`):
+Since each exam task is performed on a different remote node, copy the file to the target node (for example, `node01`):
 
 ```bash
 scp ~/.inputrc node01:~/.inputrc
@@ -113,16 +100,16 @@ Create the `.vimrc` file and add the following configuration:
 
 ```{code-block} bash
 :caption: ~/.vimrc
-set nu              # (number) Displays line numbers, making cursor movement and line range operations easier.
-set ai              # (autoindent) Automatically preserves indentation while editing.
-set et              # (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.
-set ts=2            # (tabstop) Displays tab characters as two spaces.
-set sw=2            # (shiftwidth) Uses a two-space indentation level when indenting or unindenting.
-set sts=2           # (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.
-set hls             # (highlightsearch) Highlights all search matches.
-set mouse=a         # (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.
-set cuc             # (cursorcolumn) Highlights the current cursor column, useful for YAML files.
-syntax on           # Enables syntax highlighting based on file extension.
+set nu        # (number) Displays line numbers, making cursor movement and line range operations easier.
+set ai        # (autoindent) Automatically preserves indentation while editing.
+set et        # (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.
+set ts=2      # (tabstop) Displays tab characters as two spaces.
+set sw=2      # (shiftwidth) Uses a two-space indentation level when indenting or unindenting.
+set sts=2     # (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.
+set hls       # (highlightsearch) Highlights all search matches.
+set mouse=a   # (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.
+set cuc       # (cursorcolumn) Highlights the current cursor column, useful for YAML files.
+syntax on     # Enables syntax highlighting based on file extension.
 ```
 
 Copy the file to remote node of the exam question (for example, `node01`):
@@ -133,22 +120,24 @@ scp ~/.vimrc node01:~/.vimrc
 
 __Bonus__: The following `vim` commands and operations cover all needs for editing files during the exam:
 
-```text
-~                # toggle letter case (upper/lower)
-dd               # cut line
-p                # paste line
-u                # undo
-cW               # replace an entire word and enter insert mode
-$                # go to the end of the line
-^                # go to the beginning of the line
-:%s/foo/bar/g    # replaces all occurrences of "foo" with "bar".
-:10,15>          # indents lines 10 through 15 by one shiftwidth.
-:10,15<          # unindents lines 10 through 15 by one shiftwidth.
-:30,50d          # cuts lines 30 through 50.
-:30,50t70        # copies lines 30 through 50 and pastes them right below line 70
-:30,50m70        # move lines 30 through 50 and paste them right below line 70
-SHIFT+i » CTRL+y # repeat the line above, character by character
-CTRL+v » select column » SHIFT+i » write text » ESC » ESC  # multi-line column insertion (comments)
+```bash
+~                 # >>> toggle letter case (upper/lower)
+dd                # >>> cut line
+p                 # >>> paste line
+u                 # >>> undo
+cW                # >>> replace an entire word and enter insert mode
+$                 # >>> go to the end of the line
+0                 # >>> go to the beginning of the line
+50a               # >>> increase 50 in a number field (useful for requests and limits)
+50d               # >>> decrease 50 in a number field (useful for requests and limits)
+:%s/foo/bar/g     # >>> replaces all occurrences of "foo" with "bar".
+:10,15>           # >>> indents lines 10 through 15 by one shiftwidth.
+:10,15<           # >>> unindents lines 10 through 15 by one shiftwidth.
+:30,50d           # >>> cuts lines 30 through 50.
+:30,50t70         # >>> copies lines 30 through 50 and pastes them right below line 70
+:30,50m70         # >>> move lines 30 through 50 and paste them right below line 70
+SHIFT+i » Ctrl+y  # >>> repeat the line above, character by character
+Ctrl+v » select column » SHIFT+i » write text » ESC  # >>> multi-line column insertion (comments)
 ```
 
 ## Kubectl Aliases and Shortcuts
@@ -170,13 +159,14 @@ Append the following aliases to the end of the file:
 :caption: ~/.bashrc
 ### >>> omitted the .bashrc copied from question node
 
-# disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.
+# disable default Ctrl+W word erase behavior in terminal to be able to use backward-kill-word instead.
 stty werase undef
 
 # create a quick backup command `$ bkp <file>` to copy of a file by appending .bkp
 bkp() { cp "$1" "$1.bkp"; }
 
 # kubectl aliases
+alias k="kubectl"
 alias kgp="kubectl get pods"
 alias kgs="kubectl get svc"
 alias kgn="kubectl get nodes"
