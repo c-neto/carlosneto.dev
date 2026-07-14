@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T22:22:50.696737+00:00</updated>
+  <updated>2026-07-14T22:23:24.225054+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -106,7 +106,8 @@ syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;     &lt;/span
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Bonus&lt;/strong&gt;: Here is my Vim cheatsheet covering commands to quickly edit YAML and configuration files.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;~&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; toggle character case (uppercase/lowercase)&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;.&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; repeat last executed command&lt;/span&gt;
+~&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; toggle character case (uppercase/lowercase)&lt;/span&gt;
 dd&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; delete (cut) the current line&lt;/span&gt;
 y&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; yank (copy)&lt;/span&gt;
 p&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; paste after the cursor&lt;/span&gt;
