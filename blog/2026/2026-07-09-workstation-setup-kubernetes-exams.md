@@ -22,6 +22,14 @@ If you're taking the exam on a MacBook, make sure your keyboard layout is set to
 
 To configure it, open __*Settings » Keyboard » Text Input » Edit*__ and define `U.S.` as your only input source. This helps avoid unexpected keyboard mapping issues during the exam.
 
+## Disable Mission Critical Shortcuts (MacBooks)
+
+If you press CTRL + Arrow (Left/Right) it can change the macOS desktop (Space), which may trigger the exam proctor and can lead to the exam interruption. Disable these shortcuts before the exam:
+
+1. Open _System Settings → Keyboard → Keyboard Shortcuts_.
+2. Select `Mission Control`
+3. Uncheck or change the shortcuts for _Move left a space_ and _Move right a space_ (or any shortcuts using CTRL + Left/Right).
+
 ## Bash History Search
 
 __This is probably my most valuable tip!__
