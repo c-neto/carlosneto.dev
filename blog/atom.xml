@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T22:11:57.168626+00:00</updated>
+  <updated>2026-07-14T22:15:33.858067+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -111,6 +111,8 @@ dd&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="c1"&gt;# &a
 y&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; copy&lt;/span&gt;
 p&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; paste&lt;/span&gt;
 u&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; undo&lt;/span&gt;
+V&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; enter in visual line mode&lt;/span&gt;
+CTRL+v&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; enter in visual block mode&lt;/span&gt;
 cW&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; replace an entire word and enter insert mode&lt;/span&gt;
 $&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; go to the end of the line&lt;/span&gt;
 &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; go to the beginning of the line&lt;/span&gt;
