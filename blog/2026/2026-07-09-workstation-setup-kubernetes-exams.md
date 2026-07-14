@@ -125,7 +125,8 @@ __Bonus__: Here is my Vim cheatsheet covering commands to quickly edit YAML and 
 ```bash
 ~                 # >>> toggle letter case (upper/lower)
 dd                # >>> cut line
-p                 # >>> paste line
+y                 # >>> copy
+p                 # >>> paste
 u                 # >>> undo
 cW                # >>> replace an entire word and enter insert mode
 $                 # >>> go to the end of the line
