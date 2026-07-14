@@ -123,6 +123,7 @@ scp ~/.vimrc node01:~/.vimrc
 __Bonus__: Here is my Vim cheatsheet covering commands to quickly edit YAML and configuration files.
 
 ```bash
+.               # >>> repeat last executed command
 ~               # >>> toggle character case (uppercase/lowercase)
 dd              # >>> delete (cut) the current line
 y               # >>> yank (copy)
