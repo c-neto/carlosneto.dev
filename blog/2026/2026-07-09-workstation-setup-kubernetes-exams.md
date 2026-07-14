@@ -128,7 +128,7 @@ u                # undo
 :%s/foo/bar/g    # substitutes (replaces) all occurrences of "foo" with "bar".
 :10,15>          # indents lines 10 through 15 by one shiftwidth.
 :10,15<          # back indents lines 10 through 15 by one shiftwidth.
-:30,50d          # deletes (cuts) lines 30 through 50.
+:30,50d          # cuts lines 30 through 50.
 :30,50t70        # copies lines 30 through 50 and pastes them right below line 70
 :30,50m70        # move lines 30 through 50 and pastes them right below line 70
 shift+i » ctrl+y # repeat the line above character by character
