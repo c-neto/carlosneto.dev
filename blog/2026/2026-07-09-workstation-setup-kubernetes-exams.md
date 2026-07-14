@@ -124,6 +124,7 @@ __Bonus__: The following `vim` commands and operations cover all needs for editi
 ~                # toggle letter case (upper/lower)
 dd               # cut line
 p                # paste line
+u                # undo
 :%s/foo/bar/g    # substitutes (replaces) all occurrences of "foo" with "bar".
 :10,15>          # indents lines 10 through 15 by one shiftwidth.
 :10,15<          # back indents lines 10 through 15 by one shiftwidth.
