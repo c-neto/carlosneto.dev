@@ -29,7 +29,7 @@ This helps avoid unexpected keyboard mapping issues during the exam.
 
 If you press CTRL + Arrow (Left/Right) it can change the macOS desktop (Space), which may trigger the exam proctor and can lead to the exam interruption. Disable these shortcuts before the exam:
 
-1. Open _*System Settings → Keyboard → Keyboard Shortcuts*_.
+1. Open __*System Settings → Keyboard → Keyboard Shortcuts*__.
 2. Select `Mission Control`
 3. Uncheck or change the shortcuts for _Move left a space_ and _Move right a space_ (or any shortcuts using CTRL + Left/Right).
 
