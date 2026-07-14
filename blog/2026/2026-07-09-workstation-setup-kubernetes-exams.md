@@ -71,7 +71,7 @@ Commands such as `kubectl describe pod nginx` or `helm list` are skipped because
 
 This is much faster than the default __↑__ behavior, which walks through every command in your history, and often more convenient than repeatedly using __CTRL + R__ during the exam.
 
-To enable this behavior, create the `.inputrc` file and add the following configuration:
+To enable this behavior, create the `~/.inputrc` file and add the following configuration:
 
 ```{code-block} bash
 :caption: ~/.inputrc
