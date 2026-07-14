@@ -175,7 +175,7 @@ export x="--dry-run=client -oyaml"
 Finally, copy the updated configuration files back to the remote node:
 
 ```bash
-scp ~/.bashrc root@node01:~/.bashrc
+scp ~/.bashrc node01:~/.bashrc
 ```
 
 ## References
