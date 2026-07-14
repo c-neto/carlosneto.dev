@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T22:28:52.093951+00:00</updated>
+  <updated>2026-07-14T22:31:11.029394+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -117,7 +117,7 @@ cW&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# &amp
 $&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; move to the end of the line&lt;/span&gt;
 &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; move to the beginning of the line&lt;/span&gt;
 50a&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; increment the number under the cursor by 50 (useful for requests/limits)&lt;/span&gt;
-50d&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; decrement the number under the cursor by 50 (useful for requests/limits)&lt;/span&gt;
+40d&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; decrement the number under the cursor by 40 (useful for requests/limits)&lt;/span&gt;
 :%s/foo/bar/g&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
 :10,15&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; indent lines 10–15 by one shiftwidth&lt;/span&gt;
 :10,15&amp;lt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; unindent lines 10–15 by one shiftwidth&lt;/span&gt;
