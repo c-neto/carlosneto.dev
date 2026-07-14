@@ -152,6 +152,8 @@ Append the following aliases to the end of the file:
 
 stty werase undef
 
+bkp() { cp "$1" "$1.bkp" }
+
 alias kgp="kubectl get pods"
 alias kgs="kubectl get svc"
 alias kgn="kubectl get nodes"
