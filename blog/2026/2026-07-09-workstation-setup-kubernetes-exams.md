@@ -152,9 +152,9 @@ CTRL+v » select column » SHIFT+i » type text » ESC  # >>>  multi-line column
 
 During the exam you will type `kubectl` hundreds of times and will also need to back up configuration files. To save time and reduce the risk of mistakes (especially when nervous), avoid typing repeated commands: use aliases, functions, and shortcuts to prevent typos.
 
-Each remote exam node already contains a preconfigured `.bashrc` file with several useful settings. A handy trick is to copy that file back to the main workstation, append your own aliases, and then copy it back to the remote nodes.
+Each remote exam node already contains a preconfigured `~/.bashrc` file with several useful settings. A handy trick is to copy that file back to the main workstation, append your own aliases, and then copy it back to the remote nodes.
 
-First, create a backup and copy the remote `.bashrc`:
+First, create a backup of the main instance `~/.bashrc` file:
 
 ```bash
 cp ~/.bashrc ~/.bashrc.bkp
