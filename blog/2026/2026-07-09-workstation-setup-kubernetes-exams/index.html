@@ -481,14 +481,18 @@ syntax<span class="w"> </span>on<span class="w">           </span><span class="c
 </pre></div>
 </div>
 <p><strong>Bonus</strong>: The following <code class="docutils literal notranslate"><span class="pre">vim</span></code> commands and operations cover all needs for editing files during the exam:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%s/foo/bar/g<span class="w">   </span><span class="c1"># Substitutes (replaces) all occurrences of &quot;foo&quot; with &quot;bar&quot; globally throughout the entire file.</span>
-:10,15&gt;<span class="w">         </span><span class="c1"># Indents lines 10 through 15 by one shiftwidth.</span>
-:10,15&lt;<span class="w">         </span><span class="c1"># Back Indents lines 10 through 15 by one shiftwidth.</span>
-:30,50d<span class="w">         </span><span class="c1"># Deletes (cuts) lines 30 through 50.</span>
-:30,50t70<span class="w">       </span><span class="c1"># Copies lines 30 through 50 and pastes them right below line 70</span>
-:30,50m70<span class="w">       </span><span class="c1"># Move lines 30 through 50 and pastes them right below line 70</span>
-CTRL+I<span class="w"> </span>»<span class="w"> </span>CTRL<span class="w"> </span>+<span class="w"> </span>Y<span class="w"> </span><span class="c1"># CTRL+I jumps forward to the next position in the jump list; CTRL+Y scrolls the screen up by one line (or copies the character above in Insert mode).</span>
-CTRL+C<span class="w"> </span>»<span class="w"> </span>SHIFT+I<span class="w"> </span>»<span class="w"> </span><span class="k">select</span><span class="w"> </span>column<span class="w"> </span>»<span class="w"> </span>write<span class="w"> </span>text<span class="w"> </span>+<span class="w"> </span>ESC<span class="w"> </span>+<span class="w"> </span>ESC<span class="w">  </span><span class="c1"># Multi-line column insertion (Note: CTRL+V is typically used to block-select, though some terminal setups use CTRL+C/CTRL+Q).</span>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="p">~</span>                # toggle letter case <span class="p">(</span>upper/lower<span class="p">)</span>
+dd               # cut line
+<span class="k">p</span>                # <span class="nb">paste</span> line
+<span class="k">u</span>                # undo
+<span class="p">:</span>%s<span class="sr">/foo/</span>bar/<span class="k">g</span>    # substitutes <span class="p">(</span>replaces<span class="p">)</span> <span class="k">all</span> occurrences of <span class="s2">&quot;foo&quot;</span> with <span class="s2">&quot;bar&quot;</span>.
+<span class="p">:</span><span class="m">10</span><span class="p">,</span><span class="m">15</span><span class="p">&gt;</span>          # indents <span class="nb">lines</span> <span class="m">10</span> through <span class="m">15</span> by one <span class="nb">shiftwidth</span>.
+<span class="p">:</span><span class="m">10</span><span class="p">,</span><span class="m">15</span><span class="p">&lt;</span>          # back indents <span class="nb">lines</span> <span class="m">10</span> through <span class="m">15</span> by one <span class="nb">shiftwidth</span>.
+<span class="p">:</span><span class="m">30</span><span class="p">,</span><span class="m">50</span>d          # cuts <span class="nb">lines</span> <span class="m">30</span> through <span class="m">50</span>.
+<span class="p">:</span><span class="m">30</span><span class="p">,</span><span class="m">50</span>t<span class="m">70</span>        # copies <span class="nb">lines</span> <span class="m">30</span> through <span class="m">50</span> and pastes them <span class="k">right</span> <span class="k">below</span> line <span class="m">70</span>
+<span class="p">:</span><span class="m">30</span><span class="p">,</span><span class="m">50</span>m<span class="m">70</span>        # move <span class="nb">lines</span> <span class="m">30</span> through <span class="m">50</span> and pastes them <span class="k">right</span> <span class="k">below</span> line <span class="m">70</span>
+shift<span class="p">+</span><span class="k">i</span> » ctrl<span class="p">+</span><span class="k">y</span> # repeat the line <span class="k">above</span> character by character
+ctrl<span class="p">+</span><span class="k">c</span> » select column » shift<span class="p">+</span><span class="k">i</span> » <span class="nb">write</span> text <span class="p">+</span> esc <span class="p">+</span> esc  # multi<span class="p">-</span>line column insertion<span class="p">,</span> useful <span class="k">to</span> add <span class="nb">comments</span>
 </pre></div>
 </div>
 </section>

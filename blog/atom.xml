@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T15:48:03.613775+00:00</updated>
+  <updated>2026-07-14T15:55:53.569518+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -101,14 +101,18 @@ syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;           &lt
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Bonus&lt;/strong&gt;: The following &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt; commands and operations cover all needs for editing files during the exam:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%s/foo/bar/g&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Substitutes (replaces) all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot; globally throughout the entire file.&lt;/span&gt;
-:10,15&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Indents lines 10 through 15 by one shiftwidth.&lt;/span&gt;
-:10,15&amp;lt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Back Indents lines 10 through 15 by one shiftwidth.&lt;/span&gt;
-:30,50d&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Deletes (cuts) lines 30 through 50.&lt;/span&gt;
-:30,50t70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# Copies lines 30 through 50 and pastes them right below line 70&lt;/span&gt;
-:30,50m70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# Move lines 30 through 50 and pastes them right below line 70&lt;/span&gt;
-CTRL+I&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL&lt;span class="w"&gt; &lt;/span&gt;+&lt;span class="w"&gt; &lt;/span&gt;Y&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# CTRL+I jumps forward to the next position in the jump list; CTRL+Y scrolls the screen up by one line (or copies the character above in Insert mode).&lt;/span&gt;
-CTRL+C&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;SHIFT+I&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;column&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;write&lt;span class="w"&gt; &lt;/span&gt;text&lt;span class="w"&gt; &lt;/span&gt;+&lt;span class="w"&gt; &lt;/span&gt;ESC&lt;span class="w"&gt; &lt;/span&gt;+&lt;span class="w"&gt; &lt;/span&gt;ESC&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# Multi-line column insertion (Note: CTRL+V is typically used to block-select, though some terminal setups use CTRL+C/CTRL+Q).&lt;/span&gt;
+&lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;~&lt;/span&gt;                # toggle letter case &lt;span class="p"&gt;(&lt;/span&gt;upper/lower&lt;span class="p"&gt;)&lt;/span&gt;
+dd               # cut line
+&lt;span class="k"&gt;p&lt;/span&gt;                # &lt;span class="nb"&gt;paste&lt;/span&gt; line
+&lt;span class="k"&gt;u&lt;/span&gt;                # undo
+&lt;span class="p"&gt;:&lt;/span&gt;%s&lt;span class="sr"&gt;/foo/&lt;/span&gt;bar/&lt;span class="k"&gt;g&lt;/span&gt;    # substitutes &lt;span class="p"&gt;(&lt;/span&gt;replaces&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;all&lt;/span&gt; occurrences of &lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt; with &lt;span class="s2"&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;.
+&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;15&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;          # indents &lt;span class="nb"&gt;lines&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt; through &lt;span class="m"&gt;15&lt;/span&gt; by one &lt;span class="nb"&gt;shiftwidth&lt;/span&gt;.
+&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;15&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;          # back indents &lt;span class="nb"&gt;lines&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt; through &lt;span class="m"&gt;15&lt;/span&gt; by one &lt;span class="nb"&gt;shiftwidth&lt;/span&gt;.
+&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;30&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;50&lt;/span&gt;d          # cuts &lt;span class="nb"&gt;lines&lt;/span&gt; &lt;span class="m"&gt;30&lt;/span&gt; through &lt;span class="m"&gt;50&lt;/span&gt;.
+&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;30&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;50&lt;/span&gt;t&lt;span class="m"&gt;70&lt;/span&gt;        # copies &lt;span class="nb"&gt;lines&lt;/span&gt; &lt;span class="m"&gt;30&lt;/span&gt; through &lt;span class="m"&gt;50&lt;/span&gt; and pastes them &lt;span class="k"&gt;right&lt;/span&gt; &lt;span class="k"&gt;below&lt;/span&gt; line &lt;span class="m"&gt;70&lt;/span&gt;
+&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;30&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;50&lt;/span&gt;m&lt;span class="m"&gt;70&lt;/span&gt;        # move &lt;span class="nb"&gt;lines&lt;/span&gt; &lt;span class="m"&gt;30&lt;/span&gt; through &lt;span class="m"&gt;50&lt;/span&gt; and pastes them &lt;span class="k"&gt;right&lt;/span&gt; &lt;span class="k"&gt;below&lt;/span&gt; line &lt;span class="m"&gt;70&lt;/span&gt;
+shift&lt;span class="p"&gt;+&lt;/span&gt;&lt;span class="k"&gt;i&lt;/span&gt; » ctrl&lt;span class="p"&gt;+&lt;/span&gt;&lt;span class="k"&gt;y&lt;/span&gt; # repeat the line &lt;span class="k"&gt;above&lt;/span&gt; character by character
+ctrl&lt;span class="p"&gt;+&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt; » select column » shift&lt;span class="p"&gt;+&lt;/span&gt;&lt;span class="k"&gt;i&lt;/span&gt; » &lt;span class="nb"&gt;write&lt;/span&gt; text &lt;span class="p"&gt;+&lt;/span&gt; esc &lt;span class="p"&gt;+&lt;/span&gt; esc  # multi&lt;span class="p"&gt;-&lt;/span&gt;line column insertion&lt;span class="p"&gt;,&lt;/span&gt; useful &lt;span class="k"&gt;to&lt;/span&gt; add &lt;span class="nb"&gt;comments&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
