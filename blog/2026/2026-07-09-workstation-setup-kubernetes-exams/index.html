@@ -443,7 +443,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </div>
 <p>Commands such as <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">describe</span> <span class="pre">pod</span> <span class="pre">nginx</span></code> or <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">list</span></code> are skipped because they do not match the typed prefix.</p>
 <p>This is much faster than the default <strong>↑</strong> behavior, which walks through every command in your history, and often more convenient than repeatedly using <strong>CTRL + R</strong> during the exam.</p>
-<p>To enable this behavior, create the <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code> file and add the following configuration:</p>
+<p>To enable this behavior, create the <code class="docutils literal notranslate"><span class="pre">~/.inputrc</span></code> file and add the following configuration:</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">~/.inputrc</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;\e[A&quot;</span>:<span class="w"> </span>history-search-backward<span class="w">   </span><span class="c1"># ↑ (previous matching command)</span>

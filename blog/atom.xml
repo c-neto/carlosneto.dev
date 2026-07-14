@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T22:07:21.297496+00:00</updated>
+  <updated>2026-07-14T22:09:09.377151+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -63,7 +63,7 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;/div&gt;
 &lt;p&gt;Commands such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;describe&lt;/span&gt; &lt;span class="pre"&gt;pod&lt;/span&gt; &lt;span class="pre"&gt;nginx&lt;/span&gt;&lt;/code&gt; or &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;helm&lt;/span&gt; &lt;span class="pre"&gt;list&lt;/span&gt;&lt;/code&gt; are skipped because they do not match the typed prefix.&lt;/p&gt;
 &lt;p&gt;This is much faster than the default &lt;strong&gt;↑&lt;/strong&gt; behavior, which walks through every command in your history, and often more convenient than repeatedly using &lt;strong&gt;CTRL + R&lt;/strong&gt; during the exam.&lt;/p&gt;
-&lt;p&gt;To enable this behavior, create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
+&lt;p&gt;To enable this behavior, create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.inputrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.inputrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\e[A&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-backward&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# ↑ (previous matching command)&lt;/span&gt;
