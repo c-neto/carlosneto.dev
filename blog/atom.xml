@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T19:52:37.465224+00:00</updated>
+  <updated>2026-07-14T21:11:09.497249+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -31,9 +31,9 @@
 &lt;/section&gt;
 &lt;section id="disable-mission-control-shortcuts-macbooks"&gt;
 &lt;h2&gt;Disable Mission Control Shortcuts (MacBooks)&lt;/h2&gt;
-&lt;p&gt;If you press CTRL + Arrow (Left/Right/Up) it change the macOS desktop (Space), which may trigger the exam proctor and can lead to the exam interruption. Disable these shortcuts before the exam:&lt;/p&gt;
+&lt;p&gt;If you press &lt;strong&gt;Ctrl + ←/→&lt;/strong&gt; it change the macOS desktop (Space), which may trigger the exam proctor and can lead to the exam interruption. Disable these shortcuts before the exam:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
-&lt;li&gt;&lt;p&gt;Open &lt;strong&gt;&lt;em&gt;System Settings » Keyboard » Keyboard Shortcuts&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Open &lt;strong&gt;&lt;em&gt;System Settings » Keyboard » Keyboard Shortcuts&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Select &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Mission&lt;/span&gt; &lt;span class="pre"&gt;Control&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Uncheck all shortcuts.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -42,50 +42,40 @@
 &lt;section id="bash-history-search"&gt;
 &lt;h2&gt;Bash History Search&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;This is probably my most valuable tip!&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The exam environment uses &lt;strong&gt;Bash&lt;/strong&gt; as the default shell. Behind the scenes, Bash relies on the &lt;strong&gt;GNU Readline&lt;/strong&gt; library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press &lt;strong&gt;CTRL + R&lt;/strong&gt; is implemented by GNU Readline.&lt;/p&gt;
-&lt;p&gt;Two useful Readline functions are &lt;strong&gt;not bound to keys by default&lt;/strong&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt;. These functions search your command history using the text you’ve already typed at the prompt.&lt;/p&gt;
-&lt;p&gt;For example, to understand the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt; functions, suppose you previously executed the following commands:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls&lt;span class="w"&gt; &lt;/span&gt;-lR&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# first execution&lt;/span&gt;
-ps&lt;span class="w"&gt; &lt;/span&gt;aux
-touch&lt;span class="w"&gt; &lt;/span&gt;foobar
-ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# last execution&lt;/span&gt;
+&lt;p&gt;The exam environment uses &lt;strong&gt;Bash&lt;/strong&gt; as the default shell. Behind the scenes, Bash relies on the &lt;strong&gt;GNU Readline&lt;/strong&gt; library, which provides command-line editing, key bindings, and history navigation. For example, the interactive reverse search that appears when you press &lt;strong&gt;Ctrl + R&lt;/strong&gt; is implemented by GNU Readline.&lt;/p&gt;
+&lt;p&gt;One of Readline’s most useful features is history search by prefix. The &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029"&gt;history-search-backward&lt;/a&gt; and &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dforward-_0028_0029"&gt;history-search-forward&lt;/a&gt; functions search your command history using the text that already exists before the cursor, instead of simply moving to the previous or next command.&lt;/p&gt;
+&lt;p&gt;For example, imagine your command history contains:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&gt;pods
+kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&gt;nodes
+kubectl&lt;span class="w"&gt; &lt;/span&gt;describe&lt;span class="w"&gt; &lt;/span&gt;pod&lt;span class="w"&gt; &lt;/span&gt;nginx
+helm&lt;span class="w"&gt; &lt;/span&gt;list
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;If you type:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;kubectl&lt;span class="w"&gt; &lt;/span&gt;g
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;and press &lt;strong&gt;Arrow Up&lt;/strong&gt;, Bash autocompletes the first matching command, ignoring &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;touch&lt;/span&gt; &lt;span class="pre"&gt;foobar&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;ps&lt;/span&gt; &lt;span class="pre"&gt;aux&lt;/span&gt;&lt;/code&gt; occourences:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt
+&lt;p&gt;and press &lt;strong&gt;↑&lt;/strong&gt;, &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029"&gt;history-search-backward&lt;/a&gt; cycles only through commands that begin with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;g&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&gt;nodes
+kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&gt;pods
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Press &lt;strong&gt;Arrow Up&lt;/strong&gt; again to move to the previous matching command:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls&lt;span class="w"&gt; &lt;/span&gt;-lR
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;Press &lt;strong&gt;Arrow Down&lt;/strong&gt; to move forward through the filtered history.&lt;/p&gt;
-&lt;p&gt;These functions are extremely useful during the exam because they save valuable time by avoiding the need to retype long commands or repeatedly use &lt;strong&gt;CTRL + R&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;To configure the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt;, create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt; file:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;vim&lt;span class="w"&gt; &lt;/span&gt;~/.inputrc
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;Add the following content:&lt;/p&gt;
+&lt;p&gt;Commands such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;describe&lt;/span&gt; &lt;span class="pre"&gt;pod&lt;/span&gt; &lt;span class="pre"&gt;nginx&lt;/span&gt;&lt;/code&gt; or &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;helm&lt;/span&gt; &lt;span class="pre"&gt;list&lt;/span&gt;&lt;/code&gt; are skipped because they do not match the typed prefix.&lt;/p&gt;
+&lt;p&gt;This is much faster than the default &lt;strong&gt;↑&lt;/strong&gt; behavior, which walks through every command in your history, and often more convenient than repeatedly using &lt;strong&gt;Ctrl + R&lt;/strong&gt; during the exam.&lt;/p&gt;
+&lt;p&gt;To enable this behavior, create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt; file and add following configuration:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.inputrc&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\e[A&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-backward
-&lt;span class="s2"&gt;&amp;quot;\e[B&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-forward
-&lt;span class="s2"&gt;&amp;quot;\C-w&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;backward-kill-word
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\e[A&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-backward&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# ↑ (previous matching command)&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;\e[B&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-forward&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# ↓ (next matching command)&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;\C-w&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;backward-kill-word&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# Ctrl + w (delete the previous path component/word)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; &lt;em&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;\e[A&amp;quot;&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;&amp;quot;\e[B&amp;quot;&lt;/span&gt;&lt;/code&gt; are the escape sequences for the &lt;strong&gt;Arrow Up&lt;/strong&gt; and &lt;strong&gt;Arrow Down&lt;/strong&gt; keys, respectively.&lt;/em&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;p&gt;The file is loaded automatically whenever a new shell session starts. You can also reload it manually:&lt;/p&gt;
+&lt;p&gt;The file is automatically loaded whenever a new Bash session starts. If you modify it during an existing session, reload it with:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;bind&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;~/.inputrc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Copy the file to remote node of the exam question (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
+&lt;p&gt;Since each exam task is performed on a different remote node, copy the file to the target node (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.inputrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.inputrc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -97,16 +87,16 @@ ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt&lt;span class="w"&gt;     &lt;/span
 &lt;p&gt;Create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.vimrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;nu&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# (number) Displays line numbers, making cursor movement and line range operations easier.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;ai&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# (autoindent) Automatically preserves indentation while editing.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;et&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;ts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# (tabstop) Displays tab characters as two spaces.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sw&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# (shiftwidth) Uses a two-space indentation level when indenting or unindenting.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;hls&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# (highlightsearch) Highlights all search matches.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;mouse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;a&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cuc&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# (cursorcolumn) Highlights the current cursor column, useful for YAML files.&lt;/span&gt;
-syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Enables syntax highlighting based on file extension.&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;nu&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# (number) Displays line numbers, making cursor movement and line range operations easier.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;ai&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# (autoindent) Automatically preserves indentation while editing.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;et&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;ts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# (tabstop) Displays tab characters as two spaces.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sw&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# (shiftwidth) Uses a two-space indentation level when indenting or unindenting.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;hls&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# (highlightsearch) Highlights all search matches.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;mouse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;a&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cuc&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# (cursorcolumn) Highlights the current cursor column, useful for YAML files.&lt;/span&gt;
+syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Enables syntax highlighting based on file extension.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -115,21 +105,23 @@ syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;           &lt
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Bonus&lt;/strong&gt;: The following &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt; commands and operations cover all needs for editing files during the exam:&lt;/p&gt;
-&lt;div class="highlight-text notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;~                # toggle letter case (upper/lower)
-dd               # cut line
-p                # paste line
-u                # undo
-cW               # replace an entire word and enter insert mode
-$                # go to the end of the line
-^                # go to the beginning of the line
-:%s/foo/bar/g    # replaces all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;.
-:10,15&amp;gt;          # indents lines 10 through 15 by one shiftwidth.
-:10,15&amp;lt;          # unindents lines 10 through 15 by one shiftwidth.
-:30,50d          # cuts lines 30 through 50.
-:30,50t70        # copies lines 30 through 50 and pastes them right below line 70
-:30,50m70        # move lines 30 through 50 and paste them right below line 70
-SHIFT+i » CTRL+y # repeat the line above, character by character
-CTRL+v » select column » SHIFT+i » write text » ESC » ESC  # multi-line column insertion (comments)
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;~&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; toggle letter case (upper/lower)&lt;/span&gt;
+dd&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; cut line&lt;/span&gt;
+p&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; paste line&lt;/span&gt;
+u&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; undo&lt;/span&gt;
+cW&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; replace an entire word and enter insert mode&lt;/span&gt;
+$&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; go to the end of the line&lt;/span&gt;
+&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; go to the beginning of the line&lt;/span&gt;
+50a&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; increase 50 in a number field (useful for requests and limits)&lt;/span&gt;
+50d&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; decrease 50 in a number field (useful for requests and limits)&lt;/span&gt;
+:%s/foo/bar/g&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; replaces all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;.&lt;/span&gt;
+:10,15&amp;gt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; indents lines 10 through 15 by one shiftwidth.&lt;/span&gt;
+:10,15&amp;lt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; unindents lines 10 through 15 by one shiftwidth.&lt;/span&gt;
+:30,50d&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; cuts lines 30 through 50.&lt;/span&gt;
+:30,50t70&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; copies lines 30 through 50 and pastes them right below line 70&lt;/span&gt;
+:30,50m70&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; move lines 30 through 50 and paste them right below line 70&lt;/span&gt;
+SHIFT+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;Ctrl+y&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; repeat the line above, character by character&lt;/span&gt;
+Ctrl+v&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;column&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;SHIFT+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;write&lt;span class="w"&gt; &lt;/span&gt;text&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;ESC&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; multi-line column insertion (comments)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
@@ -147,13 +139,14 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.bashrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;### &amp;gt;&amp;gt;&amp;gt; omitted the .bashrc copied from question node&lt;/span&gt;
 
-&lt;span class="c1"&gt;# disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.&lt;/span&gt;
+&lt;span class="c1"&gt;# disable default Ctrl+W word erase behavior in terminal to be able to use backward-kill-word instead.&lt;/span&gt;
 stty&lt;span class="w"&gt; &lt;/span&gt;werase&lt;span class="w"&gt; &lt;/span&gt;undef
 
 &lt;span class="c1"&gt;# create a quick backup command `$ bkp &amp;lt;file&amp;gt;` to copy of a file by appending .bkp&lt;/span&gt;
 bkp&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cp&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;.bkp&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
 
 &lt;span class="c1"&gt;# kubectl aliases&lt;/span&gt;
+&lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;k&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kgp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl get pods&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kgs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl get svc&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kgn&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl get nodes&amp;quot;&lt;/span&gt;
