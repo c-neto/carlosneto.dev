@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T16:08:06.973343+00:00</updated>
+  <updated>2026-07-14T16:15:37.950939+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -23,23 +23,30 @@
 &lt;section id="configure-the-u-s-keyboard-layout-macbooks"&gt;
 &lt;h2&gt;Configure the U.S. Keyboard Layout (MacBooks)&lt;/h2&gt;
 &lt;p&gt;If you’re taking the exam on a MacBook, make sure your keyboard layout is set to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt;. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;`&lt;/span&gt;&lt;/code&gt;, when using layouts such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Brazilian&lt;/span&gt; &lt;span class="pre"&gt;–&lt;/span&gt; &lt;span class="pre"&gt;ABNT2&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;To configure it, open &lt;strong&gt;&lt;em&gt;Settings » Keyboard » Text Input » Edit&lt;/em&gt;&lt;/strong&gt; and define &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt; as your only input source. This helps avoid unexpected keyboard mapping issues during the exam.&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;&lt;p&gt;Open &lt;strong&gt;&lt;em&gt;Settings » Keyboard » Text Input » Edit&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Define &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt; as your only input source.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This helps avoid unexpected keyboard mapping issues during the exam.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="disable-mission-critical-shortcuts-macbooks"&gt;
 &lt;h2&gt;Disable Mission Critical Shortcuts (MacBooks)&lt;/h2&gt;
 &lt;p&gt;If you press CTRL + Arrow (Left/Right) it can change the macOS desktop (Space), which may trigger the exam proctor and can lead to the exam interruption. Disable these shortcuts before the exam:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
-&lt;li&gt;&lt;p&gt;Open &lt;em&gt;System Settings → Keyboard → Keyboard Shortcuts&lt;/em&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Open &lt;em&gt;&lt;em&gt;System Settings → Keyboard → Keyboard Shortcuts&lt;/em&gt;&lt;/em&gt;.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Select &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Mission&lt;/span&gt; &lt;span class="pre"&gt;Control&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Uncheck or change the shortcuts for &lt;em&gt;Move left a space&lt;/em&gt; and &lt;em&gt;Move right a space&lt;/em&gt; (or any shortcuts using CTRL + Left/Right).&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
+&lt;p&gt;This helps to avoid troubles that can lead to a exam notification and worst case, the suspend your exam by suspect of the consult material in your pc.
+This helps avoid issues that can trigger an exam notification and, in the worst case, suspend your exam on suspicion of consulting material on your PC.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="bash-history-search"&gt;
 &lt;h2&gt;Bash History Search&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;This is probably my most valuable tip!&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;The exam environment uses &lt;strong&gt;Bash&lt;/strong&gt; as the default shell. Behind the scenes, Bash relies on the &lt;strong&gt;GNU Readline&lt;/strong&gt; library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press &lt;strong&gt;CTRL + R&lt;/strong&gt; is implemented by GNU Readline.&lt;/p&gt;
 &lt;p&gt;Two useful Readline functions are &lt;strong&gt;not bound to keys by default&lt;/strong&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt;. These functions search your command history using the text you’ve already typed at the prompt.&lt;/p&gt;
-&lt;p&gt;For example to undestand the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt;, suppose you previously executed the following commands:&lt;/p&gt;
+&lt;p&gt;For example to undestand the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt;, suppose you previously executed the following commands:
+For example, to understand the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt; functions, suppose you previously executed the following commands:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls&lt;span class="w"&gt; &lt;/span&gt;-lR&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# first execution&lt;/span&gt;
 ps&lt;span class="w"&gt; &lt;/span&gt;aux
 touch&lt;span class="w"&gt; &lt;/span&gt;foobar
@@ -92,15 +99,15 @@ ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt&lt;span class="w"&gt;     &lt;/span
 &lt;p&gt;Create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.vimrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;nu&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# (number) Displays line numbers, making it easier to cursor movement and line range operation.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;ai&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# (auto ident) Automatically preserves indentation while editing.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;et&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# (expand tab) Converts tabs to spaces, preventing invalid YAML indentation.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;ts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# (tab stop) Displays tab characters as two spaces.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sw&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# (shift width) Uses a two-space indentation level when indenting or unindenting.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# (soft tab stop) Makes the Tab and Backspace keys use two-space indentation levels.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;hls&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# (high light search) Highlights all search matches.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;mouse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;a&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# (mouse all) Enables mouse support for cursor movement, scrolling, and visual mode.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cursorcolumn&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# (cursor column) Highlights the current cursor column, useful for YAML files.&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;nu&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# (number) Displays line numbers, making cursor movement and line range operations easier.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;ai&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# (autoindent) Automatically preserves indentation while editing.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;et&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;ts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# (tabstop) Displays tab characters as two spaces.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sw&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# (shiftwidth) Uses a two-space indentation level when indenting or unindenting.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;hls&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# (highlightsearch) Highlights all search matches.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;mouse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;a&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cursorcolumn&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# (cursorcolumn) Highlights the current cursor column, useful for YAML files.&lt;/span&gt;
 syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Enables syntax highlighting based on file extension.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -110,21 +117,21 @@ syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;           &lt
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Bonus&lt;/strong&gt;: The following &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt; commands and operations cover all needs for editing files during the exam:&lt;/p&gt;
-&lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;~&lt;/span&gt;                &lt;span class="c1"&gt;# toggle letter case (upper/lower)&lt;/span&gt;
-&lt;span class="n"&gt;dd&lt;/span&gt;               &lt;span class="c1"&gt;# cut line&lt;/span&gt;
-&lt;span class="n"&gt;p&lt;/span&gt;                &lt;span class="c1"&gt;# paste line&lt;/span&gt;
-&lt;span class="n"&gt;u&lt;/span&gt;                &lt;span class="c1"&gt;# undo&lt;/span&gt;
-&lt;span class="n"&gt;cW&lt;/span&gt;               &lt;span class="c1"&gt;# replace an entire word and active the insertion mode&lt;/span&gt;
-&lt;span class="err"&gt;$&lt;/span&gt;                &lt;span class="c1"&gt;# go to the final line&lt;/span&gt;
-&lt;span class="o"&gt;^&lt;/span&gt;                &lt;span class="c1"&gt;# go to the start line&lt;/span&gt;
-&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;foo&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bar&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;g&lt;/span&gt;    &lt;span class="c1"&gt;# substitutes (replaces) all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;.&lt;/span&gt;
-&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;          &lt;span class="c1"&gt;# indents lines 10 through 15 by one shiftwidth.&lt;/span&gt;
-&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;          &lt;span class="c1"&gt;# back indents lines 10 through 15 by one shiftwidth.&lt;/span&gt;
-&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;          &lt;span class="c1"&gt;# cuts lines 30 through 50.&lt;/span&gt;
-&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="n"&gt;t70&lt;/span&gt;        &lt;span class="c1"&gt;# copies lines 30 through 50 and pastes them right below line 70&lt;/span&gt;
-&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="n"&gt;m70&lt;/span&gt;        &lt;span class="c1"&gt;# move lines 30 through 50 and pastes them right below line 70&lt;/span&gt;
-&lt;span class="n"&gt;SHIFT&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="err"&gt;»&lt;/span&gt; &lt;span class="n"&gt;CTRL&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="c1"&gt;# repeat the line above character by character&lt;/span&gt;
-&lt;span class="n"&gt;CTRL&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="err"&gt;»&lt;/span&gt; &lt;span class="n"&gt;select&lt;/span&gt; &lt;span class="n"&gt;column&lt;/span&gt; &lt;span class="err"&gt;»&lt;/span&gt; &lt;span class="n"&gt;SHIFT&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="err"&gt;»&lt;/span&gt; &lt;span class="n"&gt;write&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;ESC&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;ESC&lt;/span&gt;  &lt;span class="c1"&gt;# multi-line column insertion (comments)&lt;/span&gt;
+&lt;div class="highlight-text notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;~                # toggle letter case (upper/lower)
+dd               # cut line
+p                # paste line
+u                # undo
+cW               # replace an entire word and enter insert mode
+$                # go to the end of the line
+^                # go to the beginning of the line
+:%s/foo/bar/g    # replaces all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;.
+:10,15&amp;gt;          # indents lines 10 through 15 by one shiftwidth.
+:10,15&amp;lt;          # unindents lines 10 through 15 by one shiftwidth.
+:30,50d          # cuts lines 30 through 50.
+:30,50t70        # copies lines 30 through 50 and pastes them right below line 70
+:30,50m70        # move lines 30 through 50 and paste them right below line 70
+SHIFT+i » CTRL+y # repeat the line above, character by character
+CTRL+c » select column » SHIFT+i » write text + ESC + ESC  # multi-line column insertion (comments)
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;

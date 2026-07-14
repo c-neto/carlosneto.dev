@@ -20,15 +20,21 @@ This guide walks through the workstation optimizations I use to work more effici
 
 If you're taking the exam on a MacBook, make sure your keyboard layout is set to `U.S.`. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially `~` and `` ` ``, when using layouts such as `Brazilian – ABNT2`.
 
-To configure it, open __*Settings » Keyboard » Text Input » Edit*__ and define `U.S.` as your only input source. This helps avoid unexpected keyboard mapping issues during the exam.
+1. Open __*Settings » Keyboard » Text Input » Edit*__ 
+2. Define `U.S.` as your only input source. 
+
+This helps avoid unexpected keyboard mapping issues during the exam.
 
 ## Disable Mission Critical Shortcuts (MacBooks)
 
 If you press CTRL + Arrow (Left/Right) it can change the macOS desktop (Space), which may trigger the exam proctor and can lead to the exam interruption. Disable these shortcuts before the exam:
 
-1. Open _System Settings → Keyboard → Keyboard Shortcuts_.
+1. Open _*System Settings → Keyboard → Keyboard Shortcuts*_.
 2. Select `Mission Control`
 3. Uncheck or change the shortcuts for _Move left a space_ and _Move right a space_ (or any shortcuts using CTRL + Left/Right).
+
+This helps to avoid troubles that can lead to a exam notification and worst case, the suspend your exam by suspect of the consult material in your pc.
+This helps avoid issues that can trigger an exam notification and, in the worst case, suspend your exam on suspicion of consulting material on your PC.
 
 ## Bash History Search
 
@@ -39,6 +45,7 @@ The exam environment uses __Bash__ as the default shell. Behind the scenes, Bash
 Two useful Readline functions are __not bound to keys by default__: `history-search-backward` and `history-search-forward`. These functions search your command history using the text you've already typed at the prompt.
 
 For example to undestand the `history-search-backward` and `history-search-forward`, suppose you previously executed the following commands:
+For example, to understand the `history-search-backward` and `history-search-forward` functions, suppose you previously executed the following commands:
 
 ```bash
 ls -lR        # first execution
@@ -108,15 +115,15 @@ Create the `.vimrc` file and add the following configuration:
 
 ```{code-block} bash
 :caption: ~/.vimrc
-set nu              # (number) Displays line numbers, making it easier to cursor movement and line range operation.
-set ai              # (auto ident) Automatically preserves indentation while editing.
-set et              # (expand tab) Converts tabs to spaces, preventing invalid YAML indentation.
-set ts=2            # (tab stop) Displays tab characters as two spaces.
-set sw=2            # (shift width) Uses a two-space indentation level when indenting or unindenting.
-set sts=2           # (soft tab stop) Makes the Tab and Backspace keys use two-space indentation levels.
-set hls             # (high light search) Highlights all search matches.
-set mouse=a         # (mouse all) Enables mouse support for cursor movement, scrolling, and visual mode.
-set cursorcolumn    # (cursor column) Highlights the current cursor column, useful for YAML files.
+set nu              # (number) Displays line numbers, making cursor movement and line range operations easier.
+set ai              # (autoindent) Automatically preserves indentation while editing.
+set et              # (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.
+set ts=2            # (tabstop) Displays tab characters as two spaces.
+set sw=2            # (shiftwidth) Uses a two-space indentation level when indenting or unindenting.
+set sts=2           # (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.
+set hls             # (highlightsearch) Highlights all search matches.
+set mouse=a         # (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.
+set cursorcolumn    # (cursorcolumn) Highlights the current cursor column, useful for YAML files.
 syntax on           # Enables syntax highlighting based on file extension.
 ```
 
@@ -128,21 +135,21 @@ scp ~/.vimrc node01:~/.vimrc
 
 __Bonus__: The following `vim` commands and operations cover all needs for editing files during the exam:
 
-```python
+```text
 ~                # toggle letter case (upper/lower)
 dd               # cut line
 p                # paste line
 u                # undo
-cW               # replace an entire word and active the insertion mode
-$                # go to the final line
-^                # go to the start line
-:%s/foo/bar/g    # substitutes (replaces) all occurrences of "foo" with "bar".
+cW               # replace an entire word and enter insert mode
+$                # go to the end of the line
+^                # go to the beginning of the line
+:%s/foo/bar/g    # replaces all occurrences of "foo" with "bar".
 :10,15>          # indents lines 10 through 15 by one shiftwidth.
-:10,15<          # back indents lines 10 through 15 by one shiftwidth.
+:10,15<          # unindents lines 10 through 15 by one shiftwidth.
 :30,50d          # cuts lines 30 through 50.
 :30,50t70        # copies lines 30 through 50 and pastes them right below line 70
-:30,50m70        # move lines 30 through 50 and pastes them right below line 70
-SHIFT+i » CTRL+y # repeat the line above character by character
+:30,50m70        # move lines 30 through 50 and paste them right below line 70
+SHIFT+i » CTRL+y # repeat the line above, character by character
 CTRL+c » select column » SHIFT+i » write text + ESC + ESC  # multi-line column insertion (comments)
 ```
 
