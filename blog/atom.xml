@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T22:15:33.858067+00:00</updated>
+  <updated>2026-07-14T22:22:50.696737+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -106,26 +106,27 @@ syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;     &lt;/span
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Bonus&lt;/strong&gt;: Here is my Vim cheatsheet covering commands to quickly edit YAML and configuration files.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;~&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; toggle letter case (upper/lower)&lt;/span&gt;
-dd&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; cut line&lt;/span&gt;
-y&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; copy&lt;/span&gt;
-p&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; paste&lt;/span&gt;
-u&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; undo&lt;/span&gt;
-V&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; enter in visual line mode&lt;/span&gt;
-CTRL+v&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; enter in visual block mode&lt;/span&gt;
-cW&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; replace an entire word and enter insert mode&lt;/span&gt;
-$&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; go to the end of the line&lt;/span&gt;
-&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; go to the beginning of the line&lt;/span&gt;
-50a&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; increase 50 in a number field (useful for requests and limits)&lt;/span&gt;
-50d&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; decrease 50 in a number field (useful for requests and limits)&lt;/span&gt;
-:%s/foo/bar/g&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; replaces all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;.&lt;/span&gt;
-:10,15&amp;gt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; indents lines 10 through 15 by one shiftwidth.&lt;/span&gt;
-:10,15&amp;lt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; unindents lines 10 through 15 by one shiftwidth.&lt;/span&gt;
-:30,50d&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; cuts lines 30 through 50.&lt;/span&gt;
-:30,50t70&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; copies lines 30 through 50 and pastes them right below line 70&lt;/span&gt;
-:30,50m70&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; move lines 30 through 50 and paste them right below line 70&lt;/span&gt;
-SHIFT+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; repeat the line above, character by character&lt;/span&gt;
-CTRL+v&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;column&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;SHIFT+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;write&lt;span class="w"&gt; &lt;/span&gt;text&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;ESC&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; multi-line column insertion (comments)&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;~&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; toggle character case (uppercase/lowercase)&lt;/span&gt;
+dd&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; delete (cut) the current line&lt;/span&gt;
+y&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; yank (copy)&lt;/span&gt;
+p&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; paste after the cursor&lt;/span&gt;
+u&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; undo the last change&lt;/span&gt;
+o&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; open a new line below and enter Insert mode&lt;/span&gt;
+cW&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; replace the current word and enter Insert mode&lt;/span&gt;
+$&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; move to the end of the line&lt;/span&gt;
+&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; move to the beginning of the line&lt;/span&gt;
+50a&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; increment the number under the cursor by 50 (useful for requests/limits)&lt;/span&gt;
+50d&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; decrement the number under the cursor by 50 (useful for requests/limits)&lt;/span&gt;
+:%s/foo/bar/g&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
+:10,15&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; indent lines 10–15 by one shiftwidth&lt;/span&gt;
+:10,15&amp;lt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; unindent lines 10–15 by one shiftwidth&lt;/span&gt;
+:30,50d&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; delete (cut) lines 30–50&lt;/span&gt;
+:30,50t70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; copy lines 30–50 and paste them below line 70&lt;/span&gt;
+:30,50m70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; move lines 30–50 below line 70&lt;/span&gt;
+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; insert the character directly above the cursor&lt;/span&gt;
+V&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; enter Visual Line mode&lt;/span&gt;
+CTRL+v&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; enter Visual Block mode&lt;/span&gt;
+CTRL+v&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;column&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;SHIFT+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;text&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;ESC&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt;  multi-line column insertion (comments)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;

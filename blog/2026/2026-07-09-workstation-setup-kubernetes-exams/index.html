@@ -486,26 +486,27 @@ syntax<span class="w"> </span>on<span class="w">     </span><span class="c1"># E
 </pre></div>
 </div>
 <p><strong>Bonus</strong>: Here is my Vim cheatsheet covering commands to quickly edit YAML and configuration files.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~<span class="w">                 </span><span class="c1"># &gt;&gt;&gt; toggle letter case (upper/lower)</span>
-dd<span class="w">                </span><span class="c1"># &gt;&gt;&gt; cut line</span>
-y<span class="w">                 </span><span class="c1"># &gt;&gt;&gt; copy</span>
-p<span class="w">                 </span><span class="c1"># &gt;&gt;&gt; paste</span>
-u<span class="w">                 </span><span class="c1"># &gt;&gt;&gt; undo</span>
-V<span class="w">                 </span><span class="c1"># &gt;&gt;&gt; enter in visual line mode</span>
-CTRL+v<span class="w">            </span><span class="c1"># &gt;&gt;&gt; enter in visual block mode</span>
-cW<span class="w">                </span><span class="c1"># &gt;&gt;&gt; replace an entire word and enter insert mode</span>
-$<span class="w">                 </span><span class="c1"># &gt;&gt;&gt; go to the end of the line</span>
-<span class="m">0</span><span class="w">                 </span><span class="c1"># &gt;&gt;&gt; go to the beginning of the line</span>
-50a<span class="w">               </span><span class="c1"># &gt;&gt;&gt; increase 50 in a number field (useful for requests and limits)</span>
-50d<span class="w">               </span><span class="c1"># &gt;&gt;&gt; decrease 50 in a number field (useful for requests and limits)</span>
-:%s/foo/bar/g<span class="w">     </span><span class="c1"># &gt;&gt;&gt; replaces all occurrences of &quot;foo&quot; with &quot;bar&quot;.</span>
-:10,15&gt;<span class="w">           </span><span class="c1"># &gt;&gt;&gt; indents lines 10 through 15 by one shiftwidth.</span>
-:10,15&lt;<span class="w">           </span><span class="c1"># &gt;&gt;&gt; unindents lines 10 through 15 by one shiftwidth.</span>
-:30,50d<span class="w">           </span><span class="c1"># &gt;&gt;&gt; cuts lines 30 through 50.</span>
-:30,50t70<span class="w">         </span><span class="c1"># &gt;&gt;&gt; copies lines 30 through 50 and pastes them right below line 70</span>
-:30,50m70<span class="w">         </span><span class="c1"># &gt;&gt;&gt; move lines 30 through 50 and paste them right below line 70</span>
-SHIFT+i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">  </span><span class="c1"># &gt;&gt;&gt; repeat the line above, character by character</span>
-CTRL+v<span class="w"> </span>»<span class="w"> </span><span class="k">select</span><span class="w"> </span>column<span class="w"> </span>»<span class="w"> </span>SHIFT+i<span class="w"> </span>»<span class="w"> </span>write<span class="w"> </span>text<span class="w"> </span>»<span class="w"> </span>ESC<span class="w">  </span><span class="c1"># &gt;&gt;&gt; multi-line column insertion (comments)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~<span class="w">               </span><span class="c1"># &gt;&gt;&gt; toggle character case (uppercase/lowercase)</span>
+dd<span class="w">              </span><span class="c1"># &gt;&gt;&gt; delete (cut) the current line</span>
+y<span class="w">               </span><span class="c1"># &gt;&gt;&gt; yank (copy)</span>
+p<span class="w">               </span><span class="c1"># &gt;&gt;&gt; paste after the cursor</span>
+u<span class="w">               </span><span class="c1"># &gt;&gt;&gt; undo the last change</span>
+o<span class="w">               </span><span class="c1"># &gt;&gt;&gt; open a new line below and enter Insert mode</span>
+cW<span class="w">              </span><span class="c1"># &gt;&gt;&gt; replace the current word and enter Insert mode</span>
+$<span class="w">               </span><span class="c1"># &gt;&gt;&gt; move to the end of the line</span>
+<span class="m">0</span><span class="w">               </span><span class="c1"># &gt;&gt;&gt; move to the beginning of the line</span>
+50a<span class="w">             </span><span class="c1"># &gt;&gt;&gt; increment the number under the cursor by 50 (useful for requests/limits)</span>
+50d<span class="w">             </span><span class="c1"># &gt;&gt;&gt; decrement the number under the cursor by 50 (useful for requests/limits)</span>
+:%s/foo/bar/g<span class="w">   </span><span class="c1"># &gt;&gt;&gt; replace all occurrences of &quot;foo&quot; with &quot;bar&quot;</span>
+:10,15&gt;<span class="w">         </span><span class="c1"># &gt;&gt;&gt; indent lines 10–15 by one shiftwidth</span>
+:10,15&lt;<span class="w">         </span><span class="c1"># &gt;&gt;&gt; unindent lines 10–15 by one shiftwidth</span>
+:30,50d<span class="w">         </span><span class="c1"># &gt;&gt;&gt; delete (cut) lines 30–50</span>
+:30,50t70<span class="w">       </span><span class="c1"># &gt;&gt;&gt; copy lines 30–50 and paste them below line 70</span>
+:30,50m70<span class="w">       </span><span class="c1"># &gt;&gt;&gt; move lines 30–50 below line 70</span>
+i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">      </span><span class="c1"># &gt;&gt;&gt; insert the character directly above the cursor</span>
+V<span class="w">               </span><span class="c1"># &gt;&gt;&gt; enter Visual Line mode</span>
+CTRL+v<span class="w">          </span><span class="c1"># &gt;&gt;&gt; enter Visual Block mode</span>
+CTRL+v<span class="w"> </span>»<span class="w"> </span><span class="k">select</span><span class="w"> </span>column<span class="w"> </span>»<span class="w"> </span>SHIFT+i<span class="w"> </span>»<span class="w"> </span><span class="nb">type</span><span class="w"> </span>text<span class="w"> </span>»<span class="w"> </span>ESC<span class="w">  </span><span class="c1"># &gt;&gt;&gt;  multi-line column insertion (comments)</span>
 </pre></div>
 </div>
 </section>
