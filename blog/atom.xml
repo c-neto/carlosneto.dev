@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T19:07:55.852118+00:00</updated>
+  <updated>2026-07-14T19:26:05.675601+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -106,7 +106,7 @@ ls&lt;span class="w"&gt; &lt;/span&gt;-lahrt&lt;span class="w"&gt;     &lt;/span
 &lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.&lt;/span&gt;
 &lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;hls&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# (highlightsearch) Highlights all search matches.&lt;/span&gt;
 &lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;mouse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;a&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cursorcolumn&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# (cursorcolumn) Highlights the current cursor column, useful for YAML files.&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cuc&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# (cursorcolumn) Highlights the current cursor column, useful for YAML files.&lt;/span&gt;
 syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Enables syntax highlighting based on file extension.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
