@@ -409,7 +409,7 @@
 </section>
 <section id="disable-mission-control-shortcuts-macbooks">
 <h2>Disable Mission Control Shortcuts (MacBooks)<a class="headerlink" href="#disable-mission-control-shortcuts-macbooks" title="Link to this heading">#</a></h2>
-<p>If you press <strong>Ctrl + ←/→</strong> it change the macOS desktop (Space), which may trigger the exam proctor and can lead to the exam interruption. Disable these shortcuts before the exam:</p>
+<p>If you press <strong>Ctrl + ←/→</strong>, it changes the macOS desktop (Space), which may trigger the exam proctor and can lead to exam interruption. Disable these shortcuts before the exam:</p>
 <ol class="arabic simple">
 <li><p>Open <strong><em>System Settings » Keyboard » Keyboard Shortcuts</em></strong></p></li>
 <li><p>Select <code class="docutils literal notranslate"><span class="pre">Mission</span> <span class="pre">Control</span></code></p></li>
@@ -440,7 +440,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </div>
 <p>Commands such as <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">describe</span> <span class="pre">pod</span> <span class="pre">nginx</span></code> or <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">list</span></code> are skipped because they do not match the typed prefix.</p>
 <p>This is much faster than the default <strong>↑</strong> behavior, which walks through every command in your history, and often more convenient than repeatedly using <strong>Ctrl + R</strong> during the exam.</p>
-<p>To enable this behavior, create the <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code> file and add following configuration:</p>
+<p>To enable this behavior, create the <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code> file and add the following configuration:</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">~/.inputrc</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;\e[A&quot;</span>:<span class="w"> </span>history-search-backward<span class="w">   </span><span class="c1"># ↑ (previous matching command)</span>
@@ -478,11 +478,11 @@ syntax<span class="w"> </span>on<span class="w">     </span><span class="c1"># E
 </pre></div>
 </div>
 </div>
-<p>Copy the file to remote node of the exam question (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
+<p>Copy the file to the remote node for the exam question (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
 </pre></div>
 </div>
-<p><strong>Bonus</strong>: The following <code class="docutils literal notranslate"><span class="pre">vim</span></code> commands and operations cover all needs for editing files during the exam:</p>
+<p><strong>Bonus</strong>: Here is my Vim cheatsheet covering the essential commands to quickly edit YAML and configuration files.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~<span class="w">                 </span><span class="c1"># &gt;&gt;&gt; toggle letter case (upper/lower)</span>
 dd<span class="w">                </span><span class="c1"># &gt;&gt;&gt; cut line</span>
 p<span class="w">                 </span><span class="c1"># &gt;&gt;&gt; paste line</span>
@@ -520,7 +520,7 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <span class="c1"># disable default Ctrl+W word erase behavior in terminal to be able to use backward-kill-word instead.</span>
 stty<span class="w"> </span>werase<span class="w"> </span>undef
 
-<span class="c1"># create a quick backup command `$ bkp &lt;file&gt;` to copy of a file by appending .bkp</span>
+<span class="c1"># create a quick backup command `$ bkp &lt;file&gt;` to copy a file by appending .bkp</span>
 bkp<span class="o">()</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">.bkp&quot;</span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
 
 <span class="c1"># kubectl aliases</span>

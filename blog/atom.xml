@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T21:37:46.517621+00:00</updated>
+  <updated>2026-07-14T21:41:11.423455+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -29,7 +29,7 @@
 &lt;/section&gt;
 &lt;section id="disable-mission-control-shortcuts-macbooks"&gt;
 &lt;h2&gt;Disable Mission Control Shortcuts (MacBooks)&lt;/h2&gt;
-&lt;p&gt;If you press &lt;strong&gt;Ctrl + ←/→&lt;/strong&gt; it change the macOS desktop (Space), which may trigger the exam proctor and can lead to the exam interruption. Disable these shortcuts before the exam:&lt;/p&gt;
+&lt;p&gt;If you press &lt;strong&gt;Ctrl + ←/→&lt;/strong&gt;, it changes the macOS desktop (Space), which may trigger the exam proctor and can lead to exam interruption. Disable these shortcuts before the exam:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
 &lt;li&gt;&lt;p&gt;Open &lt;strong&gt;&lt;em&gt;System Settings » Keyboard » Keyboard Shortcuts&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Select &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Mission&lt;/span&gt; &lt;span class="pre"&gt;Control&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
@@ -60,7 +60,7 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;/div&gt;
 &lt;p&gt;Commands such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;describe&lt;/span&gt; &lt;span class="pre"&gt;pod&lt;/span&gt; &lt;span class="pre"&gt;nginx&lt;/span&gt;&lt;/code&gt; or &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;helm&lt;/span&gt; &lt;span class="pre"&gt;list&lt;/span&gt;&lt;/code&gt; are skipped because they do not match the typed prefix.&lt;/p&gt;
 &lt;p&gt;This is much faster than the default &lt;strong&gt;↑&lt;/strong&gt; behavior, which walks through every command in your history, and often more convenient than repeatedly using &lt;strong&gt;Ctrl + R&lt;/strong&gt; during the exam.&lt;/p&gt;
-&lt;p&gt;To enable this behavior, create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt; file and add following configuration:&lt;/p&gt;
+&lt;p&gt;To enable this behavior, create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.inputrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\e[A&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-backward&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# ↑ (previous matching command)&lt;/span&gt;
@@ -98,11 +98,11 @@ syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;     &lt;/span
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Copy the file to remote node of the exam question (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
+&lt;p&gt;Copy the file to the remote node for the exam question (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;Bonus&lt;/strong&gt;: The following &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt; commands and operations cover all needs for editing files during the exam:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Bonus&lt;/strong&gt;: Here is my Vim cheatsheet covering the essential commands to quickly edit YAML and configuration files.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;~&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; toggle letter case (upper/lower)&lt;/span&gt;
 dd&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; cut line&lt;/span&gt;
 p&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; paste line&lt;/span&gt;
@@ -140,7 +140,7 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 &lt;span class="c1"&gt;# disable default Ctrl+W word erase behavior in terminal to be able to use backward-kill-word instead.&lt;/span&gt;
 stty&lt;span class="w"&gt; &lt;/span&gt;werase&lt;span class="w"&gt; &lt;/span&gt;undef
 
-&lt;span class="c1"&gt;# create a quick backup command `$ bkp &amp;lt;file&amp;gt;` to copy of a file by appending .bkp&lt;/span&gt;
+&lt;span class="c1"&gt;# create a quick backup command `$ bkp &amp;lt;file&amp;gt;` to copy a file by appending .bkp&lt;/span&gt;
 bkp&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cp&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;.bkp&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
 
 &lt;span class="c1"&gt;# kubectl aliases&lt;/span&gt;
