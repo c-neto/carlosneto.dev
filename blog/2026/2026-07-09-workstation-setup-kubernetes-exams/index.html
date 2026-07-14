@@ -485,6 +485,9 @@ syntax<span class="w"> </span>on<span class="w">           </span><span class="c
 dd               # cut line
 <span class="k">p</span>                # <span class="nb">paste</span> line
 <span class="k">u</span>                # undo
+cW               # replace an entire word and active the insertion <span class="k">mode</span>
+$                # <span class="k">go</span> <span class="k">to</span> the <span class="k">final</span> line
+^                # <span class="k">go</span> <span class="k">to</span> the <span class="k">start</span> line
 <span class="p">:</span>%s<span class="sr">/foo/</span>bar/<span class="k">g</span>    # substitutes <span class="p">(</span>replaces<span class="p">)</span> <span class="k">all</span> occurrences of <span class="s2">&quot;foo&quot;</span> with <span class="s2">&quot;bar&quot;</span>.
 <span class="p">:</span><span class="m">10</span><span class="p">,</span><span class="m">15</span><span class="p">&gt;</span>          # indents <span class="nb">lines</span> <span class="m">10</span> through <span class="m">15</span> by one <span class="nb">shiftwidth</span>.
 <span class="p">:</span><span class="m">10</span><span class="p">,</span><span class="m">15</span><span class="p">&lt;</span>          # back indents <span class="nb">lines</span> <span class="m">10</span> through <span class="m">15</span> by one <span class="nb">shiftwidth</span>.
@@ -492,7 +495,7 @@ dd               # cut line
 <span class="p">:</span><span class="m">30</span><span class="p">,</span><span class="m">50</span>t<span class="m">70</span>        # copies <span class="nb">lines</span> <span class="m">30</span> through <span class="m">50</span> and pastes them <span class="k">right</span> <span class="k">below</span> line <span class="m">70</span>
 <span class="p">:</span><span class="m">30</span><span class="p">,</span><span class="m">50</span>m<span class="m">70</span>        # move <span class="nb">lines</span> <span class="m">30</span> through <span class="m">50</span> and pastes them <span class="k">right</span> <span class="k">below</span> line <span class="m">70</span>
 SHIFT<span class="p">+</span><span class="k">i</span> » CTRL<span class="p">+</span><span class="k">y</span> # repeat the line <span class="k">above</span> character by character
-CTRL<span class="p">+</span><span class="k">c</span> » select column » SHIFT<span class="p">+</span><span class="k">i</span> » <span class="nb">write</span> text <span class="p">+</span> esc <span class="p">+</span> esc  # multi<span class="p">-</span>line column insertion<span class="p">,</span> useful <span class="k">to</span> add <span class="nb">comments</span>
+CTRL<span class="p">+</span><span class="k">c</span> » select column » SHIFT<span class="p">+</span><span class="k">i</span> » <span class="nb">write</span> text <span class="p">+</span> ESC <span class="p">+</span> ESC  # multi<span class="p">-</span>line column insertion<span class="p">,</span> useful <span class="k">to</span> add <span class="nb">comments</span>
 </pre></div>
 </div>
 </section>
