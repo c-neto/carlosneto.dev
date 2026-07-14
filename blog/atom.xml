@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T22:09:09.377151+00:00</updated>
+  <updated>2026-07-14T22:11:57.168626+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -108,7 +108,8 @@ syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;     &lt;/span
 &lt;p&gt;&lt;strong&gt;Bonus&lt;/strong&gt;: Here is my Vim cheatsheet covering commands to quickly edit YAML and configuration files.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;~&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; toggle letter case (upper/lower)&lt;/span&gt;
 dd&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; cut line&lt;/span&gt;
-p&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; paste line&lt;/span&gt;
+y&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; copy&lt;/span&gt;
+p&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; paste&lt;/span&gt;
 u&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; undo&lt;/span&gt;
 cW&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; replace an entire word and enter insert mode&lt;/span&gt;
 $&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; go to the end of the line&lt;/span&gt;
