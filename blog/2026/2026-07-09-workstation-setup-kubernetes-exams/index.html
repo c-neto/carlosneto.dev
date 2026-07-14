@@ -419,8 +419,8 @@
 </ol>
 <p>This helps avoid issues that can trigger an exam notification and, in the worst case, suspend your exam on suspicion of consulting material on your PC.</p>
 </section>
-<section id="bash-history-search">
-<h2>Bash History Search<a class="headerlink" href="#bash-history-search" title="Link to this heading">#</a></h2>
+<section id="history-search-by-prefix">
+<h2>History Search by Prefix<a class="headerlink" href="#history-search-by-prefix" title="Link to this heading">#</a></h2>
 <p><strong>This is probably my most valuable tip!</strong></p>
 <p>The exam environment uses <strong>Bash</strong> as the default shell. Behind the scenes, Bash relies on the <strong>GNU Readline</strong> library, which provides command-line editing, key bindings, and history navigation. For example, the interactive reverse search that appears when you press <strong>CTRL + R</strong> is implemented by GNU Readline.</p>
 <p>One of Readline’s most useful features is history search by prefix. The <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029">history-search-backward</a> and <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dforward-_0028_0029">history-search-forward</a> functions search your command history using the text that already exists before the cursor, instead of simply moving to the previous or next command.</p>
