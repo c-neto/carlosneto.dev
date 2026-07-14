@@ -144,6 +144,7 @@ $               # >>> move to the end of the line
 i » CTRL+y      # >>> insert the character directly above the cursor
 V               # >>> enter Visual Line mode
 CTRL+v          # >>> enter Visual Block mode
+gv              # >>> reselect the last Visual selection
 CTRL+v » select column » SHIFT+i » type text » ESC  # >>>  multi-line column insertion (comments)
 ```
 
