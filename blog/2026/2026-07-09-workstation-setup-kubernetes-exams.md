@@ -120,7 +120,7 @@ scp ~/.vimrc node01:~/.vimrc
 
 __Bonus__: The following `vim` commands and operations cover all needs for editing files during the exam:
 
-```bash
+```vim
 ~                # toggle letter case (upper/lower)
 dd               # cut line
 p                # paste line
