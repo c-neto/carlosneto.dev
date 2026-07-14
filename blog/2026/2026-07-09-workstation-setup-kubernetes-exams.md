@@ -20,8 +20,9 @@ This guide walks through the workstation optimizations I use to work more effici
 
 If you're taking the exam on a MacBook, make sure your keyboard layout is set to `U.S.`. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially `~` and `` ` ``, when using layouts such as `Brazilian – ABNT2`.
 
-1. Open ***Settings » Keyboard » Text Input » Edit***
-2. Set `U.S.` as your only input source.
+1. Open ***System Settings » Keyboard » Input Sources***.
+2. Add `U.S.` input source.
+3. Remove any other input sources so only `U.S.` remains.
 
 This helps prevent unexpected keyboard mapping issues during the exam.
 
