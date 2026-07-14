@@ -33,7 +33,7 @@ Before the exam:
 
 1. Open ***System Settings » Keyboard » Keyboard Shortcuts***
 2. Select ***Mission Control***
-3. Disable all shortcuts under **Mission Control**.
+3. Disable all shortcuts under ***Mission Control***.
 
 This helps prevent accidental desktop switching and reduces the risk of unnecessary proctor alerts or exam suspension on suspicion of consulting unauthorized material.
 
