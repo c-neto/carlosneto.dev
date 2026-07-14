@@ -43,7 +43,6 @@ The exam environment uses __Bash__ as the default shell. Behind the scenes, Bash
 
 Two useful Readline functions are __not bound to keys by default__: `history-search-backward` and `history-search-forward`. These functions search your command history using the text you've already typed at the prompt.
 
-For example to undestand the `history-search-backward` and `history-search-forward`, suppose you previously executed the following commands:
 For example, to understand the `history-search-backward` and `history-search-forward` functions, suppose you previously executed the following commands:
 
 ```bash
@@ -174,7 +173,7 @@ Append the following aliases to the end of the file:
 # disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.
 stty werase undef
 
-# create a quick backup copy of a file by appending .bkp
+# create a quick backup command `$ bkp <file>` to copy of a file by appending .bkp
 bkp() { cp "$1" "$1.bkp"; }
 
 # kubectl aliases
