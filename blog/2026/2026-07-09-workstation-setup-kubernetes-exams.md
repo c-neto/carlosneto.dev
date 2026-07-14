@@ -122,7 +122,7 @@ set sw=2            # (shiftwidth) Uses a two-space indentation level when inden
 set sts=2           # (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.
 set hls             # (highlightsearch) Highlights all search matches.
 set mouse=a         # (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.
-set cursorcolumn    # (cursorcolumn) Highlights the current cursor column, useful for YAML files.
+set cuc             # (cursorcolumn) Highlights the current cursor column, useful for YAML files.
 syntax on           # Enables syntax highlighting based on file extension.
 ```
 
