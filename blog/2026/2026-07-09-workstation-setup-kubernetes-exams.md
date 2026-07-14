@@ -103,7 +103,7 @@ Create the `~/.vimrc` file and add the following configuration:
 
 ```{code-block} bash
 :caption: ~/.vimrc
-set nu        # (number) Displays line numbers, making cursor movement and line range operations easier.
+set nu        # (number) Displays line numbers.
 set ai        # (autoindent) Automatically preserves indentation while editing.
 set et        # (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.
 set ts=2      # (tabstop) Displays tab characters as two spaces.
