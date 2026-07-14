@@ -123,26 +123,27 @@ scp ~/.vimrc node01:~/.vimrc
 __Bonus__: Here is my Vim cheatsheet covering commands to quickly edit YAML and configuration files.
 
 ```bash
-~                 # >>> toggle letter case (upper/lower)
-dd                # >>> cut line
-y                 # >>> copy
-p                 # >>> paste
-u                 # >>> undo
-V                 # >>> enter in visual line mode
-CTRL+v            # >>> enter in visual block mode
-cW                # >>> replace an entire word and enter insert mode
-$                 # >>> go to the end of the line
-0                 # >>> go to the beginning of the line
-50a               # >>> increase 50 in a number field (useful for requests and limits)
-50d               # >>> decrease 50 in a number field (useful for requests and limits)
-:%s/foo/bar/g     # >>> replaces all occurrences of "foo" with "bar".
-:10,15>           # >>> indents lines 10 through 15 by one shiftwidth.
-:10,15<           # >>> unindents lines 10 through 15 by one shiftwidth.
-:30,50d           # >>> cuts lines 30 through 50.
-:30,50t70         # >>> copies lines 30 through 50 and pastes them right below line 70
-:30,50m70         # >>> move lines 30 through 50 and paste them right below line 70
-SHIFT+i » CTRL+y  # >>> repeat the line above, character by character
-CTRL+v » select column » SHIFT+i » write text » ESC  # >>> multi-line column insertion (comments)
+~               # >>> toggle character case (uppercase/lowercase)
+dd              # >>> delete (cut) the current line
+y               # >>> yank (copy)
+p               # >>> paste after the cursor
+u               # >>> undo the last change
+o               # >>> open a new line below and enter Insert mode
+cW              # >>> replace the current word and enter Insert mode
+$               # >>> move to the end of the line
+0               # >>> move to the beginning of the line
+50a             # >>> increment the number under the cursor by 50 (useful for requests/limits)
+50d             # >>> decrement the number under the cursor by 50 (useful for requests/limits)
+:%s/foo/bar/g   # >>> replace all occurrences of "foo" with "bar"
+:10,15>         # >>> indent lines 10–15 by one shiftwidth
+:10,15<         # >>> unindent lines 10–15 by one shiftwidth
+:30,50d         # >>> delete (cut) lines 30–50
+:30,50t70       # >>> copy lines 30–50 and paste them below line 70
+:30,50m70       # >>> move lines 30–50 below line 70
+i » CTRL+y      # >>> insert the character directly above the cursor
+V               # >>> enter Visual Line mode
+CTRL+v          # >>> enter Visual Block mode
+CTRL+v » select column » SHIFT+i » type text » ESC  # >>>  multi-line column insertion (comments)
 ```
 
 ## Kubectl Aliases and Shortcuts
