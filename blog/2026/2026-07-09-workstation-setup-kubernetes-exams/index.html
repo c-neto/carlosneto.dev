@@ -481,21 +481,21 @@ syntax<span class="w"> </span>on<span class="w">           </span><span class="c
 </pre></div>
 </div>
 <p><strong>Bonus</strong>: The following <code class="docutils literal notranslate"><span class="pre">vim</span></code> commands and operations cover all needs for editing files during the exam:</p>
-<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="p">~</span>                # toggle letter case <span class="p">(</span>upper/lower<span class="p">)</span>
-dd               # cut line
-<span class="k">p</span>                # <span class="nb">paste</span> line
-<span class="k">u</span>                # undo
-cW               # replace an entire word and active the insertion <span class="k">mode</span>
-$                # <span class="k">go</span> <span class="k">to</span> the <span class="k">final</span> line
-^                # <span class="k">go</span> <span class="k">to</span> the <span class="k">start</span> line
-<span class="p">:</span>%s<span class="sr">/foo/</span>bar/<span class="k">g</span>    # substitutes <span class="p">(</span>replaces<span class="p">)</span> <span class="k">all</span> occurrences of <span class="s2">&quot;foo&quot;</span> with <span class="s2">&quot;bar&quot;</span>.
-<span class="p">:</span><span class="m">10</span><span class="p">,</span><span class="m">15</span><span class="p">&gt;</span>          # indents <span class="nb">lines</span> <span class="m">10</span> through <span class="m">15</span> by one <span class="nb">shiftwidth</span>.
-<span class="p">:</span><span class="m">10</span><span class="p">,</span><span class="m">15</span><span class="p">&lt;</span>          # back indents <span class="nb">lines</span> <span class="m">10</span> through <span class="m">15</span> by one <span class="nb">shiftwidth</span>.
-<span class="p">:</span><span class="m">30</span><span class="p">,</span><span class="m">50</span>d          # cuts <span class="nb">lines</span> <span class="m">30</span> through <span class="m">50</span>.
-<span class="p">:</span><span class="m">30</span><span class="p">,</span><span class="m">50</span>t<span class="m">70</span>        # copies <span class="nb">lines</span> <span class="m">30</span> through <span class="m">50</span> and pastes them <span class="k">right</span> <span class="k">below</span> line <span class="m">70</span>
-<span class="p">:</span><span class="m">30</span><span class="p">,</span><span class="m">50</span>m<span class="m">70</span>        # move <span class="nb">lines</span> <span class="m">30</span> through <span class="m">50</span> and pastes them <span class="k">right</span> <span class="k">below</span> line <span class="m">70</span>
-SHIFT<span class="p">+</span><span class="k">i</span> » CTRL<span class="p">+</span><span class="k">y</span> # repeat the line <span class="k">above</span> character by character
-CTRL<span class="p">+</span><span class="k">c</span> » select column » SHIFT<span class="p">+</span><span class="k">i</span> » <span class="nb">write</span> text <span class="p">+</span> ESC <span class="p">+</span> ESC  # multi<span class="p">-</span>line column insertion<span class="p">,</span> useful <span class="k">to</span> add <span class="nb">comments</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">~</span>                <span class="c1"># toggle letter case (upper/lower)</span>
+<span class="n">dd</span>               <span class="c1"># cut line</span>
+<span class="n">p</span>                <span class="c1"># paste line</span>
+<span class="n">u</span>                <span class="c1"># undo</span>
+<span class="n">cW</span>               <span class="c1"># replace an entire word and active the insertion mode</span>
+<span class="err">$</span>                <span class="c1"># go to the final line</span>
+<span class="o">^</span>                <span class="c1"># go to the start line</span>
+<span class="p">:</span><span class="o">%</span><span class="n">s</span><span class="o">/</span><span class="n">foo</span><span class="o">/</span><span class="n">bar</span><span class="o">/</span><span class="n">g</span>    <span class="c1"># substitutes (replaces) all occurrences of &quot;foo&quot; with &quot;bar&quot;.</span>
+<span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="o">&gt;</span>          <span class="c1"># indents lines 10 through 15 by one shiftwidth.</span>
+<span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="o">&lt;</span>          <span class="c1"># back indents lines 10 through 15 by one shiftwidth.</span>
+<span class="p">:</span><span class="mi">30</span><span class="p">,</span><span class="mi">50</span><span class="n">d</span>          <span class="c1"># cuts lines 30 through 50.</span>
+<span class="p">:</span><span class="mi">30</span><span class="p">,</span><span class="mi">50</span><span class="n">t70</span>        <span class="c1"># copies lines 30 through 50 and pastes them right below line 70</span>
+<span class="p">:</span><span class="mi">30</span><span class="p">,</span><span class="mi">50</span><span class="n">m70</span>        <span class="c1"># move lines 30 through 50 and pastes them right below line 70</span>
+<span class="n">SHIFT</span><span class="o">+</span><span class="n">i</span> <span class="err">»</span> <span class="n">CTRL</span><span class="o">+</span><span class="n">y</span> <span class="c1"># repeat the line above character by character</span>
+<span class="n">CTRL</span><span class="o">+</span><span class="n">c</span> <span class="err">»</span> <span class="n">select</span> <span class="n">column</span> <span class="err">»</span> <span class="n">SHIFT</span><span class="o">+</span><span class="n">i</span> <span class="err">»</span> <span class="n">write</span> <span class="n">text</span> <span class="o">+</span> <span class="n">ESC</span> <span class="o">+</span> <span class="n">ESC</span>  <span class="c1"># multi-line column insertion (comments)</span>
 </pre></div>
 </div>
 </section>
