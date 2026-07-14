@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T22:48:29.755337+00:00</updated>
+  <updated>2026-07-14T22:49:48.005653+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -107,29 +107,29 @@ syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;     &lt;/span
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Bonus&lt;/strong&gt;: Here is my Vim cheatsheet covering commands to quickly edit YAML and configuration files.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;.&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; repeat last executed command&lt;/span&gt;
-~&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; toggle character case (uppercase/lowercase)&lt;/span&gt;
-dd&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; delete (cut) the current line&lt;/span&gt;
-y&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; yank (copy)&lt;/span&gt;
-p&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; paste after the cursor&lt;/span&gt;
-u&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; undo the last change&lt;/span&gt;
-o&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; open a new line below and enter Insert mode&lt;/span&gt;
-cW&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; replace the current word and enter Insert mode&lt;/span&gt;
-$&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; move to the end of the line&lt;/span&gt;
-&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; move to the beginning of the line&lt;/span&gt;
-50a&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; increment the number under the cursor by 50 (useful for requests/limits)&lt;/span&gt;
-40d&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; decrement the number under the cursor by 40 (useful for requests/limits)&lt;/span&gt;
-:%s/foo/bar/g&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
-:10,15&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; indent lines 10–15 by one shiftwidth&lt;/span&gt;
-:10,15&amp;lt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; unindent lines 10–15 by one shiftwidth&lt;/span&gt;
-:30,50d&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; delete (cut) lines 30–50&lt;/span&gt;
-:30,50t70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; copy lines 30–50 and paste them below line 70&lt;/span&gt;
-:30,50m70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; move lines 30–50 below line 70&lt;/span&gt;
-i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; copy line above character by character&lt;/span&gt;
-V&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; enter Visual Line mode&lt;/span&gt;
-CTRL+v&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; enter Visual Block mode&lt;/span&gt;
-gv&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; reselect the last Visual selection&lt;/span&gt;
-CTRL+v&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;column&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;SHIFT+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;text&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;ESC&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; multi-line column insertion (comments)&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;.&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# repeat last executed command&lt;/span&gt;
+~&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# toggle character case (uppercase/lowercase)&lt;/span&gt;
+dd&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# delete (cut) the current line&lt;/span&gt;
+y&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# yank (copy)&lt;/span&gt;
+p&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# paste after the cursor&lt;/span&gt;
+u&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# undo the last change&lt;/span&gt;
+o&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# open a new line below and enter Insert mode&lt;/span&gt;
+cW&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# replace the current word and enter Insert mode&lt;/span&gt;
+$&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the end of the line&lt;/span&gt;
+&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the beginning of the line&lt;/span&gt;
+50a&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# increment the number under the cursor by 50 (useful for requests/limits)&lt;/span&gt;
+40d&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# decrement the number under the cursor by 40 (useful for requests/limits)&lt;/span&gt;
+:%s/foo/bar/g&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
+:10,15&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# indent lines 10–15 by one shiftwidth&lt;/span&gt;
+:10,15&amp;lt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# unindent lines 10–15 by one shiftwidth&lt;/span&gt;
+:30,50d&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# delete (cut) lines 30–50&lt;/span&gt;
+:30,50t70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# copy lines 30–50 and paste them below line 70&lt;/span&gt;
+:30,50m70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# move lines 30–50 below line 70&lt;/span&gt;
+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# copy line above character by character&lt;/span&gt;
+V&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# enter Visual Line mode&lt;/span&gt;
+CTRL+v&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# enter Visual Block mode&lt;/span&gt;
+gv&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# reselect the last Visual selection&lt;/span&gt;
+CTRL+v&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;column&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;SHIFT+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;text&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;ESC&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# multi-line column insertion (comments)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
@@ -145,7 +145,7 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 &lt;p&gt;Append the following aliases to the end of the file:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.bashrc&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;### &amp;gt;&amp;gt;&amp;gt; omitted the .bashrc copied from question node&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;### omitted the .bashrc copied from question node&lt;/span&gt;
 
 &lt;span class="c1"&gt;# disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.&lt;/span&gt;
 stty&lt;span class="w"&gt; &lt;/span&gt;werase&lt;span class="w"&gt; &lt;/span&gt;undef

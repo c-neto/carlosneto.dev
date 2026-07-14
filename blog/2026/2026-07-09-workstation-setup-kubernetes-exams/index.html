@@ -487,29 +487,29 @@ syntax<span class="w"> </span>on<span class="w">     </span><span class="c1"># E
 </pre></div>
 </div>
 <p><strong>Bonus</strong>: Here is my Vim cheatsheet covering commands to quickly edit YAML and configuration files.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w">               </span><span class="c1"># &gt;&gt;&gt; repeat last executed command</span>
-~<span class="w">               </span><span class="c1"># &gt;&gt;&gt; toggle character case (uppercase/lowercase)</span>
-dd<span class="w">              </span><span class="c1"># &gt;&gt;&gt; delete (cut) the current line</span>
-y<span class="w">               </span><span class="c1"># &gt;&gt;&gt; yank (copy)</span>
-p<span class="w">               </span><span class="c1"># &gt;&gt;&gt; paste after the cursor</span>
-u<span class="w">               </span><span class="c1"># &gt;&gt;&gt; undo the last change</span>
-o<span class="w">               </span><span class="c1"># &gt;&gt;&gt; open a new line below and enter Insert mode</span>
-cW<span class="w">              </span><span class="c1"># &gt;&gt;&gt; replace the current word and enter Insert mode</span>
-$<span class="w">               </span><span class="c1"># &gt;&gt;&gt; move to the end of the line</span>
-<span class="m">0</span><span class="w">               </span><span class="c1"># &gt;&gt;&gt; move to the beginning of the line</span>
-50a<span class="w">             </span><span class="c1"># &gt;&gt;&gt; increment the number under the cursor by 50 (useful for requests/limits)</span>
-40d<span class="w">             </span><span class="c1"># &gt;&gt;&gt; decrement the number under the cursor by 40 (useful for requests/limits)</span>
-:%s/foo/bar/g<span class="w">   </span><span class="c1"># &gt;&gt;&gt; replace all occurrences of &quot;foo&quot; with &quot;bar&quot;</span>
-:10,15&gt;<span class="w">         </span><span class="c1"># &gt;&gt;&gt; indent lines 10–15 by one shiftwidth</span>
-:10,15&lt;<span class="w">         </span><span class="c1"># &gt;&gt;&gt; unindent lines 10–15 by one shiftwidth</span>
-:30,50d<span class="w">         </span><span class="c1"># &gt;&gt;&gt; delete (cut) lines 30–50</span>
-:30,50t70<span class="w">       </span><span class="c1"># &gt;&gt;&gt; copy lines 30–50 and paste them below line 70</span>
-:30,50m70<span class="w">       </span><span class="c1"># &gt;&gt;&gt; move lines 30–50 below line 70</span>
-i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">      </span><span class="c1"># &gt;&gt;&gt; copy line above character by character</span>
-V<span class="w">               </span><span class="c1"># &gt;&gt;&gt; enter Visual Line mode</span>
-CTRL+v<span class="w">          </span><span class="c1"># &gt;&gt;&gt; enter Visual Block mode</span>
-gv<span class="w">              </span><span class="c1"># &gt;&gt;&gt; reselect the last Visual selection</span>
-CTRL+v<span class="w"> </span>»<span class="w"> </span><span class="k">select</span><span class="w"> </span>column<span class="w"> </span>»<span class="w"> </span>SHIFT+i<span class="w"> </span>»<span class="w"> </span><span class="nb">type</span><span class="w"> </span>text<span class="w"> </span>»<span class="w"> </span>ESC<span class="w">  </span><span class="c1"># &gt;&gt;&gt; multi-line column insertion (comments)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w">               </span><span class="c1"># repeat last executed command</span>
+~<span class="w">               </span><span class="c1"># toggle character case (uppercase/lowercase)</span>
+dd<span class="w">              </span><span class="c1"># delete (cut) the current line</span>
+y<span class="w">               </span><span class="c1"># yank (copy)</span>
+p<span class="w">               </span><span class="c1"># paste after the cursor</span>
+u<span class="w">               </span><span class="c1"># undo the last change</span>
+o<span class="w">               </span><span class="c1"># open a new line below and enter Insert mode</span>
+cW<span class="w">              </span><span class="c1"># replace the current word and enter Insert mode</span>
+$<span class="w">               </span><span class="c1"># move to the end of the line</span>
+<span class="m">0</span><span class="w">               </span><span class="c1"># move to the beginning of the line</span>
+50a<span class="w">             </span><span class="c1"># increment the number under the cursor by 50 (useful for requests/limits)</span>
+40d<span class="w">             </span><span class="c1"># decrement the number under the cursor by 40 (useful for requests/limits)</span>
+:%s/foo/bar/g<span class="w">   </span><span class="c1"># replace all occurrences of &quot;foo&quot; with &quot;bar&quot;</span>
+:10,15&gt;<span class="w">         </span><span class="c1"># indent lines 10–15 by one shiftwidth</span>
+:10,15&lt;<span class="w">         </span><span class="c1"># unindent lines 10–15 by one shiftwidth</span>
+:30,50d<span class="w">         </span><span class="c1"># delete (cut) lines 30–50</span>
+:30,50t70<span class="w">       </span><span class="c1"># copy lines 30–50 and paste them below line 70</span>
+:30,50m70<span class="w">       </span><span class="c1"># move lines 30–50 below line 70</span>
+i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">      </span><span class="c1"># copy line above character by character</span>
+V<span class="w">               </span><span class="c1"># enter Visual Line mode</span>
+CTRL+v<span class="w">          </span><span class="c1"># enter Visual Block mode</span>
+gv<span class="w">              </span><span class="c1"># reselect the last Visual selection</span>
+CTRL+v<span class="w"> </span>»<span class="w"> </span><span class="k">select</span><span class="w"> </span>column<span class="w"> </span>»<span class="w"> </span>SHIFT+i<span class="w"> </span>»<span class="w"> </span><span class="nb">type</span><span class="w"> </span>text<span class="w"> </span>»<span class="w"> </span>ESC<span class="w">  </span><span class="c1"># multi-line column insertion (comments)</span>
 </pre></div>
 </div>
 </section>
@@ -525,7 +525,7 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <p>Append the following aliases to the end of the file:</p>
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text">~/.bashrc</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">### &gt;&gt;&gt; omitted the .bashrc copied from question node</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">### omitted the .bashrc copied from question node</span>
 
 <span class="c1"># disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.</span>
 stty<span class="w"> </span>werase<span class="w"> </span>undef
