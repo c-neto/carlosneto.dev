@@ -131,9 +131,9 @@ Parameters Explanation:
 - `set cuc`: (_cursor column_) Highlights the current cursor column, making indentation easier to follow.
 - `syntax on`: Enables syntax highlighting for improved readability.
 
-## Kubectl Aliases
+## Kubectl Aliases and Shortcuts
 
-You'll type `kubectl` hundreds of times during the exam, so creating aliases is well worth it.
+During the exam you will type `kubectl` hundreds of times and will also need to back up configuration files. To save time and reduce the risk of mistakes (especially when nervous), avoid typing repeated commands: use aliases, functions, and shortcuts to prevent typos.
 
 Each remote exam node already contains a preconfigured `.bashrc` file with several useful settings. A handy trick is to copy that file back to the main workstation, append your own aliases, and then copy it back to the remote nodes.
 
@@ -148,12 +148,15 @@ Append the following aliases to the end of the file:
 
 ```{code-block} bash
 :caption: ~/.bashrc
-...
+### >>> ommited the .bashrc copied from question node
 
+# disable default Ctrl+W word erase behavior in terminal to able use backward-kill-word instead.
 stty werase undef
 
-bkp() { cp "$1" "$1.bkp" }
+# create a quick backup copy of a file by appending .bkp
+bkp() { cp "$1" "$1.bkp"; }
 
+# kubectl aliases
 alias kgp="kubectl get pods"
 alias kgs="kubectl get svc"
 alias kgn="kubectl get nodes"
@@ -161,10 +164,11 @@ alias kd="kubectl describe"
 alias ke="kubectl get endpoints"
 alias kaf="kubectl apply -f"
 alias kdel="kubectl delete"
+alias kdelp="kubectl delete pod"
 alias kns="kubectl config set-context --current --namespace"
-alias kgns="kubectl config get-context"
 alias kctx="kubectl config use-context"
 
+# shorthand for generating YAML in the imperative kubectl commands
 export x="--dry-run=client -oyaml"
 ```
 
@@ -179,3 +183,5 @@ scp ~/.bashrc root@node01:~/.bashrc
 - <https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029>
 - <https://vimdoc.sourceforge.net/htmldoc/options.html#'cursorcolumn'>
 - <https://vim.rtorr.com/>
+- <https://kubernetes.io/docs/reference/kubectl/quick-reference/>
+- <https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em->

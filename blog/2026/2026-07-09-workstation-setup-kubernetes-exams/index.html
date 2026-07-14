@@ -494,9 +494,9 @@ syntax<span class="w"> </span>on
 <li><p><code class="docutils literal notranslate"><span class="pre">syntax</span> <span class="pre">on</span></code>: Enables syntax highlighting for improved readability.</p></li>
 </ul>
 </section>
-<section id="kubectl-aliases">
-<h2>Kubectl Aliases<a class="headerlink" href="#kubectl-aliases" title="Link to this heading">#</a></h2>
-<p>You’ll type <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> hundreds of times during the exam, so creating aliases is well worth it.</p>
+<section id="kubectl-aliases-and-shortcuts">
+<h2>Kubectl Aliases and Shortcuts<a class="headerlink" href="#kubectl-aliases-and-shortcuts" title="Link to this heading">#</a></h2>
+<p>During the exam you will type <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> hundreds of times and will also need to back up configuration files. To save time and reduce the risk of mistakes (especially when nervous), avoid typing repeated commands: use aliases, functions, and shortcuts to prevent typos.</p>
 <p>Each remote exam node already contains a preconfigured <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file with several useful settings. A handy trick is to copy that file back to the main workstation, append your own aliases, and then copy it back to the remote nodes.</p>
 <p>First, create a backup and copy the remote <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>~/.bashrc<span class="w"> </span>~/.bashrc.bkp
@@ -506,12 +506,15 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <p>Append the following aliases to the end of the file:</p>
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text">~/.bashrc</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>...
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">### &gt;&gt;&gt; ommited the .bashrc copied from question node</span>
 
+<span class="c1"># disable default Ctrl+W word erase behavior in terminal to able use backward-kill-word instead.</span>
 stty<span class="w"> </span>werase<span class="w"> </span>undef
 
-bkp<span class="o">()</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">.bkp&quot;</span><span class="w"> </span><span class="o">}</span>
+<span class="c1"># create a quick backup copy of a file by appending .bkp</span>
+bkp<span class="o">()</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">.bkp&quot;</span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
 
+<span class="c1"># kubectl aliases</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kgp</span><span class="o">=</span><span class="s2">&quot;kubectl get pods&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kgs</span><span class="o">=</span><span class="s2">&quot;kubectl get svc&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kgn</span><span class="o">=</span><span class="s2">&quot;kubectl get nodes&quot;</span>
@@ -519,10 +522,11 @@ bkp<span class="o">()</span><span class="w"> </span><span class="o">{</span><spa
 <span class="nb">alias</span><span class="w"> </span><span class="nv">ke</span><span class="o">=</span><span class="s2">&quot;kubectl get endpoints&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kaf</span><span class="o">=</span><span class="s2">&quot;kubectl apply -f&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kdel</span><span class="o">=</span><span class="s2">&quot;kubectl delete&quot;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">kdelp</span><span class="o">=</span><span class="s2">&quot;kubectl delete pod&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kns</span><span class="o">=</span><span class="s2">&quot;kubectl config set-context --current --namespace&quot;</span>
-<span class="nb">alias</span><span class="w"> </span><span class="nv">kgns</span><span class="o">=</span><span class="s2">&quot;kubectl config get-context&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kctx</span><span class="o">=</span><span class="s2">&quot;kubectl config use-context&quot;</span>
 
+<span class="c1"># shorthand for generating YAML in the imperative kubectl commands</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">x</span><span class="o">=</span><span class="s2">&quot;--dry-run=client -oyaml&quot;</span>
 </pre></div>
 </div>
@@ -538,6 +542,8 @@ bkp<span class="o">()</span><span class="w"> </span><span class="o">{</span><spa
 <li><p><a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029">https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029</a></p></li>
 <li><p><a class="reference external" href="https://vimdoc.sourceforge.net/htmldoc/options.html#'cursorcolumn'">https://vimdoc.sourceforge.net/htmldoc/options.html#’cursorcolumn’</a></p></li>
 <li><p><a class="reference external" href="https://vim.rtorr.com/">https://vim.rtorr.com/</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/reference/kubectl/quick-reference/">https://kubernetes.io/docs/reference/kubectl/quick-reference/</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em-">https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em-</a></p></li>
 </ul>
 </section>
 </section>
