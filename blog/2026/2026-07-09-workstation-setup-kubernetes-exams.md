@@ -120,7 +120,7 @@ scp ~/.vimrc node01:~/.vimrc
 
 __Bonus__: The following `vim` commands and operations cover all needs for editing files during the exam:
 
-```vim
+```python
 ~                # toggle letter case (upper/lower)
 dd               # cut line
 p                # paste line
@@ -135,7 +135,7 @@ $                # go to the final line
 :30,50t70        # copies lines 30 through 50 and pastes them right below line 70
 :30,50m70        # move lines 30 through 50 and pastes them right below line 70
 SHIFT+i » CTRL+y # repeat the line above character by character
-CTRL+c » select column » SHIFT+i » write text + ESC + ESC  # multi-line column insertion, useful to add comments
+CTRL+c » select column » SHIFT+i » write text + ESC + ESC  # multi-line column insertion (comments)
 ```
 
 ## Kubectl Aliases and Shortcuts
