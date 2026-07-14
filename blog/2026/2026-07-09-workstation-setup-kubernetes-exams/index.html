@@ -424,8 +424,7 @@
 <p><strong>This is probably my most valuable tip!</strong></p>
 <p>The exam environment uses <strong>Bash</strong> as the default shell. Behind the scenes, Bash relies on the <strong>GNU Readline</strong> library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press <strong>CTRL + R</strong> is implemented by GNU Readline.</p>
 <p>Two useful Readline functions are <strong>not bound to keys by default</strong>: <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code>. These functions search your command history using the text you’ve already typed at the prompt.</p>
-<p>For example to undestand the <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code>, suppose you previously executed the following commands:
-For example, to understand the <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code> functions, suppose you previously executed the following commands:</p>
+<p>For example, to understand the <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code> functions, suppose you previously executed the following commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lR<span class="w">        </span><span class="c1"># first execution</span>
 ps<span class="w"> </span>aux
 touch<span class="w"> </span>foobar
@@ -531,7 +530,7 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <span class="c1"># disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.</span>
 stty<span class="w"> </span>werase<span class="w"> </span>undef
 
-<span class="c1"># create a quick backup copy of a file by appending .bkp</span>
+<span class="c1"># create a quick backup command `$ bkp &lt;file&gt;` to copy of a file by appending .bkp</span>
 bkp<span class="o">()</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">.bkp&quot;</span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
 
 <span class="c1"># kubectl aliases</span>

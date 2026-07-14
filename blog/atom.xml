@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T19:26:05.675601+00:00</updated>
+  <updated>2026-07-14T19:28:40.774014+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -44,8 +44,7 @@
 &lt;p&gt;&lt;strong&gt;This is probably my most valuable tip!&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;The exam environment uses &lt;strong&gt;Bash&lt;/strong&gt; as the default shell. Behind the scenes, Bash relies on the &lt;strong&gt;GNU Readline&lt;/strong&gt; library, which provides powerful command-line editing and history features. For example, the interactive search menu that appears when you press &lt;strong&gt;CTRL + R&lt;/strong&gt; is implemented by GNU Readline.&lt;/p&gt;
 &lt;p&gt;Two useful Readline functions are &lt;strong&gt;not bound to keys by default&lt;/strong&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt;. These functions search your command history using the text you’ve already typed at the prompt.&lt;/p&gt;
-&lt;p&gt;For example to undestand the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt;, suppose you previously executed the following commands:
-For example, to understand the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt; functions, suppose you previously executed the following commands:&lt;/p&gt;
+&lt;p&gt;For example, to understand the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt; functions, suppose you previously executed the following commands:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ls&lt;span class="w"&gt; &lt;/span&gt;-lR&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# first execution&lt;/span&gt;
 ps&lt;span class="w"&gt; &lt;/span&gt;aux
 touch&lt;span class="w"&gt; &lt;/span&gt;foobar
@@ -151,7 +150,7 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 &lt;span class="c1"&gt;# disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.&lt;/span&gt;
 stty&lt;span class="w"&gt; &lt;/span&gt;werase&lt;span class="w"&gt; &lt;/span&gt;undef
 
-&lt;span class="c1"&gt;# create a quick backup copy of a file by appending .bkp&lt;/span&gt;
+&lt;span class="c1"&gt;# create a quick backup command `$ bkp &amp;lt;file&amp;gt;` to copy of a file by appending .bkp&lt;/span&gt;
 bkp&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cp&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;.bkp&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
 
 &lt;span class="c1"&gt;# kubectl aliases&lt;/span&gt;
