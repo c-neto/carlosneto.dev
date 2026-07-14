@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T21:46:04.920128+00:00</updated>
+  <updated>2026-07-14T21:46:54.559526+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -42,7 +42,7 @@
 &lt;section id="history-search-by-prefix"&gt;
 &lt;h2&gt;History Search by Prefix&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;This is probably my most valuable tip!&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The exam environment uses &lt;strong&gt;Bash&lt;/strong&gt; as the default shell. Behind the scenes, Bash relies on the &lt;strong&gt;GNU Readline&lt;/strong&gt; library, which provides command-line editing, key bindings, and history navigation. For example, the interactive reverse search that appears when you press &lt;strong&gt;CTRL + R&lt;/strong&gt; is implemented by GNU Readline.&lt;/p&gt;
+&lt;p&gt;The exam environment uses &lt;strong&gt;Bash&lt;/strong&gt; as the default shell. Behind the scenes, Bash relies on the &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html"&gt;GNU Readline&lt;/a&gt; library, which provides command-line editing, key bindings, and history navigation. For example, the interactive reverse search that appears when you press &lt;strong&gt;CTRL + R&lt;/strong&gt; is implemented by &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html"&gt;GNU Readline&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;One of Readline’s most useful features is history search by prefix. The &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029"&gt;history-search-backward&lt;/a&gt; and &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dforward-_0028_0029"&gt;history-search-forward&lt;/a&gt; functions search your command history using the text that already exists before the cursor, instead of simply moving to the previous or next command.&lt;/p&gt;
 &lt;p&gt;For example, imagine your command history contains:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&gt;pods
