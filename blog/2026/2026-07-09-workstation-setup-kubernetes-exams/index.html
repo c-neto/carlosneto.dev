@@ -515,8 +515,8 @@ CTRL+v<span class="w"> </span>»<span class="w"> </span><span class="k">select</
 <section id="kubectl-aliases-and-shortcuts">
 <h2>Kubectl Aliases and Shortcuts<a class="headerlink" href="#kubectl-aliases-and-shortcuts" title="Link to this heading">#</a></h2>
 <p>During the exam you will type <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> hundreds of times and will also need to back up configuration files. To save time and reduce the risk of mistakes (especially when nervous), avoid typing repeated commands: use aliases, functions, and shortcuts to prevent typos.</p>
-<p>Each remote exam node already contains a preconfigured <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file with several useful settings. A handy trick is to copy that file back to the main workstation, append your own aliases, and then copy it back to the remote nodes.</p>
-<p>First, create a backup and copy the remote <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code>:</p>
+<p>Each remote exam node already contains a preconfigured <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file with several useful settings. A handy trick is to copy that file back to the main workstation, append your own aliases, and then copy it back to the remote nodes.</p>
+<p>First, create a backup of the main instance <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>~/.bashrc<span class="w"> </span>~/.bashrc.bkp
 scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 </pre></div>

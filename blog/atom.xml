@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T22:31:11.029394+00:00</updated>
+  <updated>2026-07-14T22:33:10.894919+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -135,8 +135,8 @@ CTRL+v&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;
 &lt;section id="kubectl-aliases-and-shortcuts"&gt;
 &lt;h2&gt;Kubectl Aliases and Shortcuts&lt;/h2&gt;
 &lt;p&gt;During the exam you will type &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt;&lt;/code&gt; hundreds of times and will also need to back up configuration files. To save time and reduce the risk of mistakes (especially when nervous), avoid typing repeated commands: use aliases, functions, and shortcuts to prevent typos.&lt;/p&gt;
-&lt;p&gt;Each remote exam node already contains a preconfigured &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.bashrc&lt;/span&gt;&lt;/code&gt; file with several useful settings. A handy trick is to copy that file back to the main workstation, append your own aliases, and then copy it back to the remote nodes.&lt;/p&gt;
-&lt;p&gt;First, create a backup and copy the remote &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.bashrc&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Each remote exam node already contains a preconfigured &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.bashrc&lt;/span&gt;&lt;/code&gt; file with several useful settings. A handy trick is to copy that file back to the main workstation, append your own aliases, and then copy it back to the remote nodes.&lt;/p&gt;
+&lt;p&gt;First, create a backup of the main instance &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.bashrc&lt;/span&gt;&lt;/code&gt; file:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cp&lt;span class="w"&gt; &lt;/span&gt;~/.bashrc&lt;span class="w"&gt; &lt;/span&gt;~/.bashrc.bkp
 scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &lt;/span&gt;~/.bashrc
 &lt;/pre&gt;&lt;/div&gt;
