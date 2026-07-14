@@ -128,6 +128,8 @@ dd                # >>> cut line
 y                 # >>> copy
 p                 # >>> paste
 u                 # >>> undo
+V                 # >>> enter in visual line mode
+CTRL+v            # >>> enter in visual block mode
 cW                # >>> replace an entire word and enter insert mode
 $                 # >>> go to the end of the line
 0                 # >>> go to the beginning of the line
