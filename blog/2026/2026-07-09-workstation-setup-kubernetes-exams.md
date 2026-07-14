@@ -100,16 +100,16 @@ Create the `.vimrc` file and add the following configuration:
 
 ```{code-block} bash
 :caption: ~/.vimrc
-set nu
-set ai
-set et
-set ts=2
-set sw=2
-set sts=2
-set hls
-set mouse=a
-set cursorcolumn
-syntax on
+set nu              # (number) Displays line numbers, making it easier to cursor movement and line range operation.
+set ai              # (auto ident) Automatically preserves indentation while editing.
+set et              # (expand tab) Converts tabs to spaces, preventing invalid YAML indentation.
+set ts=2            # (tab stop) Displays tab characters as two spaces.
+set sw=2            # (shift width) Uses a two-space indentation level when indenting or unindenting.
+set sts=2           # (soft tab stop) Makes the Tab and Backspace keys use two-space indentation levels.
+set hls             # (high light search) Highlights all search matches.
+set mouse=a         # (mouse all) Enables mouse support for cursor movement, scrolling, and visual mode.
+set cursorcolumn    # (cursor column) Highlights the current cursor column, useful for YAML files.
+syntax on           # Enables syntax highlighting based on file extension.
 ```
 
 Copy the file to remote node of the exam question (for example, `node01`):
@@ -118,18 +118,18 @@ Copy the file to remote node of the exam question (for example, `node01`):
 scp ~/.vimrc node01:~/.vimrc
 ```
 
-Parameters Explanation:
+__Bonus__: The following `vim` commands and operations cover all needs for editing files during the exam:
 
-- `set nu`: (_number_) Displays line numbers, making it easier to locate YAML parser errors.
-- `set ai`: (_auto ident_) Automatically preserves indentation while editing.
-- `set et`: (_expand tab_) Converts tabs to spaces, preventing invalid YAML indentation.
-- `set ts=2`: (_tab stop_) Displays tab characters as two spaces.
-- `set sw=2`: (_shift width_) Uses a two-space indentation level when indenting or unindenting.
-- `set sts=2`: (_soft tab stop_) Makes the Tab and Backspace keys use two-space indentation levels.
-- `set hls`: (_high light search_) Highlights all search matches.
-- `set mouse=a`: (_mouse all_) Enables mouse support for cursor movement and scrolling.
-- `set cuc`: (_cursor column_) Highlights the current cursor column, making indentation easier to follow.
-- `syntax on`: Enables syntax highlighting for improved readability.
+```bash
+:%s/foo/bar/g   # Substitutes (replaces) all occurrences of "foo" with "bar" globally throughout the entire file.
+:10,15>         # Indents lines 10 through 15 by one shiftwidth.
+:10,15<         # Back Indents lines 10 through 15 by one shiftwidth.
+:30,50d         # Deletes (cuts) lines 30 through 50.
+:30,50t70       # Copies lines 30 through 50 and pastes them right below line 70
+:30,50m70       # Move lines 30 through 50 and pastes them right below line 70
+CTRL+I » CTRL + Y # CTRL+I jumps forward to the next position in the jump list; CTRL+Y scrolls the screen up by one line (or copies the character above in Insert mode).
+CTRL+C » SHIFT+I » select column » write text + ESC + ESC  # Multi-line column insertion (Note: CTRL+V is typically used to block-select, though some terminal setups use CTRL+C/CTRL+Q).
+```
 
 ## Kubectl Aliases and Shortcuts
 
@@ -148,9 +148,9 @@ Append the following aliases to the end of the file:
 
 ```{code-block} bash
 :caption: ~/.bashrc
-### >>> ommited the .bashrc copied from question node
+### >>> omitted the .bashrc copied from question node
 
-# disable default Ctrl+W word erase behavior in terminal to able use backward-kill-word instead.
+# disable default Ctrl+W word erase behavior in terminal to be able to use backward-kill-word instead.
 stty werase undef
 
 # create a quick backup copy of a file by appending .bkp
