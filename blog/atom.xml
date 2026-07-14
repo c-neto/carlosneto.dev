@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T16:01:11.416757+00:00</updated>
+  <updated>2026-07-14T16:08:06.973343+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -24,6 +24,15 @@
 &lt;h2&gt;Configure the U.S. Keyboard Layout (MacBooks)&lt;/h2&gt;
 &lt;p&gt;If you’re taking the exam on a MacBook, make sure your keyboard layout is set to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt;. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;`&lt;/span&gt;&lt;/code&gt;, when using layouts such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Brazilian&lt;/span&gt; &lt;span class="pre"&gt;–&lt;/span&gt; &lt;span class="pre"&gt;ABNT2&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;To configure it, open &lt;strong&gt;&lt;em&gt;Settings » Keyboard » Text Input » Edit&lt;/em&gt;&lt;/strong&gt; and define &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt; as your only input source. This helps avoid unexpected keyboard mapping issues during the exam.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="disable-mission-critical-shortcuts-macbooks"&gt;
+&lt;h2&gt;Disable Mission Critical Shortcuts (MacBooks)&lt;/h2&gt;
+&lt;p&gt;If you press CTRL + Arrow (Left/Right) it can change the macOS desktop (Space), which may trigger the exam proctor and can lead to the exam interruption. Disable these shortcuts before the exam:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;&lt;p&gt;Open &lt;em&gt;System Settings → Keyboard → Keyboard Shortcuts&lt;/em&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Select &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Mission&lt;/span&gt; &lt;span class="pre"&gt;Control&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Uncheck or change the shortcuts for &lt;em&gt;Move left a space&lt;/em&gt; and &lt;em&gt;Move right a space&lt;/em&gt; (or any shortcuts using CTRL + Left/Right).&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
 &lt;/section&gt;
 &lt;section id="bash-history-search"&gt;
 &lt;h2&gt;Bash History Search&lt;/h2&gt;
