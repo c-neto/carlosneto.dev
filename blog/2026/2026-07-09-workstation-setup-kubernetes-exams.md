@@ -121,14 +121,17 @@ scp ~/.vimrc node01:~/.vimrc
 __Bonus__: The following `vim` commands and operations cover all needs for editing files during the exam:
 
 ```bash
-:%s/foo/bar/g   # Substitutes (replaces) all occurrences of "foo" with "bar" globally throughout the entire file.
-:10,15>         # Indents lines 10 through 15 by one shiftwidth.
-:10,15<         # Back Indents lines 10 through 15 by one shiftwidth.
-:30,50d         # Deletes (cuts) lines 30 through 50.
-:30,50t70       # Copies lines 30 through 50 and pastes them right below line 70
-:30,50m70       # Move lines 30 through 50 and pastes them right below line 70
-CTRL+I » CTRL + Y # CTRL+I jumps forward to the next position in the jump list; CTRL+Y scrolls the screen up by one line (or copies the character above in Insert mode).
-CTRL+C » SHIFT+I » select column » write text + ESC + ESC  # Multi-line column insertion (Note: CTRL+V is typically used to block-select, though some terminal setups use CTRL+C/CTRL+Q).
+~                # toggle letter case (upper/lower)
+dd               # cut line
+p                # paste line
+:%s/foo/bar/g    # substitutes (replaces) all occurrences of "foo" with "bar".
+:10,15>          # indents lines 10 through 15 by one shiftwidth.
+:10,15<          # back indents lines 10 through 15 by one shiftwidth.
+:30,50d          # deletes (cuts) lines 30 through 50.
+:30,50t70        # copies lines 30 through 50 and pastes them right below line 70
+:30,50m70        # move lines 30 through 50 and pastes them right below line 70
+shift+i » ctrl+y # repeat the line above character by character
+ctrl+c » select column » shift+i » write text + esc + esc  # multi-line column insertion, useful to add comments
 ```
 
 ## Kubectl Aliases and Shortcuts
