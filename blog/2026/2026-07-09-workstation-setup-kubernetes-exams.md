@@ -35,7 +35,7 @@ If you press __CTRL + ←/→__, it changes the macOS desktop (Space), which may
 
 This helps avoid issues that can trigger an exam notification and, in the worst case, suspend your exam on suspicion of consulting material on your PC.
 
-## Bash History Search
+## History Search by Prefix
 
 __This is probably my most valuable tip!__
 
