@@ -10,7 +10,7 @@ category: kubernetes
 
 # Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS)
 
-Time management is one of the most critical factors for passing the Linux Foundation Kubernetes certification exams. The CKA, CKAD, and CKS are hands-on exams conducted on remote Ubuntu instances running the XFCE desktop environment, where network latency and the remote desktop experience can slow you down. 
+Time management is one of the most critical factors for passing the Linux Foundation Kubernetes certification exams. The CKA, CKAD, and CKS are hands-on exams conducted on remote Ubuntu instances running the XFCE desktop environment, where network latency and the remote desktop experience can slow you down.
 
 This guide walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell aliases, and other tweaks that help reduce friction and save valuable time.
 
@@ -20,14 +20,14 @@ __NOTE__: The exam Linux instances have limited internet access. Therefore, you 
 
 If you're taking the exam on a MacBook, make sure your keyboard layout is set to `U.S.`. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially `~` and `` ` ``, when using layouts such as `Brazilian – ABNT2`.
 
-1. Open __*Settings » Keyboard » Text Input » Edit*__ 
-2. Define `U.S.` as your only input source. 
+1. Open __*Settings » Keyboard » Text Input » Edit*__
+2. Define `U.S.` as your only input source.
 
 This helps avoid unexpected keyboard mapping issues during the exam.
 
 ## Disable Mission Control Shortcuts (MacBooks)
 
-If you press __Ctrl + ←/→__ it change the macOS desktop (Space), which may trigger the exam proctor and can lead to the exam interruption. Disable these shortcuts before the exam:
+If you press __Ctrl + ←/→__, it changes the macOS desktop (Space), which may trigger the exam proctor and can lead to exam interruption. Disable these shortcuts before the exam:
 
 1. Open __*System Settings » Keyboard » Keyboard Shortcuts*__
 2. Select `Mission Control`
@@ -69,7 +69,7 @@ Commands such as `kubectl describe pod nginx` or `helm list` are skipped because
 
 This is much faster than the default __↑__ behavior, which walks through every command in your history, and often more convenient than repeatedly using __Ctrl + R__ during the exam.
 
-To enable this behavior, create the `.inputrc` file and add following configuration:
+To enable this behavior, create the `.inputrc` file and add the following configuration:
 
 ```{code-block} bash
 :caption: ~/.inputrc
@@ -112,13 +112,13 @@ set cuc       # (cursorcolumn) Highlights the current cursor column, useful for 
 syntax on     # Enables syntax highlighting based on file extension.
 ```
 
-Copy the file to remote node of the exam question (for example, `node01`):
+Copy the file to the remote node for the exam question (for example, `node01`):
 
 ```bash
 scp ~/.vimrc node01:~/.vimrc
 ```
 
-__Bonus__: The following `vim` commands and operations cover all needs for editing files during the exam:
+__Bonus__: Here is my Vim cheatsheet covering the essential commands to quickly edit YAML and configuration files.
 
 ```bash
 ~                 # >>> toggle letter case (upper/lower)
@@ -162,7 +162,7 @@ Append the following aliases to the end of the file:
 # disable default Ctrl+W word erase behavior in terminal to be able to use backward-kill-word instead.
 stty werase undef
 
-# create a quick backup command `$ bkp <file>` to copy of a file by appending .bkp
+# create a quick backup command `$ bkp <file>` to copy a file by appending .bkp
 bkp() { cp "$1" "$1.bkp"; }
 
 # kubectl aliases
