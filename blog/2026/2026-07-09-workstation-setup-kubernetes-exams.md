@@ -78,7 +78,7 @@ To enable this behavior, create the `~/.inputrc` file and add the following conf
 :caption: ~/.inputrc
 "\e[A": history-search-backward   # ↑ (previous matching command)
 "\e[B": history-search-forward    # ↓ (next matching command)
-"\C-w": backward-kill-word        # CTRL + w (delete the previous path component/word)
+"\C-w": backward-kill-word        # CTRL + w (delete word by word in terminal)
 ```
 
 The file is automatically loaded whenever a new Bash session starts. If you modify it during an existing session, reload it with:
