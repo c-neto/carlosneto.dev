@@ -141,7 +141,7 @@ $               # >>> move to the end of the line
 :30,50d         # >>> delete (cut) lines 30–50
 :30,50t70       # >>> copy lines 30–50 and paste them below line 70
 :30,50m70       # >>> move lines 30–50 below line 70
-i » CTRL+y      # >>> insert the character directly above the cursor
+i » CTRL+y      # >>> copy line above character by character
 V               # >>> enter Visual Line mode
 CTRL+v          # >>> enter Visual Block mode
 gv              # >>> reselect the last Visual selection
