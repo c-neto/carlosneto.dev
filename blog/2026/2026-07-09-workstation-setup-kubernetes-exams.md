@@ -20,20 +20,22 @@ This guide walks through the workstation optimizations I use to work more effici
 
 If you're taking the exam on a MacBook, make sure your keyboard layout is set to `U.S.`. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially `~` and `` ` ``, when using layouts such as `Brazilian – ABNT2`.
 
-1. Open __*Settings » Keyboard » Text Input » Edit*__
-2. Define `U.S.` as your only input source.
+1. Open ***Settings » Keyboard » Text Input » Edit***
+2. Set `U.S.` as your only input source.
 
-This helps avoid unexpected keyboard mapping issues during the exam.
+This helps prevent unexpected keyboard mapping issues during the exam.
 
 ## Disable Mission Control Shortcuts (MacBooks)
 
-If you press __CTRL + ←/→__, it changes the macOS desktop (Space), which may trigger the exam proctor and can lead to exam interruption. Disable these shortcuts before the exam:
+By default, pressing **CTRL + ←/→** switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.
 
-1. Open __*System Settings » Keyboard » Keyboard Shortcuts*__
-2. Select __*Mission Control*__
-3. Uncheck all shortcuts.
+Before the exam:
 
-This helps avoid issues that can trigger an exam notification and, in the worst case, suspend your exam on suspicion of consulting material on your PC.
+1. Open ***System Settings » Keyboard » Keyboard Shortcuts***
+2. Select ***Mission Control***
+3. Disable all shortcuts under **Mission Control**.
+
+This helps prevent accidental desktop switching and reduces the risk of unnecessary proctor alerts or exam suspension on suspicion of consulting unauthorized material.
 
 ## History Search by Prefix
 
