@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T21:11:09.497249+00:00</updated>
+  <updated>2026-07-14T21:37:46.517621+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -17,9 +17,7 @@
 
 &lt;p&gt;Time management is one of the most critical factors for passing the Linux Foundation Kubernetes certification exams. The CKA, CKAD, and CKS are hands-on exams conducted on remote Ubuntu instances running the XFCE desktop environment, where network latency and the remote desktop experience can slow you down.&lt;/p&gt;
 &lt;p&gt;This guide walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell aliases, and other tweaks that help reduce friction and save valuable time.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; &lt;em&gt;The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won’t be able to search for it during the exam.&lt;/em&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won’t be able to search for it during the exam.&lt;/p&gt;
 &lt;section id="configure-the-u-s-keyboard-layout-macbooks"&gt;
 &lt;h2&gt;Configure the U.S. Keyboard Layout (MacBooks)&lt;/h2&gt;
 &lt;p&gt;If you’re taking the exam on a MacBook, make sure your keyboard layout is set to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt;. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;`&lt;/span&gt;&lt;/code&gt;, when using layouts such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Brazilian&lt;/span&gt; &lt;span class="pre"&gt;–&lt;/span&gt; &lt;span class="pre"&gt;ABNT2&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
@@ -82,9 +80,9 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;/section&gt;
 &lt;section id="setting-up-vim"&gt;
 &lt;h2&gt;Setting Up Vim&lt;/h2&gt;
-&lt;p&gt;The exam workstation includes &lt;strong&gt;VSCodium&lt;/strong&gt;. However, every exam task requires you to connect to a remote node via SSH, and VSCodium is &lt;strong&gt;not&lt;/strong&gt; available on those remote machines. Therefore, the best approach is to use Vim (unfortunately).&lt;/p&gt;
+&lt;p&gt;The exam workstation includes &lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt;. However, every exam task requires you to connect to a remote node via SSH, and &lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt; is &lt;strong&gt;not&lt;/strong&gt; available on those remote machines. Therefore, the best approach is to use Vim (unfortunately).&lt;/p&gt;
 &lt;p&gt;The following settings provide a much better editing experience for Kubernetes YAML manifests.&lt;/p&gt;
-&lt;p&gt;Create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.vimrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
+&lt;p&gt;Create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;nu&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# (number) Displays line numbers, making cursor movement and line range operations easier.&lt;/span&gt;

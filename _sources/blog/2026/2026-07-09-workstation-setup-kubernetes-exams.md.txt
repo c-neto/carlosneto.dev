@@ -14,7 +14,7 @@ Time management is one of the most critical factors for passing the Linux Founda
 
 This guide walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell aliases, and other tweaks that help reduce friction and save valuable time.
 
-> <i class="fa-solid fa-circle-info"></i> _The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won't be able to search for it during the exam._
+__NOTE__: The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won't be able to search for it during the exam.
 
 ## Configure the U.S. Keyboard Layout (MacBooks)
 
@@ -92,11 +92,11 @@ scp ~/.inputrc node01:~/.inputrc
 
 ## Setting Up Vim
 
-The exam workstation includes __VSCodium__. However, every exam task requires you to connect to a remote node via SSH, and VSCodium is __not__ available on those remote machines. Therefore, the best approach is to use Vim (unfortunately).
+The exam workstation includes [VSCodium](https://vscodium.com/). However, every exam task requires you to connect to a remote node via SSH, and [VSCodium](https://vscodium.com/) is __not__ available on those remote machines. Therefore, the best approach is to use Vim (unfortunately).
 
 The following settings provide a much better editing experience for Kubernetes YAML manifests.
 
-Create the `.vimrc` file and add the following configuration:
+Create the `~/.vimrc` file and add the following configuration:
 
 ```{code-block} bash
 :caption: ~/.vimrc

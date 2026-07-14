@@ -397,9 +397,7 @@
 <h1>Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS)<a class="headerlink" href="#workstation-setup-for-kubernetes-exams-cka-ckad-cks" title="Link to this heading">#</a></h1>
 <p>Time management is one of the most critical factors for passing the Linux Foundation Kubernetes certification exams. The CKA, CKAD, and CKS are hands-on exams conducted on remote Ubuntu instances running the XFCE desktop environment, where network latency and the remote desktop experience can slow you down.</p>
 <p>This guide walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell aliases, and other tweaks that help reduce friction and save valuable time.</p>
-<blockquote>
-<div><p><i class="fa-solid fa-circle-info"></i> <em>The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won’t be able to search for it during the exam.</em></p>
-</div></blockquote>
+<p><strong>NOTE</strong>: The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won’t be able to search for it during the exam.</p>
 <section id="configure-the-u-s-keyboard-layout-macbooks">
 <h2>Configure the U.S. Keyboard Layout (MacBooks)<a class="headerlink" href="#configure-the-u-s-keyboard-layout-macbooks" title="Link to this heading">#</a></h2>
 <p>If you’re taking the exam on a MacBook, make sure your keyboard layout is set to <code class="docutils literal notranslate"><span class="pre">U.S.</span></code>. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially <code class="docutils literal notranslate"><span class="pre">~</span></code> and <code class="docutils literal notranslate"><span class="pre">`</span></code>, when using layouts such as <code class="docutils literal notranslate"><span class="pre">Brazilian</span> <span class="pre">–</span> <span class="pre">ABNT2</span></code>.</p>
@@ -462,9 +460,9 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </section>
 <section id="setting-up-vim">
 <h2>Setting Up Vim<a class="headerlink" href="#setting-up-vim" title="Link to this heading">#</a></h2>
-<p>The exam workstation includes <strong>VSCodium</strong>. However, every exam task requires you to connect to a remote node via SSH, and VSCodium is <strong>not</strong> available on those remote machines. Therefore, the best approach is to use Vim (unfortunately).</p>
+<p>The exam workstation includes <a class="reference external" href="https://vscodium.com/">VSCodium</a>. However, every exam task requires you to connect to a remote node via SSH, and <a class="reference external" href="https://vscodium.com/">VSCodium</a> is <strong>not</strong> available on those remote machines. Therefore, the best approach is to use Vim (unfortunately).</p>
 <p>The following settings provide a much better editing experience for Kubernetes YAML manifests.</p>
-<p>Create the <code class="docutils literal notranslate"><span class="pre">.vimrc</span></code> file and add the following configuration:</p>
+<p>Create the <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> file and add the following configuration:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">~/.vimrc</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="w"> </span>nu<span class="w">        </span><span class="c1"># (number) Displays line numbers, making cursor movement and line range operations easier.</span>
