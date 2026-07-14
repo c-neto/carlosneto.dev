@@ -14,7 +14,7 @@ Time management is one of the most critical factors for passing the Linux Founda
 
 This guide walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell aliases, and other tweaks that help reduce friction and save valuable time.
 
-__NOTE__: The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won't be able to search for it during the exam.
+> _**NOTE**: The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won't be able to search for it during the exam._
 
 ## Configure the U.S. Keyboard Layout (MacBooks)
 
@@ -27,10 +27,10 @@ This helps avoid unexpected keyboard mapping issues during the exam.
 
 ## Disable Mission Control Shortcuts (MacBooks)
 
-If you press __Ctrl + ←/→__, it changes the macOS desktop (Space), which may trigger the exam proctor and can lead to exam interruption. Disable these shortcuts before the exam:
+If you press __CTRL + ←/→__, it changes the macOS desktop (Space), which may trigger the exam proctor and can lead to exam interruption. Disable these shortcuts before the exam:
 
 1. Open __*System Settings » Keyboard » Keyboard Shortcuts*__
-2. Select `Mission Control`
+2. Select __*Mission Control*__
 3. Uncheck all shortcuts.
 
 This helps avoid issues that can trigger an exam notification and, in the worst case, suspend your exam on suspicion of consulting material on your PC.
@@ -39,7 +39,7 @@ This helps avoid issues that can trigger an exam notification and, in the worst 
 
 __This is probably my most valuable tip!__
 
-The exam environment uses __Bash__ as the default shell. Behind the scenes, Bash relies on the __GNU Readline__ library, which provides command-line editing, key bindings, and history navigation. For example, the interactive reverse search that appears when you press __Ctrl + R__ is implemented by GNU Readline.
+The exam environment uses __Bash__ as the default shell. Behind the scenes, Bash relies on the __GNU Readline__ library, which provides command-line editing, key bindings, and history navigation. For example, the interactive reverse search that appears when you press __CTRL + R__ is implemented by GNU Readline.
 
 One of Readline's most useful features is history search by prefix. The [history-search-backward](https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029) and [history-search-forward](https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dforward-_0028_0029) functions search your command history using the text that already exists before the cursor, instead of simply moving to the previous or next command.
 
@@ -67,7 +67,7 @@ kubectl get pods
 
 Commands such as `kubectl describe pod nginx` or `helm list` are skipped because they do not match the typed prefix.
 
-This is much faster than the default __↑__ behavior, which walks through every command in your history, and often more convenient than repeatedly using __Ctrl + R__ during the exam.
+This is much faster than the default __↑__ behavior, which walks through every command in your history, and often more convenient than repeatedly using __CTRL + R__ during the exam.
 
 To enable this behavior, create the `.inputrc` file and add the following configuration:
 
@@ -75,7 +75,7 @@ To enable this behavior, create the `.inputrc` file and add the following config
 :caption: ~/.inputrc
 "\e[A": history-search-backward   # ↑ (previous matching command)
 "\e[B": history-search-forward    # ↓ (next matching command)
-"\C-w": backward-kill-word        # Ctrl + w (delete the previous path component/word)
+"\C-w": backward-kill-word        # CTRL + w (delete the previous path component/word)
 ```
 
 The file is automatically loaded whenever a new Bash session starts. If you modify it during an existing session, reload it with:
@@ -136,8 +136,8 @@ $                 # >>> go to the end of the line
 :30,50d           # >>> cuts lines 30 through 50.
 :30,50t70         # >>> copies lines 30 through 50 and pastes them right below line 70
 :30,50m70         # >>> move lines 30 through 50 and paste them right below line 70
-SHIFT+i » Ctrl+y  # >>> repeat the line above, character by character
-Ctrl+v » select column » SHIFT+i » write text » ESC  # >>> multi-line column insertion (comments)
+SHIFT+i » CTRL+y  # >>> repeat the line above, character by character
+CTRL+v » select column » SHIFT+i » write text » ESC  # >>> multi-line column insertion (comments)
 ```
 
 ## Kubectl Aliases and Shortcuts
@@ -159,7 +159,7 @@ Append the following aliases to the end of the file:
 :caption: ~/.bashrc
 ### >>> omitted the .bashrc copied from question node
 
-# disable default Ctrl+W word erase behavior in terminal to be able to use backward-kill-word instead.
+# disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.
 stty werase undef
 
 # create a quick backup command `$ bkp <file>` to copy a file by appending .bkp

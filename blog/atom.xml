@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-14T21:41:11.423455+00:00</updated>
+  <updated>2026-07-14T21:45:07.916400+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -17,7 +17,9 @@
 
 &lt;p&gt;Time management is one of the most critical factors for passing the Linux Foundation Kubernetes certification exams. The CKA, CKAD, and CKS are hands-on exams conducted on remote Ubuntu instances running the XFCE desktop environment, where network latency and the remote desktop experience can slow you down.&lt;/p&gt;
 &lt;p&gt;This guide walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell aliases, and other tweaks that help reduce friction and save valuable time.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won’t be able to search for it during the exam.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won’t be able to search for it during the exam.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;section id="configure-the-u-s-keyboard-layout-macbooks"&gt;
 &lt;h2&gt;Configure the U.S. Keyboard Layout (MacBooks)&lt;/h2&gt;
 &lt;p&gt;If you’re taking the exam on a MacBook, make sure your keyboard layout is set to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt;. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;`&lt;/span&gt;&lt;/code&gt;, when using layouts such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Brazilian&lt;/span&gt; &lt;span class="pre"&gt;–&lt;/span&gt; &lt;span class="pre"&gt;ABNT2&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
@@ -29,10 +31,10 @@
 &lt;/section&gt;
 &lt;section id="disable-mission-control-shortcuts-macbooks"&gt;
 &lt;h2&gt;Disable Mission Control Shortcuts (MacBooks)&lt;/h2&gt;
-&lt;p&gt;If you press &lt;strong&gt;Ctrl + ←/→&lt;/strong&gt;, it changes the macOS desktop (Space), which may trigger the exam proctor and can lead to exam interruption. Disable these shortcuts before the exam:&lt;/p&gt;
+&lt;p&gt;If you press &lt;strong&gt;CTRL + ←/→&lt;/strong&gt;, it changes the macOS desktop (Space), which may trigger the exam proctor and can lead to exam interruption. Disable these shortcuts before the exam:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
 &lt;li&gt;&lt;p&gt;Open &lt;strong&gt;&lt;em&gt;System Settings » Keyboard » Keyboard Shortcuts&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Select &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Mission&lt;/span&gt; &lt;span class="pre"&gt;Control&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Select &lt;strong&gt;&lt;em&gt;Mission Control&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Uncheck all shortcuts.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This helps avoid issues that can trigger an exam notification and, in the worst case, suspend your exam on suspicion of consulting material on your PC.&lt;/p&gt;
@@ -40,7 +42,7 @@
 &lt;section id="bash-history-search"&gt;
 &lt;h2&gt;Bash History Search&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;This is probably my most valuable tip!&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The exam environment uses &lt;strong&gt;Bash&lt;/strong&gt; as the default shell. Behind the scenes, Bash relies on the &lt;strong&gt;GNU Readline&lt;/strong&gt; library, which provides command-line editing, key bindings, and history navigation. For example, the interactive reverse search that appears when you press &lt;strong&gt;Ctrl + R&lt;/strong&gt; is implemented by GNU Readline.&lt;/p&gt;
+&lt;p&gt;The exam environment uses &lt;strong&gt;Bash&lt;/strong&gt; as the default shell. Behind the scenes, Bash relies on the &lt;strong&gt;GNU Readline&lt;/strong&gt; library, which provides command-line editing, key bindings, and history navigation. For example, the interactive reverse search that appears when you press &lt;strong&gt;CTRL + R&lt;/strong&gt; is implemented by GNU Readline.&lt;/p&gt;
 &lt;p&gt;One of Readline’s most useful features is history search by prefix. The &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029"&gt;history-search-backward&lt;/a&gt; and &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dforward-_0028_0029"&gt;history-search-forward&lt;/a&gt; functions search your command history using the text that already exists before the cursor, instead of simply moving to the previous or next command.&lt;/p&gt;
 &lt;p&gt;For example, imagine your command history contains:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&gt;pods
@@ -59,13 +61,13 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Commands such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt; &lt;span class="pre"&gt;describe&lt;/span&gt; &lt;span class="pre"&gt;pod&lt;/span&gt; &lt;span class="pre"&gt;nginx&lt;/span&gt;&lt;/code&gt; or &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;helm&lt;/span&gt; &lt;span class="pre"&gt;list&lt;/span&gt;&lt;/code&gt; are skipped because they do not match the typed prefix.&lt;/p&gt;
-&lt;p&gt;This is much faster than the default &lt;strong&gt;↑&lt;/strong&gt; behavior, which walks through every command in your history, and often more convenient than repeatedly using &lt;strong&gt;Ctrl + R&lt;/strong&gt; during the exam.&lt;/p&gt;
+&lt;p&gt;This is much faster than the default &lt;strong&gt;↑&lt;/strong&gt; behavior, which walks through every command in your history, and often more convenient than repeatedly using &lt;strong&gt;CTRL + R&lt;/strong&gt; during the exam.&lt;/p&gt;
 &lt;p&gt;To enable this behavior, create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.inputrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\e[A&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-backward&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# ↑ (previous matching command)&lt;/span&gt;
 &lt;span class="s2"&gt;&amp;quot;\e[B&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-forward&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# ↓ (next matching command)&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;\C-w&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;backward-kill-word&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# Ctrl + w (delete the previous path component/word)&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;\C-w&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;backward-kill-word&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# CTRL + w (delete the previous path component/word)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -118,8 +120,8 @@ $&lt;span class="w"&gt;                 &lt;/span&gt;&lt;span class="c1"&gt;# &a
 :30,50d&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; cuts lines 30 through 50.&lt;/span&gt;
 :30,50t70&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; copies lines 30 through 50 and pastes them right below line 70&lt;/span&gt;
 :30,50m70&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; move lines 30 through 50 and paste them right below line 70&lt;/span&gt;
-SHIFT+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;Ctrl+y&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; repeat the line above, character by character&lt;/span&gt;
-Ctrl+v&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;column&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;SHIFT+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;write&lt;span class="w"&gt; &lt;/span&gt;text&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;ESC&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; multi-line column insertion (comments)&lt;/span&gt;
+SHIFT+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; repeat the line above, character by character&lt;/span&gt;
+CTRL+v&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;column&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;SHIFT+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;write&lt;span class="w"&gt; &lt;/span&gt;text&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;ESC&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; multi-line column insertion (comments)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
@@ -137,7 +139,7 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.bashrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;### &amp;gt;&amp;gt;&amp;gt; omitted the .bashrc copied from question node&lt;/span&gt;
 
-&lt;span class="c1"&gt;# disable default Ctrl+W word erase behavior in terminal to be able to use backward-kill-word instead.&lt;/span&gt;
+&lt;span class="c1"&gt;# disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.&lt;/span&gt;
 stty&lt;span class="w"&gt; &lt;/span&gt;werase&lt;span class="w"&gt; &lt;/span&gt;undef
 
 &lt;span class="c1"&gt;# create a quick backup command `$ bkp &amp;lt;file&amp;gt;` to copy a file by appending .bkp&lt;/span&gt;
