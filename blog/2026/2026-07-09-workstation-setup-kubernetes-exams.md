@@ -125,6 +125,9 @@ __Bonus__: The following `vim` commands and operations cover all needs for editi
 dd               # cut line
 p                # paste line
 u                # undo
+cW               # replace an entire word and active the insertion mode
+$                # go to the final line
+^                # go to the start line
 :%s/foo/bar/g    # substitutes (replaces) all occurrences of "foo" with "bar".
 :10,15>          # indents lines 10 through 15 by one shiftwidth.
 :10,15<          # back indents lines 10 through 15 by one shiftwidth.
@@ -132,7 +135,7 @@ u                # undo
 :30,50t70        # copies lines 30 through 50 and pastes them right below line 70
 :30,50m70        # move lines 30 through 50 and pastes them right below line 70
 SHIFT+i » CTRL+y # repeat the line above character by character
-CTRL+c » select column » SHIFT+i » write text + esc + esc  # multi-line column insertion, useful to add comments
+CTRL+c » select column » SHIFT+i » write text + ESC + ESC  # multi-line column insertion, useful to add comments
 ```
 
 ## Kubectl Aliases and Shortcuts
