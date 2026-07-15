@@ -146,7 +146,7 @@ i » CTRL+y      # copy line above character by character
 V               # enter Visual Line mode
 CTRL+v          # enter Visual Block mode
 gv              # reselect the last Visual selection
-* » cW » type new word » n » . » n » .  # replace word by word
+* » cW » type new word » n » . » n » .              # replace word by word
 CTRL+v » select column » SHIFT+i » type text » ESC  # multi-line column insertion (comments)
 ```
 
