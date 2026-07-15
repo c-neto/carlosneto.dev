@@ -134,8 +134,8 @@ o               # open a new line below and enter Insert mode
 cW              # replace the current word and enter Insert mode
 $               # move to the end of the line
 0               # move to the beginning of the line
-50 » CTRL+a     # increment the number under the cursor by 50 (useful for requests/limits)
-40 » CTRL+x     # decrement the number under the cursor by 40 (useful for requests/limits)
+50 » CTRL+a     # increment 50 in a number value (useful for requests/limits)
+40 » CTRL+x     # decrement 40 in a number value (useful for requests/limits)
 :%s/foo/bar/g   # replace all occurrences of "foo" with "bar"
 :10,15>         # indent lines 10–15 by one shiftwidth
 :10,15<         # unindent lines 10–15 by one shiftwidth

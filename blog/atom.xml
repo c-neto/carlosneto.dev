@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-15T00:41:00.875071+00:00</updated>
+  <updated>2026-07-15T00:42:35.995704+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -117,8 +117,8 @@ o&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# open
 cW&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# replace the current word and enter Insert mode&lt;/span&gt;
 $&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the end of the line&lt;/span&gt;
 &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the beginning of the line&lt;/span&gt;
-&lt;span class="m"&gt;50&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+a&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# increment the number under the cursor by 50 (useful for requests/limits)&lt;/span&gt;
-&lt;span class="m"&gt;40&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+x&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# decrement the number under the cursor by 40 (useful for requests/limits)&lt;/span&gt;
+&lt;span class="m"&gt;50&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+a&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# increment 50 in a number value (useful for requests/limits)&lt;/span&gt;
+&lt;span class="m"&gt;40&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+x&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# decrement 40 in a number value (useful for requests/limits)&lt;/span&gt;
 :%s/foo/bar/g&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
 :10,15&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# indent lines 10–15 by one shiftwidth&lt;/span&gt;
 :10,15&amp;lt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# unindent lines 10–15 by one shiftwidth&lt;/span&gt;
