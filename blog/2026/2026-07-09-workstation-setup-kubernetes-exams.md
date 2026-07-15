@@ -101,18 +101,18 @@ The following settings provide a much better editing experience for Kubernetes Y
 
 Create the `~/.vimrc` file and add the following configuration:
 
-```{code-block} bash
+```{code-block} vim
 :caption: ~/.vimrc
-set nu        # (number) Displays line numbers.
-set ai        # (autoindent) Automatically preserves indentation while editing.
-set et        # (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.
-set ts=2      # (tabstop) Displays tab characters as two spaces.
-set sw=2      # (shiftwidth) Uses a two-space indentation level when indenting or unindenting.
-set sts=2     # (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.
-set hls       # (highlightsearch) Highlights all search matches.
-set mouse=a   # (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.
-set cuc       # (cursorcolumn) Highlights the current cursor column, useful for YAML files.
-syntax on     # Enables syntax highlighting based on file extension.
+set nu        " (number) Displays line numbers.
+set ai        " (autoindent) Automatically preserves indentation while editing.
+set et        " (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.
+set ts=2      " (tabstop) Displays tab characters as two spaces.
+set sw=2      " (shiftwidth) Uses a two-space indentation level when indenting or unindenting.
+set sts=2     " (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.
+set hls       " (highlightsearch) Highlights all search matches.
+set mouse=a   " (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.
+set cuc       " (cursorcolumn) Highlights the current cursor column, useful for YAML files.
+syntax on     " Enables syntax highlighting based on file extension.
 ```
 
 Copy the file to the remote node for the exam question (for example, `node01`):
@@ -129,7 +129,8 @@ __Bonus__: Here is my Vim cheatsheet covering commands to quickly edit YAML and 
 dd              # delete (cut) the current line
 y               # yank (copy)
 p               # paste after the cursor
-u               # undo the last change
+u               # undo
+CTRL+r          # redo
 o               # open a new line below and enter Insert mode
 cW              # replace the current word and enter Insert mode
 $               # move to the end of the line
@@ -142,13 +143,15 @@ $               # move to the end of the line
 :30,50d         # delete (cut) lines 30–50
 :30,50t70       # copy lines 30–50 and paste them below line 70
 :30,50m70       # move lines 30–50 below line 70
-i » CTRL+y      # copy line above character by character
+i » CTRL+y      # copy line above charact   er by character
 V               # enter Visual Line mode
 CTRL+v          # enter Visual Block mode
 gv              # reselect the last Visual selection
 * » cW » type new word » n » . » n » .              # replace word by word
 CTRL+v » select column » SHIFT+i » type text » ESC  # multi-line column insertion (comments)
 ```
+
+> For the complete cheatsheet, take a look at the following page: <https://vim.rtorr.com/>
 
 ## Kubectl Aliases and Shortcuts
 
