@@ -469,16 +469,16 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 <p>Create the <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> file and add the following configuration:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">~/.vimrc</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="w"> </span>nu<span class="w">        </span><span class="c1"># (number) Displays line numbers.</span>
-<span class="nb">set</span><span class="w"> </span>ai<span class="w">        </span><span class="c1"># (autoindent) Automatically preserves indentation while editing.</span>
-<span class="nb">set</span><span class="w"> </span>et<span class="w">        </span><span class="c1"># (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.</span>
-<span class="nb">set</span><span class="w"> </span><span class="nv">ts</span><span class="o">=</span><span class="m">2</span><span class="w">      </span><span class="c1"># (tabstop) Displays tab characters as two spaces.</span>
-<span class="nb">set</span><span class="w"> </span><span class="nv">sw</span><span class="o">=</span><span class="m">2</span><span class="w">      </span><span class="c1"># (shiftwidth) Uses a two-space indentation level when indenting or unindenting.</span>
-<span class="nb">set</span><span class="w"> </span><span class="nv">sts</span><span class="o">=</span><span class="m">2</span><span class="w">     </span><span class="c1"># (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.</span>
-<span class="nb">set</span><span class="w"> </span>hls<span class="w">       </span><span class="c1"># (highlightsearch) Highlights all search matches.</span>
-<span class="nb">set</span><span class="w"> </span><span class="nv">mouse</span><span class="o">=</span>a<span class="w">   </span><span class="c1"># (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.</span>
-<span class="nb">set</span><span class="w"> </span>cuc<span class="w">       </span><span class="c1"># (cursorcolumn) Highlights the current cursor column, useful for YAML files.</span>
-syntax<span class="w"> </span>on<span class="w">     </span><span class="c1"># Enables syntax highlighting based on file extension.</span>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="k">nu</span>        <span class="c">&quot; (number) Displays line numbers.</span>
+<span class="k">set</span> <span class="nb">ai</span>        <span class="c">&quot; (autoindent) Automatically preserves indentation while editing.</span>
+<span class="k">set</span> <span class="nb">et</span>        <span class="c">&quot; (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.</span>
+<span class="k">set</span> <span class="k">ts</span><span class="p">=</span><span class="m">2</span>      <span class="c">&quot; (tabstop) Displays tab characters as two spaces.</span>
+<span class="k">set</span> <span class="k">sw</span><span class="p">=</span><span class="m">2</span>      <span class="c">&quot; (shiftwidth) Uses a two-space indentation level when indenting or unindenting.</span>
+<span class="k">set</span> <span class="k">sts</span><span class="p">=</span><span class="m">2</span>     <span class="c">&quot; (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.</span>
+<span class="k">set</span> <span class="nb">hls</span>       <span class="c">&quot; (highlightsearch) Highlights all search matches.</span>
+<span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">a</span>   <span class="c">&quot; (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.</span>
+<span class="k">set</span> <span class="nb">cuc</span>       <span class="c">&quot; (cursorcolumn) Highlights the current cursor column, useful for YAML files.</span>
+<span class="nb">syntax</span> <span class="k">on</span>     <span class="c">&quot; Enables syntax highlighting based on file extension.</span>
 </pre></div>
 </div>
 </div>
@@ -492,7 +492,8 @@ syntax<span class="w"> </span>on<span class="w">     </span><span class="c1"># E
 dd<span class="w">              </span><span class="c1"># delete (cut) the current line</span>
 y<span class="w">               </span><span class="c1"># yank (copy)</span>
 p<span class="w">               </span><span class="c1"># paste after the cursor</span>
-u<span class="w">               </span><span class="c1"># undo the last change</span>
+u<span class="w">               </span><span class="c1"># undo</span>
+CTRL+r<span class="w">          </span><span class="c1"># redo</span>
 o<span class="w">               </span><span class="c1"># open a new line below and enter Insert mode</span>
 cW<span class="w">              </span><span class="c1"># replace the current word and enter Insert mode</span>
 $<span class="w">               </span><span class="c1"># move to the end of the line</span>
@@ -505,7 +506,7 @@ $<span class="w">               </span><span class="c1"># move to the end of the
 :30,50d<span class="w">         </span><span class="c1"># delete (cut) lines 30–50</span>
 :30,50t70<span class="w">       </span><span class="c1"># copy lines 30–50 and paste them below line 70</span>
 :30,50m70<span class="w">       </span><span class="c1"># move lines 30–50 below line 70</span>
-i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">      </span><span class="c1"># copy line above character by character</span>
+i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">      </span><span class="c1"># copy line above charact   er by character</span>
 V<span class="w">               </span><span class="c1"># enter Visual Line mode</span>
 CTRL+v<span class="w">          </span><span class="c1"># enter Visual Block mode</span>
 gv<span class="w">              </span><span class="c1"># reselect the last Visual selection</span>
@@ -513,6 +514,9 @@ gv<span class="w">              </span><span class="c1"># reselect the last Visu
 CTRL+v<span class="w"> </span>»<span class="w"> </span><span class="k">select</span><span class="w"> </span>column<span class="w"> </span>»<span class="w"> </span>SHIFT+i<span class="w"> </span>»<span class="w"> </span><span class="nb">type</span><span class="w"> </span>text<span class="w"> </span>»<span class="w"> </span>ESC<span class="w">  </span><span class="c1"># multi-line column insertion (comments)</span>
 </pre></div>
 </div>
+<blockquote>
+<div><p>For the complete cheatsheet, take a look at the following page: <a class="reference external" href="https://vim.rtorr.com/">https://vim.rtorr.com/</a></p>
+</div></blockquote>
 </section>
 <section id="kubectl-aliases-and-shortcuts">
 <h2>Kubectl Aliases and Shortcuts<a class="headerlink" href="#kubectl-aliases-and-shortcuts" title="Link to this heading">#</a></h2>

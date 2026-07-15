@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-15T00:43:20.487360+00:00</updated>
+  <updated>2026-07-15T14:37:40.444977+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -89,16 +89,16 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;p&gt;Create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;nu&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# (number) Displays line numbers.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;ai&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# (autoindent) Automatically preserves indentation while editing.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;et&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;ts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# (tabstop) Displays tab characters as two spaces.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sw&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# (shiftwidth) Uses a two-space indentation level when indenting or unindenting.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;sts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;hls&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# (highlightsearch) Highlights all search matches.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;mouse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;a&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.&lt;/span&gt;
-&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cuc&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# (cursorcolumn) Highlights the current cursor column, useful for YAML files.&lt;/span&gt;
-syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Enables syntax highlighting based on file extension.&lt;/span&gt;
+&lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; (number) Displays line numbers.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ai&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; (autoindent) Automatically preserves indentation while editing.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; (tabstop) Displays tab characters as two spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; (shiftwidth) Uses a two-space indentation level when indenting or unindenting.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; (highlightsearch) Highlights all search matches.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;a&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; (cursorcolumn) Highlights the current cursor column, useful for YAML files.&lt;/span&gt;
+&lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Enables syntax highlighting based on file extension.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -112,7 +112,8 @@ syntax&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt;     &lt;/span
 dd&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# delete (cut) the current line&lt;/span&gt;
 y&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# yank (copy)&lt;/span&gt;
 p&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# paste after the cursor&lt;/span&gt;
-u&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# undo the last change&lt;/span&gt;
+u&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# undo&lt;/span&gt;
+CTRL+r&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# redo&lt;/span&gt;
 o&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# open a new line below and enter Insert mode&lt;/span&gt;
 cW&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# replace the current word and enter Insert mode&lt;/span&gt;
 $&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the end of the line&lt;/span&gt;
@@ -125,7 +126,7 @@ $&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move
 :30,50d&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# delete (cut) lines 30–50&lt;/span&gt;
 :30,50t70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# copy lines 30–50 and paste them below line 70&lt;/span&gt;
 :30,50m70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# move lines 30–50 below line 70&lt;/span&gt;
-i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# copy line above character by character&lt;/span&gt;
+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# copy line above charact   er by character&lt;/span&gt;
 V&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# enter Visual Line mode&lt;/span&gt;
 CTRL+v&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# enter Visual Block mode&lt;/span&gt;
 gv&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# reselect the last Visual selection&lt;/span&gt;
@@ -133,6 +134,9 @@ gv&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# rese
 CTRL+v&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;column&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;SHIFT+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;text&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;ESC&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# multi-line column insertion (comments)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;For the complete cheatsheet, take a look at the following page: &lt;a class="reference external" href="https://vim.rtorr.com/"&gt;https://vim.rtorr.com/&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;/section&gt;
 &lt;section id="kubectl-aliases-and-shortcuts"&gt;
 &lt;h2&gt;Kubectl Aliases and Shortcuts&lt;/h2&gt;
