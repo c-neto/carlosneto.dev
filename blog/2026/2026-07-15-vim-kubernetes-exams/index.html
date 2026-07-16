@@ -11,12 +11,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/07/15 In my previous post, Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS), I covered how I prepare my workstation for the Linux Foundation Kubernetes certificati..." />
+<meta property="og:description" content="Blog Post Publish Date: 2026/07/15 This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not t..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-07-15-vim-kubernetes-exams_e723b30c.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/07/15 In my previous post, Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS), I covered how I prepare my workstation for the Linux Foundation Kubernetes certificati..." />
-<meta name="description" content="Blog Post Publish Date: 2026/07/15 In my previous post, Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS), I covered how I prepare my workstation for the Linux Foundation Kubernetes certificati..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-07-15-vim-kubernetes-exams_a2abe6b4.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/07/15 This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not t..." />
+<meta name="description" content="Blog Post Publish Date: 2026/07/15 This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not t..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS) &#8212; Carlos Neto&#39;s Tech Blog</title>
@@ -395,9 +395,8 @@
 <hr class="docutils" />
 <section id="vim-for-kubernetes-certification-exams-cka-ckad-cks">
 <h1>Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)<a class="headerlink" href="#vim-for-kubernetes-certification-exams-cka-ckad-cks" title="Link to this heading">#</a></h1>
-<p>In my previous post, <a class="reference internal" href="../2026-07-09-workstation-setup-kubernetes-exams/"><span class="std std-doc"><strong>Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS)</strong></span></a>, I covered how I prepare my workstation for the Linux Foundation Kubernetes certification exams. One of the recommendations was to use Vim instead of relying on graphical editors.</p>
-<p>Although the exam workstation includes <a class="reference external" href="https://vscodium.com/">VSCodium</a>, every exam task requires you to connect to remote Ubuntu nodes via SSH, where VSCodium is not available. As a result, becoming comfortable with Vim is one of the most valuable skills you can develop for the CKA, CKAD, and CKS exams.</p>
 <p>This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.</p>
+<p>Although the exam workstation includes <a class="reference external" href="https://vscodium.com/">VSCodium</a>, every exam task requires you to connect to remote Ubuntu nodes via SSH, where <a class="reference external" href="https://vscodium.com/">VSCodium</a> is not available. As a result, becoming comfortable with Vim is a necessary evil for good performance in the CKA, CKAD, and CKS exams.</p>
 <section id="vim-configuration">
 <h2>Vim Configuration<a class="headerlink" href="#vim-configuration" title="Link to this heading">#</a></h2>
 <p>This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.</p>

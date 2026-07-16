@@ -10,11 +10,9 @@ category: kubernetes
 
 # Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)
 
-In my previous post, [**Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS)**](./2026-07-09-workstation-setup-kubernetes-exams.md), I covered how I prepare my workstation for the Linux Foundation Kubernetes certification exams. One of the recommendations was to use Vim instead of relying on graphical editors.
-
-Although the exam workstation includes [VSCodium](https://vscodium.com/), every exam task requires you to connect to remote Ubuntu nodes via SSH, where VSCodium is not available. As a result, becoming comfortable with Vim is one of the most valuable skills you can develop for the CKA, CKAD, and CKS exams.
-
 This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.
+
+Although the exam workstation includes [VSCodium](https://vscodium.com/), every exam task requires you to connect to remote Ubuntu nodes via SSH, where [VSCodium](https://vscodium.com/) is not available. As a result, becoming comfortable with Vim is a necessary evil for good performance in the CKA, CKAD, and CKS exams.
 
 ## Vim Configuration
 
