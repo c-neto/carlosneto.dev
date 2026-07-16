@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-16T01:03:40.055616+00:00</updated>
+  <updated>2026-07-16T01:05:08.870235+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -98,7 +98,7 @@ ESC&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 5. a
 &lt;h2&gt;Search and Replace&lt;/h2&gt;
 &lt;p&gt;When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.&lt;/p&gt;
 &lt;p&gt;To replace every occurrence of a string:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%s/foo/bar/g&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%s/foo/bar/g&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:&lt;/p&gt;
