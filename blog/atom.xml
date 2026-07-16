@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-16T00:49:21.919995+00:00</updated>
+  <updated>2026-07-16T00:56:40.509677+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -63,34 +63,6 @@ W&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
-&lt;section id="working-with-numbers"&gt;
-&lt;h2&gt;Working with Numbers&lt;/h2&gt;
-&lt;p&gt;Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement the value directly under the cursor.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="m"&gt;50&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+a&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# increment a number by 50&lt;/span&gt;
-&lt;span class="m"&gt;40&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+x&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# decrement a number by 40&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/section&gt;
-&lt;section id="search-and-replace"&gt;
-&lt;h2&gt;Search and Replace&lt;/h2&gt;
-&lt;p&gt;When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.&lt;/p&gt;
-&lt;p&gt;To replace every occurrence of a string:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%s/foo/bar/g&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;*&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 1. search for the word under the cursor&lt;/span&gt;
-cW&lt;span class="w"&gt;                  &lt;/span&gt;&lt;span class="c1"&gt;# 2. replace the current occurrence&lt;/span&gt;
-&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;replacement&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# 3. type the replacement&lt;/span&gt;
-n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 4. jump to the next occurrence&lt;/span&gt;
-.&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 5. repeat the replacement&lt;/span&gt;
-n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 6. skip this occurrence if desired&lt;/span&gt;
-n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 7. jump to the next occurrence&lt;/span&gt;
-.&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 8. repeat the replacement&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.&lt;/p&gt;
-&lt;/section&gt;
 &lt;section id="fixing-yaml-indentation"&gt;
 &lt;h2&gt;Fixing YAML Indentation&lt;/h2&gt;
 &lt;p&gt;Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to shift entire YAML blocks to the right or left while preserving their structure.&lt;/p&gt;
@@ -122,6 +94,26 @@ ESC&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 5. a
 &lt;/div&gt;
 &lt;p&gt;The same technique can also be be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.&lt;/p&gt;
 &lt;/section&gt;
+&lt;section id="search-and-replace"&gt;
+&lt;h2&gt;Search and Replace&lt;/h2&gt;
+&lt;p&gt;When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.&lt;/p&gt;
+&lt;p&gt;To replace every occurrence of a string:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%s/foo/bar/g&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;*&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 1. search for the word under the cursor&lt;/span&gt;
+cW&lt;span class="w"&gt;                  &lt;/span&gt;&lt;span class="c1"&gt;# 2. replace the current occurrence&lt;/span&gt;
+&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;replacement&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# 3. type the replacement&lt;/span&gt;
+n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 4. jump to the next occurrence&lt;/span&gt;
+.&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 5. repeat the replacement&lt;/span&gt;
+n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 6. skip this occurrence if desired&lt;/span&gt;
+n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 7. jump to the next occurrence&lt;/span&gt;
+.&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 8. repeat the replacement&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.&lt;/p&gt;
+&lt;/section&gt;
 &lt;section id="working-with-yaml-blocks"&gt;
 &lt;h2&gt;Working with YAML Blocks&lt;/h2&gt;
 &lt;p&gt;Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.&lt;/p&gt;
@@ -133,12 +125,19 @@ ESC&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 5. a
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
+&lt;section id="working-with-numbers"&gt;
+&lt;h2&gt;Working with Numbers&lt;/h2&gt;
+&lt;p&gt;Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement the value directly under the cursor.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="m"&gt;50&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+a&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# increment a number by 50&lt;/span&gt;
+&lt;span class="m"&gt;40&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+x&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# decrement a number by 40&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
 &lt;section id="further-reading"&gt;
 &lt;h2&gt;Further Reading&lt;/h2&gt;
 &lt;p&gt;If you’d like to learn more about Vim, the following resources provide excellent reference material. For the Kubernetes certification exams, however, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;https://vim.rtorr.com/&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;https://vimhelp.org/&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://vim.rtorr.com/"&gt;https://vim.rtorr.com/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/section&gt;
 &lt;section id="conclusion"&gt;
@@ -151,7 +150,11 @@ ESC&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 5. a
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/"/>
     <summary>Blog Post Publish Date: 2026/07/15In my previous post, Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS), I covered how I prepare my workstation for the Linux Foundation Kubernetes certification exams. One of the recommendations was to use Vim instead of relying on graphical editors.</summary>
+    <category term="cka" label="cka"/>
+    <category term="ckad" label="ckad"/>
+    <category term="cks" label="cks"/>
     <category term="kubernetes" label="kubernetes"/>
+    <category term="linux-foundation" label="linux-foundation"/>
     <published>2026-07-15T00:00:00+00:00</published>
   </entry>
   <entry>
@@ -342,7 +345,11 @@ bkp&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-07-09-workstation-setup-kubernetes-exams/"/>
     <summary>Blog Post Publish Date: 2026/07/09Time management is one of the most critical factors for passing the Linux Foundation Kubernetes certification exams. The CKA, CKAD, and CKS are hands-on exams conducted on remote Ubuntu instances running the XFCE desktop environment, where network latency and the remote desktop experience can slow you down.</summary>
+    <category term="cka" label="cka"/>
+    <category term="ckad" label="ckad"/>
+    <category term="cks" label="cks"/>
     <category term="kubernetes" label="kubernetes"/>
+    <category term="linux-foundation" label="linux-foundation"/>
     <published>2026-07-09T00:00:00+00:00</published>
   </entry>
   <entry>

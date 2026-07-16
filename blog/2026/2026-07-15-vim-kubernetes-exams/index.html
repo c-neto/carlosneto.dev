@@ -443,34 +443,6 @@ W<span class="w">               </span><span class="c1"># jump to the beginning 
 </pre></div>
 </div>
 </section>
-<section id="working-with-numbers">
-<h2>Working with Numbers<a class="headerlink" href="#working-with-numbers" title="Link to this heading">#</a></h2>
-<p>Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement the value directly under the cursor.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">50</span><span class="w"> </span>»<span class="w"> </span>CTRL+a<span class="w">     </span><span class="c1"># increment a number by 50</span>
-<span class="m">40</span><span class="w"> </span>»<span class="w"> </span>CTRL+x<span class="w">     </span><span class="c1"># decrement a number by 40</span>
-</pre></div>
-</div>
-</section>
-<section id="search-and-replace">
-<h2>Search and Replace<a class="headerlink" href="#search-and-replace" title="Link to this heading">#</a></h2>
-<p>When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.</p>
-<p>To replace every occurrence of a string:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%s/foo/bar/g<span class="w">   </span><span class="c1"># replace all occurrences of &quot;foo&quot; with &quot;bar&quot;</span>
-</pre></div>
-</div>
-<p>Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*<span class="w">                   </span><span class="c1"># 1. search for the word under the cursor</span>
-cW<span class="w">                  </span><span class="c1"># 2. replace the current occurrence</span>
-<span class="nb">type</span><span class="w"> </span>replacement<span class="w">    </span><span class="c1"># 3. type the replacement</span>
-n<span class="w">                   </span><span class="c1"># 4. jump to the next occurrence</span>
-.<span class="w">                   </span><span class="c1"># 5. repeat the replacement</span>
-n<span class="w">                   </span><span class="c1"># 6. skip this occurrence if desired</span>
-n<span class="w">                   </span><span class="c1"># 7. jump to the next occurrence</span>
-.<span class="w">                   </span><span class="c1"># 8. repeat the replacement</span>
-</pre></div>
-</div>
-<p>This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.</p>
-</section>
 <section id="fixing-yaml-indentation">
 <h2>Fixing YAML Indentation<a class="headerlink" href="#fixing-yaml-indentation" title="Link to this heading">#</a></h2>
 <p>Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to shift entire YAML blocks to the right or left while preserving their structure.</p>
@@ -502,6 +474,26 @@ ESC<span class="w">             </span><span class="c1"># 5. apply the change to
 </div>
 <p>The same technique can also be be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.</p>
 </section>
+<section id="search-and-replace">
+<h2>Search and Replace<a class="headerlink" href="#search-and-replace" title="Link to this heading">#</a></h2>
+<p>When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.</p>
+<p>To replace every occurrence of a string:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%s/foo/bar/g<span class="w">   </span><span class="c1"># replace all occurrences of &quot;foo&quot; with &quot;bar&quot;</span>
+</pre></div>
+</div>
+<p>Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*<span class="w">                   </span><span class="c1"># 1. search for the word under the cursor</span>
+cW<span class="w">                  </span><span class="c1"># 2. replace the current occurrence</span>
+<span class="nb">type</span><span class="w"> </span>replacement<span class="w">    </span><span class="c1"># 3. type the replacement</span>
+n<span class="w">                   </span><span class="c1"># 4. jump to the next occurrence</span>
+.<span class="w">                   </span><span class="c1"># 5. repeat the replacement</span>
+n<span class="w">                   </span><span class="c1"># 6. skip this occurrence if desired</span>
+n<span class="w">                   </span><span class="c1"># 7. jump to the next occurrence</span>
+.<span class="w">                   </span><span class="c1"># 8. repeat the replacement</span>
+</pre></div>
+</div>
+<p>This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.</p>
+</section>
 <section id="working-with-yaml-blocks">
 <h2>Working with YAML Blocks<a class="headerlink" href="#working-with-yaml-blocks" title="Link to this heading">#</a></h2>
 <p>Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.</p>
@@ -513,12 +505,19 @@ ESC<span class="w">             </span><span class="c1"># 5. apply the change to
 </pre></div>
 </div>
 </section>
+<section id="working-with-numbers">
+<h2>Working with Numbers<a class="headerlink" href="#working-with-numbers" title="Link to this heading">#</a></h2>
+<p>Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement the value directly under the cursor.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">50</span><span class="w"> </span>»<span class="w"> </span>CTRL+a<span class="w">     </span><span class="c1"># increment a number by 50</span>
+<span class="m">40</span><span class="w"> </span>»<span class="w"> </span>CTRL+x<span class="w">     </span><span class="c1"># decrement a number by 40</span>
+</pre></div>
+</div>
+</section>
 <section id="further-reading">
 <h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
 <p>If you’d like to learn more about Vim, the following resources provide excellent reference material. For the Kubernetes certification exams, however, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.</p>
 <ul class="simple">
-<li><p>https://vim.rtorr.com/</p></li>
-<li><p>https://vimhelp.org/</p></li>
+<li><p><a class="reference external" href="https://vim.rtorr.com/">https://vim.rtorr.com/</a></p></li>
 </ul>
 </section>
 <section id="conclusion">

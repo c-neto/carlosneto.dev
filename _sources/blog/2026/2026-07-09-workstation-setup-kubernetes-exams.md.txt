@@ -1,5 +1,5 @@
 ---
-tags: kubernetes
+tags: cks, cka, ckad, linux-foundation, kubernetes
 date: "2026-07-09"
 category: kubernetes
 ---
