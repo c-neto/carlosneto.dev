@@ -1,0 +1,642 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/07/15 In my previous post, Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS), I covered how I prepare my workstation for the Linux Foundation Kubernetes certificati..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-07-15-vim-kubernetes-exams_e723b30c.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/07/15 In my previous post, Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS), I covered how I prepare my workstation for the Linux Foundation Kubernetes certificati..." />
+<meta name="description" content="Blog Post Publish Date: 2026/07/15 In my previous post, Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS), I covered how I prepare my workstation for the Linux Foundation Kubernetes certificati..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS) &#8212; Carlos Neto&#39;s Tech Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=68e62335" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2026/2026-07-15-vim-kubernetes-exams';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../../genindex/" />
+    <link rel="search" title="Search" href="../../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Tech Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../whoami/">
+    whoami
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../whoami/">
+    whoami
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/07/15</em></p>
+<hr class="docutils" />
+<section id="vim-for-kubernetes-certification-exams-cka-ckad-cks">
+<h1>Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)<a class="headerlink" href="#vim-for-kubernetes-certification-exams-cka-ckad-cks" title="Link to this heading">#</a></h1>
+<p>In my previous post, <a class="reference internal" href="../2026-07-09-workstation-setup-kubernetes-exams/"><span class="std std-doc"><strong>Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS)</strong></span></a>, I covered how I prepare my workstation for the Linux Foundation Kubernetes certification exams. One of the recommendations was to use Vim instead of relying on graphical editors.</p>
+<p>Although the exam workstation includes <a class="reference external" href="https://vscodium.com/">VSCodium</a>, every exam task requires you to connect to remote Ubuntu nodes via SSH, where VSCodium is not available. As a result, becoming comfortable with Vim is one of the most valuable skills you can develop for the CKA, CKAD, and CKS exams.</p>
+<p>This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.</p>
+<section id="vim-configuration">
+<h2>Vim Configuration<a class="headerlink" href="#vim-configuration" title="Link to this heading">#</a></h2>
+<p>Each exam task is performed on a different remote node. Before starting a task, copy your local <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> to the target machine:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
+</pre></div>
+</div>
+<p>Use the following configuration:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">~/.vimrc</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="k">nu</span>        <span class="c">&quot; Show line numbers.</span>
+<span class="k">set</span> <span class="nb">ai</span>        <span class="c">&quot; Preserve indentation while editing.</span>
+<span class="k">set</span> <span class="nb">et</span>        <span class="c">&quot; Convert tabs into spaces.</span>
+<span class="k">set</span> <span class="k">ts</span><span class="p">=</span><span class="m">2</span>      <span class="c">&quot; Display tabs as two spaces.</span>
+<span class="k">set</span> <span class="k">sw</span><span class="p">=</span><span class="m">2</span>      <span class="c">&quot; Indent and unindent using two spaces.</span>
+<span class="k">set</span> <span class="k">sts</span><span class="p">=</span><span class="m">2</span>     <span class="c">&quot; Make Tab and Backspace use two-space indentation.</span>
+<span class="k">set</span> <span class="nb">hls</span>       <span class="c">&quot; Highlight search matches.</span>
+<span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">a</span>   <span class="c">&quot; Enable mouse support.</span>
+<span class="k">set</span> <span class="nb">cuc</span>       <span class="c">&quot; Highlight the current cursor column.</span>
+<span class="nb">syntax</span> <span class="k">on</span>     <span class="c">&quot; Enable syntax highlighting.</span>
+</pre></div>
+</div>
+</div>
+<p>This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.</p>
+</section>
+<section id="essential-editing-commands">
+<h2>Essential Editing Commands<a class="headerlink" href="#essential-editing-commands" title="Link to this heading">#</a></h2>
+<p>These are the commands you’ll use most often. They allow you to navigate, copy, delete, replace, and repeat edits without leaving Normal mode, making common editing tasks much faster.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w">               </span><span class="c1"># repeat the last command</span>
+~<span class="w">               </span><span class="c1"># toggle character case</span>
+dd<span class="w">              </span><span class="c1"># delete (cut) the current line</span>
+y<span class="w">               </span><span class="c1"># yank (copy)</span>
+p<span class="w">               </span><span class="c1"># paste</span>
+u<span class="w">               </span><span class="c1"># undo</span>
+CTRL+r<span class="w">          </span><span class="c1"># redo</span>
+O<span class="w">               </span><span class="c1"># open a new line above and enter Insert mode</span>
+o<span class="w">               </span><span class="c1"># open a new line below and enter Insert mode</span>
+cW<span class="w">              </span><span class="c1"># replace the current word and enter Insert mode</span>
+i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">      </span><span class="c1"># copy characters from the line above</span>
+/foobar<span class="w">         </span><span class="c1"># search forward for &quot;foobar&quot;</span>
+<span class="m">0</span><span class="w">               </span><span class="c1"># move to the beginning of the line</span>
+$<span class="w">               </span><span class="c1"># move to the end of the line</span>
+W<span class="w">               </span><span class="c1"># jump to the beginning of the next word</span>
+</pre></div>
+</div>
+</section>
+<section id="working-with-numbers">
+<h2>Working with Numbers<a class="headerlink" href="#working-with-numbers" title="Link to this heading">#</a></h2>
+<p>Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement the value directly under the cursor.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">50</span><span class="w"> </span>»<span class="w"> </span>CTRL+a<span class="w">     </span><span class="c1"># increment a number by 50</span>
+<span class="m">40</span><span class="w"> </span>»<span class="w"> </span>CTRL+x<span class="w">     </span><span class="c1"># decrement a number by 40</span>
+</pre></div>
+</div>
+</section>
+<section id="search-and-replace">
+<h2>Search and Replace<a class="headerlink" href="#search-and-replace" title="Link to this heading">#</a></h2>
+<p>When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.</p>
+<p>To replace every occurrence of a string:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%s/foo/bar/g<span class="w">   </span><span class="c1"># replace all occurrences of &quot;foo&quot; with &quot;bar&quot;</span>
+</pre></div>
+</div>
+<p>Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*<span class="w">                   </span><span class="c1"># 1. search for the word under the cursor</span>
+cW<span class="w">                  </span><span class="c1"># 2. replace the current occurrence</span>
+<span class="nb">type</span><span class="w"> </span>replacement<span class="w">    </span><span class="c1"># 3. type the replacement</span>
+n<span class="w">                   </span><span class="c1"># 4. jump to the next occurrence</span>
+.<span class="w">                   </span><span class="c1"># 5. repeat the replacement</span>
+n<span class="w">                   </span><span class="c1"># 6. skip this occurrence if desired</span>
+n<span class="w">                   </span><span class="c1"># 7. jump to the next occurrence</span>
+.<span class="w">                   </span><span class="c1"># 8. repeat the replacement</span>
+</pre></div>
+</div>
+<p>This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.</p>
+</section>
+<section id="fixing-yaml-indentation">
+<h2>Fixing YAML Indentation<a class="headerlink" href="#fixing-yaml-indentation" title="Link to this heading">#</a></h2>
+<p>Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to shift entire YAML blocks to the right or left while preserving their structure.</p>
+<p>To increase the indentation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>V<span class="w">               </span><span class="c1"># 1. enter Visual Line mode</span>
+<span class="k">select</span><span class="w"> </span>lines<span class="w">    </span><span class="c1"># 2. select the lines</span>
+&gt;<span class="w">               </span><span class="c1"># 3. shift indentation right</span>
+ESC<span class="w">             </span><span class="c1"># 4. apply the change</span>
+.<span class="w">               </span><span class="c1"># 5. repeat the indentation</span>
+</pre></div>
+</div>
+<p>If you need to reverse the indentation or perform another operation on the same lines, use <code class="docutils literal notranslate"><span class="pre">gv</span></code> to restore the previous Visual selection:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gv<span class="w">              </span><span class="c1"># 1. reselect the previous Visual selection</span>
+&lt;<span class="w">               </span><span class="c1"># 2. shift indentation left</span>
+ESC<span class="w">             </span><span class="c1"># 3. apply the change</span>
+.<span class="w">               </span><span class="c1"># 4. repeat the operation</span>
+</pre></div>
+</div>
+</section>
+<section id="commenting-multiple-lines">
+<h2>Commenting Multiple Lines<a class="headerlink" href="#commenting-multiple-lines" title="Link to this heading">#</a></h2>
+<p>Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CTRL+v<span class="w">          </span><span class="c1"># 1. enter Visual Block mode</span>
+<span class="k">select</span><span class="w"> </span>column<span class="w">   </span><span class="c1"># 2. select the first column</span>
+SHIFT+i<span class="w">         </span><span class="c1"># 3. enter Insert mode</span>
+<span class="c1">#               # 4. type the comment character</span>
+ESC<span class="w">             </span><span class="c1"># 5. apply the change to all selected lines</span>
+</pre></div>
+</div>
+<p>The same technique can also be be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.</p>
+</section>
+<section id="working-with-yaml-blocks">
+<h2>Working with YAML Blocks<a class="headerlink" href="#working-with-yaml-blocks" title="Link to this heading">#</a></h2>
+<p>Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:10,15&gt;<span class="w">         </span><span class="c1"># indent lines 10-15</span>
+:10,15&lt;<span class="w">         </span><span class="c1"># unindent lines 10-15</span>
+:30,50d<span class="w">         </span><span class="c1"># delete (cut) lines 30-50</span>
+:30,50t70<span class="w">       </span><span class="c1"># copy lines 30-50 below line 70</span>
+:30,50m70<span class="w">       </span><span class="c1"># move lines 30-50 below line 70</span>
+</pre></div>
+</div>
+</section>
+<section id="further-reading">
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
+<p>If you’d like to learn more about Vim, the following resources provide excellent reference material. For the Kubernetes certification exams, however, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.</p>
+<ul class="simple">
+<li><p>https://vim.rtorr.com/</p></li>
+<li><p>https://vimhelp.org/</p></li>
+</ul>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
+<p>You don’t need to become a Vim expert to pass the Kubernetes certification exams.</p>
+<p>A minimal configuration and a handful of well-practiced commands are enough to edit Kubernetes YAML manifests quickly and confidently under exam conditions.</p>
+<p>Focus on building muscle memory with the commands presented in this guide. The less time you spend fighting the editor, the more time you’ll have to solve the Kubernetes problems that actually determine your exam score.</p>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+     
+<div class="section ablog__prev-next">
+  <span class="ablog__prev">
+     
+    <a href="../2026-07-09-workstation-setup-kubernetes-exams/">
+      
+      <i class="fa fa-arrow-circle-left"></i>
+      
+      <span>Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)</span>
+    </a>
+    
+  </span>
+  <span class="ablog__spacer">&nbsp;</span>
+  <span class="ablog__next">
+    
+  </span>
+</div>
+  
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

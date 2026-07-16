@@ -2,14 +2,161 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-15T14:37:40.444977+00:00</updated>
+  <updated>2026-07-16T00:49:21.919995+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
   <entry>
+    <id>https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/</id>
+    <title>Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)</title>
+    <updated>2026-07-15T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/07/15&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="vim-for-kubernetes-certification-exams-cka-ckad-cks"&gt;
+
+&lt;p&gt;In my previous post, &lt;a class="reference internal" href="2026/2026-07-09-workstation-setup-kubernetes-exams/"&gt;&lt;span class="std std-doc"&gt;&lt;strong&gt;Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS)&lt;/strong&gt;&lt;/span&gt;&lt;/a&gt;, I covered how I prepare my workstation for the Linux Foundation Kubernetes certification exams. One of the recommendations was to use Vim instead of relying on graphical editors.&lt;/p&gt;
+&lt;p&gt;Although the exam workstation includes &lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt;, every exam task requires you to connect to remote Ubuntu nodes via SSH, where VSCodium is not available. As a result, becoming comfortable with Vim is one of the most valuable skills you can develop for the CKA, CKAD, and CKS exams.&lt;/p&gt;
+&lt;p&gt;This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.&lt;/p&gt;
+&lt;section id="vim-configuration"&gt;
+&lt;h2&gt;Vim Configuration&lt;/h2&gt;
+&lt;p&gt;Each exam task is performed on a different remote node. Before starting a task, copy your local &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; to the target machine:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Use the following configuration:&lt;/p&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Show line numbers.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ai&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Preserve indentation while editing.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Convert tabs into spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Display tabs as two spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Indent and unindent using two spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Make Tab and Backspace use two-space indentation.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; Highlight search matches.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;a&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; Enable mouse support.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; Highlight the current cursor column.&lt;/span&gt;
+&lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Enable syntax highlighting.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="essential-editing-commands"&gt;
+&lt;h2&gt;Essential Editing Commands&lt;/h2&gt;
+&lt;p&gt;These are the commands you’ll use most often. They allow you to navigate, copy, delete, replace, and repeat edits without leaving Normal mode, making common editing tasks much faster.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;.&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# repeat the last command&lt;/span&gt;
+~&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# toggle character case&lt;/span&gt;
+dd&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# delete (cut) the current line&lt;/span&gt;
+y&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# yank (copy)&lt;/span&gt;
+p&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# paste&lt;/span&gt;
+u&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# undo&lt;/span&gt;
+CTRL+r&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# redo&lt;/span&gt;
+O&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# open a new line above and enter Insert mode&lt;/span&gt;
+o&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# open a new line below and enter Insert mode&lt;/span&gt;
+cW&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# replace the current word and enter Insert mode&lt;/span&gt;
+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# copy characters from the line above&lt;/span&gt;
+/foobar&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# search forward for &amp;quot;foobar&amp;quot;&lt;/span&gt;
+&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the beginning of the line&lt;/span&gt;
+$&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the end of the line&lt;/span&gt;
+W&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to the beginning of the next word&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="working-with-numbers"&gt;
+&lt;h2&gt;Working with Numbers&lt;/h2&gt;
+&lt;p&gt;Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement the value directly under the cursor.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="m"&gt;50&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+a&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# increment a number by 50&lt;/span&gt;
+&lt;span class="m"&gt;40&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+x&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# decrement a number by 40&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="search-and-replace"&gt;
+&lt;h2&gt;Search and Replace&lt;/h2&gt;
+&lt;p&gt;When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.&lt;/p&gt;
+&lt;p&gt;To replace every occurrence of a string:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%s/foo/bar/g&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;*&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 1. search for the word under the cursor&lt;/span&gt;
+cW&lt;span class="w"&gt;                  &lt;/span&gt;&lt;span class="c1"&gt;# 2. replace the current occurrence&lt;/span&gt;
+&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;replacement&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# 3. type the replacement&lt;/span&gt;
+n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 4. jump to the next occurrence&lt;/span&gt;
+.&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 5. repeat the replacement&lt;/span&gt;
+n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 6. skip this occurrence if desired&lt;/span&gt;
+n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 7. jump to the next occurrence&lt;/span&gt;
+.&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 8. repeat the replacement&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="fixing-yaml-indentation"&gt;
+&lt;h2&gt;Fixing YAML Indentation&lt;/h2&gt;
+&lt;p&gt;Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to shift entire YAML blocks to the right or left while preserving their structure.&lt;/p&gt;
+&lt;p&gt;To increase the indentation:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;V&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 1. enter Visual Line mode&lt;/span&gt;
+&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;lines&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# 2. select the lines&lt;/span&gt;
+&amp;gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 3. shift indentation right&lt;/span&gt;
+ESC&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 4. apply the change&lt;/span&gt;
+.&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 5. repeat the indentation&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;If you need to reverse the indentation or perform another operation on the same lines, use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;gv&lt;/span&gt;&lt;/code&gt; to restore the previous Visual selection:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gv&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# 1. reselect the previous Visual selection&lt;/span&gt;
+&amp;lt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 2. shift indentation left&lt;/span&gt;
+ESC&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 3. apply the change&lt;/span&gt;
+.&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 4. repeat the operation&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="commenting-multiple-lines"&gt;
+&lt;h2&gt;Commenting Multiple Lines&lt;/h2&gt;
+&lt;p&gt;Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;CTRL+v&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# 1. enter Visual Block mode&lt;/span&gt;
+&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;column&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 2. select the first column&lt;/span&gt;
+SHIFT+i&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 3. enter Insert mode&lt;/span&gt;
+&lt;span class="c1"&gt;#               # 4. type the comment character&lt;/span&gt;
+ESC&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 5. apply the change to all selected lines&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The same technique can also be be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="working-with-yaml-blocks"&gt;
+&lt;h2&gt;Working with YAML Blocks&lt;/h2&gt;
+&lt;p&gt;Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:10,15&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# indent lines 10-15&lt;/span&gt;
+:10,15&amp;lt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# unindent lines 10-15&lt;/span&gt;
+:30,50d&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# delete (cut) lines 30-50&lt;/span&gt;
+:30,50t70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# copy lines 30-50 below line 70&lt;/span&gt;
+:30,50m70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# move lines 30-50 below line 70&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="further-reading"&gt;
+&lt;h2&gt;Further Reading&lt;/h2&gt;
+&lt;p&gt;If you’d like to learn more about Vim, the following resources provide excellent reference material. For the Kubernetes certification exams, however, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;https://vim.rtorr.com/&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;https://vimhelp.org/&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;section id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;You don’t need to become a Vim expert to pass the Kubernetes certification exams.&lt;/p&gt;
+&lt;p&gt;A minimal configuration and a handful of well-practiced commands are enough to edit Kubernetes YAML manifests quickly and confidently under exam conditions.&lt;/p&gt;
+&lt;p&gt;Focus on building muscle memory with the commands presented in this guide. The less time you spend fighting the editor, the more time you’ll have to solve the Kubernetes problems that actually determine your exam score.&lt;/p&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/"/>
+    <summary>Blog Post Publish Date: 2026/07/15In my previous post, Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS), I covered how I prepare my workstation for the Linux Foundation Kubernetes certification exams. One of the recommendations was to use Vim instead of relying on graphical editors.</summary>
+    <category term="kubernetes" label="kubernetes"/>
+    <published>2026-07-15T00:00:00+00:00</published>
+  </entry>
+  <entry>
     <id>https://carlosneto.dev/blog/2026/2026-07-09-workstation-setup-kubernetes-exams/</id>
-    <title>Workstation Setup for Kubernetes Exams (CKA/CKAD/CKS)</title>
+    <title>Workstation Setup for Kubernetes Exams (CKA, CKAD &amp; CKS)</title>
     <updated>2026-07-09T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/07/09&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
