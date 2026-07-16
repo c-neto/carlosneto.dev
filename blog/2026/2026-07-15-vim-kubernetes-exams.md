@@ -1,5 +1,5 @@
 ---
-tags: kubernetes
+tags: cks, cka, ckad, linux-foundation, kubernetes
 date: "2026-07-15"
 category: kubernetes
 ---
@@ -64,40 +64,6 @@ $               # move to the end of the line
 W               # jump to the beginning of the next word
 ```
 
-## Working with Numbers
-
-Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement the value directly under the cursor.
-
-```bash
-50 » CTRL+a     # increment a number by 50
-40 » CTRL+x     # decrement a number by 40
-```
-
-## Search and Replace
-
-When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.
-
-To replace every occurrence of a string:
-
-```bash
-:%s/foo/bar/g   # replace all occurrences of "foo" with "bar"
-```
-
-Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:
-
-```bash
-*                   # 1. search for the word under the cursor
-cW                  # 2. replace the current occurrence
-type replacement    # 3. type the replacement
-n                   # 4. jump to the next occurrence
-.                   # 5. repeat the replacement
-n                   # 6. skip this occurrence if desired
-n                   # 7. jump to the next occurrence
-.                   # 8. repeat the replacement
-```
-
-This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.
-
 ## Fixing YAML Indentation
 
 Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to shift entire YAML blocks to the right or left while preserving their structure.
@@ -135,6 +101,31 @@ ESC             # 5. apply the change to all selected lines
 
 The same technique can also be be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.
 
+## Search and Replace
+
+When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.
+
+To replace every occurrence of a string:
+
+```bash
+:%s/foo/bar/g   # replace all occurrences of "foo" with "bar"
+```
+
+Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:
+
+```bash
+*                   # 1. search for the word under the cursor
+cW                  # 2. replace the current occurrence
+type replacement    # 3. type the replacement
+n                   # 4. jump to the next occurrence
+.                   # 5. repeat the replacement
+n                   # 6. skip this occurrence if desired
+n                   # 7. jump to the next occurrence
+.                   # 8. repeat the replacement
+```
+
+This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.
+
 ## Working with YAML Blocks
 
 Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.
@@ -147,12 +138,20 @@ Many editing operations can be performed directly on a range of line numbers wit
 :30,50m70       # move lines 30-50 below line 70
 ```
 
+## Working with Numbers
+
+Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement the value directly under the cursor.
+
+```bash
+50 » CTRL+a     # increment a number by 50
+40 » CTRL+x     # decrement a number by 40
+```
+
 ## Further Reading
 
 If you'd like to learn more about Vim, the following resources provide excellent reference material. For the Kubernetes certification exams, however, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.
 
-* https://vim.rtorr.com/
-* https://vimhelp.org/
+* <https://vim.rtorr.com/>
 
 ## Conclusion
 
