@@ -145,7 +145,7 @@ Kubernetes manifests frequently contain numeric values such as replica counts, p
 
 ## Further Reading
 
-If you'd like to learn more about Vim, check the complete Vim cheat sheet at https://vim.rtorr.com/. However, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.
+If you'd like to learn more about Vim, check the complete Vim cheat sheet at <https://vim.rtorr.com/>. However, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.
 
 ## Conclusion
 
