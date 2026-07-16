@@ -108,7 +108,7 @@ When renaming resources, labels, namespaces, image names, or environment variabl
 To replace every occurrence of a string:
 
 ```bash
-:%s/foo/bar/g   # replace all occurrences of "foo" with "bar"
+:%s/foo/bar/g       # replace all occurrences of "foo" with "bar"
 ```
 
 Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:
