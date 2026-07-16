@@ -486,37 +486,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
 </pre></div>
 </div>
-<p><strong>Bonus</strong>: Here is my Vim cheatsheet covering commands to quickly edit YAML and configuration files.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w">               </span><span class="c1"># repeat last executed command</span>
-~<span class="w">               </span><span class="c1"># toggle character case (uppercase/lowercase)</span>
-dd<span class="w">              </span><span class="c1"># delete (cut) the current line</span>
-y<span class="w">               </span><span class="c1"># yank (copy)</span>
-p<span class="w">               </span><span class="c1"># paste after the cursor</span>
-u<span class="w">               </span><span class="c1"># undo</span>
-CTRL+r<span class="w">          </span><span class="c1"># redo</span>
-o<span class="w">               </span><span class="c1"># open a new line below and enter Insert mode</span>
-cW<span class="w">              </span><span class="c1"># replace the current word and enter Insert mode</span>
-$<span class="w">               </span><span class="c1"># move to the end of the line</span>
-<span class="m">0</span><span class="w">               </span><span class="c1"># move to the beginning of the line</span>
-<span class="m">50</span><span class="w"> </span>»<span class="w"> </span>CTRL+a<span class="w">     </span><span class="c1"># increment 50 in a number value (useful for requests/limits)</span>
-<span class="m">40</span><span class="w"> </span>»<span class="w"> </span>CTRL+x<span class="w">     </span><span class="c1"># decrement 40 in a number value (useful for requests/limits)</span>
-:%s/foo/bar/g<span class="w">   </span><span class="c1"># replace all occurrences of &quot;foo&quot; with &quot;bar&quot;</span>
-:10,15&gt;<span class="w">         </span><span class="c1"># indent lines 10–15 by one shiftwidth</span>
-:10,15&lt;<span class="w">         </span><span class="c1"># unindent lines 10–15 by one shiftwidth</span>
-:30,50d<span class="w">         </span><span class="c1"># delete (cut) lines 30–50</span>
-:30,50t70<span class="w">       </span><span class="c1"># copy lines 30–50 and paste them below line 70</span>
-:30,50m70<span class="w">       </span><span class="c1"># move lines 30–50 below line 70</span>
-i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">      </span><span class="c1"># copy line above charact   er by character</span>
-V<span class="w">               </span><span class="c1"># enter Visual Line mode</span>
-CTRL+v<span class="w">          </span><span class="c1"># enter Visual Block mode</span>
-gv<span class="w">              </span><span class="c1"># reselect the last Visual selection</span>
-*<span class="w"> </span>»<span class="w"> </span>cW<span class="w"> </span>»<span class="w"> </span><span class="nb">type</span><span class="w"> </span>new<span class="w"> </span>word<span class="w"> </span>»<span class="w"> </span>n<span class="w"> </span>»<span class="w"> </span>.<span class="w"> </span>»<span class="w"> </span>n<span class="w"> </span>»<span class="w"> </span>.<span class="w">              </span><span class="c1"># replace word by word</span>
-CTRL+v<span class="w"> </span>»<span class="w"> </span><span class="k">select</span><span class="w"> </span>column<span class="w"> </span>»<span class="w"> </span>SHIFT+i<span class="w"> </span>»<span class="w"> </span><span class="nb">type</span><span class="w"> </span>text<span class="w"> </span>»<span class="w"> </span>ESC<span class="w">  </span><span class="c1"># multi-line column insertion (comments)</span>
-</pre></div>
-</div>
-<blockquote>
-<div><p>For the complete cheatsheet, take a look at the following page: <a class="reference external" href="https://vim.rtorr.com/">https://vim.rtorr.com/</a></p>
-</div></blockquote>
+<p><strong>Bonus</strong>: I have created a blog post <a class="reference internal" href="../2026-07-15-vim-kubernetes-exams/"><span class="std std-doc">Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)</span></a> that focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests.</p>
 </section>
 <section id="kubectl-aliases-and-shortcuts">
 <h2>Kubectl Aliases and Shortcuts<a class="headerlink" href="#kubectl-aliases-and-shortcuts" title="Link to this heading">#</a></h2>
