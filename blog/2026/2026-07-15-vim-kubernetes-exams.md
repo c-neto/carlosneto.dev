@@ -117,7 +117,8 @@ n                   # 4. jump to the next occurrence
 .                   # 5. repeat the replacement
 n                   # 6. skip this occurrence if desired
 n                   # 7. jump to the next occurrence
-.                   # 8. repeat the replacement
+SHIFT+n             # 8. go back to previous selection
+.                   # 9. repeat the replacement
 ```
 
 This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.
@@ -132,6 +133,7 @@ Many editing operations can be performed directly on a range of line numbers wit
 :30,50d         # delete (cut) lines 30-50
 :30,50t70       # copy lines 30-50 below line 70
 :30,50m70       # move lines 30-50 below line 70
+:50put          # put yanked lines below line 50
 ```
 
 ## Working with Numbers
