@@ -10,11 +10,9 @@ category: kubernetes
 
 # Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)
 
-Time management is one of the most critical factors for passing the Linux Foundation Kubernetes certification exams. The CKA, CKAD, and CKS are hands-on exams conducted on remote Ubuntu instances running the XFCE desktop environment, where network latency and the remote desktop experience can slow you down.
+This blog post walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell aliases, and other tweaks that help reduce friction and save valuable time.
 
-This guide walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell aliases, and other tweaks that help reduce friction and save valuable time.
-
-> _**NOTE**: The exam Linux instances have limited internet access. Therefore, you should memorize your setup because you won't be able to search for it during the exam._
+Time management is one of the most critical factors for passing the Linux Foundation Kubernetes certification exams. The CKA, CKAD, and CKS are hands-on exams conducted on remote Ubuntu instances running the XFCE desktop environment, where network latency and the remote desktop experience can slow you down. Check out the following tips to optimize your setup.
 
 ## Configure the U.S. Keyboard Layout (MacBooks)
 
