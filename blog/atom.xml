@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-16T01:05:08.870235+00:00</updated>
+  <updated>2026-07-16T01:09:29.818532+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -20,11 +20,7 @@
 &lt;p&gt;This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.&lt;/p&gt;
 &lt;section id="vim-configuration"&gt;
 &lt;h2&gt;Vim Configuration&lt;/h2&gt;
-&lt;p&gt;Each exam task is performed on a different remote node. Before starting a task, copy your local &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; to the target machine:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;Use the following configuration:&lt;/p&gt;
+&lt;p&gt;This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Show line numbers.&lt;/span&gt;
@@ -40,7 +36,10 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.&lt;/p&gt;
+&lt;p&gt;Each exam task is performed on a different remote node. Before starting a task, copy your local &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; to the target question machine:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;/section&gt;
 &lt;section id="essential-editing-commands"&gt;
 &lt;h2&gt;Essential Editing Commands&lt;/h2&gt;
@@ -135,10 +134,7 @@ n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;/section&gt;
 &lt;section id="further-reading"&gt;
 &lt;h2&gt;Further Reading&lt;/h2&gt;
-&lt;p&gt;If you’d like to learn more about Vim, the following resources provide excellent reference material. For the Kubernetes certification exams, however, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://vim.rtorr.com/"&gt;https://vim.rtorr.com/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;If you’d like to learn more about Vim, check the complete Vim cheat sheet at https://vim.rtorr.com/. However, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="conclusion"&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;

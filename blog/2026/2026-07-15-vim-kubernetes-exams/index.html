@@ -400,11 +400,7 @@
 <p>This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.</p>
 <section id="vim-configuration">
 <h2>Vim Configuration<a class="headerlink" href="#vim-configuration" title="Link to this heading">#</a></h2>
-<p>Each exam task is performed on a different remote node. Before starting a task, copy your local <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> to the target machine:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
-</pre></div>
-</div>
-<p>Use the following configuration:</p>
+<p>This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">~/.vimrc</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="k">nu</span>        <span class="c">&quot; Show line numbers.</span>
@@ -420,7 +416,10 @@
 </pre></div>
 </div>
 </div>
-<p>This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.</p>
+<p>Each exam task is performed on a different remote node. Before starting a task, copy your local <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> to the target question machine:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
+</pre></div>
+</div>
 </section>
 <section id="essential-editing-commands">
 <h2>Essential Editing Commands<a class="headerlink" href="#essential-editing-commands" title="Link to this heading">#</a></h2>
@@ -515,10 +514,7 @@ n<span class="w">                   </span><span class="c1"># 7. jump to the nex
 </section>
 <section id="further-reading">
 <h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
-<p>If you’d like to learn more about Vim, the following resources provide excellent reference material. For the Kubernetes certification exams, however, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://vim.rtorr.com/">https://vim.rtorr.com/</a></p></li>
-</ul>
+<p>If you’d like to learn more about Vim, check the complete Vim cheat sheet at https://vim.rtorr.com/. However, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.</p>
 </section>
 <section id="conclusion">
 <h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
