@@ -18,13 +18,7 @@ This post focuses on the minimal Vim configuration and the editing techniques I 
 
 ## Vim Configuration
 
-Each exam task is performed on a different remote node. Before starting a task, copy your local `~/.vimrc` to the target machine:
-
-```bash
-scp ~/.vimrc node01:~/.vimrc
-```
-
-Use the following configuration:
+This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.
 
 ```{code-block} vim
 :caption: ~/.vimrc
@@ -40,7 +34,11 @@ set cuc       " Highlight the current cursor column.
 syntax on     " Enable syntax highlighting.
 ```
 
-This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.
+Each exam task is performed on a different remote node. Before starting a task, copy your local `~/.vimrc` to the target question machine:
+
+```bash
+scp ~/.vimrc node01:~/.vimrc
+```
 
 ## Essential Editing Commands
 
@@ -149,9 +147,7 @@ Kubernetes manifests frequently contain numeric values such as replica counts, p
 
 ## Further Reading
 
-If you'd like to learn more about Vim, the following resources provide excellent reference material. For the Kubernetes certification exams, however, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.
-
-* <https://vim.rtorr.com/>
+If you'd like to learn more about Vim, check the complete Vim cheat sheet at https://vim.rtorr.com/. However, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.
 
 ## Conclusion
 
