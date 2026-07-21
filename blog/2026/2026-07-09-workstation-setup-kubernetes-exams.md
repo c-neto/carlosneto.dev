@@ -113,9 +113,9 @@ set cuc       " (cursorcolumn) Highlights the current cursor column, useful for 
 syntax on     " Enables syntax highlighting based on file extension.
 ```
 
-> **WARNING:** Avoid using `mouse=a` during the exam!
+> __WARNING__: Don't use `set mouse=a` during the exam!
 >
-> The remote exam workstations are more latent than the Killer Shell simulation environments, making mouse interactions in Vim unreliable. Use the mouse only for scrolling, and perform all editing with Vim's keyboard shortcuts.
+> The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For editing and text selection, rely on Vim's Visual mode and line-jump commands instead.
 
 Copy the file to the remote node for the exam question (for example, `node01`):
 
