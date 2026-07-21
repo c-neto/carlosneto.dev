@@ -108,10 +108,14 @@ set ts=2      " (tabstop) Displays tab characters as two spaces.
 set sw=2      " (shiftwidth) Uses a two-space indentation level when indenting or unindenting.
 set sts=2     " (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.
 set hls       " (highlightsearch) Highlights all search matches.
-set mouse=a   " (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.
+set mouse=c   " (mouse) Enables mouse support for cursor movement and scrolling
 set cuc       " (cursorcolumn) Highlights the current cursor column, useful for YAML files.
 syntax on     " Enables syntax highlighting based on file extension.
 ```
+
+> **WARNING:** Avoid using `mouse=a` during the exam!
+>
+> The remote exam workstations are more latent than the Killer Shell simulation environments, making mouse interactions in Vim unreliable. Use the mouse only for scrolling, and perform all editing with Vim's keyboard shortcuts.
 
 Copy the file to the remote node for the exam question (for example, `node01`):
 
