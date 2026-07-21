@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-16T13:35:46.614648+00:00</updated>
+  <updated>2026-07-21T13:58:53.180403+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -29,12 +29,16 @@
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Indent and unindent using two spaces.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Make Tab and Backspace use two-space indentation.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; Highlight search matches.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;a&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; Enable mouse support.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; Enable mouse support for cursor position.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; Highlight the current cursor column.&lt;/span&gt;
 &lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Enable syntax highlighting.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;strong&gt;WARNING:&lt;/strong&gt; Avoid using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam!&lt;/p&gt;
+&lt;p&gt;The remote exam workstations are more latent than the Killer Shell simulation environments, making mouse interactions in Vim unreliable. Use the mouse only for scrolling, and perform all editing with Vim’s keyboard shortcuts.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Each exam task is performed on a different remote node. Before starting a task, copy your local &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; to the target question machine:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
 &lt;/pre&gt;&lt;/div&gt;
@@ -240,12 +244,16 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; (shiftwidth) Uses a two-space indentation level when indenting or unindenting.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; (highlightsearch) Highlights all search matches.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;a&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; (mouse) Enables mouse support for cursor movement and scrolling&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; (cursorcolumn) Highlights the current cursor column, useful for YAML files.&lt;/span&gt;
 &lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Enables syntax highlighting based on file extension.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;strong&gt;WARNING:&lt;/strong&gt; Avoid using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam!&lt;/p&gt;
+&lt;p&gt;The remote exam workstations are more latent than the Killer Shell simulation environments, making mouse interactions in Vim unreliable. Use the mouse only for scrolling, and perform all editing with Vim’s keyboard shortcuts.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Copy the file to the remote node for the exam question (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
 &lt;/pre&gt;&lt;/div&gt;

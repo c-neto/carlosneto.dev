@@ -473,12 +473,16 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 <span class="k">set</span> <span class="k">sw</span><span class="p">=</span><span class="m">2</span>      <span class="c">&quot; (shiftwidth) Uses a two-space indentation level when indenting or unindenting.</span>
 <span class="k">set</span> <span class="k">sts</span><span class="p">=</span><span class="m">2</span>     <span class="c">&quot; (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.</span>
 <span class="k">set</span> <span class="nb">hls</span>       <span class="c">&quot; (highlightsearch) Highlights all search matches.</span>
-<span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">a</span>   <span class="c">&quot; (mouse) Enables mouse support for cursor movement, scrolling, and visual mode.</span>
+<span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">c</span>   <span class="c">&quot; (mouse) Enables mouse support for cursor movement and scrolling</span>
 <span class="k">set</span> <span class="nb">cuc</span>       <span class="c">&quot; (cursorcolumn) Highlights the current cursor column, useful for YAML files.</span>
 <span class="nb">syntax</span> <span class="k">on</span>     <span class="c">&quot; Enables syntax highlighting based on file extension.</span>
 </pre></div>
 </div>
 </div>
+<blockquote>
+<div><p><strong>WARNING:</strong> Avoid using <code class="docutils literal notranslate"><span class="pre">mouse=a</span></code> during the exam!</p>
+<p>The remote exam workstations are more latent than the Killer Shell simulation environments, making mouse interactions in Vim unreliable. Use the mouse only for scrolling, and perform all editing with Vim’s keyboard shortcuts.</p>
+</div></blockquote>
 <p>Copy the file to the remote node for the exam question (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
 </pre></div>

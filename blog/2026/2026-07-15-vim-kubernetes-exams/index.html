@@ -409,12 +409,16 @@
 <span class="k">set</span> <span class="k">sw</span><span class="p">=</span><span class="m">2</span>      <span class="c">&quot; Indent and unindent using two spaces.</span>
 <span class="k">set</span> <span class="k">sts</span><span class="p">=</span><span class="m">2</span>     <span class="c">&quot; Make Tab and Backspace use two-space indentation.</span>
 <span class="k">set</span> <span class="nb">hls</span>       <span class="c">&quot; Highlight search matches.</span>
-<span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">a</span>   <span class="c">&quot; Enable mouse support.</span>
+<span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">c</span>   <span class="c">&quot; Enable mouse support for cursor position.</span>
 <span class="k">set</span> <span class="nb">cuc</span>       <span class="c">&quot; Highlight the current cursor column.</span>
 <span class="nb">syntax</span> <span class="k">on</span>     <span class="c">&quot; Enable syntax highlighting.</span>
 </pre></div>
 </div>
 </div>
+<blockquote>
+<div><p><strong>WARNING:</strong> Avoid using <code class="docutils literal notranslate"><span class="pre">mouse=a</span></code> during the exam!</p>
+<p>The remote exam workstations are more latent than the Killer Shell simulation environments, making mouse interactions in Vim unreliable. Use the mouse only for scrolling, and perform all editing with Vim’s keyboard shortcuts.</p>
+</div></blockquote>
 <p>Each exam task is performed on a different remote node. Before starting a task, copy your local <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> to the target question machine:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
 </pre></div>
