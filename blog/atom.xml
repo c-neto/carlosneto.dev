@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-21T14:09:00.062091+00:00</updated>
+  <updated>2026-07-21T14:10:24.807917+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -124,6 +124,7 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:10,15&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# indent lines 10-15&lt;/span&gt;
 :10,15&amp;lt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# unindent lines 10-15&lt;/span&gt;
 :30,50d&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# delete (cut) lines 30-50&lt;/span&gt;
+:10,15y&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# copy lines 10-15&lt;/span&gt;
 :30,50t70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# copy lines 30-50 below line 70&lt;/span&gt;
 :30,50m70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# move lines 30-50 below line 70&lt;/span&gt;
 :50put&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# put yanked lines below line 50&lt;/span&gt;
