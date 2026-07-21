@@ -32,9 +32,9 @@ set cuc       " Highlight the current cursor column.
 syntax on     " Enable syntax highlighting.
 ```
 
-> **WARNING:** Avoid using `mouse=a` during the exam!
+> __WARNING__: Don't use `set mouse=a` during the exam!
 >
-> The remote exam workstations are more latent than the Killer Shell simulation environments, making mouse interactions in Vim unreliable. Use the mouse only for scrolling, and perform all editing with Vim's keyboard shortcuts.
+> The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For editing and text selection, rely on Vim's Visual mode and line-jump commands instead.
 
 Each exam task is performed on a different remote node. Before starting a task, copy your local `~/.vimrc` to the target question machine:
 
@@ -61,7 +61,8 @@ i » CTRL+y      # copy characters from the line above
 /foobar         # search forward for "foobar"
 0               # move to the beginning of the line
 $               # move to the end of the line
-W               # jump to the beginning of the next word
+W               # jump to the next word
+B               # go back to the previous word
 ```
 
 ## Fixing YAML Indentation
