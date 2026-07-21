@@ -136,6 +136,7 @@ Many editing operations can be performed directly on a range of line numbers wit
 :10,15>         # indent lines 10-15
 :10,15<         # unindent lines 10-15
 :30,50d         # delete (cut) lines 30-50
+:10,15y         # copy lines 10-15
 :30,50t70       # copy lines 30-50 below line 70
 :30,50m70       # move lines 30-50 below line 70
 :50put          # put yanked lines below line 50
