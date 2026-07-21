@@ -480,8 +480,8 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </div>
 </div>
 <blockquote>
-<div><p><strong>WARNING:</strong> Avoid using <code class="docutils literal notranslate"><span class="pre">mouse=a</span></code> during the exam!</p>
-<p>The remote exam workstations are more latent than the Killer Shell simulation environments, making mouse interactions in Vim unreliable. Use the mouse only for scrolling, and perform all editing with Vim’s keyboard shortcuts.</p>
+<div><p><strong>WARNING</strong>: Don’t use <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> during the exam!</p>
+<p>The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For editing and text selection, rely on Vim’s Visual mode and line-jump commands instead.</p>
 </div></blockquote>
 <p>Copy the file to the remote node for the exam question (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc

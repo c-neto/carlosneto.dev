@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-21T13:58:53.180403+00:00</updated>
+  <updated>2026-07-21T14:09:00.062091+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -36,8 +36,8 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;strong&gt;WARNING:&lt;/strong&gt; Avoid using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam!&lt;/p&gt;
-&lt;p&gt;The remote exam workstations are more latent than the Killer Shell simulation environments, making mouse interactions in Vim unreliable. Use the mouse only for scrolling, and perform all editing with Vim’s keyboard shortcuts.&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;strong&gt;WARNING&lt;/strong&gt;: Don’t use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam!&lt;/p&gt;
+&lt;p&gt;The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For editing and text selection, rely on Vim’s Visual mode and line-jump commands instead.&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Each exam task is performed on a different remote node. Before starting a task, copy your local &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; to the target question machine:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
@@ -61,7 +61,8 @@ i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+
 /foobar&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# search forward for &amp;quot;foobar&amp;quot;&lt;/span&gt;
 &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the beginning of the line&lt;/span&gt;
 $&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the end of the line&lt;/span&gt;
-W&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to the beginning of the next word&lt;/span&gt;
+W&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to the next word&lt;/span&gt;
+B&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# go back to the previous word&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
@@ -251,8 +252,8 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;strong&gt;WARNING:&lt;/strong&gt; Avoid using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam!&lt;/p&gt;
-&lt;p&gt;The remote exam workstations are more latent than the Killer Shell simulation environments, making mouse interactions in Vim unreliable. Use the mouse only for scrolling, and perform all editing with Vim’s keyboard shortcuts.&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;strong&gt;WARNING&lt;/strong&gt;: Don’t use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam!&lt;/p&gt;
+&lt;p&gt;The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For editing and text selection, rely on Vim’s Visual mode and line-jump commands instead.&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Copy the file to the remote node for the exam question (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
