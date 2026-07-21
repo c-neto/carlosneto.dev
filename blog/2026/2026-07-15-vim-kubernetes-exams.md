@@ -27,10 +27,14 @@ set ts=2      " Display tabs as two spaces.
 set sw=2      " Indent and unindent using two spaces.
 set sts=2     " Make Tab and Backspace use two-space indentation.
 set hls       " Highlight search matches.
-set mouse=a   " Enable mouse support.
+set mouse=c   " Enable mouse support for cursor position.
 set cuc       " Highlight the current cursor column.
 syntax on     " Enable syntax highlighting.
 ```
+
+> **WARNING:** Avoid using `mouse=a` during the exam!
+>
+> The remote exam workstations are more latent than the Killer Shell simulation environments, making mouse interactions in Vim unreliable. Use the mouse only for scrolling, and perform all editing with Vim's keyboard shortcuts.
 
 Each exam task is performed on a different remote node. Before starting a task, copy your local `~/.vimrc` to the target question machine:
 
