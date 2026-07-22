@@ -519,6 +519,22 @@ SHIFT+n<span class="w">             </span><span class="c1"># 8. go back to prev
 </pre></div>
 </div>
 </section>
+<section id="running-shell-commands-in-vim">
+<h2>Running Shell Commands in Vim<a class="headerlink" href="#running-shell-commands-in-vim" title="Link to this heading">#</a></h2>
+<p>You can leverage your operating system’s CLI tools to edit file content directly inside Vim. For example, if you need to sort and remove duplicate lines in a manifest, you can pipe your selection directly to the <a class="reference external" href="https://man7.org/linux/man-pages/man1/sort.1.html">sort</a> and <a class="reference external" href="https://ss64.com/bash/uniq.html">uniq</a> utilities:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Shift<span class="w"> </span>+<span class="w"> </span>v<span class="w">       </span><span class="c1"># 1. Select the lines (Visual Line mode)</span>
+:%!sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w">  </span><span class="c1"># 2. Sort and remove duplicates from the selection</span>
+</pre></div>
+</div>
+<p>You can also apply this logic to an entire file. For instance, to quickly format raw JSON, you can use Python’s built-in <a class="reference external" href="https://docs.python.org/3/library/json.html"><code class="docutils literal notranslate"><span class="pre">json.tool</span></code></a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%!python<span class="w"> </span>-m<span class="w"> </span>json.tool
+</pre></div>
+</div>
+<p>Beyond filtering/editing text, you can pass your unsaved buffer into external commands without modifying the file or leaving Vim. Imagine you’re editing a Kubernetes manifest and want to ensure your latest changes won’t break anything. You can pipe the buffer directly into <a class="reference external" href="https://kubernetes.io/docs/reference/kubectl/generated/kubectl_diff/">kubectl diff</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:w<span class="w"> </span>!kubectl<span class="w"> </span>diff<span class="w"> </span>-f<span class="w"> </span>-
+</pre></div>
+</div>
+</section>
 <section id="further-reading">
 <h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
 <p>If you’d like to learn more about Vim, check the complete Vim cheat sheet at <a class="reference external" href="https://vim.rtorr.com/">https://vim.rtorr.com/</a>. However, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.</p>
