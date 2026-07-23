@@ -177,7 +177,7 @@ Beyond filtering and editing text, you can pass your unsaved buffer into externa
 :w !kubectl diff -f -
 ```
 
-> _In Vim, `:w` normally saves to a file. But when followed by `!`, it redirects your buffer’s content to an external command's standard input (STDIN) instead of writing to disk._
+> __INFO:__ In Vim, `:w` normally saves to a file. But when followed by `!`, it redirects your buffer’s content to an external command's standard input (STDIN) instead of writing to disk.
 
 ## Further Reading
 

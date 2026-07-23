@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-23T00:20:20.503624+00:00</updated>
+  <updated>2026-07-23T00:22:28.983397+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -160,7 +160,7 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;em&gt;In Vim, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;:w&lt;/span&gt;&lt;/code&gt; normally saves to a file. But when followed by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;!&lt;/span&gt;&lt;/code&gt;, it redirects your buffer’s content to an external command’s standard input (STDIN) instead of writing to disk.&lt;/em&gt;&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;strong&gt;INFO:&lt;/strong&gt; In Vim, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;:w&lt;/span&gt;&lt;/code&gt; normally saves to a file. But when followed by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;!&lt;/span&gt;&lt;/code&gt;, it redirects your buffer’s content to an external command’s standard input (STDIN) instead of writing to disk.&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;/section&gt;
 &lt;section id="further-reading"&gt;
