@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-23T00:25:14.317917+00:00</updated>
+  <updated>2026-07-23T00:26:53.077640+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -163,15 +163,12 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;div&gt;&lt;p&gt;&lt;strong&gt;INFO:&lt;/strong&gt; In Vim, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;:w&lt;/span&gt;&lt;/code&gt; normally saves to a file. But when followed by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;!&lt;/span&gt;&lt;/code&gt;, it redirects your buffer’s content to an external command’s standard input (STDIN) instead of writing to disk.&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;/section&gt;
-&lt;section id="further-reading"&gt;
-&lt;h2&gt;Further Reading&lt;/h2&gt;
-&lt;p&gt;If you’d like to learn more about Vim, check the complete Vim cheat sheet at &lt;a class="reference external" href="https://vim.rtorr.com/"&gt;https://vim.rtorr.com/&lt;/a&gt;. However, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.&lt;/p&gt;
-&lt;/section&gt;
 &lt;section id="conclusion"&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;You don’t need to become a Vim expert to pass the Kubernetes certification exams.&lt;/p&gt;
 &lt;p&gt;A minimal configuration and a handful of well-practiced commands are enough to edit Kubernetes YAML manifests quickly and confidently under exam conditions.&lt;/p&gt;
 &lt;p&gt;Focus on building muscle memory with the commands presented in this guide. The less time you spend fighting the editor, the more time you’ll have to solve the Kubernetes problems that actually determine your exam score.&lt;/p&gt;
+&lt;p&gt;If you’d like to learn more about Vim, check the complete Vim cheat sheet at &lt;a class="reference external" href="https://vim.rtorr.com/"&gt;https://vim.rtorr.com/&lt;/a&gt;.&lt;/p&gt;
 &lt;/section&gt;
 &lt;/section&gt;
 </content>
