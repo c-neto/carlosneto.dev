@@ -476,6 +476,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 <span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">c</span>   <span class="c">&quot; (mouse) Enables mouse support for cursor movement and scrolling</span>
 <span class="k">set</span> <span class="nb">cuc</span>       <span class="c">&quot; (cursorcolumn) Highlights the current cursor column, useful for YAML files.</span>
 <span class="nb">syntax</span> <span class="k">on</span>     <span class="c">&quot; Enables syntax highlighting based on file extension.</span>
+<span class="nb">nnoremap</span> kd :<span class="k">w</span> <span class="p">!</span>kubectl <span class="nb">diff</span> <span class="p">-</span><span class="k">f</span> <span class="p">-&lt;</span>CR<span class="p">&gt;</span>   <span class="c">&quot; Maps &#39;kd&#39; to run &#39;kubectl diff&#39; with current editing file content</span>
 </pre></div>
 </div>
 </div>
