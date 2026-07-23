@@ -161,8 +161,8 @@ Kubernetes manifests frequently contain numeric values such as replica counts, p
 You can leverage your operating system's CLI tools to edit file content directly inside Vim. For example, if you need to sort and remove duplicate lines in a manifest, you can pipe your selection directly to the [sort](https://man7.org/linux/man-pages/man1/sort.1.html) and [uniq](https://ss64.com/bash/uniq.html) utilities:
 
 ```bash
-SHIFT + V       # 1. Select the lines (Visual Line mode)
-:!sort | uniq  # 2. Sort and remove duplicates from the selection
+SHIFT+V         # 1. Select the lines (Visual Line mode)
+:!sort | uniq   # 2. Sort and remove duplicates from the selection
 ```
 
 You can also apply this logic to an entire file. For instance, to quickly format raw JSON, you can use Python's built-in [`json.tool`](https://docs.python.org/3/library/json.html):
