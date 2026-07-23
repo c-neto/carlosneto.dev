@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-23T00:46:59.125391+00:00</updated>
+  <updated>2026-07-23T01:04:44.179167+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -36,7 +36,6 @@
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; Enable mouse support for cursor position.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; Highlight the current cursor column.&lt;/span&gt;
 &lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Enable syntax highlighting.&lt;/span&gt;
-&lt;span class="nb"&gt;nnoremap&lt;/span&gt; kd :&lt;span class="k"&gt;w&lt;/span&gt; &lt;span class="p"&gt;!&lt;/span&gt;kubectl &lt;span class="nb"&gt;diff&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;f&lt;/span&gt; &lt;span class="p"&gt;-&amp;lt;&lt;/span&gt;CR&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; Maps &amp;#39;kd&amp;#39; to run &amp;#39;kubectl diff&amp;#39; with current editing file content&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -270,7 +269,6 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; (mouse) Enables mouse support for cursor movement and scrolling&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; (cursorcolumn) Highlights the current cursor column, useful for YAML files.&lt;/span&gt;
 &lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Enables syntax highlighting based on file extension.&lt;/span&gt;
-&lt;span class="nb"&gt;nnoremap&lt;/span&gt; kd :&lt;span class="k"&gt;w&lt;/span&gt; &lt;span class="p"&gt;!&lt;/span&gt;kubectl &lt;span class="nb"&gt;diff&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;f&lt;/span&gt; &lt;span class="p"&gt;-&amp;lt;&lt;/span&gt;CR&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; Maps &amp;#39;kd&amp;#39; to run &amp;#39;kubectl diff&amp;#39; with current editing file content&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
