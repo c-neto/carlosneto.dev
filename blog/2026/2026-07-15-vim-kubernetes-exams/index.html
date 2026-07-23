@@ -527,8 +527,8 @@ SHIFT+n<span class="w">             </span><span class="c1"># 8. go back to prev
 <section id="running-shell-commands-in-vim">
 <h2>Running Shell Commands in Vim<a class="headerlink" href="#running-shell-commands-in-vim" title="Link to this heading">#</a></h2>
 <p>You can leverage your operating system’s CLI tools to edit file content directly inside Vim. For example, if you need to sort and remove duplicate lines in a manifest, you can pipe your selection directly to the <a class="reference external" href="https://man7.org/linux/man-pages/man1/sort.1.html">sort</a> and <a class="reference external" href="https://ss64.com/bash/uniq.html">uniq</a> utilities:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SHIFT<span class="w"> </span>+<span class="w"> </span>V<span class="w">       </span><span class="c1"># 1. Select the lines (Visual Line mode)</span>
-:!sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w">  </span><span class="c1"># 2. Sort and remove duplicates from the selection</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SHIFT+V<span class="w">         </span><span class="c1"># 1. Select the lines (Visual Line mode)</span>
+:!sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w">   </span><span class="c1"># 2. Sort and remove duplicates from the selection</span>
 </pre></div>
 </div>
 <p>You can also apply this logic to an entire file. For instance, to quickly format raw JSON, you can use Python’s built-in <a class="reference external" href="https://docs.python.org/3/library/json.html"><code class="docutils literal notranslate"><span class="pre">json.tool</span></code></a>:</p>

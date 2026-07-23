@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-23T00:17:05.871551+00:00</updated>
+  <updated>2026-07-23T00:18:07.317432+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -147,8 +147,8 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;section id="running-shell-commands-in-vim"&gt;
 &lt;h2&gt;Running Shell Commands in Vim&lt;/h2&gt;
 &lt;p&gt;You can leverage your operating system’s CLI tools to edit file content directly inside Vim. For example, if you need to sort and remove duplicate lines in a manifest, you can pipe your selection directly to the &lt;a class="reference external" href="https://man7.org/linux/man-pages/man1/sort.1.html"&gt;sort&lt;/a&gt; and &lt;a class="reference external" href="https://ss64.com/bash/uniq.html"&gt;uniq&lt;/a&gt; utilities:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;SHIFT&lt;span class="w"&gt; &lt;/span&gt;+&lt;span class="w"&gt; &lt;/span&gt;V&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select the lines (Visual Line mode)&lt;/span&gt;
-:!sort&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;uniq&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# 2. Sort and remove duplicates from the selection&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;SHIFT+V&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select the lines (Visual Line mode)&lt;/span&gt;
+:!sort&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;uniq&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 2. Sort and remove duplicates from the selection&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;You can also apply this logic to an entire file. For instance, to quickly format raw JSON, you can use Python’s built-in &lt;a class="reference external" href="https://docs.python.org/3/library/json.html"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;json.tool&lt;/span&gt;&lt;/code&gt;&lt;/a&gt;:&lt;/p&gt;
