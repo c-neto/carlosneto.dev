@@ -179,10 +179,6 @@ Beyond filtering and editing text, you can pass your unsaved buffer into externa
 
 > __INFO:__ In Vim, `:w` normally saves to a file. But when followed by `!`, it redirects your buffer’s content to an external command's standard input (STDIN) instead of writing to disk.
 
-## Further Reading
-
-If you'd like to learn more about Vim, check the complete Vim cheat sheet at <https://vim.rtorr.com/>. However, I recommend focusing on mastering a small set of commands rather than trying to memorize everything Vim has to offer.
-
 ## Conclusion
 
 You don't need to become a Vim expert to pass the Kubernetes certification exams.
@@ -190,3 +186,5 @@ You don't need to become a Vim expert to pass the Kubernetes certification exams
 A minimal configuration and a handful of well-practiced commands are enough to edit Kubernetes YAML manifests quickly and confidently under exam conditions.
 
 Focus on building muscle memory with the commands presented in this guide. The less time you spend fighting the editor, the more time you'll have to solve the Kubernetes problems that actually determine your exam score.
+
+If you'd like to learn more about Vim, check the complete Vim cheat sheet at <https://vim.rtorr.com/>.
