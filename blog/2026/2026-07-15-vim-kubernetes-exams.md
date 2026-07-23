@@ -158,20 +158,20 @@ Kubernetes manifests frequently contain numeric values such as replica counts, p
 
 ## Running Shell Commands in Vim
 
-You can leverage your operating system's CLI tools to edit file content directly inside Vim. For example, if you need to sort and remove duplicate lines in a manifest, you can pipe your selection directly to the [sort](https://man7.org/linux/man-pages/man1/sort.1.html) and [uniq](https://ss64.com/bash/uniq.html) utilities:
+You can leverage operating system's CLI tools to edit file content directly inside Vim. For example, if you need to sort and remove duplicate lines in a manifest, you can pipe your selection directly to the [sort](https://man7.org/linux/man-pages/man1/sort.1.html) and [uniq](https://ss64.com/bash/uniq.html) utilities:
 
 ```bash
 SHIFT+V         # 1. Select the lines (Visual Line mode)
 :!sort | uniq   # 2. Sort and remove duplicates from the selection
 ```
 
-You can also apply this logic to an entire file. For instance, to quickly format raw JSON, you can use Python's built-in [json.tool](https://docs.python.org/3/library/json.html):
+You can also apply the same logic to an entire file. For instance, to quickly format raw JSON, you can use Python's built-in [json.tool](https://docs.python.org/3/library/json.html):
 
 ```bash
 :%!python -m json.tool
 ```
 
-Beyond filtering and editing text, you can pass your unsaved buffer into external commands without modifying the file or leaving Vim. For example, this command allows you to compare the file you are editing in Vim with the one running in the Kubernetes cluster without needing to save the file first.
+Beyond filtering and editing text, you can pass your unsaved buffer into external commands without modifying the file or leaving Vim. For example, this command allows you to compare the manifest you are editing in the Kubernetes cluster without needing to save the file first.
 
 ```bash
 :w !kubectl diff -f -
