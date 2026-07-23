@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-22T23:43:39.532057+00:00</updated>
+  <updated>2026-07-23T00:17:05.871551+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -16,7 +16,11 @@
 &lt;section id="vim-for-kubernetes-certification-exams-cka-ckad-cks"&gt;
 
 &lt;p&gt;This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.&lt;/p&gt;
-&lt;p&gt;Although the exam workstation includes &lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt;, every exam task requires you to connect to remote Ubuntu nodes via SSH, where &lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt; is not available. As a result, becoming comfortable with Vim is a necessary evil for good performance in the CKA, CKAD, and CKS exams.&lt;/p&gt;
+&lt;section id="vim-a-necessary-evil"&gt;
+&lt;h2&gt;Vim: A Necessary Evil&lt;/h2&gt;
+&lt;p&gt;While the exam workstation includes &lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt;, every task takes place on remote nodes over SSH. Copying and pasting manifests into a local GUI editor is a trap that will drain your time.&lt;/p&gt;
+&lt;p&gt;Love it or hate it, getting comfortable with Vim is essential for working fast enough to pass the CKA, CKAD, and CKS.&lt;/p&gt;
+&lt;/section&gt;
 &lt;section id="vim-configuration"&gt;
 &lt;h2&gt;Vim Configuration&lt;/h2&gt;
 &lt;p&gt;This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.&lt;/p&gt;
@@ -32,6 +36,7 @@
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; Enable mouse support for cursor position.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; Highlight the current cursor column.&lt;/span&gt;
 &lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Enable syntax highlighting.&lt;/span&gt;
+&lt;span class="nb"&gt;nnoremap&lt;/span&gt; kd :&lt;span class="k"&gt;w&lt;/span&gt; &lt;span class="p"&gt;!&lt;/span&gt;kubectl &lt;span class="nb"&gt;diff&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;f&lt;/span&gt; &lt;span class="p"&gt;-&amp;lt;&lt;/span&gt;CR&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; Maps &amp;#39;kd&amp;#39; to run &amp;#39;kubectl diff&amp;#39; with current editing file content&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -68,18 +73,18 @@ B&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# go b
 &lt;/section&gt;
 &lt;section id="fixing-yaml-indentation"&gt;
 &lt;h2&gt;Fixing YAML Indentation&lt;/h2&gt;
-&lt;p&gt;Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to shift entire YAML blocks to the right or left while preserving their structure.&lt;/p&gt;
+&lt;p&gt;Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to SHIFT entire YAML blocks to the right or left while preserving their structure.&lt;/p&gt;
 &lt;p&gt;To increase the indentation:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;V&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 1. enter Visual Line mode&lt;/span&gt;
 &lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;lines&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# 2. select the lines&lt;/span&gt;
-&amp;gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 3. shift indentation right&lt;/span&gt;
+&amp;gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 3. SHIFT indentation right&lt;/span&gt;
 ESC&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 4. apply the change&lt;/span&gt;
 .&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 5. repeat the indentation&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;If you need to reverse the indentation or perform another operation on the same lines, use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;gv&lt;/span&gt;&lt;/code&gt; to restore the previous Visual selection:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gv&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# 1. reselect the previous Visual selection&lt;/span&gt;
-&amp;lt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 2. shift indentation left&lt;/span&gt;
+&amp;lt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 2. SHIFT indentation left&lt;/span&gt;
 ESC&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 3. apply the change&lt;/span&gt;
 .&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 4. repeat the operation&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -95,7 +100,7 @@ SHIFT+i&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 3. e
 ESC&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 5. apply the change to all selected lines&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;The same technique can also be be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.&lt;/p&gt;
+&lt;p&gt;The same technique can also be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="search-and-replace"&gt;
 &lt;h2&gt;Search and Replace&lt;/h2&gt;
@@ -142,18 +147,21 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;section id="running-shell-commands-in-vim"&gt;
 &lt;h2&gt;Running Shell Commands in Vim&lt;/h2&gt;
 &lt;p&gt;You can leverage your operating system’s CLI tools to edit file content directly inside Vim. For example, if you need to sort and remove duplicate lines in a manifest, you can pipe your selection directly to the &lt;a class="reference external" href="https://man7.org/linux/man-pages/man1/sort.1.html"&gt;sort&lt;/a&gt; and &lt;a class="reference external" href="https://ss64.com/bash/uniq.html"&gt;uniq&lt;/a&gt; utilities:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Shift&lt;span class="w"&gt; &lt;/span&gt;+&lt;span class="w"&gt; &lt;/span&gt;v&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select the lines (Visual Line mode)&lt;/span&gt;
-:%!sort&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;uniq&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# 2. Sort and remove duplicates from the selection&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;SHIFT&lt;span class="w"&gt; &lt;/span&gt;+&lt;span class="w"&gt; &lt;/span&gt;V&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select the lines (Visual Line mode)&lt;/span&gt;
+:!sort&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;uniq&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# 2. Sort and remove duplicates from the selection&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;You can also apply this logic to an entire file. For instance, to quickly format raw JSON, you can use Python’s built-in &lt;a class="reference external" href="https://docs.python.org/3/library/json.html"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;json.tool&lt;/span&gt;&lt;/code&gt;&lt;/a&gt;:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%!python&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;json.tool
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Beyond filtering/editing text, you can pass your unsaved buffer into external commands without modifying the file or leaving Vim. Imagine you’re editing a Kubernetes manifest and want to ensure your latest changes won’t break anything. You can pipe the buffer directly into &lt;a class="reference external" href="https://kubernetes.io/docs/reference/kubectl/generated/kubectl_diff/"&gt;kubectl diff&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;Beyond filtering and editing text, you can pass your unsaved buffer into external commands without modifying the file or leaving Vim. For example, this command allows you to compare the file you are editing in Vim with the one running in the Kubernetes cluster without needing to save the file first.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:w&lt;span class="w"&gt; &lt;/span&gt;!kubectl&lt;span class="w"&gt; &lt;/span&gt;diff&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;-
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;In Vim, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;:w&lt;/span&gt;&lt;/code&gt; normally saves to a file. But when followed by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;!&lt;/span&gt;&lt;/code&gt;, it redirects your buffer’s content to an external command’s standard input (STDIN) instead of writing to disk.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;/section&gt;
 &lt;section id="further-reading"&gt;
 &lt;h2&gt;Further Reading&lt;/h2&gt;
