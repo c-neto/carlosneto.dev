@@ -12,7 +12,11 @@ category: kubernetes
 
 This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.
 
-Although the exam workstation includes [VSCodium](https://vscodium.com/), every exam task requires you to connect to remote Ubuntu nodes via SSH, where [VSCodium](https://vscodium.com/) is not available. As a result, becoming comfortable with Vim is a necessary evil for good performance in the CKA, CKAD, and CKS exams.
+## Vim: A Necessary Evil
+
+While the exam workstation includes [VSCodium](https://vscodium.com/), every task takes place on remote nodes over SSH. Copying and pasting manifests into a local GUI editor is a trap that will drain your time. 
+
+Love it or hate it, getting comfortable with Vim is essential for working fast enough to pass the CKA, CKAD, and CKS.
 
 ## Vim Configuration
 
@@ -30,6 +34,7 @@ set hls       " Highlight search matches.
 set mouse=c   " Enable mouse support for cursor position.
 set cuc       " Highlight the current cursor column.
 syntax on     " Enable syntax highlighting.
+nnoremap kd :w !kubectl diff -f -<CR>   " Maps 'kd' to run 'kubectl diff' with current editing file content
 ```
 
 > __WARNING__: Don't use `set mouse=a` during the exam!
@@ -67,14 +72,14 @@ B               # go back to the previous word
 
 ## Fixing YAML Indentation
 
-Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to shift entire YAML blocks to the right or left while preserving their structure.
+Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to SHIFT entire YAML blocks to the right or left while preserving their structure.
 
 To increase the indentation:
 
 ```bash
 V               # 1. enter Visual Line mode
 select lines    # 2. select the lines
->               # 3. shift indentation right
+>               # 3. SHIFT indentation right
 ESC             # 4. apply the change
 .               # 5. repeat the indentation
 ```
@@ -83,7 +88,7 @@ If you need to reverse the indentation or perform another operation on the same 
 
 ```bash
 gv              # 1. reselect the previous Visual selection
-<               # 2. shift indentation left
+<               # 2. SHIFT indentation left
 ESC             # 3. apply the change
 .               # 4. repeat the operation
 ```
@@ -100,7 +105,7 @@ SHIFT+i         # 3. enter Insert mode
 ESC             # 5. apply the change to all selected lines
 ```
 
-The same technique can also be be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.
+The same technique can also be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.
 
 ## Search and Replace
 
@@ -156,8 +161,8 @@ Kubernetes manifests frequently contain numeric values such as replica counts, p
 You can leverage your operating system's CLI tools to edit file content directly inside Vim. For example, if you need to sort and remove duplicate lines in a manifest, you can pipe your selection directly to the [sort](https://man7.org/linux/man-pages/man1/sort.1.html) and [uniq](https://ss64.com/bash/uniq.html) utilities:
 
 ```bash
-Shift + v       # 1. Select the lines (Visual Line mode)
-:%!sort | uniq  # 2. Sort and remove duplicates from the selection
+SHIFT + V       # 1. Select the lines (Visual Line mode)
+:!sort | uniq  # 2. Sort and remove duplicates from the selection
 ```
 
 You can also apply this logic to an entire file. For instance, to quickly format raw JSON, you can use Python's built-in [`json.tool`](https://docs.python.org/3/library/json.html):
@@ -166,11 +171,13 @@ You can also apply this logic to an entire file. For instance, to quickly format
 :%!python -m json.tool
 ```
 
-Beyond filtering/editing text, you can pass your unsaved buffer into external commands without modifying the file or leaving Vim. Imagine you're editing a Kubernetes manifest and want to ensure your latest changes won't break anything. You can pipe the buffer directly into [kubectl diff](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_diff/):
+Beyond filtering and editing text, you can pass your unsaved buffer into external commands without modifying the file or leaving Vim. For example, this command allows you to compare the file you are editing in Vim with the one running in the Kubernetes cluster without needing to save the file first.
 
 ```bash
 :w !kubectl diff -f -
 ```
+
+> _In Vim, `:w` normally saves to a file. But when followed by `!`, it redirects your buffer’s content to an external command's standard input (STDIN) instead of writing to disk._
 
 ## Further Reading
 
