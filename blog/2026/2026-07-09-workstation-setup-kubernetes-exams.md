@@ -111,7 +111,6 @@ set hls       " (highlightsearch) Highlights all search matches.
 set mouse=c   " (mouse) Enables mouse support for cursor movement and scrolling
 set cuc       " (cursorcolumn) Highlights the current cursor column, useful for YAML files.
 syntax on     " Enables syntax highlighting based on file extension.
-nnoremap kd :w !kubectl diff -f -<CR>   " Maps 'kd' to run 'kubectl diff' with current editing file content
 ```
 
 > __WARNING__: Don't use `set mouse=a` during the exam!

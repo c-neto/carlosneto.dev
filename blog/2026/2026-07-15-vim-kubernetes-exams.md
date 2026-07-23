@@ -34,7 +34,6 @@ set hls       " Highlight search matches.
 set mouse=c   " Enable mouse support for cursor position.
 set cuc       " Highlight the current cursor column.
 syntax on     " Enable syntax highlighting.
-nnoremap kd :w !kubectl diff -f -<CR>   " Maps 'kd' to run 'kubectl diff' with current editing file content
 ```
 
 > __WARNING__: Don't use `set mouse=a` during the exam!
