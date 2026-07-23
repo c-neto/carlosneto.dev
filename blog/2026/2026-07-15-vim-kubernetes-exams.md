@@ -165,7 +165,7 @@ SHIFT+V         # 1. Select the lines (Visual Line mode)
 :!sort | uniq   # 2. Sort and remove duplicates from the selection
 ```
 
-You can also apply this logic to an entire file. For instance, to quickly format raw JSON, you can use Python's built-in [`json.tool`](https://docs.python.org/3/library/json.html):
+You can also apply this logic to an entire file. For instance, to quickly format raw JSON, you can use Python's built-in [json.tool](https://docs.python.org/3/library/json.html):
 
 ```bash
 :%!python -m json.tool
