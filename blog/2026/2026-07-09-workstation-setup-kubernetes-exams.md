@@ -16,7 +16,7 @@ Time management is one of the most critical factors for passing the Linux Founda
 
 ## Configure the U.S. Keyboard Layout (MacBooks)
 
-If you're taking the exam on a MacBook, make sure your keyboard layout is set to `U.S.`. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially `~` and `` ` ``, when using layouts such as `Brazilian – ABNT2`.
+If you're taking the exam on a MacBook, make sure your keyboard layout is set to `U.S.`. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially `~` and `` ` ``, when using layouts such as `U.S. International - PC` or `Brazilian – ABNT2`.
 
 1. Open ***System Settings » Keyboard » Input Sources***.
 2. Add `U.S.` input source.
