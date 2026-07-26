@@ -113,7 +113,8 @@ When renaming resources, labels, namespaces, image names, or environment variabl
 To replace every occurrence of a string:
 
 ```bash
-:%s/foo/bar/g       # replace all occurrences of "foo" with "bar"
+:%s/foo/bar/g       # replace "foo" with "bar"
+:%s#/etec/#/etc/#g  # replace "/etec/" with "/etc/"
 ```
 
 Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:
@@ -137,13 +138,14 @@ This approach lets you review each occurrence before replacing it, making it saf
 Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.
 
 ```bash
-:10,15>         # indent lines 10-15
-:10,15<         # unindent lines 10-15
-:30,50d         # delete (cut) lines 30-50
-:10,15y         # copy lines 10-15
-:30,50t70       # copy lines 30-50 below line 70
-:30,50m70       # move lines 30-50 below line 70
-:50put          # put yanked lines below line 50
+:10,15>     # indent lines 10-15
+:10,15<     # unindent lines 10-15
+:30,50x     # delete lines 30-50
+:30,50t70   # copy lines 30-50 and paste below line 70
+:30,50m70   # cut lines 30-50 and paste below line 70
+:30,50d     # cut lines 30-50
+:10,15y     # copy lines 10-15
+:50put      # paste lines below line 50
 ```
 
 ## Working with Numbers

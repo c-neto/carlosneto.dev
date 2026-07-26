@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-23T17:14:32.423712+00:00</updated>
+  <updated>2026-07-26T03:05:35.282902+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -105,7 +105,8 @@ ESC&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 5. a
 &lt;h2&gt;Search and Replace&lt;/h2&gt;
 &lt;p&gt;When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.&lt;/p&gt;
 &lt;p&gt;To replace every occurrence of a string:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%s/foo/bar/g&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# replace all occurrences of &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%s/foo/bar/g&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# replace &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
+:%s#/etec/#/etc/#g&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# replace &amp;quot;/etec/&amp;quot; with &amp;quot;/etc/&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:&lt;/p&gt;
@@ -125,13 +126,14 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;section id="working-with-yaml-blocks"&gt;
 &lt;h2&gt;Working with YAML Blocks&lt;/h2&gt;
 &lt;p&gt;Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:10,15&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# indent lines 10-15&lt;/span&gt;
-:10,15&amp;lt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# unindent lines 10-15&lt;/span&gt;
-:30,50d&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# delete (cut) lines 30-50&lt;/span&gt;
-:10,15y&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# copy lines 10-15&lt;/span&gt;
-:30,50t70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# copy lines 30-50 below line 70&lt;/span&gt;
-:30,50m70&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# move lines 30-50 below line 70&lt;/span&gt;
-:50put&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# put yanked lines below line 50&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:10,15&amp;gt;&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# indent lines 10-15&lt;/span&gt;
+:10,15&amp;lt;&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# unindent lines 10-15&lt;/span&gt;
+:30,50x&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# delete lines 30-50&lt;/span&gt;
+:30,50t70&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# copy lines 30-50 and paste below line 70&lt;/span&gt;
+:30,50m70&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# cut lines 30-50 and paste below line 70&lt;/span&gt;
+:30,50d&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# cut lines 30-50&lt;/span&gt;
+:10,15y&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# copy lines 10-15&lt;/span&gt;
+:50put&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# paste lines below line 50&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;

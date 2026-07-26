@@ -485,7 +485,8 @@ ESC<span class="w">             </span><span class="c1"># 5. apply the change to
 <h2>Search and Replace<a class="headerlink" href="#search-and-replace" title="Link to this heading">#</a></h2>
 <p>When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.</p>
 <p>To replace every occurrence of a string:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%s/foo/bar/g<span class="w">       </span><span class="c1"># replace all occurrences of &quot;foo&quot; with &quot;bar&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%s/foo/bar/g<span class="w">       </span><span class="c1"># replace &quot;foo&quot; with &quot;bar&quot;</span>
+:%s#/etec/#/etc/#g<span class="w">  </span><span class="c1"># replace &quot;/etec/&quot; with &quot;/etc/&quot;</span>
 </pre></div>
 </div>
 <p>Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:</p>
@@ -505,13 +506,14 @@ SHIFT+n<span class="w">             </span><span class="c1"># 8. go back to prev
 <section id="working-with-yaml-blocks">
 <h2>Working with YAML Blocks<a class="headerlink" href="#working-with-yaml-blocks" title="Link to this heading">#</a></h2>
 <p>Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:10,15&gt;<span class="w">         </span><span class="c1"># indent lines 10-15</span>
-:10,15&lt;<span class="w">         </span><span class="c1"># unindent lines 10-15</span>
-:30,50d<span class="w">         </span><span class="c1"># delete (cut) lines 30-50</span>
-:10,15y<span class="w">         </span><span class="c1"># copy lines 10-15</span>
-:30,50t70<span class="w">       </span><span class="c1"># copy lines 30-50 below line 70</span>
-:30,50m70<span class="w">       </span><span class="c1"># move lines 30-50 below line 70</span>
-:50put<span class="w">          </span><span class="c1"># put yanked lines below line 50</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:10,15&gt;<span class="w">     </span><span class="c1"># indent lines 10-15</span>
+:10,15&lt;<span class="w">     </span><span class="c1"># unindent lines 10-15</span>
+:30,50x<span class="w">     </span><span class="c1"># delete lines 30-50</span>
+:30,50t70<span class="w">   </span><span class="c1"># copy lines 30-50 and paste below line 70</span>
+:30,50m70<span class="w">   </span><span class="c1"># cut lines 30-50 and paste below line 70</span>
+:30,50d<span class="w">     </span><span class="c1"># cut lines 30-50</span>
+:10,15y<span class="w">     </span><span class="c1"># copy lines 10-15</span>
+:50put<span class="w">      </span><span class="c1"># paste lines below line 50</span>
 </pre></div>
 </div>
 </section>
