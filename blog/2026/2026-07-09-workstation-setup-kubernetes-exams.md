@@ -152,10 +152,10 @@ bkp() { cp "$1" "$1.bkp"; }
 
 # kubectl aliases
 alias k="kubectl"
-alias kgp="kubectl get pods"
+alias kgp="kubectl get pods --show-labels"
 alias kgs="kubectl get svc"
 alias kgn="kubectl get nodes"
-alias kd="kubectl describe"
+alias kdp="kubectl describe pod"
 alias ke="kubectl get endpoints"
 alias kaf="kubectl apply -f"
 alias kdel="kubectl delete --now"
