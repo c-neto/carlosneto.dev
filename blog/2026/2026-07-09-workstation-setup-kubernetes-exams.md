@@ -152,7 +152,7 @@ bkp() { cp "$1" "$1.bkp"; }
 
 # kubectl aliases
 alias k="kubectl"
-alias kgp="kubectl get pods --show-labels"
+alias kgp="kubectl get pods"
 alias kgs="kubectl get svc"
 alias kgn="kubectl get nodes"
 alias kdp="kubectl describe pod"
@@ -167,7 +167,12 @@ alias kctx="kubectl config use-context"
 export EDITOR=vim
 
 # shorthand for generating YAML in the imperative kubectl commands
+# >>> k create pod --image nginx $x
 export x="--dry-run=client -oyaml"
+
+# shorthand for show labels
+# >>> kgp $l
+export l="--show-labels"
 ```
 
 Finally, copy the updated configuration files back to the remote node:
