@@ -511,7 +511,7 @@ bkp<span class="o">()</span><span class="w"> </span><span class="o">{</span><spa
 
 <span class="c1"># kubectl aliases</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">k</span><span class="o">=</span><span class="s2">&quot;kubectl&quot;</span>
-<span class="nb">alias</span><span class="w"> </span><span class="nv">kgp</span><span class="o">=</span><span class="s2">&quot;kubectl get pods --show-labels&quot;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">kgp</span><span class="o">=</span><span class="s2">&quot;kubectl get pods&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kgs</span><span class="o">=</span><span class="s2">&quot;kubectl get svc&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kgn</span><span class="o">=</span><span class="s2">&quot;kubectl get nodes&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kdp</span><span class="o">=</span><span class="s2">&quot;kubectl describe pod&quot;</span>
@@ -526,7 +526,12 @@ bkp<span class="o">()</span><span class="w"> </span><span class="o">{</span><spa
 <span class="nb">export</span><span class="w"> </span><span class="nv">EDITOR</span><span class="o">=</span>vim
 
 <span class="c1"># shorthand for generating YAML in the imperative kubectl commands</span>
+<span class="c1"># &gt;&gt;&gt; k create pod --image nginx $x</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">x</span><span class="o">=</span><span class="s2">&quot;--dry-run=client -oyaml&quot;</span>
+
+<span class="c1"># shorthand for show labels</span>
+<span class="c1"># &gt;&gt;&gt; kgp $l</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">l</span><span class="o">=</span><span class="s2">&quot;--show-labels&quot;</span>
 </pre></div>
 </div>
 </div>
