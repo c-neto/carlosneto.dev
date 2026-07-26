@@ -163,6 +163,9 @@ alias kdelp="kubectl delete pod --now"
 alias kns="kubectl config set-context --current --namespace"
 alias kctx="kubectl config use-context"
 
+# define vim as default editor (systemctl edit)
+export EDITOR=vim
+
 # shorthand for generating YAML in the imperative kubectl commands
 export x="--dry-run=client -oyaml"
 ```
