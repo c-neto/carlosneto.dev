@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-26T22:56:11.947292+00:00</updated>
+  <updated>2026-07-27T00:48:02.175848+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -61,6 +61,7 @@ CTRL+r&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# redo
 O&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# open a new line above and enter Insert mode&lt;/span&gt;
 o&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# open a new line below and enter Insert mode&lt;/span&gt;
 cW&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# replace the current word and enter Insert mode&lt;/span&gt;
+C&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# remove all line content after cursor and enter Insert mode&lt;/span&gt;
 i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# copy characters from the line above&lt;/span&gt;
 /foobar&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# search forward for &amp;quot;foobar&amp;quot;&lt;/span&gt;
 &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the beginning of the line&lt;/span&gt;
