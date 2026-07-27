@@ -61,6 +61,7 @@ CTRL+r          # redo
 O               # open a new line above and enter Insert mode
 o               # open a new line below and enter Insert mode
 cW              # replace the current word and enter Insert mode
+C               # remove all line content after cursor and enter Insert mode
 i » CTRL+y      # copy characters from the line above
 /foobar         # search forward for "foobar"
 0               # move to the beginning of the line
