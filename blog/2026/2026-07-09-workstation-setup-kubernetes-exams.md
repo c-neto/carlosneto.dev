@@ -101,16 +101,18 @@ Create the `~/.vimrc` file and add the following configuration:
 
 ```{code-block} vim
 :caption: ~/.vimrc
-set nu        " (number) Displays line numbers.
-set ai        " (autoindent) Automatically preserves indentation while editing.
-set et        " (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.
-set ts=2      " (tabstop) Displays tab characters as two spaces.
-set sw=2      " (shiftwidth) Uses a two-space indentation level when indenting or unindenting.
-set sts=2     " (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.
-set hls       " (highlightsearch) Highlights all search matches.
-set mouse=c   " (mouse) Enables mouse support for cursor movement and scrolling
-set cuc       " (cursorcolumn) Highlights the current cursor column, useful for YAML files.
-syntax on     " Enables syntax highlighting based on file extension.
+set nu                      " Show line numbers.
+set ai                      " Preserve indentation while editing.
+set et                      " Convert tabs into spaces.
+set ts=2                    " Display tabs as two spaces.
+set sw=2                    " Indent and unindent using two spaces.
+set sts=2                   " Make Tab and Backspace use two-space indentation.
+set hls                     " Highlight search matches.
+set mouse=c                 " Enable mouse support for cursor position.
+set cuc                     " Highlight the current cursor column.
+set clipboard+=unnamedplus  " Use the system clipboard in vim (y/p/d).
+set clipboard+=autoselect   " Automatically copy selected text in Visual Mode to clipboard.
+syntax on                   " Enable syntax highlighting.
 ```
 
 > __WARNING__: Don't use `set mouse=a` during the exam!
@@ -123,7 +125,7 @@ Copy the file to the remote node for the exam question (for example, `node01`):
 scp ~/.vimrc node01:~/.vimrc
 ```
 
-__Bonus__: I have created a blog post [Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)](2026-07-15-vim-kubernetes-exams.md) that focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests.
+__Bonus__: I have created a blog post [Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)](2026-07-15-vim-kubernetes-exams.md) with editing techniques I use most frequently during exams.
 
 ## Kubectl Aliases and Shortcuts
 
