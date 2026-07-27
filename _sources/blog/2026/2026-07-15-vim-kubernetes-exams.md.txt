@@ -24,16 +24,18 @@ This configuration is intentionally minimal and optimized for editing Kubernetes
 
 ```{code-block} vim
 :caption: ~/.vimrc
-set nu        " Show line numbers.
-set ai        " Preserve indentation while editing.
-set et        " Convert tabs into spaces.
-set ts=2      " Display tabs as two spaces.
-set sw=2      " Indent and unindent using two spaces.
-set sts=2     " Make Tab and Backspace use two-space indentation.
-set hls       " Highlight search matches.
-set mouse=c   " Enable mouse support for cursor position.
-set cuc       " Highlight the current cursor column.
-syntax on     " Enable syntax highlighting.
+set nu                      " Show line numbers.
+set ai                      " Preserve indentation while editing.
+set et                      " Convert tabs into spaces.
+set ts=2                    " Display tabs as two spaces.
+set sw=2                    " Indent and unindent using two spaces.
+set sts=2                   " Make Tab and Backspace use two-space indentation.
+set hls                     " Highlight search matches.
+set mouse=c                 " Enable mouse support for cursor position.
+set cuc                     " Highlight the current cursor column.
+set clipboard+=unnamedplus  " Use the system clipboard in vim (y/p/d).
+set clipboard+=autoselect   " Automatically copy selected text in Visual Mode to clipboard.
+syntax on                   " Enable syntax highlighting.
 ```
 
 > __WARNING__: Don't use `set mouse=a` during the exam!
@@ -68,6 +70,7 @@ i » CTRL+y      # copy characters from the line above
 $               # move to the end of the line
 W               # jump to the next word
 B               # go back to the previous word
+ZZ              # save and quit
 ```
 
 ## Fixing YAML Indentation

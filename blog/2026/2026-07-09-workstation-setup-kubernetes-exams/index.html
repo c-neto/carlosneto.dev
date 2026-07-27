@@ -466,16 +466,18 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 <p>Create the <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> file and add the following configuration:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">~/.vimrc</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
-<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="k">nu</span>        <span class="c">&quot; (number) Displays line numbers.</span>
-<span class="k">set</span> <span class="nb">ai</span>        <span class="c">&quot; (autoindent) Automatically preserves indentation while editing.</span>
-<span class="k">set</span> <span class="nb">et</span>        <span class="c">&quot; (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.</span>
-<span class="k">set</span> <span class="k">ts</span><span class="p">=</span><span class="m">2</span>      <span class="c">&quot; (tabstop) Displays tab characters as two spaces.</span>
-<span class="k">set</span> <span class="k">sw</span><span class="p">=</span><span class="m">2</span>      <span class="c">&quot; (shiftwidth) Uses a two-space indentation level when indenting or unindenting.</span>
-<span class="k">set</span> <span class="k">sts</span><span class="p">=</span><span class="m">2</span>     <span class="c">&quot; (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.</span>
-<span class="k">set</span> <span class="nb">hls</span>       <span class="c">&quot; (highlightsearch) Highlights all search matches.</span>
-<span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">c</span>   <span class="c">&quot; (mouse) Enables mouse support for cursor movement and scrolling</span>
-<span class="k">set</span> <span class="nb">cuc</span>       <span class="c">&quot; (cursorcolumn) Highlights the current cursor column, useful for YAML files.</span>
-<span class="nb">syntax</span> <span class="k">on</span>     <span class="c">&quot; Enables syntax highlighting based on file extension.</span>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="k">nu</span>                      <span class="c">&quot; Show line numbers.</span>
+<span class="k">set</span> <span class="nb">ai</span>                      <span class="c">&quot; Preserve indentation while editing.</span>
+<span class="k">set</span> <span class="nb">et</span>                      <span class="c">&quot; Convert tabs into spaces.</span>
+<span class="k">set</span> <span class="k">ts</span><span class="p">=</span><span class="m">2</span>                    <span class="c">&quot; Display tabs as two spaces.</span>
+<span class="k">set</span> <span class="k">sw</span><span class="p">=</span><span class="m">2</span>                    <span class="c">&quot; Indent and unindent using two spaces.</span>
+<span class="k">set</span> <span class="k">sts</span><span class="p">=</span><span class="m">2</span>                   <span class="c">&quot; Make Tab and Backspace use two-space indentation.</span>
+<span class="k">set</span> <span class="nb">hls</span>                     <span class="c">&quot; Highlight search matches.</span>
+<span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">c</span>                 <span class="c">&quot; Enable mouse support for cursor position.</span>
+<span class="k">set</span> <span class="nb">cuc</span>                     <span class="c">&quot; Highlight the current cursor column.</span>
+<span class="k">set</span> <span class="nb">clipboard</span><span class="p">+=</span>unnamedplus  <span class="c">&quot; Use the system clipboard in vim (y/p/d).</span>
+<span class="k">set</span> <span class="nb">clipboard</span><span class="p">+=</span>autoselect   <span class="c">&quot; Automatically copy selected text in Visual Mode to clipboard.</span>
+<span class="nb">syntax</span> <span class="k">on</span>                   <span class="c">&quot; Enable syntax highlighting.</span>
 </pre></div>
 </div>
 </div>
@@ -487,7 +489,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
 </pre></div>
 </div>
-<p><strong>Bonus</strong>: I have created a blog post <a class="reference internal" href="../2026-07-15-vim-kubernetes-exams/"><span class="std std-doc">Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)</span></a> that focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests.</p>
+<p><strong>Bonus</strong>: I have created a blog post <a class="reference internal" href="../2026-07-15-vim-kubernetes-exams/"><span class="std std-doc">Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)</span></a> with editing techniques I use most frequently during exams.</p>
 </section>
 <section id="kubectl-aliases-and-shortcuts">
 <h2>Kubectl Aliases and Shortcuts<a class="headerlink" href="#kubectl-aliases-and-shortcuts" title="Link to this heading">#</a></h2>

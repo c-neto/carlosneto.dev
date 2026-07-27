@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-27T12:43:00.754387+00:00</updated>
+  <updated>2026-07-27T13:08:51.329701+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -26,16 +26,18 @@
 &lt;p&gt;This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Show line numbers.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ai&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Preserve indentation while editing.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Convert tabs into spaces.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Display tabs as two spaces.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Indent and unindent using two spaces.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Make Tab and Backspace use two-space indentation.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; Highlight search matches.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; Enable mouse support for cursor position.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; Highlight the current cursor column.&lt;/span&gt;
-&lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Enable syntax highlighting.&lt;/span&gt;
+&lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;                      &lt;span class="c"&gt;&amp;quot; Show line numbers.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ai&lt;/span&gt;                      &lt;span class="c"&gt;&amp;quot; Preserve indentation while editing.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;                      &lt;span class="c"&gt;&amp;quot; Convert tabs into spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;                    &lt;span class="c"&gt;&amp;quot; Display tabs as two spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;                    &lt;span class="c"&gt;&amp;quot; Indent and unindent using two spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;                   &lt;span class="c"&gt;&amp;quot; Make Tab and Backspace use two-space indentation.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;                     &lt;span class="c"&gt;&amp;quot; Highlight search matches.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;                 &lt;span class="c"&gt;&amp;quot; Enable mouse support for cursor position.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;                     &lt;span class="c"&gt;&amp;quot; Highlight the current cursor column.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;clipboard&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;unnamedplus  &lt;span class="c"&gt;&amp;quot; Use the system clipboard in vim (y/p/d).&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;clipboard&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;autoselect   &lt;span class="c"&gt;&amp;quot; Automatically copy selected text in Visual Mode to clipboard.&lt;/span&gt;
+&lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;                   &lt;span class="c"&gt;&amp;quot; Enable syntax highlighting.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -68,6 +70,7 @@ i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+
 $&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the end of the line&lt;/span&gt;
 W&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to the next word&lt;/span&gt;
 B&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# go back to the previous word&lt;/span&gt;
+ZZ&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# save and quit&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
@@ -262,16 +265,18 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;p&gt;Create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; (number) Displays line numbers.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ai&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; (autoindent) Automatically preserves indentation while editing.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; (expandtab) Converts tabs to spaces, preventing invalid YAML indentation.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; (tabstop) Displays tab characters as two spaces.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; (shiftwidth) Uses a two-space indentation level when indenting or unindenting.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; (softtabstop) Makes the Tab and Backspace keys use two-space indentation levels.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; (highlightsearch) Highlights all search matches.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; (mouse) Enables mouse support for cursor movement and scrolling&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; (cursorcolumn) Highlights the current cursor column, useful for YAML files.&lt;/span&gt;
-&lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Enables syntax highlighting based on file extension.&lt;/span&gt;
+&lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;                      &lt;span class="c"&gt;&amp;quot; Show line numbers.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ai&lt;/span&gt;                      &lt;span class="c"&gt;&amp;quot; Preserve indentation while editing.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;                      &lt;span class="c"&gt;&amp;quot; Convert tabs into spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;                    &lt;span class="c"&gt;&amp;quot; Display tabs as two spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;                    &lt;span class="c"&gt;&amp;quot; Indent and unindent using two spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;                   &lt;span class="c"&gt;&amp;quot; Make Tab and Backspace use two-space indentation.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;                     &lt;span class="c"&gt;&amp;quot; Highlight search matches.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;                 &lt;span class="c"&gt;&amp;quot; Enable mouse support for cursor position.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;                     &lt;span class="c"&gt;&amp;quot; Highlight the current cursor column.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;clipboard&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;unnamedplus  &lt;span class="c"&gt;&amp;quot; Use the system clipboard in vim (y/p/d).&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;clipboard&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;autoselect   &lt;span class="c"&gt;&amp;quot; Automatically copy selected text in Visual Mode to clipboard.&lt;/span&gt;
+&lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;                   &lt;span class="c"&gt;&amp;quot; Enable syntax highlighting.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -283,7 +288,7 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;Bonus&lt;/strong&gt;: I have created a blog post &lt;a class="reference internal" href="2026/2026-07-15-vim-kubernetes-exams/"&gt;&lt;span class="std std-doc"&gt;Vim for Kubernetes Certification Exams (CKA, CKAD &amp;amp; CKS)&lt;/span&gt;&lt;/a&gt; that focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Bonus&lt;/strong&gt;: I have created a blog post &lt;a class="reference internal" href="2026/2026-07-15-vim-kubernetes-exams/"&gt;&lt;span class="std std-doc"&gt;Vim for Kubernetes Certification Exams (CKA, CKAD &amp;amp; CKS)&lt;/span&gt;&lt;/a&gt; with editing techniques I use most frequently during exams.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="kubectl-aliases-and-shortcuts"&gt;
 &lt;h2&gt;Kubectl Aliases and Shortcuts&lt;/h2&gt;
