@@ -55,7 +55,7 @@ These are the commands you'll use most often. They allow you to navigate, copy, 
 ```bash
 .               # repeat the last command
 ~               # toggle character case
-dd              # cut the current line
+dd              # cut/delete the current line
 y               # yank (copy)
 p               # paste below
 P               # paste above
@@ -68,6 +68,12 @@ C               # remove all line content after cursor and enter Insert mode
 i » CTRL+y      # copy line above character by character at time
 /foobar         # search forward for "foobar"
 12gg            # jump to line 12
+CTRL+i          # move cursor to the previous line jump
+CTRL+o          # move cursor to the forward line jump
+gg              # jump to the start of file
+G               # jump to end of file
+dG              # cut/delete from cursor until end of file
+dgg             # cut/delete from cursor to start of file
 0               # move to the beginning of the line
 A               # move to end of line and enter in insert mode
 W               # jump to the next word
