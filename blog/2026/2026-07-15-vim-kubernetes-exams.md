@@ -77,7 +77,7 @@ I strongly recommend **not** using `set mouse=a` during the exam. The remote exa
 12gg            # jump to line 12
 CTRL+i          # jump forward in the jump list
 CTRL+o          # jump backward in the jump list
-0               # move to the beginning of the line
+0               # jump to the beginning of the line
 gg              # jump to the start of the file
 G               # jump to the end of the file
 W               # jump to the next word
