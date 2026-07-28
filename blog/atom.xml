@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-28T04:08:20.775979+00:00</updated>
+  <updated>2026-07-28T04:12:40.384907+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -260,7 +260,6 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.inputrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\e[A&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-backward&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# ↑ (previous matching command)&lt;/span&gt;
 &lt;span class="s2"&gt;&amp;quot;\e[B&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-forward&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# ↓ (next matching command)&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;\C-h&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;backward-kill-word&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# CTRL + backspace (delete word by word in terminal)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -289,8 +288,6 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;                     &lt;span class="c"&gt;&amp;quot; Highlight search matches.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;                 &lt;span class="c"&gt;&amp;quot; Enable mouse support for cursor position.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;                     &lt;span class="c"&gt;&amp;quot; Highlight the current cursor column.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;clipboard&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;unnamedplus  &lt;span class="c"&gt;&amp;quot; Use the system clipboard in vim (y/p/d).&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;clipboard&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;autoselect   &lt;span class="c"&gt;&amp;quot; Automatically copy selected text in Visual Mode to clipboard.&lt;/span&gt;
 &lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;                   &lt;span class="c"&gt;&amp;quot; Enable syntax highlighting.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
