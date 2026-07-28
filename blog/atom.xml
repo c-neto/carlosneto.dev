@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-28T00:23:53.188035+00:00</updated>
+  <updated>2026-07-28T01:02:15.980287+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -254,7 +254,7 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.inputrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\e[A&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-backward&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# ↑ (previous matching command)&lt;/span&gt;
 &lt;span class="s2"&gt;&amp;quot;\e[B&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-forward&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# ↓ (next matching command)&lt;/span&gt;
-&lt;span class="s2"&gt;&amp;quot;\C-w&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;backward-kill-word&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# CTRL + w (delete word by word in terminal)&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;\C-h&amp;quot;&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;backward-kill-word&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# CTRL + backspace (delete word by word in terminal)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -312,9 +312,6 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 &lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.bashrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;### omitted the .bashrc copied from question node&lt;/span&gt;
-
-&lt;span class="c1"&gt;# disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.&lt;/span&gt;
-stty&lt;span class="w"&gt; &lt;/span&gt;werase&lt;span class="w"&gt; &lt;/span&gt;undef
 
 &lt;span class="c1"&gt;# create a quick backup command `$ bkp &amp;lt;file&amp;gt;` to copy a file by appending .bkp&lt;/span&gt;
 bkp&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cp&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;.bkp&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;

@@ -446,7 +446,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 <div class="code-block-caption"><span class="caption-text">~/.inputrc</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;\e[A&quot;</span>:<span class="w"> </span>history-search-backward<span class="w">   </span><span class="c1"># ↑ (previous matching command)</span>
 <span class="s2">&quot;\e[B&quot;</span>:<span class="w"> </span>history-search-forward<span class="w">    </span><span class="c1"># ↓ (next matching command)</span>
-<span class="s2">&quot;\C-w&quot;</span>:<span class="w"> </span>backward-kill-word<span class="w">        </span><span class="c1"># CTRL + w (delete word by word in terminal)</span>
+<span class="s2">&quot;\C-h&quot;</span>:<span class="w"> </span>backward-kill-word<span class="w">        </span><span class="c1"># CTRL + backspace (delete word by word in terminal)</span>
 </pre></div>
 </div>
 </div>
@@ -504,9 +504,6 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text">~/.bashrc</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">### omitted the .bashrc copied from question node</span>
-
-<span class="c1"># disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.</span>
-stty<span class="w"> </span>werase<span class="w"> </span>undef
 
 <span class="c1"># create a quick backup command `$ bkp &lt;file&gt;` to copy a file by appending .bkp</span>
 bkp<span class="o">()</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">.bkp&quot;</span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
