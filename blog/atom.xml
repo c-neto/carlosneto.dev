@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-28T01:11:43.015220+00:00</updated>
+  <updated>2026-07-28T01:37:20.973531+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -41,10 +41,6 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;strong&gt;WARNING&lt;/strong&gt;: Don’t use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam!&lt;/p&gt;
-&lt;p&gt;The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For editing and text selection, rely on Vim’s Visual mode and line-jump commands instead.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Each exam task is performed on a different remote node. Before starting a task, copy your local &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; to the target question machine:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
 &lt;/pre&gt;&lt;/div&gt;
@@ -52,10 +48,12 @@
 &lt;/section&gt;
 &lt;section id="essential-editing-commands"&gt;
 &lt;h2&gt;Essential Editing Commands&lt;/h2&gt;
-&lt;p&gt;These are the commands you’ll use most often. They allow you to navigate, copy, delete, replace, and repeat edits without leaving Normal mode, making common editing tasks much faster.&lt;/p&gt;
+&lt;p&gt;These are the commands you’ll use most often. They let you navigate, copy, delete, replace, and repeat edits without leaving Normal mode, making common editing tasks much faster.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;.&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# repeat the last command&lt;/span&gt;
 ~&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# toggle character case&lt;/span&gt;
 dd&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete the current line&lt;/span&gt;
+dG&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete from the cursor to the end of the file&lt;/span&gt;
+dgg&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete from the cursor to the start of the file&lt;/span&gt;
 y&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# yank (copy)&lt;/span&gt;
 p&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# paste below&lt;/span&gt;
 P&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# paste above&lt;/span&gt;
@@ -64,21 +62,28 @@ CTRL+r&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# redo
 O&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# open a new line above and enter Insert mode&lt;/span&gt;
 o&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# open a new line below and enter Insert mode&lt;/span&gt;
 cW&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# replace the current word and enter Insert mode&lt;/span&gt;
-C&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# remove all line content after cursor and enter Insert mode&lt;/span&gt;
-i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# copy line above character by character at time&lt;/span&gt;
-/foobar&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# search forward for &amp;quot;foobar&amp;quot;&lt;/span&gt;
-12gg&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# jump to line 12&lt;/span&gt;
-CTRL+i&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# move cursor to the previous line jump&lt;/span&gt;
-CTRL+o&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# move cursor to the forward line jump&lt;/span&gt;
-gg&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# jump to the start of file&lt;/span&gt;
-G&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to end of file&lt;/span&gt;
-dG&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete from cursor until end of file&lt;/span&gt;
-dgg&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete from cursor to start of file&lt;/span&gt;
-&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the beginning of the line&lt;/span&gt;
-A&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to end of line and enter in insert mode&lt;/span&gt;
-W&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to the next word&lt;/span&gt;
-B&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# go back to the previous word&lt;/span&gt;
+C&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# delete from the cursor to the end of the line and enter Insert mode&lt;/span&gt;
+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# copy the character above the cursor&lt;/span&gt;
+A&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the end of the line and enter Insert mode&lt;/span&gt;
 ZZ&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# save and quit&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="navigation-commands"&gt;
+&lt;h2&gt;Navigation Commands&lt;/h2&gt;
+&lt;p&gt;I strongly recommend &lt;strong&gt;not&lt;/strong&gt; using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/foobar&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# search forward for &amp;quot;foobar&amp;quot;&lt;/span&gt;
+12gg&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# jump to line 12&lt;/span&gt;
+CTRL+i&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# jump forward in the jump list&lt;/span&gt;
+CTRL+o&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# jump backward in the jump list&lt;/span&gt;
+&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the beginning of the line&lt;/span&gt;
+gg&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# jump to the start of the file&lt;/span&gt;
+G&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to the end of the file&lt;/span&gt;
+W&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to the next word&lt;/span&gt;
+B&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to the previous word&lt;/span&gt;
+v&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# enter in Visual inline mode&lt;/span&gt;
+V&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# enter in Visual lines mode&lt;/span&gt;
+CTRL+v&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# enter in Visual block mode&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;

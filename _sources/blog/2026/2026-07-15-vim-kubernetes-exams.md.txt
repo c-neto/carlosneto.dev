@@ -38,10 +38,6 @@ set clipboard+=autoselect   " Automatically copy selected text in Visual Mode to
 syntax on                   " Enable syntax highlighting.
 ```
 
-> __WARNING__: Don't use `set mouse=a` during the exam!
->
-> The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For editing and text selection, rely on Vim's Visual mode and line-jump commands instead.
-
 Each exam task is performed on a different remote node. Before starting a task, copy your local `~/.vimrc` to the target question machine:
 
 ```bash
@@ -50,12 +46,14 @@ scp ~/.vimrc node01:~/.vimrc
 
 ## Essential Editing Commands
 
-These are the commands you'll use most often. They allow you to navigate, copy, delete, replace, and repeat edits without leaving Normal mode, making common editing tasks much faster.
+These are the commands you'll use most often. They let you navigate, copy, delete, replace, and repeat edits without leaving Normal mode, making common editing tasks much faster.
 
 ```bash
 .               # repeat the last command
 ~               # toggle character case
 dd              # cut/delete the current line
+dG              # cut/delete from the cursor to the end of the file
+dgg             # cut/delete from the cursor to the start of the file
 y               # yank (copy)
 p               # paste below
 P               # paste above
@@ -64,21 +62,29 @@ CTRL+r          # redo
 O               # open a new line above and enter Insert mode
 o               # open a new line below and enter Insert mode
 cW              # replace the current word and enter Insert mode
-C               # remove all line content after cursor and enter Insert mode
-i » CTRL+y      # copy line above character by character at time
+C               # delete from the cursor to the end of the line and enter Insert mode
+i » CTRL+y      # copy the character above the cursor
+A               # move to the end of the line and enter Insert mode
+ZZ              # save and quit
+```
+
+## Navigation Commands
+
+I strongly recommend **not** using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
+
+```bash
 /foobar         # search forward for "foobar"
 12gg            # jump to line 12
-CTRL+i          # move cursor to the previous line jump
-CTRL+o          # move cursor to the forward line jump
-gg              # jump to the start of file
-G               # jump to end of file
-dG              # cut/delete from cursor until end of file
-dgg             # cut/delete from cursor to start of file
+CTRL+i          # jump forward in the jump list
+CTRL+o          # jump backward in the jump list
 0               # move to the beginning of the line
-A               # move to end of line and enter in insert mode
+gg              # jump to the start of the file
+G               # jump to the end of the file
 W               # jump to the next word
-B               # go back to the previous word
-ZZ              # save and quit
+B               # jump to the previous word
+v               # enter in Visual inline mode
+V               # enter in Visual lines mode
+CTRL+v          # enter in Visual block mode
 ```
 
 ## Fixing YAML Indentation
