@@ -33,10 +33,10 @@ set sts=2                   " Make Tab and Backspace use two-space indentation.
 set hls                     " Highlight search matches.
 set mouse=c                 " Enable mouse support for cursor position.
 set cuc                     " Highlight the current cursor column.
-set clipboard+=unnamedplus  " Use the system clipboard in vim (y/p/d).
-set clipboard+=autoselect   " Automatically copy selected text in Visual Mode to clipboard.
 syntax on                   " Enable syntax highlighting.
 ```
+
+> __NOTE__: _`set clipboard+=unnamedplus,autoselect` don't work in the exams workstations._
 
 Each exam task is performed on a different remote node. Before starting a task, copy your local `~/.vimrc` to the target question machine:
 
