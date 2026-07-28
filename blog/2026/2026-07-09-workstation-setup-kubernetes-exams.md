@@ -76,7 +76,7 @@ To enable this behavior, create the `~/.inputrc` file and add the following conf
 :caption: ~/.inputrc
 "\e[A": history-search-backward   # ↑ (previous matching command)
 "\e[B": history-search-forward    # ↓ (next matching command)
-"\C-w": backward-kill-word        # CTRL + w (delete word by word in terminal)
+"\C-h": backward-kill-word        # CTRL + backspace (delete word by word in terminal)
 ```
 
 The file is automatically loaded whenever a new Bash session starts. If you modify it during an existing session, reload it with:
@@ -145,9 +145,6 @@ Append the following aliases to the end of the file:
 ```{code-block} bash
 :caption: ~/.bashrc
 ### omitted the .bashrc copied from question node
-
-# disable default CTRL+W word erase behavior in terminal to be able to use backward-kill-word instead.
-stty werase undef
 
 # create a quick backup command `$ bkp <file>` to copy a file by appending .bkp
 bkp() { cp "$1" "$1.bkp"; }
