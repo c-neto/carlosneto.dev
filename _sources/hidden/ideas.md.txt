@@ -42,3 +42,5 @@
 - Helm Tips: How to Specify Number Values Avoiding Errors
 
 stty werase undef
+set clipboard+=unnamedplus,autoselect  " Use the system clipboard in vim (y/p/d).
+set clipboard+=autoselect   " Automatically copy selected text in Visual Mode to clipboard.

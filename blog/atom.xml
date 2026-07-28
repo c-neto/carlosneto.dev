@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-28T02:03:21.168174+00:00</updated>
+  <updated>2026-07-28T04:07:27.624459+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -35,12 +35,13 @@
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;                     &lt;span class="c"&gt;&amp;quot; Highlight search matches.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;                 &lt;span class="c"&gt;&amp;quot; Enable mouse support for cursor position.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;                     &lt;span class="c"&gt;&amp;quot; Highlight the current cursor column.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;clipboard&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;unnamedplus  &lt;span class="c"&gt;&amp;quot; Use the system clipboard in vim (y/p/d).&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;clipboard&lt;/span&gt;&lt;span class="p"&gt;+=&lt;/span&gt;autoselect   &lt;span class="c"&gt;&amp;quot; Automatically copy selected text in Visual Mode to clipboard.&lt;/span&gt;
 &lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;                   &lt;span class="c"&gt;&amp;quot; Enable syntax highlighting.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: &lt;em&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; don’t work in the exams workstations.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Each exam task is performed on a different remote node. Before starting a task, copy your local &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; to the target question machine:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
 &lt;/pre&gt;&lt;/div&gt;

@@ -415,12 +415,13 @@
 <span class="k">set</span> <span class="nb">hls</span>                     <span class="c">&quot; Highlight search matches.</span>
 <span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">c</span>                 <span class="c">&quot; Enable mouse support for cursor position.</span>
 <span class="k">set</span> <span class="nb">cuc</span>                     <span class="c">&quot; Highlight the current cursor column.</span>
-<span class="k">set</span> <span class="nb">clipboard</span><span class="p">+=</span>unnamedplus  <span class="c">&quot; Use the system clipboard in vim (y/p/d).</span>
-<span class="k">set</span> <span class="nb">clipboard</span><span class="p">+=</span>autoselect   <span class="c">&quot; Automatically copy selected text in Visual Mode to clipboard.</span>
 <span class="nb">syntax</span> <span class="k">on</span>                   <span class="c">&quot; Enable syntax highlighting.</span>
 </pre></div>
 </div>
 </div>
+<blockquote>
+<div><p><strong>NOTE</strong>: <em><code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">clipboard+=unnamedplus,autoselect</span></code> don’t work in the exams workstations.</em></p>
+</div></blockquote>
 <p>Each exam task is performed on a different remote node. Before starting a task, copy your local <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> to the target question machine:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
 </pre></div>
