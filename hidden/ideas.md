@@ -40,3 +40,5 @@
 - kubernetes saga # | create token of service account to test usage in external applcation
 - opensearch: how to speed up the allocation cluster
 - Helm Tips: How to Specify Number Values Avoiding Errors
+
+stty werase undef
