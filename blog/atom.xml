@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-28T00:12:48.351800+00:00</updated>
+  <updated>2026-07-28T00:23:53.188035+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -55,7 +55,7 @@
 &lt;p&gt;These are the commands you’ll use most often. They allow you to navigate, copy, delete, replace, and repeat edits without leaving Normal mode, making common editing tasks much faster.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;.&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# repeat the last command&lt;/span&gt;
 ~&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# toggle character case&lt;/span&gt;
-dd&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# cut the current line&lt;/span&gt;
+dd&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete the current line&lt;/span&gt;
 y&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# yank (copy)&lt;/span&gt;
 p&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# paste below&lt;/span&gt;
 P&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# paste above&lt;/span&gt;
@@ -68,6 +68,12 @@ C&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# remo
 i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# copy line above character by character at time&lt;/span&gt;
 /foobar&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# search forward for &amp;quot;foobar&amp;quot;&lt;/span&gt;
 12gg&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# jump to line 12&lt;/span&gt;
+CTRL+i&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# move cursor to the previous line jump&lt;/span&gt;
+CTRL+o&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# move cursor to the forward line jump&lt;/span&gt;
+gg&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# jump to the start of file&lt;/span&gt;
+G&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to end of file&lt;/span&gt;
+dG&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete from cursor until end of file&lt;/span&gt;
+dgg&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete from cursor to start of file&lt;/span&gt;
 &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the beginning of the line&lt;/span&gt;
 A&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to end of line and enter in insert mode&lt;/span&gt;
 W&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to the next word&lt;/span&gt;

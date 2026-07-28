@@ -435,7 +435,7 @@
 <p>These are the commands you’ll use most often. They allow you to navigate, copy, delete, replace, and repeat edits without leaving Normal mode, making common editing tasks much faster.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w">               </span><span class="c1"># repeat the last command</span>
 ~<span class="w">               </span><span class="c1"># toggle character case</span>
-dd<span class="w">              </span><span class="c1"># cut the current line</span>
+dd<span class="w">              </span><span class="c1"># cut/delete the current line</span>
 y<span class="w">               </span><span class="c1"># yank (copy)</span>
 p<span class="w">               </span><span class="c1"># paste below</span>
 P<span class="w">               </span><span class="c1"># paste above</span>
@@ -448,6 +448,12 @@ C<span class="w">               </span><span class="c1"># remove all line conten
 i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">      </span><span class="c1"># copy line above character by character at time</span>
 /foobar<span class="w">         </span><span class="c1"># search forward for &quot;foobar&quot;</span>
 12gg<span class="w">            </span><span class="c1"># jump to line 12</span>
+CTRL+i<span class="w">          </span><span class="c1"># move cursor to the previous line jump</span>
+CTRL+o<span class="w">          </span><span class="c1"># move cursor to the forward line jump</span>
+gg<span class="w">              </span><span class="c1"># jump to the start of file</span>
+G<span class="w">               </span><span class="c1"># jump to end of file</span>
+dG<span class="w">              </span><span class="c1"># cut/delete from cursor until end of file</span>
+dgg<span class="w">             </span><span class="c1"># cut/delete from cursor to start of file</span>
 <span class="m">0</span><span class="w">               </span><span class="c1"># move to the beginning of the line</span>
 A<span class="w">               </span><span class="c1"># move to end of line and enter in insert mode</span>
 W<span class="w">               </span><span class="c1"># jump to the next word</span>
