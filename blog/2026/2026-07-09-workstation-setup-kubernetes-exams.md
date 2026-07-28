@@ -76,7 +76,6 @@ To enable this behavior, create the `~/.inputrc` file and add the following conf
 :caption: ~/.inputrc
 "\e[A": history-search-backward   # ↑ (previous matching command)
 "\e[B": history-search-forward    # ↓ (next matching command)
-"\C-h": backward-kill-word        # CTRL + backspace (delete word by word in terminal)
 ```
 
 The file is automatically loaded whenever a new Bash session starts. If you modify it during an existing session, reload it with:
@@ -110,8 +109,6 @@ set sts=2                   " Make Tab and Backspace use two-space indentation.
 set hls                     " Highlight search matches.
 set mouse=c                 " Enable mouse support for cursor position.
 set cuc                     " Highlight the current cursor column.
-set clipboard+=unnamedplus  " Use the system clipboard in vim (y/p/d).
-set clipboard+=autoselect   " Automatically copy selected text in Visual Mode to clipboard.
 syntax on                   " Enable syntax highlighting.
 ```
 
