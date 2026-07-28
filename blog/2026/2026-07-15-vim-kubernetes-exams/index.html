@@ -435,19 +435,21 @@
 <p>These are the commands you’ll use most often. They allow you to navigate, copy, delete, replace, and repeat edits without leaving Normal mode, making common editing tasks much faster.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w">               </span><span class="c1"># repeat the last command</span>
 ~<span class="w">               </span><span class="c1"># toggle character case</span>
-dd<span class="w">              </span><span class="c1"># delete (cut) the current line</span>
+dd<span class="w">              </span><span class="c1"># cut the current line</span>
 y<span class="w">               </span><span class="c1"># yank (copy)</span>
-p<span class="w">               </span><span class="c1"># paste</span>
+p<span class="w">               </span><span class="c1"># paste below</span>
+P<span class="w">               </span><span class="c1"># paste above</span>
 u<span class="w">               </span><span class="c1"># undo</span>
 CTRL+r<span class="w">          </span><span class="c1"># redo</span>
 O<span class="w">               </span><span class="c1"># open a new line above and enter Insert mode</span>
 o<span class="w">               </span><span class="c1"># open a new line below and enter Insert mode</span>
 cW<span class="w">              </span><span class="c1"># replace the current word and enter Insert mode</span>
 C<span class="w">               </span><span class="c1"># remove all line content after cursor and enter Insert mode</span>
-i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">      </span><span class="c1"># copy characters from the line above</span>
+i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">      </span><span class="c1"># copy line above character by character at time</span>
 /foobar<span class="w">         </span><span class="c1"># search forward for &quot;foobar&quot;</span>
+12gg<span class="w">            </span><span class="c1"># jump to line 12</span>
 <span class="m">0</span><span class="w">               </span><span class="c1"># move to the beginning of the line</span>
-$<span class="w">               </span><span class="c1"># move to the end of the line</span>
+A<span class="w">               </span><span class="c1"># move to end of line and enter in insert mode</span>
 W<span class="w">               </span><span class="c1"># jump to the next word</span>
 B<span class="w">               </span><span class="c1"># go back to the previous word</span>
 ZZ<span class="w">              </span><span class="c1"># save and quit</span>
@@ -510,7 +512,8 @@ SHIFT+n<span class="w">             </span><span class="c1"># 8. go back to prev
 <section id="working-with-yaml-blocks">
 <h2>Working with YAML Blocks<a class="headerlink" href="#working-with-yaml-blocks" title="Link to this heading">#</a></h2>
 <p>Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:10,15&gt;<span class="w">     </span><span class="c1"># indent lines 10-15</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%&lt;<span class="w">         </span><span class="c1"># unindent all lines</span>
+:10,15&gt;<span class="w">     </span><span class="c1"># indent lines 10-15</span>
 :10,15&lt;<span class="w">     </span><span class="c1"># unindent lines 10-15</span>
 :30,50x<span class="w">     </span><span class="c1"># delete lines 30-50</span>
 :30,50t70<span class="w">   </span><span class="c1"># copy lines 30-50 and paste below line 70</span>
