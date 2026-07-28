@@ -55,19 +55,21 @@ These are the commands you'll use most often. They allow you to navigate, copy, 
 ```bash
 .               # repeat the last command
 ~               # toggle character case
-dd              # delete (cut) the current line
+dd              # cut the current line
 y               # yank (copy)
-p               # paste
+p               # paste below
+P               # paste above
 u               # undo
 CTRL+r          # redo
 O               # open a new line above and enter Insert mode
 o               # open a new line below and enter Insert mode
 cW              # replace the current word and enter Insert mode
 C               # remove all line content after cursor and enter Insert mode
-i » CTRL+y      # copy characters from the line above
+i » CTRL+y      # copy line above character by character at time
 /foobar         # search forward for "foobar"
+12gg            # jump to line 12
 0               # move to the beginning of the line
-$               # move to the end of the line
+A               # move to end of line and enter in insert mode
 W               # jump to the next word
 B               # go back to the previous word
 ZZ              # save and quit
@@ -142,6 +144,7 @@ This approach lets you review each occurrence before replacing it, making it saf
 Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.
 
 ```bash
+:%<         # unindent all lines
 :10,15>     # indent lines 10-15
 :10,15<     # unindent lines 10-15
 :30,50x     # delete lines 30-50
