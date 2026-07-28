@@ -155,7 +155,7 @@ alias kgp="kubectl get pods"
 alias klf="kubectl logs -f"
 alias kgs="kubectl get svc"
 alias kgn="kubectl get nodes"
-alias kdp="kubectl describe pod"
+alias kd="kubectl describe"
 alias ke="kubectl get endpoints"
 alias kaf="kubectl apply -f"
 alias kdel="kubectl delete --now"
@@ -164,7 +164,7 @@ alias kns="kubectl config set-context --current --namespace"
 alias kctx="kubectl config use-context"
 
 # define vim as default editor (systemctl edit)
-export EDITOR=vim
+export EDITOR="vim"
 
 # shorthand for generating YAML in the imperative kubectl commands
 # $ k run nginx --image nginx:latest $x > nginx.yaml
