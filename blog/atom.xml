@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-29T16:39:51.683782+00:00</updated>
+  <updated>2026-07-29T16:42:51.849651+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -219,9 +219,10 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;p&gt;Time management is one of the most critical factors for passing the Linux Foundation Kubernetes certification exams. The CKA, CKAD, and CKS are hands-on exams conducted on remote Ubuntu instances running the XFCE desktop environment, where network latency and the remote desktop experience can slow you down. Check out the following tips to optimize your setup.&lt;/p&gt;
 &lt;section id="configure-the-u-s-keyboard-layout-macbooks"&gt;
 &lt;h2&gt;Configure the U.S. Keyboard Layout (MacBooks)&lt;/h2&gt;
-&lt;p&gt;If you’re taking the exam on a MacBook, make sure your keyboard layout is set to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt;. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;`&lt;/span&gt;&lt;/code&gt;, when using layouts such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt; &lt;span class="pre"&gt;International&lt;/span&gt; &lt;span class="pre"&gt;-&lt;/span&gt; &lt;span class="pre"&gt;PC&lt;/span&gt;&lt;/code&gt; or &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Brazilian&lt;/span&gt; &lt;span class="pre"&gt;–&lt;/span&gt; &lt;span class="pre"&gt;ABNT2&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If you’re taking the exam on a MacBook, make sure your keyboard layout is set to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt;. Otherwise, the remote Linux environment may not recognize certain characters correctly, especially &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;`&lt;/span&gt;&lt;/code&gt;. This is a common issue with layouts such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt; &lt;span class="pre"&gt;International&lt;/span&gt; &lt;span class="pre"&gt;-&lt;/span&gt; &lt;span class="pre"&gt;PC&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Brazilian&lt;/span&gt; &lt;span class="pre"&gt;–&lt;/span&gt; &lt;span class="pre"&gt;ABNT2&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Before the exam, perform the follow steps:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
-&lt;li&gt;&lt;p&gt;Open &lt;strong&gt;*System Settings » Keyboard » Input Sources&lt;/strong&gt;*.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Open &lt;strong&gt;System Settings » Keyboard » Input Sources&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Add &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt; input source.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Remove any other input sources so only &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt; remains.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -230,11 +231,11 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;section id="disable-mission-control-shortcuts-macbooks"&gt;
 &lt;h2&gt;Disable Mission Control Shortcuts (MacBooks)&lt;/h2&gt;
 &lt;p&gt;By default, pressing &lt;strong&gt;CTRL + ←/→&lt;/strong&gt; switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.&lt;/p&gt;
-&lt;p&gt;Before the exam:&lt;/p&gt;
+&lt;p&gt;Before the exam, perform the follow steps:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
-&lt;li&gt;&lt;p&gt;Open &lt;strong&gt;*System Settings » Keyboard » Keyboard Shortcuts&lt;/strong&gt;*&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Select &lt;strong&gt;*Mission Control&lt;/strong&gt;*&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Disable all shortcuts under &lt;strong&gt;*Mission Control&lt;/strong&gt;*.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Open &lt;strong&gt;System Settings » Keyboard » Keyboard Shortcuts&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Select &lt;strong&gt;Mission Control&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Disable all shortcuts under &lt;strong&gt;Mission Control&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This helps prevent accidental desktop switching and reduces the risk of unnecessary proctor alerts or exam suspension on suspicion of consulting unauthorized material.&lt;/p&gt;
 &lt;/section&gt;
