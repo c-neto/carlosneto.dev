@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-29T17:10:15.975199+00:00</updated>
+  <updated>2026-07-29T17:12:14.025458+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -19,7 +19,7 @@
 &lt;p&gt;For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post, &lt;em&gt;&lt;a class="reference internal" href="2026/2026-07-09-workstation-setup-kubernetes-exams/"&gt;&lt;span class="std std-doc"&gt;Workstation Setup for Kubernetes Exams (CKA, CKAD &amp;amp; CKS)&lt;/span&gt;&lt;/a&gt;&lt;/em&gt;.&lt;/p&gt;
 &lt;section id="vim-a-necessary-evil"&gt;
 &lt;h2&gt;Vim: A Necessary Evil&lt;/h2&gt;
-&lt;p&gt;I’m a heavy &lt;em&gt;&lt;a class="reference external" href="https://code.visualstudio.com/"&gt;VS Code&lt;/a&gt;&lt;/em&gt; user and not a Vim fan. In my opinion, Vim’s shortcuts and commands can feel confusing and unintuitive. However, one thing is undeniable: &lt;strong&gt;Vim is a requirement for Linux Foundations Exams.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;I’m a heavy &lt;em&gt;&lt;a class="reference external" href="https://code.visualstudio.com/"&gt;VS Code&lt;/a&gt;&lt;/em&gt; user and not a Vim fan. In my opinion, Vim’s shortcuts and commands can feel confusing and unintuitive. However, one thing is undeniable: &lt;strong&gt;Vim is an indirect requirement for Linux Foundation exams.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Although the exam workstation includes &lt;em&gt;&lt;a class="reference external" href="https://vscodium.com/"&gt;VS Codium&lt;/a&gt;&lt;/em&gt; (&lt;em&gt;the free and open-source binaries of VS Code&lt;/em&gt;), using it is generally not a good idea. The connection to the exam workstation has &lt;strong&gt;high latency&lt;/strong&gt;, making mouse operations slow and unreliable. More importantly, all exam tasks are performed on remote nodes over SSH, where &lt;em&gt;VS Codium&lt;/em&gt; is unavailable. To edit files in &lt;em&gt;VS Codium&lt;/em&gt;, you would first need to copy the file contents from your SSH session and then paste them into the editor. This workflow is highly impractical and wastes valuable exam time.&lt;/p&gt;
 &lt;p&gt;If you’re not a Vim fan like me, I have good news: &lt;strong&gt;you don’t need to become a Vim expert to pass the Kubernetes certification exams&lt;/strong&gt;. A minimal configuration and a handful of well-practiced commands are all you need to edit Kubernetes YAML manifests quickly and confidently under exam conditions. Focus on building muscle memory with the commands presented in this guide. The less time you spend fighting the editor, the more time you’ll have to solve the Kubernetes problems that actually determine your exam score.&lt;/p&gt;
 &lt;/section&gt;
