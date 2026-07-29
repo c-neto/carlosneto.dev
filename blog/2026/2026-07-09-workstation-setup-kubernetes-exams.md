@@ -18,7 +18,7 @@ Time management is one of the most critical factors for passing the Linux Founda
 
 If you're taking the exam on a MacBook, make sure your keyboard layout is set to `U.S.`. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially `~` and `` ` ``, when using layouts such as `U.S. International - PC` or `Brazilian – ABNT2`.
 
-1. Open ***System Settings » Keyboard » Input Sources***.
+1. Open __*System Settings » Keyboard » Input Sources__*.
 2. Add `U.S.` input source.
 3. Remove any other input sources so only `U.S.` remains.
 
@@ -26,13 +26,13 @@ This helps prevent unexpected keyboard mapping issues during the exam.
 
 ## Disable Mission Control Shortcuts (MacBooks)
 
-By default, pressing **CTRL + ←/→** switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.
+By default, pressing __CTRL + ←/→__ switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.
 
 Before the exam:
 
-1. Open ***System Settings » Keyboard » Keyboard Shortcuts***
-2. Select ***Mission Control***
-3. Disable all shortcuts under ***Mission Control***.
+1. Open __*System Settings » Keyboard » Keyboard Shortcuts__*
+2. Select __*Mission Control__*
+3. Disable all shortcuts under __*Mission Control__*.
 
 This helps prevent accidental desktop switching and reduces the risk of unnecessary proctor alerts or exam suspension on suspicion of consulting unauthorized material.
 
@@ -112,9 +112,8 @@ set cuc       " Highlight the current cursor column.
 syntax on     " Enable syntax highlighting.
 ```
 
-> __WARNING__: Don't use `set mouse=a` during the exam!
->
-> The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For editing and text selection, rely on Vim's Visual mode and line-jump commands instead.
+> __WARNING:__ Avoid `set mouse=a`. The exam workstations have significantly higher latency than the Killer Shell simulation environment, making mouse operations slow and unreliable. Use the mouse only for scrolling.
+
 
 Copy the file to the remote node for the exam question (for example, `node01`):
 
