@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-29T15:14:36.315742+00:00</updated>
+  <updated>2026-07-29T16:03:09.493169+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -215,7 +215,7 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;h2&gt;Configure the U.S. Keyboard Layout (MacBooks)&lt;/h2&gt;
 &lt;p&gt;If you’re taking the exam on a MacBook, make sure your keyboard layout is set to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt;. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;`&lt;/span&gt;&lt;/code&gt;, when using layouts such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt; &lt;span class="pre"&gt;International&lt;/span&gt; &lt;span class="pre"&gt;-&lt;/span&gt; &lt;span class="pre"&gt;PC&lt;/span&gt;&lt;/code&gt; or &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Brazilian&lt;/span&gt; &lt;span class="pre"&gt;–&lt;/span&gt; &lt;span class="pre"&gt;ABNT2&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
-&lt;li&gt;&lt;p&gt;Open &lt;em&gt;&lt;strong&gt;System Settings » Keyboard » Input Sources&lt;/strong&gt;&lt;/em&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Open &lt;strong&gt;*System Settings » Keyboard » Input Sources&lt;/strong&gt;*.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Add &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt; input source.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Remove any other input sources so only &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt; remains.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -226,9 +226,9 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;p&gt;By default, pressing &lt;strong&gt;CTRL + ←/→&lt;/strong&gt; switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.&lt;/p&gt;
 &lt;p&gt;Before the exam:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
-&lt;li&gt;&lt;p&gt;Open &lt;em&gt;&lt;strong&gt;System Settings » Keyboard » Keyboard Shortcuts&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Select &lt;em&gt;&lt;strong&gt;Mission Control&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Disable all shortcuts under &lt;em&gt;&lt;strong&gt;Mission Control&lt;/strong&gt;&lt;/em&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Open &lt;strong&gt;*System Settings » Keyboard » Keyboard Shortcuts&lt;/strong&gt;*&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Select &lt;strong&gt;*Mission Control&lt;/strong&gt;*&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Disable all shortcuts under &lt;strong&gt;*Mission Control&lt;/strong&gt;*.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This helps prevent accidental desktop switching and reduces the risk of unnecessary proctor alerts or exam suspension on suspicion of consulting unauthorized material.&lt;/p&gt;
 &lt;/section&gt;
@@ -293,8 +293,7 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;strong&gt;WARNING&lt;/strong&gt;: Don’t use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam!&lt;/p&gt;
-&lt;p&gt;The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For editing and text selection, rely on Vim’s Visual mode and line-jump commands instead.&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;strong&gt;WARNING:&lt;/strong&gt; Avoid &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt;. The exam workstations have significantly higher latency than the Killer Shell simulation environment, making mouse operations slow and unreliable. Use the mouse only for scrolling.&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Copy the file to the remote node for the exam question (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc

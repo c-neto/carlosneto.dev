@@ -401,7 +401,7 @@
 <h2>Configure the U.S. Keyboard Layout (MacBooks)<a class="headerlink" href="#configure-the-u-s-keyboard-layout-macbooks" title="Link to this heading">#</a></h2>
 <p>If you’re taking the exam on a MacBook, make sure your keyboard layout is set to <code class="docutils literal notranslate"><span class="pre">U.S.</span></code>. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially <code class="docutils literal notranslate"><span class="pre">~</span></code> and <code class="docutils literal notranslate"><span class="pre">`</span></code>, when using layouts such as <code class="docutils literal notranslate"><span class="pre">U.S.</span> <span class="pre">International</span> <span class="pre">-</span> <span class="pre">PC</span></code> or <code class="docutils literal notranslate"><span class="pre">Brazilian</span> <span class="pre">–</span> <span class="pre">ABNT2</span></code>.</p>
 <ol class="arabic simple">
-<li><p>Open <em><strong>System Settings » Keyboard » Input Sources</strong></em>.</p></li>
+<li><p>Open <strong>*System Settings » Keyboard » Input Sources</strong>*.</p></li>
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">U.S.</span></code> input source.</p></li>
 <li><p>Remove any other input sources so only <code class="docutils literal notranslate"><span class="pre">U.S.</span></code> remains.</p></li>
 </ol>
@@ -412,9 +412,9 @@
 <p>By default, pressing <strong>CTRL + ←/→</strong> switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.</p>
 <p>Before the exam:</p>
 <ol class="arabic simple">
-<li><p>Open <em><strong>System Settings » Keyboard » Keyboard Shortcuts</strong></em></p></li>
-<li><p>Select <em><strong>Mission Control</strong></em></p></li>
-<li><p>Disable all shortcuts under <em><strong>Mission Control</strong></em>.</p></li>
+<li><p>Open <strong>*System Settings » Keyboard » Keyboard Shortcuts</strong>*</p></li>
+<li><p>Select <strong>*Mission Control</strong>*</p></li>
+<li><p>Disable all shortcuts under <strong>*Mission Control</strong>*.</p></li>
 </ol>
 <p>This helps prevent accidental desktop switching and reduces the risk of unnecessary proctor alerts or exam suspension on suspicion of consulting unauthorized material.</p>
 </section>
@@ -479,8 +479,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </div>
 </div>
 <blockquote>
-<div><p><strong>WARNING</strong>: Don’t use <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> during the exam!</p>
-<p>The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For editing and text selection, rely on Vim’s Visual mode and line-jump commands instead.</p>
+<div><p><strong>WARNING:</strong> Avoid <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code>. The exam workstations have significantly higher latency than the Killer Shell simulation environment, making mouse operations slow and unreliable. Use the mouse only for scrolling.</p>
 </div></blockquote>
 <p>Copy the file to the remote node for the exam question (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
