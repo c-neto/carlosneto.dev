@@ -16,15 +16,13 @@ For more tips on how I configure my Kubernetes exam workstation, including Bash 
 
 ## Vim: A Necessary Evil
 
-I'm a heavy __VS Code__ user and not a Vim fan. I find Vim's shortcuts confusing, its commands unintuitive, and its editing model difficult to memorize. However, sooner or later you'll realize that mastering the basics of Vim solves many problems during Linux Foundation certification exams and makes the learning curve well worth the effort.
+I'm a heavy [VS Code](https://code.visualstudio.com/) user and not a Vim fan. In my opinion, Vim's shortcuts and commands can feel confusing and unintuitive. However, one thing is undeniable: mastering the basics of Vim is essential for good exam performance. Keep that in mind—whether you like it or not, Vim is a necessary part of the Kubernetes certification exams.
 
-Although the exam workstation includes __VSCodium__ (*the free and open-source binaries of VS Code*), using it is generally not a good idea. The connection to the exam workstation has __high latency__, making mouse operations unreliable. More importantly, all exam tasks are performed on remote nodes over SSH, where VSCodium is not available. To edit files in VSCodium, you would need to copy the file contents from your SSH terminal sessions and paste them into VSCodium. This workflow is completely impractical and wastes valuable exam time.
+Although the exam workstation includes [VSCodium](https://vscodium.com/) (*the free and open-source binaries of VS Code*), using it is generally not a good idea. The connection to the exam workstation has **high latency**, making mouse operations slow and unreliable. More importantly, all exam tasks are performed on remote nodes over SSH, where VSCodium is unavailable. To edit files in VSCodium, you would first need to copy the file contents from your SSH session and then paste them into the editor. This workflow is highly impractical and wastes valuable exam time.
 
-If you're not a Vim fan like me, I have good news: __you don't need to become a Vim expert to pass the Kubernetes certification exams__. A minimal configuration and a handful of well-practiced commands are enough to edit Kubernetes YAML manifests quickly and confidently under exam conditions.
+If you're not a Vim fan like me, I have good news: **you don't need to become a Vim expert to pass the Kubernetes certification exams**. A minimal configuration and a handful of well-practiced commands are all you need to edit Kubernetes YAML manifests quickly and confidently under exam conditions. Focus on building muscle memory with the commands presented in this guide. The less time you spend fighting the editor, the more time you'll have to solve the Kubernetes problems that actually determine your exam score.
 
-Focus on building muscle memory with the commands presented in this guide. The less time you spend fighting the editor, the more time you'll have to solve the Kubernetes problems that actually determine your exam score.
-
-Love it or hate it, becoming comfortable with Vim is essential if you want to work fast enough to pass the CKA, CKAD, and CKS.
+**Love it or hate it, get comfortable with Vim.**
 
 ## Vim Configuration
 
