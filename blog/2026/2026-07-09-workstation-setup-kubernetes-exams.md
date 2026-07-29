@@ -157,6 +157,9 @@ alias kdelp="kubectl delete pod --now"
 alias kns="kubectl config set-context --current --namespace"
 alias kctx="kubectl config use-context"
 
+# make visible the cursor column in vim default theme
+export TERM=xterm-265color
+
 # define vim as default editor (systemctl edit)
 export EDITOR="vim"
 
