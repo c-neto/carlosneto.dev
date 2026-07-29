@@ -16,9 +16,15 @@ For more tips on how I configure my Kubernetes exam workstation, including Bash 
 
 ## Vim: A Necessary Evil
 
-While the exam workstation includes [VSCodium](https://vscodium.com/), every task takes place on remote nodes over SSH. Copying and pasting manifests into a local GUI editor is a trap that will drain your time. 
+I'm a heavy __VS Code__ user and not a Vim fan. I find Vim's shortcuts confusing, its commands unintuitive, and its editing model difficult to memorize. However, sooner or later you'll realize that mastering the basics of Vim solves many problems during Linux Foundation certification exams and makes the learning curve well worth the effort.
 
-Love it or hate it, getting comfortable with Vim is essential for working fast enough to pass the CKA, CKAD, and CKS.
+Although the exam workstation includes __VSCodium__ (*the free and open-source binaries of VS Code*), using it is generally not a good idea. The connection to the exam workstation has __high latency__, making mouse operations unreliable. More importantly, all exam tasks are performed on remote nodes over SSH, where VSCodium is not available. To edit files in VSCodium, you would need to copy the file contents from your SSH terminal sessions and paste them into VSCodium. This workflow is completely impractical and wastes valuable exam time.
+
+If you're not a Vim fan like me, I have good news: __you don't need to become a Vim expert to pass the Kubernetes certification exams__. A minimal configuration and a handful of well-practiced commands are enough to edit Kubernetes YAML manifests quickly and confidently under exam conditions.
+
+Focus on building muscle memory with the commands presented in this guide. The less time you spend fighting the editor, the more time you'll have to solve the Kubernetes problems that actually determine your exam score.
+
+Love it or hate it, becoming comfortable with Vim is essential if you want to work fast enough to pass the CKA, CKAD, and CKS.
 
 ## Vim Configuration
 
@@ -201,12 +207,10 @@ Beyond filtering and editing text, you can pass your unsaved buffer into externa
 
 > __INFO:__ In Vim, `:w` normally saves to a file. But when followed by `!`, it redirects your buffer’s content to an external command's standard input (STDIN) instead of writing to disk.
 
-## Conclusion
+## Learn More
 
-You don't need to become a Vim expert to pass the Kubernetes certification exams.
+Take a look at the following material that I used to master Vim.
 
-A minimal configuration and a handful of well-practiced commands are enough to edit Kubernetes YAML manifests quickly and confidently under exam conditions.
-
-Focus on building muscle memory with the commands presented in this guide. The less time you spend fighting the editor, the more time you'll have to solve the Kubernetes problems that actually determine your exam score.
-
-If you'd like to learn more about Vim, check the complete Vim cheat sheet at <https://vim.rtorr.com/>.
+- Cheatsheet: https://vim.rtorr.com/
+- VIM Lab: https://www.vimified.com/
+- VIM Guide: https://learnvim.irian.to/basics/starting_vim
