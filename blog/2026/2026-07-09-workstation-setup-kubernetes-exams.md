@@ -16,9 +16,11 @@ Time management is one of the most critical factors for passing the Linux Founda
 
 ## Configure the U.S. Keyboard Layout (MacBooks)
 
-If you're taking the exam on a MacBook, make sure your keyboard layout is set to `U.S.`. Otherwise, the remote Linux environment may not correctly recognize certain characters, especially `~` and `` ` ``, when using layouts such as `U.S. International - PC` or `Brazilian – ABNT2`.
+If you're taking the exam on a MacBook, make sure your keyboard layout is set to `U.S.`. Otherwise, the remote Linux environment may not recognize certain characters correctly, especially `~` and `` ` ``. This is a common issue with layouts such as `U.S. International - PC` and `Brazilian – ABNT2`.
 
-1. Open __*System Settings » Keyboard » Input Sources__*.
+Before the exam, perform the follow steps:
+
+1. Open __System Settings » Keyboard » Input Sources__.
 2. Add `U.S.` input source.
 3. Remove any other input sources so only `U.S.` remains.
 
@@ -28,11 +30,11 @@ This helps prevent unexpected keyboard mapping issues during the exam.
 
 By default, pressing __CTRL + ←/→__ switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.
 
-Before the exam:
+Before the exam, perform the follow steps:
 
-1. Open __*System Settings » Keyboard » Keyboard Shortcuts__*
-2. Select __*Mission Control__*
-3. Disable all shortcuts under __*Mission Control__*.
+1. Open __System Settings » Keyboard » Keyboard Shortcuts__
+2. Select __Mission Control__
+3. Disable all shortcuts under __Mission Control__.
 
 This helps prevent accidental desktop switching and reduces the risk of unnecessary proctor alerts or exam suspension on suspicion of consulting unauthorized material.
 
