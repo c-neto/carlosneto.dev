@@ -4,7 +4,7 @@ date: "2026-07-15"
 category: kubernetes
 ---
 
-***Blog Post Publish Date:** 2026/07/15*
+*__Blog Post Publish Date:__ 2026/07/15*
 
 ---
 
@@ -72,7 +72,7 @@ ZZ          # save and quit
 
 ## Navigation Commands
 
-I strongly recommend **not** using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
+I strongly recommend __not__ using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
 
 ```bash
 /foobar   # search forward for "foobar"
