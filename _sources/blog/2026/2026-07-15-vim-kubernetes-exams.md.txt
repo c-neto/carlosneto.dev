@@ -12,6 +12,8 @@ category: kubernetes
 
 This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.
 
+For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post, *[Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)](2026-07-09-workstation-setup-kubernetes-exams.md)*.
+
 ## Vim: A Necessary Evil
 
 While the exam workstation includes [VSCodium](https://vscodium.com/), every task takes place on remote nodes over SSH. Copying and pasting manifests into a local GUI editor is a trap that will drain your time. 

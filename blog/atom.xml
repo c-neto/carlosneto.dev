@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-29T16:03:09.493169+00:00</updated>
+  <updated>2026-07-29T16:08:27.613832+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -16,6 +16,7 @@
 &lt;section id="vim-for-kubernetes-certification-exams-cka-ckad-cks"&gt;
 
 &lt;p&gt;This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.&lt;/p&gt;
+&lt;p&gt;For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post, &lt;em&gt;&lt;a class="reference internal" href="2026/2026-07-09-workstation-setup-kubernetes-exams/"&gt;&lt;span class="std std-doc"&gt;Workstation Setup for Kubernetes Exams (CKA, CKAD &amp;amp; CKS)&lt;/span&gt;&lt;/a&gt;&lt;/em&gt;.&lt;/p&gt;
 &lt;section id="vim-a-necessary-evil"&gt;
 &lt;h2&gt;Vim: A Necessary Evil&lt;/h2&gt;
 &lt;p&gt;While the exam workstation includes &lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt;, every task takes place on remote nodes over SSH. Copying and pasting manifests into a local GUI editor is a trap that will drain your time.&lt;/p&gt;
