@@ -16,7 +16,7 @@ For more tips on how I configure my Kubernetes exam workstation, including Bash 
 
 ## Vim: A Necessary Evil
 
-I'm a heavy _[VS Code](https://code.visualstudio.com/)_ user and not a Vim fan. In my opinion, Vim's shortcuts and commands can feel confusing and unintuitive. However, one thing is undeniable: __Vim is an indirect requirement for Linux Foundation exams.__
+I'm a heavy _[VS Code](https://code.visualstudio.com/)_ user and not a Vim fan. In my opinion, Vim's shortcuts and commands are confusing and unintuitive. However, one thing is undeniable: __Vim is an indirect requirement for Linux Foundation exams.__
 
 Although the exam workstation includes _[VS Codium](https://vscodium.com/)_ (*the free and open-source binaries of VS Code*), using it is generally not a good idea. The connection to the exam workstation has __high latency__, making mouse operations slow and unreliable. More importantly, all exam tasks are performed on remote nodes over SSH, where _VS Codium_ is unavailable. To edit files in _VS Codium_, you would first need to copy the file contents from your SSH session and then paste them into the editor. This workflow is highly impractical and wastes valuable exam time.
 
