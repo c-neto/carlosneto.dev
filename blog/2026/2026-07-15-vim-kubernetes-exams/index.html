@@ -399,8 +399,11 @@
 <p>For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post, <em><a class="reference internal" href="../2026-07-09-workstation-setup-kubernetes-exams/"><span class="std std-doc">Workstation Setup for Kubernetes Exams (CKA, CKAD &amp; CKS)</span></a></em>.</p>
 <section id="vim-a-necessary-evil">
 <h2>Vim: A Necessary Evil<a class="headerlink" href="#vim-a-necessary-evil" title="Link to this heading">#</a></h2>
-<p>While the exam workstation includes <a class="reference external" href="https://vscodium.com/">VSCodium</a>, every task takes place on remote nodes over SSH. Copying and pasting manifests into a local GUI editor is a trap that will drain your time.</p>
-<p>Love it or hate it, getting comfortable with Vim is essential for working fast enough to pass the CKA, CKAD, and CKS.</p>
+<p>I’m a heavy <strong>VS Code</strong> user and not a Vim fan. I find Vim’s shortcuts confusing, its commands unintuitive, and its editing model difficult to memorize. However, sooner or later you’ll realize that mastering the basics of Vim solves many problems during Linux Foundation certification exams and makes the learning curve well worth the effort.</p>
+<p>Although the exam workstation includes <strong>VSCodium</strong> (<em>the free and open-source binaries of VS Code</em>), using it is generally not a good idea. The connection to the exam workstation has <strong>high latency</strong>, making mouse operations unreliable. More importantly, all exam tasks are performed on remote nodes over SSH, where VSCodium is not available. To edit files in VSCodium, you would need to copy the file contents from your SSH terminal sessions and paste them into VSCodium. This workflow is completely impractical and wastes valuable exam time.</p>
+<p>If you’re not a Vim fan like me, I have good news: <strong>you don’t need to become a Vim expert to pass the Kubernetes certification exams</strong>. A minimal configuration and a handful of well-practiced commands are enough to edit Kubernetes YAML manifests quickly and confidently under exam conditions.</p>
+<p>Focus on building muscle memory with the commands presented in this guide. The less time you spend fighting the editor, the more time you’ll have to solve the Kubernetes problems that actually determine your exam score.</p>
+<p>Love it or hate it, becoming comfortable with Vim is essential if you want to work fast enough to pass the CKA, CKAD, and CKS.</p>
 </section>
 <section id="vim-configuration">
 <h2>Vim Configuration<a class="headerlink" href="#vim-configuration" title="Link to this heading">#</a></h2>
@@ -564,12 +567,14 @@ SHIFT+n<span class="w">             </span><span class="c1"># 8. go back to prev
 <div><p><strong>INFO:</strong> In Vim, <code class="docutils literal notranslate"><span class="pre">:w</span></code> normally saves to a file. But when followed by <code class="docutils literal notranslate"><span class="pre">!</span></code>, it redirects your buffer’s content to an external command’s standard input (STDIN) instead of writing to disk.</p>
 </div></blockquote>
 </section>
-<section id="conclusion">
-<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
-<p>You don’t need to become a Vim expert to pass the Kubernetes certification exams.</p>
-<p>A minimal configuration and a handful of well-practiced commands are enough to edit Kubernetes YAML manifests quickly and confidently under exam conditions.</p>
-<p>Focus on building muscle memory with the commands presented in this guide. The less time you spend fighting the editor, the more time you’ll have to solve the Kubernetes problems that actually determine your exam score.</p>
-<p>If you’d like to learn more about Vim, check the complete Vim cheat sheet at <a class="reference external" href="https://vim.rtorr.com/">https://vim.rtorr.com/</a>.</p>
+<section id="learn-more">
+<h2>Learn More<a class="headerlink" href="#learn-more" title="Link to this heading">#</a></h2>
+<p>Take a look at the following material that I used to master Vim.</p>
+<ul class="simple">
+<li><p>Cheatsheet: https://vim.rtorr.com/</p></li>
+<li><p>VIM Lab: https://www.vimified.com/</p></li>
+<li><p>VIM Guide: https://learnvim.irian.to/basics/starting_vim</p></li>
+</ul>
 </section>
 </section>
 
