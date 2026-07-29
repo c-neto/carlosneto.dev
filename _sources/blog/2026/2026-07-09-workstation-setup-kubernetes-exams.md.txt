@@ -100,16 +100,16 @@ Create the `~/.vimrc` file and add the following configuration:
 
 ```{code-block} vim
 :caption: ~/.vimrc
-set nu                      " Show line numbers.
-set ai                      " Preserve indentation while editing.
-set et                      " Convert tabs into spaces.
-set ts=2                    " Display tabs as two spaces.
-set sw=2                    " Indent and unindent using two spaces.
-set sts=2                   " Make Tab and Backspace use two-space indentation.
-set hls                     " Highlight search matches.
-set mouse=c                 " Enable mouse support for cursor position.
-set cuc                     " Highlight the current cursor column.
-syntax on                   " Enable syntax highlighting.
+set nu        " Show line numbers.
+set ai        " Preserve indentation while editing.
+set et        " Convert tabs into spaces.
+set ts=2      " Display tabs as two spaces.
+set sw=2      " Indent and unindent using two spaces.
+set sts=2     " Make Tab and Backspace use two-space indentation.
+set mouse=c   " Enable mouse support for cursor position.
+set hls       " Highlight search matches.
+set cuc       " Highlight the current cursor column.
+syntax on     " Enable syntax highlighting.
 ```
 
 > __WARNING__: Don't use `set mouse=a` during the exam!
@@ -143,17 +143,14 @@ Append the following aliases to the end of the file:
 :caption: ~/.bashrc
 ### omitted the .bashrc copied from question node
 
-# create a quick backup command `$ bkp <file>` to copy a file by appending .bkp
-bkp() { cp "$1" "$1.bkp"; }
-
 # kubectl aliases
 alias k="kubectl"
 alias kgp="kubectl get pods"
+alias kd="kubectl describe"
 alias klf="kubectl logs -f"
 alias kgs="kubectl get svc"
-alias kgn="kubectl get nodes"
-alias kd="kubectl describe"
 alias ke="kubectl get endpoints"
+alias kgno="kubectl get nodes"
 alias kaf="kubectl apply -f"
 alias kdel="kubectl delete --now"
 alias kdelp="kubectl delete pod --now"

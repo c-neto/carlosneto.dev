@@ -24,16 +24,16 @@ This configuration is intentionally minimal and optimized for editing Kubernetes
 
 ```{code-block} vim
 :caption: ~/.vimrc
-set nu                      " Show line numbers.
-set ai                      " Preserve indentation while editing.
-set et                      " Convert tabs into spaces.
-set ts=2                    " Display tabs as two spaces.
-set sw=2                    " Indent and unindent using two spaces.
-set sts=2                   " Make Tab and Backspace use two-space indentation.
-set hls                     " Highlight search matches.
-set mouse=c                 " Enable mouse support for cursor position.
-set cuc                     " Highlight the current cursor column.
-syntax on                   " Enable syntax highlighting.
+set nu        " Show line numbers.
+set ai        " Preserve indentation while editing.
+set et        " Convert tabs into spaces.
+set ts=2      " Display tabs as two spaces.
+set sw=2      " Indent and unindent using two spaces.
+set sts=2     " Make Tab and Backspace use two-space indentation.
+set mouse=c   " Enable mouse support for cursor position.
+set hls       " Highlight search matches.
+set cuc       " Highlight the current cursor column.
+syntax on     " Enable syntax highlighting.
 ```
 
 > __NOTE__: _`set clipboard+=unnamedplus,autoselect` don't work in the exams workstations._
@@ -49,23 +49,23 @@ scp ~/.vimrc node01:~/.vimrc
 These are the commands you'll use most often. They let you navigate, copy, delete, replace, and repeat edits without leaving Normal mode, making common editing tasks much faster.
 
 ```bash
-.               # repeat the last command
-~               # toggle character case
-dd              # cut/delete the current line
-dG              # cut/delete from the cursor to the end of the file
-dgg             # cut/delete from the cursor to the start of the file
-y               # yank (copy)
-p               # paste below
-P               # paste above
-u               # undo
-CTRL+r          # redo
-O               # open a new line above and enter Insert mode
-o               # open a new line below and enter Insert mode
-cW              # replace the current word and enter Insert mode
-C               # delete from the cursor to the end of the line and enter Insert mode
-i » CTRL+y      # copy the character above the cursor
-A               # move to the end of the line and enter Insert mode
-ZZ              # save and quit
+.           # repeat the last command
+~           # toggle character case
+dd          # cut/delete the current line
+dG          # cut/delete from the cursor to the end of the file
+dgg         # cut/delete from the cursor to the start of the file
+y           # yank (copy)
+p           # paste below
+P           # paste above
+u           # undo
+CTRL+r      # redo
+O           # open a new line above and enter Insert mode
+o           # open a new line below and enter Insert mode
+cW          # replace the current word and enter Insert mode
+C           # delete from the cursor to the end of the line and enter Insert mode
+i » CTRL+y  # copy the character above the cursor
+A           # move to the end of the line and enter Insert mode
+ZZ          # save and quit
 ```
 
 ## Navigation Commands
@@ -73,18 +73,18 @@ ZZ              # save and quit
 I strongly recommend **not** using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
 
 ```bash
-/foobar         # search forward for "foobar"
-12gg            # jump to line 12
-CTRL+i          # jump forward in the jump list
-CTRL+o          # jump backward in the jump list
-0               # jump to the beginning of the line
-gg              # jump to the start of the file
-G               # jump to the end of the file
-W               # jump to the next word
-B               # jump to the previous word
-v               # enter in Visual inline mode
-V               # enter in Visual lines mode
-CTRL+v          # enter in Visual block mode
+/foobar   # search forward for "foobar"
+12gg      # jump to line 12
+CTRL+i    # jump forward in the jump list
+CTRL+o    # jump backward in the jump list
+0         # jump to the beginning of the line
+gg        # jump to the start of the file
+G         # jump to the end of the file
+W         # jump to the next word
+B         # jump to the previous word
+v         # enter in Visual inline mode
+V         # enter in Visual lines mode
+CTRL+v    # enter in Visual block mode
 ```
 
 ## Fixing YAML Indentation

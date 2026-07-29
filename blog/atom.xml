@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-28T04:12:40.384907+00:00</updated>
+  <updated>2026-07-29T02:21:29.506404+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -26,16 +26,16 @@
 &lt;p&gt;This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;                      &lt;span class="c"&gt;&amp;quot; Show line numbers.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ai&lt;/span&gt;                      &lt;span class="c"&gt;&amp;quot; Preserve indentation while editing.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;                      &lt;span class="c"&gt;&amp;quot; Convert tabs into spaces.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;                    &lt;span class="c"&gt;&amp;quot; Display tabs as two spaces.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;                    &lt;span class="c"&gt;&amp;quot; Indent and unindent using two spaces.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;                   &lt;span class="c"&gt;&amp;quot; Make Tab and Backspace use two-space indentation.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;                     &lt;span class="c"&gt;&amp;quot; Highlight search matches.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;                 &lt;span class="c"&gt;&amp;quot; Enable mouse support for cursor position.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;                     &lt;span class="c"&gt;&amp;quot; Highlight the current cursor column.&lt;/span&gt;
-&lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;                   &lt;span class="c"&gt;&amp;quot; Enable syntax highlighting.&lt;/span&gt;
+&lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Show line numbers.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ai&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Preserve indentation while editing.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Convert tabs into spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Display tabs as two spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Indent and unindent using two spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Make Tab and Backspace use two-space indentation.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; Enable mouse support for cursor position.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; Highlight search matches.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; Highlight the current cursor column.&lt;/span&gt;
+&lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Enable syntax highlighting.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -50,41 +50,41 @@
 &lt;section id="essential-editing-commands"&gt;
 &lt;h2&gt;Essential Editing Commands&lt;/h2&gt;
 &lt;p&gt;These are the commands you’ll use most often. They let you navigate, copy, delete, replace, and repeat edits without leaving Normal mode, making common editing tasks much faster.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;.&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# repeat the last command&lt;/span&gt;
-~&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# toggle character case&lt;/span&gt;
-dd&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete the current line&lt;/span&gt;
-dG&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete from the cursor to the end of the file&lt;/span&gt;
-dgg&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete from the cursor to the start of the file&lt;/span&gt;
-y&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# yank (copy)&lt;/span&gt;
-p&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# paste below&lt;/span&gt;
-P&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# paste above&lt;/span&gt;
-u&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# undo&lt;/span&gt;
-CTRL+r&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# redo&lt;/span&gt;
-O&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# open a new line above and enter Insert mode&lt;/span&gt;
-o&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# open a new line below and enter Insert mode&lt;/span&gt;
-cW&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# replace the current word and enter Insert mode&lt;/span&gt;
-C&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# delete from the cursor to the end of the line and enter Insert mode&lt;/span&gt;
-i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# copy the character above the cursor&lt;/span&gt;
-A&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# move to the end of the line and enter Insert mode&lt;/span&gt;
-ZZ&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# save and quit&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;.&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# repeat the last command&lt;/span&gt;
+~&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# toggle character case&lt;/span&gt;
+dd&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete the current line&lt;/span&gt;
+dG&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete from the cursor to the end of the file&lt;/span&gt;
+dgg&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# cut/delete from the cursor to the start of the file&lt;/span&gt;
+y&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# yank (copy)&lt;/span&gt;
+p&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# paste below&lt;/span&gt;
+P&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# paste above&lt;/span&gt;
+u&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# undo&lt;/span&gt;
+CTRL+r&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# redo&lt;/span&gt;
+O&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# open a new line above and enter Insert mode&lt;/span&gt;
+o&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# open a new line below and enter Insert mode&lt;/span&gt;
+cW&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# replace the current word and enter Insert mode&lt;/span&gt;
+C&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# delete from the cursor to the end of the line and enter Insert mode&lt;/span&gt;
+i&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;CTRL+y&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# copy the character above the cursor&lt;/span&gt;
+A&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# move to the end of the line and enter Insert mode&lt;/span&gt;
+ZZ&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# save and quit&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
 &lt;section id="navigation-commands"&gt;
 &lt;h2&gt;Navigation Commands&lt;/h2&gt;
 &lt;p&gt;I strongly recommend &lt;strong&gt;not&lt;/strong&gt; using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/foobar&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# search forward for &amp;quot;foobar&amp;quot;&lt;/span&gt;
-12gg&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="c1"&gt;# jump to line 12&lt;/span&gt;
-CTRL+i&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# jump forward in the jump list&lt;/span&gt;
-CTRL+o&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# jump backward in the jump list&lt;/span&gt;
-&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to the beginning of the line&lt;/span&gt;
-gg&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="c1"&gt;# jump to the start of the file&lt;/span&gt;
-G&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to the end of the file&lt;/span&gt;
-W&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to the next word&lt;/span&gt;
-B&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# jump to the previous word&lt;/span&gt;
-v&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# enter in Visual inline mode&lt;/span&gt;
-V&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# enter in Visual lines mode&lt;/span&gt;
-CTRL+v&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# enter in Visual block mode&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/foobar&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# search forward for &amp;quot;foobar&amp;quot;&lt;/span&gt;
+12gg&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# jump to line 12&lt;/span&gt;
+CTRL+i&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# jump forward in the jump list&lt;/span&gt;
+CTRL+o&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# jump backward in the jump list&lt;/span&gt;
+&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# jump to the beginning of the line&lt;/span&gt;
+gg&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# jump to the start of the file&lt;/span&gt;
+G&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# jump to the end of the file&lt;/span&gt;
+W&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# jump to the next word&lt;/span&gt;
+B&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# jump to the previous word&lt;/span&gt;
+v&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# enter in Visual inline mode&lt;/span&gt;
+V&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# enter in Visual lines mode&lt;/span&gt;
+CTRL+v&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# enter in Visual block mode&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
@@ -279,16 +279,16 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;p&gt;Create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;                      &lt;span class="c"&gt;&amp;quot; Show line numbers.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ai&lt;/span&gt;                      &lt;span class="c"&gt;&amp;quot; Preserve indentation while editing.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;                      &lt;span class="c"&gt;&amp;quot; Convert tabs into spaces.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;                    &lt;span class="c"&gt;&amp;quot; Display tabs as two spaces.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;                    &lt;span class="c"&gt;&amp;quot; Indent and unindent using two spaces.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;                   &lt;span class="c"&gt;&amp;quot; Make Tab and Backspace use two-space indentation.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;                     &lt;span class="c"&gt;&amp;quot; Highlight search matches.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;                 &lt;span class="c"&gt;&amp;quot; Enable mouse support for cursor position.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;                     &lt;span class="c"&gt;&amp;quot; Highlight the current cursor column.&lt;/span&gt;
-&lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;                   &lt;span class="c"&gt;&amp;quot; Enable syntax highlighting.&lt;/span&gt;
+&lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Show line numbers.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ai&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Preserve indentation while editing.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Convert tabs into spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Display tabs as two spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Indent and unindent using two spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Make Tab and Backspace use two-space indentation.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;c&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; Enable mouse support for cursor position.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hls&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; Highlight search matches.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;cuc&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; Highlight the current cursor column.&lt;/span&gt;
+&lt;span class="nb"&gt;syntax&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Enable syntax highlighting.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -316,17 +316,14 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.bashrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;### omitted the .bashrc copied from question node&lt;/span&gt;
 
-&lt;span class="c1"&gt;# create a quick backup command `$ bkp &amp;lt;file&amp;gt;` to copy a file by appending .bkp&lt;/span&gt;
-bkp&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;cp&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;.bkp&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
-
 &lt;span class="c1"&gt;# kubectl aliases&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;k&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kgp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl get pods&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kd&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl describe&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;klf&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl logs -f&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kgs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl get svc&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kgn&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl get nodes&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kd&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl describe&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;ke&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl get endpoints&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kgno&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl get nodes&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kaf&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl apply -f&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kdel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl delete --now&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kdelp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl delete pod --now&amp;quot;&lt;/span&gt;
