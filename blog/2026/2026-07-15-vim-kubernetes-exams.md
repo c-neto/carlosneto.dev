@@ -12,8 +12,6 @@ category: kubernetes
 
 This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.
 
-For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post, *[Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)](2026-07-09-workstation-setup-kubernetes-exams.md)*.
-
 ## Vim: A Necessary Evil
 
 I'm a heavy _[VS Code](https://code.visualstudio.com/)_ user and not a Vim fan. In my opinion, Vim's shortcuts and commands are confusing and unintuitive. However, one thing is undeniable: __Vim is an indirect requirement for Linux Foundation exams.__
@@ -207,6 +205,8 @@ Beyond filtering and editing text, you can pass your unsaved buffer into externa
 
 Take a look at the following material that I used to master Vim.
 
-- Cheatsheet: https://vim.rtorr.com/
-- VIM Lab: https://www.vimified.com/
-- VIM Guide: https://learnvim.irian.to/basics/starting_vim
+- Cheatsheet: <https://vim.rtorr.com/>
+- VIM Lab: <https://www.vimified.com/>
+- VIM Guide: <https://learnvim.irian.to/basics/starting_vim>
+
+> _For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post [Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)](2026-07-09-workstation-setup-kubernetes-exams.md)._
