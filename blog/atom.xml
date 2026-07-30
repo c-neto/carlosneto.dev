@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-29T17:18:51.014946+00:00</updated>
+  <updated>2026-07-30T01:38:35.768155+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -41,7 +41,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: &lt;em&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; don’t work in the exams workstations.&lt;/em&gt;&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The exam connection is very laggy, so avoid enabling mouse operations in Vim with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt;. Also, the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; setting does not work on the exam workstations._&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Each exam task is performed on a different remote node. Before starting a task, copy your local &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; to the target question machine:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
@@ -76,8 +76,6 @@ ZZ&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# save and
 &lt;p&gt;I strongly recommend &lt;strong&gt;not&lt;/strong&gt; using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/foobar&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# search forward for &amp;quot;foobar&amp;quot;&lt;/span&gt;
 12gg&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# jump to line 12&lt;/span&gt;
-CTRL+i&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# jump forward in the jump list&lt;/span&gt;
-CTRL+o&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# jump backward in the jump list&lt;/span&gt;
 &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# jump to the beginning of the line&lt;/span&gt;
 gg&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# jump to the start of the file&lt;/span&gt;
 G&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# jump to the end of the file&lt;/span&gt;
@@ -134,9 +132,8 @@ cW&lt;span class="w"&gt;                  &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;replacement&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# 3. type the replacement&lt;/span&gt;
 n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 4. jump to the next occurrence&lt;/span&gt;
 .&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 5. repeat the replacement&lt;/span&gt;
-n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 6. skip this occurrence if desired&lt;/span&gt;
-n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 7. jump to the next occurrence&lt;/span&gt;
-SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 8. go back to previous selection&lt;/span&gt;
+n&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 6. jump forward in the match list&lt;/span&gt;
+SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 8. jump backward in the match list&lt;/span&gt;
 .&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# 9. repeat the replacement&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -183,6 +180,11 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;&lt;strong&gt;INFO:&lt;/strong&gt; In Vim, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;:w&lt;/span&gt;&lt;/code&gt; normally saves to a file. But when followed by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;!&lt;/span&gt;&lt;/code&gt;, it redirects your buffer’s content to an external command’s standard input (STDIN) instead of writing to disk.&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
+&lt;p&gt;Another useful trick is saving files without opening them with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;sudo&lt;/span&gt; &lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt;. This approach is particularly handy because when you edit a file using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;sudo&lt;/span&gt; &lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt;, your personal &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; configuration does not apply to the root user.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:w&lt;span class="w"&gt; &lt;/span&gt;!sudo&lt;span class="w"&gt; &lt;/span&gt;tee&lt;span class="w"&gt; &lt;/span&gt;%
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This situation commonly occurs when editing files such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/kubernetes/manifests/kube-apiserver.yaml&lt;/span&gt;&lt;/code&gt;, which require root privileges. Instead of reopening the file as root, you can save the current buffer with elevated permissions:&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="learn-more"&gt;
 &lt;h2&gt;Learn More&lt;/h2&gt;
@@ -300,7 +302,7 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;strong&gt;WARNING:&lt;/strong&gt; Avoid &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt;. The exam workstations have significantly higher latency than the Killer Shell simulation environment, making mouse operations slow and unreliable. Use the mouse only for scrolling.&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The exam connection is very laggy, so avoid enabling mouse operations in Vim with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt;. Also, the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; setting does not work on the exam workstations.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Copy the file to the remote node for the exam question (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
@@ -324,15 +326,17 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 
 &lt;span class="c1"&gt;# kubectl aliases&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;k&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl&amp;quot;&lt;/span&gt;
+
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kgp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl get pods&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kd&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl describe&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;klf&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl logs -f&amp;quot;&lt;/span&gt;
+
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kgs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl get svc&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;ke&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl get endpoints&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kgno&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl get nodes&amp;quot;&lt;/span&gt;
+
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kaf&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl apply -f&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kdel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl delete --now&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kdelp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl delete pod --now&amp;quot;&lt;/span&gt;
+
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kns&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl config set-context --current --namespace&amp;quot;&lt;/span&gt;
 &lt;span class="nb"&gt;alias&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kctx&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;kubectl config use-context&amp;quot;&lt;/span&gt;
 

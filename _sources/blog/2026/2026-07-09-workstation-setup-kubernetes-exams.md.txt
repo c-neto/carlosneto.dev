@@ -114,8 +114,7 @@ set cuc       " Highlight the current cursor column.
 syntax on     " Enable syntax highlighting.
 ```
 
-> __WARNING:__ Avoid `set mouse=a`. The exam workstations have significantly higher latency than the Killer Shell simulation environment, making mouse operations slow and unreliable. Use the mouse only for scrolling.
-
+> *__NOTE__: The exam connection is very laggy, so avoid enabling mouse operations in Vim with `set mouse=a`. Also, the `clipboard+=unnamedplus,autoselect` setting does not work on the exam workstations.*
 
 Copy the file to the remote node for the exam question (for example, `node01`):
 
@@ -146,15 +145,17 @@ Append the following aliases to the end of the file:
 
 # kubectl aliases
 alias k="kubectl"
+
 alias kgp="kubectl get pods"
 alias kd="kubectl describe"
-alias klf="kubectl logs -f"
+
 alias kgs="kubectl get svc"
 alias ke="kubectl get endpoints"
-alias kgno="kubectl get nodes"
+
 alias kaf="kubectl apply -f"
 alias kdel="kubectl delete --now"
 alias kdelp="kubectl delete pod --now"
+
 alias kns="kubectl config set-context --current --namespace"
 alias kctx="kubectl config use-context"
 

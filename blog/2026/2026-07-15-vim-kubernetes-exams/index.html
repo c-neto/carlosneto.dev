@@ -421,7 +421,7 @@
 </div>
 </div>
 <blockquote>
-<div><p><strong>NOTE</strong>: <em><code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">clipboard+=unnamedplus,autoselect</span></code> don’t work in the exams workstations.</em></p>
+<div><p><em><strong>NOTE</strong>: The exam connection is very laggy, so avoid enabling mouse operations in Vim with <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code>. Also, the <code class="docutils literal notranslate"><span class="pre">clipboard+=unnamedplus,autoselect</span></code> setting does not work on the exam workstations._</em></p>
 </div></blockquote>
 <p>Each exam task is performed on a different remote node. Before starting a task, copy your local <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> to the target question machine:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
@@ -456,8 +456,6 @@ ZZ<span class="w">          </span><span class="c1"># save and quit</span>
 <p>I strongly recommend <strong>not</strong> using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/foobar<span class="w">   </span><span class="c1"># search forward for &quot;foobar&quot;</span>
 12gg<span class="w">      </span><span class="c1"># jump to line 12</span>
-CTRL+i<span class="w">    </span><span class="c1"># jump forward in the jump list</span>
-CTRL+o<span class="w">    </span><span class="c1"># jump backward in the jump list</span>
 <span class="m">0</span><span class="w">         </span><span class="c1"># jump to the beginning of the line</span>
 gg<span class="w">        </span><span class="c1"># jump to the start of the file</span>
 G<span class="w">         </span><span class="c1"># jump to the end of the file</span>
@@ -514,9 +512,8 @@ cW<span class="w">                  </span><span class="c1"># 2. replace the cur
 <span class="nb">type</span><span class="w"> </span>replacement<span class="w">    </span><span class="c1"># 3. type the replacement</span>
 n<span class="w">                   </span><span class="c1"># 4. jump to the next occurrence</span>
 .<span class="w">                   </span><span class="c1"># 5. repeat the replacement</span>
-n<span class="w">                   </span><span class="c1"># 6. skip this occurrence if desired</span>
-n<span class="w">                   </span><span class="c1"># 7. jump to the next occurrence</span>
-SHIFT+n<span class="w">             </span><span class="c1"># 8. go back to previous selection</span>
+n<span class="w">                   </span><span class="c1"># 6. jump forward in the match list</span>
+SHIFT+n<span class="w">             </span><span class="c1"># 8. jump backward in the match list</span>
 .<span class="w">                   </span><span class="c1"># 9. repeat the replacement</span>
 </pre></div>
 </div>
@@ -563,6 +560,11 @@ SHIFT+n<span class="w">             </span><span class="c1"># 8. go back to prev
 <blockquote>
 <div><p><strong>INFO:</strong> In Vim, <code class="docutils literal notranslate"><span class="pre">:w</span></code> normally saves to a file. But when followed by <code class="docutils literal notranslate"><span class="pre">!</span></code>, it redirects your buffer’s content to an external command’s standard input (STDIN) instead of writing to disk.</p>
 </div></blockquote>
+<p>Another useful trick is saving files without opening them with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">vim</span></code>. This approach is particularly handy because when you edit a file using <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">vim</span></code>, your personal <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> configuration does not apply to the root user.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:w<span class="w"> </span>!sudo<span class="w"> </span>tee<span class="w"> </span>%
+</pre></div>
+</div>
+<p>This situation commonly occurs when editing files such as <code class="docutils literal notranslate"><span class="pre">/etc/kubernetes/manifests/kube-apiserver.yaml</span></code>, which require root privileges. Instead of reopening the file as root, you can save the current buffer with elevated permissions:</p>
 </section>
 <section id="learn-more">
 <h2>Learn More<a class="headerlink" href="#learn-more" title="Link to this heading">#</a></h2>

@@ -480,7 +480,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </div>
 </div>
 <blockquote>
-<div><p><strong>WARNING:</strong> Avoid <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code>. The exam workstations have significantly higher latency than the Killer Shell simulation environment, making mouse operations slow and unreliable. Use the mouse only for scrolling.</p>
+<div><p><em><strong>NOTE</strong>: The exam connection is very laggy, so avoid enabling mouse operations in Vim with <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code>. Also, the <code class="docutils literal notranslate"><span class="pre">clipboard+=unnamedplus,autoselect</span></code> setting does not work on the exam workstations.</em></p>
 </div></blockquote>
 <p>Copy the file to the remote node for the exam question (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
@@ -504,15 +504,17 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 
 <span class="c1"># kubectl aliases</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">k</span><span class="o">=</span><span class="s2">&quot;kubectl&quot;</span>
+
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kgp</span><span class="o">=</span><span class="s2">&quot;kubectl get pods&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kd</span><span class="o">=</span><span class="s2">&quot;kubectl describe&quot;</span>
-<span class="nb">alias</span><span class="w"> </span><span class="nv">klf</span><span class="o">=</span><span class="s2">&quot;kubectl logs -f&quot;</span>
+
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kgs</span><span class="o">=</span><span class="s2">&quot;kubectl get svc&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">ke</span><span class="o">=</span><span class="s2">&quot;kubectl get endpoints&quot;</span>
-<span class="nb">alias</span><span class="w"> </span><span class="nv">kgno</span><span class="o">=</span><span class="s2">&quot;kubectl get nodes&quot;</span>
+
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kaf</span><span class="o">=</span><span class="s2">&quot;kubectl apply -f&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kdel</span><span class="o">=</span><span class="s2">&quot;kubectl delete --now&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kdelp</span><span class="o">=</span><span class="s2">&quot;kubectl delete pod --now&quot;</span>
+
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kns</span><span class="o">=</span><span class="s2">&quot;kubectl config set-context --current --namespace&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kctx</span><span class="o">=</span><span class="s2">&quot;kubectl config use-context&quot;</span>
 
