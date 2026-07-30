@@ -503,7 +503,7 @@ ESC<span class="w">             </span><span class="c1"># 5. apply the change to
 <p>When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.</p>
 <p>To replace every occurrence of a string:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%s/foo/bar/g<span class="w">                            </span><span class="c1"># replace &quot;foo&quot; with &quot;bar&quot;</span>
-:%s#/etec/kubernets/#/etc/kubernetes/#g<span class="w">  </span><span class="c1"># replace &quot;/etec/kubernets&quot; with &quot;/etc/kubernetes/&quot;</span>
+:%s#/etec/kubernets/#/etc/kubernetes/#g<span class="w">  </span><span class="c1"># replace &quot;/etec/kubernets/&quot; with &quot;/etc/kubernetes/&quot;</span>
 </pre></div>
 </div>
 <p>Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:</p>

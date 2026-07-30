@@ -132,7 +132,7 @@ To replace every occurrence of a string:
 
 ```bash
 :%s/foo/bar/g                            # replace "foo" with "bar"
-:%s#/etec/kubernets/#/etc/kubernetes/#g  # replace "/etec/kubernets" with "/etc/kubernetes/"
+:%s#/etec/kubernets/#/etc/kubernetes/#g  # replace "/etec/kubernets/" with "/etc/kubernetes/"
 ```
 
 Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:
