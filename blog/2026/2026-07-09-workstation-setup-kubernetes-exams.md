@@ -114,7 +114,7 @@ set cuc       " Highlight the current cursor column.
 syntax on     " Enable syntax highlighting.
 ```
 
-> *__NOTE__: Avoid using `set mouse=a` due to the exam workstation's high connection latency. Also, the `clipboard+=unnamedplus,autoselect` setting does not work on the exam workstations.*
+> *__NOTE__: Avoid using `set mouse=a` due to the exam workstation's high connection latency. Also, the clipboard settings with `clipboard+=unnamedplus,autoselect` does not work on the exam workstations.*
 
 Copy the file to the remote node for the exam question (for example, `node01`):
 
