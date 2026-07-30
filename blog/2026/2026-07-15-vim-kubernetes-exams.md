@@ -38,7 +38,7 @@ set cuc       " Highlight the current cursor column.
 syntax on     " Enable syntax highlighting.
 ```
 
-> __NOTE__: _`set clipboard+=unnamedplus,autoselect` don't work in the exams workstations._
+> *__NOTE__: The exam connection is very laggy, so avoid enabling mouse operations in Vim with `set mouse=a`. Also, the `clipboard+=unnamedplus,autoselect` setting does not work on the exam workstations._*
 
 Each exam task is performed on a different remote node. Before starting a task, copy your local `~/.vimrc` to the target question machine:
 
@@ -77,8 +77,6 @@ I strongly recommend __not__ using `set mouse=a` during the exam. The remote exa
 ```bash
 /foobar   # search forward for "foobar"
 12gg      # jump to line 12
-CTRL+i    # jump forward in the jump list
-CTRL+o    # jump backward in the jump list
 0         # jump to the beginning of the line
 gg        # jump to the start of the file
 G         # jump to the end of the file
@@ -145,9 +143,8 @@ cW                  # 2. replace the current occurrence
 type replacement    # 3. type the replacement
 n                   # 4. jump to the next occurrence
 .                   # 5. repeat the replacement
-n                   # 6. skip this occurrence if desired
-n                   # 7. jump to the next occurrence
-SHIFT+n             # 8. go back to previous selection
+n                   # 6. jump forward in the match list
+SHIFT+n             # 8. jump backward in the match list
 .                   # 9. repeat the replacement
 ```
 
@@ -200,6 +197,14 @@ Beyond filtering and editing text, you can pass your unsaved buffer into externa
 ```
 
 > __INFO:__ In Vim, `:w` normally saves to a file. But when followed by `!`, it redirects your buffer’s content to an external command's standard input (STDIN) instead of writing to disk.
+
+Another useful trick is saving files without opening them with `sudo vim`. This approach is particularly handy because when you edit a file using `sudo vim`, your personal `~/.vimrc` configuration does not apply to the root user.
+
+```bash
+:w !sudo tee %
+```
+
+This situation commonly occurs when editing files such as `/etc/kubernetes/manifests/kube-apiserver.yaml`, which require root privileges. Instead of reopening the file as root, you can save the current buffer with elevated permissions:
 
 ## Learn More
 
