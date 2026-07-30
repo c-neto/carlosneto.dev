@@ -204,7 +204,7 @@ Another useful trick is saving files without opening them with `sudo vim`. This 
 :w !sudo tee %
 ```
 
-This situation commonly occurs when editing files such as `/etc/kubernetes/manifests/kube-apiserver.yaml`, which require root privileges. Instead of reopening the file as root, you can save the current buffer with elevated permissions:
+This situation commonly occurs when editing files such as `/etc/kubernetes/manifests/kube-apiserver.yaml`, which require root privileges. Instead of reopening the file as root, you can save the current buffer with elevated permissions.
 
 ## Learn More
 
