@@ -32,7 +32,6 @@ set et        " Convert tabs into spaces.
 set ts=2      " Display tabs as two spaces.
 set sw=2      " Indent and unindent using two spaces.
 set sts=2     " Make Tab and Backspace use two-space indentation.
-set mouse=c   " Enable mouse support for cursor position.
 set hls       " Highlight search matches.
 set cuc       " Highlight the current cursor column.
 syntax on     " Enable syntax highlighting.
