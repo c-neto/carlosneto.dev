@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-30T02:16:50.029683+00:00</updated>
+  <updated>2026-07-30T02:17:42.176191+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -184,7 +184,7 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:w&lt;span class="w"&gt; &lt;/span&gt;!sudo&lt;span class="w"&gt; &lt;/span&gt;tee&lt;span class="w"&gt; &lt;/span&gt;%
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;This situation commonly occurs when editing files such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/kubernetes/manifests/kube-apiserver.yaml&lt;/span&gt;&lt;/code&gt;, which require root privileges. Instead of reopening the file as root, you can save the current buffer with elevated permissions:&lt;/p&gt;
+&lt;p&gt;This situation commonly occurs when editing files such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/kubernetes/manifests/kube-apiserver.yaml&lt;/span&gt;&lt;/code&gt;, which require root privileges. Instead of reopening the file as root, you can save the current buffer with elevated permissions.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="learn-more"&gt;
 &lt;h2&gt;Learn More&lt;/h2&gt;
