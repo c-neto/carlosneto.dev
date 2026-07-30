@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-30T02:12:44.781589+00:00</updated>
+  <updated>2026-07-30T02:13:18.351253+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -29,7 +29,7 @@
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Show line numbers.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ai&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Preserve indentation while editing.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Convert tabs into spaces (useful for pasting examples that contain tabs)&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Convert tabs into spaces.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Display tabs as two spaces.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Indent and unindent using two spaces.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Make Tab and Backspace use two-space indentation.&lt;/span&gt;
