@@ -480,7 +480,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </div>
 </div>
 <blockquote>
-<div><p><em><strong>NOTE</strong>: The exam connection is very laggy, so avoid enabling mouse operations in Vim with <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code>. Also, the <code class="docutils literal notranslate"><span class="pre">clipboard+=unnamedplus,autoselect</span></code> setting does not work on the exam workstations.</em></p>
+<div><p><em><strong>NOTE</strong>: Avoid using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> due to the exam workstation’s high connection latency. Also, the clipboard settings with <code class="docutils literal notranslate"><span class="pre">clipboard+=unnamedplus,autoselect</span></code> does not work on the exam workstations.</em></p>
 </div></blockquote>
 <p>Copy the file to the remote node for the exam question (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc

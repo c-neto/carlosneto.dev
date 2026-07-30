@@ -38,7 +38,7 @@ set cuc       " Highlight the current cursor column.
 syntax on     " Enable syntax highlighting.
 ```
 
-> *__NOTE__: The exam connection is very laggy, so avoid enabling mouse operations in Vim with `set mouse=a`. Also, the `clipboard+=unnamedplus,autoselect` setting does not work on the exam workstations._*
+> *__NOTE__: Avoid using `set mouse=a` due to the exam workstation's high connection latency. Also, the clipboard settings with `clipboard+=unnamedplus,autoselect` does not work on the exam workstations.*
 
 Each exam task is performed on a different remote node. Before starting a task, copy your local `~/.vimrc` to the target question machine:
 

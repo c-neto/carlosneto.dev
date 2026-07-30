@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-30T01:38:35.768155+00:00</updated>
+  <updated>2026-07-30T02:05:57.664500+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -41,7 +41,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The exam connection is very laggy, so avoid enabling mouse operations in Vim with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt;. Also, the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; setting does not work on the exam workstations._&lt;/em&gt;&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Avoid using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; due to the exam workstation’s high connection latency. Also, the clipboard settings with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; does not work on the exam workstations.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Each exam task is performed on a different remote node. Before starting a task, copy your local &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; to the target question machine:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
@@ -302,7 +302,7 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The exam connection is very laggy, so avoid enabling mouse operations in Vim with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt;. Also, the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; setting does not work on the exam workstations.&lt;/em&gt;&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Avoid using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; due to the exam workstation’s high connection latency. Also, the clipboard settings with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; does not work on the exam workstations.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Copy the file to the remote node for the exam question (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
