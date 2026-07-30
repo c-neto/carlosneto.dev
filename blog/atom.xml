@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-07-30T02:05:57.664500+00:00</updated>
+  <updated>2026-07-30T02:12:44.781589+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -20,7 +20,7 @@
 &lt;h2&gt;Vim: A Necessary Evil&lt;/h2&gt;
 &lt;p&gt;I’m a heavy &lt;em&gt;&lt;a class="reference external" href="https://code.visualstudio.com/"&gt;VS Code&lt;/a&gt;&lt;/em&gt; user and not a Vim fan. In my opinion, Vim’s shortcuts and commands are confusing and unintuitive. However, one thing is undeniable: &lt;strong&gt;Vim is an indirect requirement for Linux Foundation exams.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Although the exam workstation includes &lt;em&gt;&lt;a class="reference external" href="https://vscodium.com/"&gt;VS Codium&lt;/a&gt;&lt;/em&gt; (&lt;em&gt;the free and open-source binaries of VS Code&lt;/em&gt;), using it is generally not a good idea. The connection to the exam workstation has &lt;strong&gt;high latency&lt;/strong&gt;, making mouse operations slow and unreliable. More importantly, all exam tasks are performed on remote nodes over SSH, where &lt;em&gt;VS Codium&lt;/em&gt; is unavailable. To edit files in &lt;em&gt;VS Codium&lt;/em&gt;, you would first need to copy the file contents from your SSH session and then paste them into the editor. This workflow is highly impractical and wastes valuable exam time.&lt;/p&gt;
-&lt;p&gt;If you’re not a Vim fan like me, I have good news: &lt;strong&gt;you don’t need to become a Vim expert to pass the Kubernetes certification exams&lt;/strong&gt;. A minimal configuration and a handful of well-practiced commands are all you need to edit Kubernetes YAML manifests quickly and confidently under exam conditions. Focus on building muscle memory with the commands presented in this guide. The less time you spend fighting the editor, the more time you’ll have to solve the Kubernetes problems that actually determine your exam score.&lt;/p&gt;
+&lt;p&gt;If you’re not a Vim fan like me, I have good news: &lt;strong&gt;you don’t need to become a Vim expert to pass the Kubernetes certification exams&lt;/strong&gt;. Focus only on building muscle memory by mastering the commands you’ll use to edit Kubernetes YAML manifests under exam conditions. The less time you spend fighting the editor, the more time you’ll have to solve the Kubernetes problems that actually determine your exam score.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="vim-configuration"&gt;
 &lt;h2&gt;Vim Configuration&lt;/h2&gt;
@@ -29,7 +29,7 @@
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Show line numbers.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ai&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Preserve indentation while editing.&lt;/span&gt;
-&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Convert tabs into spaces.&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;et&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Convert tabs into spaces (useful for pasting examples that contain tabs)&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Display tabs as two spaces.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Indent and unindent using two spaces.&lt;/span&gt;
 &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;sts&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; Make Tab and Backspace use two-space indentation.&lt;/span&gt;

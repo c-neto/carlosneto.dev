@@ -18,7 +18,7 @@ I'm a heavy _[VS Code](https://code.visualstudio.com/)_ user and not a Vim fan. 
 
 Although the exam workstation includes _[VS Codium](https://vscodium.com/)_ (*the free and open-source binaries of VS Code*), using it is generally not a good idea. The connection to the exam workstation has __high latency__, making mouse operations slow and unreliable. More importantly, all exam tasks are performed on remote nodes over SSH, where _VS Codium_ is unavailable. To edit files in _VS Codium_, you would first need to copy the file contents from your SSH session and then paste them into the editor. This workflow is highly impractical and wastes valuable exam time.
 
-If you're not a Vim fan like me, I have good news: __you don't need to become a Vim expert to pass the Kubernetes certification exams__. A minimal configuration and a handful of well-practiced commands are all you need to edit Kubernetes YAML manifests quickly and confidently under exam conditions. Focus on building muscle memory with the commands presented in this guide. The less time you spend fighting the editor, the more time you'll have to solve the Kubernetes problems that actually determine your exam score.
+If you're not a Vim fan like me, I have good news: **you don't need to become a Vim expert to pass the Kubernetes certification exams**. Focus only on building muscle memory by mastering the commands you'll use to edit Kubernetes YAML manifests under exam conditions. The less time you spend fighting the editor, the more time you'll have to solve the Kubernetes problems that actually determine your exam score.
 
 ## Vim Configuration
 
@@ -28,7 +28,7 @@ This configuration is intentionally minimal and optimized for editing Kubernetes
 :caption: ~/.vimrc
 set nu        " Show line numbers.
 set ai        " Preserve indentation while editing.
-set et        " Convert tabs into spaces.
+set et        " Convert tabs into spaces (useful for pasting examples that contain tabs)
 set ts=2      " Display tabs as two spaces.
 set sw=2      " Indent and unindent using two spaces.
 set sts=2     " Make Tab and Backspace use two-space indentation.
