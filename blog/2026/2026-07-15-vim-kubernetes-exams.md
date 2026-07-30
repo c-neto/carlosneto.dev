@@ -28,7 +28,7 @@ This configuration is intentionally minimal and optimized for editing Kubernetes
 :caption: ~/.vimrc
 set nu        " Show line numbers.
 set ai        " Preserve indentation while editing.
-set et        " Convert tabs into spaces (useful for pasting examples that contain tabs)
+set et        " Convert tabs into spaces.
 set ts=2      " Display tabs as two spaces.
 set sw=2      " Indent and unindent using two spaces.
 set sts=2     " Make Tab and Backspace use two-space indentation.
