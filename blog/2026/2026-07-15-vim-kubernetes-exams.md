@@ -83,7 +83,7 @@ W         # jump to the next word
 B         # jump to the previous word
 v         # enter in Visual inline mode (lowercase)
 V         # enter in Visual lines mode (uppercase)
-CTRL+v    # enter in Visual block mode
+CTRL+v    # enter in Visual block mode (lowercase)
 ```
 
 ## Fixing YAML Indentation
