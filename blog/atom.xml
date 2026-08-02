@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-02T04:33:37.948501+00:00</updated>
+  <updated>2026-08-02T19:15:31.266832+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -15,7 +15,7 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="vim-for-kubernetes-certification-exams-cka-ckad-cks"&gt;
 
-&lt;p&gt;This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.&lt;/p&gt;
+&lt;p&gt;This post focuses on the minimal Vim configuration and the editing techniques I use during Kubernetes certifications exams by Linux Foundation. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.&lt;/p&gt;
 &lt;section id="vim-less-mouse-more-efficiency"&gt;
 &lt;h2&gt;Vim: Less Mouse, More Efficiency&lt;/h2&gt;
 &lt;p&gt;The exam workstation includes &lt;em&gt;&lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt;&lt;/em&gt; (&lt;em&gt;the free and open-source binaries of VS Code&lt;/em&gt;), but it’s not a practical option during the exam. All exam tasks are performed on remote nodes over SSH, where &lt;em&gt;VSCodium&lt;/em&gt; is unavailable. To edit a file in &lt;em&gt;VSCodium&lt;/em&gt;, you would first need to copy its contents from the SSH session, paste them into the editor, edit the content, and then copy the changes back. This workflow is cumbersome and wastes valuable exam time.&lt;/p&gt;
@@ -196,7 +196,7 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/"/>
-    <summary>Blog Post Publish Date: 2026/07/15This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.</summary>
+    <summary>Blog Post Publish Date: 2026/07/15This post focuses on the minimal Vim configuration and the editing techniques I use during Kubernetes certifications exams by Linux Foundation. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.</summary>
     <category term="cka" label="cka"/>
     <category term="ckad" label="ckad"/>
     <category term="cks" label="cks"/>

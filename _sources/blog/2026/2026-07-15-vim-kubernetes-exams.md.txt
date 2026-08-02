@@ -10,7 +10,7 @@ category: kubernetes
 
 # Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)
 
-This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.
+This post focuses on the minimal Vim configuration and the editing techniques I use during Kubernetes certifications exams by Linux Foundation. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.
 
 ## Vim: Less Mouse, More Efficiency
 
