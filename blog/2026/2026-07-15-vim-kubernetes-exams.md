@@ -14,11 +14,11 @@ This post focuses on the minimal Vim configuration and the editing techniques I 
 
 ## Vim: A Necessary Evil
 
-I'm a heavy _[VS Code](https://code.visualstudio.com/)_ user and not a Vim fan. In my opinion, Vim's shortcuts and commands are confusing and unintuitive. However, one thing is undeniable: __Vim is an indirect requirement for Linux Foundation exams.__
+The exam workstation includes *[VSCodium](https://vscodium.com/)* (*the free and open-source binaries of VS Code*), but don't use it. All exam tasks are performed on remote nodes over SSH, where *VSCodium* is unavailable. To edit a file in *VSCodium*, you would first need to copy its contents from the SSH session, paste them into the editor, and then copy the changes back. This workflow is cumbersome and wastes valuable exam time.
 
-Although the exam workstation includes _[VS Codium](https://vscodium.com/)_ (*the free and open-source binaries of VS Code*), using it is generally not a good idea. The connection to the exam workstation has __high latency__, making mouse operations slow and unreliable. More importantly, all exam tasks are performed on remote nodes over SSH, where _VS Codium_ is unavailable. To edit files in _VS Codium_, you would first need to copy the file contents from your SSH session and then paste them into the editor. This workflow is highly impractical and wastes valuable exam time.
+On top of that, the remote connection to the exam workstation has **high latency**, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you'll be able to edit files. This is where Vim shines.
 
-If you're not a Vim fan like me, I have good news: **you don't need to become a Vim expert to pass the Kubernetes certification exams**. Focus only on building muscle memory by mastering the commands you'll use to edit Kubernetes YAML manifests under exam conditions. The less time you spend fighting the editor, the more time you'll have to solve the Kubernetes problems that actually determine your exam score.
+If you're not a Vim expert, I have good news: **you don't need to become one to pass the Kubernetes certification exams**. Focus on building muscle memory by mastering the small set of commands you'll use to edit YAML files under exam conditions. The less time you spend fighting the editor, the more time you'll have to solve the Kubernetes problems that actually determine your exam score.
 
 ## Vim Configuration
 
@@ -66,7 +66,7 @@ cW          # replace the current word and enter Insert mode
 C           # delete from the cursor to the end of the line and enter Insert mode
 i » CTRL+y  # copy the character above the cursor
 A           # move to the end of the line and enter Insert mode
-ZZ          # save and quit
+:wq         # save and quit (or ZZ)
 ```
 
 ## Navigation Commands
@@ -81,8 +81,8 @@ gg        # jump to the start of the file
 G         # jump to the end of the file
 W         # jump to the next word
 B         # jump to the previous word
-v         # enter in Visual inline mode
-V         # enter in Visual lines mode
+v         # enter in Visual inline mode (lowercase)
+V         # enter in Visual lines mode (uppercase)
 CTRL+v    # enter in Visual block mode
 ```
 
@@ -93,7 +93,7 @@ Indentation mistakes are one of the most common causes of invalid Kubernetes man
 To increase the indentation:
 
 ```bash
-V               # 1. enter Visual Line mode
+V               # 1. enter Visual Line mode (uppercase)
 select lines    # 2. select the lines
 >               # 3. SHIFT indentation right
 ESC             # 4. apply the change
@@ -137,7 +137,7 @@ To replace every occurrence of a string:
 Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:
 
 ```bash
-*                   # 1. search for the word under the cursor
+*                   # 1. search for the word under the cursor (or use "/foobar")
 cW                  # 2. replace the current occurrence
 type replacement    # 3. type the replacement
 n                   # 4. jump to the next occurrence
@@ -195,22 +195,22 @@ Beyond filtering and editing text, you can pass your unsaved buffer into externa
 :w !kubectl diff -f -
 ```
 
+You can run a command to check the output without exiting Vim. This is useful when you are editing a NetworkPolicy and need to know the labels of the pods and namespaces to edit the matchLabels statement.
+
+```bash
+:!kubectl get pods,ns --show-labels -n foobar
+```
+
 > __INFO:__ In Vim, `:w` normally saves to a file. But when followed by `!`, it redirects your buffer’s content to an external command's standard input (STDIN) instead of writing to disk.
 
-Another useful trick is saving files without opening them with `sudo vim`. This approach is particularly handy because when you edit a file using `sudo vim`, your personal `~/.vimrc` configuration does not apply to the root user.
+Another useful trick is saving files without opening them with `sudo vim`. This approach is particularly handy because when you edit a file using `sudo vim`, your personal `~/.vimrc` configuration does not apply to the root user. This is useful for editing files such as `/etc/falco/falco.yaml` that require root permissions.
 
 ```bash
 :w !sudo tee %
 ```
 
-This situation commonly occurs when editing files such as `/etc/kubernetes/manifests/kube-apiserver.yaml`, which require root privileges. Instead of reopening the file as root, you can save the current buffer with elevated permissions.
-
 ## Learn More
 
-Take a look at the following material that I used to master Vim.
+Take a look at the complete Vim cheatsheet <https://vim.rtorr.com/> for insights into more ways to improve performance.
 
-- Cheatsheet: <https://vim.rtorr.com/>
-- VIM Lab: <https://www.vimified.com/>
-- VIM Guide: <https://learnvim.irian.to/basics/starting_vim>
-
-> _For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post [Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)](2026-07-09-workstation-setup-kubernetes-exams.md)._
+For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post [Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)](2026-07-09-workstation-setup-kubernetes-exams.md).
