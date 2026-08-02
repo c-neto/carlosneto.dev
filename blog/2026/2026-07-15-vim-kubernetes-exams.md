@@ -12,11 +12,11 @@ category: kubernetes
 
 This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.
 
-## Vim: A Necessary Evil
+## Vim: Less Mouse, More Efficiency
 
 The exam workstation includes *[VSCodium](https://vscodium.com/)* (*the free and open-source binaries of VS Code*), but it's not a practical option during the exam. All exam tasks are performed on remote nodes over SSH, where *VSCodium* is unavailable. To edit a file in *VSCodium*, you would first need to copy its contents from the SSH session, paste them into the editor, edit the content, and then copy the changes back. This workflow is cumbersome and wastes valuable exam time.
 
-On top of that, the remote connection to the exam workstation has __high latency__, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you'll be able to edit files. This is where Vim shines.
+On top of that, the remote connection to the exam workstation has __high latency__, making mouse operations slow and unreliable. The less you use on the mouse, the faster you'll be able to edit files. This is where Vim shines.
 
 If you're not a Vim expert, I have good news: __you don't need to become vim hacker to pass the Kubernetes certification exams__. Focus on building muscle memory by mastering the small set of commands covered in this guide. These commands are all you need to edit Kubernetes YAML manifests efficiently under exam conditions.
 
@@ -130,8 +130,8 @@ When renaming resources, labels, namespaces, image names, or environment variabl
 To replace every occurrence of a string:
 
 ```bash
-:%s/foo/bar/g                            # replace "foo" with "bar"
-:%s#/etec/kubernets/#/etc/kubernetes/#g  # replace "/etec/kubernets/" with "/etc/kubernetes/"
+:%s/foo/bar/g                   # replace "foo" with "bar"
+:%s#/kubernets/#/kubernetes/#g  # replace "/kubernets/" with "/kubernetes/"
 ```
 
 Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:
