@@ -396,10 +396,10 @@
 <section id="vim-for-kubernetes-certification-exams-cka-ckad-cks">
 <h1>Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)<a class="headerlink" href="#vim-for-kubernetes-certification-exams-cka-ckad-cks" title="Link to this heading">#</a></h1>
 <p>This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.</p>
-<section id="vim-a-necessary-evil">
-<h2>Vim: A Necessary Evil<a class="headerlink" href="#vim-a-necessary-evil" title="Link to this heading">#</a></h2>
+<section id="vim-less-mouse-more-efficiency">
+<h2>Vim: Less Mouse, More Efficiency<a class="headerlink" href="#vim-less-mouse-more-efficiency" title="Link to this heading">#</a></h2>
 <p>The exam workstation includes <em><a class="reference external" href="https://vscodium.com/">VSCodium</a></em> (<em>the free and open-source binaries of VS Code</em>), but it’s not a practical option during the exam. All exam tasks are performed on remote nodes over SSH, where <em>VSCodium</em> is unavailable. To edit a file in <em>VSCodium</em>, you would first need to copy its contents from the SSH session, paste them into the editor, edit the content, and then copy the changes back. This workflow is cumbersome and wastes valuable exam time.</p>
-<p>On top of that, the remote connection to the exam workstation has <strong>high latency</strong>, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you’ll be able to edit files. This is where Vim shines.</p>
+<p>On top of that, the remote connection to the exam workstation has <strong>high latency</strong>, making mouse operations slow and unreliable. The less you use on the mouse, the faster you’ll be able to edit files. This is where Vim shines.</p>
 <p>If you’re not a Vim expert, I have good news: <strong>you don’t need to become vim hacker to pass the Kubernetes certification exams</strong>. Focus on building muscle memory by mastering the small set of commands covered in this guide. These commands are all you need to edit Kubernetes YAML manifests efficiently under exam conditions.</p>
 </section>
 <section id="vim-configuration">
@@ -501,8 +501,8 @@ ESC<span class="w">             </span><span class="c1"># 5. apply the change to
 <h2>Search and Replace<a class="headerlink" href="#search-and-replace" title="Link to this heading">#</a></h2>
 <p>When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.</p>
 <p>To replace every occurrence of a string:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%s/foo/bar/g<span class="w">                            </span><span class="c1"># replace &quot;foo&quot; with &quot;bar&quot;</span>
-:%s#/etec/kubernets/#/etc/kubernetes/#g<span class="w">  </span><span class="c1"># replace &quot;/etec/kubernets/&quot; with &quot;/etc/kubernetes/&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%s/foo/bar/g<span class="w">                   </span><span class="c1"># replace &quot;foo&quot; with &quot;bar&quot;</span>
+:%s#/kubernets/#/kubernetes/#g<span class="w">  </span><span class="c1"># replace &quot;/kubernets/&quot; with &quot;/kubernetes/&quot;</span>
 </pre></div>
 </div>
 <p>Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:</p>
