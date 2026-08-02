@@ -189,14 +189,6 @@ You can also apply the same logic to an entire file. For instance, to quickly fo
 :%!python -m json.tool
 ```
 
-Beyond filtering and editing text, you can pass your unsaved buffer into external commands without modifying the file or leaving Vim. For example, this command allows you to compare the manifest you are editing in the Kubernetes cluster without needing to save the file first.
-
-```bash
-:w !kubectl diff -f -
-```
-
-> *__INFO:__ `:w` normally saves to a file. But when followed by `!`, it redirects your buffer’s content to an external command's standard input (STDIN) instead of writing to disk.*
-
 You can run a command to check the output without exiting Vim. This is useful when you are editing a NetworkPolicy and need to know the labels of the pods and namespaces to edit the matchLabels statement.
 
 ```bash
@@ -208,6 +200,14 @@ Another useful trick is saving files without opening them with `sudo vim`. This 
 ```bash
 :w !sudo tee %
 ```
+
+Beyond filtering and editing text, you can pass your unsaved buffer into external commands without modifying the file or leaving Vim. For example, this command allows you to compare the manifest you are editing in the Kubernetes cluster without needing to save the file first.
+
+```bash
+:w !kubectl diff -f -
+```
+
+> *__INFO:__ `:w` normally saves to a file. But when followed by `!`, it redirects your buffer’s content to an external command's standard input (STDIN) instead of writing to disk.*
 
 ## Learn More
 
