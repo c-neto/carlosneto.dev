@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-02T00:45:45.494581+00:00</updated>
+  <updated>2026-08-02T00:52:25.005610+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -18,9 +18,9 @@
 &lt;p&gt;This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.&lt;/p&gt;
 &lt;section id="vim-a-necessary-evil"&gt;
 &lt;h2&gt;Vim: A Necessary Evil&lt;/h2&gt;
-&lt;p&gt;The exam workstation includes &lt;em&gt;&lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt;&lt;/em&gt; (&lt;em&gt;the free and open-source binaries of VS Code&lt;/em&gt;), but it’s not a practical option during the exam.. All exam tasks are performed on remote nodes over SSH, where &lt;em&gt;VSCodium&lt;/em&gt; is unavailable. To edit a file in &lt;em&gt;VSCodium&lt;/em&gt;, you would first need to copy its contents from the SSH session, paste them into the editor, and then copy the changes back. This workflow is cumbersome and wastes valuable exam time.&lt;/p&gt;
+&lt;p&gt;The exam workstation includes &lt;em&gt;&lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt;&lt;/em&gt; (&lt;em&gt;the free and open-source binaries of VS Code&lt;/em&gt;), but it’s not a practical option during the exam. All exam tasks are performed on remote nodes over SSH, where &lt;em&gt;VSCodium&lt;/em&gt; is unavailable. To edit a file in &lt;em&gt;VSCodium&lt;/em&gt;, you would first need to copy its contents from the SSH session, paste them into the editor, edit the content, and then copy the changes back. This workflow is cumbersome and wastes valuable exam time.&lt;/p&gt;
 &lt;p&gt;On top of that, the remote connection to the exam workstation has &lt;strong&gt;high latency&lt;/strong&gt;, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you’ll be able to edit files. This is where Vim shines.&lt;/p&gt;
-&lt;p&gt;If you’re not a Vim expert, I have good news: &lt;strong&gt;you don’t need to become one to pass the Kubernetes certification exams&lt;/strong&gt;. Focus on building muscle memory by mastering the small set of commands you’ll use to edit YAML files under exam conditions. The less time you spend fighting the editor, the more time you’ll have to solve the Kubernetes problems that actually determine your exam score.&lt;/p&gt;
+&lt;p&gt;If you’re not a Vim expert, I have good news: &lt;strong&gt;you don’t need to become vim hacker to pass the Kubernetes certification exams&lt;/strong&gt;. Focus on building muscle memory by mastering the small set of commands covered in this guide. These commands are all you need to edit Kubernetes YAML manifests efficiently under exam conditions.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="vim-configuration"&gt;
 &lt;h2&gt;Vim Configuration&lt;/h2&gt;
