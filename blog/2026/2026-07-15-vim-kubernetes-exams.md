@@ -211,6 +211,6 @@ Another useful trick is saving files without opening them with `sudo vim`. This 
 
 ## Learn More
 
-Take a look at the complete Vim cheatsheet <https://vim.rtorr.com/> for insights into more ways to improve performance.
+Take a look at the complete Vim cheatsheet <https://vim.rtorr.com/> for insights into more ways to improve vim tricks.
 
 For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post [Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)](2026-07-09-workstation-setup-kubernetes-exams.md).
