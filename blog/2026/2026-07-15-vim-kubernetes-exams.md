@@ -14,11 +14,11 @@ This post focuses on the minimal Vim configuration and the editing techniques I 
 
 ## Vim: A Necessary Evil
 
-The exam workstation includes *[VSCodium](https://vscodium.com/)* (*the free and open-source binaries of VS Code*), but it's not a practical option during the exam.. All exam tasks are performed on remote nodes over SSH, where *VSCodium* is unavailable. To edit a file in *VSCodium*, you would first need to copy its contents from the SSH session, paste them into the editor, and then copy the changes back. This workflow is cumbersome and wastes valuable exam time.
+The exam workstation includes *[VSCodium](https://vscodium.com/)* (*the free and open-source binaries of VS Code*), but it's not a practical option during the exam. All exam tasks are performed on remote nodes over SSH, where *VSCodium* is unavailable. To edit a file in *VSCodium*, you would first need to copy its contents from the SSH session, paste them into the editor, edit the content, and then copy the changes back. This workflow is cumbersome and wastes valuable exam time.
 
-On top of that, the remote connection to the exam workstation has **high latency**, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you'll be able to edit files. This is where Vim shines.
+On top of that, the remote connection to the exam workstation has __high latency__, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you'll be able to edit files. This is where Vim shines.
 
-If you're not a Vim expert, I have good news: **you don't need to become one to pass the Kubernetes certification exams**. Focus on building muscle memory by mastering the small set of commands you'll use to edit YAML files under exam conditions. The less time you spend fighting the editor, the more time you'll have to solve the Kubernetes problems that actually determine your exam score.
+If you're not a Vim expert, I have good news: __you don't need to become vim hacker to pass the Kubernetes certification exams__. Focus on building muscle memory by mastering the small set of commands covered in this guide. These commands are all you need to edit Kubernetes YAML manifests efficiently under exam conditions.
 
 ## Vim Configuration
 
