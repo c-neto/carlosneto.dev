@@ -398,9 +398,9 @@
 <p>This post focuses on the minimal Vim configuration and the editing techniques I use most frequently when working with Kubernetes YAML manifests. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.</p>
 <section id="vim-a-necessary-evil">
 <h2>Vim: A Necessary Evil<a class="headerlink" href="#vim-a-necessary-evil" title="Link to this heading">#</a></h2>
-<p>I’m a heavy <em><a class="reference external" href="https://code.visualstudio.com/">VS Code</a></em> user and not a Vim fan. In my opinion, Vim’s shortcuts and commands are confusing and unintuitive. However, one thing is undeniable: <strong>Vim is an indirect requirement for Linux Foundation exams.</strong></p>
-<p>Although the exam workstation includes <em><a class="reference external" href="https://vscodium.com/">VS Codium</a></em> (<em>the free and open-source binaries of VS Code</em>), using it is generally not a good idea. The connection to the exam workstation has <strong>high latency</strong>, making mouse operations slow and unreliable. More importantly, all exam tasks are performed on remote nodes over SSH, where <em>VS Codium</em> is unavailable. To edit files in <em>VS Codium</em>, you would first need to copy the file contents from your SSH session and then paste them into the editor. This workflow is highly impractical and wastes valuable exam time.</p>
-<p>If you’re not a Vim fan like me, I have good news: <strong>you don’t need to become a Vim expert to pass the Kubernetes certification exams</strong>. Focus only on building muscle memory by mastering the commands you’ll use to edit Kubernetes YAML manifests under exam conditions. The less time you spend fighting the editor, the more time you’ll have to solve the Kubernetes problems that actually determine your exam score.</p>
+<p>The exam workstation includes <em><a class="reference external" href="https://vscodium.com/">VSCodium</a></em> (<em>the free and open-source binaries of VS Code</em>), but don’t use it. All exam tasks are performed on remote nodes over SSH, where <em>VSCodium</em> is unavailable. To edit a file in <em>VSCodium</em>, you would first need to copy its contents from the SSH session, paste them into the editor, and then copy the changes back. This workflow is cumbersome and wastes valuable exam time.</p>
+<p>On top of that, the remote connection to the exam workstation has <strong>high latency</strong>, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you’ll be able to edit files. This is where Vim shines.</p>
+<p>If you’re not a Vim expert, I have good news: <strong>you don’t need to become one to pass the Kubernetes certification exams</strong>. Focus on building muscle memory by mastering the small set of commands you’ll use to edit YAML files under exam conditions. The less time you spend fighting the editor, the more time you’ll have to solve the Kubernetes problems that actually determine your exam score.</p>
 </section>
 <section id="vim-configuration">
 <h2>Vim Configuration<a class="headerlink" href="#vim-configuration" title="Link to this heading">#</a></h2>
@@ -446,7 +446,7 @@ cW<span class="w">          </span><span class="c1"># replace the current word a
 C<span class="w">           </span><span class="c1"># delete from the cursor to the end of the line and enter Insert mode</span>
 i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">  </span><span class="c1"># copy the character above the cursor</span>
 A<span class="w">           </span><span class="c1"># move to the end of the line and enter Insert mode</span>
-ZZ<span class="w">          </span><span class="c1"># save and quit</span>
+:wq<span class="w">         </span><span class="c1"># save and quit (or ZZ)</span>
 </pre></div>
 </div>
 </section>
@@ -460,8 +460,8 @@ gg<span class="w">        </span><span class="c1"># jump to the start of the fil
 G<span class="w">         </span><span class="c1"># jump to the end of the file</span>
 W<span class="w">         </span><span class="c1"># jump to the next word</span>
 B<span class="w">         </span><span class="c1"># jump to the previous word</span>
-v<span class="w">         </span><span class="c1"># enter in Visual inline mode</span>
-V<span class="w">         </span><span class="c1"># enter in Visual lines mode</span>
+v<span class="w">         </span><span class="c1"># enter in Visual inline mode (lowercase)</span>
+V<span class="w">         </span><span class="c1"># enter in Visual lines mode (uppercase)</span>
 CTRL+v<span class="w">    </span><span class="c1"># enter in Visual block mode</span>
 </pre></div>
 </div>
@@ -470,7 +470,7 @@ CTRL+v<span class="w">    </span><span class="c1"># enter in Visual block mode</
 <h2>Fixing YAML Indentation<a class="headerlink" href="#fixing-yaml-indentation" title="Link to this heading">#</a></h2>
 <p>Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to SHIFT entire YAML blocks to the right or left while preserving their structure.</p>
 <p>To increase the indentation:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>V<span class="w">               </span><span class="c1"># 1. enter Visual Line mode</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>V<span class="w">               </span><span class="c1"># 1. enter Visual Line mode (uppercase)</span>
 <span class="k">select</span><span class="w"> </span>lines<span class="w">    </span><span class="c1"># 2. select the lines</span>
 &gt;<span class="w">               </span><span class="c1"># 3. SHIFT indentation right</span>
 ESC<span class="w">             </span><span class="c1"># 4. apply the change</span>
@@ -506,7 +506,7 @@ ESC<span class="w">             </span><span class="c1"># 5. apply the change to
 </pre></div>
 </div>
 <p>Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*<span class="w">                   </span><span class="c1"># 1. search for the word under the cursor</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*<span class="w">                   </span><span class="c1"># 1. search for the word under the cursor (or use &quot;/foobar&quot;)</span>
 cW<span class="w">                  </span><span class="c1"># 2. replace the current occurrence</span>
 <span class="nb">type</span><span class="w"> </span>replacement<span class="w">    </span><span class="c1"># 3. type the replacement</span>
 n<span class="w">                   </span><span class="c1"># 4. jump to the next occurrence</span>
@@ -556,26 +556,22 @@ SHIFT+n<span class="w">             </span><span class="c1"># 8. jump backward i
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:w<span class="w"> </span>!kubectl<span class="w"> </span>diff<span class="w"> </span>-f<span class="w"> </span>-
 </pre></div>
 </div>
+<p>You can run a command to check the output without exiting Vim. This is useful when you are editing a NetworkPolicy and need to know the labels of the pods and namespaces to edit the matchLabels statement.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:!kubectl<span class="w"> </span>get<span class="w"> </span>pods,ns<span class="w"> </span>--show-labels<span class="w"> </span>-n<span class="w"> </span>foobar
+</pre></div>
+</div>
 <blockquote>
 <div><p><strong>INFO:</strong> In Vim, <code class="docutils literal notranslate"><span class="pre">:w</span></code> normally saves to a file. But when followed by <code class="docutils literal notranslate"><span class="pre">!</span></code>, it redirects your buffer’s content to an external command’s standard input (STDIN) instead of writing to disk.</p>
 </div></blockquote>
-<p>Another useful trick is saving files without opening them with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">vim</span></code>. This approach is particularly handy because when you edit a file using <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">vim</span></code>, your personal <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> configuration does not apply to the root user.</p>
+<p>Another useful trick is saving files without opening them with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">vim</span></code>. This approach is particularly handy because when you edit a file using <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">vim</span></code>, your personal <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> configuration does not apply to the root user. This is useful for editing files such as <code class="docutils literal notranslate"><span class="pre">/etc/falco/falco.yaml</span></code> that require root permissions.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:w<span class="w"> </span>!sudo<span class="w"> </span>tee<span class="w"> </span>%
 </pre></div>
 </div>
-<p>This situation commonly occurs when editing files such as <code class="docutils literal notranslate"><span class="pre">/etc/kubernetes/manifests/kube-apiserver.yaml</span></code>, which require root privileges. Instead of reopening the file as root, you can save the current buffer with elevated permissions.</p>
 </section>
 <section id="learn-more">
 <h2>Learn More<a class="headerlink" href="#learn-more" title="Link to this heading">#</a></h2>
-<p>Take a look at the following material that I used to master Vim.</p>
-<ul class="simple">
-<li><p>Cheatsheet: <a class="reference external" href="https://vim.rtorr.com/">https://vim.rtorr.com/</a></p></li>
-<li><p>VIM Lab: <a class="reference external" href="https://www.vimified.com/">https://www.vimified.com/</a></p></li>
-<li><p>VIM Guide: <a class="reference external" href="https://learnvim.irian.to/basics/starting_vim">https://learnvim.irian.to/basics/starting_vim</a></p></li>
-</ul>
-<blockquote>
-<div><p><em>For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post <a class="reference internal" href="../2026-07-09-workstation-setup-kubernetes-exams/"><span class="std std-doc">Workstation Setup for Kubernetes Exams (CKA, CKAD &amp; CKS)</span></a>.</em></p>
-</div></blockquote>
+<p>Take a look at the complete Vim cheatsheet <a class="reference external" href="https://vim.rtorr.com/">https://vim.rtorr.com/</a> for insights into more ways to improve performance.</p>
+<p>For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post <a class="reference internal" href="../2026-07-09-workstation-setup-kubernetes-exams/"><span class="std std-doc">Workstation Setup for Kubernetes Exams (CKA, CKAD &amp; CKS)</span></a>.</p>
 </section>
 </section>
 
