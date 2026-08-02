@@ -556,13 +556,13 @@ SHIFT+n<span class="w">             </span><span class="c1"># 8. jump backward i
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:w<span class="w"> </span>!kubectl<span class="w"> </span>diff<span class="w"> </span>-f<span class="w"> </span>-
 </pre></div>
 </div>
+<blockquote>
+<div><p><em><strong>INFO:</strong> <code class="docutils literal notranslate"><span class="pre">:w</span></code> normally saves to a file. But when followed by <code class="docutils literal notranslate"><span class="pre">!</span></code>, it redirects your buffer’s content to an external command’s standard input (STDIN) instead of writing to disk.</em></p>
+</div></blockquote>
 <p>You can run a command to check the output without exiting Vim. This is useful when you are editing a NetworkPolicy and need to know the labels of the pods and namespaces to edit the matchLabels statement.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:!kubectl<span class="w"> </span>get<span class="w"> </span>pods,ns<span class="w"> </span>--show-labels<span class="w"> </span>-n<span class="w"> </span>foobar
 </pre></div>
 </div>
-<blockquote>
-<div><p><strong>INFO:</strong> In Vim, <code class="docutils literal notranslate"><span class="pre">:w</span></code> normally saves to a file. But when followed by <code class="docutils literal notranslate"><span class="pre">!</span></code>, it redirects your buffer’s content to an external command’s standard input (STDIN) instead of writing to disk.</p>
-</div></blockquote>
 <p>Another useful trick is saving files without opening them with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">vim</span></code>. This approach is particularly handy because when you edit a file using <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">vim</span></code>, your personal <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> configuration does not apply to the root user. This is useful for editing files such as <code class="docutils literal notranslate"><span class="pre">/etc/falco/falco.yaml</span></code> that require root permissions.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:w<span class="w"> </span>!sudo<span class="w"> </span>tee<span class="w"> </span>%
 </pre></div>

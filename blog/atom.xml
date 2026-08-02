@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-02T00:52:25.005610+00:00</updated>
+  <updated>2026-08-02T00:55:48.740395+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -176,13 +176,13 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:w&lt;span class="w"&gt; &lt;/span&gt;!kubectl&lt;span class="w"&gt; &lt;/span&gt;diff&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;-
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;INFO:&lt;/strong&gt; &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;:w&lt;/span&gt;&lt;/code&gt; normally saves to a file. But when followed by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;!&lt;/span&gt;&lt;/code&gt;, it redirects your buffer’s content to an external command’s standard input (STDIN) instead of writing to disk.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;You can run a command to check the output without exiting Vim. This is useful when you are editing a NetworkPolicy and need to know the labels of the pods and namespaces to edit the matchLabels statement.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:!kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&gt;pods,ns&lt;span class="w"&gt; &lt;/span&gt;--show-labels&lt;span class="w"&gt; &lt;/span&gt;-n&lt;span class="w"&gt; &lt;/span&gt;foobar
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;strong&gt;INFO:&lt;/strong&gt; In Vim, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;:w&lt;/span&gt;&lt;/code&gt; normally saves to a file. But when followed by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;!&lt;/span&gt;&lt;/code&gt;, it redirects your buffer’s content to an external command’s standard input (STDIN) instead of writing to disk.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Another useful trick is saving files without opening them with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;sudo&lt;/span&gt; &lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt;. This approach is particularly handy because when you edit a file using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;sudo&lt;/span&gt; &lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt;, your personal &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; configuration does not apply to the root user. This is useful for editing files such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/falco/falco.yaml&lt;/span&gt;&lt;/code&gt; that require root permissions.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:w&lt;span class="w"&gt; &lt;/span&gt;!sudo&lt;span class="w"&gt; &lt;/span&gt;tee&lt;span class="w"&gt; &lt;/span&gt;%
 &lt;/pre&gt;&lt;/div&gt;
