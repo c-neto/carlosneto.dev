@@ -14,7 +14,7 @@ This post focuses on the minimal Vim configuration and the editing techniques I 
 
 ## Vim: A Necessary Evil
 
-The exam workstation includes *[VSCodium](https://vscodium.com/)* (*the free and open-source binaries of VS Code*), but don't use it. All exam tasks are performed on remote nodes over SSH, where *VSCodium* is unavailable. To edit a file in *VSCodium*, you would first need to copy its contents from the SSH session, paste them into the editor, and then copy the changes back. This workflow is cumbersome and wastes valuable exam time.
+The exam workstation includes *[VSCodium](https://vscodium.com/)* (*the free and open-source binaries of VS Code*), but it's not a practical option during the exam.. All exam tasks are performed on remote nodes over SSH, where *VSCodium* is unavailable. To edit a file in *VSCodium*, you would first need to copy its contents from the SSH session, paste them into the editor, and then copy the changes back. This workflow is cumbersome and wastes valuable exam time.
 
 On top of that, the remote connection to the exam workstation has **high latency**, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you'll be able to edit files. This is where Vim shines.
 
