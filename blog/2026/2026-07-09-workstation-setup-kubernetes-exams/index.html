@@ -501,13 +501,9 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <div class="code-block-caption"><span class="caption-text">~/.bashrc</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">### omitted the .bashrc copied from question node</span>
 
-<span class="c1"># kubectl aliases</span>
-<span class="nb">alias</span><span class="w"> </span><span class="nv">k</span><span class="o">=</span><span class="s2">&quot;kubectl&quot;</span>
-
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kgp</span><span class="o">=</span><span class="s2">&quot;kubectl get pods&quot;</span>
-<span class="nb">alias</span><span class="w"> </span><span class="nv">kd</span><span class="o">=</span><span class="s2">&quot;kubectl describe&quot;</span>
 
-<span class="nb">alias</span><span class="w"> </span><span class="nv">kgs</span><span class="o">=</span><span class="s2">&quot;kubectl get svc&quot;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">kgs</span><span class="o">=</span><span class="s2">&quot;kubectl get services&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">ke</span><span class="o">=</span><span class="s2">&quot;kubectl get endpoints&quot;</span>
 
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kaf</span><span class="o">=</span><span class="s2">&quot;kubectl apply -f&quot;</span>
@@ -517,11 +513,8 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kns</span><span class="o">=</span><span class="s2">&quot;kubectl config set-context --current --namespace&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kctx</span><span class="o">=</span><span class="s2">&quot;kubectl config use-context&quot;</span>
 
-<span class="c1"># make visible the cursor column in vim default theme</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">TERM</span><span class="o">=</span>xterm-265color
-
 <span class="c1"># define vim as default editor (systemctl edit)</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">EDITOR</span><span class="o">=</span><span class="s2">&quot;vim&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">EDITOR</span><span class="o">=</span>vim
 
 <span class="c1"># shorthand for generating YAML in the imperative kubectl commands</span>
 <span class="c1"># $ k run nginx --image nginx:latest $x &gt; nginx.yaml</span>
