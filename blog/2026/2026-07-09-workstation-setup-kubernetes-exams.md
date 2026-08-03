@@ -142,13 +142,9 @@ Append the following aliases to the end of the file:
 :caption: ~/.bashrc
 ### omitted the .bashrc copied from question node
 
-# kubectl aliases
-alias k="kubectl"
-
 alias kgp="kubectl get pods"
-alias kd="kubectl describe"
 
-alias kgs="kubectl get svc"
+alias kgs="kubectl get services"
 alias ke="kubectl get endpoints"
 
 alias kaf="kubectl apply -f"
@@ -158,11 +154,8 @@ alias kdelp="kubectl delete pod --now"
 alias kns="kubectl config set-context --current --namespace"
 alias kctx="kubectl config use-context"
 
-# make visible the cursor column in vim default theme
-export TERM=xterm-265color
-
 # define vim as default editor (systemctl edit)
-export EDITOR="vim"
+export EDITOR=vim
 
 # shorthand for generating YAML in the imperative kubectl commands
 # $ k run nginx --image nginx:latest $x > nginx.yaml
