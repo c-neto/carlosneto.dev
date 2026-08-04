@@ -410,7 +410,7 @@
 </section>
 <section id="disable-mission-control-shortcuts-macbooks">
 <h2>Disable Mission Control Shortcuts (MacBooks)<a class="headerlink" href="#disable-mission-control-shortcuts-macbooks" title="Link to this heading">#</a></h2>
-<p>By default, pressing <strong>CTRL + ←/→</strong> switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.</p>
+<p>By default, pressing <strong>CTRL + ←→</strong> switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.</p>
 <p>Before the exam, perform the follow steps:</p>
 <ol class="arabic simple">
 <li><p>Open <strong>System Settings » Keyboard » Keyboard Shortcuts</strong></p></li>
@@ -421,7 +421,7 @@
 </section>
 <section id="disable-window-tiling-apps-macbook">
 <h2>Disable Window Tiling Apps (MacBook)<a class="headerlink" href="#disable-window-tiling-apps-macbook" title="Link to this heading">#</a></h2>
-<p>If you use window tiling apps such as <a class="reference external" href="https://rectangleapp.com/">Rectangle</a> or <a class="reference external" href="https://magnet.crowdcafe.com/">Magnet</a>, it’s strongly recommended to disable/close them before the exam. Their keyboard shortcuts can conflict with the exam workstation, causing unexpected behavior when using shortcuts such as <strong>⌘ + ←/→/↑/↓</strong>.</p>
+<p>If you use window tiling apps such as <a class="reference external" href="https://rectangleapp.com/">Rectangle</a> or <a class="reference external" href="https://magnet.crowdcafe.com/">Magnet</a>, it’s strongly recommended to disable/close them before the exam. Their keyboard shortcuts can conflict with the exam workstation, causing unexpected behavior when using shortcuts such as <strong>⌘ + ↑↓←→</strong>.</p>
 </section>
 <section id="history-search-by-prefix">
 <h2>History Search by Prefix<a class="headerlink" href="#history-search-by-prefix" title="Link to this heading">#</a></h2>
@@ -458,10 +458,6 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">bind</span><span class="w"> </span>-f<span class="w"> </span>~/.inputrc
 </pre></div>
 </div>
-<p>Since each exam task is performed on a different remote node, copy the file to the target node (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.inputrc<span class="w"> </span>node01:~/.inputrc
-</pre></div>
-</div>
 </section>
 <section id="setting-up-vim">
 <h2>Setting Up Vim<a class="headerlink" href="#setting-up-vim" title="Link to this heading">#</a></h2>
@@ -482,14 +478,8 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </pre></div>
 </div>
 </div>
-<blockquote>
-<div><p><em><strong>NOTE</strong>: Avoid using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> due to the exam workstation’s high connection latency. Also, the clipboard settings with <code class="docutils literal notranslate"><span class="pre">clipboard+=unnamedplus,autoselect</span></code> does not work on the exam workstations.</em></p>
-</div></blockquote>
-<p>Copy the file to the remote node for the exam question (for example, <code class="docutils literal notranslate"><span class="pre">node01</span></code>):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
-</pre></div>
-</div>
-<p><strong>Bonus</strong>: I have created a blog post <a class="reference internal" href="../2026-07-15-vim-kubernetes-exams/"><span class="std std-doc">Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)</span></a> with editing techniques I use most frequently during exams.</p>
+<p>Avoid using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> due to the exam workstation’s high connection latency. Also, the clipboard settings with <code class="docutils literal notranslate"><span class="pre">clipboard+=unnamedplus,autoselect</span></code> does not work on the exam workstations.*</p>
+<p>I have created a blog post <a class="reference internal" href="../2026-07-15-vim-kubernetes-exams/"><span class="std std-doc">Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)</span></a> with editing techniques I use most frequently during exams.</p>
 </section>
 <section id="kubectl-aliases-and-shortcuts">
 <h2>Kubectl Aliases and Shortcuts<a class="headerlink" href="#kubectl-aliases-and-shortcuts" title="Link to this heading">#</a></h2>
@@ -530,8 +520,12 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 </pre></div>
 </div>
 </div>
-<p>Finally, copy the updated configuration files back to the remote node:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.bashrc<span class="w"> </span>node01:~/.bashrc
+</section>
+<section id="copy-settings-to-exam-question-node">
+<h2>Copy Settings to Exam Question Node<a class="headerlink" href="#copy-settings-to-exam-question-node" title="Link to this heading">#</a></h2>
+<p>All exam tasks are required to be performed on the remote question node via SSH. A convenient workflow is to create your configuration files once on the candidate instance and then copy them to the question node before starting the task.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.inputrc<span class="w"> </span>~/.vimrc<span class="w"> </span>~/.bashrc<span class="w"> </span>cks1234:~/
+ssh<span class="w"> </span>cks1234
 </pre></div>
 </div>
 </section>

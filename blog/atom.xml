@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-04T13:48:55.614501+00:00</updated>
+  <updated>2026-08-04T14:15:14.352633+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -227,7 +227,7 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;/section&gt;
 &lt;section id="disable-mission-control-shortcuts-macbooks"&gt;
 &lt;h2&gt;Disable Mission Control Shortcuts (MacBooks)&lt;/h2&gt;
-&lt;p&gt;By default, pressing &lt;strong&gt;CTRL + ←/→&lt;/strong&gt; switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.&lt;/p&gt;
+&lt;p&gt;By default, pressing &lt;strong&gt;CTRL + ←→&lt;/strong&gt; switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.&lt;/p&gt;
 &lt;p&gt;Before the exam, perform the follow steps:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
 &lt;li&gt;&lt;p&gt;Open &lt;strong&gt;System Settings » Keyboard » Keyboard Shortcuts&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
@@ -238,7 +238,7 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;/section&gt;
 &lt;section id="disable-window-tiling-apps-macbook"&gt;
 &lt;h2&gt;Disable Window Tiling Apps (MacBook)&lt;/h2&gt;
-&lt;p&gt;If you use window tiling apps such as &lt;a class="reference external" href="https://rectangleapp.com/"&gt;Rectangle&lt;/a&gt; or &lt;a class="reference external" href="https://magnet.crowdcafe.com/"&gt;Magnet&lt;/a&gt;, it’s strongly recommended to disable/close them before the exam. Their keyboard shortcuts can conflict with the exam workstation, causing unexpected behavior when using shortcuts such as &lt;strong&gt;⌘ + ←/→/↑/↓&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;If you use window tiling apps such as &lt;a class="reference external" href="https://rectangleapp.com/"&gt;Rectangle&lt;/a&gt; or &lt;a class="reference external" href="https://magnet.crowdcafe.com/"&gt;Magnet&lt;/a&gt;, it’s strongly recommended to disable/close them before the exam. Their keyboard shortcuts can conflict with the exam workstation, causing unexpected behavior when using shortcuts such as &lt;strong&gt;⌘ + ↑↓←→&lt;/strong&gt;.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="history-search-by-prefix"&gt;
 &lt;h2&gt;History Search by Prefix&lt;/h2&gt;
@@ -275,10 +275,6 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;bind&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;~/.inputrc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Since each exam task is performed on a different remote node, copy the file to the target node (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.inputrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.inputrc
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;/section&gt;
 &lt;section id="setting-up-vim"&gt;
 &lt;h2&gt;Setting Up Vim&lt;/h2&gt;
@@ -299,14 +295,8 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Avoid using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; due to the exam workstation’s high connection latency. Also, the clipboard settings with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; does not work on the exam workstations.&lt;/em&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;p&gt;Copy the file to the remote node for the exam question (for example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node01&lt;/span&gt;&lt;/code&gt;):&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;Bonus&lt;/strong&gt;: I have created a blog post &lt;a class="reference internal" href="2026/2026-07-15-vim-kubernetes-exams/"&gt;&lt;span class="std std-doc"&gt;Vim for Kubernetes Certification Exams (CKA, CKAD &amp;amp; CKS)&lt;/span&gt;&lt;/a&gt; with editing techniques I use most frequently during exams.&lt;/p&gt;
+&lt;p&gt;Avoid using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; due to the exam workstation’s high connection latency. Also, the clipboard settings with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; does not work on the exam workstations.*&lt;/p&gt;
+&lt;p&gt;I have created a blog post &lt;a class="reference internal" href="2026/2026-07-15-vim-kubernetes-exams/"&gt;&lt;span class="std std-doc"&gt;Vim for Kubernetes Certification Exams (CKA, CKAD &amp;amp; CKS)&lt;/span&gt;&lt;/a&gt; with editing techniques I use most frequently during exams.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="kubectl-aliases-and-shortcuts"&gt;
 &lt;h2&gt;Kubectl Aliases and Shortcuts&lt;/h2&gt;
@@ -347,8 +337,12 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Finally, copy the updated configuration files back to the remote node:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.bashrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc
+&lt;/section&gt;
+&lt;section id="copy-settings-to-exam-question-node"&gt;
+&lt;h2&gt;Copy Settings to Exam Question Node&lt;/h2&gt;
+&lt;p&gt;All exam tasks are required to be performed on the remote question node via SSH. A convenient workflow is to create your configuration files once on the candidate instance and then copy them to the question node before starting the task.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.inputrc&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;~/.bashrc&lt;span class="w"&gt; &lt;/span&gt;cks1234:~/
+ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
