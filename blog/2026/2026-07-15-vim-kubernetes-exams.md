@@ -14,9 +14,9 @@ This post focuses on the minimal Vim configuration and the editing techniques I 
 
 ## Vim: Less Mouse, More Efficiency
 
-The exam workstation includes *[VSCodium](https://vscodium.com/)* (*the free and open-source binaries of VS Code*), but it's not a practical option during the exam. All exam tasks are performed on remote nodes over SSH, where *VSCodium* is unavailable. In addition, it is common that the connection to the exam workstation has __high latency__, making mouse operations slow and unreliable. The less you use on the mouse, the faster you'll be able to edit files. This is where Vim shines.
+The exam workstation includes *[VSCodium](https://vscodium.com/)* (*the free and open-source binaries of VS Code*), but it's not a practical choice during the exam. While the workstation itself includes *VSCodium*, all exam tasks are completed on remote nodes via terminal over SSH, where it is unavailable. In addition, the connection to the exam workstation often has noticeable latency, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you'll be able to edit files. This is where Vim shines.
 
-You don't need to become vim hacker to pass the Kubernetes certification exams. Focus on building muscle memory by mastering the commands covered in this post. These commands are all you need to edit Kubernetes YAML manifests efficiently under exam conditions.
+You don't need to become a Vim expert to pass the exam. This guide covers everything you need to edit Kubernetes YAML manifests efficiently under exam conditions. Focus on building muscle memory by practicing these commands in the simulation labs.
 
 ## Vim Configuration
 
@@ -35,7 +35,7 @@ set cuc       " Highlight the current cursor column
 syntax on     " Enable syntax highlighting
 ```
 
-> *__NOTE__: Avoid using `set mouse=a` due to the exam workstation's high connection latency. Also, the clipboard settings with `clipboard+=unnamedplus,autoselect` does not work on the exam workstations.*
+> *__NOTE__: Avoid using `set mouse=a` due to the exam workstation's high connection latency. Also, the clipboard settings with `clipboard+=unnamedplus,autoselect` do not work on the exam workstations.*
 
 Each exam task is performed on a different remote node. Before starting a task, copy your local `~/.vimrc` to the target question machine:
 
