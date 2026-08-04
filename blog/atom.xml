@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-04T17:24:24.237879+00:00</updated>
+  <updated>2026-08-04T17:40:59.634994+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -168,20 +168,16 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 :!sort&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;uniq&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 2. Sort and remove duplicates from the selection&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;You can also apply the same logic to an entire file. For instance, to quickly format raw JSON, you can use Python’s built-in &lt;a class="reference external" href="https://docs.python.org/3/library/json.html"&gt;json.tool&lt;/a&gt;:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%!python&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;json.tool
+&lt;p&gt;You can apply the same approach to an entire file. For example, use &lt;a class="reference external" href="https://github.com/mikefarah/yq?utm_source=chatgpt.com"&gt;yq&lt;/a&gt; to format a YAML file. This is useful for validating the YAML syntax and converting inline lists into a properly indented block style, making resources such as NetworkPolicies better to read and edit.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%!yq
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;You can run a command to check the output without exiting Vim. This is useful when you are editing a NetworkPolicy and need to know the labels of the pods and namespaces to edit the matchLabels statement.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:!kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&gt;pods,ns&lt;span class="w"&gt; &lt;/span&gt;--show-labels&lt;span class="w"&gt; &lt;/span&gt;-n&lt;span class="w"&gt; &lt;/span&gt;foobar
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Another useful trick is saving files without opening them with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;sudo&lt;/span&gt; &lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt;. This approach is particularly handy because when you edit a file using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;sudo&lt;/span&gt; &lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt;, your personal &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; configuration does not apply to the root user. This is useful for editing files such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/falco/falco.yaml&lt;/span&gt;&lt;/code&gt; that require root permissions.&lt;/p&gt;
+&lt;p&gt;Another useful trick is saving protected files without opening them with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;sudo&lt;/span&gt; &lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt;. This is particularly handy when you forget to open a file with elevated privileges and have already made several changes. Instead of reopening the file with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;sudo&lt;/span&gt; &lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt; and repeating all your edits, you can write the current buffer using:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:w&lt;span class="w"&gt; &lt;/span&gt;!sudo&lt;span class="w"&gt; &lt;/span&gt;tee&lt;span class="w"&gt; &lt;/span&gt;%
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;Beyond filtering and editing text, you can pass your unsaved buffer into external commands without modifying the file or leaving Vim. For example, this command allows you to compare the manifest you are editing in the Kubernetes cluster without needing to save the file first.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:w&lt;span class="w"&gt; &lt;/span&gt;!kubectl&lt;span class="w"&gt; &lt;/span&gt;diff&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;-
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
