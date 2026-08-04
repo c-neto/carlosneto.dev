@@ -135,9 +135,8 @@ Append the following aliases to the end of the file:
 ### omitted the .bashrc copied from question node
 
 alias kgp="kubectl get pods"
-
 alias kgs="kubectl get services"
-alias ke="kubectl get endpoints"
+alias ke="kubectl get endpointslices"
 
 alias kaf="kubectl apply -f"
 alias kdel="kubectl delete --now"
@@ -146,16 +145,9 @@ alias kdelp="kubectl delete pod --now"
 alias kns="kubectl config set-context --current --namespace"
 alias kctx="kubectl config use-context"
 
-# define vim as default editor (i.g. systemctl edit)
-export VISUAL=vim
-
 # shorthand for generating YAML in the imperative kubectl commands
 # >>> k run nginx --image nginx:latest $x > nginx.yaml
 export x="--dry-run=client -oyaml"
-
-# shorthand for show labels
-# >>> k get ns $l
-export l="--show-labels"
 ```
 
 ## Copy Settings to Exam Question Node
