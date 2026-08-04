@@ -100,15 +100,15 @@ Create the `~/.vimrc` file and add the following configuration:
 
 ```{code-block} vim
 :caption: ~/.vimrc
-set nu        " Show line numbers.
-set ai        " Preserve indentation while editing.
-set et        " Convert tabs into spaces.
-set ts=2      " Display tabs as two spaces.
-set sw=2      " Indent and unindent using two spaces.
-set sts=2     " Make Tab and Backspace use two-space indentation.
-set hls       " Highlight search matches.
-set cuc       " Highlight the current cursor column.
-syntax on     " Enable syntax highlighting.
+set nu        " Show line numbers
+set ai        " Preserve indentation while editing
+set et        " Convert tabs into spaces
+set ts=2      " Display tabs as two spaces
+set sw=2      " Indent and unindent using two spaces
+set sts=2     " Make Tab and Backspace use two-space indentation
+set hls       " Highlight search matches
+set cuc       " Highlight the current cursor column
+syntax on     " Enable syntax highlighting
 ```
 
 Avoid using `set mouse=a` due to the exam workstation's high connection latency. Also, the clipboard settings with `clipboard+=unnamedplus,autoselect` does not work on the exam workstations.
