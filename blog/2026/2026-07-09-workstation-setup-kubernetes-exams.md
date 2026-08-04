@@ -135,9 +135,6 @@ Append the following aliases to the end of the file:
 ### omitted the .bashrc copied from question node
 
 alias kgp="kubectl get pods"
-alias kgs="kubectl get services"
-alias ke="kubectl get endpointslices"
-
 alias kaf="kubectl apply -f"
 alias kdel="kubectl delete --now"
 alias kdelp="kubectl delete pod --now"
