@@ -18,9 +18,9 @@ Time management is one of the most critical factors for passing the Linux Founda
 
 If you're taking the exam on a MacBook, make sure your keyboard layout is set to `U.S.`. Otherwise, the remote Linux environment may not recognize certain characters correctly, especially `~` and `` ` ``. This is a common issue with layouts such as `U.S. International - PC` and `Brazilian – ABNT2`.
 
-Before the exam, perform the follow steps:
+Before the exam, perform the following steps:
 
-1. Open __System Settings » Keyboard » Input Sources__.
+1. Open *__System Settings » Keyboard » Input Sources__*.
 2. Add `U.S.` input source.
 3. Remove any other input sources so only `U.S.` remains.
 
@@ -30,11 +30,11 @@ This helps prevent unexpected keyboard mapping issues during the exam.
 
 By default, pressing __CTRL + ←→__ switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.
 
-Before the exam, perform the follow steps:
+Before the exam, perform the following steps:
 
-1. Open __System Settings » Keyboard » Keyboard Shortcuts__
-2. Select __Mission Control__
-3. Disable all shortcuts under __Mission Control__.
+1. Open *__System Settings » Keyboard » Keyboard Shortcuts__*.
+2. Select *__Mission Control__*.
+3. Disable all shortcuts under *__Mission Control__*.
 
 This helps prevent accidental desktop switching and reduces the risk of unnecessary proctor alerts or exam suspension on suspicion of consulting unauthorized material.
 
@@ -117,15 +117,12 @@ Avoid using `set mouse=a` due to the exam workstation's high connection latency.
 
 ## Kubectl Aliases and Shortcuts
 
-During the exam you will type `kubectl` hundreds of times and will also need to back up configuration files. To save time and reduce the risk of mistakes (especially when nervous), avoid typing repeated commands: use aliases, functions, and shortcuts to prevent typos.
+Each remote exam node already contains a preconfigured `~/.bashrc` file with several useful settings. A handy trick is to copy it to main workstation, append your own aliases, and then copy it back to the question nodes.
 
-Each remote exam node already contains a preconfigured `~/.bashrc` file with several useful settings. A handy trick is to copy that file back to the main workstation, append your own aliases, and then copy it back to the remote nodes.
-
-First, create a backup of the main instance `~/.bashrc` file:
+First, copy the `~/.bashrc` from question node:
 
 ```bash
-cp ~/.bashrc ~/.bashrc.bkp
-scp node01:~/.bashrc ~/.bashrc
+scp cks1234:~/.bashrc ~/.bashrc
 ```
 
 Append the following aliases to the end of the file:
@@ -135,6 +132,7 @@ Append the following aliases to the end of the file:
 ### omitted the .bashrc copied from question node
 
 alias kgp="kubectl get pods"
+
 alias kaf="kubectl apply -f"
 alias kdel="kubectl delete --now"
 alias kdelp="kubectl delete pod --now"
@@ -142,14 +140,14 @@ alias kdelp="kubectl delete pod --now"
 alias kns="kubectl config set-context --current --namespace"
 alias kctx="kubectl config use-context"
 
-# shorthand for generating YAML in the imperative kubectl commands
-# >>> k run nginx --image nginx:latest $x > nginx.yaml
 export x="--dry-run=client -oyaml"
 ```
 
+> *__INFO:__ The `export x` is useful shorthand for generating YAML in imperative kubectl commands such as `k run nginx --image nginx:latest $x > nginx.yaml`*
+
 ## Copy Settings to Exam Question Node
 
-All exam tasks are required to be performed on the remote question node via SSH. A convenient workflow is to create your configuration files once on the candidate instance and then copy them to the question node before starting the task.
+All exam tasks are required to be performed on the remote question node via SSH. A convenient workflow is to create your configuration files once on the main instance and then copy them to the question node before starting the task.
 
 ```bash
 scp ~/.inputrc ~/.vimrc ~/.bashrc cks1234:~/
