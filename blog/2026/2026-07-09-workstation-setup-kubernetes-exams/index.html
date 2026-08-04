@@ -419,6 +419,10 @@
 </ol>
 <p>This helps prevent accidental desktop switching and reduces the risk of unnecessary proctor alerts or exam suspension on suspicion of consulting unauthorized material.</p>
 </section>
+<section id="disable-window-tiling-apps-macbook">
+<h2>Disable Window Tiling Apps (MacBook)<a class="headerlink" href="#disable-window-tiling-apps-macbook" title="Link to this heading">#</a></h2>
+<p>If you use window tiling apps such as <a class="reference external" href="https://rectangleapp.com/">Rectangle</a> or <a class="reference external" href="https://magnet.crowdcafe.com/">Magnet</a>, it’s strongly recommended to disable/close them before the exam. Their keyboard shortcuts can conflict with the exam workstation, causing unexpected behavior when using shortcuts such as <em>⌘ + ←</em> and <em>⌘ + →</em>.</p>
+</section>
 <section id="history-search-by-prefix">
 <h2>History Search by Prefix<a class="headerlink" href="#history-search-by-prefix" title="Link to this heading">#</a></h2>
 <p><strong>This is probably my most valuable tip!</strong></p>
@@ -513,8 +517,8 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kns</span><span class="o">=</span><span class="s2">&quot;kubectl config set-context --current --namespace&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kctx</span><span class="o">=</span><span class="s2">&quot;kubectl config use-context&quot;</span>
 
-<span class="c1"># define vim as default editor (systemctl edit)</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">EDITOR</span><span class="o">=</span>vim
+<span class="c1"># define vim as default editor (i.g. systemctl edit)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">VISUAL</span><span class="o">=</span>vim
 
 <span class="c1"># shorthand for generating YAML in the imperative kubectl commands</span>
 <span class="c1"># $ k run nginx --image nginx:latest $x &gt; nginx.yaml</span>

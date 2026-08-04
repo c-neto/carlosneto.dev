@@ -38,6 +38,10 @@ Before the exam, perform the follow steps:
 
 This helps prevent accidental desktop switching and reduces the risk of unnecessary proctor alerts or exam suspension on suspicion of consulting unauthorized material.
 
+## Disable Window Tiling Apps (MacBook)
+
+If you use window tiling apps such as [Rectangle](https://rectangleapp.com/) or [Magnet](https://magnet.crowdcafe.com/), it's strongly recommended to disable/close them before the exam. Their keyboard shortcuts can conflict with the exam workstation, causing unexpected behavior when using shortcuts such as *⌘ + ←* and *⌘ + →*.
+
 ## History Search by Prefix
 
 __This is probably my most valuable tip!__
@@ -154,8 +158,8 @@ alias kdelp="kubectl delete pod --now"
 alias kns="kubectl config set-context --current --namespace"
 alias kctx="kubectl config use-context"
 
-# define vim as default editor (systemctl edit)
-export EDITOR=vim
+# define vim as default editor (i.g. systemctl edit)
+export VISUAL=vim
 
 # shorthand for generating YAML in the imperative kubectl commands
 # $ k run nginx --image nginx:latest $x > nginx.yaml
