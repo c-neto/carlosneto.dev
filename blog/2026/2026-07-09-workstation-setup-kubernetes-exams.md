@@ -28,7 +28,7 @@ This helps prevent unexpected keyboard mapping issues during the exam.
 
 ## Disable Mission Control Shortcuts (MacBooks)
 
-By default, pressing __CTRL + ←/→__ switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.
+By default, pressing __CTRL + ←→__ switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.
 
 Before the exam, perform the follow steps:
 
@@ -40,7 +40,7 @@ This helps prevent accidental desktop switching and reduces the risk of unnecess
 
 ## Disable Window Tiling Apps (MacBook)
 
-If you use window tiling apps such as [Rectangle](https://rectangleapp.com/) or [Magnet](https://magnet.crowdcafe.com/), it's strongly recommended to disable/close them before the exam. Their keyboard shortcuts can conflict with the exam workstation, causing unexpected behavior when using shortcuts such as __⌘ + ←/→/↑/↓__.
+If you use window tiling apps such as [Rectangle](https://rectangleapp.com/) or [Magnet](https://magnet.crowdcafe.com/), it's strongly recommended to disable/close them before the exam. Their keyboard shortcuts can conflict with the exam workstation, causing unexpected behavior when using shortcuts such as __⌘ + ↑↓←→__.
 
 ## History Search by Prefix
 
@@ -90,12 +90,6 @@ The file is automatically loaded whenever a new Bash session starts. If you modi
 bind -f ~/.inputrc
 ```
 
-Since each exam task is performed on a different remote node, copy the file to the target node (for example, `node01`):
-
-```bash
-scp ~/.inputrc node01:~/.inputrc
-```
-
 ## Setting Up Vim
 
 The exam workstation includes [VSCodium](https://vscodium.com/). However, every exam task requires you to connect to a remote node via SSH, and [VSCodium](https://vscodium.com/) is __not__ available on those remote machines. Therefore, the best approach is to use Vim (unfortunately).
@@ -117,15 +111,9 @@ set cuc       " Highlight the current cursor column.
 syntax on     " Enable syntax highlighting.
 ```
 
-> *__NOTE__: Avoid using `set mouse=a` due to the exam workstation's high connection latency. Also, the clipboard settings with `clipboard+=unnamedplus,autoselect` does not work on the exam workstations.*
+Avoid using `set mouse=a` due to the exam workstation's high connection latency. Also, the clipboard settings with `clipboard+=unnamedplus,autoselect` does not work on the exam workstations.*
 
-Copy the file to the remote node for the exam question (for example, `node01`):
-
-```bash
-scp ~/.vimrc node01:~/.vimrc
-```
-
-__Bonus__: I have created a blog post [Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)](2026-07-15-vim-kubernetes-exams.md) with editing techniques I use most frequently during exams.
+I have created a blog post [Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)](2026-07-15-vim-kubernetes-exams.md) with editing techniques I use most frequently during exams.
 
 ## Kubectl Aliases and Shortcuts
 
@@ -170,10 +158,13 @@ export x="--dry-run=client -oyaml"
 export l="--show-labels"
 ```
 
-Finally, copy the updated configuration files back to the remote node:
+## Copy Settings to Exam Question Node
+
+All exam tasks are required to be performed on the remote question node via SSH. A convenient workflow is to create your configuration files once on the candidate instance and then copy them to the question node before starting the task.
 
 ```bash
-scp ~/.bashrc node01:~/.bashrc
+scp ~/.inputrc ~/.vimrc ~/.bashrc cks1234:~/
+ssh cks1234
 ```
 
 ## References
