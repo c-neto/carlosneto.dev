@@ -498,9 +498,8 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">### omitted the .bashrc copied from question node</span>
 
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kgp</span><span class="o">=</span><span class="s2">&quot;kubectl get pods&quot;</span>
-
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kgs</span><span class="o">=</span><span class="s2">&quot;kubectl get services&quot;</span>
-<span class="nb">alias</span><span class="w"> </span><span class="nv">ke</span><span class="o">=</span><span class="s2">&quot;kubectl get endpoints&quot;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">ke</span><span class="o">=</span><span class="s2">&quot;kubectl get endpointslices&quot;</span>
 
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kaf</span><span class="o">=</span><span class="s2">&quot;kubectl apply -f&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kdel</span><span class="o">=</span><span class="s2">&quot;kubectl delete --now&quot;</span>
@@ -509,16 +508,9 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kns</span><span class="o">=</span><span class="s2">&quot;kubectl config set-context --current --namespace&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kctx</span><span class="o">=</span><span class="s2">&quot;kubectl config use-context&quot;</span>
 
-<span class="c1"># define vim as default editor (i.g. systemctl edit)</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">VISUAL</span><span class="o">=</span>vim
-
 <span class="c1"># shorthand for generating YAML in the imperative kubectl commands</span>
 <span class="c1"># &gt;&gt;&gt; k run nginx --image nginx:latest $x &gt; nginx.yaml</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">x</span><span class="o">=</span><span class="s2">&quot;--dry-run=client -oyaml&quot;</span>
-
-<span class="c1"># shorthand for show labels</span>
-<span class="c1"># &gt;&gt;&gt; k get ns $l</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">l</span><span class="o">=</span><span class="s2">&quot;--show-labels&quot;</span>
 </pre></div>
 </div>
 </div>
