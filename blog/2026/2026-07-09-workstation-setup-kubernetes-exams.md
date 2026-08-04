@@ -162,11 +162,11 @@ alias kctx="kubectl config use-context"
 export VISUAL=vim
 
 # shorthand for generating YAML in the imperative kubectl commands
-# $ k run nginx --image nginx:latest $x > nginx.yaml
+# >>> k run nginx --image nginx:latest $x > nginx.yaml
 export x="--dry-run=client -oyaml"
 
 # shorthand for show labels
-# $ kgp $l
+# >>> k get ns $l
 export l="--show-labels"
 ```
 
