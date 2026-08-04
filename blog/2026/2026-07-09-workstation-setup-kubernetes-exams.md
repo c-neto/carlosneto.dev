@@ -40,7 +40,7 @@ This helps prevent accidental desktop switching and reduces the risk of unnecess
 
 ## Disable Window Tiling Apps (MacBook)
 
-If you use window tiling apps such as [Rectangle](https://rectangleapp.com/) or [Magnet](https://magnet.crowdcafe.com/), it's strongly recommended to disable/close them before the exam. Their keyboard shortcuts can conflict with the exam workstation, causing unexpected behavior when using shortcuts such as *⌘ + ←* and *⌘ + →*.
+If you use window tiling apps such as [Rectangle](https://rectangleapp.com/) or [Magnet](https://magnet.crowdcafe.com/), it's strongly recommended to disable/close them before the exam. Their keyboard shortcuts can conflict with the exam workstation, causing unexpected behavior when using shortcuts such as __⌘ + ←/→/↑/↓__.
 
 ## History Search by Prefix
 
