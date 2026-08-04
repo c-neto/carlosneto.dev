@@ -521,11 +521,11 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <span class="nb">export</span><span class="w"> </span><span class="nv">VISUAL</span><span class="o">=</span>vim
 
 <span class="c1"># shorthand for generating YAML in the imperative kubectl commands</span>
-<span class="c1"># $ k run nginx --image nginx:latest $x &gt; nginx.yaml</span>
+<span class="c1"># &gt;&gt;&gt; k run nginx --image nginx:latest $x &gt; nginx.yaml</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">x</span><span class="o">=</span><span class="s2">&quot;--dry-run=client -oyaml&quot;</span>
 
 <span class="c1"># shorthand for show labels</span>
-<span class="c1"># $ kgp $l</span>
+<span class="c1"># &gt;&gt;&gt; k get ns $l</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">l</span><span class="o">=</span><span class="s2">&quot;--show-labels&quot;</span>
 </pre></div>
 </div>

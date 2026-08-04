@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-04T13:43:47.843283+00:00</updated>
+  <updated>2026-08-04T13:48:55.614501+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -338,11 +338,11 @@ scp&lt;span class="w"&gt; &lt;/span&gt;node01:~/.bashrc&lt;span class="w"&gt; &l
 &lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;VISUAL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;vim
 
 &lt;span class="c1"&gt;# shorthand for generating YAML in the imperative kubectl commands&lt;/span&gt;
-&lt;span class="c1"&gt;# $ k run nginx --image nginx:latest $x &amp;gt; nginx.yaml&lt;/span&gt;
+&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; k run nginx --image nginx:latest $x &amp;gt; nginx.yaml&lt;/span&gt;
 &lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--dry-run=client -oyaml&amp;quot;&lt;/span&gt;
 
 &lt;span class="c1"&gt;# shorthand for show labels&lt;/span&gt;
-&lt;span class="c1"&gt;# $ kgp $l&lt;/span&gt;
+&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; k get ns $l&lt;/span&gt;
 &lt;span class="nb"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;l&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;--show-labels&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
