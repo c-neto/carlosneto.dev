@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-04T14:15:14.352633+00:00</updated>
+  <updated>2026-08-04T14:24:03.182477+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -278,7 +278,7 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;/section&gt;
 &lt;section id="setting-up-vim"&gt;
 &lt;h2&gt;Setting Up Vim&lt;/h2&gt;
-&lt;p&gt;The exam workstation includes &lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt;. However, every exam task requires you to connect to a remote node via SSH, and &lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt; is &lt;strong&gt;not&lt;/strong&gt; available on those remote machines. Therefore, the best approach is to use Vim (unfortunately).&lt;/p&gt;
+&lt;p&gt;The exam workstation includes &lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt;. However, every exam task requires you to connect to a remote node via SSH, and VSCodium is not available on those remote machines. In addition, the exam workstation often has high latency, making mouse operation unreliable, this is where Vim shines.&lt;/p&gt;
 &lt;p&gt;The following settings provide a much better editing experience for Kubernetes YAML manifests.&lt;/p&gt;
 &lt;p&gt;Create the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; file and add the following configuration:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
@@ -295,8 +295,10 @@ kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&g
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Avoid using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; due to the exam workstation’s high connection latency. Also, the clipboard settings with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; does not work on the exam workstations.*&lt;/p&gt;
-&lt;p&gt;I have created a blog post &lt;a class="reference internal" href="2026/2026-07-15-vim-kubernetes-exams/"&gt;&lt;span class="std std-doc"&gt;Vim for Kubernetes Certification Exams (CKA, CKAD &amp;amp; CKS)&lt;/span&gt;&lt;/a&gt; with editing techniques I use most frequently during exams.&lt;/p&gt;
+&lt;p&gt;Avoid using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; due to the exam workstation’s high connection latency. Also, the clipboard settings with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; does not work on the exam workstations.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I have created a blog post &lt;a class="reference internal" href="2026/2026-07-15-vim-kubernetes-exams/"&gt;&lt;span class="std std-doc"&gt;Vim for Kubernetes Certification Exams (CKA, CKAD &amp;amp; CKS)&lt;/span&gt;&lt;/a&gt; with editing techniques I use most frequently during exams.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;/section&gt;
 &lt;section id="kubectl-aliases-and-shortcuts"&gt;
 &lt;h2&gt;Kubectl Aliases and Shortcuts&lt;/h2&gt;
