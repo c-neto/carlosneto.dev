@@ -92,7 +92,7 @@ bind -f ~/.inputrc
 
 ## Setting Up Vim
 
-The exam workstation includes [VSCodium](https://vscodium.com/). However, every exam task requires you to connect to a remote node via SSH, and [VSCodium](https://vscodium.com/) is __not__ available on those remote machines. Therefore, the best approach is to use Vim (unfortunately).
+The exam workstation includes [VSCodium](https://vscodium.com/). However, every exam task requires you to connect to a remote node via SSH, and VSCodium is not available on those remote machines. In addition, the exam workstation often has high latency, making mouse operation unreliable, this is where Vim shines.
 
 The following settings provide a much better editing experience for Kubernetes YAML manifests.
 
@@ -111,9 +111,9 @@ set cuc       " Highlight the current cursor column.
 syntax on     " Enable syntax highlighting.
 ```
 
-Avoid using `set mouse=a` due to the exam workstation's high connection latency. Also, the clipboard settings with `clipboard+=unnamedplus,autoselect` does not work on the exam workstations.*
+Avoid using `set mouse=a` due to the exam workstation's high connection latency. Also, the clipboard settings with `clipboard+=unnamedplus,autoselect` does not work on the exam workstations.
 
-I have created a blog post [Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)](2026-07-15-vim-kubernetes-exams.md) with editing techniques I use most frequently during exams.
+> *I have created a blog post [Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)](2026-07-15-vim-kubernetes-exams.md) with editing techniques I use most frequently during exams.*
 
 ## Kubectl Aliases and Shortcuts
 
