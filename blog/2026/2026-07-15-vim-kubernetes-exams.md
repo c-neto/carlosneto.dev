@@ -183,10 +183,10 @@ SHIFT+V         # 1. Select the lines (Visual Line mode)
 :!sort | uniq   # 2. Sort and remove duplicates from the selection
 ```
 
-You can also apply the same logic to an entire file. For instance, to quickly format raw JSON, you can use Python's built-in [json.tool](https://docs.python.org/3/library/json.html):
+You can apply the same approach to an entire file. For example, use [yq](https://github.com/mikefarah/yq?utm_source=chatgpt.com) to format a YAML file. This is useful for validating the YAML syntax and converting inline lists into a properly indented block style, making resources such as NetworkPolicies better to read and edit.
 
 ```bash
-:%!python -m json.tool
+:%!yq
 ```
 
 You can run a command to check the output without exiting Vim. This is useful when you are editing a NetworkPolicy and need to know the labels of the pods and namespaces to edit the matchLabels statement.
@@ -195,16 +195,10 @@ You can run a command to check the output without exiting Vim. This is useful wh
 :!kubectl get pods,ns --show-labels -n foobar
 ```
 
-Another useful trick is saving files without opening them with `sudo vim`. This approach is particularly handy because when you edit a file using `sudo vim`, your personal `~/.vimrc` configuration does not apply to the root user. This is useful for editing files such as `/etc/falco/falco.yaml` that require root permissions.
+Another useful trick is saving protected files without opening them with `sudo vim`. This is particularly handy when you forget to open a file with elevated privileges and have already made several changes. Instead of reopening the file with `sudo vim` and repeating all your edits, you can write the current buffer using:
 
 ```bash
 :w !sudo tee %
-```
-
-Beyond filtering and editing text, you can pass your unsaved buffer into external commands without modifying the file or leaving Vim. For example, this command allows you to compare the manifest you are editing in the Kubernetes cluster without needing to save the file first.
-
-```bash
-:w !kubectl diff -f -
 ```
 
 > *__INFO:__ `:w` normally saves to a file. But when followed by `!`, it redirects your buffer’s content to an external command's standard input (STDIN) instead of writing to disk.*
