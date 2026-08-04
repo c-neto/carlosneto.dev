@@ -400,9 +400,9 @@
 <section id="configure-the-u-s-keyboard-layout-macbooks">
 <h2>Configure the U.S. Keyboard Layout (MacBooks)<a class="headerlink" href="#configure-the-u-s-keyboard-layout-macbooks" title="Link to this heading">#</a></h2>
 <p>If you’re taking the exam on a MacBook, make sure your keyboard layout is set to <code class="docutils literal notranslate"><span class="pre">U.S.</span></code>. Otherwise, the remote Linux environment may not recognize certain characters correctly, especially <code class="docutils literal notranslate"><span class="pre">~</span></code> and <code class="docutils literal notranslate"><span class="pre">`</span></code>. This is a common issue with layouts such as <code class="docutils literal notranslate"><span class="pre">U.S.</span> <span class="pre">International</span> <span class="pre">-</span> <span class="pre">PC</span></code> and <code class="docutils literal notranslate"><span class="pre">Brazilian</span> <span class="pre">–</span> <span class="pre">ABNT2</span></code>.</p>
-<p>Before the exam, perform the follow steps:</p>
+<p>Before the exam, perform the following steps:</p>
 <ol class="arabic simple">
-<li><p>Open <strong>System Settings » Keyboard » Input Sources</strong>.</p></li>
+<li><p>Open <em><strong>System Settings » Keyboard » Input Sources</strong></em>.</p></li>
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">U.S.</span></code> input source.</p></li>
 <li><p>Remove any other input sources so only <code class="docutils literal notranslate"><span class="pre">U.S.</span></code> remains.</p></li>
 </ol>
@@ -411,11 +411,11 @@
 <section id="disable-mission-control-shortcuts-macbooks">
 <h2>Disable Mission Control Shortcuts (MacBooks)<a class="headerlink" href="#disable-mission-control-shortcuts-macbooks" title="Link to this heading">#</a></h2>
 <p>By default, pressing <strong>CTRL + ←→</strong> switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.</p>
-<p>Before the exam, perform the follow steps:</p>
+<p>Before the exam, perform the following steps:</p>
 <ol class="arabic simple">
-<li><p>Open <strong>System Settings » Keyboard » Keyboard Shortcuts</strong></p></li>
-<li><p>Select <strong>Mission Control</strong></p></li>
-<li><p>Disable all shortcuts under <strong>Mission Control</strong>.</p></li>
+<li><p>Open <em><strong>System Settings » Keyboard » Keyboard Shortcuts</strong></em>.</p></li>
+<li><p>Select <em><strong>Mission Control</strong></em>.</p></li>
+<li><p>Disable all shortcuts under <em><strong>Mission Control</strong></em>.</p></li>
 </ol>
 <p>This helps prevent accidental desktop switching and reduces the risk of unnecessary proctor alerts or exam suspension on suspicion of consulting unauthorized material.</p>
 </section>
@@ -485,11 +485,9 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </section>
 <section id="kubectl-aliases-and-shortcuts">
 <h2>Kubectl Aliases and Shortcuts<a class="headerlink" href="#kubectl-aliases-and-shortcuts" title="Link to this heading">#</a></h2>
-<p>During the exam you will type <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> hundreds of times and will also need to back up configuration files. To save time and reduce the risk of mistakes (especially when nervous), avoid typing repeated commands: use aliases, functions, and shortcuts to prevent typos.</p>
-<p>Each remote exam node already contains a preconfigured <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file with several useful settings. A handy trick is to copy that file back to the main workstation, append your own aliases, and then copy it back to the remote nodes.</p>
-<p>First, create a backup of the main instance <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>~/.bashrc<span class="w"> </span>~/.bashrc.bkp
-scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
+<p>Each remote exam node already contains a preconfigured <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file with several useful settings. A handy trick is to copy it to main workstation, append your own aliases, and then copy it back to the question nodes.</p>
+<p>First, copy the <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> from question node:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>cks1234:~/.bashrc<span class="w"> </span>~/.bashrc
 </pre></div>
 </div>
 <p>Append the following aliases to the end of the file:</p>
@@ -498,6 +496,7 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">### omitted the .bashrc copied from question node</span>
 
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kgp</span><span class="o">=</span><span class="s2">&quot;kubectl get pods&quot;</span>
+
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kaf</span><span class="o">=</span><span class="s2">&quot;kubectl apply -f&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kdel</span><span class="o">=</span><span class="s2">&quot;kubectl delete --now&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kdelp</span><span class="o">=</span><span class="s2">&quot;kubectl delete pod --now&quot;</span>
@@ -505,16 +504,17 @@ scp<span class="w"> </span>node01:~/.bashrc<span class="w"> </span>~/.bashrc
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kns</span><span class="o">=</span><span class="s2">&quot;kubectl config set-context --current --namespace&quot;</span>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">kctx</span><span class="o">=</span><span class="s2">&quot;kubectl config use-context&quot;</span>
 
-<span class="c1"># shorthand for generating YAML in the imperative kubectl commands</span>
-<span class="c1"># &gt;&gt;&gt; k run nginx --image nginx:latest $x &gt; nginx.yaml</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">x</span><span class="o">=</span><span class="s2">&quot;--dry-run=client -oyaml&quot;</span>
 </pre></div>
 </div>
 </div>
+<blockquote>
+<div><p><em><strong>INFO:</strong> The <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">x</span></code> is useful shorthand for generating YAML in imperative kubectl commands such as <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">run</span> <span class="pre">nginx</span> <span class="pre">--image</span> <span class="pre">nginx:latest</span> <span class="pre">$x</span> <span class="pre">&gt;</span> <span class="pre">nginx.yaml</span></code></em></p>
+</div></blockquote>
 </section>
 <section id="copy-settings-to-exam-question-node">
 <h2>Copy Settings to Exam Question Node<a class="headerlink" href="#copy-settings-to-exam-question-node" title="Link to this heading">#</a></h2>
-<p>All exam tasks are required to be performed on the remote question node via SSH. A convenient workflow is to create your configuration files once on the candidate instance and then copy them to the question node before starting the task.</p>
+<p>All exam tasks are required to be performed on the remote question node via SSH. A convenient workflow is to create your configuration files once on the main instance and then copy them to the question node before starting the task.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.inputrc<span class="w"> </span>~/.vimrc<span class="w"> </span>~/.bashrc<span class="w"> </span>cks1234:~/
 ssh<span class="w"> </span>cks1234
 </pre></div>
