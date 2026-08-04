@@ -398,8 +398,8 @@
 <p>This post focuses on the minimal Vim configuration and the editing techniques I use during Kubernetes certifications exams by Linux Foundation. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.</p>
 <section id="vim-less-mouse-more-efficiency">
 <h2>Vim: Less Mouse, More Efficiency<a class="headerlink" href="#vim-less-mouse-more-efficiency" title="Link to this heading">#</a></h2>
-<p>The exam workstation includes <em><a class="reference external" href="https://vscodium.com/">VSCodium</a></em> (<em>the free and open-source binaries of VS Code</em>), but it’s not a practical option during the exam. All exam tasks are performed on remote nodes over SSH, where <em>VSCodium</em> is unavailable. In addition, it is common that the connection to the exam workstation has <strong>high latency</strong>, making mouse operations slow and unreliable. The less you use on the mouse, the faster you’ll be able to edit files. This is where Vim shines.</p>
-<p>You don’t need to become vim hacker to pass the Kubernetes certification exams. Focus on building muscle memory by mastering the commands covered in this post. These commands are all you need to edit Kubernetes YAML manifests efficiently under exam conditions.</p>
+<p>The exam workstation includes <em><a class="reference external" href="https://vscodium.com/">VSCodium</a></em> (<em>the free and open-source binaries of VS Code</em>), but it’s not a practical choice during the exam. While the workstation itself includes <em>VSCodium</em>, all exam tasks are completed on remote nodes via terminal over SSH, where it is unavailable. In addition, the connection to the exam workstation often has noticeable latency, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you’ll be able to edit files. This is where Vim shines.</p>
+<p>You don’t need to become a Vim expert to pass the exam. This guide covers everything you need to edit Kubernetes YAML manifests efficiently under exam conditions. Focus on building muscle memory by practicing these commands in the simulation labs.</p>
 </section>
 <section id="vim-configuration">
 <h2>Vim Configuration<a class="headerlink" href="#vim-configuration" title="Link to this heading">#</a></h2>
@@ -419,7 +419,7 @@
 </div>
 </div>
 <blockquote>
-<div><p><em><strong>NOTE</strong>: Avoid using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> due to the exam workstation’s high connection latency. Also, the clipboard settings with <code class="docutils literal notranslate"><span class="pre">clipboard+=unnamedplus,autoselect</span></code> does not work on the exam workstations.</em></p>
+<div><p><em><strong>NOTE</strong>: Avoid using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> due to the exam workstation’s high connection latency. Also, the clipboard settings with <code class="docutils literal notranslate"><span class="pre">clipboard+=unnamedplus,autoselect</span></code> do not work on the exam workstations.</em></p>
 </div></blockquote>
 <p>Each exam task is performed on a different remote node. Before starting a task, copy your local <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> to the target question machine:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.vimrc<span class="w"> </span>node01:~/.vimrc
