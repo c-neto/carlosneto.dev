@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-08T14:49:58.755505+00:00</updated>
+  <updated>2026-08-08T14:55:54.646933+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -163,11 +163,21 @@ Shift+n&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Go back to
 &lt;/section&gt;
 &lt;section id="working-with-numbers"&gt;
 &lt;h2&gt;Working with Numbers&lt;/h2&gt;
-&lt;p&gt;Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement numeric values.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="m"&gt;50&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;Ctrl+a&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Search for next number and increment 50&lt;/span&gt;
-&lt;span class="m"&gt;40&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;Ctrl+x&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Search for next number and decrement 40&lt;/span&gt;
+&lt;p&gt;Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement them directly.&lt;/p&gt;
+&lt;p&gt;Place the cursor before or on a number, then use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+a&lt;/span&gt;&lt;/code&gt; to increment it or &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt; to decrement it. You can also provide a count to change the value by a larger amount:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="m"&gt;50&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;Ctrl+a&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Increment the next number by 50&lt;/span&gt;
+&lt;span class="m"&gt;40&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;»&lt;span class="w"&gt; &lt;/span&gt;Ctrl+x&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Decrement the next number by 40&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
+&lt;p&gt;For example, with the cursor on &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;replicas&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;replicas&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Pressing &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+a&lt;/span&gt;&lt;/code&gt; changes it to:&lt;/p&gt;
+&lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;replicas&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;4&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Likewise, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;10&lt;/span&gt; &lt;span class="pre"&gt;»&lt;/span&gt; &lt;span class="pre"&gt;Ctrl+a&lt;/span&gt;&lt;/code&gt; changes it from &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;3&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;13&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="running-shell-commands-in-vim"&gt;
 &lt;h2&gt;Running Shell Commands in Vim&lt;/h2&gt;

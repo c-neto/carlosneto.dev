@@ -543,11 +543,21 @@ Shift+n<span class="w">   </span><span class="c1"># Go back to the previous matc
 </section>
 <section id="working-with-numbers">
 <h2>Working with Numbers<a class="headerlink" href="#working-with-numbers" title="Link to this heading">#</a></h2>
-<p>Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement numeric values.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">50</span><span class="w"> </span>»<span class="w"> </span>Ctrl+a<span class="w">     </span><span class="c1"># Search for next number and increment 50</span>
-<span class="m">40</span><span class="w"> </span>»<span class="w"> </span>Ctrl+x<span class="w">     </span><span class="c1"># Search for next number and decrement 40</span>
+<p>Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement them directly.</p>
+<p>Place the cursor before or on a number, then use <code class="docutils literal notranslate"><span class="pre">Ctrl+a</span></code> to increment it or <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> to decrement it. You can also provide a count to change the value by a larger amount:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">50</span><span class="w"> </span>»<span class="w"> </span>Ctrl+a<span class="w">     </span><span class="c1"># Increment the next number by 50</span>
+<span class="m">40</span><span class="w"> </span>»<span class="w"> </span>Ctrl+x<span class="w">     </span><span class="c1"># Decrement the next number by 40</span>
 </pre></div>
 </div>
+<p>For example, with the cursor on <code class="docutils literal notranslate"><span class="pre">replicas</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</pre></div>
+</div>
+<p>Pressing <code class="docutils literal notranslate"><span class="pre">Ctrl+a</span></code> changes it to:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+</pre></div>
+</div>
+<p>Likewise, <code class="docutils literal notranslate"><span class="pre">10</span> <span class="pre">»</span> <span class="pre">Ctrl+a</span></code> changes it from <code class="docutils literal notranslate"><span class="pre">3</span></code> to <code class="docutils literal notranslate"><span class="pre">13</span></code>.</p>
 </section>
 <section id="running-shell-commands-in-vim">
 <h2>Running Shell Commands in Vim<a class="headerlink" href="#running-shell-commands-in-vim" title="Link to this heading">#</a></h2>
