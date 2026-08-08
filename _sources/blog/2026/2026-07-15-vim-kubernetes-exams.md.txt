@@ -52,8 +52,8 @@ o           # Open a new line below
 Shitf+o     # Open a new line above
 i           # Enter Insert mode
 Shitf+a     # Enter Insert mode in the end of the line
-cW          # Change word under the cursor
-Shitf+C     # Change line under the cursor
+cW          # Cut word under the cursor and enter in insert mode (for word replace)
+Shitf+C     # Cut line under the cursor column (for line replace)
 Ctrl+y      # Copy the character from the line above
 
 y           # Yank (copy)
