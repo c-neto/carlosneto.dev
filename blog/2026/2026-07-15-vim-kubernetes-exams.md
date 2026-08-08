@@ -45,9 +45,11 @@ scp ~/.vimrc node01:~/.vimrc
 
 ## Essential Editing Commands
 
-These are the commands you'll use most often. They let you navigate, copy, delete, replace, and repeat edits without leaving Normal mode, making common editing tasks much faster.
+These are the commands you'll use most often. They let you navigate, copy, delete, replace, and repeat edits without relying on the mouse.
 
 ```bash
+SHIFT+v     # enter in Visual lines mode
+CTRL+v      # enter in Visual block mode
 .           # repeat the last command
 ~           # toggle character case
 dd          # cut/delete the current line
@@ -55,57 +57,53 @@ dG          # cut/delete from the cursor to the end of the file
 dgg         # cut/delete from the cursor to the start of the file
 y           # yank (copy)
 p           # paste below
-P           # paste above
+SHIFT+p     # paste above
 u           # undo
 CTRL+r      # redo
-O           # open a new line above and enter Insert mode
 o           # open a new line below and enter Insert mode
+SHIFT+o     # open a new line above and enter Insert mode
 cW          # replace the current word and enter Insert mode
-C           # delete from the cursor to the end of the line and enter Insert mode
+SHIFT+c     # delete from the cursor to the end of the line and enter Insert mode
 i » CTRL+y  # copy the character above the cursor
-A           # move to the end of the line and enter Insert mode
+SHIFT+a     # move to the end of the line and enter Insert mode
 :wq         # save and quit (or ZZ)
 ```
 
 ## Navigation Commands
 
-I strongly recommend __not__ using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
+As previously mentioned, I strongly recommend __not__ using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
 
 ```bash
-/greeting   # search for "greeting"
-?foo/bar    # search for "foo/bar" (include "/")
-n           # jump forward in the search match list
-SHIFT+n     # jump backward in the search match list
-12gg        # jump to line 12
-0           # jump to the beginning of the line
-gg          # jump to the start of the file
-G           # jump to the end of the file
-W           # jump to the next word
-B           # jump to the previous word
-v           # enter in Visual inline mode (lowercase)
-V           # enter in Visual lines mode (uppercase)
-CTRL+v      # enter in Visual block mode (lowercase)
+/greeting   # jump for "greeting"
+?foo/bar    # jump for "foo/bar" (include "/")
+n           # jump forward in the search list
+SHIFT+n     # jump backward in the search list
+12gg        # jump line 12
+0           # jump beginning of the line
+gg          # jump start of the file
+G           # jump end of the file
+W           # jump next word
+B           # jump previous word
 ```
 
 ## Fixing YAML Indentation
 
-Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to SHIFT entire YAML blocks to the right or left while preserving their structure.
+Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to ident entire YAML blocks to the right or left while preserving their structure.
 
 To increase the indentation:
 
 ```bash
-V       # 1. enter Visual Line mode (uppercase)
-↑↓       # 2. select the lines
->       # 3. SHIFT indentation right
-ESC     # 4. apply the change
-.       # 5. repeat the indentation
+SHIFT+v   # 1. select lines in Visual Line (↑↓) 
+>         # 3. shift indentation right
+ESC       # 4. apply the change
+.         # 5. repeat the indentation
 ```
 
 If you need to reverse the indentation or perform another operation on the same lines, use `gv` to restore the previous Visual selection:
 
 ```bash
 gv      # 1. reselect the previous Visual selection
-<       # 2. SHIFT indentation left
+<       # 2. shift indentation left
 ESC     # 3. apply the change
 .       # 4. repeat the operation
 ```
@@ -115,11 +113,10 @@ ESC     # 3. apply the change
 Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.
 
 ```bash
-CTRL+v    # 1. enter Visual Block mode
-↑↓         # 2. select the first column of the lines
-SHIFT+i   # 3. enter Insert mode
-#         # 4. type the comment character
-ESC       # 5. apply the change to all selected lines
+CTRL+v    # 1. select columns lines in Visual Block (↑↓)
+SHIFT+i   # 2. enter Insert mode
+#         # 3. type the comment character
+ESC       # 4. apply the change to all selected lines
 ```
 
 The same technique can also be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.
@@ -138,14 +135,15 @@ To replace every occurrence of a string:
 Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:
 
 ```bash
-*       # 1. search for the word under the cursor (or use "/greeting")
-cW      # 2. replace the current occurrence
-foobar  # 3. type the replacement text
-n       # 4. jump to the next occurrence
-.       # 5. repeat the replacement
-n       # 6. jump forward in the match list
-SHIFT+n # 8. jump backward in the match list
-.       # 9. repeat the replacement
+*         # search for the word under the cursor (or use "/greeting")
+cW        # replace the current occurrence
+foobar    # type the replacement text
+n         # jump to the next match
+.         # repeat the replacement
+n         # jump to the next match
+n         # skip this match and jump to the next one
+SHIFT+n   # go back to the previous match
+.         # repeat the replacement here
 ```
 
 This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.
@@ -168,11 +166,11 @@ Many editing operations can be performed directly on a range of line numbers wit
 
 ## Working with Numbers
 
-Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement the value directly under the cursor.
+Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement numeric values.
 
 ```bash
-50 » CTRL+a     # increment a number by 50
-40 » CTRL+x     # decrement a number by 40
+50 » CTRL+a     # search for next number and increment 50
+40 » CTRL+x     # search for next number and decrement 40
 ```
 
 ## Running Shell Commands in Vim
@@ -186,8 +184,8 @@ You can leverage operating system CLI tools to process and edit file content dir
 You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through [sort](https://man7.org/linux/man-pages/man1/sort.1.html) and [uniq](https://ss64.com/bash/uniq.html):
 
 ```bash
-SHIFT+V         # 1. Select the lines (Visual Line mode)
-:!sort | uniq   # 2. Sort and remove duplicates from the selection
+SHIFT+V         # 1. select lines in Visual Line (↑↓) 
+:!sort | uniq   # 2. sort and remove duplicates from the selection
 ```
 
 Vim can also execute commands without modifying the current buffer. This is useful when you need to quickly inspect information from the cluster while editing a manifest. For example, when editing a NetworkPolicy, you can check pod and namespace labels with:
@@ -202,7 +200,7 @@ Another useful trick is saving protected files without opening them with `sudo v
 :w !sudo tee %
 ```
 
-`:w` normally saves the buffer to a file. When followed by `!`, it sends the buffer's content to an external command's standard input (STDIN) instead of writing to the file directly.
+The `:w` normally saves the buffer to a file. When followed by `!`, it sends the buffer's content to an external command's standard input (STDIN) instead of writing to the file directly.
 
 ## Learn More
 
