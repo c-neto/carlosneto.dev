@@ -51,23 +51,23 @@ These are the commands you'll use most often. They let you navigate, copy, delet
 o           # Open a new line below
 O           # Open a new line above
 i           # Enter Insert mode
-A           # Move to the end of the line and enter Insert mode
-cW          # Change the WORD under the cursor
-C           # Change from the cursor to the end of the line
-Ctrl-y      # Copy the character from the line above
+Shitf+a     # Enter Insert mode in the end of the line
+cW          # Change word under the cursor
+C           # Change line under the cursor
+Ctrl+y      # Copy the character from the line above
 
 y           # Yank (copy)
 p           # Paste below
-P           # Paste above
+Shift+p     # Paste above
 dd          # Cut the current line
 dG          # Cut to the end of the file
 dgg         # Cut to the beginning of the file
 
 u           # Undo
-Ctrl-r      # Redo
+Ctrl+r      # Redo
 
-V           # Enter Visual Line mode (useful for indentation and copy/paste)
-Ctrl-v      # Enter Visual Block mode (useful for comment lines)
+Shift+V     # Enter Visual Line mode (for indentation and copy)
+Ctrl+v      # Enter Visual Block mode (for comment lines)
 >           # Indent to the right
 <           # Indent to the left
 .           # Repeat the last change
@@ -101,7 +101,7 @@ Indentation mistakes are one of the most common causes of invalid Kubernetes man
 To increase the indentation:
 
 ```bash
-SHIFT+v   # 1. select lines in Visual Line (↑↓) 
+Shift+v   # 1. select lines in Visual Line (↑↓) 
 >         # 3. shift indentation right
 ESC       # 4. apply the change
 .         # 5. repeat the indentation
@@ -122,7 +122,7 @@ Visual Block mode allows you to insert the same text across multiple lines simul
 
 ```bash
 Ctrl+v    # 1. Select columns lines in Visual Block (↑↓)
-SHIFT+i   # 2. Enter Insert mode
+Shift+i   # 2. Enter Insert mode
 #         # 3. Type the comment character
 ESC       # 4. Apply the change to all selected lines
 ```
@@ -150,7 +150,7 @@ n         # Jump to the next match
 .         # Repeat the replacement
 n         # Jump to the next match
 n         # Skip this match and jump to the next one
-SHIFT+n   # Go back to the previous match
+Shift+n   # Go back to the previous match
 .         # Repeat the replacement here
 ```
 
@@ -192,7 +192,7 @@ You can leverage operating system CLI tools to process and edit file content dir
 You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through [sort](https://man7.org/linux/man-pages/man1/sort.1.html) and [uniq](https://ss64.com/bash/uniq.html):
 
 ```bash
-SHIFT+V         # 1. Select lines in Visual Line (↑↓) 
+Shift+V         # 1. Select lines in Visual Line (↑↓) 
 :!sort | uniq   # 2. Sort and remove duplicates from the selection
 ```
 
