@@ -45,7 +45,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=68e62335" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=8b5cda8c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
@@ -429,41 +429,53 @@
 <section id="essential-editing-commands">
 <h2>Essential Editing Commands<a class="headerlink" href="#essential-editing-commands" title="Link to this heading">#</a></h2>
 <p>These are the commands you’ll use most often. They let you navigate, copy, delete, replace, and repeat edits without relying on the mouse.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SHIFT+v<span class="w">     </span><span class="c1"># enter in Visual lines mode</span>
-CTRL+v<span class="w">      </span><span class="c1"># enter in Visual block mode</span>
-.<span class="w">           </span><span class="c1"># repeat the last command</span>
-~<span class="w">           </span><span class="c1"># toggle character case</span>
-dd<span class="w">          </span><span class="c1"># cut/delete the current line</span>
-dG<span class="w">          </span><span class="c1"># cut/delete from the cursor to the end of the file</span>
-dgg<span class="w">         </span><span class="c1"># cut/delete from the cursor to the start of the file</span>
-y<span class="w">           </span><span class="c1"># yank (copy)</span>
-p<span class="w">           </span><span class="c1"># paste below</span>
-SHIFT+p<span class="w">     </span><span class="c1"># paste above</span>
-u<span class="w">           </span><span class="c1"># undo</span>
-CTRL+r<span class="w">      </span><span class="c1"># redo</span>
-o<span class="w">           </span><span class="c1"># open a new line below and enter Insert mode</span>
-SHIFT+o<span class="w">     </span><span class="c1"># open a new line above and enter Insert mode</span>
-cW<span class="w">          </span><span class="c1"># replace the current word and enter Insert mode</span>
-SHIFT+c<span class="w">     </span><span class="c1"># delete from the cursor to the end of the line and enter Insert mode</span>
-i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">  </span><span class="c1"># copy the character above the cursor</span>
-SHIFT+a<span class="w">     </span><span class="c1"># move to the end of the line and enter Insert mode</span>
-:wq<span class="w">         </span><span class="c1"># save and quit (or ZZ)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>o<span class="w">           </span><span class="c1"># Open a new line below</span>
+O<span class="w">           </span><span class="c1"># Open a new line above</span>
+
+i<span class="w">           </span><span class="c1"># Enter Insert mode</span>
+A<span class="w">           </span><span class="c1"># Move to the end of the line and enter Insert mode</span>
+cW<span class="w">          </span><span class="c1"># Change the WORD under the cursor</span>
+C<span class="w">           </span><span class="c1"># Change from the cursor to the end of the line</span>
+Ctrl-y<span class="w">      </span><span class="c1"># Copy the character from the line above</span>
+
+y<span class="w">           </span><span class="c1"># Yank (copy)</span>
+p<span class="w">           </span><span class="c1"># Paste below</span>
+P<span class="w">           </span><span class="c1"># Paste above</span>
+dd<span class="w">          </span><span class="c1"># Delete the current line</span>
+dG<span class="w">          </span><span class="c1"># Delete to the end of the file</span>
+dgg<span class="w">         </span><span class="c1"># Delete to the beginning of the file</span>
+
+u<span class="w">           </span><span class="c1"># Undo</span>
+Ctrl-r<span class="w">      </span><span class="c1"># Redo</span>
+
+V<span class="w">           </span><span class="c1"># Enter Visual Line mode (useful for indentation and copy/paste)</span>
+Ctrl-v<span class="w">      </span><span class="c1"># Enter Visual Block mode (useful for comment lines)</span>
+&gt;<span class="w">           </span><span class="c1"># Indent to the right</span>
+&lt;<span class="w">           </span><span class="c1"># Indent to the left</span>
+.<span class="w">           </span><span class="c1"># Repeat the last change</span>
+~<span class="w">           </span><span class="c1"># Toggle character case</span>
+
+:set<span class="w"> </span>list<span class="w">   </span><span class="c1"># see tabs characters</span>
+:set<span class="w"> </span>nolist<span class="w"> </span><span class="c1"># disable see tabs mode</span>
+:retab<span class="w">      </span><span class="c1"># converts tabs to space</span>
+
+:wq<span class="w">         </span><span class="c1"># Save and quit (or ZZ)</span>
 </pre></div>
 </div>
 </section>
 <section id="navigation-commands">
 <h2>Navigation Commands<a class="headerlink" href="#navigation-commands" title="Link to this heading">#</a></h2>
 <p>As previously mentioned, I strongly recommend <strong>not</strong> using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/greeting<span class="w">   </span><span class="c1"># jump for &quot;greeting&quot;</span>
-?foo/bar<span class="w">    </span><span class="c1"># jump for &quot;foo/bar&quot; (include &quot;/&quot;)</span>
-n<span class="w">           </span><span class="c1"># jump forward in the search list</span>
-SHIFT+n<span class="w">     </span><span class="c1"># jump backward in the search list</span>
-12gg<span class="w">        </span><span class="c1"># jump line 12</span>
-<span class="m">0</span><span class="w">           </span><span class="c1"># jump beginning of the line</span>
-gg<span class="w">          </span><span class="c1"># jump start of the file</span>
-G<span class="w">           </span><span class="c1"># jump end of the file</span>
-W<span class="w">           </span><span class="c1"># jump next word</span>
-B<span class="w">           </span><span class="c1"># jump previous word</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/greeting<span class="w">   </span><span class="c1"># Search forward for &quot;greeting&quot;</span>
+?foo/bar<span class="w">    </span><span class="c1"># Search backward for &quot;foo/bar&quot;</span>
+n<span class="w">           </span><span class="c1"># Jump to the next match</span>
+N<span class="w">           </span><span class="c1"># Jump to the previous match</span>
+12gg<span class="w">        </span><span class="c1"># Jump to line 12</span>
+<span class="m">0</span><span class="w">           </span><span class="c1"># Jump to the beginning of the line</span>
+gg<span class="w">          </span><span class="c1"># Jump to the beginning of the file</span>
+G<span class="w">           </span><span class="c1"># Jump to the end of the file</span>
+W<span class="w">           </span><span class="c1"># Jump to the next word</span>
+B<span class="w">           </span><span class="c1"># Jump to the previous word</span>
 </pre></div>
 </div>
 </section>
@@ -488,10 +500,10 @@ ESC<span class="w">     </span><span class="c1"># 3. apply the change</span>
 <section id="commenting-multiple-lines">
 <h2>Commenting Multiple Lines<a class="headerlink" href="#commenting-multiple-lines" title="Link to this heading">#</a></h2>
 <p>Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CTRL+v<span class="w">    </span><span class="c1"># 1. select columns lines in Visual Block (↑↓)</span>
-SHIFT+i<span class="w">   </span><span class="c1"># 2. enter Insert mode</span>
-<span class="c1">#         # 3. type the comment character</span>
-ESC<span class="w">       </span><span class="c1"># 4. apply the change to all selected lines</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Ctrl+v<span class="w">    </span><span class="c1"># 1. Select columns lines in Visual Block (↑↓)</span>
+SHIFT+i<span class="w">   </span><span class="c1"># 2. Enter Insert mode</span>
+<span class="c1">#         # 3. Type the comment character</span>
+ESC<span class="w">       </span><span class="c1"># 4. Apply the change to all selected lines</span>
 </pre></div>
 </div>
 <p>The same technique can also be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.</p>
@@ -505,15 +517,15 @@ ESC<span class="w">       </span><span class="c1"># 4. apply the change to all s
 </pre></div>
 </div>
 <p>Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*<span class="w">         </span><span class="c1"># search for the word under the cursor (or use &quot;/greeting&quot;)</span>
-cW<span class="w">        </span><span class="c1"># replace the current occurrence</span>
-foobar<span class="w">    </span><span class="c1"># type the replacement text</span>
-n<span class="w">         </span><span class="c1"># jump to the next match</span>
-.<span class="w">         </span><span class="c1"># repeat the replacement</span>
-n<span class="w">         </span><span class="c1"># jump to the next match</span>
-n<span class="w">         </span><span class="c1"># skip this match and jump to the next one</span>
-SHIFT+n<span class="w">   </span><span class="c1"># go back to the previous match</span>
-.<span class="w">         </span><span class="c1"># repeat the replacement here</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*<span class="w">         </span><span class="c1"># Search for the word under the cursor (or use &quot;/greeting&quot;)</span>
+cW<span class="w">        </span><span class="c1"># Replace the current occurrence</span>
+foobar<span class="w">    </span><span class="c1"># Type the replacement text</span>
+n<span class="w">         </span><span class="c1"># Jump to the next match</span>
+.<span class="w">         </span><span class="c1"># Repeat the replacement</span>
+n<span class="w">         </span><span class="c1"># Jump to the next match</span>
+n<span class="w">         </span><span class="c1"># Skip this match and jump to the next one</span>
+SHIFT+n<span class="w">   </span><span class="c1"># Go back to the previous match</span>
+.<span class="w">         </span><span class="c1"># Repeat the replacement here</span>
 </pre></div>
 </div>
 <p>This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.</p>
@@ -521,23 +533,23 @@ SHIFT+n<span class="w">   </span><span class="c1"># go back to the previous matc
 <section id="working-with-yaml-blocks">
 <h2>Working with YAML Blocks<a class="headerlink" href="#working-with-yaml-blocks" title="Link to this heading">#</a></h2>
 <p>Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%&lt;<span class="w">         </span><span class="c1"># unindent all lines</span>
-:10,15&gt;<span class="w">     </span><span class="c1"># indent lines 10-15</span>
-:10,15&lt;<span class="w">     </span><span class="c1"># unindent lines 10-15</span>
-:30,50x<span class="w">     </span><span class="c1"># delete lines 30-50</span>
-:30,50t70<span class="w">   </span><span class="c1"># copy lines 30-50 and paste below line 70</span>
-:30,50m70<span class="w">   </span><span class="c1"># cut lines 30-50 and paste below line 70</span>
-:30,50d<span class="w">     </span><span class="c1"># cut lines 30-50</span>
-:10,15y<span class="w">     </span><span class="c1"># copy lines 10-15</span>
-:50put<span class="w">      </span><span class="c1"># paste lines below line 50</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%&lt;<span class="w">         </span><span class="c1"># Unindent all lines</span>
+:10,15&gt;<span class="w">     </span><span class="c1"># Indent lines 10-15</span>
+:10,15&lt;<span class="w">     </span><span class="c1"># Unindent lines 10-15</span>
+:30,50x<span class="w">     </span><span class="c1"># Delete lines 30-50</span>
+:30,50t70<span class="w">   </span><span class="c1"># Copy lines 30-50 and paste below line 70</span>
+:30,50m70<span class="w">   </span><span class="c1"># Cut lines 30-50 and paste below line 70</span>
+:30,50d<span class="w">     </span><span class="c1"># Cut lines 30-50</span>
+:10,15y<span class="w">     </span><span class="c1"># Copy lines 10-15</span>
+:50put<span class="w">      </span><span class="c1"># Paste lines below line 50</span>
 </pre></div>
 </div>
 </section>
 <section id="working-with-numbers">
 <h2>Working with Numbers<a class="headerlink" href="#working-with-numbers" title="Link to this heading">#</a></h2>
 <p>Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement numeric values.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">50</span><span class="w"> </span>»<span class="w"> </span>CTRL+a<span class="w">     </span><span class="c1"># search for next number and increment 50</span>
-<span class="m">40</span><span class="w"> </span>»<span class="w"> </span>CTRL+x<span class="w">     </span><span class="c1"># search for next number and decrement 40</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">50</span><span class="w"> </span>»<span class="w"> </span>Ctrl+a<span class="w">     </span><span class="c1"># Search for next number and increment 50</span>
+<span class="m">40</span><span class="w"> </span>»<span class="w"> </span>Ctrl+x<span class="w">     </span><span class="c1"># Search for next number and decrement 40</span>
 </pre></div>
 </div>
 </section>
@@ -548,8 +560,8 @@ SHIFT+n<span class="w">   </span><span class="c1"># go back to the previous matc
 </pre></div>
 </div>
 <p>You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through <a class="reference external" href="https://man7.org/linux/man-pages/man1/sort.1.html">sort</a> and <a class="reference external" href="https://ss64.com/bash/uniq.html">uniq</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SHIFT+V<span class="w">         </span><span class="c1"># 1. select lines in Visual Line (↑↓) </span>
-:!sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w">   </span><span class="c1"># 2. sort and remove duplicates from the selection</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SHIFT+V<span class="w">         </span><span class="c1"># 1. Select lines in Visual Line (↑↓) </span>
+:!sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w">   </span><span class="c1"># 2. Sort and remove duplicates from the selection</span>
 </pre></div>
 </div>
 <p>Vim can also execute commands without modifying the current buffer. This is useful when you need to quickly inspect information from the cluster while editing a manifest. For example, when editing a NetworkPolicy, you can check pod and namespace labels with:</p>
