@@ -174,12 +174,28 @@ Many editing operations can be performed directly on a range of line numbers wit
 
 ## Working with Numbers
 
-Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement numeric values.
+Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement them directly.
+
+Place the cursor before or on a number, then use `Ctrl+a` to increment it or `Ctrl+x` to decrement it. You can also provide a count to change the value by a larger amount:
 
 ```bash
-50 » Ctrl+a     # Search for next number and increment 50
-40 » Ctrl+x     # Search for next number and decrement 40
+50 » Ctrl+a     # Increment the next number by 50
+40 » Ctrl+x     # Decrement the next number by 40
 ```
+
+For example, with the cursor on `replicas`:
+
+```yaml
+replicas: 3
+```
+
+Pressing `Ctrl+a` changes it to:
+
+```yaml
+replicas: 4
+```
+
+Likewise, `10 » Ctrl+a` changes it from `3` to `13`.
 
 ## Running Shell Commands in Vim
 
