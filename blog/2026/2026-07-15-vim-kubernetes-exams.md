@@ -66,7 +66,7 @@ dgg         # Cut to the beginning of the file
 u           # Undo
 Ctrl+r      # Redo
 
-Shift+V     # Enter Visual Line mode (for indentation and copy)
+Shift+v     # Enter Visual Line mode (for indentation and copy)
 Ctrl+v      # Enter Visual Block mode (for comment lines)
 >           # Indent to the right
 <           # Indent to the left
