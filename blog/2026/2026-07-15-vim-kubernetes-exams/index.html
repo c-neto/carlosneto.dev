@@ -432,23 +432,23 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>o<span class="w">           </span><span class="c1"># Open a new line below</span>
 O<span class="w">           </span><span class="c1"># Open a new line above</span>
 i<span class="w">           </span><span class="c1"># Enter Insert mode</span>
-A<span class="w">           </span><span class="c1"># Move to the end of the line and enter Insert mode</span>
-cW<span class="w">          </span><span class="c1"># Change the WORD under the cursor</span>
-C<span class="w">           </span><span class="c1"># Change from the cursor to the end of the line</span>
-Ctrl-y<span class="w">      </span><span class="c1"># Copy the character from the line above</span>
+Shitf+a<span class="w">     </span><span class="c1"># Enter Insert mode in the end of the line</span>
+cW<span class="w">          </span><span class="c1"># Change word under the cursor</span>
+C<span class="w">           </span><span class="c1"># Change line under the cursor</span>
+Ctrl+y<span class="w">      </span><span class="c1"># Copy the character from the line above</span>
 
 y<span class="w">           </span><span class="c1"># Yank (copy)</span>
 p<span class="w">           </span><span class="c1"># Paste below</span>
-P<span class="w">           </span><span class="c1"># Paste above</span>
+Shift+p<span class="w">     </span><span class="c1"># Paste above</span>
 dd<span class="w">          </span><span class="c1"># Cut the current line</span>
 dG<span class="w">          </span><span class="c1"># Cut to the end of the file</span>
 dgg<span class="w">         </span><span class="c1"># Cut to the beginning of the file</span>
 
 u<span class="w">           </span><span class="c1"># Undo</span>
-Ctrl-r<span class="w">      </span><span class="c1"># Redo</span>
+Ctrl+r<span class="w">      </span><span class="c1"># Redo</span>
 
-V<span class="w">           </span><span class="c1"># Enter Visual Line mode (useful for indentation and copy/paste)</span>
-Ctrl-v<span class="w">      </span><span class="c1"># Enter Visual Block mode (useful for comment lines)</span>
+Shift+V<span class="w">     </span><span class="c1"># Enter Visual Line mode (for indentation and copy)</span>
+Ctrl+v<span class="w">      </span><span class="c1"># Enter Visual Block mode (for comment lines)</span>
 &gt;<span class="w">           </span><span class="c1"># Indent to the right</span>
 &lt;<span class="w">           </span><span class="c1"># Indent to the left</span>
 .<span class="w">           </span><span class="c1"># Repeat the last change</span>
@@ -479,7 +479,7 @@ B<span class="w">           </span><span class="c1"># Jump to the previous word<
 <h2>Fixing YAML Indentation<a class="headerlink" href="#fixing-yaml-indentation" title="Link to this heading">#</a></h2>
 <p>Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to ident entire YAML blocks to the right or left while preserving their structure.</p>
 <p>To increase the indentation:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SHIFT+v<span class="w">   </span><span class="c1"># 1. select lines in Visual Line (↑↓) </span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Shift+v<span class="w">   </span><span class="c1"># 1. select lines in Visual Line (↑↓) </span>
 &gt;<span class="w">         </span><span class="c1"># 3. shift indentation right</span>
 ESC<span class="w">       </span><span class="c1"># 4. apply the change</span>
 .<span class="w">         </span><span class="c1"># 5. repeat the indentation</span>
@@ -497,7 +497,7 @@ ESC<span class="w">     </span><span class="c1"># 3. apply the change</span>
 <h2>Commenting Multiple Lines<a class="headerlink" href="#commenting-multiple-lines" title="Link to this heading">#</a></h2>
 <p>Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Ctrl+v<span class="w">    </span><span class="c1"># 1. Select columns lines in Visual Block (↑↓)</span>
-SHIFT+i<span class="w">   </span><span class="c1"># 2. Enter Insert mode</span>
+Shift+i<span class="w">   </span><span class="c1"># 2. Enter Insert mode</span>
 <span class="c1">#         # 3. Type the comment character</span>
 ESC<span class="w">       </span><span class="c1"># 4. Apply the change to all selected lines</span>
 </pre></div>
@@ -520,7 +520,7 @@ n<span class="w">         </span><span class="c1"># Jump to the next match</span
 .<span class="w">         </span><span class="c1"># Repeat the replacement</span>
 n<span class="w">         </span><span class="c1"># Jump to the next match</span>
 n<span class="w">         </span><span class="c1"># Skip this match and jump to the next one</span>
-SHIFT+n<span class="w">   </span><span class="c1"># Go back to the previous match</span>
+Shift+n<span class="w">   </span><span class="c1"># Go back to the previous match</span>
 .<span class="w">         </span><span class="c1"># Repeat the replacement here</span>
 </pre></div>
 </div>
@@ -556,7 +556,7 @@ SHIFT+n<span class="w">   </span><span class="c1"># Go back to the previous matc
 </pre></div>
 </div>
 <p>You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through <a class="reference external" href="https://man7.org/linux/man-pages/man1/sort.1.html">sort</a> and <a class="reference external" href="https://ss64.com/bash/uniq.html">uniq</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SHIFT+V<span class="w">         </span><span class="c1"># 1. Select lines in Visual Line (↑↓) </span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Shift+V<span class="w">         </span><span class="c1"># 1. Select lines in Visual Line (↑↓) </span>
 :!sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w">   </span><span class="c1"># 2. Sort and remove duplicates from the selection</span>
 </pre></div>
 </div>

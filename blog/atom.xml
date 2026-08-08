@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-08T14:19:53.677186+00:00</updated>
+  <updated>2026-08-08T14:28:27.776424+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -52,23 +52,23 @@
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;o&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Open a new line below&lt;/span&gt;
 O&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Open a new line above&lt;/span&gt;
 i&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Enter Insert mode&lt;/span&gt;
-A&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Move to the end of the line and enter Insert mode&lt;/span&gt;
-cW&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# Change the WORD under the cursor&lt;/span&gt;
-C&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Change from the cursor to the end of the line&lt;/span&gt;
-Ctrl-y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Copy the character from the line above&lt;/span&gt;
+Shitf+a&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Enter Insert mode in the end of the line&lt;/span&gt;
+cW&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# Change word under the cursor&lt;/span&gt;
+C&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Change line under the cursor&lt;/span&gt;
+Ctrl+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Copy the character from the line above&lt;/span&gt;
 
 y&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Yank (copy)&lt;/span&gt;
 p&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Paste below&lt;/span&gt;
-P&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Paste above&lt;/span&gt;
+Shift+p&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Paste above&lt;/span&gt;
 dd&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# Cut the current line&lt;/span&gt;
 dG&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# Cut to the end of the file&lt;/span&gt;
 dgg&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Cut to the beginning of the file&lt;/span&gt;
 
 u&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Undo&lt;/span&gt;
-Ctrl-r&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Redo&lt;/span&gt;
+Ctrl+r&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Redo&lt;/span&gt;
 
-V&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Enter Visual Line mode (useful for indentation and copy/paste)&lt;/span&gt;
-Ctrl-v&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Enter Visual Block mode (useful for comment lines)&lt;/span&gt;
+Shift+V&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Enter Visual Line mode (for indentation and copy)&lt;/span&gt;
+Ctrl+v&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Enter Visual Block mode (for comment lines)&lt;/span&gt;
 &amp;gt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Indent to the right&lt;/span&gt;
 &amp;lt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Indent to the left&lt;/span&gt;
 .&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Repeat the last change&lt;/span&gt;
@@ -99,7 +99,7 @@ B&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Jump to 
 &lt;h2&gt;Fixing YAML Indentation&lt;/h2&gt;
 &lt;p&gt;Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to ident entire YAML blocks to the right or left while preserving their structure.&lt;/p&gt;
 &lt;p&gt;To increase the indentation:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;SHIFT+v&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 1. select lines in Visual Line (↑↓) &lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Shift+v&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 1. select lines in Visual Line (↑↓) &lt;/span&gt;
 &amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 3. shift indentation right&lt;/span&gt;
 ESC&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 4. apply the change&lt;/span&gt;
 .&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 5. repeat the indentation&lt;/span&gt;
@@ -117,7 +117,7 @@ ESC&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# 3. apply the
 &lt;h2&gt;Commenting Multiple Lines&lt;/h2&gt;
 &lt;p&gt;Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Ctrl+v&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select columns lines in Visual Block (↑↓)&lt;/span&gt;
-SHIFT+i&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 2. Enter Insert mode&lt;/span&gt;
+Shift+i&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 2. Enter Insert mode&lt;/span&gt;
 &lt;span class="c1"&gt;#         # 3. Type the comment character&lt;/span&gt;
 ESC&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 4. Apply the change to all selected lines&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -140,7 +140,7 @@ n&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Jump to th
 .&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Repeat the replacement&lt;/span&gt;
 n&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Jump to the next match&lt;/span&gt;
 n&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Skip this match and jump to the next one&lt;/span&gt;
-SHIFT+n&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Go back to the previous match&lt;/span&gt;
+Shift+n&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Go back to the previous match&lt;/span&gt;
 .&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Repeat the replacement here&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -176,7 +176,7 @@ SHIFT+n&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Go back to
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through &lt;a class="reference external" href="https://man7.org/linux/man-pages/man1/sort.1.html"&gt;sort&lt;/a&gt; and &lt;a class="reference external" href="https://ss64.com/bash/uniq.html"&gt;uniq&lt;/a&gt;:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;SHIFT+V&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select lines in Visual Line (↑↓) &lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Shift+V&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select lines in Visual Line (↑↓) &lt;/span&gt;
 :!sort&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;uniq&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 2. Sort and remove duplicates from the selection&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
