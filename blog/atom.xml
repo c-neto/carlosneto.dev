@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-08T12:03:38.898603+00:00</updated>
+  <updated>2026-08-08T12:11:36.740395+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -92,11 +92,11 @@ CTRL+v&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# enter in
 &lt;h2&gt;Fixing YAML Indentation&lt;/h2&gt;
 &lt;p&gt;Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to SHIFT entire YAML blocks to the right or left while preserving their structure.&lt;/p&gt;
 &lt;p&gt;To increase the indentation:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;V&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 1. enter Visual Line mode (uppercase)&lt;/span&gt;
-&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;lines&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# 2. select the lines&lt;/span&gt;
-&amp;gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 3. SHIFT indentation right&lt;/span&gt;
-ESC&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 4. apply the change&lt;/span&gt;
-.&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="c1"&gt;# 5. repeat the indentation&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;V&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 1. enter Visual Line mode (uppercase)&lt;/span&gt;
+↑↓&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# 2. select the lines&lt;/span&gt;
+&amp;gt;&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 3. SHIFT indentation right&lt;/span&gt;
+ESC&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# 4. apply the change&lt;/span&gt;
+.&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 5. repeat the indentation&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;If you need to reverse the indentation or perform another operation on the same lines, use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;gv&lt;/span&gt;&lt;/code&gt; to restore the previous Visual selection:&lt;/p&gt;
@@ -110,11 +110,11 @@ ESC&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# 3. apply the
 &lt;section id="commenting-multiple-lines"&gt;
 &lt;h2&gt;Commenting Multiple Lines&lt;/h2&gt;
 &lt;p&gt;Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;CTRL+v&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# 1. enter Visual Block mode&lt;/span&gt;
-&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;column&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 2. select the first column&lt;/span&gt;
-SHIFT+i&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 3. enter Insert mode&lt;/span&gt;
-&lt;span class="c1"&gt;#               # 4. type the comment character&lt;/span&gt;
-ESC&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 5. apply the change to all selected lines&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;CTRL+v&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# 1. enter Visual Block mode&lt;/span&gt;
+↑↓&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# 2. select the first column of the lines&lt;/span&gt;
+SHIFT+i&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 3. enter Insert mode&lt;/span&gt;
+&lt;span class="c1"&gt;#         # 4. type the comment character&lt;/span&gt;
+ESC&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 5. apply the change to all selected lines&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;The same technique can also be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.&lt;/p&gt;
@@ -165,7 +165,7 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;/section&gt;
 &lt;section id="running-shell-commands-in-vim"&gt;
 &lt;h2&gt;Running Shell Commands in Vim&lt;/h2&gt;
-&lt;p&gt;You can leverage operating system CLI tools to process and edit file content directly inside Vim. For example, you can execute [yq] on the current buffer to check for syntax errors and format the file:&lt;/p&gt;
+&lt;p&gt;You can leverage operating system CLI tools to process and edit file content directly inside Vim. For example, you can execute &lt;a class="reference external" href="https://github.com/mikefarah/yq"&gt;yq&lt;/a&gt; on the current buffer to check for syntax errors and format the file:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%!yq
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -182,9 +182,7 @@ SHIFT+n&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="c1"&gt;# 
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:w&lt;span class="w"&gt; &lt;/span&gt;!sudo&lt;span class="w"&gt; &lt;/span&gt;tee&lt;span class="w"&gt; &lt;/span&gt;%
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;strong&gt;INFO:&lt;/strong&gt; &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;:w&lt;/span&gt;&lt;/code&gt; normally saves the buffer to a file. When followed by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;!&lt;/span&gt;&lt;/code&gt;, however, it sends the buffer’s content to an external command’s standard input (STDIN) instead of writing to the file directly.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;:w&lt;/span&gt;&lt;/code&gt; normally saves the buffer to a file. When followed by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;!&lt;/span&gt;&lt;/code&gt;, it sends the buffer’s content to an external command’s standard input (STDIN) instead of writing to the file directly.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="learn-more"&gt;
 &lt;h2&gt;Learn More&lt;/h2&gt;
