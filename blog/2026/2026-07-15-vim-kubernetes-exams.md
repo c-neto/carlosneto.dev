@@ -48,25 +48,37 @@ scp ~/.vimrc node01:~/.vimrc
 These are the commands you'll use most often. They let you navigate, copy, delete, replace, and repeat edits without relying on the mouse.
 
 ```bash
-SHIFT+v     # enter in Visual lines mode
-CTRL+v      # enter in Visual block mode
-.           # repeat the last command
-~           # toggle character case
-dd          # cut/delete the current line
-dG          # cut/delete from the cursor to the end of the file
-dgg         # cut/delete from the cursor to the start of the file
-y           # yank (copy)
-p           # paste below
-SHIFT+p     # paste above
-u           # undo
-CTRL+r      # redo
-o           # open a new line below and enter Insert mode
-SHIFT+o     # open a new line above and enter Insert mode
-cW          # replace the current word and enter Insert mode
-SHIFT+c     # delete from the cursor to the end of the line and enter Insert mode
-i » CTRL+y  # copy the character above the cursor
-SHIFT+a     # move to the end of the line and enter Insert mode
-:wq         # save and quit (or ZZ)
+o           # Open a new line below
+O           # Open a new line above
+
+i           # Enter Insert mode
+A           # Move to the end of the line and enter Insert mode
+cW          # Change the WORD under the cursor
+C           # Change from the cursor to the end of the line
+Ctrl-y      # Copy the character from the line above
+
+y           # Yank (copy)
+p           # Paste below
+P           # Paste above
+dd          # Delete the current line
+dG          # Delete to the end of the file
+dgg         # Delete to the beginning of the file
+
+u           # Undo
+Ctrl-r      # Redo
+
+V           # Enter Visual Line mode (useful for indentation and copy/paste)
+Ctrl-v      # Enter Visual Block mode (useful for comment lines)
+>           # Indent to the right
+<           # Indent to the left
+.           # Repeat the last change
+~           # Toggle character case
+
+:set list   # see tabs characters
+:set nolist # disable see tabs mode
+:retab      # converts tabs to space
+
+:wq         # Save and quit (or ZZ)
 ```
 
 ## Navigation Commands
@@ -74,16 +86,16 @@ SHIFT+a     # move to the end of the line and enter Insert mode
 As previously mentioned, I strongly recommend __not__ using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
 
 ```bash
-/greeting   # jump for "greeting"
-?foo/bar    # jump for "foo/bar" (include "/")
-n           # jump forward in the search list
-SHIFT+n     # jump backward in the search list
-12gg        # jump line 12
-0           # jump beginning of the line
-gg          # jump start of the file
-G           # jump end of the file
-W           # jump next word
-B           # jump previous word
+/greeting   # Search forward for "greeting"
+?foo/bar    # Search backward for "foo/bar"
+n           # Jump to the next match
+N           # Jump to the previous match
+12gg        # Jump to line 12
+0           # Jump to the beginning of the line
+gg          # Jump to the beginning of the file
+G           # Jump to the end of the file
+W           # Jump to the next word
+B           # Jump to the previous word
 ```
 
 ## Fixing YAML Indentation
@@ -113,10 +125,10 @@ ESC     # 3. apply the change
 Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.
 
 ```bash
-CTRL+v    # 1. select columns lines in Visual Block (↑↓)
-SHIFT+i   # 2. enter Insert mode
-#         # 3. type the comment character
-ESC       # 4. apply the change to all selected lines
+Ctrl+v    # 1. Select columns lines in Visual Block (↑↓)
+SHIFT+i   # 2. Enter Insert mode
+#         # 3. Type the comment character
+ESC       # 4. Apply the change to all selected lines
 ```
 
 The same technique can also be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.
@@ -135,15 +147,15 @@ To replace every occurrence of a string:
 Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:
 
 ```bash
-*         # search for the word under the cursor (or use "/greeting")
-cW        # replace the current occurrence
-foobar    # type the replacement text
-n         # jump to the next match
-.         # repeat the replacement
-n         # jump to the next match
-n         # skip this match and jump to the next one
-SHIFT+n   # go back to the previous match
-.         # repeat the replacement here
+*         # Search for the word under the cursor (or use "/greeting")
+cW        # Replace the current occurrence
+foobar    # Type the replacement text
+n         # Jump to the next match
+.         # Repeat the replacement
+n         # Jump to the next match
+n         # Skip this match and jump to the next one
+SHIFT+n   # Go back to the previous match
+.         # Repeat the replacement here
 ```
 
 This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.
@@ -153,15 +165,15 @@ This approach lets you review each occurrence before replacing it, making it saf
 Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.
 
 ```bash
-:%<         # unindent all lines
-:10,15>     # indent lines 10-15
-:10,15<     # unindent lines 10-15
-:30,50x     # delete lines 30-50
-:30,50t70   # copy lines 30-50 and paste below line 70
-:30,50m70   # cut lines 30-50 and paste below line 70
-:30,50d     # cut lines 30-50
-:10,15y     # copy lines 10-15
-:50put      # paste lines below line 50
+:%<         # Unindent all lines
+:10,15>     # Indent lines 10-15
+:10,15<     # Unindent lines 10-15
+:30,50x     # Delete lines 30-50
+:30,50t70   # Copy lines 30-50 and paste below line 70
+:30,50m70   # Cut lines 30-50 and paste below line 70
+:30,50d     # Cut lines 30-50
+:10,15y     # Copy lines 10-15
+:50put      # Paste lines below line 50
 ```
 
 ## Working with Numbers
@@ -169,8 +181,8 @@ Many editing operations can be performed directly on a range of line numbers wit
 Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement numeric values.
 
 ```bash
-50 » CTRL+a     # search for next number and increment 50
-40 » CTRL+x     # search for next number and decrement 40
+50 » Ctrl+a     # Search for next number and increment 50
+40 » Ctrl+x     # Search for next number and decrement 40
 ```
 
 ## Running Shell Commands in Vim
@@ -184,8 +196,8 @@ You can leverage operating system CLI tools to process and edit file content dir
 You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through [sort](https://man7.org/linux/man-pages/man1/sort.1.html) and [uniq](https://ss64.com/bash/uniq.html):
 
 ```bash
-SHIFT+V         # 1. select lines in Visual Line (↑↓) 
-:!sort | uniq   # 2. sort and remove duplicates from the selection
+SHIFT+V         # 1. Select lines in Visual Line (↑↓) 
+:!sort | uniq   # 2. Sort and remove duplicates from the selection
 ```
 
 Vim can also execute commands without modifying the current buffer. This is useful when you need to quickly inspect information from the cluster while editing a manifest. For example, when editing a NetworkPolicy, you can check pod and namespace labels with:
