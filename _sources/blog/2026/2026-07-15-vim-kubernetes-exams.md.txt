@@ -72,7 +72,8 @@ A           # move to the end of the line and enter Insert mode
 I strongly recommend __not__ using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
 
 ```bash
-/foobar   # search forward for "foobar"
+/foo?bar  # search forward for "foo?bar"
+?foo/bar  # search backward for "foo/bar"
 12gg      # jump to line 12
 0         # jump to the beginning of the line
 gg        # jump to the start of the file

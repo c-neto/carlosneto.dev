@@ -452,7 +452,8 @@ A<span class="w">           </span><span class="c1"># move to the end of the lin
 <section id="navigation-commands">
 <h2>Navigation Commands<a class="headerlink" href="#navigation-commands" title="Link to this heading">#</a></h2>
 <p>I strongly recommend <strong>not</strong> using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/foobar<span class="w">   </span><span class="c1"># search forward for &quot;foobar&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/foo?bar<span class="w">  </span><span class="c1"># search forward for &quot;foo?bar&quot;</span>
+?foo/bar<span class="w">  </span><span class="c1"># search backward for &quot;foo/bar&quot;</span>
 12gg<span class="w">      </span><span class="c1"># jump to line 12</span>
 <span class="m">0</span><span class="w">         </span><span class="c1"># jump to the beginning of the line</span>
 gg<span class="w">        </span><span class="c1"># jump to the start of the file</span>
