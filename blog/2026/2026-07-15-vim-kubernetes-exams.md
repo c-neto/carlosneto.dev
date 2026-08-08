@@ -52,8 +52,8 @@ o           # Open a new line below
 Shitf+o     # Open a new line above
 i           # Enter Insert mode
 Shitf+a     # Enter Insert mode in the end of the line
-cW          # Cut word under the cursor and enter in insert mode (for word replace)
-Shitf+C     # Cut line under the cursor column (for line replace)
+cW          # Cut word under the cursor and enter in Insert mode (for word replace)
+Shitf+C     # Cut to the end of the line and enter in Insert mode (for line replace)
 Ctrl+y      # Copy the character from the line above
 
 y           # Yank (copy)
@@ -77,7 +77,7 @@ Ctrl+v      # Enter Visual Block mode (for comment lines)
 :wq         # Save and quit (or ZZ)
 ```
 
-## Navigation Commands
+## Cursor Movement
 
 As previously mentioned, I strongly recommend __not__ using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
 
@@ -94,7 +94,7 @@ W           # Jump to the next word
 B           # Jump to the previous word
 ```
 
-## Fixing YAML Indentation
+## YAML Indentation
 
 Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to ident entire YAML blocks to the right or left while preserving their structure.
 
@@ -208,7 +208,7 @@ You can leverage operating system CLI tools to process and edit file content dir
 You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through [sort](https://man7.org/linux/man-pages/man1/sort.1.html) and [uniq](https://ss64.com/bash/uniq.html):
 
 ```bash
-Shift+V         # 1. Select lines in Visual Line (↑↓) 
+Shift+v         # 1. Select lines in Visual Line (↑↓) 
 :!sort | uniq   # 2. Sort and remove duplicates from the selection
 ```
 
