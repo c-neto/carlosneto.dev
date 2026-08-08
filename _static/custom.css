@@ -131,78 +131,17 @@ div.twitter-tweet {
   margin-right: auto;
 }
 
-/* Header */
-header#pst-header.bd-header,
-header#pst-header.bd-header .bd-header__inner,
-header#pst-header.bd-header .navbar,
-header#pst-header.bd-header .navbar-brand,
-header#pst-header.bd-header .navbar-nav,
-header#pst-header.bd-header .navbar-header-items,
-header#pst-header.bd-header .navbar-header-items__start,
-header#pst-header.bd-header .navbar-header-items__center,
-header#pst-header.bd-header .navbar-header-items__end,
-header#pst-header.bd-header .navbar-item,
-header#pst-header.bd-header .navbar-brand.logo {
-  padding: 0 !important;
-  margin: 0 !important;
-  min-height: 0 !important;
-  height: auto !important;
+/* Disable fixed/sticky top header */
+.bd-header {
+  position: static !important;
+  top: auto !important;
+  width: 100% !important;
 }
 
-header#pst-header.bd-header .bd-header__inner {
-  padding: 0.35rem 0.6rem !important;
-  min-height: 0 !important;
-  max-height: 55px !important;
-  height: auto !important;
+.bd-header .bd-header__inner {
+  position: static !important;
 }
 
-header#pst-header.bd-header .navbar {
-  padding: 0 !important;
-}
-
-header#pst-header.bd-header .navbar-brand.logo .logo__title,
-header#pst-header.bd-header .navbar-brand.logo .title {
-  font-size: 0.96rem !important;
-  line-height: 1 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-header#pst-header.bd-header .navbar-header-items__end {
-  margin-left: auto !important;
-  display: flex !important;
-  justify-content: flex-end !important;
-  gap: 0.5rem !important;
-}
-
-header#pst-header.bd-header .navbar-nav .nav-link,
-header#pst-header.bd-header .search-button-field,
-header#pst-header.bd-header .search-button__button,
-header#pst-header.bd-header .theme-switch-button,
-header#pst-header.bd-header .navbar-icon-links .nav-link,
-header#pst-header.bd-header .navbar-icon-links a {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 0.15rem 0.2rem !important;
-  margin: 0 !important;
-  min-height: 0 !important;
-  line-height: 1 !important;
-  font-size: 0.8rem !important;
-  gap: 0.25rem !important;
-}
-
-header#pst-header.bd-header .navbar-icon-links svg,
-header#pst-header.bd-header .theme-switch-button svg,
-header#pst-header.bd-header .search-button__button svg,
-header#pst-header.bd-header .navbar-brand.logo svg {
-  width: 1rem !important;
-  height: 1rem !important;
-  display: inline-block !important;
-  vertical-align: middle !important;
-}
-
-header#pst-header.bd-header .navbar-brand.logo {
-  display: flex !important;
-  align-items: center !important;
+:root {
+  scroll-padding-top: 0 !important;
 }
