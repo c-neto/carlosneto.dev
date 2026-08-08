@@ -10,17 +10,17 @@ category: kubernetes
 
 # Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)
 
-This post focuses on the minimal Vim configuration and the editing techniques I use during Kubernetes certifications exams by Linux Foundation. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.
+This post focuses on the minimal Vim configuration and editing techniques I use during Kubernetes certification exams from the Linux Foundation. The goal is not to master Vim, but to learn a small set of commands that can improve your editing speed during the exam.
 
 ## Vim: Less Mouse, More Efficiency
 
-The exam workstation includes *[VSCodium](https://vscodium.com/)* (*the free and open-source binaries of VS Code*), but it's not a practical choice during the exam. While the workstation itself includes *VSCodium*, all exam tasks are completed on remote nodes via terminal over SSH, where it is unavailable. In addition, the connection to the exam workstation often has noticeable latency, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you'll be able to edit files. This is where Vim shines.
+The exam workstation includes *[VSCodium](https://vscodium.com/)* (*the free and open-source binaries of VS Code*), but it's not a practical choice during the exam. While *VSCodium* is available on the workstation, all exam tasks are performed on remote nodes via the terminal over SSH, where it is unavailable. In addition, the connection to the exam workstation often has noticeable latency, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you'll be able to edit files. This is where Vim shines.
 
-You don't need to become a Vim expert to pass the exam. This guide covers everything you need to edit Kubernetes YAML manifests efficiently under exam conditions. Focus on building muscle memory by practicing these commands in the simulation labs.
+You don't need to become a Vim expert to pass the exam. This guide covers everything you need to efficiently edit Kubernetes YAML manifests under exam conditions. Focus on building muscle memory by practicing these commands in the simulation labs.
 
 ## Vim Configuration
 
-This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.
+This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation helps prevent invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.
 
 ```{code-block} vim
 :caption: ~/.vimrc
@@ -35,7 +35,7 @@ set cuc       " Highlight the current cursor column
 syntax on     " Enable syntax highlighting
 ```
 
-> *__NOTE__: Avoid using `set mouse=a` due to the exam workstation's high connection latency. Also, the clipboard settings with `clipboard+=unnamedplus,autoselect` do not work on the exam workstations.*
+> _Avoid using `set mouse=a` due to the exam workstation's high connection latency. Also, the clipboard settings `clipboard+=unnamedplus,autoselect` do not work on the exam workstations._
 
 Each exam task is performed on a different remote node. Before starting a task, copy your local `~/.vimrc` to the target question machine:
 
@@ -49,11 +49,11 @@ These are the commands you'll use most often. They let you navigate, copy, delet
 
 ```bash
 o           # Open a new line below
-Shitf+o     # Open a new line above
+Shift+o     # Open a new line above
 i           # Enter Insert mode
-Shitf+a     # Enter Insert mode in the end of the line
-cW          # Cut word under the cursor and enter in Insert mode (for word replace)
-Shitf+c     # Cut to the end of the line and enter in Insert mode (for line replace)
+Shift+a     # Enter Insert mode at the end of the line
+cW          # Cut the word under the cursor and enter Insert mode (for word replacement)
+Shift+c     # Cut to the end of the line and enter Insert mode (for line replacement)
 Ctrl+y      # Copy the character from the line above
 
 y           # Yank (copy)
@@ -66,24 +66,24 @@ dgg         # Cut to the beginning of the file
 u           # Undo
 Ctrl+r      # Redo
 
-Shift+v     # Enter Visual Line mode (for indentation and copy)
-Ctrl+v      # Enter Visual Block mode (for comment lines)
+Shift+v     # Enter Visual Line mode (for indentation and copying)
+Ctrl+v      # Enter Visual Block mode (for commenting lines)
 >           # Indent to the right
 <           # Indent to the left
 .           # Repeat the last command
 ~           # Toggle character case
 
-:retab      # converts tabs to space
+:retab      # Convert tabs to spaces
 :wq         # Save and quit (or ZZ)
 ```
 
 ## Cursor Movement
 
-As previously mentioned, I strongly recommend __not__ using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
+As mentioned previously, I strongly recommend **not** using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
 
 ```bash
 /greeting   # Search for "greeting"
-?foo/bar    # Search for "foo/bar"
+/foo/bar    # Search for "foo/bar"
 n           # Jump to the next match
 N           # Jump to the previous match
 12gg        # Jump to line 12
@@ -96,24 +96,24 @@ B           # Jump to the previous word
 
 ## YAML Indentation
 
-Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to ident entire YAML blocks to the right or left while preserving their structure.
+Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to indent entire YAML blocks to the right or left while preserving their structure.
 
 To increase the indentation:
 
 ```bash
-Shift+v   # 1. select lines in Visual Line (↑↓) 
->         # 3. shift indentation right
-ESC       # 4. apply the change
-.         # 5. repeat the indentation
+Shift+v   # 1. Select lines in Visual Line mode (↑↓)
+>         # 2. Shift indentation to the right
+ESC       # 3. Apply the change
+.         # 4. Repeat the indentation
 ```
 
 If you need to reverse the indentation or perform another operation on the same lines, use `gv` to restore the previous Visual selection:
 
 ```bash
-gv      # 1. reselect the previous Visual selection
-<       # 2. shift indentation left
-ESC     # 3. apply the change
-.       # 4. repeat the operation
+gv      # 1. Reselect the previous Visual selection
+<       # 2. Shift indentation to the left
+ESC     # 3. Apply the change
+.       # 4. Repeat the operation
 ```
 
 ## Commenting Multiple Lines
@@ -121,7 +121,7 @@ ESC     # 3. apply the change
 Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.
 
 ```bash
-Ctrl+v    # 1. Select columns lines in Visual Block (↑↓)
+Ctrl+v    # 1. Select columns across lines in Visual Block mode (↑↓)
 Shift+i   # 2. Enter Insert mode
 #         # 3. Type the comment character
 ESC       # 4. Apply the change to all selected lines
@@ -136,8 +136,8 @@ When renaming resources, labels, namespaces, image names, or environment variabl
 To replace every occurrence of a string:
 
 ```bash
-:%s/foo/bar/g                   # replace "foo" with "bar"
-:%s#/kubernets/#/kubernetes/#g  # replace "/kubernets/" with "/kubernetes/"
+:%s/foo/bar/g                   # Replace "foo" with "bar"
+:%s#/kubernets/#/kubernetes/#g  # Replace "/kubernets/" with "/kubernetes/"
 ```
 
 Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:
@@ -208,7 +208,7 @@ You can leverage operating system CLI tools to process and edit file content dir
 You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through [sort](https://man7.org/linux/man-pages/man1/sort.1.html) and [uniq](https://ss64.com/bash/uniq.html):
 
 ```bash
-Shift+v         # 1. Select lines in Visual Line (↑↓) 
+Shift+v         # 1. Select lines in Visual Line mode (↑↓)
 :!sort | uniq   # 2. Sort and remove duplicates from the selection
 ```
 
@@ -228,6 +228,6 @@ The `:w` normally saves the buffer to a file. When followed by `!`, it sends the
 
 ## Learn More
 
-Take a look at the complete Vim cheatsheet <https://vim.rtorr.com/> for insights into more ways to improve vim tricks.
+Take a look at the complete Vim cheatsheet at https://vim.rtorr.com/ to learn more Vim commands and tricks.
 
 For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post [Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)](2026-07-09-workstation-setup-kubernetes-exams.md).
