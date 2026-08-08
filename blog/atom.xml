@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-08T14:49:04.527932+00:00</updated>
+  <updated>2026-08-08T14:49:58.755505+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -82,8 +82,8 @@ Ctrl+v&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Enter Vi
 &lt;section id="navigation-commands"&gt;
 &lt;h2&gt;Navigation Commands&lt;/h2&gt;
 &lt;p&gt;As previously mentioned, I strongly recommend &lt;strong&gt;not&lt;/strong&gt; using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/greeting&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Search forward for &amp;quot;greeting&amp;quot;&lt;/span&gt;
-?foo/bar&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# Search backward for &amp;quot;foo/bar&amp;quot;&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/greeting&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Search for &amp;quot;greeting&amp;quot;&lt;/span&gt;
+?foo/bar&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# Search for &amp;quot;foo/bar&amp;quot;&lt;/span&gt;
 n&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Jump to the next match&lt;/span&gt;
 N&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Jump to the previous match&lt;/span&gt;
 12gg&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# Jump to line 12&lt;/span&gt;
