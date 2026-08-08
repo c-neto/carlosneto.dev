@@ -82,8 +82,8 @@ Ctrl+v      # Enter Visual Block mode (for comment lines)
 As previously mentioned, I strongly recommend __not__ using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
 
 ```bash
-/greeting   # Search forward for "greeting"
-?foo/bar    # Search backward for "foo/bar"
+/greeting   # Search for "greeting"
+?foo/bar    # Search for "foo/bar"
 n           # Jump to the next match
 N           # Jump to the previous match
 12gg        # Jump to line 12
