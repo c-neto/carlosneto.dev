@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-08T14:28:27.776424+00:00</updated>
+  <updated>2026-08-08T14:36:46.328543+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -50,11 +50,11 @@
 &lt;h2&gt;Essential Editing Commands&lt;/h2&gt;
 &lt;p&gt;These are the commands you’ll use most often. They let you navigate, copy, delete, replace, and repeat edits without relying on the mouse.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;o&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Open a new line below&lt;/span&gt;
-O&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Open a new line above&lt;/span&gt;
+Shitf+o&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Open a new line above&lt;/span&gt;
 i&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Enter Insert mode&lt;/span&gt;
 Shitf+a&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Enter Insert mode in the end of the line&lt;/span&gt;
 cW&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# Change word under the cursor&lt;/span&gt;
-C&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Change line under the cursor&lt;/span&gt;
+Shitf+C&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Change line under the cursor&lt;/span&gt;
 Ctrl+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Copy the character from the line above&lt;/span&gt;
 
 y&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Yank (copy)&lt;/span&gt;

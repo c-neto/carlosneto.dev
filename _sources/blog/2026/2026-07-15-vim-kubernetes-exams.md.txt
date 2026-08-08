@@ -49,11 +49,11 @@ These are the commands you'll use most often. They let you navigate, copy, delet
 
 ```bash
 o           # Open a new line below
-O           # Open a new line above
+Shitf+o     # Open a new line above
 i           # Enter Insert mode
 Shitf+a     # Enter Insert mode in the end of the line
 cW          # Change word under the cursor
-C           # Change line under the cursor
+Shitf+C     # Change line under the cursor
 Ctrl+y      # Copy the character from the line above
 
 y           # Yank (copy)
