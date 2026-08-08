@@ -53,7 +53,7 @@ Shitf+o     # Open a new line above
 i           # Enter Insert mode
 Shitf+a     # Enter Insert mode in the end of the line
 cW          # Cut word under the cursor and enter in Insert mode (for word replace)
-Shitf+C     # Cut to the end of the line and enter in Insert mode (for line replace)
+Shitf+c     # Cut to the end of the line and enter in Insert mode (for line replace)
 Ctrl+y      # Copy the character from the line above
 
 y           # Yank (copy)
