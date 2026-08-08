@@ -94,11 +94,11 @@ Indentation mistakes are one of the most common causes of invalid Kubernetes man
 To increase the indentation:
 
 ```bash
-V               # 1. enter Visual Line mode (uppercase)
-select lines    # 2. select the lines
->               # 3. SHIFT indentation right
-ESC             # 4. apply the change
-.               # 5. repeat the indentation
+V       # 1. enter Visual Line mode (uppercase)
+↑↓      # 2. select the lines
+>       # 3. SHIFT indentation right
+ESC     # 4. apply the change
+.       # 5. repeat the indentation
 ```
 
 If you need to reverse the indentation or perform another operation on the same lines, use `gv` to restore the previous Visual selection:
@@ -115,11 +115,11 @@ ESC     # 3. apply the change
 Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.
 
 ```bash
-CTRL+v          # 1. enter Visual Block mode
-select column   # 2. select the first column
-SHIFT+i         # 3. enter Insert mode
-#               # 4. type the comment character
-ESC             # 5. apply the change to all selected lines
+CTRL+v    # 1. enter Visual Block mode
+↑↓        # 2. select the first column of the lines
+SHIFT+i   # 3. enter Insert mode
+#         # 4. type the comment character
+ESC       # 5. apply the change to all selected lines
 ```
 
 The same technique can also be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.
@@ -177,7 +177,7 @@ Kubernetes manifests frequently contain numeric values such as replica counts, p
 
 ## Running Shell Commands in Vim
 
-You can leverage operating system CLI tools to process and edit file content directly inside Vim. For example, you can execute [yq] on the current buffer to check for syntax errors and format the file:
+You can leverage operating system CLI tools to process and edit file content directly inside Vim. For example, you can execute [yq](https://github.com/mikefarah/yq) on the current buffer to check for syntax errors and format the file:
 
 ```bash
 :%!yq
@@ -202,7 +202,7 @@ Another useful trick is saving protected files without opening them with `sudo v
 :w !sudo tee %
 ```
 
-> **INFO:** `:w` normally saves the buffer to a file. When followed by `!`, however, it sends the buffer's content to an external command's standard input (STDIN) instead of writing to the file directly.
+`:w` normally saves the buffer to a file. When followed by `!`, it sends the buffer's content to an external command's standard input (STDIN) instead of writing to the file directly.
 
 ## Learn More
 
