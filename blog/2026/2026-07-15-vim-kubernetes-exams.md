@@ -50,7 +50,6 @@ These are the commands you'll use most often. They let you navigate, copy, delet
 ```bash
 o           # Open a new line below
 O           # Open a new line above
-
 i           # Enter Insert mode
 A           # Move to the end of the line and enter Insert mode
 cW          # Change the WORD under the cursor
@@ -60,9 +59,9 @@ Ctrl-y      # Copy the character from the line above
 y           # Yank (copy)
 p           # Paste below
 P           # Paste above
-dd          # Delete the current line
-dG          # Delete to the end of the file
-dgg         # Delete to the beginning of the file
+dd          # Cut the current line
+dG          # Cut to the end of the file
+dgg         # Cut to the beginning of the file
 
 u           # Undo
 Ctrl-r      # Redo
@@ -74,10 +73,7 @@ Ctrl-v      # Enter Visual Block mode (useful for comment lines)
 .           # Repeat the last change
 ~           # Toggle character case
 
-:set list   # see tabs characters
-:set nolist # disable see tabs mode
 :retab      # converts tabs to space
-
 :wq         # Save and quit (or ZZ)
 ```
 
