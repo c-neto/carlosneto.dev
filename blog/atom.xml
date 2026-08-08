@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-08T15:10:51.860052+00:00</updated>
+  <updated>2026-08-08T17:55:26.923073+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -15,15 +15,15 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="vim-for-kubernetes-certification-exams-cka-ckad-cks"&gt;
 
-&lt;p&gt;This post focuses on the minimal Vim configuration and the editing techniques I use during Kubernetes certifications exams by Linux Foundation. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.&lt;/p&gt;
+&lt;p&gt;This post focuses on the minimal Vim configuration and editing techniques I use during Kubernetes certification exams from the Linux Foundation. The goal is not to master Vim, but to learn a small set of commands that can improve your editing speed during the exam.&lt;/p&gt;
 &lt;section id="vim-less-mouse-more-efficiency"&gt;
 &lt;h2&gt;Vim: Less Mouse, More Efficiency&lt;/h2&gt;
-&lt;p&gt;The exam workstation includes &lt;em&gt;&lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt;&lt;/em&gt; (&lt;em&gt;the free and open-source binaries of VS Code&lt;/em&gt;), but it’s not a practical choice during the exam. While the workstation itself includes &lt;em&gt;VSCodium&lt;/em&gt;, all exam tasks are completed on remote nodes via terminal over SSH, where it is unavailable. In addition, the connection to the exam workstation often has noticeable latency, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you’ll be able to edit files. This is where Vim shines.&lt;/p&gt;
-&lt;p&gt;You don’t need to become a Vim expert to pass the exam. This guide covers everything you need to edit Kubernetes YAML manifests efficiently under exam conditions. Focus on building muscle memory by practicing these commands in the simulation labs.&lt;/p&gt;
+&lt;p&gt;The exam workstation includes &lt;em&gt;&lt;a class="reference external" href="https://vscodium.com/"&gt;VSCodium&lt;/a&gt;&lt;/em&gt; (&lt;em&gt;the free and open-source binaries of VS Code&lt;/em&gt;), but it’s not a practical choice during the exam. While &lt;em&gt;VSCodium&lt;/em&gt; is available on the workstation, all exam tasks are performed on remote nodes via the terminal over SSH, where it is unavailable. In addition, the connection to the exam workstation often has noticeable latency, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you’ll be able to edit files. This is where Vim shines.&lt;/p&gt;
+&lt;p&gt;You don’t need to become a Vim expert to pass the exam. This guide covers everything you need to efficiently edit Kubernetes YAML manifests under exam conditions. Focus on building muscle memory by practicing these commands in the simulation labs.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="vim-configuration"&gt;
 &lt;h2&gt;Vim Configuration&lt;/h2&gt;
-&lt;p&gt;This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation prevents invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.&lt;/p&gt;
+&lt;p&gt;This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation helps prevent invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.vimrc&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-vim notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;nu&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Show line numbers&lt;/span&gt;
@@ -39,7 +39,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Avoid using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; due to the exam workstation’s high connection latency. Also, the clipboard settings with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; do not work on the exam workstations.&lt;/em&gt;&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;Avoid using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; due to the exam workstation’s high connection latency. Also, the clipboard settings &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;clipboard+=unnamedplus,autoselect&lt;/span&gt;&lt;/code&gt; do not work on the exam workstations.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Each exam task is performed on a different remote node. Before starting a task, copy your local &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/code&gt; to the target question machine:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;scp&lt;span class="w"&gt; &lt;/span&gt;~/.vimrc&lt;span class="w"&gt; &lt;/span&gt;node01:~/.vimrc
@@ -50,11 +50,11 @@
 &lt;h2&gt;Essential Editing Commands&lt;/h2&gt;
 &lt;p&gt;These are the commands you’ll use most often. They let you navigate, copy, delete, replace, and repeat edits without relying on the mouse.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;o&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Open a new line below&lt;/span&gt;
-Shitf+o&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Open a new line above&lt;/span&gt;
+Shift+o&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Open a new line above&lt;/span&gt;
 i&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Enter Insert mode&lt;/span&gt;
-Shitf+a&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Enter Insert mode in the end of the line&lt;/span&gt;
-cW&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# Cut word under the cursor and enter in Insert mode (for word replace)&lt;/span&gt;
-Shitf+c&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Cut to the end of the line and enter in Insert mode (for line replace)&lt;/span&gt;
+Shift+a&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Enter Insert mode at the end of the line&lt;/span&gt;
+cW&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# Cut the word under the cursor and enter Insert mode (for word replacement)&lt;/span&gt;
+Shift+c&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Cut to the end of the line and enter Insert mode (for line replacement)&lt;/span&gt;
 Ctrl+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Copy the character from the line above&lt;/span&gt;
 
 y&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Yank (copy)&lt;/span&gt;
@@ -67,23 +67,23 @@ dgg&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Cut to t
 u&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Undo&lt;/span&gt;
 Ctrl+r&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Redo&lt;/span&gt;
 
-Shift+v&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Enter Visual Line mode (for indentation and copy)&lt;/span&gt;
-Ctrl+v&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Enter Visual Block mode (for comment lines)&lt;/span&gt;
+Shift+v&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Enter Visual Line mode (for indentation and copying)&lt;/span&gt;
+Ctrl+v&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Enter Visual Block mode (for commenting lines)&lt;/span&gt;
 &amp;gt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Indent to the right&lt;/span&gt;
 &amp;lt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Indent to the left&lt;/span&gt;
 .&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Repeat the last command&lt;/span&gt;
 ~&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Toggle character case&lt;/span&gt;
 
-:retab&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# converts tabs to space&lt;/span&gt;
+:retab&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Convert tabs to spaces&lt;/span&gt;
 :wq&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# Save and quit (or ZZ)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
 &lt;section id="cursor-movement"&gt;
 &lt;h2&gt;Cursor Movement&lt;/h2&gt;
-&lt;p&gt;As previously mentioned, I strongly recommend &lt;strong&gt;not&lt;/strong&gt; using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:&lt;/p&gt;
+&lt;p&gt;As mentioned previously, I strongly recommend &lt;strong&gt;not&lt;/strong&gt; using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/greeting&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Search for &amp;quot;greeting&amp;quot;&lt;/span&gt;
-?foo/bar&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# Search for &amp;quot;foo/bar&amp;quot;&lt;/span&gt;
+/foo/bar&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# Search for &amp;quot;foo/bar&amp;quot;&lt;/span&gt;
 n&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Jump to the next match&lt;/span&gt;
 N&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Jump to the previous match&lt;/span&gt;
 12gg&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="c1"&gt;# Jump to line 12&lt;/span&gt;
@@ -97,26 +97,26 @@ B&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Jump to 
 &lt;/section&gt;
 &lt;section id="yaml-indentation"&gt;
 &lt;h2&gt;YAML Indentation&lt;/h2&gt;
-&lt;p&gt;Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to ident entire YAML blocks to the right or left while preserving their structure.&lt;/p&gt;
+&lt;p&gt;Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to indent entire YAML blocks to the right or left while preserving their structure.&lt;/p&gt;
 &lt;p&gt;To increase the indentation:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Shift+v&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 1. select lines in Visual Line (↑↓) &lt;/span&gt;
-&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 3. shift indentation right&lt;/span&gt;
-ESC&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 4. apply the change&lt;/span&gt;
-.&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 5. repeat the indentation&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Shift+v&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select lines in Visual Line mode (↑↓)&lt;/span&gt;
+&amp;gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 2. Shift indentation to the right&lt;/span&gt;
+ESC&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 3. Apply the change&lt;/span&gt;
+.&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 4. Repeat the indentation&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;If you need to reverse the indentation or perform another operation on the same lines, use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;gv&lt;/span&gt;&lt;/code&gt; to restore the previous Visual selection:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gv&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# 1. reselect the previous Visual selection&lt;/span&gt;
-&amp;lt;&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 2. shift indentation left&lt;/span&gt;
-ESC&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# 3. apply the change&lt;/span&gt;
-.&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 4. repeat the operation&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gv&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# 1. Reselect the previous Visual selection&lt;/span&gt;
+&amp;lt;&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 2. Shift indentation to the left&lt;/span&gt;
+ESC&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# 3. Apply the change&lt;/span&gt;
+.&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 4. Repeat the operation&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
 &lt;section id="commenting-multiple-lines"&gt;
 &lt;h2&gt;Commenting Multiple Lines&lt;/h2&gt;
 &lt;p&gt;Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Ctrl+v&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select columns lines in Visual Block (↑↓)&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Ctrl+v&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select columns across lines in Visual Block mode (↑↓)&lt;/span&gt;
 Shift+i&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 2. Enter Insert mode&lt;/span&gt;
 &lt;span class="c1"&gt;#         # 3. Type the comment character&lt;/span&gt;
 ESC&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 4. Apply the change to all selected lines&lt;/span&gt;
@@ -128,8 +128,8 @@ ESC&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;# 4. Apply t
 &lt;h2&gt;Search and Replace&lt;/h2&gt;
 &lt;p&gt;When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.&lt;/p&gt;
 &lt;p&gt;To replace every occurrence of a string:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%s/foo/bar/g&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# replace &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
-:%s#/kubernets/#/kubernetes/#g&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# replace &amp;quot;/kubernets/&amp;quot; with &amp;quot;/kubernetes/&amp;quot;&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:%s/foo/bar/g&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="c1"&gt;# Replace &amp;quot;foo&amp;quot; with &amp;quot;bar&amp;quot;&lt;/span&gt;
+:%s#/kubernets/#/kubernetes/#g&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# Replace &amp;quot;/kubernets/&amp;quot; with &amp;quot;/kubernetes/&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:&lt;/p&gt;
@@ -186,7 +186,7 @@ Shift+n&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Go back to
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through &lt;a class="reference external" href="https://man7.org/linux/man-pages/man1/sort.1.html"&gt;sort&lt;/a&gt; and &lt;a class="reference external" href="https://ss64.com/bash/uniq.html"&gt;uniq&lt;/a&gt;:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Shift+v&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select lines in Visual Line (↑↓) &lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Shift+v&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select lines in Visual Line mode (↑↓)&lt;/span&gt;
 :!sort&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;uniq&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 2. Sort and remove duplicates from the selection&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -202,13 +202,13 @@ Shift+n&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Go back to
 &lt;/section&gt;
 &lt;section id="learn-more"&gt;
 &lt;h2&gt;Learn More&lt;/h2&gt;
-&lt;p&gt;Take a look at the complete Vim cheatsheet &lt;a class="reference external" href="https://vim.rtorr.com/"&gt;https://vim.rtorr.com/&lt;/a&gt; for insights into more ways to improve vim tricks.&lt;/p&gt;
+&lt;p&gt;Take a look at the complete Vim cheatsheet at https://vim.rtorr.com/ to learn more Vim commands and tricks.&lt;/p&gt;
 &lt;p&gt;For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post &lt;a class="reference internal" href="2026/2026-07-09-workstation-setup-kubernetes-exams/"&gt;&lt;span class="std std-doc"&gt;Workstation Setup for Kubernetes Exams (CKA, CKAD &amp;amp; CKS)&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;/section&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/"/>
-    <summary>Blog Post Publish Date: 2026/07/15This post focuses on the minimal Vim configuration and the editing techniques I use during Kubernetes certifications exams by Linux Foundation. The goal is not to master Vim, but to learn a small set of commands to improve your editing speed during the exam.</summary>
+    <summary>Blog Post Publish Date: 2026/07/15This post focuses on the minimal Vim configuration and editing techniques I use during Kubernetes certification exams from the Linux Foundation. The goal is not to master Vim, but to learn a small set of commands that can improve your editing speed during the exam.</summary>
     <category term="cka" label="cka"/>
     <category term="ckad" label="ckad"/>
     <category term="cks" label="cks"/>
