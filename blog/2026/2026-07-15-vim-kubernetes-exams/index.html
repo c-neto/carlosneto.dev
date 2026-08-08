@@ -433,8 +433,8 @@
 Shitf+o<span class="w">     </span><span class="c1"># Open a new line above</span>
 i<span class="w">           </span><span class="c1"># Enter Insert mode</span>
 Shitf+a<span class="w">     </span><span class="c1"># Enter Insert mode in the end of the line</span>
-cW<span class="w">          </span><span class="c1"># Cut word under the cursor and enter in insert mode (for word replace)</span>
-Shitf+C<span class="w">     </span><span class="c1"># Cut line under the cursor column (for line replace)</span>
+cW<span class="w">          </span><span class="c1"># Cut word under the cursor and enter in Insert mode (for word replace)</span>
+Shitf+C<span class="w">     </span><span class="c1"># Cut to the end of the line and enter in Insert mode (for line replace)</span>
 Ctrl+y<span class="w">      </span><span class="c1"># Copy the character from the line above</span>
 
 y<span class="w">           </span><span class="c1"># Yank (copy)</span>
@@ -459,8 +459,8 @@ Ctrl+v<span class="w">      </span><span class="c1"># Enter Visual Block mode (f
 </pre></div>
 </div>
 </section>
-<section id="navigation-commands">
-<h2>Navigation Commands<a class="headerlink" href="#navigation-commands" title="Link to this heading">#</a></h2>
+<section id="cursor-movement">
+<h2>Cursor Movement<a class="headerlink" href="#cursor-movement" title="Link to this heading">#</a></h2>
 <p>As previously mentioned, I strongly recommend <strong>not</strong> using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/greeting<span class="w">   </span><span class="c1"># Search for &quot;greeting&quot;</span>
 ?foo/bar<span class="w">    </span><span class="c1"># Search for &quot;foo/bar&quot;</span>
@@ -475,8 +475,8 @@ B<span class="w">           </span><span class="c1"># Jump to the previous word<
 </pre></div>
 </div>
 </section>
-<section id="fixing-yaml-indentation">
-<h2>Fixing YAML Indentation<a class="headerlink" href="#fixing-yaml-indentation" title="Link to this heading">#</a></h2>
+<section id="yaml-indentation">
+<h2>YAML Indentation<a class="headerlink" href="#yaml-indentation" title="Link to this heading">#</a></h2>
 <p>Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to ident entire YAML blocks to the right or left while preserving their structure.</p>
 <p>To increase the indentation:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Shift+v<span class="w">   </span><span class="c1"># 1. select lines in Visual Line (↑↓) </span>
@@ -566,7 +566,7 @@ Shift+n<span class="w">   </span><span class="c1"># Go back to the previous matc
 </pre></div>
 </div>
 <p>You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through <a class="reference external" href="https://man7.org/linux/man-pages/man1/sort.1.html">sort</a> and <a class="reference external" href="https://ss64.com/bash/uniq.html">uniq</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Shift+V<span class="w">         </span><span class="c1"># 1. Select lines in Visual Line (↑↓) </span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Shift+v<span class="w">         </span><span class="c1"># 1. Select lines in Visual Line (↑↓) </span>
 :!sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w">   </span><span class="c1"># 2. Sort and remove duplicates from the selection</span>
 </pre></div>
 </div>

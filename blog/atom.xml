@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-08-08T14:55:54.646933+00:00</updated>
+  <updated>2026-08-08T15:00:10.036831+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -53,8 +53,8 @@
 Shitf+o&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Open a new line above&lt;/span&gt;
 i&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Enter Insert mode&lt;/span&gt;
 Shitf+a&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Enter Insert mode in the end of the line&lt;/span&gt;
-cW&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# Cut word under the cursor and enter in insert mode (for word replace)&lt;/span&gt;
-Shitf+C&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Cut line under the cursor column (for line replace)&lt;/span&gt;
+cW&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# Cut word under the cursor and enter in Insert mode (for word replace)&lt;/span&gt;
+Shitf+C&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# Cut to the end of the line and enter in Insert mode (for line replace)&lt;/span&gt;
 Ctrl+y&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Copy the character from the line above&lt;/span&gt;
 
 y&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Yank (copy)&lt;/span&gt;
@@ -79,8 +79,8 @@ Ctrl+v&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Enter Vi
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
-&lt;section id="navigation-commands"&gt;
-&lt;h2&gt;Navigation Commands&lt;/h2&gt;
+&lt;section id="cursor-movement"&gt;
+&lt;h2&gt;Cursor Movement&lt;/h2&gt;
 &lt;p&gt;As previously mentioned, I strongly recommend &lt;strong&gt;not&lt;/strong&gt; using &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;mouse=a&lt;/span&gt;&lt;/code&gt; during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/greeting&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Search for &amp;quot;greeting&amp;quot;&lt;/span&gt;
 ?foo/bar&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# Search for &amp;quot;foo/bar&amp;quot;&lt;/span&gt;
@@ -95,8 +95,8 @@ B&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="c1"&gt;# Jump to 
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
-&lt;section id="fixing-yaml-indentation"&gt;
-&lt;h2&gt;Fixing YAML Indentation&lt;/h2&gt;
+&lt;section id="yaml-indentation"&gt;
+&lt;h2&gt;YAML Indentation&lt;/h2&gt;
 &lt;p&gt;Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to ident entire YAML blocks to the right or left while preserving their structure.&lt;/p&gt;
 &lt;p&gt;To increase the indentation:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Shift+v&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 1. select lines in Visual Line (↑↓) &lt;/span&gt;
@@ -186,7 +186,7 @@ Shift+n&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Go back to
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through &lt;a class="reference external" href="https://man7.org/linux/man-pages/man1/sort.1.html"&gt;sort&lt;/a&gt; and &lt;a class="reference external" href="https://ss64.com/bash/uniq.html"&gt;uniq&lt;/a&gt;:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Shift+V&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select lines in Visual Line (↑↓) &lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Shift+v&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# 1. Select lines in Visual Line (↑↓) &lt;/span&gt;
 :!sort&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;uniq&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# 2. Sort and remove duplicates from the selection&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
