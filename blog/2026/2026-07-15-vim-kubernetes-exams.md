@@ -228,6 +228,6 @@ The `:w` normally saves the buffer to a file. When followed by `!`, it sends the
 
 ## Learn More
 
-Take a look at the complete Vim cheatsheet at https://vim.rtorr.com/ to learn more Vim commands and tricks.
+Take a look at the complete Vim cheatsheet at <https://vim.rtorr.com/> to learn more Vim commands and tricks.
 
 For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post [Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)](2026-07-09-workstation-setup-kubernetes-exams.md).
