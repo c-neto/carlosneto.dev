@@ -428,60 +428,58 @@
 </section>
 <section id="essential-editing-commands">
 <h2>Essential Editing Commands<a class="headerlink" href="#essential-editing-commands" title="Link to this heading">#</a></h2>
-<p>These are the commands you’ll use most often. They let you navigate, copy, delete, replace, and repeat edits without leaving Normal mode, making common editing tasks much faster.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w">           </span><span class="c1"># repeat the last command</span>
+<p>These are the commands you’ll use most often. They let you navigate, copy, delete, replace, and repeat edits without relying on the mouse.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SHIFT+v<span class="w">     </span><span class="c1"># enter in Visual lines mode</span>
+CTRL+v<span class="w">      </span><span class="c1"># enter in Visual block mode</span>
+.<span class="w">           </span><span class="c1"># repeat the last command</span>
 ~<span class="w">           </span><span class="c1"># toggle character case</span>
 dd<span class="w">          </span><span class="c1"># cut/delete the current line</span>
 dG<span class="w">          </span><span class="c1"># cut/delete from the cursor to the end of the file</span>
 dgg<span class="w">         </span><span class="c1"># cut/delete from the cursor to the start of the file</span>
 y<span class="w">           </span><span class="c1"># yank (copy)</span>
 p<span class="w">           </span><span class="c1"># paste below</span>
-P<span class="w">           </span><span class="c1"># paste above</span>
+SHIFT+p<span class="w">     </span><span class="c1"># paste above</span>
 u<span class="w">           </span><span class="c1"># undo</span>
 CTRL+r<span class="w">      </span><span class="c1"># redo</span>
-O<span class="w">           </span><span class="c1"># open a new line above and enter Insert mode</span>
 o<span class="w">           </span><span class="c1"># open a new line below and enter Insert mode</span>
+SHIFT+o<span class="w">     </span><span class="c1"># open a new line above and enter Insert mode</span>
 cW<span class="w">          </span><span class="c1"># replace the current word and enter Insert mode</span>
-C<span class="w">           </span><span class="c1"># delete from the cursor to the end of the line and enter Insert mode</span>
+SHIFT+c<span class="w">     </span><span class="c1"># delete from the cursor to the end of the line and enter Insert mode</span>
 i<span class="w"> </span>»<span class="w"> </span>CTRL+y<span class="w">  </span><span class="c1"># copy the character above the cursor</span>
-A<span class="w">           </span><span class="c1"># move to the end of the line and enter Insert mode</span>
+SHIFT+a<span class="w">     </span><span class="c1"># move to the end of the line and enter Insert mode</span>
 :wq<span class="w">         </span><span class="c1"># save and quit (or ZZ)</span>
 </pre></div>
 </div>
 </section>
 <section id="navigation-commands">
 <h2>Navigation Commands<a class="headerlink" href="#navigation-commands" title="Link to this heading">#</a></h2>
-<p>I strongly recommend <strong>not</strong> using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/greeting<span class="w">   </span><span class="c1"># search for &quot;greeting&quot;</span>
-?foo/bar<span class="w">    </span><span class="c1"># search for &quot;foo/bar&quot; (include &quot;/&quot;)</span>
-n<span class="w">           </span><span class="c1"># jump forward in the search match list</span>
-SHIFT+n<span class="w">     </span><span class="c1"># jump backward in the search match list</span>
-12gg<span class="w">        </span><span class="c1"># jump to line 12</span>
-<span class="m">0</span><span class="w">           </span><span class="c1"># jump to the beginning of the line</span>
-gg<span class="w">          </span><span class="c1"># jump to the start of the file</span>
-G<span class="w">           </span><span class="c1"># jump to the end of the file</span>
-W<span class="w">           </span><span class="c1"># jump to the next word</span>
-B<span class="w">           </span><span class="c1"># jump to the previous word</span>
-v<span class="w">           </span><span class="c1"># enter in Visual inline mode (lowercase)</span>
-V<span class="w">           </span><span class="c1"># enter in Visual lines mode (uppercase)</span>
-CTRL+v<span class="w">      </span><span class="c1"># enter in Visual block mode (lowercase)</span>
+<p>As previously mentioned, I strongly recommend <strong>not</strong> using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/greeting<span class="w">   </span><span class="c1"># jump for &quot;greeting&quot;</span>
+?foo/bar<span class="w">    </span><span class="c1"># jump for &quot;foo/bar&quot; (include &quot;/&quot;)</span>
+n<span class="w">           </span><span class="c1"># jump forward in the search list</span>
+SHIFT+n<span class="w">     </span><span class="c1"># jump backward in the search list</span>
+12gg<span class="w">        </span><span class="c1"># jump line 12</span>
+<span class="m">0</span><span class="w">           </span><span class="c1"># jump beginning of the line</span>
+gg<span class="w">          </span><span class="c1"># jump start of the file</span>
+G<span class="w">           </span><span class="c1"># jump end of the file</span>
+W<span class="w">           </span><span class="c1"># jump next word</span>
+B<span class="w">           </span><span class="c1"># jump previous word</span>
 </pre></div>
 </div>
 </section>
 <section id="fixing-yaml-indentation">
 <h2>Fixing YAML Indentation<a class="headerlink" href="#fixing-yaml-indentation" title="Link to this heading">#</a></h2>
-<p>Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to SHIFT entire YAML blocks to the right or left while preserving their structure.</p>
+<p>Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to ident entire YAML blocks to the right or left while preserving their structure.</p>
 <p>To increase the indentation:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>V<span class="w">       </span><span class="c1"># 1. enter Visual Line mode (uppercase)</span>
-↑↓<span class="w">       </span><span class="c1"># 2. select the lines</span>
-&gt;<span class="w">       </span><span class="c1"># 3. SHIFT indentation right</span>
-ESC<span class="w">     </span><span class="c1"># 4. apply the change</span>
-.<span class="w">       </span><span class="c1"># 5. repeat the indentation</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SHIFT+v<span class="w">   </span><span class="c1"># 1. select lines in Visual Line (↑↓) </span>
+&gt;<span class="w">         </span><span class="c1"># 3. shift indentation right</span>
+ESC<span class="w">       </span><span class="c1"># 4. apply the change</span>
+.<span class="w">         </span><span class="c1"># 5. repeat the indentation</span>
 </pre></div>
 </div>
 <p>If you need to reverse the indentation or perform another operation on the same lines, use <code class="docutils literal notranslate"><span class="pre">gv</span></code> to restore the previous Visual selection:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gv<span class="w">      </span><span class="c1"># 1. reselect the previous Visual selection</span>
-&lt;<span class="w">       </span><span class="c1"># 2. SHIFT indentation left</span>
+&lt;<span class="w">       </span><span class="c1"># 2. shift indentation left</span>
 ESC<span class="w">     </span><span class="c1"># 3. apply the change</span>
 .<span class="w">       </span><span class="c1"># 4. repeat the operation</span>
 </pre></div>
@@ -490,11 +488,10 @@ ESC<span class="w">     </span><span class="c1"># 3. apply the change</span>
 <section id="commenting-multiple-lines">
 <h2>Commenting Multiple Lines<a class="headerlink" href="#commenting-multiple-lines" title="Link to this heading">#</a></h2>
 <p>Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CTRL+v<span class="w">    </span><span class="c1"># 1. enter Visual Block mode</span>
-↑↓<span class="w">         </span><span class="c1"># 2. select the first column of the lines</span>
-SHIFT+i<span class="w">   </span><span class="c1"># 3. enter Insert mode</span>
-<span class="c1">#         # 4. type the comment character</span>
-ESC<span class="w">       </span><span class="c1"># 5. apply the change to all selected lines</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CTRL+v<span class="w">    </span><span class="c1"># 1. select columns lines in Visual Block (↑↓)</span>
+SHIFT+i<span class="w">   </span><span class="c1"># 2. enter Insert mode</span>
+<span class="c1">#         # 3. type the comment character</span>
+ESC<span class="w">       </span><span class="c1"># 4. apply the change to all selected lines</span>
 </pre></div>
 </div>
 <p>The same technique can also be used to insert identical text across multiple lines, such as prefixes, labels, or environment variables.</p>
@@ -508,14 +505,15 @@ ESC<span class="w">       </span><span class="c1"># 5. apply the change to all s
 </pre></div>
 </div>
 <p>Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*<span class="w">       </span><span class="c1"># 1. search for the word under the cursor (or use &quot;/greeting&quot;)</span>
-cW<span class="w">      </span><span class="c1"># 2. replace the current occurrence</span>
-foobar<span class="w">  </span><span class="c1"># 3. type the replacement text</span>
-n<span class="w">       </span><span class="c1"># 4. jump to the next occurrence</span>
-.<span class="w">       </span><span class="c1"># 5. repeat the replacement</span>
-n<span class="w">       </span><span class="c1"># 6. jump forward in the match list</span>
-SHIFT+n<span class="w"> </span><span class="c1"># 8. jump backward in the match list</span>
-.<span class="w">       </span><span class="c1"># 9. repeat the replacement</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*<span class="w">         </span><span class="c1"># search for the word under the cursor (or use &quot;/greeting&quot;)</span>
+cW<span class="w">        </span><span class="c1"># replace the current occurrence</span>
+foobar<span class="w">    </span><span class="c1"># type the replacement text</span>
+n<span class="w">         </span><span class="c1"># jump to the next match</span>
+.<span class="w">         </span><span class="c1"># repeat the replacement</span>
+n<span class="w">         </span><span class="c1"># jump to the next match</span>
+n<span class="w">         </span><span class="c1"># skip this match and jump to the next one</span>
+SHIFT+n<span class="w">   </span><span class="c1"># go back to the previous match</span>
+.<span class="w">         </span><span class="c1"># repeat the replacement here</span>
 </pre></div>
 </div>
 <p>This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.</p>
@@ -537,9 +535,9 @@ SHIFT+n<span class="w"> </span><span class="c1"># 8. jump backward in the match 
 </section>
 <section id="working-with-numbers">
 <h2>Working with Numbers<a class="headerlink" href="#working-with-numbers" title="Link to this heading">#</a></h2>
-<p>Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement the value directly under the cursor.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">50</span><span class="w"> </span>»<span class="w"> </span>CTRL+a<span class="w">     </span><span class="c1"># increment a number by 50</span>
-<span class="m">40</span><span class="w"> </span>»<span class="w"> </span>CTRL+x<span class="w">     </span><span class="c1"># decrement a number by 40</span>
+<p>Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement numeric values.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">50</span><span class="w"> </span>»<span class="w"> </span>CTRL+a<span class="w">     </span><span class="c1"># search for next number and increment 50</span>
+<span class="m">40</span><span class="w"> </span>»<span class="w"> </span>CTRL+x<span class="w">     </span><span class="c1"># search for next number and decrement 40</span>
 </pre></div>
 </div>
 </section>
@@ -550,8 +548,8 @@ SHIFT+n<span class="w"> </span><span class="c1"># 8. jump backward in the match 
 </pre></div>
 </div>
 <p>You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through <a class="reference external" href="https://man7.org/linux/man-pages/man1/sort.1.html">sort</a> and <a class="reference external" href="https://ss64.com/bash/uniq.html">uniq</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SHIFT+V<span class="w">         </span><span class="c1"># 1. Select the lines (Visual Line mode)</span>
-:!sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w">   </span><span class="c1"># 2. Sort and remove duplicates from the selection</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SHIFT+V<span class="w">         </span><span class="c1"># 1. select lines in Visual Line (↑↓) </span>
+:!sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w">   </span><span class="c1"># 2. sort and remove duplicates from the selection</span>
 </pre></div>
 </div>
 <p>Vim can also execute commands without modifying the current buffer. This is useful when you need to quickly inspect information from the cluster while editing a manifest. For example, when editing a NetworkPolicy, you can check pod and namespace labels with:</p>
@@ -562,7 +560,7 @@ SHIFT+n<span class="w"> </span><span class="c1"># 8. jump backward in the match 
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:w<span class="w"> </span>!sudo<span class="w"> </span>tee<span class="w"> </span>%
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">:w</span></code> normally saves the buffer to a file. When followed by <code class="docutils literal notranslate"><span class="pre">!</span></code>, it sends the buffer’s content to an external command’s standard input (STDIN) instead of writing to the file directly.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">:w</span></code> normally saves the buffer to a file. When followed by <code class="docutils literal notranslate"><span class="pre">!</span></code>, it sends the buffer’s content to an external command’s standard input (STDIN) instead of writing to the file directly.</p>
 </section>
 <section id="learn-more">
 <h2>Learn More<a class="headerlink" href="#learn-more" title="Link to this heading">#</a></h2>
