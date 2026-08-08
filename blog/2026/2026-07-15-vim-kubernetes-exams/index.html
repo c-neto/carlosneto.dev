@@ -473,7 +473,7 @@ CTRL+v<span class="w">      </span><span class="c1"># enter in Visual block mode
 <p>Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to SHIFT entire YAML blocks to the right or left while preserving their structure.</p>
 <p>To increase the indentation:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>V<span class="w">       </span><span class="c1"># 1. enter Visual Line mode (uppercase)</span>
-↑↓<span class="w">      </span><span class="c1"># 2. select the lines</span>
+↑↓<span class="w">       </span><span class="c1"># 2. select the lines</span>
 &gt;<span class="w">       </span><span class="c1"># 3. SHIFT indentation right</span>
 ESC<span class="w">     </span><span class="c1"># 4. apply the change</span>
 .<span class="w">       </span><span class="c1"># 5. repeat the indentation</span>
@@ -491,7 +491,7 @@ ESC<span class="w">     </span><span class="c1"># 3. apply the change</span>
 <h2>Commenting Multiple Lines<a class="headerlink" href="#commenting-multiple-lines" title="Link to this heading">#</a></h2>
 <p>Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CTRL+v<span class="w">    </span><span class="c1"># 1. enter Visual Block mode</span>
-↑↓<span class="w">        </span><span class="c1"># 2. select the first column of the lines</span>
+↑↓<span class="w">         </span><span class="c1"># 2. select the first column of the lines</span>
 SHIFT+i<span class="w">   </span><span class="c1"># 3. enter Insert mode</span>
 <span class="c1">#         # 4. type the comment character</span>
 ESC<span class="w">       </span><span class="c1"># 5. apply the change to all selected lines</span>
@@ -508,14 +508,14 @@ ESC<span class="w">       </span><span class="c1"># 5. apply the change to all s
 </pre></div>
 </div>
 <p>Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*<span class="w">                   </span><span class="c1"># 1. search for the word under the cursor (or use &quot;/foobar&quot;)</span>
-cW<span class="w">                  </span><span class="c1"># 2. replace the current occurrence</span>
-<span class="nb">type</span><span class="w"> </span>replacement<span class="w">    </span><span class="c1"># 3. type the replacement</span>
-n<span class="w">                   </span><span class="c1"># 4. jump to the next occurrence</span>
-.<span class="w">                   </span><span class="c1"># 5. repeat the replacement</span>
-n<span class="w">                   </span><span class="c1"># 6. jump forward in the match list</span>
-SHIFT+n<span class="w">             </span><span class="c1"># 8. jump backward in the match list</span>
-.<span class="w">                   </span><span class="c1"># 9. repeat the replacement</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*<span class="w">       </span><span class="c1"># 1. search for the word under the cursor (or use &quot;/greeting&quot;)</span>
+cW<span class="w">      </span><span class="c1"># 2. replace the current occurrence</span>
+foobar<span class="w">  </span><span class="c1"># 3. type the replacement text</span>
+n<span class="w">       </span><span class="c1"># 4. jump to the next occurrence</span>
+.<span class="w">       </span><span class="c1"># 5. repeat the replacement</span>
+n<span class="w">       </span><span class="c1"># 6. jump forward in the match list</span>
+SHIFT+n<span class="w"> </span><span class="c1"># 8. jump backward in the match list</span>
+.<span class="w">       </span><span class="c1"># 9. repeat the replacement</span>
 </pre></div>
 </div>
 <p>This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.</p>
