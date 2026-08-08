@@ -95,7 +95,7 @@ To increase the indentation:
 
 ```bash
 V       # 1. enter Visual Line mode (uppercase)
-↑↓      # 2. select the lines
+↑↓       # 2. select the lines
 >       # 3. SHIFT indentation right
 ESC     # 4. apply the change
 .       # 5. repeat the indentation
@@ -116,7 +116,7 @@ Visual Block mode allows you to insert the same text across multiple lines simul
 
 ```bash
 CTRL+v    # 1. enter Visual Block mode
-↑↓        # 2. select the first column of the lines
+↑↓         # 2. select the first column of the lines
 SHIFT+i   # 3. enter Insert mode
 #         # 4. type the comment character
 ESC       # 5. apply the change to all selected lines
@@ -138,14 +138,14 @@ To replace every occurrence of a string:
 Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:
 
 ```bash
-*                   # 1. search for the word under the cursor (or use "/foobar")
-cW                  # 2. replace the current occurrence
-type replacement    # 3. type the replacement
-n                   # 4. jump to the next occurrence
-.                   # 5. repeat the replacement
-n                   # 6. jump forward in the match list
-SHIFT+n             # 8. jump backward in the match list
-.                   # 9. repeat the replacement
+*       # 1. search for the word under the cursor (or use "/greeting")
+cW      # 2. replace the current occurrence
+foobar  # 3. type the replacement text
+n       # 4. jump to the next occurrence
+.       # 5. repeat the replacement
+n       # 6. jump forward in the match list
+SHIFT+n # 8. jump backward in the match list
+.       # 9. repeat the replacement
 ```
 
 This approach lets you review each occurrence before replacing it, making it safer than a global search-and-replace.
