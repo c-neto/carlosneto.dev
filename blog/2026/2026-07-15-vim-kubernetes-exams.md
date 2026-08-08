@@ -102,10 +102,10 @@ ESC             # 4. apply the change
 If you need to reverse the indentation or perform another operation on the same lines, use `gv` to restore the previous Visual selection:
 
 ```bash
-gv              # 1. reselect the previous Visual selection
-<               # 2. SHIFT indentation left
-ESC             # 3. apply the change
-.               # 4. repeat the operation
+gv      # 1. reselect the previous Visual selection
+<       # 2. SHIFT indentation left
+ESC     # 3. apply the change
+.       # 4. repeat the operation
 ```
 
 ## Commenting Multiple Lines
@@ -175,32 +175,36 @@ Kubernetes manifests frequently contain numeric values such as replica counts, p
 
 ## Running Shell Commands in Vim
 
-You can leverage operating system's CLI tools to edit file content directly inside Vim. For example, if you need to sort and remove duplicate lines in a manifest, you can pipe your selection directly to the [sort](https://man7.org/linux/man-pages/man1/sort.1.html) and [uniq](https://ss64.com/bash/uniq.html) utilities:
+You can leverage operating system CLI tools to process and edit file content directly inside Vim. This is particularly useful when working with Kubernetes manifests, as you can combine Vim with tools such as [yq](https://github.com/mikefarah/yq) to quickly format and validate YAML.
+
+For example, you can format an entire YAML file with `yq`:
+
+```bash
+:%!yq
+```
+
+This replaces the entire buffer with the output of `yq`. It is useful for validating YAML syntax and converting inline lists into a properly indented block style, making resources such as NetworkPolicies easier to read and edit.
+
+You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through [sort](https://man7.org/linux/man-pages/man1/sort.1.html) and [uniq](https://ss64.com/bash/uniq.html):
 
 ```bash
 SHIFT+V         # 1. Select the lines (Visual Line mode)
 :!sort | uniq   # 2. Sort and remove duplicates from the selection
 ```
 
-You can apply the same approach to an entire file. For example, use [yq](https://github.com/mikefarah/yq?utm_source=chatgpt.com) to format a YAML file. This is useful for validating the YAML syntax and converting inline lists into a properly indented block style, making resources such as NetworkPolicies better to read and edit.
-
-```bash
-:%!yq
-```
-
-You can run a command to check the output without exiting Vim. This is useful when you are editing a NetworkPolicy and need to know the labels of the pods and namespaces to edit the matchLabels statement.
+Vim can also execute commands without modifying the current buffer. This is useful when you need to quickly inspect information from the cluster while editing a manifest. For example, when editing a NetworkPolicy, you can check pod and namespace labels with:
 
 ```bash
 :!kubectl get pods,ns --show-labels -n foobar
 ```
 
-Another useful trick is saving protected files without opening them with `sudo vim`. This is particularly handy when you forget to open a file with elevated privileges and have already made several changes. Instead of reopening the file with `sudo vim` and repeating all your edits, you can write the current buffer using:
+Another useful trick is saving protected files without opening them with `sudo vim`. This is particularly handy when you forget to open a file with elevated privileges and have already made several changes. Instead of reopening the file with `sudo vim` and repeating your edits, you can write the current buffer using:
 
 ```bash
 :w !sudo tee %
 ```
 
-> *__INFO:__ `:w` normally saves to a file. But when followed by `!`, it redirects your buffer’s content to an external command's standard input (STDIN) instead of writing to disk.*
+> **INFO:** `:w` normally saves the buffer to a file. When followed by `!`, however, it sends the buffer's content to an external command's standard input (STDIN) instead of writing to the file directly.
 
 ## Learn More
 
