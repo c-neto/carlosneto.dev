@@ -72,17 +72,19 @@ A           # move to the end of the line and enter Insert mode
 I strongly recommend __not__ using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
 
 ```bash
-/foo?bar  # search forward for "foo?bar"
-?foo/bar  # search backward for "foo/bar"
-12gg      # jump to line 12
-0         # jump to the beginning of the line
-gg        # jump to the start of the file
-G         # jump to the end of the file
-W         # jump to the next word
-B         # jump to the previous word
-v         # enter in Visual inline mode (lowercase)
-V         # enter in Visual lines mode (uppercase)
-CTRL+v    # enter in Visual block mode (lowercase)
+/greeting   # search for "greeting"
+?foo/bar    # search for "foo/bar" (include "/")
+n           # jump forward in the search match list
+SHIFT+n     # jump backward in the search match list
+12gg        # jump to line 12
+0           # jump to the beginning of the line
+gg          # jump to the start of the file
+G           # jump to the end of the file
+W           # jump to the next word
+B           # jump to the previous word
+v           # enter in Visual inline mode (lowercase)
+V           # enter in Visual lines mode (uppercase)
+CTRL+v      # enter in Visual block mode (lowercase)
 ```
 
 ## Fixing YAML Indentation
@@ -175,15 +177,11 @@ Kubernetes manifests frequently contain numeric values such as replica counts, p
 
 ## Running Shell Commands in Vim
 
-You can leverage operating system CLI tools to process and edit file content directly inside Vim. This is particularly useful when working with Kubernetes manifests, as you can combine Vim with tools such as [yq](https://github.com/mikefarah/yq) to quickly format and validate YAML.
-
-For example, you can format an entire YAML file with `yq`:
+You can leverage operating system CLI tools to process and edit file content directly inside Vim. For example, you can execute [yq] on the current buffer to check for syntax errors and format the file:
 
 ```bash
 :%!yq
 ```
-
-This replaces the entire buffer with the output of `yq`. It is useful for validating YAML syntax and converting inline lists into a properly indented block style, making resources such as NetworkPolicies easier to read and edit.
 
 You can also apply the same approach to a selection of lines. For example, to sort and remove duplicate lines, select the lines and pipe them through [sort](https://man7.org/linux/man-pages/man1/sort.1.html) and [uniq](https://ss64.com/bash/uniq.html):
 
