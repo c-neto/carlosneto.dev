@@ -48,7 +48,7 @@ __This is probably my most valuable tip!__
 
 The exam environment uses __Bash__ as the default shell. Behind the scenes, Bash relies on the [GNU Readline](https://tiswww.case.edu/php/chet/readline/readline.html) library, which provides command-line editing, key bindings, and history navigation. For example, the interactive reverse search that appears when you press __CTRL + R__ is implemented by [GNU Readline](https://tiswww.case.edu/php/chet/readline/readline.html).
 
-One of Readline's most useful features is history search by prefix. The [history-search-backward](https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029) and [history-search-forward](https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dforward-_0028_0029) functions search your command history using the text that already exists before the cursor, instead of simply moving to the previous or next command.
+One of Readline's most useful features is history search by prefix, that is disabled by default. The [history-search-backward](https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029) and [history-search-forward](https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dforward-_0028_0029) functions search your command history using the text that already exists before the cursor, instead of simply moving to the previous or next command.
 
 For example, imagine your command history contains:
 
