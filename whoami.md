@@ -4,7 +4,7 @@
 
 # whoami
 
-DevOps Engineer specializing in Kubernetes, Cloud Computing, Programming and Observability, with experience operating highly available systems at  scale. Open source documentation contributor to projects including OpenSearch, Fluent Bit, and External Secrets Operator.
+DevOps Engineer specializing in Kubernetes, Cloud Computing, Observability and Programming, with experience operating highly available systems at  scale. Open source documentation contributor to projects including OpenSearch, Fluent Bit, and External Secrets Operator.
 
 ::::{grid}
 
