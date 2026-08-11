@@ -4,11 +4,7 @@
 
 # whoami
 
-I'm Carlos Neto, a DevOps Engineer with a strong background in Log Analytics, Cloud Computing, Programming, and Technical Writing. I thrive on building highly available, fault-tolerant systems.
-
-My expertise spans architecting and managing AWS infrastructure, orchestrating Kubernetes workloads, developing automation and integrations in Python, and administering ELK and OpenSearch clusters for scalable search and analytics.
-
-Explore my professional journey and Open Source contributions below:
+DevOps Engineer specializing in Kubernetes, Cloud Computing, and Observability, with experience operating highly available systems at scale. Open source documentation contributor to projects including OpenSearch, Fluent Bit, and External Secrets Operator.
 
 ::::{grid}
 
