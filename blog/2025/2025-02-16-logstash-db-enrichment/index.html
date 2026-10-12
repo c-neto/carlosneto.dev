@@ -403,25 +403,25 @@
 <p>The first tip is to use the <a class="reference external" href="https://www.elastic.co/guide/en/logstash/8.17/plugins-filters-jdbc_streaming.html#plugins-filters-jdbc_streaming-use_prepared_statements">use_prepared_statements</a> option in the <a class="reference external" href="https://www.elastic.co/guide/en/logstash/8.17/plugins-filters-jdbc_streaming.html">jdbc_streaming</a> filter plugin. A Prepared Statement in PostgreSQL is a pre-compiled SQL query that improves performance and security by allowing repeated execution with different parameters while preventing SQL injection. When a query is prepared, PostgreSQL analyzes and optimizes the execution plan once. In subsequent calls, only the parameters are replaced, avoiding recompilation and improving efficiency. Normally, the query in the log ingestion pipeline has a defined structure, changing only the parameters, and it is frequently executed. It is an ideal use case for log enrichment.</p>
 <p>Example of <a class="reference external" href="https://www.elastic.co/guide/en/logstash/8.17/plugins-filters-jdbc_streaming.html#plugins-filters-jdbc_streaming-use_prepared_statements">use_prepared_statements</a>:</p>
 <div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="nv">jdbc_streaming</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nv">jdbc_driver_library</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;/usr/share/logstash/postgresql.jar&quot;</span>
-<span class="w">  </span><span class="nv">jdbc_driver_class</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;org.postgresql.Driver&quot;</span>
-<span class="w">  </span><span class="nv">jdbc_connection_string</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;${DB_JDBC_CONNECTION_STRING}&quot;</span>
-<span class="w">  </span><span class="nv">jdbc_user</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;${DB_USER}&quot;</span>
-<span class="w">  </span><span class="nv">jdbc_password</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;${DB_PASSWORD}&quot;</span>
+<span class="w">  </span><span class="nv">jdbc_driver_library</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"/usr/share/logstash/postgresql.jar"</span>
+<span class="w">  </span><span class="nv">jdbc_driver_class</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"org.postgresql.Driver"</span>
+<span class="w">  </span><span class="nv">jdbc_connection_string</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"${DB_JDBC_CONNECTION_STRING}"</span>
+<span class="w">  </span><span class="nv">jdbc_user</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"${DB_USER}"</span>
+<span class="w">  </span><span class="nv">jdbc_password</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"${DB_PASSWORD}"</span>
 <span class="w">  </span><span class="nv">use_prepared_statements</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="kc">true</span>
-<span class="w">  </span><span class="nv">prepared_statement_name</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;logstash_enrich_query&quot;</span>
+<span class="w">  </span><span class="nv">prepared_statement_name</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"logstash_enrich_query"</span>
 <span class="w">  </span><span class="nv">prepared_statement_bind_values</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="s2">&quot;[document][user_id]&quot;</span>
+<span class="w">    </span><span class="s2">"[document][user_id]"</span>
 <span class="w">  </span><span class="p">]</span>
-<span class="w">  </span><span class="nv">statement</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="nv">statement</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"</span>
 <span class="s2">  SELECT</span>
 <span class="s2">    user_name,</span>
 <span class="s2">    user_email,</span>
 <span class="s2">    user_group</span>
 <span class="s2">  FROM table_users</span>
 <span class="s2">  WHERE id = ?</span>
-<span class="s2">  &quot;</span>
-<span class="w">  </span><span class="nv">target</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;sql&quot;</span>
+<span class="s2">  "</span>
+<span class="w">  </span><span class="nv">target</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"sql"</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -452,15 +452,15 @@
 <p>To solve this case, you can explicitly set the JDBC connection parameter <a class="reference external" href="https://www.postgresql.org/docs/current/runtime-config-client.html">options=-c statement_timeout=5000</a> to set the maximum time in milliseconds that a query can run before being terminated. In this case, queries running longer than 5 seconds will be aborted, and it will be explicitly logged in Logstash service logs, the pipeline will continue working, and log enrichment will be skipped, adding the tag.</p>
 <p>To simulate a slow query, you can add the function <a class="reference external" href="https://pgpedia.info/p/pg_sleep.html">pg_sleep</a>. In the example below, <code class="docutils literal notranslate"><span class="pre">pg_sleep(10)::text</span></code> is introduced to artificially simulate a slow query:</p>
 <div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="nv">jdbc_streaming</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nv">jdbc_driver_library</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;/usr/share/logstash/postgresql.jar&quot;</span>
-<span class="w">  </span><span class="nv">jdbc_driver_class</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;org.postgresql.Driver&quot;</span>
-<span class="w">  </span><span class="nv">jdbc_connection_string</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;${DB_JDBC_CONNECTION_STRING}&quot;</span>
-<span class="w">  </span><span class="nv">jdbc_user</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;${DB_USER}&quot;</span>
-<span class="w">  </span><span class="nv">jdbc_password</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;${DB_PASSWORD}&quot;</span>
+<span class="w">  </span><span class="nv">jdbc_driver_library</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"/usr/share/logstash/postgresql.jar"</span>
+<span class="w">  </span><span class="nv">jdbc_driver_class</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"org.postgresql.Driver"</span>
+<span class="w">  </span><span class="nv">jdbc_connection_string</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"${DB_JDBC_CONNECTION_STRING}"</span>
+<span class="w">  </span><span class="nv">jdbc_user</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"${DB_USER}"</span>
+<span class="w">  </span><span class="nv">jdbc_password</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"${DB_PASSWORD}"</span>
 <span class="w">  </span><span class="nv">use_prepared_statements</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="kc">true</span>
-<span class="w">  </span><span class="nv">prepared_statement_name</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;logstash_enrich_query&quot;</span>
-<span class="w">  </span><span class="nv">prepared_statement_bind_values</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;[document][user_id]&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="nv">statement</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="nv">prepared_statement_name</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"logstash_enrich_query"</span>
+<span class="w">  </span><span class="nv">prepared_statement_bind_values</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="s2">"[document][user_id]"</span><span class="p">]</span>
+<span class="w">  </span><span class="nv">statement</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"</span>
 <span class="s2">    SELECT</span>
 <span class="s2">      pg_sleep(10)::text,    </span>
 <span class="s2">      user_name,</span>
@@ -468,8 +468,8 @@
 <span class="s2">      user_group</span>
 <span class="s2">    FROM table_users</span>
 <span class="s2">    WHERE id = ?</span>
-<span class="s2">  &quot;</span>
-<span class="w">  </span><span class="nv">target</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;sql&quot;</span>
+<span class="s2">  "</span>
+<span class="w">  </span><span class="nv">target</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"sql"</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -484,7 +484,7 @@
 <p>Thus, you can identify the connection from Logstash by the following PostgreSQL query:</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="n">application_name</span><span class="p">,</span><span class="w"> </span><span class="n">usename</span><span class="p">,</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">client_addr</span><span class="p">,</span><span class="w"> </span><span class="k">state</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span>
-<span class="k">WHERE</span><span class="w"> </span><span class="n">application_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;logstash&#39;</span><span class="p">;</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">application_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'logstash'</span><span class="p">;</span>
 </pre></div>
 </div>
 </section>
@@ -497,7 +497,7 @@
 <span class="w">    </span><span class="nv">max_connections</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">4</span>
 <span class="w">    </span><span class="nv">pool_timeout</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="mi">5</span>
 <span class="w">  </span><span class="p">}</span>
-<span class="w">  </span><span class="nv">jdbc_connection_string</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;jdbc:postgresql://postgres:5432/db?options=-c%20statement_timeout=1000%20&quot;</span>
+<span class="w">  </span><span class="nv">jdbc_connection_string</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"jdbc:postgresql://postgres:5432/db?options=-c%20statement_timeout=1000%20"</span>
 <span class="p">}</span>
 </pre></div>
 </div>

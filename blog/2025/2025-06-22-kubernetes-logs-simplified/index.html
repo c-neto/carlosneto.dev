@@ -450,10 +450,10 @@
 <p>To understand this better, check the following Python application code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/python</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;part 1 - &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;part 2 - &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;part 3 - &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;log line completed!&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"part 1 - "</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"part 2 - "</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"part 3 - "</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"log line completed!"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The logs are saved in the following format:</p>
@@ -476,7 +476,7 @@ part<span class="w"> </span><span class="m">1</span><span class="w"> </span>-<sp
 <p>Thus, the configuration defines the Container Runtime’s log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/containerd/containerd/blob/main/docs/man/containerd-config.toml.5.md">/etc/containerd/config.toml</a></span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[plugins.</span><span class="s2">&quot;io.containerd.grpc.v1.cri&quot;</span><span class="k">.containerd.runtimes.runc.options]</span>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[plugins.</span><span class="s2">"io.containerd.grpc.v1.cri"</span><span class="k">.containerd.runtimes.runc.options]</span>
 <span class="w">  </span><span class="n">LogSizeMax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">104857600</span><span class="w">  </span><span class="c1"># set log file size limit to 100MB</span>
 <span class="w">  </span><span class="n">LogFileMax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w">          </span><span class="c1"># set limit 5 log files</span>
 </pre></div>
@@ -485,7 +485,7 @@ part<span class="w"> </span><span class="m">1</span><span class="w"> </span>-<sp
 <p>Also, you can introduce this parameters via environment variables to kubelet service. Below as example using systemd, to define the log rotate parameters for kubelet process to inject log rotate parameters to containerd.</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/kubernetes/release/blob/cd53840/cmd/krel/templates/latest/kubelet/kubelet.service">/etc/systemd/system/kubelet.service</a></span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
-<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Environment</span><span class="o">=</span><span class="s">&quot;KUBELET_EXTRA_ARGS=--container-log-max-size=100Mi --container-log-max-files=5&quot;</span>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Environment</span><span class="o">=</span><span class="s">"KUBELET_EXTRA_ARGS=--container-log-max-size=100Mi --container-log-max-files=5"</span>
 </pre></div>
 </div>
 </div>
@@ -517,16 +517,16 @@ part<span class="w"> </span><span class="m">1</span><span class="w"> </span>-<sp
 <span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/bitnami/fluent-bit:4.0.3-debian-12-r0</span>
 <span class="w">          </span><span class="nt">resources</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">limits</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;200Mi&quot;</span>
-<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;100m&quot;</span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">"200Mi"</span>
+<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"100m"</span>
 <span class="w">            </span><span class="nt">requests</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;100Mi&quot;</span>
-<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;50m&quot;</span>
+<span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">"100Mi"</span>
+<span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"50m"</span>
 <span class="w">          </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w"> </span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config</span>
 <span class="w">              </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/bitnami/fluent-bit/conf/fluent-bit.conf</span>
 <span class="w">              </span><span class="nt">subPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fluent-bit.conf</span>
-<span class="w">            </span><span class="c1"># &gt;&gt;&gt; THIS LINE MOUNTS THE NODE&#39;S POD CONTAINERS DIRECTORY INSIDE THE CONTAINER.</span>
+<span class="w">            </span><span class="c1"># &gt;&gt;&gt; THIS LINE MOUNTS THE NODE'S POD CONTAINERS DIRECTORY INSIDE THE CONTAINER.</span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">varlog</span>
 <span class="w">              </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/log/containers</span>
 <span class="w">      </span><span class="nt">volumes</span><span class="p">:</span>

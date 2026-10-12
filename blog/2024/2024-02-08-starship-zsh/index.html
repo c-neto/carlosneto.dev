@@ -493,8 +493,8 @@ $<span class="w"> </span>k<span class="w"> </span>get<span class="w"> </span>cj
 <ul class="simple">
 <li><p><strong>1</strong> <em>optional</em>: Save a backup of your current dotfiles (<code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> and <code class="docutils literal notranslate"><span class="pre">~/.zsh_history</span></code>):</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.zshrc&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.zshrc.backup&quot;</span>
-$<span class="w"> </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.zsh_history&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.zsh_history.backup&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.zshrc"</span><span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.zshrc.backup"</span>
+$<span class="w"> </span>cp<span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.zsh_history"</span><span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.zsh_history.backup"</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -537,33 +537,33 @@ $<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </s
 <ul class="simple">
 <li><p><strong>4</strong>: Create a directory in your home to save the ZSH plugins and the Starship configuration:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.config/&quot;</span>
-$<span class="w"> </span>mkdir<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.config/"</span>
+$<span class="w"> </span>mkdir<span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/"</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li><p><strong>5</strong>: Download my <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml">~/.config/starship.toml</a>:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span><span class="s1">&#39;https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml&#39;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.config/starship.toml&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span><span class="s1">'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml'</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.config/starship.toml"</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li><p><strong>6</strong>: Install the plugins manually:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># k alias</span>
-$<span class="w"> </span>curl<span class="w"> </span><span class="s1">&#39;https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh&#39;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/kubectl.plugin.zsh&quot;</span>
+$<span class="w"> </span>curl<span class="w"> </span><span class="s1">'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh'</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/kubectl.plugin.zsh"</span>
 
 <span class="c1"># zsh-syntax-highlighting</span>
-$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="s1">&#39;https://github.com/zsh-users/zsh-syntax-highlighting.git&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/zsh-syntax-highlighting&quot;</span>
+$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="s1">'https://github.com/zsh-users/zsh-syntax-highlighting.git'</span><span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/zsh-syntax-highlighting"</span>
 
 <span class="c1"># zsh-autosuggestions</span>
-$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="s1">&#39;https://github.com/zsh-users/zsh-autosuggestions&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/zsh-autosuggestions&quot;</span>
+$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="s1">'https://github.com/zsh-users/zsh-autosuggestions'</span><span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.my-custom-zsh/zsh-autosuggestions"</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li><p><strong>7</strong>: Download my <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc">~/.zshrc</a>:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span><span class="s1">&#39;https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/.zshrc&#39;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.zshrc&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span><span class="s1">'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/.zshrc'</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.zshrc"</span>
 </pre></div>
 </div>
 <blockquote>
