@@ -23,6 +23,11 @@ DevOps Engineer specializing in Kubernetes, Cloud Computing, Observability and P
 <i class="fa-solid fa-certificate fa-fade"></i> Certificates
 :::
 
+:::{grid-item-card}
+:link: https://github.com/c-neto/c-neto/blob/main/resume-latex/c-neto-cv.pdf
+<i class="fa-solid fa-address-card"></i> Resume/CV
+:::
+
 ::::
 
 ---
