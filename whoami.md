@@ -88,8 +88,9 @@ DevOps Engineer specializing in Kubernetes, Cloud Computing, Observability and P
 __[Fluent Bit](https://docs.fluentbit.io/manual):__ Fluent Bit is an open-source log processor and forwarder, used to collect, filter, and send logs from systems like containers, servers, and IoT devices to destinations such as Elasticsearch, OpenSearch, Loki, Kafka, or cloud services for monitoring and analysis.
 
 - <i class="fa-solid fa-code-pull-request"></i>: [#1828](https://github.com/fluent/fluent-bit-docs/pull/1828): Improved documentation to clarify that Conditional Processing does not support using filters as processors.
-- <i class="fa-solid fa-bug"></i>: [#10524](https://github.com/fluent/fluent-bit/issues/10524): Reported an issue where Conditional Processing is not supported when filters are used as processors.
+- <i class="fa-solid fa-star"></i>: [#11457](https://github.com/fluent/fluent-bit/issues/11457): Feature request for expose metrics to track skipped long lines.
 - <i class="fa-solid fa-star"></i>: [#10394](https://github.com/fluent/fluent-bit/issues/10394): Feature request for dynamic OpenSearch/Elasticsearch node discovery and load balancing with sniffing support.
+- <i class="fa-solid fa-bug"></i>: [#10524](https://github.com/fluent/fluent-bit/issues/10524): Reported an issue where Conditional Processing is not supported when filters are used as processors.
 `````
 
 ---
