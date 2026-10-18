@@ -1,0 +1,770 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="OpenSearch Data Tiering: A Hands-On Guide to Hot, Warm, and Searchable Tiers" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/opensearch-data-tiering/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/10/17 Logs and time-series data share an inconvenient truth: the newest data is queried constantly, and the oldest data is almost never touched, but you still have to k..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_opensearch-data-tiering_e80856e9.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/17 Logs and time-series data share an inconvenient truth: the newest data is queried constantly, and the oldest data is almost never touched, but you still have to k..." />
+<meta name="description" content="Blog Post Publish Date: 2026/10/17 Logs and time-series data share an inconvenient truth: the newest data is queried constantly, and the oldest data is almost never touched, but you still have to k..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>OpenSearch Data Tiering: A Hands-On Guide to Hot, Warm, and Searchable Tiers &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/opensearch-data-tiering';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/17</em></p>
+<hr class="docutils" />
+<section id="opensearch-data-tiering-a-hands-on-guide-to-hot-warm-and-searchable-tiers">
+<h1>OpenSearch Data Tiering: A Hands-On Guide to Hot, Warm, and Searchable Tiers<a class="headerlink" href="#opensearch-data-tiering-a-hands-on-guide-to-hot-warm-and-searchable-tiers" title="Link to this heading">#</a></h1>
+<p>Logs and time-series data share an inconvenient truth: the newest data is queried constantly, and the oldest data is almost never touched, but you still have to keep it. If you store everything on the same fast (and expensive) hardware, you burn money. If you store everything on slow, cheap hardware, your dashboards crawl.</p>
+<p>Data tiering solves this. You split your cluster into tiers with different cost and performance profiles and let indexes flow automatically from the fast tier to progressively cheaper ones as they age. This blog post is hands-on: by the end you will have a working hot to warm to searchable architecture driven entirely by an OpenSearch Index State Management (ISM) policy.</p>
+<section id="the-three-tiers">
+<h2>The Three Tiers<a class="headerlink" href="#the-three-tiers" title="Link to this heading">#</a></h2>
+<p>Here is the mental model we will implement:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tier</p></th>
+<th class="head"><p>Hardware profile</p></th>
+<th class="head"><p>Role</p></th>
+<th class="head"><p>Typical retention</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Hot</p></td>
+<td><p>Fast local NVMe, high CPU, limited capacity</p></td>
+<td><p>Active indexing and near-real-time search</p></td>
+<td><p>First few days</p></td>
+</tr>
+<tr class="row-odd"><td><p>Warm</p></td>
+<td><p>Large network-attached disk (EBS), lower CPU</p></td>
+<td><p>Long-term retention, slower queries</p></td>
+<td><p>Weeks to months</p></td>
+</tr>
+<tr class="row-even"><td><p>Searchable (cold)</p></td>
+<td><p>On-demand nodes backed by object storage (S3)</p></td>
+<td><p>Rarely-queried data, restored on demand</p></td>
+<td><p>Months to years</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The data flows one direction: freshly ingested logs land on hot, roll over and migrate to warm after a few days, get snapshotted to object storage, and are eventually either deleted or kept as searchable snapshots that are only pulled back into compute when someone actually queries them.</p>
+<p>The whole point is that each tier matches the access pattern of the data it holds. You are provisioning expensive, high-performance resources only for the small slice of data that needs them.</p>
+</section>
+<section id="prerequisites-labeling-your-nodes">
+<h2>Prerequisites: Labeling Your Nodes<a class="headerlink" href="#prerequisites-labeling-your-nodes" title="Link to this heading">#</a></h2>
+<p>Tiering is driven by node attributes. You tag each data node with a custom attribute (conventionally <code class="docutils literal notranslate"><span class="pre">temp</span></code>) so that OpenSearch knows which nodes are hot and which are warm.</p>
+<p>In each node’s <code class="docutils literal notranslate"><span class="pre">opensearch.yml</span></code> (or via the environment, if you run in containers):</p>
+<div class="highlight-yml notranslate"><div class="highlight"><pre><span></span><span class="c1"># On every hot data node</span>
+<span class="nt">node.attr.temp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hot</span>
+</pre></div>
+</div>
+<div class="highlight-yml notranslate"><div class="highlight"><pre><span></span><span class="c1"># On every warm data node</span>
+<span class="nt">node.attr.temp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">warm</span>
+</pre></div>
+</div>
+<p>The attribute name is arbitrary. <code class="docutils literal notranslate"><span class="pre">temp</span></code> is just a convention. What matters is that it is consistent across the cluster. OpenSearch will use it later to pin shards to the right tier.</p>
+<p>For the searchable (cold) tier, you will need at least one node configured with the <code class="docutils literal notranslate"><span class="pre">warm</span></code> node role, which is what enables remote-backed searchable snapshots:</p>
+<div class="highlight-yml notranslate"><div class="highlight"><pre><span></span><span class="nt">node.roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">data</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">warm</span><span class="w"> </span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p><i class="fa-solid fa-circle-info"></i> <strong>About the naming overlap:</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">warm</span></code> node role is specifically the OpenSearch feature that powers searchable snapshots. It is distinct from the custom <code class="docutils literal notranslate"><span class="pre">node.attr.temp:</span> <span class="pre">warm</span></code> attribute we use for the EBS warm tier. In many real deployments these are separate node groups.</p>
+</div></blockquote>
+</section>
+<section id="step-1-set-up-shard-allocation-awareness">
+<h2>Step 1: Set Up Shard Allocation Awareness<a class="headerlink" href="#step-1-set-up-shard-allocation-awareness" title="Link to this heading">#</a></h2>
+<p>Before moving data around, make sure replicas are spread across failure domains (availability zones). This is independent of tiering but essential: you do not want a primary and its replica on the same AZ.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.awareness.attributes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"zone"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>With this in place, OpenSearch keeps copies of a shard in different zones, so losing a zone never loses data.</p>
+</section>
+<section id="step-2-pin-new-indexes-to-the-hot-tier">
+<h2>Step 2: Pin New Indexes to the Hot Tier<a class="headerlink" href="#step-2-pin-new-indexes-to-the-hot-tier" title="Link to this heading">#</a></h2>
+<p>You want every freshly created index to land on hot nodes. The mechanism is a shard allocation filter on the index settings:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">my</span><span class="mi">-</span><span class="err">logs</span><span class="mi">-000001</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"index.routing.allocation.require.temp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hot"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">require</span></code> filter means shards may only be placed on nodes whose <code class="docutils literal notranslate"><span class="pre">temp</span></code> attribute equals <code class="docutils literal notranslate"><span class="pre">hot</span></code>. You can verify where the shards actually landed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>_cat/shards/my-logs-000001?v
+</pre></div>
+</div>
+<p>In practice you do not set this per-index by hand. You bake it into an index template so every index matching a pattern inherits it automatically. More on that in Step 4.</p>
+</section>
+<section id="step-3-understand-the-ism-state-machine">
+<h2>Step 3: Understand the ISM State Machine<a class="headerlink" href="#step-3-understand-the-ism-state-machine" title="Link to this heading">#</a></h2>
+<p>The engine behind automatic tiering is Index State Management (ISM). An ISM policy is a small state machine with three building blocks:</p>
+<ul class="simple">
+<li><p><strong>State</strong>: a status the index can be in (<code class="docutils literal notranslate"><span class="pre">hot</span></code>, <code class="docutils literal notranslate"><span class="pre">warm</span></code>, <code class="docutils literal notranslate"><span class="pre">delete</span></code>). An index is in exactly one state at a time.</p></li>
+<li><p><strong>Action</strong>: an operation run when the index enters a state (<code class="docutils literal notranslate"><span class="pre">rollover</span></code>, <code class="docutils literal notranslate"><span class="pre">snapshot</span></code>, <code class="docutils literal notranslate"><span class="pre">replica_count</span></code>, <code class="docutils literal notranslate"><span class="pre">allocation</span></code>, <code class="docutils literal notranslate"><span class="pre">delete</span></code>). Actions run in the order you declare them.</p></li>
+<li><p><strong>Transition</strong>: the condition that moves the index to the next state (for example, reaching a minimum age).</p></li>
+</ul>
+<p>Once a policy is attached, ISM runs a background job every 5 minutes: it executes the current state’s actions, evaluates the transition conditions, and advances the index when they are met.</p>
+</section>
+<section id="step-4-write-the-tiering-policy">
+<h2>Step 4: Write the Tiering Policy<a class="headerlink" href="#step-4-write-the-tiering-policy" title="Link to this heading">#</a></h2>
+<p>Here is a complete hot to warm to delete policy. We will walk through each state afterward.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">_plugi</span><span class="kc">ns</span><span class="err">/_ism/policies/logs_</span><span class="kc">t</span><span class="err">ieri</span><span class="kc">n</span><span class="err">g_policy</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"policy"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hot -&gt; Warm -&gt; Delete lifecycle for time-series logs"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"default_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hot"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"states"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hot"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"rollover"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">"min_index_age"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3d"</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"min_primary_shard_size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50gb"</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">"transitions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"state_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warm"</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warm"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"replica_count"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">"number_of_replicas"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"allocation"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">"require"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"temp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warm"</span><span class="w"> </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">"transitions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"state_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"delete"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">"min_index_age"</span><span class="p">:</span><span class="w"> </span><span class="s2">"180d"</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"delete"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"delete"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">"ism_template"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"index_patterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"my-logs-*"</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>What each state does:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">hot</span></code></strong>: the index starts here. The <code class="docutils literal notranslate"><span class="pre">rollover</span></code> action closes the current write index and opens a fresh one once it is 3 days old or its primary shard reaches 50 GB (whichever comes first). After rollover, the index transitions to <code class="docutils literal notranslate"><span class="pre">warm</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">warm</span></code></strong>: two actions run in order. First, <code class="docutils literal notranslate"><span class="pre">replica_count</span></code> drops replicas to 1 (older data needs less redundancy headroom, saving disk). Second, <code class="docutils literal notranslate"><span class="pre">allocation</span></code> with <code class="docutils literal notranslate"><span class="pre">require:</span> <span class="pre">{</span> <span class="pre">temp:</span> <span class="pre">warm</span> <span class="pre">}</span></code> tells OpenSearch to relocate the shards onto warm (EBS) nodes. The index stays here until it is 180 days old.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">delete</span></code></strong>: after 180 days, the index is permanently deleted.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">ism_template</span></code> block at the bottom auto-attaches this policy to any index matching <code class="docutils literal notranslate"><span class="pre">my-logs-*</span></code> with priority 100, so you never have to attach it manually.</p>
+</section>
+<section id="step-5-wire-up-rollover-with-an-alias">
+<h2>Step 5: Wire Up Rollover with an Alias<a class="headerlink" href="#step-5-wire-up-rollover-with-an-alias" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">rollover</span></code> action needs a write alias to flip between the current and the next index. Define it in an index template, create the first index, and point the alias at it:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">_i</span><span class="kc">n</span><span class="err">dex_</span><span class="kc">te</span><span class="err">mpla</span><span class="kc">te</span><span class="err">/my</span><span class="mi">-</span><span class="err">logs</span><span class="mi">-</span><span class="kc">te</span><span class="err">mpla</span><span class="kc">te</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"index_patterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"my-logs-*"</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"index.routing.allocation.require.temp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hot"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"plugins.index_state_management.rollover_alias"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-logs"</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">my</span><span class="mi">-</span><span class="err">logs</span><span class="mi">-000001</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"aliases"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"my-logs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"is_write_index"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Now your application writes to the <code class="docutils literal notranslate"><span class="pre">my-logs</span></code> alias, never to a specific index. When the hot-state rollover fires, OpenSearch creates <code class="docutils literal notranslate"><span class="pre">my-logs-000002</span></code>, moves the write alias to it, and the ISM policy begins managing the old index’s journey to warm.</p>
+<p>Confirm the policy attached correctly:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">GET</span><span class="w"> </span><span class="err">_plugi</span><span class="kc">ns</span><span class="err">/_ism/explai</span><span class="kc">n</span><span class="err">/my</span><span class="mi">-</span><span class="err">logs</span><span class="mi">-000001</span><span class="err">?pre</span><span class="kc">tt</span><span class="err">y</span>
+</pre></div>
+</div>
+</section>
+<section id="step-6-add-the-searchable-cold-tier">
+<h2>Step 6: Add the Searchable (Cold) Tier<a class="headerlink" href="#step-6-add-the-searchable-cold-tier" title="Link to this heading">#</a></h2>
+<p>So far we delete at 180 days. But often you must keep old data for compliance while still freeing up warm nodes. Searchable snapshots are the answer: the index data lives in object storage (S3), and compute is only attached when someone queries it.</p>
+<p>First, register a snapshot repository backed by S3 (one-time setup):</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">_s</span><span class="kc">na</span><span class="err">psho</span><span class="kc">t</span><span class="err">/logs</span><span class="mi">-</span><span class="err">s</span><span class="mi">3-</span><span class="err">reposi</span><span class="kc">t</span><span class="err">ory</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"s3"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"bucket"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-opensearch-snapshots"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"base_path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"logs"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Have ISM snapshot the index as part of (or just before) the warm state by adding a <code class="docutils literal notranslate"><span class="pre">snapshot</span></code> action:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warm"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"replica_count"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"number_of_replicas"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"allocation"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"require"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"temp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warm"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"snapshot"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"repository"</span><span class="p">:</span><span class="w"> </span><span class="s2">"logs-s3-repository"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"snapshot"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ctx.index}}"</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"transitions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Once an index is snapshotted and later removed from the cluster, you can bring it back on demand as a searchable snapshot. The metadata is loaded into the cluster, but S3 remains the authoritative data store, and segments are cached locally only as queries need them:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">POST</span><span class="w"> </span><span class="err">/_s</span><span class="kc">na</span><span class="err">psho</span><span class="kc">t</span><span class="err">/logs</span><span class="mi">-</span><span class="err">s</span><span class="mi">3-</span><span class="err">reposi</span><span class="kc">t</span><span class="err">ory/my</span><span class="mi">-</span><span class="err">logs</span><span class="mi">-000001</span><span class="err">/_res</span><span class="kc">t</span><span class="err">ore</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"storage_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"remote_snapshot"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-logs-000001"</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">storage_type:</span> <span class="pre">remote_snapshot</span></code> is the key difference from a normal restore. Instead of downloading the entire index to local disk, OpenSearch streams and caches data from S3 as queries hit it. This requires at least one node with the <code class="docutils literal notranslate"><span class="pre">warm</span></code> node role (from the prerequisites). These search nodes can be spun up on demand and torn down when the investigation is over, so you only pay for the compute while someone is actually looking at old data.</p>
+</section>
+<section id="how-the-pieces-fit-together">
+<h2>How the Pieces Fit Together<a class="headerlink" href="#how-the-pieces-fit-together" title="Link to this heading">#</a></h2>
+<p>Putting the full lifecycle in one picture:</p>
+<ol class="arabic simple">
+<li><p>Application writes to the <code class="docutils literal notranslate"><span class="pre">my-logs</span></code> alias. Data lands on hot NVMe nodes for fast indexing and near-real-time search.</p></li>
+<li><p>After 3 days (or 50 GB), ISM rolls over the index and transitions it to the warm state.</p></li>
+<li><p>In the warm state, replicas drop to 1, shards relocate to warm EBS nodes, and a snapshot is pushed to S3.</p></li>
+<li><p>The index serves slower queries from warm nodes for up to 180 days.</p></li>
+<li><p>At 180 days, the index is either deleted or, if you need long retention, left as a snapshot in S3 to be restored on demand as a searchable snapshot on temporary search nodes.</p></li>
+</ol>
+<p>Each hop matches hardware cost to how often the data is actually touched.</p>
+</section>
+<section id="operational-tips">
+<h2>Operational Tips<a class="headerlink" href="#operational-tips" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Watch the transitions.</strong> Use <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">_plugins/_ism/explain/&lt;index&gt;</span></code> to see which state each managed index is in and why it has not transitioned yet.</p></li>
+<li><p><strong>Monitor shard movement during relocation.</strong> When indexes migrate from hot to warm, <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">_cat/shards?v&amp;s=state</span></code> shows <code class="docutils literal notranslate"><span class="pre">RELOCATING</span></code> shards. Large migrations consume I/O and network, so expect them, and schedule heavy retention changes off-peak.</p></li>
+<li><p><strong>Size your rollover thresholds to your shards, not the calendar alone.</strong> A 50 GB primary-shard cap keeps shards in a healthy size range regardless of traffic spikes. Combine it with an age condition so quiet indexes still roll over.</p></li>
+<li><p><strong>Keep at least one replica on hot.</strong> The hot tier is where you can least afford data loss, especially if it runs on ephemeral local NVMe. Only drop to zero replicas on tiers where you can tolerate a re-restore from snapshot.</p></li>
+<li><p><strong>ISM pauses on red.</strong> ISM does not run jobs while the cluster health is red. If transitions seem stuck, check cluster health first.</p></li>
+</ul>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>Data tiering is one of those setups that feels like a lot of moving parts the first time you wire it, and then pays you back every single month afterward. Once the ISM policy is in place, the cluster manages its own storage economics: new data stays fast, old data gets cheap, and you stop paying premium prices to store logs nobody is reading.</p>
+<p>The numbers here (3 days hot, 180 days retention, 50 GB rollover) are not universal. They are a starting point, and every workload is different, so tune them to your own access patterns. What I will recommend without hesitation is the discipline itself: match each tier to how often its data is actually touched, set it up once, and let ISM do the rest.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/im-plugin/ism/index/">https://opensearch.org/docs/latest/im-plugin/ism/index/</a></p></li>
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/snapshots/searchable_snapshot/">https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/snapshots/searchable_snapshot/</a></p></li>
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/tuning-your-cluster/cluster/">https://opensearch.org/docs/latest/tuning-your-cluster/cluster/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

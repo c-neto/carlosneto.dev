@@ -1,0 +1,622 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="The kubectl apply Trap: Removed Secret Keys That Refuse to Die" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/kubernetes-secret-empty-string/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/10/17 This blog post explains a behavior that caught me off guard: when you remove a key from a Secret manifest and run kubectl apply, the key can survive in etcd with ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_kubernetes-secret-empty-string_8aaac270.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/17 This blog post explains a behavior that caught me off guard: when you remove a key from a Secret manifest and run kubectl apply, the key can survive in etcd with ..." />
+<meta name="description" content="Blog Post Publish Date: 2026/10/17 This blog post explains a behavior that caught me off guard: when you remove a key from a Secret manifest and run kubectl apply, the key can survive in etcd with ..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>The kubectl apply Trap: Removed Secret Keys That Refuse to Die &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/kubernetes-secret-empty-string';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/17</em></p>
+<hr class="docutils" />
+<section id="the-kubectl-apply-trap-removed-secret-keys-that-refuse-to-die">
+<h1>The kubectl apply Trap: Removed Secret Keys That Refuse to Die<a class="headerlink" href="#the-kubectl-apply-trap-removed-secret-keys-that-refuse-to-die" title="Link to this heading">#</a></h1>
+<p>This blog post explains a behavior that caught me off guard: when you remove a key from a Secret manifest and run <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">apply</span></code>, the key can survive in <code class="docutils literal notranslate"><span class="pre">etcd</span></code> with an empty string instead of being deleted. It covers why this happens, how the <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">apply</span></code> three-way merge works behind the scenes, and what you should do to actually remove the key.</p>
+<section id="the-problem-i-removed-a-key-but-it-is-still-there">
+<h2>The Problem: I Removed a Key, but It Is Still There<a class="headerlink" href="#the-problem-i-removed-a-key-but-it-is-still-there" title="Link to this heading">#</a></h2>
+<p>Let me describe the exact scenario, because the details matter.</p>
+<p>I created a Secret named <code class="docutils literal notranslate"><span class="pre">foobar</span></code> with two keys, <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>. I applied it:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">secret.yaml</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">foobar</span>
+<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
+<span class="nt">stringData</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">x</span><span class="p">:</span><span class="w"> </span><span class="s">"value-x"</span>
+<span class="w">  </span><span class="nt">y</span><span class="p">:</span><span class="w"> </span><span class="s">"value-y"</span>
+</pre></div>
+</div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>secret.yaml
+</pre></div>
+</div>
+<p>Later, I edited the local YAML, removed the <code class="docutils literal notranslate"><span class="pre">y</span></code> key entirely, and applied again:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">secret.yaml (y removed)</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">foobar</span>
+<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
+<span class="nt">stringData</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">x</span><span class="p">:</span><span class="w"> </span><span class="s">"value-x"</span>
+</pre></div>
+</div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>secret.yaml
+</pre></div>
+</div>
+<p>I expected <code class="docutils literal notranslate"><span class="pre">y</span></code> to be gone. It was not. When I inspected the Secret, <code class="docutils literal notranslate"><span class="pre">y</span></code> was still there, holding an empty string:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>foobar<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data}'</span>
+
+<span class="c1"># » output</span>
+<span class="c1">#</span>
+<span class="c1"># {"x":"dmFsdWUteA==","y":""}</span>
+</pre></div>
+</div>
+<p>The key did not go away. It just emptied out. This is the “bad trick” behavior, and it bites you when you assume that removing a line from the manifest is the same as deleting the field from the object.</p>
+</section>
+<section id="why-this-happens-the-three-way-merge">
+<h2>Why This Happens: The Three-Way Merge<a class="headerlink" href="#why-this-happens-the-three-way-merge" title="Link to this heading">#</a></h2>
+<p>The root cause is how <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">apply</span></code> decides what to change. It does not blindly replace the object in the cluster with your file. If it did, two people editing the same resource would constantly overwrite each other. Instead, client-side apply performs a <strong>three-way merge</strong> using three inputs:</p>
+<ul class="simple">
+<li><p><strong>1</strong>: The manifest you are applying now (the local file).</p></li>
+<li><p><strong>2</strong>: The live object currently stored in the cluster.</p></li>
+<li><p><strong>3</strong>: The last configuration you applied, saved by kubectl in the <code class="docutils literal notranslate"><span class="pre">kubectl.kubernetes.io/last-applied-configuration</span></code> annotation.</p></li>
+</ul>
+<p>That third input is the one everybody forgets. kubectl compares your new file against the previous <code class="docutils literal notranslate"><span class="pre">last-applied-configuration</span></code> to figure out what you intended to delete. A field is removed only when it was present in the last applied config and is now absent from your new file.</p>
+<p>You can see the annotation yourself:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>foobar<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.metadata.annotations.kubectl\.kubernetes\.io/last-applied-configuration}'</span>
+</pre></div>
+</div>
+<p>So why did <code class="docutils literal notranslate"><span class="pre">y</span></code> survive as an empty string instead of being deleted? Because something broke that chain of intent. In my case the culprit was the first one, but all of these show up in practice:</p>
+<ul class="simple">
+<li><p><strong>The object was first created with <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">create</span></code> or <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">replace</span></code></strong>. Those commands do not write the <code class="docutils literal notranslate"><span class="pre">last-applied-configuration</span></code> annotation. When you later run <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">apply</span></code>, kubectl has no record that <code class="docutils literal notranslate"><span class="pre">y</span></code> ever existed from its point of view, so it cannot conclude that you meant to delete it. The merge falls back to patch semantics, and the field lingers.</p></li>
+<li><p><strong>The key stayed in the manifest with an empty value</strong>. If the new file still has <code class="docutils literal notranslate"><span class="pre">y:</span> <span class="pre">&quot;&quot;</span></code>, then from kubectl’s perspective you did not remove the key, you set it to empty. That is exactly what ends up in <code class="docutils literal notranslate"><span class="pre">etcd</span></code>.</p></li>
+<li><p><strong>Another tool manages the same Secret</strong>. Helm, Kustomize, or a controller can reconcile the object with merge semantics and keep stale fields around.</p></li>
+</ul>
+<p>The rule behind all of this is that <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">apply</span></code> deletes a field only when it can prove you removed it, and that proof lives in the <code class="docutils literal notranslate"><span class="pre">last-applied-configuration</span></code> annotation. Break the annotation chain, and removed keys turn into empty leftovers.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Empty string and absent are not the same thing in Kubernetes. A consumer that checks “is the key present?” will still find <code class="docutils literal notranslate"><span class="pre">y</span></code>. An application reading <code class="docutils literal notranslate"><span class="pre">y</span></code> will get an empty value instead of failing fast. Depending on your code, that silent empty value can be worse than a missing key.</p>
+</div>
+</section>
+<section id="the-solution-make-the-deletion-explicit">
+<h2>The Solution: Make the Deletion Explicit<a class="headerlink" href="#the-solution-make-the-deletion-explicit" title="Link to this heading">#</a></h2>
+<p>Here are the ways to actually get rid of the key, from the one I reach for most to the heavier options.</p>
+<section id="option-1-keep-the-apply-chain-healthy">
+<h3>Option 1: Keep the apply Chain Healthy<a class="headerlink" href="#option-1-keep-the-apply-chain-healthy" title="Link to this heading">#</a></h3>
+<p>If the Secret was always managed with <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">apply</span></code>, removing the key from the manifest and applying again just works, because the <code class="docutils literal notranslate"><span class="pre">last-applied-configuration</span></code> annotation carries the intent. The trap appears when the object was bootstrapped with <code class="docutils literal notranslate"><span class="pre">create</span></code> or <code class="docutils literal notranslate"><span class="pre">replace</span></code>. The fix is to stop mixing commands. Pick <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">apply</span></code> and stay with it for the whole lifecycle of the resource.</p>
+<p>If you are already stuck with a broken annotation, keep reading.</p>
+</section>
+<section id="option-2-kubectl-replace-full-overwrite">
+<h3>Option 2: kubectl replace (Full Overwrite)<a class="headerlink" href="#option-2-kubectl-replace-full-overwrite" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">replace</span></code> does not merge. It overwrites the whole object with your manifest, so any field missing from the file is gone:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>replace<span class="w"> </span>-f<span class="w"> </span>secret.yaml
+</pre></div>
+</div>
+<p>This removes <code class="docutils literal notranslate"><span class="pre">y</span></code> for real. The trade-off is that <code class="docutils literal notranslate"><span class="pre">replace</span></code> is destructive by design. It ignores the three-way merge entirely, so you lose the collaborative-edit protection. Use it when you know your manifest is the full source of truth for that object.</p>
+</section>
+<section id="option-3-server-side-apply">
+<h3>Option 3: Server-Side Apply<a class="headerlink" href="#option-3-server-side-apply" title="Link to this heading">#</a></h3>
+<p>Server-Side Apply moves the merge logic from your laptop to the API server and tracks ownership through managed fields instead of an annotation. It handles field removal more predictably:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>secret.yaml
+</pre></div>
+</div>
+<p>When a field you own disappears from your manifest, the API server drops it. This is the direction kubectl is heading, and it avoids the whole <code class="docutils literal notranslate"><span class="pre">last-applied-configuration</span></code> fragility. Be aware that if multiple managers touch the same object, you may need <code class="docutils literal notranslate"><span class="pre">--force-conflicts</span></code> to take ownership.</p>
+</section>
+<section id="option-4-delete-and-recreate">
+<h3>Option 4: Delete and Recreate<a class="headerlink" href="#option-4-delete-and-recreate" title="Link to this heading">#</a></h3>
+<p>When the Secret is small and nothing depends on it staying continuously available, just recreate it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>delete<span class="w"> </span>secret<span class="w"> </span>foobar
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>secret.yaml
+</pre></div>
+</div>
+<p>This guarantees a clean state with no stale fields. I avoid it for Secrets that are actively mounted by running Pods, since recreation can cause a brief window where the Secret does not exist.</p>
+</section>
+<section id="patch-a-single-key">
+<h3>Patch a Single Key<a class="headerlink" href="#patch-a-single-key" title="Link to this heading">#</a></h3>
+<p>If you only need to drop one field without touching the rest, a strategic patch does the job:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>foobar<span class="w"> </span>--type<span class="o">=</span>json<span class="w"> </span>-p<span class="o">=</span><span class="s1">'[{"op": "remove", "path": "/data/y"}]'</span>
+</pre></div>
+</div>
+<p>This removes <code class="docutils literal notranslate"><span class="pre">y</span></code> directly from the object. Handy for a quick fix, though for day-to-day management I prefer keeping the manifest as the source of truth.</p>
+</section>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>This one got on my nerves the first time I hit it, because the mental model felt obvious: remove the line, apply, done. The reality is that <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">apply</span></code> is smarter and more stateful than it looks, and that intelligence depends on an annotation that is easy to break without noticing.</p>
+<p>My practical rule is to never mix <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">create</span></code>, <code class="docutils literal notranslate"><span class="pre">replace</span></code>, and <code class="docutils literal notranslate"><span class="pre">apply</span></code> on the same resource. If I manage something declaratively, I manage it with <code class="docutils literal notranslate"><span class="pre">apply</span></code> from the first command, so the <code class="docutils literal notranslate"><span class="pre">last-applied-configuration</span></code> chain stays intact. For new work, I lean on Server-Side Apply, since it sidesteps the annotation fragility and makes field ownership explicit. And when I find a Secret already stuck with an empty leftover key, a <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">replace</span></code> or a quick <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">patch</span></code> clears it out.</p>
+<p>Every case is unique, but the lesson is the same. In Kubernetes, an empty string is not a deletion, and <code class="docutils literal notranslate"><span class="pre">apply</span></code> only deletes what it can prove you removed. Keep that in mind and the “bad trick” stops being a surprise.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/">https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">https://kubernetes.io/docs/reference/using-api/server-side-apply/</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/configuration/secret/">https://kubernetes.io/docs/concepts/configuration/secret/</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#apply">https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#apply</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,598 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="mTLS Without the Mystery: When Both Sides Prove Who They Are" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/pki-mtls-without-the-mystery/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="* Blog Post Publish Date:* This blog post explains what mutual TLS (mTLS) is, how it differs from regular TLS, and why it matters. It covers the “only the server proves itself” gap in normal TLS, h..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_pki-mtls-without-the-mystery_21cd803e.png" />
+<meta property="og:image:alt" content="* Blog Post Publish Date:* This blog post explains what mutual TLS (mTLS) is, how it differs from regular TLS, and why it matters. It covers the “only the server proves itself” gap in normal TLS, h..." />
+<meta name="description" content="* Blog Post Publish Date:* This blog post explains what mutual TLS (mTLS) is, how it differs from regular TLS, and why it matters. It covers the “only the server proves itself” gap in normal TLS, h..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>mTLS Without the Mystery: When Both Sides Prove Who They Are &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/pki-mtls-without-the-mystery';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p>*<strong>Blog Post Publish Date:</strong> *</p>
+<hr class="docutils" />
+<section id="mtls-without-the-mystery-when-both-sides-prove-who-they-are">
+<h1>mTLS Without the Mystery: When Both Sides Prove Who They Are<a class="headerlink" href="#mtls-without-the-mystery-when-both-sides-prove-who-they-are" title="Link to this heading">#</a></h1>
+<p>This blog post explains what mutual TLS (mTLS) is, how it differs from regular TLS, and why it matters. It covers the “only the server proves itself” gap in normal TLS, how mTLS closes it by making the client present a certificate too, where mTLS is actually used (service-to-service communication, zero-trust networks, APIs, service meshes), the trade-offs that come with it, and a hands-on with <code class="docutils literal notranslate"><span class="pre">openssl</span></code> and <code class="docutils literal notranslate"><span class="pre">curl</span></code> so you can set up both sides yourself. If you understand regular TLS, you already understand most of mTLS.</p>
+<p>I wrote this as a follow-up to my posts on digital certificates and TLS. If the chain of trust and the handshake already make sense to you, this is a short and satisfying next step.</p>
+<section id="the-gap-in-regular-tls">
+<h2>The Gap in Regular TLS<a class="headerlink" href="#the-gap-in-regular-tls" title="Link to this heading">#</a></h2>
+<p>Think about what happens when you open a normal HTTPS site. Your browser checks the server’s certificate and confirms the server is who it claims to be. But the server has no idea who <strong>you</strong> are. Anyone on the internet can open that connection. The server authenticates to the client, and the client stays anonymous.</p>
+<p>For a public website, that is exactly what you want. You should not need a certificate to read a blog. The server handles “who are you?” with a login form, a password, a token, something at the application layer.</p>
+<p>But flip the scenario. Imagine two backend services talking to each other inside your infrastructure, or a client hitting a sensitive internal API. Now “anyone can connect, we will figure out who they are later” is a weak starting point. You would rather the connection itself refuse to open unless the caller can cryptographically prove its identity. That is the gap regular TLS leaves open, and it is the gap mTLS fills.</p>
+</section>
+<section id="what-mtls-actually-changes">
+<h2>What mTLS Actually Changes<a class="headerlink" href="#what-mtls-actually-changes" title="Link to this heading">#</a></h2>
+<p>mTLS stands for <strong>mutual TLS</strong>. The word that matters is <em>mutual</em>. In regular TLS, one side proves its identity. In mTLS, <strong>both</strong> sides do.</p>
+<p>The mechanics are the same ones you already know. During the handshake, after the server sends its certificate, the server also asks the client for a certificate. The client presents its own certificate, signed by a CA the server trusts, and the server verifies it the same way a browser verifies a server: name, dates, revocation, and chain up to a trusted root. If the client cannot present a valid, trusted certificate, the connection never completes.</p>
+<p>So mTLS is regular TLS with one extra requirement switched on: client authentication. You get the same confidentiality and integrity as always, plus authenticity in <strong>both</strong> directions instead of one.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The trust can use two separate roots. The client verifies the server against one set of trusted CAs, and the server verifies the client against another (often a private, internal CA that issues certificates only to your own services). They do not have to share the same trust anchor.</p>
+</div>
+</section>
+<section id="why-mtls-is-important">
+<h2>Why mTLS Is Important<a class="headerlink" href="#why-mtls-is-important" title="Link to this heading">#</a></h2>
+<p>Here is where I will take a side, because this is the part that made mTLS click for me.</p>
+<p>The big shift in modern security is <strong>zero trust</strong>. The old model assumed that anything inside the corporate network was safe, and the firewall at the edge was the wall that kept attackers out. That model is broken. Networks get breached, services run across clouds, and “inside the network” no longer means “trustworthy”. Zero trust flips the assumption: trust nothing by default, and make every single connection prove itself, even between two services sitting in the same cluster.</p>
+<p>mTLS is the concrete mechanism that makes zero trust real at the network layer. A few reasons it matters so much:</p>
+<ul class="simple">
+<li><p><strong>Strong identity, not just a shared secret</strong>: an API key or a bearer token can leak, get logged, or get copied. A private key that never leaves the service is much harder to steal and misuse. The identity is cryptographic, tied to a certificate, not a string someone can paste.</p></li>
+<li><p><strong>The connection fails closed</strong>: with mTLS, an unauthenticated caller cannot even complete the handshake. You are rejecting bad actors before any application logic runs, not after.</p></li>
+<li><p><strong>Both directions are protected</strong>: the client knows it reached the real server, and the server knows the client is a legitimate, enrolled service. Neither side is talking to an impostor.</p></li>
+<li><p><strong>It fits service-to-service traffic perfectly</strong>: machines do not fill in login forms. Certificates are a natural way for services to authenticate each other automatically.</p></li>
+</ul>
+<p>This is why mTLS shows up everywhere in modern infrastructure: <strong>service meshes</strong> like Istio and Linkerd turn it on automatically between pods, <strong>Kubernetes</strong> components use it internally, and <strong>zero-trust</strong> platforms lean on it as the default. When you hear “the mesh gives you mTLS for free”, this is what it means: every service got a certificate, and every connection between them is now mutually authenticated.</p>
+</section>
+<section id="the-trade-offs-because-there-always-are-some">
+<h2>The Trade-Offs (Because There Always Are Some)<a class="headerlink" href="#the-trade-offs-because-there-always-are-some" title="Link to this heading">#</a></h2>
+<p>mTLS is great, but it is not free, and I would be dishonest to pretend otherwise.</p>
+<p>The real cost is <strong>certificate management</strong>. Now every client needs a certificate, not just every server. That means you have to issue those certificates, distribute them, rotate them before they expire, and revoke them when a service is retired or compromised. Multiply that across hundreds of services and short certificate lifetimes, and manual management becomes impossible fast. This is exactly why people reach for automation (a service mesh, SPIFFE/SPIRE, or an internal CA with short-lived certificates) instead of hand-rolling it.</p>
+<p>There is also operational pain when things go wrong. A plain TLS failure usually means “fix the server certificate”. An mTLS failure can mean the server certificate, the client certificate, or a trust mismatch on either side, so debugging has more places to look. And for a public-facing website, mTLS is simply the wrong tool. Do not ask random visitors to install a client certificate to read your content.</p>
+<p>My rule of thumb: mTLS is excellent for machine-to-machine and internal traffic where you control both ends. It is a poor fit for open, public, human-facing services.</p>
+</section>
+<section id="hands-on-mtls-with-openssl-and-curl">
+<h2>Hands-On: mTLS With openssl and curl<a class="headerlink" href="#hands-on-mtls-with-openssl-and-curl" title="Link to this heading">#</a></h2>
+<p>Let me make this concrete. The following builds a tiny private CA, issues a client certificate from it, and then forces a server to require that client certificate. You can run it on any machine with <code class="docutils literal notranslate"><span class="pre">openssl</span></code> and <code class="docutils literal notranslate"><span class="pre">curl</span></code>.</p>
+<p>First, create a private CA and a client certificate signed by it:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">$ build a private CA and issue a client certificate</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. create the CA private key and a self-signed CA certificate</span>
+openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span>ca.key<span class="w"> </span><span class="m">4096</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-new<span class="w"> </span>-key<span class="w"> </span>ca.key<span class="w"> </span>-days<span class="w"> </span><span class="m">3650</span><span class="w"> </span>-subj<span class="w"> </span><span class="s2">"/CN=My Internal CA"</span><span class="w"> </span>-out<span class="w"> </span>ca.crt
+
+<span class="c1"># 2. create the client private key and a certificate signing request (CSR)</span>
+openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span>client.key<span class="w"> </span><span class="m">2048</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-key<span class="w"> </span>client.key<span class="w"> </span>-subj<span class="w"> </span><span class="s2">"/CN=my-service-client"</span><span class="w"> </span>-out<span class="w"> </span>client.csr
+
+<span class="c1"># 3. sign the client CSR with the CA to produce the client certificate</span>
+openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>client.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span>-out<span class="w"> </span>client.crt
+</pre></div>
+</div>
+</div>
+<p>Now stand up a test server that <strong>requires</strong> a client certificate. The <code class="docutils literal notranslate"><span class="pre">-Verify</span></code> flag is what turns plain TLS into mTLS, because it tells the server to demand and validate a client certificate against the CA:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">$ run an openssl test server that requires client auth</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># generate a quick server certificate (self-signed, for the lab only)</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:2048<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>server.key<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-subj<span class="w"> </span><span class="s2">"/CN=localhost"</span><span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span>-out<span class="w"> </span>server.crt
+
+<span class="c1"># start a TLS server that demands a client certificate signed by our CA</span>
+openssl<span class="w"> </span>s_server<span class="w"> </span>-accept<span class="w"> </span><span class="m">8443</span><span class="w"> </span>-cert<span class="w"> </span>server.crt<span class="w"> </span>-key<span class="w"> </span>server.key<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-CAfile<span class="w"> </span>ca.crt<span class="w"> </span>-Verify<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+</div>
+<p>With the server running, compare the two calls from another terminal:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">$ a client without a certificate is rejected, one with it succeeds</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># no client certificate: the handshake is refused</span>
+curl<span class="w"> </span>-k<span class="w"> </span>https://localhost:8443
+<span class="c1"># output expected: the server rejects the connection, no client certificate was presented</span>
+
+<span class="c1"># with the client certificate and key: the handshake completes</span>
+curl<span class="w"> </span>-k<span class="w"> </span>--cert<span class="w"> </span>client.crt<span class="w"> </span>--key<span class="w"> </span>client.key<span class="w"> </span>https://localhost:8443
+</pre></div>
+</div>
+</div>
+<p>That contrast is the entire idea of mTLS in two commands. The first caller is anonymous and gets rejected at the connection layer, while the second caller proves its identity with a certificate the server trusts and is let in.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>I keep a fuller version of this as a Docker Compose lab, with a real server and automatic certificate generation, in my labs repository: <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/">c-neto/my-devops-labs</a>. It is handy for experimenting without polluting your workstation with throwaway certificates.</p>
+</div>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>mTLS used to sound like an advanced, enterprise-only thing to me, and it is not. Once you understand regular TLS, mTLS is the same handshake with client authentication turned on, so one side proving its identity becomes both sides proving their identity.</p>
+<p>What I really appreciate about mTLS is that it moves identity down to the connection itself. A bad actor does not get to send a request and get rejected by my code, because the bad actor cannot even open the door. For service-to-service traffic, internal APIs, and anything built on zero-trust principles, that is a strong default, and I recommend it.</p>
+<p>But I will keep the honesty I try to keep in every post: the certificate management overhead is real, and you should not adopt mTLS by hand across a big fleet. Lean on automation, a service mesh, or a proper internal CA. And do not force it onto a public, human-facing site. Used in the right place, mTLS is one of the cleanest security wins I know, and used in the wrong place it is just pain. Pick the right place, and give it a try.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8446">https://datatracker.ietf.org/doc/html/rfc8446</a></p></li>
+<li><p><a class="reference external" href="https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/">https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/</a></p></li>
+<li><p><a class="reference external" href="https://spiffe.io/">https://spiffe.io/</a></p></li>
+<li><p><a class="reference external" href="https://istio.io/latest/docs/concepts/security/">https://istio.io/latest/docs/concepts/security/</a></p></li>
+<li><p><a class="reference external" href="https://www.openssl.org/docs/man3.0/man1/openssl-s_server.html">https://www.openssl.org/docs/man3.0/man1/openssl-s_server.html</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -14,10 +14,6 @@
   background-color: transparent !important;
 }
 
-.focusareas {
-  font-size: small !important;
-}
-
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: medium;
@@ -80,12 +76,15 @@ div.profile-pic img {
 }
 
 .focusareas {
-  font-size: .9em;
+  font-size: .7em;
   font-weight: bold;
 }
 
 .whatido {
-  margin-top: 1em;
+  margin-top: .8em;
+  /* text-justify: inter-word;
+  text-align: justify; */
+  font-size: 0.8em;
 }
 
 /* Timeline CSS */

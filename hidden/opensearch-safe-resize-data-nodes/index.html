@@ -1,0 +1,687 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="How to Scale Down and Resize OpenSearch Data Nodes Safely" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/opensearch-safe-resize-data-nodes/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/10/17 Scaling down or resizing the data tier is one of the riskiest operations you can perform on an OpenSearch cluster. Whether you are shrinking the fleet to cut cost..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_opensearch-safe-resize-data-nodes_52783933.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/17 Scaling down or resizing the data tier is one of the riskiest operations you can perform on an OpenSearch cluster. Whether you are shrinking the fleet to cut cost..." />
+<meta name="description" content="Blog Post Publish Date: 2026/10/17 Scaling down or resizing the data tier is one of the riskiest operations you can perform on an OpenSearch cluster. Whether you are shrinking the fleet to cut cost..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>How to Scale Down and Resize OpenSearch Data Nodes Safely &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/opensearch-safe-resize-data-nodes';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/17</em></p>
+<hr class="docutils" />
+<section id="how-to-scale-down-and-resize-opensearch-data-nodes-safely">
+<h1>How to Scale Down and Resize OpenSearch Data Nodes Safely<a class="headerlink" href="#how-to-scale-down-and-resize-opensearch-data-nodes-safely" title="Link to this heading">#</a></h1>
+<p>Scaling down or resizing the data tier is one of the riskiest operations you can perform on an OpenSearch cluster. Whether you are shrinking the fleet to cut cost, moving to a smaller or larger instance type, or swapping out ephemeral-storage nodes, doing it wrong can cause data loss or extended downtime.</p>
+<p>This blog post covers the patterns and API calls I use to scale down and resize OpenSearch data nodes with zero data loss. The data on a node you remove has to end up somewhere else first, and if you take nodes away faster than the cluster can relocate their shards, you lose data.</p>
+<section id="the-core-challenge">
+<h2>The Core Challenge<a class="headerlink" href="#the-core-challenge" title="Link to this heading">#</a></h2>
+<p>OpenSearch distributes data as shards across nodes. When you remove a node abruptly, the cluster scrambles to re-replicate its shards from elsewhere, consuming bandwidth, CPU, and I/O. If you scale down multiple nodes simultaneously, or if replica counts are too low, you risk losing data before recovery can complete.</p>
+<p>Scaling down is riskier than scaling up for a simple reason: you are removing capacity that currently holds data. Every node you take out must have its shards relocated to the survivors before it goes. Resizing is just a scale-down and scale-up chained together. You replace a node (or a whole node group) with a different shape, so the same rule applies: move the data off before the old node disappears.</p>
+<p>The safe path is always the same: control shard allocation explicitly, verify state before each step, and only then remove nodes.</p>
+</section>
+<section id="concepts-you-need-to-know">
+<h2>Concepts You Need to Know<a class="headerlink" href="#concepts-you-need-to-know" title="Link to this heading">#</a></h2>
+<p><strong>Shard allocation</strong>: OpenSearch automatically assigns shards to nodes and rebalances when the cluster topology changes. You can override this behavior via the cluster settings API.</p>
+<p><strong>Rebalancing</strong>: the process of moving shards between nodes to maintain an even distribution. This runs continuously in the background. During a scale-down or resize, you want to pause it to avoid unnecessary shard movement.</p>
+<p><strong>Draining a node</strong>: using allocation exclusion to tell OpenSearch to move every shard off a specific node before you remove it. This is the heart of a safe scale-down.</p>
+<p><strong>Blue/Green for stateful workloads</strong>: when nodes use locally-attached (ephemeral) storage such as NVMe Instance Store, data is lost when the node terminates. For resizing these nodes you cannot drain in place, so Blue/Green lets you bring up a parallel set of nodes in the new shape, migrate all data to them, then decommission the old ones cleanly.</p>
+</section>
+<section id="pattern-1-scaling-down-resizing-nodes-with-network-attached-storage">
+<h2>Pattern 1: Scaling Down / Resizing Nodes with Network-Attached Storage<a class="headerlink" href="#pattern-1-scaling-down-resizing-nodes-with-network-attached-storage" title="Link to this heading">#</a></h2>
+<p>Use this when your data nodes use EBS, NFS, or any other persistent storage that survives node termination. This is the pattern for shrinking the fleet or resizing to a different instance type when the disk is not ephemeral.</p>
+<section id="step-1-disable-shard-rebalancing">
+<h3>Step 1: Disable shard rebalancing<a class="headerlink" href="#step-1-disable-shard-rebalancing" title="Link to this heading">#</a></h3>
+<p>Before draining or terminating any node, tell OpenSearch to stop moving shards around:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"transient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.rebalance.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This prevents the cluster from immediately trying to re-distribute shards the moment a node disappears, which would waste I/O and bandwidth on work you are about to undo.</p>
+</section>
+<section id="step-2-drain-the-node-you-are-removing">
+<h3>Step 2: Drain the node you are removing<a class="headerlink" href="#step-2-drain-the-node-you-are-removing" title="Link to this heading">#</a></h3>
+<p>Mark the node for exclusion from shard allocation before terminating it:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"transient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node-name-1"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>OpenSearch will now move all primary and replica shards off that node before it is empty. When resizing, exclude every node you intend to replace. When scaling down, exclude the nodes you are removing. Monitor progress with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>_cat/shards?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>node
+GET<span class="w"> </span>_cat/nodes?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>name
+GET<span class="w"> </span>_cat/tasks
+</pre></div>
+</div>
+<p>Wait until the target node has zero shards assigned before proceeding.</p>
+<blockquote>
+<div><p><i class="fa-solid fa-circle-info"></i> <strong>Capacity check for scale-down:</strong></p>
+<p>Before draining, make sure the remaining nodes have enough free disk to absorb the shards you are about to relocate, and stay under the watermark thresholds. Removing a node redistributes its data onto fewer nodes. If they fill past <code class="docutils literal notranslate"><span class="pre">cluster.routing.allocation.disk.watermark.high</span></code>, allocation stalls and you can get stuck mid-scale-down. Shrink too far and the cluster has nowhere to put the data at all.</p>
+</div></blockquote>
+</section>
+<section id="step-3-terminate-the-drained-node-and-for-resize-bring-up-its-replacement">
+<h3>Step 3: Terminate the drained node (and, for resize, bring up its replacement)<a class="headerlink" href="#step-3-terminate-the-drained-node-and-for-resize-bring-up-its-replacement" title="Link to this heading">#</a></h3>
+<p>Once the node is empty, you can safely terminate it. For a pure scale-down, you simply stop here with fewer nodes. For a resize, bring up a replacement in the new instance shape. The new node will join the cluster and receive shards as part of normal allocation.</p>
+</section>
+<section id="step-4-re-enable-rebalancing">
+<h3>Step 4: Re-enable rebalancing<a class="headerlink" href="#step-4-re-enable-rebalancing" title="Link to this heading">#</a></h3>
+<p>After all nodes have been rotated and the cluster is green:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"transient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.rebalance.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="pattern-2-blue-green-for-resizing-ephemeral-storage-nodes">
+<h2>Pattern 2: Blue/Green for Resizing Ephemeral Storage Nodes<a class="headerlink" href="#pattern-2-blue-green-for-resizing-ephemeral-storage-nodes" title="Link to this heading">#</a></h2>
+<p>Use this when nodes have locally-attached storage (for example, NVMe SSDs via EC2 Instance Store). Because data is wiped when the instance terminates, you cannot drain and resize these nodes in place. You must migrate the data to the new node set first. This is the safe way to resize (or scale down) an ephemeral hot tier.</p>
+<p>The idea: run two StatefulSets in parallel (<code class="docutils literal notranslate"><span class="pre">blue</span></code> and <code class="docutils literal notranslate"><span class="pre">green</span></code>), migrate shards from one to the other, then decommission the old set.</p>
+<section id="id1">
+<h3>Step 1: Disable shard rebalancing<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>Same as above, prevent automatic redistribution while you are in control:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"transient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.rebalance.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="step-2-bring-up-the-new-node-set-green-without-data">
+<h3>Step 2: Bring up the new node set (green) without data<a class="headerlink" href="#step-2-bring-up-the-new-node-set-green-without-data" title="Link to this heading">#</a></h3>
+<p>Start your new nodes but exclude them from receiving any shard allocations immediately. This lets them boot and join the cluster without triggering a flood of shard movement:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"transient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"green-node-1, green-node-2, green-node-N"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Deploy your new node set and wait for all nodes to reach <code class="docutils literal notranslate"><span class="pre">Ready</span></code> status.</p>
+</section>
+<section id="step-3-migrate-data-from-blue-to-green">
+<h3>Step 3: Migrate data from blue to green<a class="headerlink" href="#step-3-migrate-data-from-blue-to-green" title="Link to this heading">#</a></h3>
+<p>Now flip the exclusion to the old (blue) nodes. OpenSearch will begin moving shards off the blue nodes and onto the green nodes:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"transient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"blue-node-1, blue-node-2, blue-node-N"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Monitor the migration closely:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Overall shard state: look for RELOCATING or UNASSIGNED</span>
+GET<span class="w"> </span>_cat/shards?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>state
+
+<span class="c1"># Shards by node: verify blue nodes are draining</span>
+GET<span class="w"> </span>_cat/shards?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>node
+
+<span class="c1"># Active tasks: watch for recover and relocation tasks</span>
+GET<span class="w"> </span>_cat/tasks
+
+<span class="c1"># Cluster health: wait for green</span>
+GET<span class="w"> </span>_cluster/health
+</pre></div>
+</div>
+<p>Do not proceed until all shards have moved off the blue nodes and cluster health is green.</p>
+</section>
+<section id="step-4-decommission-the-old-node-set">
+<h3>Step 4: Decommission the old node set<a class="headerlink" href="#step-4-decommission-the-old-node-set" title="Link to this heading">#</a></h3>
+<p>Once all data is on the green nodes, delete the old (blue) StatefulSet:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>delete<span class="w"> </span>sts<span class="w"> </span>&lt;blue-statefulset-name&gt;
+</pre></div>
+</div>
+</section>
+<section id="step-5-clear-allocation-exclusions">
+<h3>Step 5: Clear allocation exclusions<a class="headerlink" href="#step-5-clear-allocation-exclusions" title="Link to this heading">#</a></h3>
+<p>Remove the exclusion rules so future shard assignments work normally:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"transient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="step-6-re-enable-rebalancing">
+<h3>Step 6: Re-enable rebalancing<a class="headerlink" href="#step-6-re-enable-rebalancing" title="Link to this heading">#</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"transient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.rebalance.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="useful-monitoring-commands">
+<h2>Useful Monitoring Commands<a class="headerlink" href="#useful-monitoring-commands" title="Link to this heading">#</a></h2>
+<p>Keep these handy throughout any migration:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Shard distribution sorted by state (spot UNASSIGNED or RELOCATING)</span>
+GET<span class="w"> </span>_cat/shards?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>state
+
+<span class="c1"># Shard distribution sorted by index</span>
+GET<span class="w"> </span>_cat/shards?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>index
+
+<span class="c1"># Shard distribution sorted by node</span>
+GET<span class="w"> </span>_cat/shards?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>node
+
+<span class="c1"># Node list with health stats</span>
+GET<span class="w"> </span>_cat/nodes?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>name
+
+<span class="c1"># Active cluster tasks</span>
+GET<span class="w"> </span>_cat/tasks
+
+<span class="c1"># Full cluster health</span>
+GET<span class="w"> </span>_cluster/health
+</pre></div>
+</div>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>Every time I scale down a data tier, I treat it as the risky operation it is, and I have never regretted being slow about it. The rule that keeps me out of trouble is boring and absolute: move the data off before the node disappears. Disable rebalancing first, drain with <code class="docutils literal notranslate"><span class="pre">exclude._name</span></code>, check capacity, and never advance a step until the cluster is green and every shard is assigned.</p>
+<p>For ephemeral storage, Blue/Green is not optional, it is the only safe way to resize or scale down, because you cannot drain a disk that gets wiped on termination. And whatever pattern you use, clear your transient settings afterward. Leftover exclusion rules or disabled rebalancing will bite you the next time the topology changes. Go slow, verify at every step, and the scariest operation on the cluster becomes routine.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/api-reference/cluster-api/cluster-settings/">https://opensearch.org/docs/latest/api-reference/cluster-api/cluster-settings/</a></p></li>
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/">https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/</a></p></li>
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/api-reference/cat/cat-shards/">https://opensearch.org/docs/latest/api-reference/cat/cat-shards/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

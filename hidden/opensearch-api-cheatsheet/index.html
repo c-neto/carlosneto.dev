@@ -1,0 +1,883 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="The OpenSearch API Cheatsheet Every Operator Needs" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/opensearch-api-cheatsheet/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/10/17 When you are running an OpenSearch cluster in production, the difference between a five-minute fix and a two-hour incident is often just knowing the right API cal..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_opensearch-api-cheatsheet_0bf3c30e.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/17 When you are running an OpenSearch cluster in production, the difference between a five-minute fix and a two-hour incident is often just knowing the right API cal..." />
+<meta name="description" content="Blog Post Publish Date: 2026/10/17 When you are running an OpenSearch cluster in production, the difference between a five-minute fix and a two-hour incident is often just knowing the right API cal..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>The OpenSearch API Cheatsheet Every Operator Needs &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/opensearch-api-cheatsheet';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/17</em></p>
+<hr class="docutils" />
+<section id="the-opensearch-api-cheatsheet-every-operator-needs">
+<h1>The OpenSearch API Cheatsheet Every Operator Needs<a class="headerlink" href="#the-opensearch-api-cheatsheet-every-operator-needs" title="Link to this heading">#</a></h1>
+<p>When you are running an OpenSearch cluster in production, the difference between a five-minute fix and a two-hour incident is often just knowing the right API call. This blog post collects the day-to-day commands I reach for most: inspecting cluster health, hunting down slow queries, managing shard allocation, running maintenance operations, and troubleshooting ingestion, all in one place.</p>
+<p>Every command is a raw REST call you can paste straight into OpenSearch Dashboards Dev Tools (or <code class="docutils literal notranslate"><span class="pre">curl</span></code>). Replace placeholders in <code class="docutils literal notranslate"><span class="pre">&lt;angle-brackets&gt;</span></code> with your own index names, patterns, or node names.</p>
+<section id="cluster-status">
+<h2>Cluster Status<a class="headerlink" href="#cluster-status" title="Link to this heading">#</a></h2>
+<p>Start here when something feels off. These give you a top-down view of the cluster’s health and where the work is happening.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Overall cluster health (green / yellow / red)</span>
+GET<span class="w"> </span>/_cluster/health
+
+<span class="c1"># Current cluster-wide settings</span>
+GET<span class="w"> </span>/_cluster/settings
+
+<span class="c1"># Disk and shard allocation per node</span>
+GET<span class="w"> </span>/_cat/allocation?v
+
+<span class="c1"># Node health, sorted by JVM heap usage (spot memory pressure fast)</span>
+GET<span class="w"> </span>_cat/nodes?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>heap.percent
+
+<span class="c1"># All shards, sorted by index</span>
+GET<span class="w"> </span>_cat/shards?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>index
+
+<span class="c1"># Only UNASSIGNED shards, with the reason they're unassigned</span>
+GET<span class="w"> </span>_cat/shards?v<span class="p">&amp;</span><span class="nv">h</span><span class="o">=</span>index,shard,prirep,state,unassigned.reason<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>state
+
+<span class="c1"># Indices sorted by store size</span>
+GET<span class="w"> </span>_cat/indices/&lt;index-name<span class="p">|</span>index-pattern&gt;?h<span class="o">=</span>health,status,index,uuid,pri,rep,docs.count,docs.deleted,store.size,creation.date.string<span class="p">&amp;</span>v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>store.size
+
+<span class="c1"># Recovery / relocation progress</span>
+GET<span class="w"> </span>_cat/recovery?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>stage:desc
+GET<span class="w"> </span>_cat/recovery/?v<span class="p">&amp;</span><span class="nv">active_only</span><span class="o">=</span>true<span class="p">&amp;</span><span class="nv">h</span><span class="o">=</span>index,source_node,target_node,bytes_percent<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>bytes_percent:desc
+
+<span class="c1"># Merge activity by index (high merges = heavy write/segment churn)</span>
+GET<span class="w"> </span>/_cat/indices?v<span class="p">&amp;</span><span class="nv">h</span><span class="o">=</span>index,docs.count,store.size,search.query_total,search.query_time,merges.current<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>merges.current:desc
+</pre></div>
+</div>
+</section>
+<section id="finding-long-running-tasks-and-queries">
+<h2>Finding Long-Running Tasks and Queries<a class="headerlink" href="#finding-long-running-tasks-and-queries" title="Link to this heading">#</a></h2>
+<p>A single runaway query can pin a node’s CPU and degrade the whole cluster. Use these to find and kill it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List tasks ordered by how long they've been running</span>
+GET<span class="w"> </span>_cat/tasks?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>running_time:desc<span class="p">&amp;</span><span class="nv">detailed</span><span class="o">=</span><span class="nb">true</span>
+
+<span class="c1"># Describe a single task</span>
+GET<span class="w"> </span>/_tasks/&lt;taskHash:taskId&gt;
+
+<span class="c1"># Force-cancel ALL running searches (emergency brake for a stuck query)</span>
+POST<span class="w"> </span>_tasks/_cancel?actions<span class="o">=</span>*search*
+
+<span class="c1"># Hot threads on a specific node: see exactly what's eating CPU</span>
+GET<span class="w"> </span>/_nodes/&lt;node-name&gt;/hot_threads?threads<span class="o">=</span><span class="m">8</span><span class="p">&amp;</span><span class="nv">interval</span><span class="o">=</span>2s<span class="p">&amp;</span><span class="nv">type</span><span class="o">=</span>cpu
+</pre></div>
+</div>
+</section>
+<section id="index-operations">
+<h2>Index Operations<a class="headerlink" href="#index-operations" title="Link to this heading">#</a></h2>
+<p>The everyday index inspection and management calls.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># View an index's settings</span>
+GET<span class="w"> </span>/&lt;index-name&gt;/_settings
+
+<span class="c1"># Detailed index info, sorted by creation date</span>
+GET<span class="w"> </span>_cat/indices/&lt;index-name<span class="p">|</span>index-pattern&gt;/?h<span class="o">=</span>health,status,index,uuid,pri,rep,docs.count,docs.deleted,store.size,creation.date.string<span class="p">&amp;</span>v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>creation.date.string
+
+<span class="c1"># Which ISM policy is managing this index, and its current state</span>
+GET<span class="w"> </span>_plugins/_ism/explain/&lt;index-name&gt;?show_policy<span class="o">=</span><span class="nb">true</span>
+
+<span class="c1"># List aliases, showing which index is the write target</span>
+GET<span class="w"> </span>/_cat/aliases/&lt;index-pattern&gt;?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>is_write_index
+
+<span class="c1"># Force a rollover on a write alias</span>
+POST<span class="w"> </span>&lt;alias-name&gt;/_rollover
+
+<span class="c1"># Peek at the latest documents by timestamp</span>
+GET<span class="w"> </span>&lt;index-name&gt;/_search
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">"size"</span>:<span class="w"> </span><span class="m">10</span>,
+<span class="w">  </span><span class="s2">"sort"</span>:<span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="s2">"@timestamp"</span>:<span class="w"> </span><span class="s2">"desc"</span><span class="w"> </span><span class="o">}</span>,
+<span class="w">  </span><span class="s2">"query"</span>:<span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="s2">"match_all"</span>:<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</section>
+<section id="searching">
+<h2>Searching<a class="headerlink" href="#searching" title="Link to this heading">#</a></h2>
+<p>A handy pattern for substring/wildcard searches on analyzed (non-keyword) text fields:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">GET</span><span class="w"> </span><span class="err">&lt;i</span><span class="kc">n</span><span class="err">dex</span><span class="mi">-</span><span class="kc">na</span><span class="err">me&gt;/_search</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"query_string"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"query"</span><span class="p">:</span><span class="w"> </span><span class="s2">"(*abc*) AND (*xyz*)"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"default_field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;field-name&gt;"</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p><i class="fa-solid fa-circle-info"></i> <strong>About leading wildcards:</strong></p>
+<p>Leading wildcards (<code class="docutils literal notranslate"><span class="pre">*abc</span></code>) are expensive, they cannot use the inverted index efficiently. Great for a one-off investigation, bad for hot-path queries.</p>
+</div></blockquote>
+</section>
+<section id="shard-allocation-and-rebalancing">
+<h2>Shard Allocation and Rebalancing<a class="headerlink" href="#shard-allocation-and-rebalancing" title="Link to this heading">#</a></h2>
+<p>This is the heart of safe cluster maintenance: controlling where shards live so you can restart or drain nodes without losing data or triggering a storm of unnecessary relocation.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Explai</span><span class="kc">n</span><span class="w"> </span><span class="err">why</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">shard</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">u</span><span class="kc">nass</span><span class="err">ig</span><span class="kc">ne</span><span class="err">d</span><span class="p">,</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="kc">n</span><span class="w"> </span><span class="err">re</span><span class="kc">tr</span><span class="err">y</span><span class="w"> </span><span class="kc">fa</span><span class="err">iled</span><span class="w"> </span><span class="err">alloca</span><span class="kc">t</span><span class="err">io</span><span class="kc">ns</span>
+<span class="err">GET</span><span class="w"> </span><span class="err">_clus</span><span class="kc">ter</span><span class="err">/alloca</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">/explai</span><span class="kc">n</span>
+<span class="err">POST</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/rerou</span><span class="kc">te</span><span class="err">?re</span><span class="kc">tr</span><span class="err">y_</span><span class="kc">fa</span><span class="err">iled=</span><span class="kc">true</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Disable</span><span class="w"> </span><span class="err">rebala</span><span class="kc">n</span><span class="err">ci</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">be</span><span class="kc">f</span><span class="err">ore</span><span class="w"> </span><span class="err">res</span><span class="kc">tart</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="kc">n</span><span class="err">ode</span><span class="w"> </span><span class="err">(preve</span><span class="kc">nts</span><span class="w"> </span><span class="kc">nee</span><span class="err">dless</span><span class="w"> </span><span class="err">shard</span><span class="w"> </span><span class="err">chur</span><span class="kc">n</span><span class="err">)</span>
+<span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.rebalance.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Re</span><span class="mf">-e</span><span class="kc">na</span><span class="err">ble</span><span class="w"> </span><span class="err">rebala</span><span class="kc">n</span><span class="err">ci</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">whe</span><span class="kc">n</span><span class="w"> </span><span class="err">mai</span><span class="kc">ntenan</span><span class="err">ce</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">do</span><span class="kc">ne</span>
+<span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.rebalance.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Drai</span><span class="kc">n</span><span class="w"> </span><span class="kc">n</span><span class="err">odes</span><span class="w"> </span><span class="err">(decommissio</span><span class="kc">n</span><span class="err">)</span><span class="p">:</span><span class="w"> </span><span class="err">move</span><span class="w"> </span><span class="err">all</span><span class="w"> </span><span class="err">shards</span><span class="w"> </span><span class="err">OFF</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="kc">na</span><span class="err">med</span><span class="w"> </span><span class="kc">n</span><span class="err">odes</span>
+<span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;node-a&gt;, &lt;node-b&gt;, &lt;node-c&gt;"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Clear</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="err">drai</span><span class="kc">n</span><span class="w"> </span><span class="err">/</span><span class="w"> </span><span class="err">decommissio</span><span class="kc">n</span><span class="w"> </span><span class="err">exclusio</span><span class="kc">n</span>
+<span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.enable"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Rebala</span><span class="kc">n</span><span class="err">ce</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="err">dex</span><span class="w"> </span><span class="err">spread</span><span class="w"> </span><span class="err">o</span><span class="kc">nl</span><span class="err">y</span><span class="w"> </span><span class="err">(use</span><span class="kc">ful</span><span class="w"> </span><span class="err">righ</span><span class="kc">t</span><span class="w"> </span><span class="err">a</span><span class="kc">fter</span><span class="w"> </span><span class="err">addi</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="kc">ne</span><span class="err">w</span><span class="w"> </span><span class="kc">n</span><span class="err">odes</span>
+<span class="err">#</span><span class="w"> </span><span class="err">so</span><span class="w"> </span><span class="kc">ne</span><span class="err">w</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="err">dices</span><span class="w"> </span><span class="err">ge</span><span class="kc">t</span><span class="w"> </span><span class="err">bala</span><span class="kc">n</span><span class="err">ced</span><span class="w"> </span><span class="err">wi</span><span class="kc">t</span><span class="err">hou</span><span class="kc">t</span><span class="w"> </span><span class="err">reshu</span><span class="kc">ffl</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">every</span><span class="kc">t</span><span class="err">hi</span><span class="kc">n</span><span class="err">g)</span>
+<span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.rebalance.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.balance.index"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0f"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.balance.shard"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0f"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">How</span><span class="w"> </span><span class="err">ma</span><span class="kc">n</span><span class="err">y</span><span class="w"> </span><span class="err">shards</span><span class="w"> </span><span class="err">may</span><span class="w"> </span><span class="err">rebala</span><span class="kc">n</span><span class="err">ce</span><span class="w"> </span><span class="err">a</span><span class="kc">t</span><span class="w"> </span><span class="err">o</span><span class="kc">n</span><span class="err">ce</span><span class="w"> </span><span class="err">(</span><span class="kc">tune</span><span class="w"> </span><span class="err">reloca</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="w"> </span><span class="kc">t</span><span class="err">hroughpu</span><span class="kc">t</span><span class="err">)</span>
+<span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.cluster_concurrent_rebalance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Speed</span><span class="w"> </span><span class="err">up</span><span class="w"> </span><span class="err">(or</span><span class="w"> </span><span class="err">cap)</span><span class="w"> </span><span class="err">recovery/reloca</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="w"> </span><span class="err">ba</span><span class="kc">n</span><span class="err">dwid</span><span class="kc">t</span><span class="err">h</span><span class="w"> </span><span class="err">per</span><span class="w"> </span><span class="kc">n</span><span class="err">ode</span>
+<span class="err">PUT</span><span class="w"> </span><span class="err">_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"indices.recovery.max_bytes_per_sec"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100mb"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="settings-and-logging">
+<h2>Settings and Logging<a class="headerlink" href="#settings-and-logging" title="Link to this heading">#</a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Dump</span><span class="w"> </span><span class="err">every</span><span class="w"> </span><span class="err">se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span><span class="p">,</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="err">cludi</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">de</span><span class="kc">faults</span><span class="p">,</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="w"> </span><span class="kc">flat</span><span class="w"> </span><span class="kc">f</span><span class="err">orm</span>
+<span class="err">GET</span><span class="w"> </span><span class="err">_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs?i</span><span class="kc">n</span><span class="err">clude_de</span><span class="kc">faults</span><span class="err">&amp;</span><span class="kc">flat</span><span class="err">_se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Raise</span><span class="w"> </span><span class="err">log</span><span class="w"> </span><span class="err">verbosi</span><span class="kc">t</span><span class="err">y</span><span class="w"> </span><span class="kc">f</span><span class="err">or</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">si</span><span class="kc">n</span><span class="err">gle</span><span class="w"> </span><span class="err">module</span><span class="w"> </span><span class="err">(e.g.</span><span class="w"> </span><span class="err">discovery)</span>
+<span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"logger.org.opensearch.discovery"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DEBUG"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Raise</span><span class="w"> </span><span class="err">log</span><span class="w"> </span><span class="err">verbosi</span><span class="kc">t</span><span class="err">y</span><span class="w"> </span><span class="kc">f</span><span class="err">or</span><span class="w"> </span><span class="err">every</span><span class="kc">t</span><span class="err">hi</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">(use</span><span class="w"> </span><span class="err">spari</span><span class="kc">n</span><span class="err">gly!)</span>
+<span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"logger.org.opensearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INFO"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="thread-pool-troubleshooting">
+<h2>Thread Pool Troubleshooting<a class="headerlink" href="#thread-pool-troubleshooting" title="Link to this heading">#</a></h2>
+<p>When indexing starts failing, the write thread pool queue is the first place to look. A growing queue or non-zero <code class="docutils literal notranslate"><span class="pre">rejected</span></code> count means the cluster cannot keep up with writes.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># All thread pools at a glance</span>
+GET<span class="w"> </span>/_cat/thread_pool/
+
+<span class="c1"># The write pool specifically, worst queues first</span>
+GET<span class="w"> </span>/_cat/thread_pool/write?v<span class="p">&amp;</span><span class="nv">h</span><span class="o">=</span>node_name,name,active,queue,rejected<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>queue:desc
+</pre></div>
+</div>
+</section>
+<section id="reindex-move-and-delete">
+<h2>Reindex, Move, and Delete<a class="headerlink" href="#reindex-move-and-delete" title="Link to this heading">#</a></h2>
+<p>Heavy data operations. The <code class="docutils literal notranslate"><span class="pre">wait_for_completion=false</span></code> flag runs them asynchronously and returns a task ID you can poll.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Merge</span><span class="w"> </span><span class="err">several</span><span class="w"> </span><span class="err">source</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="err">dices</span><span class="w"> </span><span class="err">i</span><span class="kc">nt</span><span class="err">o</span><span class="w"> </span><span class="err">o</span><span class="kc">ne</span><span class="w"> </span><span class="err">des</span><span class="kc">t</span><span class="err">i</span><span class="kc">nat</span><span class="err">io</span><span class="kc">n</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="err">dex</span>
+<span class="err">POST</span><span class="w"> </span><span class="err">_rei</span><span class="kc">n</span><span class="err">dex?wai</span><span class="kc">t</span><span class="err">_</span><span class="kc">f</span><span class="err">or_comple</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">=</span><span class="kc">false</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"conflicts"</span><span class="p">:</span><span class="w"> </span><span class="s2">"proceed"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"index"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;source-index-1&gt;,&lt;source-index-2&gt;,&lt;source-index-3&gt;"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dest"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"index"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;destination-index&gt;"</span><span class="p">,</span><span class="w"> </span><span class="nt">"op_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index"</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="err">#</span><span class="w"> </span><span class="err">Follow</span><span class="w"> </span><span class="err">up</span><span class="w"> </span><span class="err">o</span><span class="kc">n</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="err">asy</span><span class="kc">n</span><span class="err">c</span><span class="w"> </span><span class="kc">tas</span><span class="err">k</span>
+<span class="err">GET</span><span class="w"> </span><span class="err">_</span><span class="kc">tas</span><span class="err">ks/&lt;</span><span class="kc">tas</span><span class="err">k</span><span class="mi">-</span><span class="err">id&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Move</span><span class="w"> </span><span class="err">a</span><span class="kc">n</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="err">dex</span><span class="w"> </span><span class="kc">fr</span><span class="err">om</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="err">ho</span><span class="kc">t</span><span class="w"> </span><span class="kc">t</span><span class="err">ier</span><span class="w"> </span><span class="kc">t</span><span class="err">o</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="err">warm</span><span class="w"> </span><span class="kc">t</span><span class="err">ier</span>
+<span class="err">PUT</span><span class="w"> </span><span class="err">&lt;i</span><span class="kc">n</span><span class="err">dex</span><span class="mi">-</span><span class="kc">na</span><span class="err">me&gt;/_se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"index.routing.allocation.require.temp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warm"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Dele</span><span class="kc">te</span><span class="w"> </span><span class="err">docume</span><span class="kc">nts</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">query</span><span class="w"> </span><span class="err">(asy</span><span class="kc">n</span><span class="err">c).</span><span class="w"> </span><span class="err">Here</span><span class="p">:</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">logger</span><span class="w"> </span><span class="err">wi</span><span class="kc">t</span><span class="err">hi</span><span class="kc">n</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="kc">t</span><span class="err">ime</span><span class="w"> </span><span class="err">ra</span><span class="kc">n</span><span class="err">ge</span>
+<span class="err">POST</span><span class="w"> </span><span class="err">&lt;i</span><span class="kc">n</span><span class="err">dex</span><span class="mi">-</span><span class="err">pa</span><span class="kc">ttern</span><span class="err">&gt;/_dele</span><span class="kc">te</span><span class="err">_by_query?wai</span><span class="kc">t</span><span class="err">_</span><span class="kc">f</span><span class="err">or_comple</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">=</span><span class="kc">false</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"bool"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"match"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"&lt;field-name&gt;"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;value&gt;"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"range"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"@timestamp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">"gte"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-06-25T00:00:00.000Z"</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"lte"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-07-02T00:00:00.000Z"</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"strict_date_optional_time"</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="ism-policies">
+<h2>ISM Policies<a class="headerlink" href="#ism-policies" title="Link to this heading">#</a></h2>
+<p>Index State Management drives the automatic lifecycle (rollover, warm migration, deletion). These commands let you inspect and override it.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Wha</span><span class="kc">t</span><span class="w"> </span><span class="err">policy</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">a</span><span class="kc">tta</span><span class="err">ched</span><span class="p">,</span><span class="w"> </span><span class="err">a</span><span class="kc">n</span><span class="err">d</span><span class="w"> </span><span class="err">wha</span><span class="kc">t</span><span class="w"> </span><span class="err">s</span><span class="kc">tate</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="err">dex</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="err">?</span>
+<span class="err">GET</span><span class="w"> </span><span class="err">_plugi</span><span class="kc">ns</span><span class="err">/_ism/explai</span><span class="kc">n</span><span class="err">/&lt;i</span><span class="kc">n</span><span class="err">dex</span><span class="mi">-</span><span class="kc">na</span><span class="err">me&gt;?show_policy=</span><span class="kc">true</span>
+
+<span class="err">#</span><span class="w"> </span><span class="err">Reassig</span><span class="kc">n</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">policy</span><span class="p">:</span><span class="w"> </span><span class="err">remove</span><span class="p">,</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="kc">n</span><span class="w"> </span><span class="err">add</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="kc">ne</span><span class="err">w</span><span class="w"> </span><span class="err">o</span><span class="kc">ne</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">pa</span><span class="kc">ttern</span>
+<span class="err">POST</span><span class="w"> </span><span class="err">_plugi</span><span class="kc">ns</span><span class="err">/_ism/remove/&lt;i</span><span class="kc">n</span><span class="err">dex</span><span class="mi">-</span><span class="err">pa</span><span class="kc">ttern</span><span class="err">&gt;</span>
+<span class="err">POST</span><span class="w"> </span><span class="err">_plugi</span><span class="kc">ns</span><span class="err">/_ism/add/&lt;i</span><span class="kc">n</span><span class="err">dex</span><span class="mi">-</span><span class="err">pa</span><span class="kc">ttern</span><span class="err">&gt;</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"policy_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;policy-id&gt;"</span>
+<span class="p">}</span>
+
+<span class="err">#</span><span class="w"> </span><span class="err">Cha</span><span class="kc">n</span><span class="err">ge</span><span class="w"> </span><span class="err">a</span><span class="kc">n</span><span class="w"> </span><span class="err">exis</span><span class="kc">t</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="err">dex's</span><span class="w"> </span><span class="err">policy</span><span class="w"> </span><span class="err">a</span><span class="kc">n</span><span class="err">d</span><span class="w"> </span><span class="err">jump</span><span class="w"> </span><span class="kc">t</span><span class="err">o</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">speci</span><span class="kc">f</span><span class="err">ic</span><span class="w"> </span><span class="err">s</span><span class="kc">tate</span>
+<span class="err">POST</span><span class="w"> </span><span class="err">_plugi</span><span class="kc">ns</span><span class="err">/_ism/cha</span><span class="kc">n</span><span class="err">ge_policy/&lt;i</span><span class="kc">n</span><span class="err">dex</span><span class="mi">-</span><span class="kc">na</span><span class="err">me&gt;</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"policy_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;policy-id&gt;"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rollover"</span>
+<span class="p">}</span>
+
+<span class="err">#</span><span class="w"> </span><span class="err">Force</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">re</span><span class="kc">tr</span><span class="err">y</span><span class="w"> </span><span class="err">whe</span><span class="kc">n</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">ma</span><span class="kc">na</span><span class="err">ged</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="err">dex</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">s</span><span class="kc">tu</span><span class="err">ck</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="kc">fa</span><span class="err">iled</span><span class="w"> </span><span class="err">ac</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span>
+<span class="err">POST</span><span class="w"> </span><span class="err">_plugi</span><span class="kc">ns</span><span class="err">/_ism/re</span><span class="kc">tr</span><span class="err">y/&lt;i</span><span class="kc">n</span><span class="err">dex</span><span class="mi">-</span><span class="kc">na</span><span class="err">me&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="snapshots">
+<h2>Snapshots<a class="headerlink" href="#snapshots" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inspect a snapshot repository</span>
+GET<span class="w"> </span>_snapshot/&lt;repository-name&gt;
+
+<span class="c1"># List snapshots matching a pattern (verbose=false for a quick list)</span>
+GET<span class="w"> </span>_snapshot/&lt;repository-name&gt;/&lt;snapshot-pattern&gt;?verbose<span class="o">=</span><span class="nb">false</span>
+</pre></div>
+</div>
+</section>
+<section id="ingest-pipelines">
+<h2>Ingest Pipelines<a class="headerlink" href="#ingest-pipelines" title="Link to this heading">#</a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Lis</span><span class="kc">t</span><span class="w"> </span><span class="err">all</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="err">ges</span><span class="kc">t</span><span class="w"> </span><span class="err">pipeli</span><span class="kc">nes</span>
+<span class="err">GET</span><span class="w"> </span><span class="err">_i</span><span class="kc">n</span><span class="err">ges</span><span class="kc">t</span><span class="err">/pipeli</span><span class="kc">nes</span>
+
+<span class="err">#</span><span class="w"> </span><span class="err">Simula</span><span class="kc">te</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">pipeli</span><span class="kc">ne</span><span class="w"> </span><span class="err">agai</span><span class="kc">nst</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="kc">test</span><span class="w"> </span><span class="err">docume</span><span class="kc">nt</span><span class="w"> </span><span class="err">be</span><span class="kc">f</span><span class="err">ore</span><span class="w"> </span><span class="err">deployi</span><span class="kc">n</span><span class="err">g</span>
+<span class="err">POST</span><span class="w"> </span><span class="err">/_i</span><span class="kc">n</span><span class="err">ges</span><span class="kc">t</span><span class="err">/pipeli</span><span class="kc">ne</span><span class="err">/&lt;pipeli</span><span class="kc">ne</span><span class="mi">-</span><span class="kc">na</span><span class="err">me&gt;/_simula</span><span class="kc">te</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"docs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"_index"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;optional-index-for-mapping&gt;"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"_source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"&lt;field&gt;"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;test-value&gt;"</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="logstash-node-api">
+<h2>Logstash (Node API)<a class="headerlink" href="#logstash-node-api" title="Link to this heading">#</a></h2>
+<p>If Logstash sits in front of your cluster, these hit its own monitoring API (default port 9600).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Hot threads inside Logstash</span>
+curl<span class="w"> </span>localhost:9600/_node/hot_threads?pretty
+
+<span class="c1"># Pipeline throughput and backpressure stats</span>
+curl<span class="w"> </span>localhost:9600/_node/stats/pipelines
+curl<span class="w"> </span>localhost:9600/_node/stats/pipelines/&lt;pipeline-name&gt;
+</pre></div>
+</div>
+</section>
+<section id="alerts-and-monitors">
+<h2>Alerts and Monitors<a class="headerlink" href="#alerts-and-monitors" title="Link to this heading">#</a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="err">Lis</span><span class="kc">t</span><span class="w"> </span><span class="err">all</span><span class="w"> </span><span class="err">aler</span><span class="kc">t</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">mo</span><span class="kc">n</span><span class="err">i</span><span class="kc">t</span><span class="err">ors</span>
+<span class="err">GET</span><span class="w"> </span><span class="err">_plugi</span><span class="kc">ns</span><span class="err">/_aler</span><span class="kc">t</span><span class="err">i</span><span class="kc">n</span><span class="err">g/mo</span><span class="kc">n</span><span class="err">i</span><span class="kc">t</span><span class="err">ors/_search</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"monitor"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="err">#</span><span class="w"> </span><span class="err">Lis</span><span class="kc">t</span><span class="w"> </span><span class="err">all</span><span class="w"> </span><span class="kc">n</span><span class="err">o</span><span class="kc">t</span><span class="err">i</span><span class="kc">f</span><span class="err">ica</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="w"> </span><span class="err">cha</span><span class="kc">nnels</span><span class="w"> </span><span class="err">(des</span><span class="kc">t</span><span class="err">i</span><span class="kc">nat</span><span class="err">io</span><span class="kc">ns</span><span class="err">)</span>
+<span class="err">GET</span><span class="w"> </span><span class="err">/_plugi</span><span class="kc">ns</span><span class="err">/_</span><span class="kc">n</span><span class="err">o</span><span class="kc">t</span><span class="err">i</span><span class="kc">f</span><span class="err">ica</span><span class="kc">t</span><span class="err">io</span><span class="kc">ns</span><span class="err">/cha</span><span class="kc">nnels</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"match_all"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="quick-reference-when-to-reach-for-what">
+<h2>Quick Reference: When to Reach for What<a class="headerlink" href="#quick-reference-when-to-reach-for-what" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Situation</p></th>
+<th class="head"><p>First command to run</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cluster is red/yellow</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/_cluster/health</span></code> then <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">_cat/shards?v&amp;h=index,shard,prirep,state,unassigned.reason&amp;s=state</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>A node is maxed out on CPU</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/_nodes/&lt;node&gt;/hot_threads?type=cpu</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Indexing is failing</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/_cat/thread_pool/write?v&amp;h=node_name,name,active,queue,rejected&amp;s=queue:desc</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Shards won’t allocate</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">_cluster/allocation/explain</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>About to restart a node</p></td>
+<td><p>Disable rebalance, then drain with <code class="docutils literal notranslate"><span class="pre">exclude._name</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>A query is hung</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">_tasks/_cancel?actions=*search*</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Index stuck in its lifecycle</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">_plugins/_ism/explain/&lt;index&gt;?show_policy=true</span></code> then <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">_plugins/_ism/retry/&lt;index&gt;</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>This is the cheatsheet I keep open in a pinned tab, built up over years of 3 a.m. pages and “why is the cluster yellow again” afternoons. None of these commands are secret, they are all in the docs, but having them collected and labeled is what turns a stressful incident into a copy-paste.</p>
+<p>Bookmark it, adapt the placeholders to your naming, and add your own calls as you go. If you have a command you reach for that I missed, I would genuinely like to hear about it.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/api-reference/">https://opensearch.org/docs/latest/api-reference/</a></p></li>
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/api-reference/cat/index/">https://opensearch.org/docs/latest/api-reference/cat/index/</a></p></li>
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/im-plugin/ism/api/">https://opensearch.org/docs/latest/im-plugin/ism/api/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,573 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="GNU Readline: The Magic Behind Terminal Autocomplete" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/gnu-readline-bash-prompt/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/06/27 This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_gnu-readline-bash-prompt_e96e3c79.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/06/27 This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will..." />
+<meta name="description" content="Blog Post Publish Date: 2026/06/27 This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>GNU Readline: The Magic Behind Terminal Autocomplete &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/gnu-readline-bash-prompt';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/06/27</em></p>
+<hr class="docutils" />
+<section id="gnu-readline-the-magic-behind-terminal-autocomplete">
+<h1>GNU Readline: The Magic Behind Terminal Autocomplete<a class="headerlink" href="#gnu-readline-the-magic-behind-terminal-autocomplete" title="Link to this heading">#</a></h1>
+<p>This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will also show the one configuration I reach for the most: making the Up and Down arrows search your command history by prefix. It is a small change that saved me a lot of keystrokes.</p>
+<section id="why-i-started-digging-into-this">
+<h2>Why I Started Digging Into This<a class="headerlink" href="#why-i-started-digging-into-this" title="Link to this heading">#</a></h2>
+<p>For a long time I thought certain terminal features were tied to the specific Linux distribution I was running. The more I used the terminal, the more curious I got about how it worked under the hood. Why would pressing Tab autocomplete a command on one machine and do nothing on another? Why did the Up arrow behave differently depending on where I was?</p>
+<p>After some research, I understood that most of these behaviors are not the shell itself. They come from a library sitting underneath it: GNU Readline. Once I knew which component was responsible, configuring it became trivial.</p>
+</section>
+<section id="what-is-gnu-readline">
+<h2>What is GNU Readline<a class="headerlink" href="#what-is-gnu-readline" title="Link to this heading">#</a></h2>
+<p>GNU Readline is a library that provides command-line editing, history navigation, search, and auto-completion for interactive terminal applications. It is already installed on most Linux distributions, and it is used by a lot of REPL-style programs you already know: <code class="docutils literal notranslate"><span class="pre">bash</span></code>, <code class="docutils literal notranslate"><span class="pre">ipython</span></code>, <code class="docutils literal notranslate"><span class="pre">psql</span></code>, <code class="docutils literal notranslate"><span class="pre">mysql</span></code>, and many others.</p>
+<p>A practical example: when you press <code class="docutils literal notranslate"><span class="pre">TAB</span></code> in Bash and the command gets autocompleted, that is Readline acting behind the scenes. The same happens with <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code> for reverse history search, <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">A</span></code> to jump to the start of the line, and <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">E</span></code> to jump to the end. Those are Readline functions that Bash exposes, which is why they also work in <code class="docutils literal notranslate"><span class="pre">psql</span></code> and <code class="docutils literal notranslate"><span class="pre">ipython</span></code>.</p>
+<p>The behavior is controlled by a configuration file called <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code>.</p>
+<blockquote>
+<div><p><i class="fa-solid fa-circle-info"></i> <strong>About the <code class="docutils literal notranslate"><span class="pre">bind</span></code> command:</strong></p>
+<p>In Bash, the <a class="reference external" href="https://ss64.com/bash/bind.html"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">bind</span></code></a> command associates a key press to a GNU Readline function. It is the runtime equivalent of editing <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="practical-example-searching-history-by-prefix">
+<h2>Practical Example: Searching History by Prefix<a class="headerlink" href="#practical-example-searching-history-by-prefix" title="Link to this heading">#</a></h2>
+<p>Here is the Readline configuration I use the most. By default, the Up and Down arrows walk through your history one entry at a time, in order. That gets tedious when you run the same family of commands with different arguments.</p>
+<p>Imagine a history like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>pods
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+kubectl<span class="w"> </span>get<span class="w"> </span>svc
+vim<span class="w"> </span>templates/debug.yaml
+tail<span class="w"> </span>-f<span class="w"> </span>/var/log/messages
+kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>foobar
+</pre></div>
+</div>
+<p>If I want to recall a <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> command, pressing Up forces me to cycle through <code class="docutils literal notranslate"><span class="pre">tail</span></code> and <code class="docutils literal notranslate"><span class="pre">vim</span></code> first. The arrows ignore what I already typed. I wanted something simpler: type a prefix, then use the arrows to walk only through the history entries that start with it.</p>
+<p>Readline already ships the functions for that, they are just not bound to the arrow keys by default. I really do not understand why this is not the default on every distribution. Some, like Fedora and AlmaLinux, already configure similar Readline commands out of the box. It is extremely useful and requires no additional package installation.</p>
+<p>The two functions are:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dbackward-_0028_0029">history-search-backward</a>: search backward through history for the line starting with the text before the cursor.</p></li>
+<li><p><a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dforward-_0028_0029">history-search-forward</a>: the same, but forward.</p></li>
+</ul>
+<p>To bind them to the arrow keys, add this to your <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">~/.inputrc</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="w"> </span>completion-ignore-case<span class="w"> </span>on
+<span class="s2">"\e[A"</span>:<span class="w"> </span>history-search-backward
+<span class="s2">"\e[B"</span>:<span class="w"> </span>history-search-forward
+</pre></div>
+</div>
+</div>
+<p>This binds:</p>
+<ul class="simple">
+<li><p><strong>Up Arrow (↑)</strong>: <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code></p></li>
+<li><p><strong>Down Arrow (↓)</strong>: <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code></p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">\e[A</span></code> and <code class="docutils literal notranslate"><span class="pre">\e[B</span></code> are the escape sequences your terminal sends when you press Up and Down. The extra <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">completion-ignore-case</span> <span class="pre">on</span></code> is a bonus: it makes Tab completion case-insensitive, which I find handy.</p>
+<p>After editing <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code>, reload it without restarting the shell:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">bind</span><span class="w"> </span>-f<span class="w"> </span>~/.inputrc
+</pre></div>
+</div>
+<p>Now the behavior changes. With the same history as before, if I type <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> and press Up, Readline walks only through the entries that start with <code class="docutils literal notranslate"><span class="pre">kubectl</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># type this, then press the Up arrow:</span>
+kubectl
+
+<span class="c1"># first Up  -&gt; kubectl describe pod foobar</span>
+<span class="c1"># next Up   -&gt; kubectl get svc</span>
+<span class="c1"># next Up   -&gt; kubectl get nodes</span>
+<span class="c1"># next Up   -&gt; kubectl get pods</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">vim</span></code> and <code class="docutils literal notranslate"><span class="pre">tail</span></code> lines are skipped entirely, because they do not start with <code class="docutils literal notranslate"><span class="pre">kubectl</span></code>. On an empty prompt with no prefix, the arrows behave exactly like before and walk the full history. You get the prefix search only when you ask for it.</p>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>This is one of those tiny configurations that changes how the terminal feels once you get used to it. I have been using the prefix search on the arrow keys for years, and going back to a machine without it is genuinely annoying. The best part is that it costs nothing: no package to install, no plugin, just three lines in <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code>.</p>
+<p>If you spend your day in the terminal running the same families of commands, give it a try. Drop those lines in your <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code>, reload with <code class="docutils literal notranslate"><span class="pre">bind</span> <span class="pre">-f</span></code>, and type a prefix before hitting Up. I recommend it.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>GNU Readline user manual: <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html">https://tiswww.case.edu/php/chet/readline/rluserman.html</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">bind</span></code> reference: <a class="reference external" href="https://ss64.com/bash/bind.html">https://ss64.com/bash/bind.html</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code>: <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dbackward-_0028_0029">https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dbackward-_0028_0029</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code>: <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dforward-_0028_0029">https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dforward-_0028_0029</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

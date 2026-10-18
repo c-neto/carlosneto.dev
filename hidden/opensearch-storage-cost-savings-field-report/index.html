@@ -1,0 +1,719 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="How I Cut $8,000 to $10,000 a Month Off an OpenSearch Cluster by Rethinking Storage" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/opensearch-storage-cost-savings-field-report/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/10/17 This is not a best-practices guide. It is a field report of how I restructured a production OpenSearch cluster to cut storage cost dramatically, somewhere between..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_opensearch-storage-cost-savings-field-report_8aa974e1.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/17 This is not a best-practices guide. It is a field report of how I restructured a production OpenSearch cluster to cut storage cost dramatically, somewhere between..." />
+<meta name="description" content="Blog Post Publish Date: 2026/10/17 This is not a best-practices guide. It is a field report of how I restructured a production OpenSearch cluster to cut storage cost dramatically, somewhere between..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>How I Cut $8,000 to $10,000 a Month Off an OpenSearch Cluster by Rethinking Storage &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/opensearch-storage-cost-savings-field-report';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/17</em></p>
+<hr class="docutils" />
+<section id="how-i-cut-8-000-to-10-000-a-month-off-an-opensearch-cluster-by-rethinking-storage">
+<h1>How I Cut $8,000 to $10,000 a Month Off an OpenSearch Cluster by Rethinking Storage<a class="headerlink" href="#how-i-cut-8-000-to-10-000-a-month-off-an-opensearch-cluster-by-rethinking-storage" title="Link to this heading">#</a></h1>
+<p>This is not a best-practices guide. It is a field report of how I restructured a production OpenSearch cluster to cut storage cost dramatically, somewhere between $8,000 and $10,000 a month, by understanding where the money was going, accepting some calculated risks, and weighing them against the benefits. Your numbers and risk tolerance will differ. The point is the reasoning, not the recipe.</p>
+<section id="step-zero-find-where-the-money-actually-goes">
+<h2>Step Zero: Find Where the Money Actually Goes<a class="headerlink" href="#step-zero-find-where-the-money-actually-goes" title="Link to this heading">#</a></h2>
+<p>Before touching anything, I broke down the cluster cost line by line. The result was unambiguous: the single largest cost of the cluster was EBS. Not compute, not data transfer. The network-attached block storage holding all the indexed data, replicated, sitting on disks provisioned for the full retention window.</p>
+<p>That reframed the whole problem. This was not “make the cluster faster” or “add nodes”. It was “stop paying premium block-storage prices for data that does not need premium block storage”. Everything that follows is a consequence of that one observation.</p>
+<p>The key insight: not all data has the same value or the same access pattern. Data from the last few hours is queried constantly and needs to be fast. Data from four months ago is touched rarely, if ever. Paying the same per-GB storage price for both is the waste.</p>
+</section>
+<section id="the-shape-of-the-solution-three-tiers-by-age">
+<h2>The Shape of the Solution: Three Tiers by Age<a class="headerlink" href="#the-shape-of-the-solution-three-tiers-by-age" title="Link to this heading">#</a></h2>
+<p>I split the data’s life into stages and matched each stage to the cheapest storage that still met its real access needs.</p>
+<section id="tier-1-hot-instance-storage-no-ebs">
+<h3>Tier 1, hot: instance storage, no EBS<a class="headerlink" href="#tier-1-hot-instance-storage-no-ebs" title="Link to this heading">#</a></h3>
+<p>For recent data, I built hot nodes on EC2 instance types with locally-attached NVMe instance storage and no EBS at all. Local NVMe is far faster than network-attached EBS, there is no network hop between the node and its disk, which is exactly what you want for heavy indexing and near-real-time search on fresh data.</p>
+<p>The trade-offs of instance storage are real:</p>
+<ul class="simple">
+<li><p><strong>Capacity is much smaller</strong> than what you can attach via EBS. That is fine. The hot tier only needs to hold a few days of data.</p></li>
+<li><p><strong>It is ephemeral.</strong> If the instance dies or rotates, its local disk is wiped. To make that survivable, the hot tier runs with shard replicas (one, sometimes two), so a lost node never means lost data. On the hot tier I pay for replication, and in exchange I get both high IO performance and fault tolerance.</p></li>
+</ul>
+<p>So: hot data is fastest storage plus full replica-based redundancy. Expensive per GB, but small, so the total is contained.</p>
+</section>
+<section id="tier-2-warm-max-ebs-no-replicas-the-real-trick">
+<h3>Tier 2, warm: max EBS, no replicas (the real trick)<a class="headerlink" href="#tier-2-warm-max-ebs-no-replicas-the-real-trick" title="Link to this heading">#</a></h3>
+<p>After 3 days, indexes move to a warm tier. These warm nodes are built completely differently: high memory, and the maximum EBS a node can attach, 16 TB. This is where the bulk of the data lives for the long haul, so capacity-per-node matters more than raw IO.</p>
+<p>Here is the move that saved the most money. The index template provisions data with one replica (up to two when warranted) while it is hot, so nothing is lost if a hot node dies. But the moment an index transitions to the warm tier, I disable replicas entirely and lean on the durability guarantee that EBS already provides.</p>
+<p>The reasoning:</p>
+<ul class="simple">
+<li><p>EBS is network-attached and durable on its own. If a warm node dies or gets rotated, the data is still sitting safely on its EBS volume. A new node is born, re-attaches the volume, and carries on, no data lost.</p></li>
+<li><p>Because EBS already guarantees persistence, a second copy in the cluster is redundant for durability. Keeping replicas on the warm tier would mean paying for two full copies of months of data on the most expensive storage line in the bill.</p></li>
+</ul>
+<p>Dropping warm-tier replicas cut the EBS disk consumption of that data by at least half. That single decision, trusting EBS durability instead of in-cluster replication for long-lived, rarely-written data, was the bulk of the savings.</p>
+<p>This is a deliberate trade, not a free lunch. Without replicas, a warm index is briefly unavailable for query during the window when a node is being replaced and the volume re-attaches. For data that is months old and queried occasionally, that short unavailability was an easy price to pay. On a hot index taking live writes, it would not have been.</p>
+</section>
+<section id="tier-3-cold-searchable-snapshot-to-s3-restore-on-demand">
+<h3>Tier 3, cold / searchable: snapshot to S3, restore on demand<a class="headerlink" href="#tier-3-cold-searchable-snapshot-to-s3-restore-on-demand" title="Link to this heading">#</a></h3>
+<p>After 6 months, the data moves off the cluster’s disks entirely. The index is snapshotted to S3 and then removed from the warm nodes. S3 is dramatically cheaper per GB than EBS, and this data is now archival, needed only for occasional audits.</p>
+<p>Data in S3 is not immediately indexed or queryable. When someone actually needs it, I restore it on demand using searchable snapshots. To serve those restores I spin up a dedicated searchable node, again with no EBS, only fast local NVMe instance storage. In practice that NVMe acts as a cache in front of the snapshot: the authoritative copy of the data lives in the S3 bucket, and the searchable node just holds enough locally to serve queries quickly.</p>
+<p>Because the real data is safe in S3, these searchable indexes are restored with no replicas. If the searchable node dies, nothing is lost. The data is intact in the bucket, and you simply restore again.</p>
+<blockquote>
+<div><p><i class="fa-solid fa-circle-info"></i> <strong>A practical tip that pays off here:</strong></p>
+<p>Make your rollover index suffix a date (for example <code class="docutils literal notranslate"><span class="pre">logs-2026.02.14-000001</span></code>). When you are hunting through months of snapshots in S3 for an audit, the date in the index name instantly tells you the approximate time range the index covers. No guessing, no opening each one to check timestamps.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="why-3-days-and-6-months">
+<h2>Why 3 Days and 6 Months?<a class="headerlink" href="#why-3-days-and-6-months" title="Link to this heading">#</a></h2>
+<p>Those two numbers, 3 days hot and 6 months before archival, are not universal constants. They are what made sense for this organization’s access patterns: live dashboards and alerting worked almost entirely against the last couple of days, warm data covered the typical investigation window, and anything older was purely audit material.</p>
+<p>Your thresholds will be different. A security team might keep data hot for a week. A team with strict compliance retention might keep warm data for a year. The specific numbers matter far less than the discipline of defining them. What matters is drawing the lines clearly:</p>
+<ul class="simple">
+<li><p><strong>What is hot</strong>: recently written, queried constantly, needs speed and redundancy.</p></li>
+<li><p><strong>What is warm</strong>: aging, read occasionally, needs capacity and durability but not peak IO.</p></li>
+<li><p><strong>What is cold / searchable</strong>: archival, touched rarely, needs the cheapest durable storage you can restore from.</p></li>
+</ul>
+<p>Once those categories are explicit, the storage decisions follow naturally.</p>
+</section>
+<section id="the-ism-policy-that-automates-it">
+<h2>The ISM Policy That Automates It<a class="headerlink" href="#the-ism-policy-that-automates-it" title="Link to this heading">#</a></h2>
+<p>All of this runs automatically through an Index State Management policy. Below is a generalized, anonymized version of the policy that drives the lifecycle: rollover, snapshot, warm migration, replica removal, and deletion. The notification blocks and internal identifiers have been stripped out to keep it generic.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">_plugi</span><span class="kc">ns</span><span class="err">/_ism/policies/rollover</span><span class="mi">-50</span><span class="err">gb</span><span class="mi">-30</span><span class="err">d</span><span class="mi">-</span><span class="err">s</span><span class="kc">na</span><span class="err">psho</span><span class="kc">t</span><span class="mi">-</span><span class="err">warm</span><span class="mi">-3</span><span class="err">d</span><span class="mi">-</span><span class="err">dele</span><span class="kc">te</span><span class="mi">-180</span><span class="err">d</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"policy"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Roll over at 50GB primary shard or 30d. Set read-only, snapshot to S3 at 03:00, move to warm after 3d, disable replicas on warm, delete at 180d."</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"ism_template"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"index_patterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"logs-app*"</span><span class="p">],</span>
+<span class="w">        </span><span class="nt">"priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">"default_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wait-first-write"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"states"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wait-first-write"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">        </span><span class="nt">"transitions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nt">"state_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rollover"</span><span class="p">,</span><span class="w"> </span><span class="nt">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min_doc_count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nt">"state_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rollover"</span><span class="p">,</span><span class="w"> </span><span class="nt">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min_index_age"</span><span class="p">:</span><span class="w"> </span><span class="s2">"30d"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rollover"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"rollover"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">"min_primary_shard_size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50gb"</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"min_index_age"</span><span class="p">:</span><span class="w"> </span><span class="s2">"30d"</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">"transitions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nt">"state_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"read-only"</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"read-only"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nt">"read_only"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">"transitions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"state_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"snapshot"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">"cron"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"cron"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"expression"</span><span class="p">:</span><span class="w"> </span><span class="s2">"* 3 * * *"</span><span class="p">,</span><span class="w"> </span><span class="nt">"timezone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UTC"</span><span class="w"> </span><span class="p">}</span>
+<span class="w">              </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"snapshot"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"snapshot"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">"repository"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-s3-repository"</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"snapshot"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ctx.index}}"</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">"transitions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nt">"state_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warm"</span><span class="p">,</span><span class="w"> </span><span class="nt">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min_index_age"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3d"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warm"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"allocation"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">"require"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"temp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warm"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">              </span><span class="nt">"include"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">              </span><span class="nt">"exclude"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">              </span><span class="nt">"wait_for"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">"transitions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nt">"state_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"disable-replicas"</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"disable-replicas"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"replica_count"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"number_of_replicas"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">"transitions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nt">"state_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"delete"</span><span class="p">,</span><span class="w"> </span><span class="nt">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min_index_age"</span><span class="p">:</span><span class="w"> </span><span class="s2">"180d"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"delete"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nt">"delete"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">"transitions"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The lifecycle reads top to bottom as the story of a single index:</p>
+<ol class="arabic simple">
+<li><p><strong>wait-first-write</strong>: do not act on an empty index. Wait for the first document (or 30 days as a safety net) before rolling.</p></li>
+<li><p><strong>rollover</strong>: start a fresh write index once the current one hits 50 GB per primary shard or 30 days old.</p></li>
+<li><p><strong>read-only</strong>: freeze the rolled-over index. Nothing more will be written to it.</p></li>
+<li><p><strong>snapshot</strong>: at 03:00, snapshot it to the S3 repository. The archival copy now exists before anything risky happens to in-cluster redundancy.</p></li>
+<li><p><strong>warm</strong>: 3 days in, relocate the index to the warm (high-memory, big-EBS) nodes.</p></li>
+<li><p><strong>disable-replicas</strong>: drop to zero replicas, trusting EBS durability for this aging data. This is the money-saving step.</p></li>
+<li><p><strong>delete</strong>: at 180 days, remove it from the cluster. The S3 snapshot remains for on-demand searchable restore.</p></li>
+</ol>
+<p>Note the ordering: the snapshot happens before replicas are disabled. By the time I am relying on a single EBS-backed copy in the warm tier, there is already an independent copy in S3. The risk of zero replicas is bounded by that archival safety net.</p>
+</section>
+<section id="what-i-ended-up-with">
+<h2>What I Ended Up With<a class="headerlink" href="#what-i-ended-up-with" title="Link to this heading">#</a></h2>
+<p>After the restructure, the cluster was no longer one undifferentiated pool of expensive EBS. It was three purpose-built layers:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tier</p></th>
+<th class="head"><p>Storage</p></th>
+<th class="head"><p>Redundancy</p></th>
+<th class="head"><p>Durability from</p></th>
+<th class="head"><p>Serves</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Hot</p></td>
+<td><p>Local NVMe (no EBS)</p></td>
+<td><p>Replicas (1-2)</p></td>
+<td><p>In-cluster replication</p></td>
+<td><p>High-IO indexing + live search on recent data</p></td>
+</tr>
+<tr class="row-odd"><td><p>Warm</p></td>
+<td><p>Max EBS (16 TB), high memory</p></td>
+<td><p>No replicas</p></td>
+<td><p>EBS volume persistence</p></td>
+<td><p>Long-term indexed data, occasional reads</p></td>
+</tr>
+<tr class="row-even"><td><p>Cold / Searchable</p></td>
+<td><p>S3 + NVMe cache node (no EBS)</p></td>
+<td><p>No replicas</p></td>
+<td><p>S3 object durability</p></td>
+<td><p>On-demand audit restores via searchable snapshots</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul class="simple">
+<li><p><strong>Hot</strong> gave me high-IO performance for recent data with full fault tolerance via replicas.</p></li>
+<li><p><strong>Warm</strong> gave me long-term indexed data with persistence guaranteed by EBS, no replica tax.</p></li>
+<li><p><strong>Cold / searchable</strong> gave me even-longer-term data restored on demand from S3 for the occasional audit, with no standing disk cost at all.</p></li>
+</ul>
+<p>Each tier pays only for what its data actually needs. The bill dropped $8,000 to $10,000 a month, and nothing that mattered got slower, because the only data I slowed down (or made restore-on-demand) was data nobody was querying in real time anyway.</p>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>This was not clever OpenSearch trivia. It was: measure where the cost is, understand the access pattern of your data, and stop paying premium-storage prices for data that does not need it. The savings came from being willing to drop redundancy where a cheaper durability guarantee already existed (EBS, then S3), and from understanding exactly what risk that introduced and when it was acceptable.</p>
+<p>Again, this is a report, not a prescription. I accepted reduced-redundancy windows and on-demand-only access for old data because, for this workload, the cost of those trade-offs was near zero and the savings were large. Every case is unique. Before you copy any of it, make sure that same math holds for yours.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/im-plugin/ism/index/">https://opensearch.org/docs/latest/im-plugin/ism/index/</a></p></li>
+<li><p><a class="reference external" href="https://aws.amazon.com/ebs/pricing/">https://aws.amazon.com/ebs/pricing/</a></p></li>
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/snapshots/searchable_snapshot/">https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/snapshots/searchable_snapshot/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

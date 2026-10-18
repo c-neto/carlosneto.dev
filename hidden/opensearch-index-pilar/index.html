@@ -1,0 +1,581 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="When to Create an OpenSearch Index" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/opensearch-index-pilar/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/10/17 I decided to write this post after answering the same question over and over: when should I create a new index? It comes up constantly, and the answers people lan..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_opensearch-index-pilar_65fe9a1f.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/17 I decided to write this post after answering the same question over and over: when should I create a new index? It comes up constantly, and the answers people lan..." />
+<meta name="description" content="Blog Post Publish Date: 2026/10/17 I decided to write this post after answering the same question over and over: when should I create a new index? It comes up constantly, and the answers people lan..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>When to Create an OpenSearch Index &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/opensearch-index-pilar';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/17</em></p>
+<hr class="docutils" />
+<section id="when-to-create-an-opensearch-index">
+<h1>When to Create an OpenSearch Index<a class="headerlink" href="#when-to-create-an-opensearch-index" title="Link to this heading">#</a></h1>
+<p>I decided to write this post after answering the same question over and over: when should I create a new index? It comes up constantly, and the answers people land on tend to swing between two bad extremes. One index for everything, or a new index for every tiny distinction. I have seen both in the wild, and both hurt.</p>
+<p>The worst version I keep running into is a single catch-all index literally named <code class="docutils literal notranslate"><span class="pre">logs</span></code> that absorbs output from completely different tools: web server access logs, application logs, database logs, security events, each with a totally different structure, crammed into one namespace. This is bad. The mappings fight each other (the same field name means different things in different tools, or explodes into hundreds of sparse fields), queries cannot be scoped cleanly, and one noisy source’s lifecycle needs are imposed on everything else. A name like <code class="docutils literal notranslate"><span class="pre">logs</span></code> describes the category of data, not a coherent shape of data, and an index should be organized around a coherent shape.</p>
+<p>So let’s answer the question properly.</p>
+<p>First of all, it is necessary to understand what an index is and what it is for in OpenSearch. An index is a logical namespace that holds a collection of documents and their characteristics, like field typing, life cycle, and storage layer definition. It is the unit OpenSearch stores, shards, replicates, ages out, and secures. So deciding to create a new one is not just about “where do I put these documents”, it is about committing to a new set of rules for a body of data.</p>
+<p>The question this post answers is the one that trips up most people running a log or metrics platform: when do I actually need a new index (and a new index template), and when am I just adding needless sprawl?</p>
+<section id="it-depends-on-your-needs">
+<h2>It Depends on Your Needs<a class="headerlink" href="#it-depends-on-your-needs" title="Link to this heading">#</a></h2>
+<p>New index creation depends on your needs. Sometimes it is interesting to create an index template and a lifecycle policy that produces one index each day. Sometimes it is necessary to create an index based on the characteristics of the data itself: a different log type, a different schema, a different retention.</p>
+<p>But every new index has a cost. Each index is made of shards, and each shard is a full Lucene instance that consumes heap, file handles, and a slot in the cluster state, even when it holds almost no data. So the goal is not to create an index for every distinction you can think of. The goal is to create a new index only when the data genuinely needs its own rules, and to reuse an existing index template whenever it does not.</p>
+<p>That is why I do not start from “should this be a new index?” I start from “does this data behave differently from what I already have?” If it behaves the same, it belongs with the same template.</p>
+</section>
+<section id="the-four-points-i-evaluate-before-creating-a-new-index">
+<h2>The Four Points I Evaluate Before Creating a New Index<a class="headerlink" href="#the-four-points-i-evaluate-before-creating-a-new-index" title="Link to this heading">#</a></h2>
+<p>In my experience, four points must be considered when planning the creation of a new index. Each one is a question: does this new data differ from an existing index on this dimension?</p>
+<section id="access-permission">
+<h3><code class="docutils literal notranslate"><span class="pre">access</span> <span class="pre">permission</span></code><a class="headerlink" href="#access-permission" title="Link to this heading">#</a></h3>
+<p>Who is allowed to read and write this data?</p>
+<p>If the new data must be visible to a different set of users or roles than an existing index, or must be hidden from users who can currently see that index, it needs to be separable at the index level. Security in OpenSearch is enforced on indexes (and index patterns), not on a filter inside a shared index. If production data must be locked down while development data stays open, a shared index with a filtered view is not a security boundary. That alone justifies a separate index.</p>
+<p>If the access rules are identical to an existing index, this point does not push you toward a new one.</p>
+</section>
+<section id="structure">
+<h3><code class="docutils literal notranslate"><span class="pre">structure</span></code><a class="headerlink" href="#structure" title="Link to this heading">#</a></h3>
+<p>What is the shape of the documents, their fields and types?</p>
+<p>Documents with the same structure (same fields, same mappings) belong together. If the new data has the same schema as an existing index, it can share that index’s template and mappings. If it has a meaningfully different structure (different fields, different types, a different analyzer strategy), forcing it into an existing index causes mapping conflicts and wasted fields, and it deserves its own template.</p>
+<p>A useful tell: if two streams are the same kind of data differing only by an attribute (environment, region, tenant), that attribute is usually a field, not a reason for a new index. If they are genuinely different kinds of data, that is a structural difference.</p>
+<p>This is exactly where the catch-all <code class="docutils literal notranslate"><span class="pre">logs</span></code> index falls apart. Web server logs, application logs, and database logs are different kinds of data with different schemas. Lumping them under one index forces incompatible mappings into the same namespace. Different structures belong in different indexes (and different templates); the same structure from different sources belongs together.</p>
+</section>
+<section id="lifecycle">
+<h3><code class="docutils literal notranslate"><span class="pre">lifecycle</span></code><a class="headerlink" href="#lifecycle" title="Link to this heading">#</a></h3>
+<p>How long does this data live, and how does it age?</p>
+<p>Lifecycle covers rollover conditions, retention, and the ISM policy that drives them. If the new data needs a different retention (2 days vs. 180 days), a different rollover size, or a different aging path, it needs its own lifecycle, and typically its own index series so that ISM can manage it independently. If its lifecycle matches an existing index exactly, it can ride along on the same policy.</p>
+</section>
+<section id="storage-layer">
+<h3><code class="docutils literal notranslate"><span class="pre">storage</span> <span class="pre">layer</span></code><a class="headerlink" href="#storage-layer" title="Link to this heading">#</a></h3>
+<p>Where should this data physically live as it ages?</p>
+<p>This is the hot / warm / cold (searchable) decision. If the new data should sit on a different storage tier, or move between tiers on a different schedule, than an existing index, that is a storage-layer difference. High-value recent data on fast hot nodes and bulky archival data on cheaper tiers have different storage layers even if everything else about them matches.</p>
+</section>
+</section>
+<section id="the-decision-rule">
+<h2>The Decision Rule<a class="headerlink" href="#the-decision-rule" title="Link to this heading">#</a></h2>
+<p>Putting the four points together gives a simple rule:</p>
+<blockquote>
+<div><p>If all four points are satisfied by an existing index template (same access permissions, same structure, same lifecycle, same storage layer), it is not necessary to plan the creation of a new index template. The data belongs with what you already have, often distinguished by a field, not a new index.</p>
+<p>If any point is susceptible to change or genuinely differs, then it may be necessary to create another index template that encodes the new rules.</p>
+</div></blockquote>
+<p>In other words: a new index template is justified by a difference in behavior, not by a difference in name. Same behavior, same template.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Point</p></th>
+<th class="head"><p>New index template needed when…</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">access</span> <span class="pre">permission</span></code></p></td>
+<td><p>Different users/roles must be able (or forbidden) to read/write it</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">structure</span></code></p></td>
+<td><p>The documents have a meaningfully different schema/mappings</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lifecycle</span></code></p></td>
+<td><p>It needs different rollover conditions, retention, or ISM policy</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">storage</span> <span class="pre">layer</span></code></p></td>
+<td><p>It should live on, or move through, different storage tiers</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>If none of these differ, resist the new index. Add a field and reuse the template.</p>
+</section>
+<section id="two-quick-examples">
+<h2>Two Quick Examples<a class="headerlink" href="#two-quick-examples" title="Link to this heading">#</a></h2>
+<p>Same behavior, reuse the template. NGINX access logs arrive from several environments. Same fields, same retention, same storage tier, same readers. All four points match, so this is one index with an <code class="docutils literal notranslate"><span class="pre">environment</span></code> field, not one index per environment. The environments become filtered alias views, not separate indexes.</p>
+<p>Different behavior, new template. Application debug logs and application audit logs look superficially similar, but audit logs must be readable only by a compliance role (<code class="docutils literal notranslate"><span class="pre">access</span> <span class="pre">permission</span></code> differs) and kept for a year on a cheaper tier (<code class="docutils literal notranslate"><span class="pre">lifecycle</span></code> and <code class="docutils literal notranslate"><span class="pre">storage</span> <span class="pre">layer</span></code> differ). Those differences justify a separate index template with its own policy and allocation rules.</p>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>I have been running log platforms long enough to see both failure modes play out, and the four-point check is what I keep coming back to because it stops me from guessing. The honest truth is that most of the time the answer is “reuse the template and add a field”, and people are surprised by that, because creating a new index feels tidy and organized. It is not. It is sprawl with a nice name.</p>
+<p>My recommendation: default to reuse, and let a real difference in behavior earn the new index. Every case is unique, so run your data through the four points before you commit. If none of them push you toward a new index, you already have your answer.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/im-plugin/index/">https://opensearch.org/docs/latest/im-plugin/index/</a></p></li>
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/security/access-control/index/">https://opensearch.org/docs/latest/security/access-control/index/</a></p></li>
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/im-plugin/ism/index/">https://opensearch.org/docs/latest/im-plugin/ism/index/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

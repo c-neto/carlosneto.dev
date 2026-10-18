@@ -1,0 +1,669 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Prometheus Blackbox Exporter: Monitoring From the Outside In" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/prometheus-blackbox-exporter/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: YYYY/MM/DD This blog post explains what blackbox monitoring is and where it fits next to the metrics you already collect. It walks through the Prometheus Blackbox Exporter, ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_prometheus-blackbox-exporter_755ac6d4.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: YYYY/MM/DD This blog post explains what blackbox monitoring is and where it fits next to the metrics you already collect. It walks through the Prometheus Blackbox Exporter, ..." />
+<meta name="description" content="Blog Post Publish Date: YYYY/MM/DD This blog post explains what blackbox monitoring is and where it fits next to the metrics you already collect. It walks through the Prometheus Blackbox Exporter, ..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Prometheus Blackbox Exporter: Monitoring From the Outside In &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/prometheus-blackbox-exporter';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> YYYY/MM/DD</em></p>
+<hr class="docutils" />
+<section id="prometheus-blackbox-exporter-monitoring-from-the-outside-in">
+<h1>Prometheus Blackbox Exporter: Monitoring From the Outside In<a class="headerlink" href="#prometheus-blackbox-exporter-monitoring-from-the-outside-in" title="Link to this heading">#</a></h1>
+<p>This blog post explains what blackbox monitoring is and where it fits next to the metrics you already collect. It walks through the Prometheus Blackbox Exporter, how to configure it, and the multi-target scrape pattern that makes it work. It also shows how to use the probe metrics to estimate the uptime of your services.</p>
+<section id="whitebox-vs-blackbox-two-ways-to-look-at-a-system">
+<h2>Whitebox vs Blackbox: Two Ways to Look at a System<a class="headerlink" href="#whitebox-vs-blackbox-two-ways-to-look-at-a-system" title="Link to this heading">#</a></h2>
+<p>Most of the monitoring we set up is whitebox. We instrument the application, expose a <code class="docutils literal notranslate"><span class="pre">/metrics</span></code> endpoint, and collect internal counters: request rates, queue depth, garbage collection, connection pools. It tells you a lot about what is happening inside the process. It is the kind of monitoring Prometheus was built for.</p>
+<p>But whitebox monitoring has a blind spot. It assumes the thing exposing the metrics is reachable and healthy enough to report. If the TLS certificate expired, if DNS is broken, if a load balancer in front of your app is dropping traffic, your internal metrics can look perfectly fine while real users stare at an error page.</p>
+<p>Blackbox monitoring takes the opposite view. You do not look inside the system, you look at it from the outside, the same way a user would. You send a request and you check the answer. Did the HTTP call return 200? How long did it take? Is the certificate still valid? You do not care why it failed, only that, from the outside, it did.</p>
+<p>Both approaches are useful, and they answer different questions. Whitebox tells you why something is slow. Blackbox tells you whether the user can reach it at all.</p>
+</section>
+<section id="the-prometheus-blackbox-exporter">
+<h2>The Prometheus Blackbox Exporter<a class="headerlink" href="#the-prometheus-blackbox-exporter" title="Link to this heading">#</a></h2>
+<p>The <a class="reference external" href="https://github.com/prometheus/blackbox_exporter">Blackbox Exporter</a> is the official Prometheus component for this job. It probes endpoints over HTTP, HTTPS, DNS, TCP, ICMP, and gRPC, and it reports whether the probe succeeded and how long it took.</p>
+<p>The idea is simple. You run the exporter somewhere, and Prometheus asks it to probe a target. The exporter does the probe, then returns the result as Prometheus metrics. The exporter itself holds no list of targets. Prometheus decides what to probe and passes the target in the scrape request. This detail matters, and I will come back to it.</p>
+<p>What I like about it is how close it sits to the user. It is not a deep monitoring tool, and it is not trying to be. It answers the one question that matters most during an incident: <em>is the service actually up from the outside?</em> For simple, user-facing checks, that is often all you need.</p>
+</section>
+<section id="configuring-the-exporter-modules">
+<h2>Configuring the Exporter: Modules<a class="headerlink" href="#configuring-the-exporter-modules" title="Link to this heading">#</a></h2>
+<p>The exporter is configured through a <code class="docutils literal notranslate"><span class="pre">blackbox.yml</span></code> file that defines <strong>modules</strong>. A module is a named probe recipe: which prober to use (http, tcp, dns, icmp, grpc) and the parameters for it.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">blackbox.yml</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">modules</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">http_2xx</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">prober</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http</span>
+<span class="w">    </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
+<span class="w">    </span><span class="nt">http</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">preferred_ip_protocol</span><span class="p">:</span><span class="w"> </span><span class="s">"ip4"</span>
+<span class="w">      </span><span class="nt">valid_status_codes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w">  </span><span class="c1"># defaults to 2xx</span>
+
+<span class="w">  </span><span class="nt">tcp_connect</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">prober</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tcp</span>
+<span class="w">    </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
+
+<span class="w">  </span><span class="nt">icmp_ping</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">prober</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">icmp</span>
+<span class="w">    </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
+<span class="w">    </span><span class="nt">icmp</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">preferred_ip_protocol</span><span class="p">:</span><span class="w"> </span><span class="s">"ip4"</span>
+
+<span class="w">  </span><span class="nt">dns_lookup</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">prober</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dns</span>
+<span class="w">    </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
+<span class="w">    </span><span class="nt">dns</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">query_name</span><span class="p">:</span><span class="w"> </span><span class="s">"carlosneto.dev"</span>
+<span class="w">      </span><span class="nt">query_type</span><span class="p">:</span><span class="w"> </span><span class="s">"A"</span>
+</pre></div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">http_2xx</span></code> module is the one you will use most. By default it treats any 2xx response as a success. The others let you check that a TCP port accepts connections, that a host answers ICMP ping, or that a DNS query returns the expected record.</p>
+<p>You can start the exporter with Docker to try it out:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">run the blackbox exporter</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">9115</span>:9115<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-v<span class="w"> </span><span class="s2">"</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/blackbox.yml:/etc/blackbox_exporter/config.yml"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>prom/blackbox-exporter:latest
+</pre></div>
+</div>
+</div>
+</section>
+<section id="probing-a-target-by-hand">
+<h2>Probing a Target by Hand<a class="headerlink" href="#probing-a-target-by-hand" title="Link to this heading">#</a></h2>
+<p>Before wiring Prometheus, it helps to understand the exporter’s <code class="docutils literal notranslate"><span class="pre">/probe</span></code> endpoint. You call it with two query parameters: the <code class="docutils literal notranslate"><span class="pre">module</span></code> and the <code class="docutils literal notranslate"><span class="pre">target</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">probe carlosneto.dev with the http_2xx module</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span><span class="s1">'http://localhost:9115/probe?module=http_2xx&amp;target=https://carlosneto.dev'</span>
+
+<span class="c1"># output expected (truncated):</span>
+<span class="c1">#</span>
+<span class="c1"># probe_success 1</span>
+<span class="c1"># probe_duration_seconds 0.183</span>
+<span class="c1"># probe_http_status_code 200</span>
+<span class="c1"># probe_ssl_earliest_cert_expiry 1.7612...e+09</span>
+</pre></div>
+</div>
+</div>
+<p>The most important metric here is <code class="docutils literal notranslate"><span class="pre">probe_success</span></code>. It is <code class="docutils literal notranslate"><span class="pre">1</span></code> when the probe succeeded and <code class="docutils literal notranslate"><span class="pre">0</span></code> when it failed. Everything else is extra context: <code class="docutils literal notranslate"><span class="pre">probe_duration_seconds</span></code> for latency, <code class="docutils literal notranslate"><span class="pre">probe_http_status_code</span></code> for the response code, and <code class="docutils literal notranslate"><span class="pre">probe_ssl_earliest_cert_expiry</span></code> for the certificate expiry date.</p>
+<blockquote>
+<div><p><i class="fa-solid fa-circle-info"></i> Add <code class="docutils literal notranslate"><span class="pre">&amp;debug=true</span></code> to the probe URL to get a plain-text page with the full probe logs and module config. It is the first thing I reach for when a probe fails and I do not understand why.</p>
+</div></blockquote>
+</section>
+<section id="wiring-prometheus-the-multi-target-pattern">
+<h2>Wiring Prometheus: The Multi-Target Pattern<a class="headerlink" href="#wiring-prometheus-the-multi-target-pattern" title="Link to this heading">#</a></h2>
+<p>Here is the part that confused me the first time. You do not point Prometheus at the exporter and list targets in a normal job. Instead, Prometheus scrapes the exporter, but the <em>target</em> to probe is passed through relabeling. This is the multi-target exporter pattern.</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">prometheus.yml</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">scrape_configs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">job_name</span><span class="p">:</span><span class="w"> </span><span class="s">'blackbox-http'</span>
+<span class="w">    </span><span class="nt">metrics_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/probe</span>
+<span class="w">    </span><span class="nt">params</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">http_2xx</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">static_configs</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://carlosneto.dev</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://prometheus.io</span>
+<span class="w">    </span><span class="nt">relabel_configs</span><span class="p">:</span>
+<span class="w">      </span><span class="c1"># pass the target as the "target" query parameter to the exporter</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">source_labels</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">__address__</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">target_label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">__param_target</span>
+<span class="w">      </span><span class="c1"># keep the probed URL as the "instance" label on the metrics</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">source_labels</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">__param_target</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">target_label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance</span>
+<span class="w">      </span><span class="c1"># send the scrape to the exporter itself, not to the target</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">target_label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">__address__</span>
+<span class="w">        </span><span class="nt">replacement</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">127.0.0.1:9115</span>
+</pre></div>
+</div>
+</div>
+<p>Read the <code class="docutils literal notranslate"><span class="pre">relabel_configs</span></code> from top to bottom:</p>
+<ul class="simple">
+<li><p><strong>1</strong>: the target from <code class="docutils literal notranslate"><span class="pre">static_configs</span></code> (<code class="docutils literal notranslate"><span class="pre">__address__</span></code>) becomes the <code class="docutils literal notranslate"><span class="pre">target</span></code> query parameter the exporter expects.</p></li>
+<li><p><strong>2</strong>: that same value is stored in the <code class="docutils literal notranslate"><span class="pre">instance</span></code> label, so each metric is tagged with the URL it describes.</p></li>
+<li><p><strong>3</strong>: the actual scrape address is rewritten to the exporter (<code class="docutils literal notranslate"><span class="pre">127.0.0.1:9115</span></code>), so Prometheus talks to the exporter and lets it do the probing.</p></li>
+</ul>
+<p>Once this is running, every target in the list produces a <code class="docutils literal notranslate"><span class="pre">probe_success</span></code> series tagged with its URL. Adding a new endpoint to monitor is just one more line under <code class="docutils literal notranslate"><span class="pre">targets</span></code>.</p>
+</section>
+<section id="estimating-uptime-from-probe-success">
+<h2>Estimating Uptime From probe_success<a class="headerlink" href="#estimating-uptime-from-probe-success" title="Link to this heading">#</a></h2>
+<p>This is where the Blackbox Exporter earns its place for me. Because <code class="docutils literal notranslate"><span class="pre">probe_success</span></code> is a <code class="docutils literal notranslate"><span class="pre">1</span></code> or <code class="docutils literal notranslate"><span class="pre">0</span></code> sampled on every scrape, you can average it over time to get an availability ratio.</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">uptime over the last 30 days, as a percentage</span><a class="headerlink" href="#id5" title="Link to this code">#</a></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>avg_over_time(probe_success{instance="https://carlosneto.dev"}[30d]) * 100
+</pre></div>
+</div>
+</div>
+<p>If the probe succeeded on 99.7% of the scrapes in that window, you get <code class="docutils literal notranslate"><span class="pre">99.7</span></code>. That is a rough but honest estimate of uptime as seen from where the exporter runs. It is not a contractual SLA calculation, and it only reflects the probe interval and the exporter’s own vantage point, but as a first approximation it is good enough to answer “how reliable has this endpoint been lately?”.</p>
+<p>A couple of other queries I keep around:</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">endpoints currently down</span><a class="headerlink" href="#id6" title="Link to this code">#</a></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>probe_success == 0
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">TLS certificates expiring in the next 15 days</span><a class="headerlink" href="#id7" title="Link to this code">#</a></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>(probe_ssl_earliest_cert_expiry - time()) / 86400 &lt; 15
+</pre></div>
+</div>
+</div>
+<p>That certificate query has saved me more than once. A whitebox setup would never have caught an expiring cert on a load balancer I did not even own.</p>
+</section>
+<section id="a-simple-alert">
+<h2>A Simple Alert<a class="headerlink" href="#a-simple-alert" title="Link to this heading">#</a></h2>
+<p>Pairing the probe with an alert closes the loop. Here is the one I always start with:</p>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">alert.rules.yml</span><a class="headerlink" href="#id8" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">groups</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blackbox</span>
+<span class="w">    </span><span class="nt">rules</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">alert</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EndpointDown</span>
+<span class="w">        </span><span class="nt">expr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">probe_success == 0</span>
+<span class="w">        </span><span class="nt">for</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2m</span>
+<span class="w">        </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">critical</span>
+<span class="w">        </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="s">"Endpoint</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">$labels.instance</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">down"</span>
+<span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"The</span><span class="nv"> </span><span class="s">blackbox</span><span class="nv"> </span><span class="s">probe</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">$labels.instance</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">has</span><span class="nv"> </span><span class="s">been</span><span class="nv"> </span><span class="s">failing</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">over</span><span class="nv"> </span><span class="s">2</span><span class="nv"> </span><span class="s">minutes."</span>
+</pre></div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">for:</span> <span class="pre">2m</span></code> avoids paging on a single flaky scrape. It fires only when the endpoint stays unreachable, which is usually what you actually care about.</p>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>The Blackbox Exporter is one of those tools that does a small thing and does it well. It will not tell you why your service is slow, and it is not a substitute for proper application metrics. But for checking that your user-facing endpoints are reachable, that certificates are not about to expire, and for getting a rough read on uptime, it is hard to beat for the effort it takes to set up.</p>
+<p>The multi-target relabeling pattern is the only real hump, and once it clicks, adding a new endpoint is a one-line change. I run it alongside my whitebox metrics, not instead of them. Whitebox tells me why something broke, blackbox tells me the user felt it.</p>
+<p>If you only have internal metrics today and no idea whether users can actually reach your service, start here. Give it a try.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Blackbox Exporter: <a class="github reference external" href="https://github.com/prometheus/blackbox_exporter">prometheus/blackbox_exporter</a></p></li>
+<li><p>Blackbox Exporter configuration: <a class="github reference external" href="https://github.com/prometheus/blackbox_exporter/blob/master/CONFIGURATION.md">prometheus/blackbox_exporter</a></p></li>
+<li><p>Prometheus multi-target exporter pattern: <a class="reference external" href="https://prometheus.io/docs/guides/multi-target-exporter/">https://prometheus.io/docs/guides/multi-target-exporter/</a></p></li>
+<li><p>Prometheus relabeling: <a class="reference external" href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config">https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config</a></p></li>
+<li><p>PromQL functions: <a class="reference external" href="https://prometheus.io/docs/prometheus/latest/querying/functions/">https://prometheus.io/docs/prometheus/latest/querying/functions/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

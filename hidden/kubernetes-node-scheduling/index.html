@@ -1,0 +1,708 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Node Scheduling in Kubernetes: nodeName, nodeSelector, nodeAffinity, and Taints" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/kubernetes-node-scheduling/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: YYYY/MM/DD This blog post explains the four main ways to control where your Pods land in a Kubernetes cluster: nodeName, nodeSelector, node affinity, and taints with tolerat..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_kubernetes-node-scheduling_db734a4f.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: YYYY/MM/DD This blog post explains the four main ways to control where your Pods land in a Kubernetes cluster: nodeName, nodeSelector, node affinity, and taints with tolerat..." />
+<meta name="description" content="Blog Post Publish Date: YYYY/MM/DD This blog post explains the four main ways to control where your Pods land in a Kubernetes cluster: nodeName, nodeSelector, node affinity, and taints with tolerat..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Node Scheduling in Kubernetes: nodeName, nodeSelector, nodeAffinity, and Taints &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/kubernetes-node-scheduling';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> YYYY/MM/DD</em></p>
+<hr class="docutils" />
+<section id="node-scheduling-in-kubernetes-nodename-nodeselector-nodeaffinity-and-taints">
+<h1>Node Scheduling in Kubernetes: nodeName, nodeSelector, nodeAffinity, and Taints<a class="headerlink" href="#node-scheduling-in-kubernetes-nodename-nodeselector-nodeaffinity-and-taints" title="Link to this heading">#</a></h1>
+<p>This blog post explains the four main ways to control where your Pods land in a Kubernetes cluster: <code class="docutils literal notranslate"><span class="pre">nodeName</span></code>, <code class="docutils literal notranslate"><span class="pre">nodeSelector</span></code>, node affinity, and taints with tolerations. It covers what each one does, how they differ, when to reach for which, and the one trap that trips people up: tolerations attract nothing, they only permit.</p>
+<section id="who-decides-where-a-pod-runs">
+<h2>Who Decides Where a Pod Runs?<a class="headerlink" href="#who-decides-where-a-pod-runs" title="Link to this heading">#</a></h2>
+<p>By default, you do not pick the node your Pod runs on. The Kubernetes scheduler does. It looks at every Pod that needs a home, filters out the nodes that cannot take it, scores the ones that can, and places the Pod on the best fit. Most of the time this is exactly what you want. You should not care which node runs your stateless web app.</p>
+<p>But sometimes you do care. You have GPU nodes and only the ML workloads should touch them. You have a licensed database that must run on a specific machine. You want to spread Pods across availability zones. You want to reserve a pool of nodes for one team. These are all scheduling constraints, and Kubernetes gives you four tools to express them.</p>
+<p>The tricky part is that they work at different levels and in different directions. Three of them pull a Pod toward nodes. One of them pushes Pods away. Mixing them up is where the confusion starts, so let me go through each.</p>
+</section>
+<section id="nodename-the-blunt-instrument">
+<h2>nodeName: The Blunt Instrument<a class="headerlink" href="#nodename-the-blunt-instrument" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">nodeName</span></code> is the most direct option and the one you should almost never use. It is a field in the Pod spec that names a node outright.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">pod-nodename.yaml</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">  </span><span class="nt">nodeName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kube-01</span>
+</pre></div>
+</div>
+</div>
+<p>When <code class="docutils literal notranslate"><span class="pre">nodeName</span></code> is set, the scheduler is skipped entirely. The kubelet on <code class="docutils literal notranslate"><span class="pre">kube-01</span></code> just tries to run the Pod. That sounds convenient, but it throws away everything the scheduler does for you:</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">kube-01</span></code> does not exist, the Pod never runs, and in some cases gets deleted.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">kube-01</span></code> has no room, the Pod fails with <code class="docutils literal notranslate"><span class="pre">OutOfcpu</span></code> or <code class="docutils literal notranslate"><span class="pre">OutOfmemory</span></code>. Nothing reschedules it elsewhere.</p></li>
+<li><p>Node names in cloud environments are rarely stable or predictable, so hardcoding one is fragile.</p></li>
+</ul>
+<p>The Kubernetes docs are blunt about it: <code class="docutils literal notranslate"><span class="pre">nodeName</span></code> is meant for custom schedulers and advanced edge cases where you deliberately want to bypass scheduling. For everyday “pin this Pod to a specific kind of node”, use one of the next three instead.</p>
+</section>
+<section id="nodeselector-the-simple-one">
+<h2>nodeSelector: The Simple One<a class="headerlink" href="#nodeselector-the-simple-one" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">nodeSelector</span></code> is the simplest way to constrain scheduling, and it covers a surprising number of real cases. You label your nodes, then tell the Pod to only run where those labels match.</p>
+<p>First, label a node:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">label a node</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>label<span class="w"> </span>nodes<span class="w"> </span>kube-02<span class="w"> </span><span class="nv">disktype</span><span class="o">=</span>ssd
+</pre></div>
+</div>
+</div>
+<p>Then ask for it in the Pod spec:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">pod-nodeselector.yaml</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">  </span><span class="nt">nodeSelector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">disktype</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ssd</span>
+</pre></div>
+</div>
+</div>
+<p>The scheduler will only consider nodes that carry the label <code class="docutils literal notranslate"><span class="pre">disktype=ssd</span></code>. If you list several labels, all of them must match (they are ANDed). Unlike <code class="docutils literal notranslate"><span class="pre">nodeName</span></code>, the scheduler still runs, so you keep bin-packing, resource checks, and rescheduling. This is the right default when your rule is a plain “must have these labels”.</p>
+</section>
+<section id="nodeaffinity-nodeselector-with-a-brain">
+<h2>nodeAffinity: nodeSelector With a Brain<a class="headerlink" href="#nodeaffinity-nodeselector-with-a-brain" title="Link to this heading">#</a></h2>
+<p>Node affinity is <code class="docutils literal notranslate"><span class="pre">nodeSelector</span></code> with a richer grammar. It lives under <code class="docutils literal notranslate"><span class="pre">.spec.affinity.nodeAffinity</span></code> and comes in two flavors:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">requiredDuringSchedulingIgnoredDuringExecution</span></code></strong>: a hard rule. The scheduler will not place the Pod unless a node matches. This behaves like <code class="docutils literal notranslate"><span class="pre">nodeSelector</span></code>, just more expressive.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">preferredDuringSchedulingIgnoredDuringExecution</span></code></strong>: a soft rule with a weight. The scheduler tries to honor it, but if no matching node is available, it schedules the Pod anyway.</p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">pod-nodeaffinity.yaml</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">with-node-affinity</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">affinity</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">nodeAffinity</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">nodeSelectorTerms</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">matchExpressions</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">topology.kubernetes.io/zone</span>
+<span class="w">            </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">In</span>
+<span class="w">            </span><span class="nt">values</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">antarctica-east1</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">antarctica-west1</span>
+<span class="w">      </span><span class="nt">preferredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">preference</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">matchExpressions</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">another-node-label-key</span>
+<span class="w">            </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">In</span>
+<span class="w">            </span><span class="nt">values</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">another-node-label-value</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">with-node-affinity</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.k8s.io/pause:3.8</span>
+</pre></div>
+</div>
+</div>
+<p>Two things make affinity more powerful than <code class="docutils literal notranslate"><span class="pre">nodeSelector</span></code>. First, operators: besides <code class="docutils literal notranslate"><span class="pre">In</span></code>, you get <code class="docutils literal notranslate"><span class="pre">NotIn</span></code>, <code class="docutils literal notranslate"><span class="pre">Exists</span></code>, <code class="docutils literal notranslate"><span class="pre">DoesNotExist</span></code>, <code class="docutils literal notranslate"><span class="pre">Gt</span></code>, and <code class="docutils literal notranslate"><span class="pre">Lt</span></code>, so you can match on absence or ranges, not just equality. Second, the soft <code class="docutils literal notranslate"><span class="pre">preferred</span></code> rules, which let you express “I’d rather run here, but do not block me if you cannot”.</p>
+<p>A few rules on how the matching combines, because they are easy to get wrong:</p>
+<ul class="simple">
+<li><p>If you set both <code class="docutils literal notranslate"><span class="pre">nodeSelector</span></code> and <code class="docutils literal notranslate"><span class="pre">nodeAffinity</span></code>, both must be satisfied.</p></li>
+<li><p>Multiple <code class="docutils literal notranslate"><span class="pre">nodeSelectorTerms</span></code> are ORed: matching any one term is enough.</p></li>
+<li><p>Multiple expressions inside a single <code class="docutils literal notranslate"><span class="pre">matchExpressions</span></code> are ANDed: all must match.</p></li>
+</ul>
+<blockquote>
+<div><p><i class="fa-solid fa-circle-info"></i> <code class="docutils literal notranslate"><span class="pre">IgnoredDuringExecution</span></code> means the rule is checked only at scheduling time. If a node’s labels change after the Pod is already running, the Pod stays put. It is not re-evaluated and evicted.</p>
+</div></blockquote>
+</section>
+<section id="taints-and-tolerations-pushing-pods-away">
+<h2>Taints and Tolerations: Pushing Pods Away<a class="headerlink" href="#taints-and-tolerations-pushing-pods-away" title="Link to this heading">#</a></h2>
+<p>Here is the one that works in the opposite direction, and the source of most confusion. The three tools above attract Pods to nodes. Taints repel Pods from nodes.</p>
+<p>A <strong>taint</strong> is applied to a node and says “keep Pods off me unless they explicitly put up with this”. A <strong>toleration</strong> is applied to a Pod and says “I can put up with that taint”. No toleration, no scheduling on that node.</p>
+<p>Taint a node like this:</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">taint a node</span><a class="headerlink" href="#id5" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>taint<span class="w"> </span>nodes<span class="w"> </span>node1<span class="w"> </span><span class="nv">key1</span><span class="o">=</span>value1:NoSchedule
+</pre></div>
+</div>
+</div>
+<p>And let a Pod tolerate it:</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">toleration in a Pod spec</span><a class="headerlink" href="#id6" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">tolerations</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">"key1"</span>
+<span class="w">  </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="s">"Equal"</span>
+<span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"value1"</span>
+<span class="w">  </span><span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="s">"NoSchedule"</span>
+</pre></div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">operator</span></code> can be <code class="docutils literal notranslate"><span class="pre">Equal</span></code> (key and value must match) or <code class="docutils literal notranslate"><span class="pre">Exists</span></code> (only the key must be present, no value needed). The <code class="docutils literal notranslate"><span class="pre">effect</span></code> is where the real behavior lives:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">NoSchedule</span></code></strong>: no new Pod schedules here without a matching toleration. Pods already running stay.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">PreferNoSchedule</span></code></strong>: the soft version. The scheduler tries to avoid the node, but will use it if it has to.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">NoExecute</span></code></strong>: the strict one. New Pods without a toleration will not schedule, and Pods already running that do not tolerate it are evicted.</p></li>
+</ul>
+<p>With <code class="docutils literal notranslate"><span class="pre">NoExecute</span></code> you can also set <code class="docutils literal notranslate"><span class="pre">tolerationSeconds</span></code>, which keeps a tolerating Pod on the node for a grace period before eviction. Kubernetes itself uses this for node problems:</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">tolerate an unreachable node for 100 minutes</span><a class="headerlink" href="#id7" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">tolerations</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">"node.kubernetes.io/unreachable"</span>
+<span class="w">  </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="s">"Exists"</span>
+<span class="w">  </span><span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="s">"NoExecute"</span>
+<span class="w">  </span><span class="nt">tolerationSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6000</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="the-trap-a-toleration-does-not-attract">
+<h2>The Trap: A Toleration Does Not Attract<a class="headerlink" href="#the-trap-a-toleration-does-not-attract" title="Link to this heading">#</a></h2>
+<p>This is the mistake I see most often, so it gets its own section. People taint their GPU nodes, add a matching toleration to the GPU Pods, and assume the GPU Pods will now run on the GPU nodes.</p>
+<p>They will not. Or rather, they <em>might</em>, but nothing guarantees it.</p>
+<p>A toleration only removes a barrier. It says “this Pod is allowed on the tainted node”. It does not say “this Pod wants the tainted node”. A Pod that tolerates the GPU taint is now free to land on the GPU nodes, but it is equally free to land on any untainted node in the cluster, and the scheduler may well put it there.</p>
+<p>To actually dedicate nodes to a workload, you need both halves:</p>
+<ul class="simple">
+<li><p><strong>Taint</strong> the special nodes so random Pods stay off them.</p></li>
+<li><p><strong>Toleration + nodeAffinity (or nodeSelector)</strong> on the special Pods, so they are both allowed on those nodes <em>and</em> pulled toward them.</p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">dedicate GPU nodes properly</span><a class="headerlink" href="#id8" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gpu-job</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># allowed onto the tainted GPU nodes</span>
+<span class="w">  </span><span class="nt">tolerations</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">"gpu"</span>
+<span class="w">    </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="s">"Equal"</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
+<span class="w">    </span><span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="s">"NoSchedule"</span>
+<span class="w">  </span><span class="c1"># and actively steered toward them</span>
+<span class="w">  </span><span class="nt">affinity</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">nodeAffinity</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">nodeSelectorTerms</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">matchExpressions</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hardware</span>
+<span class="w">            </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">In</span>
+<span class="w">            </span><span class="nt">values</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gpu</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">trainer</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-ml-image</span>
+</pre></div>
+</div>
+</div>
+<p>The taint keeps everyone else off the GPU nodes. The toleration lets this Pod in. The affinity makes sure it goes there and not somewhere else. All three jobs are needed, and leaving one out is the usual reason a “dedicated node” setup quietly misbehaves.</p>
+</section>
+<section id="which-one-should-i-use">
+<h2>Which One Should I Use?<a class="headerlink" href="#which-one-should-i-use" title="Link to this heading">#</a></h2>
+<p>A short decision guide, from how I reach for them:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">nodeSelector</span></code></strong>: your rule is a simple label match and nothing more. Start here.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">nodeAffinity</span></code></strong>: you need soft preferences, negation, ranges, or OR logic. The grown-up version of <code class="docutils literal notranslate"><span class="pre">nodeSelector</span></code>.</p></li>
+<li><p><strong>Taints + tolerations</strong>: you want to keep most Pods <em>off</em> a set of nodes (dedicated pools, special hardware, control-plane nodes). Pair it with affinity to also pull the right Pods in.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">nodeName</span></code></strong>: almost never. Only for custom schedulers or a deliberate bypass, and accept the fragility.</p></li>
+</ul>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>When I first learned these, I lumped them all together as “node scheduling stuff” and kept getting surprised. The thing that finally made it click was the direction. Three of them are magnets pulling Pods toward nodes, and taints are a fence keeping Pods out. Once I held that picture in my head, the behavior stopped being mysterious.</p>
+<p>My advice is to keep it as simple as the problem allows. Reach for <code class="docutils literal notranslate"><span class="pre">nodeSelector</span></code> first, graduate to <code class="docutils literal notranslate"><span class="pre">nodeAffinity</span></code> when you actually need its expressiveness, and only bring in taints when you genuinely need to reserve nodes. And please do not pin Pods with <code class="docutils literal notranslate"><span class="pre">nodeName</span></code> unless you know exactly why you are bypassing the scheduler.</p>
+<p>The one rule I would tattoo on a new cluster admin: a toleration permits, it never attracts. Remember that and most of the “why did my Pod end up there” questions answer themselves.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Assigning Pods to Nodes: <a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/">https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/</a></p></li>
+<li><p>Taints and Tolerations: <a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/">https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/</a></p></li>
+<li><p>Assign Pods using Node Affinity: <a class="reference external" href="https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/">https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/</a></p></li>
+<li><p>Well-Known Labels, Annotations and Taints: <a class="reference external" href="https://kubernetes.io/docs/reference/labels-annotations-taints/">https://kubernetes.io/docs/reference/labels-annotations-taints/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

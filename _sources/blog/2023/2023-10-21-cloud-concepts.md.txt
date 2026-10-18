@@ -1,5 +1,5 @@
 ---
-tags: aws, gcp, azure, oracle
+tags: aws, gcp, azure, cloud
 date: "2023-10-21"
 category: Cloud
 ---
@@ -8,119 +8,76 @@ category: Cloud
 
 ---
 
-# Cloud Computing: Overview and Concepts
+# What is the Cloud and why does everyone keep talking about it?
 
-This blog post explores the impact of Cloud Computing, essential concepts, primary Cloud models, and my opinion about its adoption.
+If you've ever heard someone say "it's on the cloud" and weren't quite sure what that meant, this post is for you.
 
-## The Impact of Cloud Computing
+I decided to write this after watching it happen one too many times: a cloud vendor would walk into a meeting, give a slick pitch, and my bosses would walk out convinced that the Cloud was a magic solution that would fix every single problem we had. Spoiler: it isn't. The Cloud is a powerful tool, but it's **not a silver bullet** — and in some cases it can even be the worse choice, especially financially.
 
-Historically, Development teams emphasized agility in contributions, while Operations/Infrastructure teams focused more on stability due to hardware interactions. However, with the advent of technologies like virtualization, manual infrastructure tasks became obsolete, and infrastructure components started being provided as a service by Cloud providers like AWS, Google, Microsoft, and others.
+So let's start from the beginning — no technical jargon — and by the end you'll understand what the Cloud actually is, what it's good for, and when it might not be worth it.
 
-Now, agility has become a crucial aspect for Operations teams as well. The maintenance of infrastructure as a service by Cloud providers alleviates concerns about electricity, hardware health, and other infrastructure requirements. This shift allows businesses to concentrate on their core purposes rather than infrastructure necessities. Outsourcing maintenance tasks to specialized teams enhances reliability and security, with various services tailored for infrastructure contexts and business cases. Additionally, hardware security is vital to address concerns like natural disasters and physical threats.
+## The problem the Cloud solved
 
-A significant keyword in the Cloud landscape is possibilities. The Cloud offers possibilities to access high computing performance components as needed, scale components on demand, and pay only for the time used. These possibilities can lead to reduced costs if your application or infrastructure is scalable, allowing you to pay only for the resources needed for application functionality.
+Imagine you want to launch an online store. Not too long ago, to make that work, you would need to buy a powerful computer to act as a server, find somewhere with a stable power supply to keep it running 24/7, hire someone to fix it when it broke, and hope it could handle the load when too many people visited at once.
 
-However, it's important to note that Cloud Computing isn't a one-size-fits-all solution for every IT infrastructure case. It is one of the options to deploy your infrastructure or application. Before adopting the Cloud for your infrastructure, it's crucial to ask yourself, "What problem am I trying to solve?" If your application aligns with the Cloud characteristics mentioned above, it might be the best choice for your needs.
+All of that was expensive, time-consuming, and risky. If the server went down, so did your store.
 
-## Concepts and Characteristics
+Now imagine that instead of buying that computer, you simply **rented** it. And only paid for the time you actually used it. And if you needed more capacity during a big sale, you scaled up with a click — then scaled back down when it was over.
 
-Cloud Computing is a __model for delivering computing services over the internet, providing a platform to manage, process, and store data on remote servers.__
+**That's the Cloud.**
 
-The Cloud Computing main characteristics are:
+## Cloud = renting computers over the internet
 
-::::{grid}
+The "cloud" is nothing more than massive data centers spread around the world, packed with servers and infrastructure, owned by companies like Amazon (AWS), Google (GCP), and Microsoft (Azure).
 
-:::{grid-item-card}
-__Maintenance__
+These companies offer all of that as a service. You access it over the internet, use what you need, and pay for what you consume — similar to how you pay your electricity bill.
 
-- Less concern about energy and hardware maintenance processes;
-- Business focuses more on IT technologies.
+This means a small startup can use the same infrastructure as a giant corporation, without investing millions in hardware upfront.
 
----
+## Why does it matter?
 
-__Reliability__
+Before the Cloud, only large companies could afford robust infrastructure. Today, anyone with a credit card can have a server running anywhere in the world in a matter of minutes.
 
-- Specialization in determining tools;
-- High availability possibilities.
+That changed everything. New products reach the market much faster. You don't need to buy expensive hardware just to test an idea. If your product takes off, the infrastructure grows with it. And Cloud providers have entire teams dedicated to keeping things up and running, so you don't have to.
 
----
+## A real-world example
 
-__Security__
+Think about watching a movie on Netflix, listening to music on Spotify, or backing up your photos on Google Photos.
 
-- Utilization of specific security tools;
-- Software and hardware security solutions.
-:::
+All of that runs on the Cloud. None of those companies have a server sitting in your house — your data lives in data centers, and you access it over the internet.
 
-:::{grid-item-card}
-__Performance__
+## What about companies that don't use the Cloud?
 
-- Hardware components available as a service;
-- Performance enhancements possible when needed.
+Some companies still maintain their own physical servers — either in a rented data center or on their own premises. This is called **on-premise infrastructure** (or "on-prem").
 
----
+That's not necessarily wrong. In some cases, it actually makes more sense — especially when there are strict regulatory requirements about where data can be stored, or when usage is so predictable and constant that buying is cheaper than renting.
 
-__Scalability__
+The Cloud isn't the answer to everything. But it's a great fit for anyone who needs flexibility, agility, and scale.
 
-- Scalability on demand;
-- Minimal IT resource requirements to run applications.
+## The part the vendors won't tell you
 
----
+Here's the thing those sales pitches tend to skip: the Cloud can get expensive — sometimes a lot more expensive than running your own hardware.
 
-__Cost and Elasticity__
+Renting is great when your usage goes up and down, or when you're still figuring things out. But if your workload is steady and predictable, running 24/7 at the same capacity, you end up paying a premium month after month for flexibility you're not actually using. At that scale, buying your own servers and paying them off over a few years can be far cheaper.
 
-- Cost management options;
-- Both soft and hard cost considerations with available possibilities.
-:::
+The "pay only for what you use" promise cuts both ways. If your team doesn't actively manage and optimize what's running, those bills creep up fast — forgotten resources, oversized machines, and data transfer costs that nobody noticed until the invoice arrived.
 
-::::
+The Cloud also isn't automatically more secure, nor is migrating to it free. Moving an existing system requires real expertise, and doing it badly can cost you more than staying put.
 
-> <i class="fa-solid fa-link"></i> See also: [AWS - What is Cloud Computing](https://aws.amazon.com/what-is-Cloud-computing/?nc1=h_ls)
+None of this means the Cloud is bad. It means it's a **tool, not a cure-all**. The right question is never "should we move to the Cloud because it fixes everything?" — it's "what problem are we actually trying to solve, and is the Cloud the best way to solve it?"
 
+## TL;DR
 
-## Cloud Main Models
-
-The cloud is not limited to AWS, Google Cloud Platform, or Oracle Cloud. These mentioned cloud providers belong to the category of __Public Cloud__. However, it's essential to understand that there are other ways to implement cloud solutions.
-
-::::{grid}
-
-:::{grid-item-card}
-__Public Cloud__
-
-> Resources are shared and can be used by anyone (examples: AWS, GCP, Oracle Cloud).
+| Before the Cloud | With the Cloud |
+|---|---|
+| Buy expensive servers | Rent what you need |
+| Months to get something running | Minutes |
+| Pay even when idle | Pay only for what you use |
+| Large team to maintain hardware | Focus on the product |
+| Risk of downtime if hardware fails | High availability |
 
 ---
 
-__Private Cloud__
+The Cloud isn't magic — it's computing infrastructure offered as a service. It fundamentally changed how software is built and delivered, making it possible for small teams to build products that reach millions of people. But it's a tool, not a silver bullet, and no vendor pitch changes that.
 
-> Often referred to as _Bare Metal Cloud_ owned by a single entity, and resources are not shared with other corporations (examples: OpenStack, VMWare, and XenServer).
-:::
-
-:::{grid-item-card}
-__Hybrid Cloud__
-
-> A combination of both Private Cloud and Public Cloud components.
-
----
-
-__MultiCloud__
-
-> Cloud architecture is not dependent on a specific Cloud model and can run in both Private and Public Cloud environments.
-
----
-
-__Community Cloud__
-
-> Custom Cloud architecture created by corporations to provide clients with the flexibility of multiple Public and Private Cloud features.
-:::
-
-::::
-
-> <i class="fa-solid fa-link"></i> More Details: [NIST - Cloud Computing Definition](https://csrc.nist.gov/publications/detail/sp/800-145/final)
-
-## Conclusion (Author Opinion)
-
-Cloud computing is a __powerful__ tool that can greatly benefit businesses. Cloud providers offer __fantastic solutions__ and services to address the challenges and product requirements, mainly to __large enterprises__. Undoubtedly, Cloud computing has contributed to improvements in the IT product experience and the creation of new products, primarily due to the _Business focusing more on IT technologies_ characteristic, which allows engineers to concentrate their efforts on the product rather than infrastructure challenges.
-
-However, it is important to understand that __it is not a one-size-fits-all solution__. Its effectiveness __depends on your specific needs__ and use cases. While it offers scalability and flexibility, it __can also be more expensive__, especially if not optimized for your requirements. Migrating to the Cloud __requires specialized expertise__ to ensure a smooth transition and efficient management. Additionally, it's important to note that the Cloud is not a guarantee of security; it requires a diligent implementation of security measures to safeguard your data and applications, further emphasizing the need for specialized expertise. Ultimately, the decision to embrace Cloud computing should be carefully evaluated, taking into account the unique demands and goals of your organization.
-
----
+At its core, the problem it solves is simple: **take the worry about computers off your plate, so you can focus on what actually matters.** Just make sure that, before you move, you know what problem you're solving — and that the Cloud is genuinely the best (and most affordable) way to solve it.

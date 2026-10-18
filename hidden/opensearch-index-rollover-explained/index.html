@@ -1,0 +1,729 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="OpenSearch Index Rollover Explained: Numbers, Dates, Aliases, and ISM" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/opensearch-index-rollover-explained/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/10/17 If you have ever stared at a cluster full of indexes named logs-000001, logs-000002, or logs-2026.02.14 and wondered who creates these, why the weird suffixes, an..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_opensearch-index-rollover-explained_daf2db83.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/17 If you have ever stared at a cluster full of indexes named logs-000001, logs-000002, or logs-2026.02.14 and wondered who creates these, why the weird suffixes, an..." />
+<meta name="description" content="Blog Post Publish Date: 2026/10/17 If you have ever stared at a cluster full of indexes named logs-000001, logs-000002, or logs-2026.02.14 and wondered who creates these, why the weird suffixes, an..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>OpenSearch Index Rollover Explained: Numbers, Dates, Aliases, and ISM &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/opensearch-index-rollover-explained';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/17</em></p>
+<hr class="docutils" />
+<section id="opensearch-index-rollover-explained-numbers-dates-aliases-and-ism">
+<h1>OpenSearch Index Rollover Explained: Numbers, Dates, Aliases, and ISM<a class="headerlink" href="#opensearch-index-rollover-explained-numbers-dates-aliases-and-ism" title="Link to this heading">#</a></h1>
+<p>If you have ever stared at a cluster full of indexes named <code class="docutils literal notranslate"><span class="pre">logs-000001</span></code>, <code class="docutils literal notranslate"><span class="pre">logs-000002</span></code>, or <code class="docutils literal notranslate"><span class="pre">logs-2026.02.14</span></code> and wondered who creates these, why the weird suffixes, and how ISM fits in, this post is for you. This blog post untangles the four concepts that get knotted together here. It explains what an alias, a rollover, an index suffix, and an ISM policy each do, and how they work together.</p>
+<p>I think this is one of the most confusing parts of OpenSearch, and the reason is that these four ideas are almost always introduced at once, as if they were one thing. They are not. Let’s take them one at a time.</p>
+<section id="the-problem-they-all-solve">
+<h2>The Problem They All Solve<a class="headerlink" href="#the-problem-they-all-solve" title="Link to this heading">#</a></h2>
+<p>You are shipping logs (or metrics, or any time-based data) into OpenSearch, forever. If you put everything into a single index called <code class="docutils literal notranslate"><span class="pre">logs</span></code>, two bad things happen:</p>
+<ol class="arabic simple">
+<li><p>That index grows without bound. Shards get huge, queries slow down, and you can never cleanly delete old data without expensive deletes.</p></li>
+<li><p>You cannot apply a retention policy like “keep 30 days, then drop”. Deleting old documents one by one is slow and wasteful.</p></li>
+</ol>
+<p>The clean solution is to keep writing to a fresh index periodically and delete whole old indexes when they age out. Dropping an entire index is instant and cheap. But that creates a new question: how does your application know which index to write to today? That is where aliases and rollover come in.</p>
+</section>
+<section id="concept-1-the-alias-your-stable-write-address">
+<h2>Concept 1: The Alias, Your Stable Write Address<a class="headerlink" href="#concept-1-the-alias-your-stable-write-address" title="Link to this heading">#</a></h2>
+<p>An alias is a stable name that points to one or more real indexes. Think of it as a mailbox label that you can move between physical boxes.</p>
+<p>Your application never writes to <code class="docutils literal notranslate"><span class="pre">logs-000001</span></code> directly. It writes to the alias <code class="docutils literal notranslate"><span class="pre">logs</span></code>. One index behind that alias is marked as the write index (<code class="docutils literal notranslate"><span class="pre">is_write_index:</span> <span class="pre">true</span></code>), and that is where new documents actually land.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/logs</span><span class="mi">-000001</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"aliases"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"logs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"is_write_index"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Now your app writes to <code class="docutils literal notranslate"><span class="pre">logs</span></code>, and OpenSearch routes those writes to <code class="docutils literal notranslate"><span class="pre">logs-000001</span></code>. When you later want writes to go somewhere new, you just move which index the alias writes to, and your application does not change a thing. That “moving” is what rollover does.</p>
+</section>
+<section id="concept-2-rollover-the-act-of-starting-a-fresh-index">
+<h2>Concept 2: Rollover, the Act of Starting a Fresh Index<a class="headerlink" href="#concept-2-rollover-the-act-of-starting-a-fresh-index" title="Link to this heading">#</a></h2>
+<p>Rollover is the operation that creates a new index and moves the write alias to it. That is the whole idea. Before rollover, writes go to <code class="docutils literal notranslate"><span class="pre">logs-000001</span></code>. After rollover, writes go to <code class="docutils literal notranslate"><span class="pre">logs-000002</span></code>, and <code class="docutils literal notranslate"><span class="pre">logs-000001</span></code> becomes a read-only historical index that the alias still reads from but no longer writes to.</p>
+<p>You trigger it against the alias:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">POST</span><span class="w"> </span><span class="err">/logs/_rollover</span>
+</pre></div>
+</div>
+<p>The response tells you exactly what happened:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"acknowledged"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"shards_acknowledged"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"old_index"</span><span class="p">:</span><span class="w"> </span><span class="s2">"logs-000001"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"new_index"</span><span class="p">:</span><span class="w"> </span><span class="s2">"logs-000002"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"rolled_over"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="rollover-with-conditions">
+<h3>Rollover with conditions<a class="headerlink" href="#rollover-with-conditions" title="Link to this heading">#</a></h3>
+<p>Usually you do not want to roll over blindly. You want it to happen only when the current index gets “big enough” or “old enough”. You pass conditions, and the rollover only fires if at least one is met:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">POST</span><span class="w"> </span><span class="err">/logs/_rollover</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"max_age"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7d"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"max_size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50gb"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"max_docs"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000000</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This means: roll over if the current write index is 7 days old OR has reached 50 GB OR holds 10 million documents, whichever comes first. If none are met, the response says <code class="docutils literal notranslate"><span class="pre">&quot;rolled_over&quot;:</span> <span class="pre">false</span></code> and nothing changes.</p>
+<p>This is why rollover exists. It lets you keep index shards in a healthy size and age range automatically, instead of guessing up front how big an index will get.</p>
+</section>
+</section>
+<section id="concept-3-the-suffix-how-new-index-names-are-generated">
+<h2>Concept 3: The Suffix, How New Index Names Are Generated<a class="headerlink" href="#concept-3-the-suffix-how-new-index-names-are-generated" title="Link to this heading">#</a></h2>
+<p>When rollover creates a new index, it has to name it. There are two styles of suffix, and this is the part that confuses everyone.</p>
+<section id="style-a-numeric-suffix-000001-000002">
+<h3>Style A: Numeric suffix (<code class="docutils literal notranslate"><span class="pre">-000001</span></code>, <code class="docutils literal notranslate"><span class="pre">-000002</span></code>, …)<a class="headerlink" href="#style-a-numeric-suffix-000001-000002" title="Link to this heading">#</a></h3>
+<p>If your starting index ends in a zero-padded number, rollover simply increments it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>logs-000001  →  logs-000002  →  logs-000003  ...
+</pre></div>
+</div>
+<p>You get this by naming your first index with the <code class="docutils literal notranslate"><span class="pre">-000001</span></code> suffix:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/logs</span><span class="mi">-000001</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"aliases"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"logs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"is_write_index"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>That is it. The number has no meaning other than “order of creation”. It does not tell you when the index was created, it is just a counter. This is the most common and simplest style.</p>
+</section>
+<section id="style-b-date-math-suffix-2026-02-14">
+<h3>Style B: Date-math suffix (<code class="docutils literal notranslate"><span class="pre">-2026.02.14</span></code>, …)<a class="headerlink" href="#style-b-date-math-suffix-2026-02-14" title="Link to this heading">#</a></h3>
+<p>Sometimes you want the index name to contain the date so it is human-readable at a glance. OpenSearch supports date math in index names: you wrap the name in <code class="docutils literal notranslate"><span class="pre">&lt;...&gt;</span></code> and embed a date expression like <code class="docutils literal notranslate"><span class="pre">{now/d}</span></code> (meaning “now, rounded down to the day”).</p>
+<p>The catch: the <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">{</span></code>, <code class="docutils literal notranslate"><span class="pre">}</span></code>, and <code class="docutils literal notranslate"><span class="pre">/</span></code> characters must be URL-encoded when you send the request. So this logical name:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">logs</span><span class="o">-</span><span class="p">{</span><span class="n">now</span><span class="o">/</span><span class="n">d</span><span class="p">}</span><span class="o">-</span><span class="mi">000001</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>is sent as:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">%</span><span class="mi">3</span><span class="err">Clogs</span><span class="mi">-</span><span class="err">%</span><span class="mi">7</span><span class="err">B</span><span class="kc">n</span><span class="err">ow%</span><span class="mi">2</span><span class="err">Fd%</span><span class="mi">7</span><span class="err">D</span><span class="mi">-000001</span><span class="err">%</span><span class="mf">3E</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"aliases"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"logs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"is_write_index"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>That creates an index named something like <code class="docutils literal notranslate"><span class="pre">logs-2026.02.14-000001</span></code>. Notice it still has the numeric <code class="docutils literal notranslate"><span class="pre">-000001</span></code> on the end. The date tells you when, and the number still increments on each rollover so names never collide if you roll over twice in one day.</p>
+<p>Quick reference for the date-math time units:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Unit</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">y</span></code></p></td>
+<td><p>Years</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">M</span></code></p></td>
+<td><p>Months</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">w</span></code></p></td>
+<td><p>Weeks</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">d</span></code></p></td>
+<td><p>Days</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">h</span></code> / <code class="docutils literal notranslate"><span class="pre">H</span></code></p></td>
+<td><p>Hours</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">m</span></code></p></td>
+<td><p>Minutes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">s</span></code></p></td>
+<td><p>Seconds</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>And <code class="docutils literal notranslate"><span class="pre">/</span></code> rounds down: <code class="docutils literal notranslate"><span class="pre">{now/d}</span></code> is the start of today, <code class="docutils literal notranslate"><span class="pre">{now/M}</span></code> is the start of this month.</p>
+</section>
+<section id="which-should-you-use">
+<h3>Which should you use?<a class="headerlink" href="#which-should-you-use" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Numeric</strong>: simplest. Use it when you rely on rollover conditions (size/age/docs) to control rotation and you do not care about reading the date from the name. This is the default choice for most log setups.</p></li>
+<li><p><strong>Date math</strong>: use it when people (or external tools) benefit from seeing the date directly in the index name, for example daily indexes like <code class="docutils literal notranslate"><span class="pre">logs-2026.02.14</span></code>.</p></li>
+</ul>
+<p>Either way, the alias is still how you read and write. The suffix is just how the physical indexes are named.</p>
+</section>
+</section>
+<section id="concept-4-ism-the-robot-that-does-this-for-you">
+<h2>Concept 4: ISM, the Robot That Does This for You<a class="headerlink" href="#concept-4-ism-the-robot-that-does-this-for-you" title="Link to this heading">#</a></h2>
+<p>So far every rollover has been a manual <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/logs/_rollover</span></code>. Nobody wants to run that by hand every few hours. Index State Management (ISM) is the built-in automation that does it for you, and also handles the aging and deletion afterward.</p>
+<p>An ISM policy is a small state machine. For our use case it says, in effect: keep rolling over on these conditions, then after N days, delete.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">_plugi</span><span class="kc">ns</span><span class="err">/_ism/policies/rollover</span><span class="mi">-50</span><span class="err">gb</span><span class="mi">-7</span><span class="err">d</span><span class="mi">-</span><span class="err">dele</span><span class="kc">te</span><span class="mi">-30</span><span class="err">d</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"policy"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Roll over at 50gb or 7d, delete after 30d"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"default_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rollover"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"states"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rollover"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"rollover"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">"min_size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50gb"</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"min_index_age"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7d"</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">"transitions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nt">"state_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"delete"</span><span class="p">,</span><span class="w"> </span><span class="nt">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min_index_age"</span><span class="p">:</span><span class="w"> </span><span class="s2">"30d"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"delete"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"delete"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">"ism_template"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"index_patterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"logs-*"</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Two things to notice:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">rollover</span></code> action here uses <code class="docutils literal notranslate"><span class="pre">min_size</span></code> / <code class="docutils literal notranslate"><span class="pre">min_index_age</span></code> (the ISM spelling), which do the same job as the <code class="docutils literal notranslate"><span class="pre">max_size</span></code> / <code class="docutils literal notranslate"><span class="pre">max_age</span></code> conditions you would pass to a manual rollover. When you list several inside one <code class="docutils literal notranslate"><span class="pre">rollover</span></code> object, they are combined with OR, so any one triggers it.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">ism_template</span></code> block auto-attaches this policy to any index matching <code class="docutils literal notranslate"><span class="pre">logs-*</span></code>, so you set it up once and every future rollover index inherits it.</p></li>
+</ul>
+<p>ISM runs a background job (every 5 minutes by default) that checks each managed index, performs the current state’s actions, and advances it when transition conditions are met. That is how <code class="docutils literal notranslate"><span class="pre">logs-000001</span></code> quietly becomes read-only, then gets deleted 30 days later, with nobody touching anything.</p>
+<section id="telling-ism-about-rollover-the-alias-link">
+<h3>Telling ISM about rollover: the alias link<a class="headerlink" href="#telling-ism-about-rollover-the-alias-link" title="Link to this heading">#</a></h3>
+<p>For ISM’s <code class="docutils literal notranslate"><span class="pre">rollover</span></code> action to know which alias to flip, the index template must declare the rollover alias:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">_</span><span class="kc">te</span><span class="err">mpla</span><span class="kc">te</span><span class="err">/logs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"order"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"index_patterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"logs-*"</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"index.number_of_shards"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"index.number_of_replicas"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"index.refresh_interval"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10s"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"plugins.index_state_management.rollover_alias"</span><span class="p">:</span><span class="w"> </span><span class="s2">"logs"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>That <code class="docutils literal notranslate"><span class="pre">plugins.index_state_management.rollover_alias:</span> <span class="pre">&quot;logs&quot;</span></code> line is the glue. It tells ISM: when you roll over an index born from this template, the write alias to move is <code class="docutils literal notranslate"><span class="pre">logs</span></code>.</p>
+</section>
+</section>
+<section id="putting-it-all-together">
+<h2>Putting It All Together<a class="headerlink" href="#putting-it-all-together" title="Link to this heading">#</a></h2>
+<p>Here is the full picture, start to finish:</p>
+<ol class="arabic simple">
+<li><p>Template: you define <code class="docutils literal notranslate"><span class="pre">logs-*</span></code> settings and set <code class="docutils literal notranslate"><span class="pre">rollover_alias:</span> <span class="pre">logs</span></code>.</p></li>
+<li><p>First index and alias: you create <code class="docutils literal notranslate"><span class="pre">logs-000001</span></code> with <code class="docutils literal notranslate"><span class="pre">is_write_index:</span> <span class="pre">true</span></code> on the <code class="docutils literal notranslate"><span class="pre">logs</span></code> alias.</p></li>
+<li><p>App writes to the alias: documents land in <code class="docutils literal notranslate"><span class="pre">logs-000001</span></code>.</p></li>
+<li><p>ISM watches: when <code class="docutils literal notranslate"><span class="pre">logs-000001</span></code> hits 50 GB or 7 days, ISM runs <code class="docutils literal notranslate"><span class="pre">rollover</span></code>, which creates <code class="docutils literal notranslate"><span class="pre">logs-000002</span></code> and moves the write alias to it.</p></li>
+<li><p>Repeat forever: <code class="docutils literal notranslate"><span class="pre">logs-000003</span></code>, <code class="docutils literal notranslate"><span class="pre">logs-000004</span></code>, each born automatically.</p></li>
+<li><p>ISM ages them out: 30 days after creation, ISM deletes each old index.</p></li>
+</ol>
+<p>Your application only ever knows about one name: <code class="docutils literal notranslate"><span class="pre">logs</span></code>. Everything else is machinery.</p>
+</section>
+<section id="the-most-common-points-of-confusion-cleared-up">
+<h2>The Most Common Points of Confusion, Cleared Up<a class="headerlink" href="#the-most-common-points-of-confusion-cleared-up" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Does the <code class="docutils literal notranslate"><span class="pre">-000001</span></code> number mean anything? No. With numeric suffixes it is just a creation counter. Use date-math suffixes if you want the date encoded in the name.</p></li>
+<li><p>Is rollover the same as ISM? No. Rollover is a single action (make a new index, move the alias). ISM is the automation that calls rollover (and delete, and tier migrations) on a schedule.</p></li>
+<li><p>Do I write to <code class="docutils literal notranslate"><span class="pre">logs-000002</span></code> or <code class="docutils literal notranslate"><span class="pre">logs</span></code>? Always the alias, <code class="docutils literal notranslate"><span class="pre">logs</span></code>. Never a physical index name directly.</p></li>
+<li><p>Why did my rollover not happen? The conditions were not met. Check the response for <code class="docutils literal notranslate"><span class="pre">&quot;rolled_over&quot;:</span> <span class="pre">false</span></code>, or for managed indexes use <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">_plugins/_ism/explain/&lt;index&gt;?show_policy=true</span></code>.</p></li>
+<li><p>Numeric vs date suffix, which matters for retention? Neither directly. Retention is driven by ISM conditions (index age), not by what the name says.</p></li>
+</ul>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>Once I started teaching this as four cooperating pieces instead of one confusing blob, people stopped being afraid of it. That is really the whole trick. The alias is the address, rollover is the act of moving it, the suffix is just a name, and ISM is the robot running the schedule. None of them are complicated on their own.</p>
+<p>My advice: start with numeric suffixes and a simple ISM policy, wire the <code class="docutils literal notranslate"><span class="pre">rollover_alias</span></code> once, and only reach for date math when a human or a tool actually benefits from reading the date in the name. Get those basics solid and time-based indexing in OpenSearch stops being mysterious and becomes something you can reason about and tune with confidence.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/im-plugin/ism/index/">https://opensearch.org/docs/latest/im-plugin/ism/index/</a></p></li>
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/im-plugin/index-rollover/">https://opensearch.org/docs/latest/im-plugin/index-rollover/</a></p></li>
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/field-types/supported-field-types/date/">https://opensearch.org/docs/latest/field-types/supported-field-types/date/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

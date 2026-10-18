@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-13T00:55:42.909207+00:00</updated>
+  <updated>2026-10-18T04:33:25.820171+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
-  <subtitle>DevOps, Python, OpenSearch, and Log Pipelines.</subtitle>
+  <subtitle>Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering</subtitle>
   <entry>
     <id>https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/</id>
     <title>Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)</title>
@@ -668,7 +668,7 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
     &lt;span class="n"&gt;Band&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"R.E.M."&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;category&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Rock"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;genre&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Alternative Rock"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;country&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"USA"&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
     &lt;span class="n"&gt;Band&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Radiohead"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;category&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Rock"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;genre&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Alternative Rock"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;country&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"UK"&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
     &lt;span class="n"&gt;Band&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"U2"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;category&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Rock"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;genre&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Rock"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;country&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Ireland"&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-&lt;span class="p"&gt;]&lt;/span&gt; 
+&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;The most common approach is to create a temporary dictionary where the key is a tuple of the attributes you want to group by, and the value is a list of objects that share those attributes:&lt;/p&gt;
@@ -2528,375 +2528,91 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
   </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2023/2023-10-21-cloud-concepts/</id>
-    <title>Cloud Computing: Overview and Concepts</title>
+    <title>What is the Cloud and why does everyone keep talking about it?</title>
     <updated>2023-10-21T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2023/10/21&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;section id="cloud-computing-overview-and-concepts"&gt;
+&lt;section id="what-is-the-cloud-and-why-does-everyone-keep-talking-about-it"&gt;
 
-&lt;p&gt;This blog post explores the impact of Cloud Computing, essential concepts, primary Cloud models, and my opinion about its adoption.&lt;/p&gt;
-&lt;section id="the-impact-of-cloud-computing"&gt;
-&lt;h2&gt;The Impact of Cloud Computing&lt;/h2&gt;
-&lt;p&gt;Historically, Development teams emphasized agility in contributions, while Operations/Infrastructure teams focused more on stability due to hardware interactions. However, with the advent of technologies like virtualization, manual infrastructure tasks became obsolete, and infrastructure components started being provided as a service by Cloud providers like AWS, Google, Microsoft, and others.&lt;/p&gt;
-&lt;p&gt;Now, agility has become a crucial aspect for Operations teams as well. The maintenance of infrastructure as a service by Cloud providers alleviates concerns about electricity, hardware health, and other infrastructure requirements. This shift allows businesses to concentrate on their core purposes rather than infrastructure necessities. Outsourcing maintenance tasks to specialized teams enhances reliability and security, with various services tailored for infrastructure contexts and business cases. Additionally, hardware security is vital to address concerns like natural disasters and physical threats.&lt;/p&gt;
-&lt;p&gt;A significant keyword in the Cloud landscape is possibilities. The Cloud offers possibilities to access high computing performance components as needed, scale components on demand, and pay only for the time used. These possibilities can lead to reduced costs if your application or infrastructure is scalable, allowing you to pay only for the resources needed for application functionality.&lt;/p&gt;
-&lt;p&gt;However, it’s important to note that Cloud Computing isn’t a one-size-fits-all solution for every IT infrastructure case. It is one of the options to deploy your infrastructure or application. Before adopting the Cloud for your infrastructure, it’s crucial to ask yourself, “What problem am I trying to solve?” If your application aligns with the Cloud characteristics mentioned above, it might be the best choice for your needs.&lt;/p&gt;
+&lt;p&gt;If you’ve ever heard someone say “it’s on the cloud” and weren’t quite sure what that meant, this post is for you.&lt;/p&gt;
+&lt;p&gt;I decided to write this after watching it happen one too many times: a cloud vendor would walk into a meeting, give a slick pitch, and my bosses would walk out convinced that the Cloud was a magic solution that would fix every single problem we had. Spoiler: it isn’t. The Cloud is a powerful tool, but it’s &lt;strong&gt;not a silver bullet&lt;/strong&gt; — and in some cases it can even be the worse choice, especially financially.&lt;/p&gt;
+&lt;p&gt;So let’s start from the beginning — no technical jargon — and by the end you’ll understand what the Cloud actually is, what it’s good for, and when it might not be worth it.&lt;/p&gt;
+&lt;section id="the-problem-the-cloud-solved"&gt;
+&lt;h2&gt;The problem the Cloud solved&lt;/h2&gt;
+&lt;p&gt;Imagine you want to launch an online store. Not too long ago, to make that work, you would need to buy a powerful computer to act as a server, find somewhere with a stable power supply to keep it running 24/7, hire someone to fix it when it broke, and hope it could handle the load when too many people visited at once.&lt;/p&gt;
+&lt;p&gt;All of that was expensive, time-consuming, and risky. If the server went down, so did your store.&lt;/p&gt;
+&lt;p&gt;Now imagine that instead of buying that computer, you simply &lt;strong&gt;rented&lt;/strong&gt; it. And only paid for the time you actually used it. And if you needed more capacity during a big sale, you scaled up with a click — then scaled back down when it was over.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;That’s the Cloud.&lt;/strong&gt;&lt;/p&gt;
 &lt;/section&gt;
-&lt;section id="concepts-and-characteristics"&gt;
-&lt;h2&gt;Concepts and Characteristics&lt;/h2&gt;
-&lt;p&gt;Cloud Computing is a &lt;strong&gt;model for delivering computing services over the internet, providing a platform to manage, process, and store data on remote servers.&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The Cloud Computing main characteristics are:&lt;/p&gt;
-&lt;div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils"&gt;
-&lt;div class="sd-row docutils"&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;strong&gt;Maintenance&lt;/strong&gt;&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;Less concern about energy and hardware maintenance processes;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;Business focuses more on IT technologies.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p class="sd-card-text"&gt;&lt;strong&gt;Reliability&lt;/strong&gt;&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;Specialization in determining tools;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;High availability possibilities.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p class="sd-card-text"&gt;&lt;strong&gt;Security&lt;/strong&gt;&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;Utilization of specific security tools;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;Software and hardware security solutions.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;strong&gt;Performance&lt;/strong&gt;&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;Hardware components available as a service;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;Performance enhancements possible when needed.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p class="sd-card-text"&gt;&lt;strong&gt;Scalability&lt;/strong&gt;&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;Scalability on demand;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;Minimal IT resource requirements to run applications.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p class="sd-card-text"&gt;&lt;strong&gt;Cost and Elasticity&lt;/strong&gt;&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;Cost management options;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;Both soft and hard cost considerations with available possibilities.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; See also: &lt;a class="reference external" href="https://aws.amazon.com/what-is-Cloud-computing/?nc1=h_ls"&gt;AWS - What is Cloud Computing&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
+&lt;section id="cloud-renting-computers-over-the-internet"&gt;
+&lt;h2&gt;Cloud = renting computers over the internet&lt;/h2&gt;
+&lt;p&gt;The “cloud” is nothing more than massive data centers spread around the world, packed with servers and infrastructure, owned by companies like Amazon (AWS), Google (GCP), and Microsoft (Azure).&lt;/p&gt;
+&lt;p&gt;These companies offer all of that as a service. You access it over the internet, use what you need, and pay for what you consume — similar to how you pay your electricity bill.&lt;/p&gt;
+&lt;p&gt;This means a small startup can use the same infrastructure as a giant corporation, without investing millions in hardware upfront.&lt;/p&gt;
 &lt;/section&gt;
-&lt;section id="cloud-main-models"&gt;
-&lt;h2&gt;Cloud Main Models&lt;/h2&gt;
-&lt;p&gt;The cloud is not limited to AWS, Google Cloud Platform, or Oracle Cloud. These mentioned cloud providers belong to the category of &lt;strong&gt;Public Cloud&lt;/strong&gt;. However, it’s essential to understand that there are other ways to implement cloud solutions.&lt;/p&gt;
-&lt;div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils"&gt;
-&lt;div class="sd-row docutils"&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;strong&gt;Public Cloud&lt;/strong&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p class="sd-card-text"&gt;Resources are shared and can be used by anyone (examples: AWS, GCP, Oracle Cloud).&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p class="sd-card-text"&gt;&lt;strong&gt;Private Cloud&lt;/strong&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p class="sd-card-text"&gt;Often referred to as &lt;em&gt;Bare Metal Cloud&lt;/em&gt; owned by a single entity, and resources are not shared with other corporations (examples: OpenStack, VMWare, and XenServer).&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;strong&gt;Hybrid Cloud&lt;/strong&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p class="sd-card-text"&gt;A combination of both Private Cloud and Public Cloud components.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p class="sd-card-text"&gt;&lt;strong&gt;MultiCloud&lt;/strong&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p class="sd-card-text"&gt;Cloud architecture is not dependent on a specific Cloud model and can run in both Private and Public Cloud environments.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;hr class="docutils" /&gt;
-&lt;p class="sd-card-text"&gt;&lt;strong&gt;Community Cloud&lt;/strong&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p class="sd-card-text"&gt;Custom Cloud architecture created by corporations to provide clients with the flexibility of multiple Public and Private Cloud features.&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; More Details: &lt;a class="reference external" href="https://csrc.nist.gov/publications/detail/sp/800-145/final"&gt;NIST - Cloud Computing Definition&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
+&lt;section id="why-does-it-matter"&gt;
+&lt;h2&gt;Why does it matter?&lt;/h2&gt;
+&lt;p&gt;Before the Cloud, only large companies could afford robust infrastructure. Today, anyone with a credit card can have a server running anywhere in the world in a matter of minutes.&lt;/p&gt;
+&lt;p&gt;That changed everything. New products reach the market much faster. You don’t need to buy expensive hardware just to test an idea. If your product takes off, the infrastructure grows with it. And Cloud providers have entire teams dedicated to keeping things up and running, so you don’t have to.&lt;/p&gt;
 &lt;/section&gt;
-&lt;section id="conclusion-author-opinion"&gt;
-&lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
-&lt;p&gt;Cloud computing is a &lt;strong&gt;powerful&lt;/strong&gt; tool that can greatly benefit businesses. Cloud providers offer &lt;strong&gt;fantastic solutions&lt;/strong&gt; and services to address the challenges and product requirements, mainly to &lt;strong&gt;large enterprises&lt;/strong&gt;. Undoubtedly, Cloud computing has contributed to improvements in the IT product experience and the creation of new products, primarily due to the &lt;em&gt;Business focusing more on IT technologies&lt;/em&gt; characteristic, which allows engineers to concentrate their efforts on the product rather than infrastructure challenges.&lt;/p&gt;
-&lt;p&gt;However, it is important to understand that &lt;strong&gt;it is not a one-size-fits-all solution&lt;/strong&gt;. Its effectiveness &lt;strong&gt;depends on your specific needs&lt;/strong&gt; and use cases. While it offers scalability and flexibility, it &lt;strong&gt;can also be more expensive&lt;/strong&gt;, especially if not optimized for your requirements. Migrating to the Cloud &lt;strong&gt;requires specialized expertise&lt;/strong&gt; to ensure a smooth transition and efficient management. Additionally, it’s important to note that the Cloud is not a guarantee of security; it requires a diligent implementation of security measures to safeguard your data and applications, further emphasizing the need for specialized expertise. Ultimately, the decision to embrace Cloud computing should be carefully evaluated, taking into account the unique demands and goals of your organization.&lt;/p&gt;
+&lt;section id="a-real-world-example"&gt;
+&lt;h2&gt;A real-world example&lt;/h2&gt;
+&lt;p&gt;Think about watching a movie on Netflix, listening to music on Spotify, or backing up your photos on Google Photos.&lt;/p&gt;
+&lt;p&gt;All of that runs on the Cloud. None of those companies have a server sitting in your house — your data lives in data centers, and you access it over the internet.&lt;/p&gt;
 &lt;/section&gt;
+&lt;section id="what-about-companies-that-don-t-use-the-cloud"&gt;
+&lt;h2&gt;What about companies that don’t use the Cloud?&lt;/h2&gt;
+&lt;p&gt;Some companies still maintain their own physical servers — either in a rented data center or on their own premises. This is called &lt;strong&gt;on-premise infrastructure&lt;/strong&gt; (or “on-prem”).&lt;/p&gt;
+&lt;p&gt;That’s not necessarily wrong. In some cases, it actually makes more sense — especially when there are strict regulatory requirements about where data can be stored, or when usage is so predictable and constant that buying is cheaper than renting.&lt;/p&gt;
+&lt;p&gt;The Cloud isn’t the answer to everything. But it’s a great fit for anyone who needs flexibility, agility, and scale.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="the-part-the-vendors-won-t-tell-you"&gt;
+&lt;h2&gt;The part the vendors won’t tell you&lt;/h2&gt;
+&lt;p&gt;Here’s the thing those sales pitches tend to skip: the Cloud can get expensive — sometimes a lot more expensive than running your own hardware.&lt;/p&gt;
+&lt;p&gt;Renting is great when your usage goes up and down, or when you’re still figuring things out. But if your workload is steady and predictable, running 24/7 at the same capacity, you end up paying a premium month after month for flexibility you’re not actually using. At that scale, buying your own servers and paying them off over a few years can be far cheaper.&lt;/p&gt;
+&lt;p&gt;The “pay only for what you use” promise cuts both ways. If your team doesn’t actively manage and optimize what’s running, those bills creep up fast — forgotten resources, oversized machines, and data transfer costs that nobody noticed until the invoice arrived.&lt;/p&gt;
+&lt;p&gt;The Cloud also isn’t automatically more secure, nor is migrating to it free. Moving an existing system requires real expertise, and doing it badly can cost you more than staying put.&lt;/p&gt;
+&lt;p&gt;None of this means the Cloud is bad. It means it’s a &lt;strong&gt;tool, not a cure-all&lt;/strong&gt;. The right question is never “should we move to the Cloud because it fixes everything?” — it’s “what problem are we actually trying to solve, and is the Cloud the best way to solve it?”&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="tl-dr"&gt;
+&lt;h2&gt;TL;DR&lt;/h2&gt;
+&lt;div class="pst-scrollable-table-container"&gt;&lt;table class="table"&gt;
+&lt;thead&gt;
+&lt;tr class="row-odd"&gt;&lt;th class="head"&gt;&lt;p&gt;Before the Cloud&lt;/p&gt;&lt;/th&gt;
+&lt;th class="head"&gt;&lt;p&gt;With the Cloud&lt;/p&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Buy expensive servers&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Rent what you need&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Months to get something running&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Minutes&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Pay even when idle&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Pay only for what you use&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Large team to maintain hardware&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Focus on the product&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Risk of downtime if hardware fails&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;High availability&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
 &lt;hr class="docutils" /&gt;
+&lt;p&gt;The Cloud isn’t magic — it’s computing infrastructure offered as a service. It fundamentally changed how software is built and delivered, making it possible for small teams to build products that reach millions of people. But it’s a tool, not a silver bullet, and no vendor pitch changes that.&lt;/p&gt;
+&lt;p&gt;At its core, the problem it solves is simple: &lt;strong&gt;take the worry about computers off your plate, so you can focus on what actually matters.&lt;/strong&gt; Just make sure that, before you move, you know what problem you’re solving — and that the Cloud is genuinely the best (and most affordable) way to solve it.&lt;/p&gt;
+&lt;/section&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2023/2023-10-21-cloud-concepts/"/>
-    <summary>Blog Post Publish Date: 2023/10/21This blog post explores the impact of Cloud Computing, essential concepts, primary Cloud models, and my opinion about its adoption.</summary>
+    <summary>Blog Post Publish Date: 2023/10/21If you’ve ever heard someone say “it’s on the cloud” and weren’t quite sure what that meant, this post is for you.</summary>
     <category term="aws" label="aws"/>
     <category term="azure" label="azure"/>
+    <category term="cloud" label="cloud"/>
     <category term="gcp" label="gcp"/>
-    <category term="oracle" label="oracle"/>
     <published>2023-10-21T00:00:00+00:00</published>
-  </entry>
-  <entry>
-    <id>https://carlosneto.dev/blog/2023/2023-10-19-git-cli-gui/</id>
-    <title>Git Clients Benchmarking: CLI vs. Graphical Interfaces</title>
-    <updated>2023-10-19T00:00:00+00:00</updated>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2023/10/19&lt;/em&gt;&lt;/p&gt;
-&lt;hr class="docutils" /&gt;
-&lt;section id="git-clients-benchmarking-cli-vs-graphical-interfaces"&gt;
-
-&lt;p&gt;This blog post is aimed at helping you understand the pros and cons of the most popular Git repository clients.&lt;/p&gt;
-&lt;p&gt;The content was created with a focus on everyday use for fundamental tasks.&lt;/p&gt;
-&lt;p&gt;I presented the solutions pros/cons and my particular conclusion and suggestions.&lt;/p&gt;
-&lt;section id="command-line-interface-cli"&gt;
-&lt;h2&gt;1. Command Line Interface (CLI)&lt;/h2&gt;
-&lt;p&gt;It is the official method for interacting with your repository. You can perform all the functions that the Git system provides using the Git CLI. It also offers comprehensive documentation, and official resources typically use Git CLI in their examples.&lt;/p&gt;
-&lt;div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils"&gt;
-&lt;div class="sd-row docutils"&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-smile"&gt;&lt;/i&gt; Key Pros:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Full Functionality&lt;/strong&gt;: Git CLI offers all functionalities and capabilities that Git provides, ensuring nothing is compromised.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Scripting and Automation&lt;/strong&gt;: Easily integrate Git commands into scripts and automate repetitive tasks.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-frown"&gt;&lt;/i&gt; Key Cons:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Learning Curve&lt;/strong&gt;: For those unfamiliar with command-line interfaces, there may be a learning curve to grasp the commands and their usage effectively.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Less Visual Representation&lt;/strong&gt;: Git CLI provides data primarily through text output, which can be less intuitive for some users.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Productivity&lt;/strong&gt;: Repetitive and extensive use of fundamental operations can become unproductive.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; More Details: &lt;a class="reference external" href="https://git-scm.com/doc"&gt;Git Official Reference&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;/section&gt;
-&lt;section id="gitkraken"&gt;
-&lt;h2&gt;2. GitKraken&lt;/h2&gt;
-&lt;p&gt;GitKraken is a comprehensive graphical enterprise suite focusing on enhancing Git functionalities.&lt;/p&gt;
-&lt;div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils"&gt;
-&lt;div class="sd-row docutils"&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-smile"&gt;&lt;/i&gt; Key Pros:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Intuitive Interface&lt;/strong&gt;: GitKraken offers an easy-to-understand graphical interface, making it accessible for both beginners and experienced users.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Visualization&lt;/strong&gt;: Users can visualize their Git repository and workflow, aiding in a better understanding of branching, merging, and commits.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-frown"&gt;&lt;/i&gt; Key Cons:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Cost&lt;/strong&gt;: While GitKraken offers a free version, more advanced features require a paid subscription.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; More Details: &lt;a class="reference external" href="https://www.gitkraken.com/"&gt;GitKraken Official Reference&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;/section&gt;
-&lt;section id="sourcetree"&gt;
-&lt;h2&gt;3. SourceTree&lt;/h2&gt;
-&lt;p&gt;SourceTree is a freely available Git GUI developed and maintained by Atlassian, offering an intuitive interface for Git repository management.&lt;/p&gt;
-&lt;div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils"&gt;
-&lt;div class="sd-row docutils"&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-smile"&gt;&lt;/i&gt; Key Pros:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;User-Friendly&lt;/strong&gt;: SourceTree offers an intuitive, user-friendly interface, making it easy to understand for users new to Git.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Visual Representation&lt;/strong&gt;: Users can visualize the Git workflow, including branches, commits, and merges, aiding in understanding repository history.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-frown"&gt;&lt;/i&gt; Key Cons:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Atlassian Like&lt;/strong&gt;: Limited compatibility with non-Atlassian tools.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Features&lt;/strong&gt;: Limited advanced features.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Resources Usage&lt;/strong&gt;: Resource-intensive, slowing down your computer.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;UI/UX&lt;/strong&gt;: Complex interface, overwhelming for beginners.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;OS Supports Limited&lt;/strong&gt;: Available only for Windows and macOS.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; More Details: &lt;a class="reference external" href="https://www.sourcetreeapp.com/"&gt;SourceTree Official Reference&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;/section&gt;
-&lt;section id="vscode"&gt;
-&lt;h2&gt;4. VSCode&lt;/h2&gt;
-&lt;p&gt;VSCode, a popular text editor, inherently provides basic Git functionalities in a visual manner.&lt;/p&gt;
-&lt;div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils"&gt;
-&lt;div class="sd-row docutils"&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-smile"&gt;&lt;/i&gt; Key Pros:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Integration&lt;/strong&gt;: Git features are seamlessly integrated into the editor, allowing for efficient version control directly from the coding environment.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;UI/UX&lt;/strong&gt;: Straight and Forward and intuitive interface to perform basic operations.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Customization&lt;/strong&gt;: Users can enhance Git capabilities through various extensions available for VSCode.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-frown"&gt;&lt;/i&gt; Key Cons:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Not Dedicated&lt;/strong&gt;: While it provides Git features, it’s primarily a text editor, so it might lack some advanced Git-specific features.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; More Details: &lt;a class="reference external" href="https://code.visualstudio.com/docs/sourcecontrol/intro-to-git"&gt;Introduction to Git in VS Code&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;/section&gt;
-&lt;section id="jetbrains-ides"&gt;
-&lt;h2&gt;5. JetBrains IDEs&lt;/h2&gt;
-&lt;p&gt;JetBrains offers a range of Integrated Development Environments (IDEs) for various programming languages, all of which integrate Git functionalities.&lt;/p&gt;
-&lt;div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils"&gt;
-&lt;div class="sd-row docutils"&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-smile"&gt;&lt;/i&gt; Key Pros:
-Pros:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Comprehensive&lt;/strong&gt;: JetBrains IDEs provide a full suite of development tools along with Git integration.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Language Support&lt;/strong&gt;: Each IDE is tailored to specific languages, ensuring a seamless Git experience for the corresponding programming language.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="sd-col sd-d-flex-row docutils"&gt;
-&lt;div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils"&gt;
-&lt;div class="sd-card-body docutils"&gt;
-&lt;p class="sd-card-text"&gt;&lt;i class="fa-solid fa-face-frown"&gt;&lt;/i&gt; Key Cons:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Resource Intensive&lt;/strong&gt;: IDEs can be resource-heavy, especially for larger projects or on less powerful machines.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr class="docutils" /&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p class="sd-card-text"&gt;&lt;strong&gt;Cost&lt;/strong&gt;: Depends on IDE programming language, it’s only paid version available.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-link"&gt;&lt;/i&gt; More Details: &lt;a class="reference external" href="https://www.jetbrains.com/help/idea/using-git-integration.html"&gt;JetBrains IDEA Using Git Integration&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
-&lt;/section&gt;
-&lt;section id="conclusion-author-opinion"&gt;
-&lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
-&lt;p&gt;The Git CLI mastering is fundamental before to use the Graphical solutions. The GUI solutions are made to provides agility in the recurring operations. Only use the Git GUI solutions if you understand that what’s happening behind the scenes. The GUI solutions helps to make the changes, but when a big problems occurs, probably you will needs to use the Git CLI to solve it.&lt;/p&gt;
-&lt;p&gt;The choice between Git CLI and graphical interfaces depends on your preference, familiarity with command-line tools, and the specific needs of your project.&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;If you works a &lt;strong&gt;Software Developer&lt;/strong&gt;, my suggestion is mastering the use of the tool your IDE provides.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;If you work several stacks, like me as a &lt;strong&gt;DevOps Engineer&lt;/strong&gt;, I suggest using VSCode Git integration. It provides a simple UX/UI for a quick way to check the commit differences in one place, and the free version of the extension &lt;a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens"&gt;GitLens&lt;/a&gt;  provides a simple way to perform more advanced operations like &lt;em&gt;squash&lt;/em&gt; and &lt;em&gt;rebase&lt;/em&gt;.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;For &lt;strong&gt;Release Engineer&lt;/strong&gt; enterprise workloads, the GitKraken sounds like the better chosen because your UI/UX brings pretty historical commits graphics. If you work an Atlassian stack, and Linux workstations are not used, the SourceTree can be a good idea because integrations with Atlassian Stack are available.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/section&gt;
-&lt;hr class="docutils" /&gt;
-&lt;/section&gt;
-</content>
-    <link href="https://carlosneto.dev/blog/2023/2023-10-19-git-cli-gui/"/>
-    <summary>Blog Post Publish Date: 2023/10/19This blog post is aimed at helping you understand the pros and cons of the most popular Git repository clients.</summary>
-    <category term="benchmarking" label="benchmarking"/>
-    <published>2023-10-19T00:00:00+00:00</published>
   </entry>
 </feed>

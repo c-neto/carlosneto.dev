@@ -1,0 +1,655 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="The Service Still Works After I Deleted It: Kubernetes DNS Caching and Blue-Green Traps" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/kubernetes-service-dns-caching-trap/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: YYYY/MM/DD This blog post explains a subtle failure mode I keep running into: an application that calls a Kubernetes Service by its DNS name keeps working even after the Ser..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_kubernetes-service-dns-caching-trap_1a46c3a3.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: YYYY/MM/DD This blog post explains a subtle failure mode I keep running into: an application that calls a Kubernetes Service by its DNS name keeps working even after the Ser..." />
+<meta name="description" content="Blog Post Publish Date: YYYY/MM/DD This blog post explains a subtle failure mode I keep running into: an application that calls a Kubernetes Service by its DNS name keeps working even after the Ser..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>The Service Still Works After I Deleted It: Kubernetes DNS Caching and Blue-Green Traps &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/kubernetes-service-dns-caching-trap';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> YYYY/MM/DD</em></p>
+<hr class="docutils" />
+<section id="the-service-still-works-after-i-deleted-it-kubernetes-dns-caching-and-blue-green-traps">
+<h1>The Service Still Works After I Deleted It: Kubernetes DNS Caching and Blue-Green Traps<a class="headerlink" href="#the-service-still-works-after-i-deleted-it-kubernetes-dns-caching-and-blue-green-traps" title="Link to this heading">#</a></h1>
+<p>This blog post explains a subtle failure mode I keep running into: an application that calls a Kubernetes Service by its DNS name keeps working even after the Service is gone, because the resolved IP is cached on the client. It walks through why that happens, how it bites you during blue-green deployments, and how to make the application resilient, both with a plain Python retry and with a service mesh like Istio.</p>
+<section id="a-weird-thing-i-saw-in-production">
+<h2>A Weird Thing I Saw in Production<a class="headerlink" href="#a-weird-thing-i-saw-in-production" title="Link to this heading">#</a></h2>
+<p>Picture a simple setup. An application sends HTTP requests to another service at <code class="docutils literal notranslate"><span class="pre">payments.api.svc.cluster.local</span></code>. Standard Kubernetes service discovery. The app does not know any IP addresses. It just uses the DNS name, and the cluster resolves it.</p>
+<p>One day, during some cleanup, the <code class="docutils literal notranslate"><span class="pre">payments</span></code> Service got deleted by mistake. I expected the calling app to start failing immediately. It did not. Requests kept going through for a while, as if nothing had happened. My first reaction was the honest one: how is this still working? I just deleted the thing it talks to.</p>
+<p>That question is the whole point of this post. The answer is DNS caching, and understanding it changes how you think about deployments.</p>
+</section>
+<section id="how-kubernetes-resolves-a-service-name">
+<h2>How Kubernetes Resolves a Service Name<a class="headerlink" href="#how-kubernetes-resolves-a-service-name" title="Link to this heading">#</a></h2>
+<p>When you create a Service of type <code class="docutils literal notranslate"><span class="pre">ClusterIP</span></code>, Kubernetes assigns it a stable virtual IP. That IP stays the same for the entire lifetime of the Service. CoreDNS watches the API and creates an A record so that <code class="docutils literal notranslate"><span class="pre">payments.api.svc.cluster.local</span></code> resolves to that ClusterIP.</p>
+<p>You can see the whole chain from inside a Pod:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">inside a Pod</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>/etc/resolv.conf
+
+<span class="c1"># output expected:</span>
+<span class="c1">#</span>
+<span class="c1"># nameserver 10.96.0.10</span>
+<span class="c1"># search api.svc.cluster.local svc.cluster.local cluster.local</span>
+<span class="c1"># options ndots:5</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">resolve the service name</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nslookup<span class="w"> </span>payments.api.svc.cluster.local
+
+<span class="c1"># output expected:</span>
+<span class="c1">#</span>
+<span class="c1"># Name:      payments.api.svc.cluster.local</span>
+<span class="c1"># Address 1: 10.96.120.45 payments.api.svc.cluster.local</span>
+</pre></div>
+</div>
+</div>
+<p>So the name resolves to a ClusterIP (here <code class="docutils literal notranslate"><span class="pre">10.96.120.45</span></code>). Traffic to that IP is then load balanced by kube-proxy across the Pods behind the Service. The application never sees the Pod IPs. It only ever talks to the ClusterIP.</p>
+</section>
+<section id="why-the-app-kept-working-after-the-delete">
+<h2>Why the App Kept Working After the Delete<a class="headerlink" href="#why-the-app-kept-working-after-the-delete" title="Link to this heading">#</a></h2>
+<p>Two layers of caching explain it.</p>
+<p>First, <strong>DNS caching</strong>. CoreDNS answers with a TTL. By default that TTL is only 5 seconds, so you would think a stale record disappears almost instantly. But the TTL is a suggestion, and not everything respects it. Many HTTP clients and runtimes cache the resolved IP for much longer, or until the process restarts.</p>
+<p>Second, and more important here, <strong>the open connection</strong>. Once the client has resolved the name to <code class="docutils literal notranslate"><span class="pre">10.96.120.45</span></code> and opened a TCP connection, it does not re-resolve DNS for every request. HTTP keep-alive and connection pools reuse that socket. As long as the ClusterIP still routes to healthy Pods, requests keep flowing, even though the Service object is gone from the API.</p>
+<p>Here is the subtle part. Deleting the Service object does not always tear down the ClusterIP routing instantly, and the client is holding a connection to an IP it resolved earlier. From the application’s point of view, nothing changed. It is talking to an IP, not to a Kubernetes abstraction. That is why it kept working.</p>
+<blockquote>
+<div><p><i class="fa-solid fa-circle-info"></i> The JVM is the classic offender: its default DNS cache policy can keep a resolved address for the entire life of the process. Python is friendlier, but a <code class="docutils literal notranslate"><span class="pre">requests</span></code> Session with a connection pool will happily reuse a socket to a stale IP for a long time.</p>
+</div></blockquote>
+</section>
+<section id="where-this-bites-blue-green-deployments">
+<h2>Where This Bites: Blue-Green Deployments<a class="headerlink" href="#where-this-bites-blue-green-deployments" title="Link to this heading">#</a></h2>
+<p>A cached IP that happens to still work is not the real danger. The danger is when the IP changes underneath you and the client never notices.</p>
+<p>Think about a blue-green deployment done at the Service level. You have the “blue” payments stack running. You bring up “green” alongside it. To cut over, one common (and flawed) approach is to delete the old Service and create a new one pointing at green.</p>
+<p>Here is the trap: when you delete and recreate a <code class="docutils literal notranslate"><span class="pre">ClusterIP</span></code> Service, the new Service usually gets a <strong>different ClusterIP</strong>. The DNS name <code class="docutils literal notranslate"><span class="pre">payments.api.svc.cluster.local</span></code> now points at a new address. But your calling application cached the old one, and it is still holding a connection to it.</p>
+<p>The outcomes range from bad to confusing:</p>
+<ul class="simple">
+<li><p><strong>Silent stale routing</strong>: the client keeps hitting the old ClusterIP. If blue is still up, it talks to the old version. Your “cutover” did nothing for that client.</p></li>
+<li><p><strong>Connection errors</strong>: if the old ClusterIP is gone, the client gets connection refused or timeouts, and keeps retrying the dead IP because that is what it cached.</p></li>
+<li><p><strong>Partial outage</strong>: some replicas of the app re-resolved and moved to green, others did not. Now you have two versions serving traffic at the same time, which is exactly what blue-green was supposed to avoid.</p></li>
+</ul>
+<p>The deployment looked clean from the cluster side. The Service was swapped, DNS was updated. But the application layer was never told, and it was built to trust a name it resolved once and cached.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A good first mitigation is to avoid deleting and recreating the Service at all. Keep the Service stable and shift traffic by changing its label selector, or by using a proper progressive delivery tool. But even then, you cannot assume every client re-resolves promptly. The application still has to be defensive.</p>
+</div>
+</section>
+<section id="the-application-must-be-prepared">
+<h2>The Application Must Be Prepared<a class="headerlink" href="#the-application-must-be-prepared" title="Link to this heading">#</a></h2>
+<p>The real lesson is that DNS is not a strong contract. A name that resolved a minute ago can point somewhere else now, or nowhere at all. The application that depends on it has to expect that and recover.</p>
+<p>There are two places to fix this: in the application code, or in the network layer around it.</p>
+<section id="option-1-handle-it-in-the-client-python-example">
+<h3>Option 1: Handle It in the Client (Python Example)<a class="headerlink" href="#option-1-handle-it-in-the-client-python-example" title="Link to this heading">#</a></h3>
+<p>At minimum, the client should time out, retry, and not cling to a dead connection forever. In Python with <code class="docutils literal notranslate"><span class="pre">requests</span></code> plus <code class="docutils literal notranslate"><span class="pre">urllib3</span></code>, you can attach a retry policy to the Session and set sensible timeouts.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">resilient_client.py</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">requests.adapters</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPAdapter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib3.util.retry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Retry</span>
+
+<span class="n">retry</span> <span class="o">=</span> <span class="n">Retry</span><span class="p">(</span>
+    <span class="n">total</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>                       <span class="c1"># retry failed requests up to 3 times</span>
+    <span class="n">backoff_factor</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>            <span class="c1"># exponential backoff: 0.5s, 1s, 2s</span>
+    <span class="n">status_forcelist</span><span class="o">=</span><span class="p">[</span><span class="mi">502</span><span class="p">,</span> <span class="mi">503</span><span class="p">,</span> <span class="mi">504</span><span class="p">],</span>
+    <span class="n">allowed_methods</span><span class="o">=</span><span class="p">[</span><span class="s2">"GET"</span><span class="p">,</span> <span class="s2">"POST"</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+<span class="n">adapter</span> <span class="o">=</span> <span class="n">HTTPAdapter</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="n">retry</span><span class="p">)</span>
+<span class="n">session</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">"http://"</span><span class="p">,</span> <span class="n">adapter</span><span class="p">)</span>
+<span class="n">session</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">"https://"</span><span class="p">,</span> <span class="n">adapter</span><span class="p">)</span>
+
+<span class="c1"># a connect timeout and a read timeout, so a dead IP fails fast instead of hanging</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="s2">"http://payments.api.svc.cluster.local/charge"</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>   <span class="c1"># (connect timeout, read timeout)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>This does two useful things. The timeouts stop the app from hanging forever on a ClusterIP that no longer answers, and the retries give it a chance to establish a fresh connection, which forces re-resolution of the name. It is not a complete fix for the JVM-style “cache forever” problem, but for most Python HTTP clients, a new connection means a new DNS lookup.</p>
+<p>The limitation is obvious: every language and every client library handles DNS caching and retries differently. You end up reimplementing the same resilience logic in every service, in every stack. That gets tiring fast.</p>
+</section>
+<section id="option-2-push-it-down-to-a-service-mesh-istio">
+<h3>Option 2: Push It Down to a Service Mesh (Istio)<a class="headerlink" href="#option-2-push-it-down-to-a-service-mesh-istio" title="Link to this heading">#</a></h3>
+<p>This is where a service mesh earns its complexity. With <a class="reference external" href="https://istio.io/">Istio</a>, a sidecar proxy (Envoy) handles the actual network calls for your application. The app still calls <code class="docutils literal notranslate"><span class="pre">payments.api.svc.cluster.local</span></code>, but the proxy manages DNS, connection pools, retries, and health, consistently, for every service in the mesh, regardless of language.</p>
+<p>You configure retries declaratively with a <code class="docutils literal notranslate"><span class="pre">VirtualService</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">payments-virtualservice.yaml</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">networking.istio.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VirtualService</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">payments</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">payments.api.svc.cluster.local</span>
+<span class="w">  </span><span class="nt">http</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">route</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">destination</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">payments.api.svc.cluster.local</span>
+<span class="w">    </span><span class="nt">retries</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">attempts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">      </span><span class="nt">perTryTimeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2s</span>
+<span class="w">      </span><span class="nt">retryOn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">connect-failure,refused-stream,503</span>
+</pre></div>
+</div>
+</div>
+<p>And you can eject unhealthy endpoints automatically with outlier detection in a <code class="docutils literal notranslate"><span class="pre">DestinationRule</span></code>, so the proxy stops sending traffic to backends that keep failing:</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">payments-destinationrule.yaml</span><a class="headerlink" href="#id5" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">networking.istio.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DestinationRule</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">payments</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">payments.api.svc.cluster.local</span>
+<span class="w">  </span><span class="nt">trafficPolicy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">outlierDetection</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">consecutive5xxErrors</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10s</span>
+<span class="w">      </span><span class="nt">baseEjectionTime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30s</span>
+</pre></div>
+</div>
+</div>
+<p>The big win is that this behavior lives outside your application and applies uniformly. Your Python service, your Go service, and your legacy JVM app all get the same retry and health logic without touching their code. A mesh also gives you finer control over the blue-green cutover itself, shifting traffic by weight between subsets instead of swapping a Service out from under your clients.</p>
+<p>The honest trade-off: Istio is a lot of machinery to run. For a small cluster with a couple of services, it can be overkill, and the sidecars add latency and resource cost. For a large fleet of services in many languages, that cost usually pays for itself.</p>
+</section>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>The thing that stuck with me from this whole episode is how easy it is to trust DNS as if it were a guarantee. It is not. A Kubernetes Service name is a convenient pointer that can change or vanish, and the moment your application caches the resolved IP, it is one deploy away from talking to the wrong place or nothing at all.</p>
+<p>The deletion that “did nothing” was the warning sign, not the bug. The real bug would have shown up later, quietly, during a blue-green cutover, as a fraction of requests going to the old version while everyone assumed the switch was clean.</p>
+<p>My take: assume DNS can lie to you, and make the client defensive. If you only run a handful of services, a proper retry and timeout policy in the client, like the Python example, is enough and cheap. Once you are running many services across several languages, pushing resilience and traffic control into a mesh like Istio stops being overengineering and starts being the sane option. Every case is different, but the mindset is the same: never assume the name still points where it did a minute ago.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Kubernetes Service: <a class="reference external" href="https://kubernetes.io/docs/concepts/services-networking/service/">https://kubernetes.io/docs/concepts/services-networking/service/</a></p></li>
+<li><p>DNS for Services and Pods: <a class="reference external" href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/">https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/</a></p></li>
+<li><p>Debugging Services: <a class="reference external" href="https://kubernetes.io/docs/tasks/debug/debug-application/debug-service/">https://kubernetes.io/docs/tasks/debug/debug-application/debug-service/</a></p></li>
+<li><p>CoreDNS custom TTL: <a class="reference external" href="https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/">https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/</a></p></li>
+<li><p>urllib3 Retry: <a class="reference external" href="https://urllib3.readthedocs.io/en/stable/reference/urllib3.util.html#urllib3.util.Retry">https://urllib3.readthedocs.io/en/stable/reference/urllib3.util.html#urllib3.util.Retry</a></p></li>
+<li><p>Istio VirtualService retries: <a class="reference external" href="https://istio.io/latest/docs/reference/config/networking/virtual-service/">https://istio.io/latest/docs/reference/config/networking/virtual-service/</a></p></li>
+<li><p>Istio DestinationRule outlier detection: <a class="reference external" href="https://istio.io/latest/docs/reference/config/networking/destination-rule/">https://istio.io/latest/docs/reference/config/networking/destination-rule/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

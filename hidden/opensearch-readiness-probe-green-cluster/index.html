@@ -1,0 +1,663 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="The Readiness Probe That Saves Your Data: Gating OpenSearch Pods on a Green Cluster" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/opensearch-readiness-probe-green-cluster/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/10/17 Here is a failure mode that bites teams running OpenSearch on Kubernetes, and it is especially vicious when your data nodes use ephemeral local storage. Kubernete..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_opensearch-readiness-probe-green-cluster_c19ccb8d.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/17 Here is a failure mode that bites teams running OpenSearch on Kubernetes, and it is especially vicious when your data nodes use ephemeral local storage. Kubernete..." />
+<meta name="description" content="Blog Post Publish Date: 2026/10/17 Here is a failure mode that bites teams running OpenSearch on Kubernetes, and it is especially vicious when your data nodes use ephemeral local storage. Kubernete..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>The Readiness Probe That Saves Your Data: Gating OpenSearch Pods on a Green Cluster &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/opensearch-readiness-probe-green-cluster';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/17</em></p>
+<hr class="docutils" />
+<section id="the-readiness-probe-that-saves-your-data-gating-opensearch-pods-on-a-green-cluster">
+<h1>The Readiness Probe That Saves Your Data: Gating OpenSearch Pods on a Green Cluster<a class="headerlink" href="#the-readiness-probe-that-saves-your-data-gating-opensearch-pods-on-a-green-cluster" title="Link to this heading">#</a></h1>
+<p>Here is a failure mode that bites teams running OpenSearch on Kubernetes, and it is especially vicious when your data nodes use ephemeral local storage. Kubernetes thinks a pod is “ready” the moment the process answers HTTP, so the orchestrator happily moves on to the next node, draining it, rotating it, scaling it down, while shards are still copying. Do that fast enough and you can delete the last surviving copy of a shard before its replica has finished rebuilding.</p>
+<p>The fix is small but critical: a readiness probe that refuses to report ready until the cluster is green. This blog post explains why that one check prevents data loss during scale-up and scale-down, and walks through a probe script I have relied on in production.</p>
+<section id="the-problem-running-is-not-safe-to-rotate">
+<h2>The Problem: “Running” Is Not “Safe to Rotate”<a class="headerlink" href="#the-problem-running-is-not-safe-to-rotate" title="Link to this heading">#</a></h2>
+<p>Kubernetes uses the readiness probe to decide two things: whether a pod should receive traffic, and (crucially for StatefulSets and node autoscalers) whether a rolling operation can proceed to the next pod.</p>
+<p>A naive OpenSearch readiness probe just checks that the HTTP API responds:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Naive probe: DANGEROUS for data nodes</span>
+curl<span class="w"> </span>-s<span class="w"> </span>-o<span class="w"> </span>/dev/null<span class="w"> </span>http://localhost:9200/
+</pre></div>
+</div>
+<p>The OpenSearch process answers that call within seconds of starting, long before:</p>
+<ul class="simple">
+<li><p>it has recovered its shards from disk or peers,</p></li>
+<li><p>the cluster has re-replicated shards that were on a node you just replaced,</p></li>
+<li><p>the cluster has finished relocating shards during a rebalance.</p></li>
+</ul>
+<p>So the pod flips to <code class="docutils literal notranslate"><span class="pre">Ready</span></code>, the StatefulSet controller (or Karpenter, or the cluster autoscaler) sees a green light, and it proceeds to disrupt the next node, while the cluster is still <code class="docutils literal notranslate"><span class="pre">yellow</span></code> (replicas missing) or <code class="docutils literal notranslate"><span class="pre">red</span></code> (primaries missing). Each disruption races ahead of recovery. Eventually two operations overlap on the two nodes holding the only copies of a shard.</p>
+<p>With network-attached storage (EBS), a terminated node’s disk survives, so you usually get away with it. With ephemeral instance storage (local NVMe), the disk is wiped the instant the node terminates. There is no recovering it. If the probe let the rotation outrun re-replication, that data is simply gone.</p>
+</section>
+<section id="why-ephemeral-hot-nodes-raise-the-stakes">
+<h2>Why Ephemeral Hot Nodes Raise the Stakes<a class="headerlink" href="#why-ephemeral-hot-nodes-raise-the-stakes" title="Link to this heading">#</a></h2>
+<p>Hot data nodes are frequently built on EC2 instance types with locally-attached NVMe SSDs (the <code class="docutils literal notranslate"><span class="pre">i</span></code>-family, for example) because that storage is dramatically faster than network-attached EBS, ideal for high-throughput indexing and near-real-time search. The trade-off is that instance storage is ephemeral: terminate or rotate the instance and the data on it is destroyed.</p>
+<p>OpenSearch is designed to tolerate this through replication. Every shard has a copy on another node, so losing one node is survivable. But that guarantee only holds if you give the cluster time to rebuild the lost copy before you take down the node that holds the surviving one.</p>
+<p>That timing guarantee is exactly what the readiness probe enforces. On ephemeral hot nodes it is not a nicety. It is the mechanism that turns “a node died” from a data-loss event into a non-event.</p>
+</section>
+<section id="the-solution-gate-the-first-readiness-on-wait-for-status-green">
+<h2>The Solution: Gate the First Readiness on <code class="docutils literal notranslate"><span class="pre">wait_for_status=green</span></code><a class="headerlink" href="#the-solution-gate-the-first-readiness-on-wait-for-status-green" title="Link to this heading">#</a></h2>
+<p>The key insight is that a data node has two very different “ready” questions depending on its lifecycle phase:</p>
+<ol class="arabic simple">
+<li><p>During startup / after joining: “Is the whole cluster healthy enough that it is safe to continue the rolling operation?” Wait for green.</p></li>
+<li><p>During steady-state: “Is this node still responding?” A simple liveness-style check is enough.</p></li>
+</ol>
+<p>A good probe handles both. Here is a script (forked from the well-known Elasticsearch Helm chart pattern) that does exactly this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash -e</span>
+
+<span class="c1"># If the node is starting up, wait for the cluster to be ready</span>
+<span class="c1"># (wait_for_status=green). Once it has started, only check that the</span>
+<span class="c1"># node itself is responding.</span>
+
+<span class="nv">START_FILE</span><span class="o">=</span>/tmp/.es_start_file
+<span class="nb">export</span><span class="w"> </span><span class="nv">NSS_SDB_USE_CACHE</span><span class="o">=</span>no
+
+http<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="nb">local</span><span class="w"> </span><span class="nv">path</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">  </span><span class="nb">local</span><span class="w"> </span><span class="nv">args</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">  </span><span class="nb">set</span><span class="w"> </span>--<span class="w"> </span>-XGET<span class="w"> </span>-s
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$args</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">set</span><span class="w"> </span>--<span class="w"> </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="w"> </span><span class="nv">$args</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">OPENSEARCH_HEALTHCHECK_USERNAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">OPENSEARCH_HEALTHCHECK_PASSWORD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">set</span><span class="w"> </span>--<span class="w"> </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="w"> </span>-u<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">OPENSEARCH_HEALTHCHECK_USERNAME</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">OPENSEARCH_HEALTHCHECK_PASSWORD</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="w">  </span>curl<span class="w"> </span>--output<span class="w"> </span>/dev/null<span class="w"> </span>-k<span class="w"> </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">OPENSEARCH_HEALTHCHECK_URL</span><span class="si">}${</span><span class="nv">path</span><span class="si">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">START_FILE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="c1"># Steady state: just confirm the node is answering.</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s1">'OpenSearch is already running, lets check the node is healthy'</span>
+<span class="w">  </span><span class="nv">HTTP_CODE</span><span class="o">=</span><span class="k">$(</span>http<span class="w"> </span><span class="s2">"/"</span><span class="w"> </span><span class="s2">"-w %{http_code}"</span><span class="k">)</span>
+<span class="w">  </span><span class="nv">RC</span><span class="o">=</span><span class="nv">$?</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="si">${</span><span class="nv">RC</span><span class="si">}</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"healthcheck failed with RC </span><span class="si">${</span><span class="nv">RC</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="si">${</span><span class="nv">RC</span><span class="si">}</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="si">${</span><span class="nv">HTTP_CODE</span><span class="si">}</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"200"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="w">  </span><span class="k">elif</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="si">${</span><span class="nv">HTTP_CODE</span><span class="si">}</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"503"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"healthcheck failed with HTTP code </span><span class="si">${</span><span class="nv">HTTP_CODE</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="k">else</span>
+<span class="w">  </span><span class="c1"># First readiness: block until the CLUSTER is green.</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s1">'Waiting for cluster to become ready (wait_for_status=green&amp;timeout=1s)'</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span>http<span class="w"> </span><span class="s2">"/_cluster/health?wait_for_status=green&amp;timeout=1s"</span><span class="w"> </span><span class="s2">"--fail"</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>touch<span class="w"> </span><span class="si">${</span><span class="nv">START_FILE</span><span class="si">}</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s1">'Cluster is not yet ready (wait_for_status=green)'</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+<section id="how-it-works">
+<h3>How it works<a class="headerlink" href="#how-it-works" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>The sentinel file (<code class="docutils literal notranslate"><span class="pre">START_FILE</span></code>).</strong> The first time the probe sees a green cluster, it creates <code class="docutils literal notranslate"><span class="pre">/tmp/.es_start_file</span></code>. On every subsequent call, the file exists, so the probe switches to the lightweight “is this node answering?” check. This prevents the green-gate from blocking the node forever. Once it has safely joined a healthy cluster, you do not want transient yellow states (normal during indexing) to flap the pod out of service.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">wait_for_status=green&amp;timeout=1s</span></code>.</strong> This is the heart of it. The OpenSearch health endpoint blocks for up to one second waiting for the cluster to reach green. If it is not green, the probe fails, the pod stays <code class="docutils literal notranslate"><span class="pre">NotReady</span></code>, and, critically, the rolling operation does not advance to the next node.</p></li>
+<li><p><strong>Steady-state tolerance of 503.</strong> Once started, a <code class="docutils literal notranslate"><span class="pre">503</span></code> can still mean “node is up but cluster is briefly unhealthy”, which is acceptable for keeping an already-joined node in rotation.</p></li>
+</ul>
+</section>
+</section>
+<section id="wiring-it-into-the-statefulset">
+<h2>Wiring It Into the StatefulSet<a class="headerlink" href="#wiring-it-into-the-statefulset" title="Link to this heading">#</a></h2>
+<p>The probe only helps if it is configured to actually gate the rollout. A representative data-hot StatefulSet readiness probe:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">readinessProbe</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">exec</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sh</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/usr/share/opensearch/readiness-probe.sh</span>
+<span class="w">  </span><span class="nt">failureThreshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">  </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">  </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">  </span><span class="nt">successThreshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">  </span><span class="nt">timeoutSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</pre></div>
+</div>
+<p>Combine it with two more safeguards and the whole system becomes robust:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># PodDisruptionBudget: never let more than one data node be down at once</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">policy/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PodDisruptionBudget</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">os-data-hot</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">maxUnavailable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">opensearch</span>
+<span class="w">      </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data</span>
+<span class="w">      </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hot</span>
+</pre></div>
+</div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># On the pod template: tell the autoscaler not to voluntarily evict this pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">karpenter.sh/do-not-disrupt</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
+</pre></div>
+</div>
+<p>Together these form a layered defense:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Layer</p></th>
+<th class="head"><p>What it guarantees</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">readinessProbe</span></code> with <code class="docutils literal notranslate"><span class="pre">wait_for_status=green</span></code></p></td>
+<td><p>A pod is only “ready” (and the rollout only advances) once the cluster has fully recovered.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PodDisruptionBudget</span></code> (<code class="docutils literal notranslate"><span class="pre">maxUnavailable:</span> <span class="pre">1</span></code>)</p></td>
+<td><p>At most one data node is ever voluntarily disrupted at a time.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">karpenter.sh/do-not-disrupt</span></code></p></td>
+<td><p>The node autoscaler will not rotate these pods out from under you unexpectedly.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="how-this-plays-out-during-scale-operations">
+<h2>How This Plays Out During Scale Operations<a class="headerlink" href="#how-this-plays-out-during-scale-operations" title="Link to this heading">#</a></h2>
+<p>Scale-down / node rotation. The StatefulSet controller takes down pod N. The replacement pod starts, and its readiness probe blocks on <code class="docutils literal notranslate"><span class="pre">wait_for_status=green</span></code>. While shards re-replicate onto the new (empty, ephemeral) node, the pod stays <code class="docutils literal notranslate"><span class="pre">NotReady</span></code>. The controller will not touch pod N-1 because, respecting the PDB of <code class="docutils literal notranslate"><span class="pre">maxUnavailable:</span> <span class="pre">1</span></code>, only one pod may be unavailable. Only when the cluster goes green (meaning every shard has its full set of copies again) does the probe pass and the rollout proceed. The surviving copy of every shard is never deleted before its replacement exists.</p>
+<p>Scale-up. A new data node joins. Its probe waits for green before advertising ready, so the cluster finishes allocating and balancing shards onto it before anything downstream assumes it is fully in service. No half-initialized node gets pulled into a subsequent operation.</p>
+<p>Without the green gate, both of these scenarios can race recovery and, on ephemeral storage, destroy the only remaining copy of a shard.</p>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>The probe is a dozen lines of bash, and the data it protects is irreplaceable. That gap is exactly why I treat the green gate as non-negotiable on any OpenSearch cluster backed by ephemeral storage. It is not the kind of optional hardening you get to the next quarter. It is the difference between a routine node rotation and an outage with permanent data loss.</p>
+<p>My recommendation: gate the first readiness on <code class="docutils literal notranslate"><span class="pre">wait_for_status=green</span></code>, switch to a lightweight check after the first green via a sentinel file, and layer it with a PodDisruptionBudget of <code class="docutils literal notranslate"><span class="pre">maxUnavailable:</span> <span class="pre">1</span></code> plus a do-not-disrupt annotation so only one node is ever in flight, and never unexpectedly. Set that up once and you can rotate nodes without holding your breath.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/api-reference/cluster-api/cluster-health/">https://opensearch.org/docs/latest/api-reference/cluster-api/cluster-health/</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/">https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/tasks/run-application/configure-pdb/">https://kubernetes.io/docs/tasks/run-application/configure-pdb/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

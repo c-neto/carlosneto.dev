@@ -1,0 +1,670 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="One Index, Many Environments: Filtered Alias Views Instead of Per-Environment Indexes" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/opensearch-unified-index-filtered-aliases-by-environment/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/10/17 Here is a pattern I reach for constantly when organizing OpenSearch index templates, and it has saved me a lot of cluster overhead and query pain. Instead of crea..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_opensearch-unified-index-filtered-aliases-by-environment_6c1336c3.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/17 Here is a pattern I reach for constantly when organizing OpenSearch index templates, and it has saved me a lot of cluster overhead and query pain. Instead of crea..." />
+<meta name="description" content="Blog Post Publish Date: 2026/10/17 Here is a pattern I reach for constantly when organizing OpenSearch index templates, and it has saved me a lot of cluster overhead and query pain. Instead of crea..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>One Index, Many Environments: Filtered Alias Views Instead of Per-Environment Indexes &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=accb4759" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/opensearch-unified-index-filtered-aliases-by-environment';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/17</em></p>
+<hr class="docutils" />
+<section id="one-index-many-environments-filtered-alias-views-instead-of-per-environment-indexes">
+<h1>One Index, Many Environments: Filtered Alias Views Instead of Per-Environment Indexes<a class="headerlink" href="#one-index-many-environments-filtered-alias-views-instead-of-per-environment-indexes" title="Link to this heading">#</a></h1>
+<p>Here is a pattern I reach for constantly when organizing OpenSearch index templates, and it has saved me a lot of cluster overhead and query pain. Instead of creating a separate index per environment (<code class="docutils literal notranslate"><span class="pre">nginx-dev</span></code>, <code class="docutils literal notranslate"><span class="pre">nginx-stage</span></code>, <code class="docutils literal notranslate"><span class="pre">nginx-production</span></code>), I keep one unified index (<code class="docutils literal notranslate"><span class="pre">nginx</span></code>) with an <code class="docutils literal notranslate"><span class="pre">environment</span></code> field, and expose each environment as a filtered alias that points at that single index.</p>
+<p>This blog post explains the idea, why I prefer it over per-environment indexes, and how to implement it with a real index template. The result is the best of both worlds: the cluster stores one healthy index instead of a sprawl of tiny ones, but anyone querying in OpenSearch Dashboards still gets a clean, per-environment view that feels exactly like a dedicated index.</p>
+<section id="the-problem-with-one-index-per-environment">
+<h2>The Problem With One Index Per Environment<a class="headerlink" href="#the-problem-with-one-index-per-environment" title="Link to this heading">#</a></h2>
+<p>The instinct is to give every environment its own index:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nginx</span><span class="o">-</span><span class="n">dev</span>
+<span class="n">nginx</span><span class="o">-</span><span class="n">stage</span>
+<span class="n">nginx</span><span class="o">-</span><span class="n">sandbox</span>
+<span class="n">nginx</span><span class="o">-</span><span class="n">production</span>
+<span class="n">nginx</span><span class="o">-</span><span class="n">production</span><span class="o">-</span><span class="n">dr</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>It feels tidy, but it scales badly:</p>
+<ul class="simple">
+<li><p><strong>Every index has a footprint, even an empty one</strong>. Each index is made of shards, and each shard is a full Lucene instance consuming heap, file handles, and a slot in the cluster state. A tiny <code class="docutils literal notranslate"><span class="pre">dev</span></code> environment that receives a trickle of logs still costs you shards, cluster-state entries, and allocation decisions, the same per-shard overhead as a busy one. Multiply that across many environments and many log types and the cluster is carrying hundreds of nearly-empty shards for no benefit.</p></li>
+<li><p><strong>Granular indexes fragment your data</strong>. The moment someone wants to query across all environments (or any subset), they have to target multiple indexes with wildcards or comma lists, reconcile differing mappings, and reason about which indexes even exist. Cross-index queries are more complex and easier to get wrong.</p></li>
+<li><p><strong>Small environments waste disk and shards disproportionately</strong>. A 50 MB <code class="docutils literal notranslate"><span class="pre">dev</span></code> index still gets the shard count your template specifies. You end up with many under-filled shards, which is exactly the over-sharding anti-pattern that bloats the cluster.</p></li>
+</ul>
+<p>The data is the same shape in every environment. It is NGINX access and error logs, only the origin differs. That is a strong hint: the environment is not a different kind of data, it is just an attribute of each record.</p>
+</section>
+<section id="the-pattern-one-index-an-environment-field-and-filtered-aliases">
+<h2>The Pattern: One Index, an <code class="docutils literal notranslate"><span class="pre">environment</span></code> Field, and Filtered Aliases<a class="headerlink" href="#the-pattern-one-index-an-environment-field-and-filtered-aliases" title="Link to this heading">#</a></h2>
+<p>So model it that way. Write every environment’s logs into one index, and tag each document with an <code class="docutils literal notranslate"><span class="pre">environment</span></code> field (<code class="docutils literal notranslate"><span class="pre">dev</span></code>, <code class="docutils literal notranslate"><span class="pre">stage</span></code>, <code class="docutils literal notranslate"><span class="pre">pro</span></code>, …). Then create one filtered alias per environment on top of that single index.</p>
+<p>A filtered alias is an alias that carries a built-in query filter. When you read through it, OpenSearch transparently applies the filter, so the alias behaves like an index that contains only the documents matching it. Point <code class="docutils literal notranslate"><span class="pre">nginx-production</span></code> at the single <code class="docutils literal notranslate"><span class="pre">nginx</span></code> index with a filter of <code class="docutils literal notranslate"><span class="pre">environment:</span> <span class="pre">pro</span></code>, and querying <code class="docutils literal notranslate"><span class="pre">nginx-production</span></code> returns only production documents, even though physically there is just one index underneath.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                        ┌─────────────────────────────┐
+  nginx-dev   ───────▶  │                             │  filter environment=dev
+  nginx-stage ───────▶  │   single index: nginx-*     │  filter environment=stage
+  nginx-pro   ───────▶  │   (one set of shards)       │  filter environment=pro
+  nginx-pdr   ───────▶  │                             │  filter environment=pdr
+                        └─────────────────────────────┘
+</pre></div>
+</div>
+<p>Each alias is a view, not a copy. There is no data duplication and no extra shards, just one physical index and a handful of lightweight alias definitions.</p>
+</section>
+<section id="implementing-it-in-an-index-template">
+<h2>Implementing It in an Index Template<a class="headerlink" href="#implementing-it-in-an-index-template" title="Link to this heading">#</a></h2>
+<p>Here is the pattern as a real index template. The <code class="docutils literal notranslate"><span class="pre">aliases</span></code> block defines one filtered alias per environment, each pinned to a <code class="docutils literal notranslate"><span class="pre">term</span></code> filter on the <code class="docutils literal notranslate"><span class="pre">environment</span></code> field:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">_i</span><span class="kc">n</span><span class="err">dex_</span><span class="kc">te</span><span class="err">mpla</span><span class="kc">te</span><span class="err">/</span><span class="kc">n</span><span class="err">gi</span><span class="kc">n</span><span class="err">x</span><span class="mf">-e</span><span class="err">dge</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"index_patterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"nginx-edge*"</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"index.number_of_shards"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"index.number_of_replicas"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"index.refresh_interval"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10s"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"index.routing.allocation.require.temp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hot"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"plugins.index_state_management.rollover_alias"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nginx-edge"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"aliases"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"nginx-edge-dev"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"is_write_index"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"term"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"environment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dev"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"nginx-edge-stage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"is_write_index"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"term"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"environment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stage"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"nginx-edge-sandbox"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"is_write_index"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"term"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"environment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sandbox"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"nginx-edge-pro"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"is_write_index"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"term"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"environment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pro"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"nginx-edge-pdr"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"is_write_index"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"term"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"environment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pdr"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"composed_of"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"settings-default"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"default-mappings"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"kubernetes-mappings"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"nginx-edge-access"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"nginx-edge-error"</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A few things worth calling out:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">is_write_index:</span> <span class="pre">false</span></code> on every environment alias</strong>. These aliases are read-only views. You do not write through them. Writes go to the single rollover write alias (below). Each environment alias exists only to filter reads.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">filter:</span> <span class="pre">{</span> <span class="pre">term:</span> <span class="pre">{</span> <span class="pre">environment:</span> <span class="pre">&quot;...&quot;</span> <span class="pre">}</span> <span class="pre">}</span></code></strong>. This is the whole trick. <code class="docutils literal notranslate"><span class="pre">term</span></code> is an exact-match filter on a keyword field, so <code class="docutils literal notranslate"><span class="pre">nginx-edge-pro</span></code> resolves to “documents in the index where <code class="docutils literal notranslate"><span class="pre">environment</span></code> is exactly <code class="docutils literal notranslate"><span class="pre">pro</span></code>”.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">plugins.index_state_management.rollover_alias:</span> <span class="pre">&quot;nginx-edge&quot;</span></code></strong>. The real write target is a single rollover alias, <code class="docutils literal notranslate"><span class="pre">nginx-edge</span></code>, managed by ISM. All environments write into the same rolling index series (<code class="docutils literal notranslate"><span class="pre">nginx-edge-000001</span></code>, <code class="docutils literal notranslate"><span class="pre">-000002</span></code>, …).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">composed_of</span></code></strong>. Shared mappings and settings come from reusable component templates, so every environment automatically gets identical field mappings. That consistency is a bonus of the single-index approach: you cannot have mapping drift between environments when there is only one mapping.</p></li>
+</ul>
+<section id="the-write-side">
+<h3>The write side<a class="headerlink" href="#the-write-side" title="Link to this heading">#</a></h3>
+<p>Writes all land in one place. Create the first concrete index with the write alias, exactly as you would for any rollover setup:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="kc">n</span><span class="err">gi</span><span class="kc">n</span><span class="err">x</span><span class="mf">-e</span><span class="err">dge</span><span class="mi">-000001</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"aliases"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"nginx-edge"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"is_write_index"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Your log shipper writes to <code class="docutils literal notranslate"><span class="pre">nginx-edge</span></code> (the write alias), each document carrying its <code class="docutils literal notranslate"><span class="pre">environment</span></code> field. ISM rolls <code class="docutils literal notranslate"><span class="pre">nginx-edge</span></code> over by size/age as usual. The per-environment filtered aliases ride along automatically because they are defined in the template. Every new rollover index is born with all of them attached.</p>
+</section>
+</section>
+<section id="using-it-from-opensearch-dashboards">
+<h2>Using It From OpenSearch Dashboards<a class="headerlink" href="#using-it-from-opensearch-dashboards" title="Link to this heading">#</a></h2>
+<p>This is where the pattern pays off for the people actually looking at logs. In Dashboards you create an index pattern per environment alias:</p>
+<ul class="simple">
+<li><p>Index pattern <code class="docutils literal notranslate"><span class="pre">nginx-edge-pro</span></code> gives you only production NGINX logs.</p></li>
+<li><p>Index pattern <code class="docutils literal notranslate"><span class="pre">nginx-edge-stage</span></code> gives you only staging.</p></li>
+<li><p>Index pattern <code class="docutils literal notranslate"><span class="pre">nginx-edge*</span></code> (or the write alias) gives you everything, across all environments, in one place.</p></li>
+</ul>
+<p>To an analyst, <code class="docutils literal notranslate"><span class="pre">nginx-edge-pro</span></code> looks and behaves exactly like a dedicated production index: same fields, same search experience, scoped cleanly to production. They never need to know it is a filtered view. And when someone genuinely needs a cross-environment query (“show me this error across stage and prod”), it is trivial, because the data was never fragmented in the first place. It is one index, optionally filtered.</p>
+</section>
+<section id="why-i-prefer-this">
+<h2>Why I Prefer This<a class="headerlink" href="#why-i-prefer-this" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Concern</p></th>
+<th class="head"><p>Per-environment indexes</p></th>
+<th class="head"><p>Unified index + filtered aliases</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Shard / cluster-state footprint</p></td>
+<td><p>One (or more) shards per environment, even for tiny ones</p></td>
+<td><p>One index’s shards, shared by all environments</p></td>
+</tr>
+<tr class="row-odd"><td><p>Small environments</p></td>
+<td><p>Under-filled shards wasting heap and disk</p></td>
+<td><p>No dedicated footprint at all, just an alias</p></td>
+</tr>
+<tr class="row-even"><td><p>Cross-environment queries</p></td>
+<td><p>Wildcards / comma lists across many indexes</p></td>
+<td><p>Native, it is one index</p></td>
+</tr>
+<tr class="row-odd"><td><p>Per-environment view</p></td>
+<td><p>Natural</p></td>
+<td><p>Preserved via filtered alias, feels identical</p></td>
+</tr>
+<tr class="row-even"><td><p>Mapping consistency</p></td>
+<td><p>Can drift between indexes</p></td>
+<td><p>Impossible to drift, single mapping</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rollover / ISM</p></td>
+<td><p>Must manage a policy per index series</p></td>
+<td><p>One rollover series to manage</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The pattern removes the cost of granular indexes while keeping the one thing granular indexes gave you that was actually valuable: a clean, scoped, per-environment view.</p>
+</section>
+<section id="when-a-separate-index-is-still-the-right-call">
+<h2>When a Separate Index Is Still the Right Call<a class="headerlink" href="#when-a-separate-index-is-still-the-right-call" title="Link to this heading">#</a></h2>
+<p>Filtered aliases are a read convenience over shared physical storage, so use real separate indexes when the environments need genuine physical separation, for example:</p>
+<ul class="simple">
+<li><p><strong>Hard isolation / access control</strong>. If production and dev must live on different storage tiers, or be access-controlled such that a user can never even touch production shards, a filter is not a security boundary. Use separate indexes.</p></li>
+<li><p><strong>Wildly different retention or sizing</strong>. If production needs 180-day retention on big shards and dev needs 2 days on tiny ones, separate index series with their own ISM policies can be cleaner than one-size-fits-all.</p></li>
+<li><p><strong>Vastly different volume that needs independent scaling</strong>. If one environment is 1000x the others and you want to shard it very differently, splitting it out can be justified.</p></li>
+</ul>
+<p>For the common case, the same log type flowing from several environments, all with similar retention and mappings, the unified index with filtered aliases wins easily.</p>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>I reach for this pattern almost reflexively now, because it fixes a problem I used to create for myself: dozens of tiny, nearly-empty indexes that each cost shards and cluster state for no payoff. Modeling the environment as a field instead of an index is the kind of decision that looks trivial and quietly saves you a lot of operational grief later.</p>
+<p>That said, it is not a security boundary, and I want to be clear about that. If an environment needs hard isolation, different retention, or independent scaling, give it a real index. For everything else, which is most of the time, one index, one mapping, one rollover series, and as many tidy per-environment views as you need is the setup I recommend.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/im-plugin/index-alias/">https://opensearch.org/docs/latest/im-plugin/index-alias/</a></p></li>
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/im-plugin/index-templates/">https://opensearch.org/docs/latest/im-plugin/index-templates/</a></p></li>
+<li><p><a class="reference external" href="https://opensearch.org/docs/latest/query-dsl/term/term/">https://opensearch.org/docs/latest/query-dsl/term/term/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
