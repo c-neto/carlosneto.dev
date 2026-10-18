@@ -2,11 +2,107 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-18T13:52:10.224011+00:00</updated>
+  <updated>2026-10-18T14:03:18.922512+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2026/2026-10-18-gnu-readline-foundation/</id>
+    <title>GNU Readline: The Magic Behind Terminal Autocomplete</title>
+    <updated>2026-10-18T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/10/18&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="gnu-readline-the-magic-behind-terminal-autocomplete"&gt;
+
+&lt;p&gt;This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will also show the one configuration I reach for the most: making the Up and Down arrows search your command history by prefix. It is a small change that saved me a lot of keystrokes.&lt;/p&gt;
+&lt;section id="why-i-started-digging-into-this"&gt;
+&lt;h2&gt;Why I Started Digging Into This&lt;/h2&gt;
+&lt;p&gt;For a long time I thought certain terminal features were tied to the specific Linux distribution I was running. The more I used the terminal, the more curious I got about how it worked under the hood. Why would pressing Tab autocomplete a command on one machine and do nothing on another? Why did the Up arrow behave differently depending on where I was?&lt;/p&gt;
+&lt;p&gt;After some research, I understood that most of these behaviors are not the shell itself. They come from a library sitting underneath it: &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html"&gt;GNU Readline&lt;/a&gt;. Once I knew which component was responsible, configuring it became trivial.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="what-is-gnu-readline"&gt;
+&lt;h2&gt;What is GNU Readline&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html"&gt;GNU Readline&lt;/a&gt; is a library that provides command-line editing, history navigation, search, and auto-completion for interactive terminal applications. It is already installed on most Linux distributions, and it is used by a lot of REPL-style programs you already know: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bash&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;ipython&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;psql&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;mysql&lt;/span&gt;&lt;/code&gt;, and many others.&lt;/p&gt;
+&lt;p&gt;A practical example: when you press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;TAB&lt;/span&gt;&lt;/code&gt; in Bash and the command gets autocompleted, that is Readline acting behind the scenes. The same happens with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;CTRL&lt;/span&gt;&lt;/code&gt; + &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;R&lt;/span&gt;&lt;/code&gt; for reverse history search, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;CTRL&lt;/span&gt;&lt;/code&gt; + &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;A&lt;/span&gt;&lt;/code&gt; to jump to the start of the line, and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;CTRL&lt;/span&gt;&lt;/code&gt; + &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;E&lt;/span&gt;&lt;/code&gt; to jump to the end. Those are Readline functions that Bash exposes, which is why they also work in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;psql&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;ipython&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The behavior is controlled by a configuration file called &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;In Bash, the &lt;a class="reference external" href="https://ss64.com/bash/bind.html"&gt;bind&lt;/a&gt; command associates a key press to a GNU Readline function. It is the runtime equivalent of editing &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;/section&gt;
+&lt;section id="practical-example-searching-history-by-prefix"&gt;
+&lt;h2&gt;Practical Example: Searching History by Prefix&lt;/h2&gt;
+&lt;p&gt;Here is the Readline configuration I use the most. By default, the Up and Down arrows walk through your history one entry at a time, in order. That gets tedious when you run the same family of commands with different arguments.&lt;/p&gt;
+&lt;p&gt;Imagine a history like this:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&gt;pods
+kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&gt;nodes
+kubectl&lt;span class="w"&gt; &lt;/span&gt;get&lt;span class="w"&gt; &lt;/span&gt;svc
+vim&lt;span class="w"&gt; &lt;/span&gt;templates/debug.yaml
+tail&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;/var/log/messages
+kubectl&lt;span class="w"&gt; &lt;/span&gt;describe&lt;span class="w"&gt; &lt;/span&gt;pod&lt;span class="w"&gt; &lt;/span&gt;foobar
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;If I want to recall a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt;&lt;/code&gt; command, pressing Up forces me to cycle through &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;tail&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt; first. The arrows ignore what I already typed. I wanted something simpler: type a prefix, then use the arrows to walk only through the history entries that start with it.&lt;/p&gt;
+&lt;p&gt;Readline already ships the functions for that, they are just not bound to the arrow keys by default. I really do not understand why this is not the default on every distribution. Some, like Fedora and AlmaLinux, already configure similar Readline commands out of the box. It is extremely useful and requires no additional package installation.&lt;/p&gt;
+&lt;p&gt;The two functions are:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dbackward-_0028_0029"&gt;history-search-backward&lt;/a&gt;: search backward through history for the line starting with the text before the cursor.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dforward-_0028_0029"&gt;history-search-forward&lt;/a&gt;: the same, but forward.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To bind them to the arrow keys, add this to your &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;~/.inputrc&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;completion-ignore-case&lt;span class="w"&gt; &lt;/span&gt;on
+&lt;span class="s2"&gt;"\e[A"&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-backward
+&lt;span class="s2"&gt;"\e[B"&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;history-search-forward
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This binds:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Up Arrow (↑)&lt;/strong&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Down Arrow (↓)&lt;/strong&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;\e[A&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;\e[B&lt;/span&gt;&lt;/code&gt; are the escape sequences your terminal sends when you press Up and Down. The extra &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;set&lt;/span&gt; &lt;span class="pre"&gt;completion-ignore-case&lt;/span&gt; &lt;span class="pre"&gt;on&lt;/span&gt;&lt;/code&gt; is a bonus: it makes Tab completion case-insensitive, which I find handy.&lt;/p&gt;
+&lt;p&gt;After editing &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt;, reload it without restarting the shell:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;bind&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;~/.inputrc
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Now the behavior changes. With the same history as before, if I type &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt;&lt;/code&gt; and press Up, Readline walks only through the entries that start with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# type this, then press the Up arrow:&lt;/span&gt;
+kubectl
+
+&lt;span class="c1"&gt;# first Up  -&amp;gt; kubectl describe pod foobar&lt;/span&gt;
+&lt;span class="c1"&gt;# next Up   -&amp;gt; kubectl get svc&lt;/span&gt;
+&lt;span class="c1"&gt;# next Up   -&amp;gt; kubectl get nodes&lt;/span&gt;
+&lt;span class="c1"&gt;# next Up   -&amp;gt; kubectl get pods&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;vim&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;tail&lt;/span&gt;&lt;/code&gt; lines are skipped entirely, because they do not start with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kubectl&lt;/span&gt;&lt;/code&gt;. On an empty prompt with no prefix, the arrows behave exactly like before and walk the full history. You get the prefix search only when you ask for it.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="conclusion-author-opinion"&gt;
+&lt;h2&gt;Conclusion (Author Opinion)&lt;/h2&gt;
+&lt;p&gt;This is one of those tiny configurations that changes how the terminal feels once you get used to it. I have been using the prefix search on the arrow keys for years, and going back to a machine without it is genuinely annoying. The best part is that it costs nothing: no package to install, no plugin, just three lines in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;GNU Readline is a powerful tool that can save you time during CNCF exams. Take a look at my post &lt;a class="reference internal" href="2026/2026-07-09-workstation-setup-kubernetes-exams/"&gt;&lt;span class="std std-doc"&gt;Workstation Setup for Kubernetes Exams (CKA, CKAD &amp;amp; CKS)&lt;/span&gt;&lt;/a&gt; to learn more about how I configure history search by prefix on my exam workstation.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="references"&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;GNU Readline user manual: &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html"&gt;https://tiswww.case.edu/php/chet/readline/rluserman.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;$&lt;/span&gt; &lt;span class="pre"&gt;bind&lt;/span&gt;&lt;/code&gt; reference: &lt;a class="reference external" href="https://ss64.com/bash/bind.html"&gt;https://ss64.com/bash/bind.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-backward&lt;/span&gt;&lt;/code&gt;: &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dbackward-_0028_0029"&gt;https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dbackward-_0028_0029&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;history-search-forward&lt;/span&gt;&lt;/code&gt;: &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dforward-_0028_0029"&gt;https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dforward-_0028_0029&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2026/2026-10-18-gnu-readline-foundation/"/>
+    <summary>Blog Post Publish Date: 2026/10/18This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will also show the one configuration I reach for the most: making the Up and Down arrows search your command history by prefix. It is a small change that saved me a lot of keystrokes.</summary>
+    <category term="bash" label="bash"/>
+    <category term="linux" label="linux"/>
+    <category term="readline" label="readline"/>
+    <published>2026-10-18T00:00:00+00:00</published>
+  </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/</id>
     <title>Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)</title>

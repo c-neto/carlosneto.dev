@@ -2,21 +2,21 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="../../" data-theme="light">
+<html lang="en" data-content_root="../../../" data-theme="light">
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta property="og:title" content="GNU Readline: The Magic Behind Terminal Autocomplete" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://carlosneto.dev/hidden/gnu-readline/" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-10-18-gnu-readline-foundation/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/06/27 This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will..." />
+<meta property="og:description" content="Blog Post Publish Date: 2026/10/18 This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_gnu-readline_e96e3c79.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/06/27 This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will..." />
-<meta name="description" content="Blog Post Publish Date: 2026/06/27 This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-10-18-gnu-readline-foundation_214fd141.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/18 This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will..." />
+<meta name="description" content="Blog Post Publish Date: 2026/10/18 This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>GNU Readline: The Magic Behind Terminal Autocomplete &#8212; Carlos Neto&#39;s Blog</title>
@@ -38,46 +38,46 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=45791c5e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=45791c5e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
 
-    <script src="../../_static/documentation_options.js?v=187304be"></script>
-    <script src="../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/gnu-readline';</script>
+    <script src="../../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2026/2026-10-18-gnu-readline-foundation';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
-    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
-    <link rel="index" title="Index" href="../../genindex/" />
-    <link rel="search" title="Search" href="../../search/" /> 
+    <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../../genindex/" />
+    <link rel="search" title="Search" href="../../../search/" /> 
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
   
     
-    <script src="../../_static/searchtools.js"></script>
-    <script src="../../_static/language_data.js"></script>
-    <script src="../../searchindex.js"></script>
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
    
 <link
   rel="alternate"
   type="application/atom+xml"
-  href="../../blog/atom.xml"
+  href="../../../blog/atom.xml"
   title="Carlos Neto"
 />
   
@@ -99,7 +99,7 @@
   <dialog id="pst-search-dialog">
     
 <form class="bd-search d-flex align-items-center"
-      action="../../search/"
+      action="../../../search/"
       method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search"
@@ -135,7 +135,7 @@
     
   
 
-<a class="navbar-brand logo" href="../../">
+<a class="navbar-brand logo" href="../../../">
   
   
   
@@ -157,14 +157,14 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../blog/">
+  <a class="nav-link nav-internal" href="../../">
     Blog
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../contribution-list/">
+  <a class="nav-link nav-internal" href="../../../contribution-list/">
     Open Source Contributions
   </a>
 </li>
@@ -285,14 +285,14 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../blog/">
+  <a class="nav-link nav-internal" href="../../">
     Blog
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../contribution-list/">
+  <a class="nav-link nav-internal" href="../../../contribution-list/">
     Open Source Contributions
   </a>
 </li>
@@ -391,7 +391,7 @@
                 
 <div id="searchbox"></div>
                 <article class="bd-article">
-                   <p><em><strong>Blog Post Publish Date:</strong> 2026/06/27</em></p>
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/18</em></p>
 <hr class="docutils" />
 <section id="gnu-readline-the-magic-behind-terminal-autocomplete">
 <h1>GNU Readline: The Magic Behind Terminal Autocomplete<a class="headerlink" href="#gnu-readline-the-magic-behind-terminal-autocomplete" title="Link to this heading">#</a></h1>
@@ -399,16 +399,15 @@
 <section id="why-i-started-digging-into-this">
 <h2>Why I Started Digging Into This<a class="headerlink" href="#why-i-started-digging-into-this" title="Link to this heading">#</a></h2>
 <p>For a long time I thought certain terminal features were tied to the specific Linux distribution I was running. The more I used the terminal, the more curious I got about how it worked under the hood. Why would pressing Tab autocomplete a command on one machine and do nothing on another? Why did the Up arrow behave differently depending on where I was?</p>
-<p>After some research, I understood that most of these behaviors are not the shell itself. They come from a library sitting underneath it: GNU Readline. Once I knew which component was responsible, configuring it became trivial.</p>
+<p>After some research, I understood that most of these behaviors are not the shell itself. They come from a library sitting underneath it: <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html">GNU Readline</a>. Once I knew which component was responsible, configuring it became trivial.</p>
 </section>
 <section id="what-is-gnu-readline">
 <h2>What is GNU Readline<a class="headerlink" href="#what-is-gnu-readline" title="Link to this heading">#</a></h2>
-<p>GNU Readline is a library that provides command-line editing, history navigation, search, and auto-completion for interactive terminal applications. It is already installed on most Linux distributions, and it is used by a lot of REPL-style programs you already know: <code class="docutils literal notranslate"><span class="pre">bash</span></code>, <code class="docutils literal notranslate"><span class="pre">ipython</span></code>, <code class="docutils literal notranslate"><span class="pre">psql</span></code>, <code class="docutils literal notranslate"><span class="pre">mysql</span></code>, and many others.</p>
+<p><a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html">GNU Readline</a> is a library that provides command-line editing, history navigation, search, and auto-completion for interactive terminal applications. It is already installed on most Linux distributions, and it is used by a lot of REPL-style programs you already know: <code class="docutils literal notranslate"><span class="pre">bash</span></code>, <code class="docutils literal notranslate"><span class="pre">ipython</span></code>, <code class="docutils literal notranslate"><span class="pre">psql</span></code>, <code class="docutils literal notranslate"><span class="pre">mysql</span></code>, and many others.</p>
 <p>A practical example: when you press <code class="docutils literal notranslate"><span class="pre">TAB</span></code> in Bash and the command gets autocompleted, that is Readline acting behind the scenes. The same happens with <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code> for reverse history search, <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">A</span></code> to jump to the start of the line, and <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">E</span></code> to jump to the end. Those are Readline functions that Bash exposes, which is why they also work in <code class="docutils literal notranslate"><span class="pre">psql</span></code> and <code class="docutils literal notranslate"><span class="pre">ipython</span></code>.</p>
 <p>The behavior is controlled by a configuration file called <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code>.</p>
 <blockquote>
-<div><p><i class="fa-solid fa-circle-info"></i> <strong>About the <code class="docutils literal notranslate"><span class="pre">bind</span></code> command:</strong></p>
-<p>In Bash, the <a class="reference external" href="https://ss64.com/bash/bind.html"><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">bind</span></code></a> command associates a key press to a GNU Readline function. It is the runtime equivalent of editing <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code>.</p>
+<div><p><em>In Bash, the <a class="reference external" href="https://ss64.com/bash/bind.html">bind</a> command associates a key press to a GNU Readline function. It is the runtime equivalent of editing <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code>.</em></p>
 </div></blockquote>
 </section>
 <section id="practical-example-searching-history-by-prefix">
@@ -464,7 +463,7 @@ kubectl
 <section id="conclusion-author-opinion">
 <h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
 <p>This is one of those tiny configurations that changes how the terminal feels once you get used to it. I have been using the prefix search on the arrow keys for years, and going back to a machine without it is genuinely annoying. The best part is that it costs nothing: no package to install, no plugin, just three lines in <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code>.</p>
-<p>If you spend your day in the terminal running the same families of commands, give it a try. Drop those lines in your <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code>, reload with <code class="docutils literal notranslate"><span class="pre">bind</span> <span class="pre">-f</span></code>, and type a prefix before hitting Up. I recommend it.</p>
+<p>GNU Readline is a powerful tool that can save you time during CNCF exams. Take a look at my post <a class="reference internal" href="../2026-07-09-workstation-setup-kubernetes-exams/"><span class="std std-doc">Workstation Setup for Kubernetes Exams (CKA, CKAD &amp; CKS)</span></a> to learn more about how I configure history search by prefix on my exam workstation.</p>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
@@ -478,7 +477,24 @@ kubectl
 </section>
 
 <div class="section ablog__blog_comments">
-   
+     
+<div class="section ablog__prev-next">
+  <span class="ablog__prev">
+     
+    <a href="../2026-07-15-vim-kubernetes-exams/">
+      
+      <i class="fa fa-arrow-circle-left"></i>
+      
+      <span>Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)</span>
+    </a>
+    
+  </span>
+  <span class="ablog__spacer">&nbsp;</span>
+  <span class="ablog__next">
+    
+  </span>
+</div>
+  
 </div>
 
                 </article>
@@ -526,8 +542,8 @@ kubectl
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
