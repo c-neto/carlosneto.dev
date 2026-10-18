@@ -2,7 +2,7 @@
 :description: A little bit about me...
 ---
 
-# My Open-Source Contributions
+# Open Source Contributions
 
 <br/>
 
