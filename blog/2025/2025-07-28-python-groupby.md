@@ -57,7 +57,7 @@ bands = [
     Band(name="R.E.M.", category="Rock", genre="Alternative Rock", country="USA"),
     Band(name="Radiohead", category="Rock", genre="Alternative Rock", country="UK"),
     Band(name="U2", category="Rock", genre="Rock", country="Ireland"),
-] 
+]
 ```
 
 The most common approach is to create a temporary dictionary where the key is a tuple of the attributes you want to group by, and the value is a list of objects that share those attributes:

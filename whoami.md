@@ -10,12 +10,12 @@ DevOps Engineer specializing in Kubernetes, Cloud Computing, Observability and P
 
 :::{grid-item-card}
 :link: https://www.linkedin.com/in/c-neto/
-<i class="fab fa-linkedin fa-fade"></i> LinkedIn
+<i class="fa-linkedin fa-fade"></i> LinkedIn
 :::
 
 :::{grid-item-card}
 :link: https://github.com/c-neto
-<i class="fab fa-github fa-fade"></i> GitHub
+<i class="fa-github fa-fade"></i> GitHub
 :::
 
 :::{grid-item-card}
@@ -58,7 +58,7 @@ DevOps Engineer specializing in Kubernetes, Cloud Computing, Observability and P
 
 - __[OpenSearch](https://github.com/opensearch-project/):__ Open source search and analytics engine used for applications requiring powerful search and data analytics capabilities, including logging, business intelligence, monitoring, and security information and event management (SIEM).
 
-- <i class="fa-solid fa-code-pull-request"></i>: [#12892](https://github.com/opensearch-project/documentation-website/pull/12892): Detailed Searchable Snapshot cache size parameter. 
+- <i class="fa-solid fa-code-pull-request"></i>: [#12892](https://github.com/opensearch-project/documentation-website/pull/12892): Detailed Searchable Snapshot cache size parameter.
 - <i class="fa-solid fa-code-pull-request"></i>: [#4597](https://github.com/opensearch-project/documentation-website/pull/4597): Described the behavior and outlined best practices for Searchable Snapshots cluster nodes.
 - <i class="fa-solid fa-code-pull-request"></i>: [#6051](https://github.com/opensearch-project/documentation-website/pull/6051): Described the behavior and security recommendations for the HTTP Compression setting.
 - <i class="fa-solid fa-code-pull-request"></i>: [#7564](https://github.com/opensearch-project/documentation-website/pull/7564): Detailed default values related to JVM memory allocation parameters.
@@ -147,4 +147,3 @@ __[OpenCTI](https://github.com/OpenCTI-Platform):__ Open source platform for man
 ````
 
 `````
-

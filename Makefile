@@ -17,6 +17,9 @@ setup:
 	venv/bin/pip3 install -r requirements.txt
 	venv/bin/pip3 install -r execute-requirements.txt
 
+skills:
+	npx skills add blader/humanizer
+
 live:
 	./venv/bin/sphinx-autobuild --ignore _build -b dirhtml  . _build/dirhtml/
 
