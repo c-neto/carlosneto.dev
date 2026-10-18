@@ -6,7 +6,7 @@ It' is my space to share my experiences and open source contributions!
 
 :::{grid-item-card}
 :link: blog
-<i class="fa-solid fa-blog fa-fade"></i> Blog
+<i class="fa-solid fa-blog"></i> Blog
 :::
 
 :::{grid-item-card}
@@ -16,7 +16,6 @@ It' is my space to share my experiences and open source contributions!
 
 ::::
 
----
 
 ::::{grid}
 
@@ -32,13 +31,12 @@ It' is my space to share my experiences and open source contributions!
 
 ::::
 
----
 
 ::::{grid}
 
 :::{grid-item-card}
 :link: https://www.credly.com/users/c-neto/badges
-<i class="fa-solid fa-certificate fa-fade"></i> Certificates
+<i class="fa-solid fa-certificate"></i> Certificates
 :::
 
 :::{grid-item-card}
