@@ -61,7 +61,7 @@ html_theme_options = {
 }
 
 html_favicon = "_static/profile-color-circle-small.png"
-html_title = "Carlos Neto's Tech Blog"
+html_title = "Carlos Neto's Blog"
 html_static_path = ["_static"]
 html_extra_path = ["feed.xml"]
 html_sidebars = {
@@ -95,11 +95,6 @@ html_sidebars = {
     "blog/tag/**": [
         "ablog/tagcloud.html",
     ],
-
-    # "blog/**": [
-    #     "page-toc",
-    #     "ablog/recentposts.html"
-    # ],
 }
 
 
@@ -111,24 +106,6 @@ ogp_social_cards = {
 }
 
 
-# rediraffe_redirects = {
-#     "rust-governance.md": "blog/2018/rust_governance.md",
-# }
-# # Update the posts/* section of the rediraffe redirects to find all files
-# redirect_folders = {
-#     "posts": "blog",
-# }
-
-# for old, new in redirect_folders.items():
-#     for newpath in Path(new).rglob("**/*"):
-#         if newpath.suffix in [".ipynb", ".md"] and "ipynb_checkpoints" not in str(
-#             newpath
-#         ):
-#             oldpath = str(newpath).replace("blog/", "posts/", 1)
-#             # Skip pandoc because for some reason it's broken
-#             if "pandoc" not in str(newpath):
-#                 rediraffe_redirects[oldpath] = str(newpath)
-
 # -- ABlog ---------------------------------------------------
 
 blog_baseurl = "https://carlosneto.dev"
@@ -136,7 +113,7 @@ blog_title = "Carlos Neto"
 blog_path = "blog"
 blog_post_pattern = "blog/*/*"
 blog_feed_fulltext = True
-blog_feed_subtitle = "DevOps, Python, OpenSearch, and Log Pipelines."
+blog_feed_subtitle = "Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering"
 fontawesome_included = True
 post_redirect_refresh = 1
 post_auto_image = 0
@@ -157,10 +134,6 @@ html_context = {
 }
 
 
-# MyST-NB
-# Don't execute anything by default because many old posts don't execute anymore
-# and this slows down build times.
-# Instead if I want something to execute, manually set it in the post's metadata.
 nb_execution_mode = "off"
 
 
