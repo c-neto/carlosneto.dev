@@ -1,10 +1,10 @@
 ---
 tags: bash, linux, readline
-date: "2026-06-27"
+date: "2026-10-18"
 category: Linux
 ---
 
-*__Blog Post Publish Date:__ 2026/06/27*
+*__Blog Post Publish Date:__ 2026/10/18*
 
 ---
 
@@ -16,19 +16,17 @@ This blog post explains what GNU Readline is and how it powers the line editing,
 
 For a long time I thought certain terminal features were tied to the specific Linux distribution I was running. The more I used the terminal, the more curious I got about how it worked under the hood. Why would pressing Tab autocomplete a command on one machine and do nothing on another? Why did the Up arrow behave differently depending on where I was?
 
-After some research, I understood that most of these behaviors are not the shell itself. They come from a library sitting underneath it: GNU Readline. Once I knew which component was responsible, configuring it became trivial.
+After some research, I understood that most of these behaviors are not the shell itself. They come from a library sitting underneath it: [GNU Readline](https://tiswww.case.edu/php/chet/readline/rluserman.html). Once I knew which component was responsible, configuring it became trivial.
 
 ## What is GNU Readline
 
-GNU Readline is a library that provides command-line editing, history navigation, search, and auto-completion for interactive terminal applications. It is already installed on most Linux distributions, and it is used by a lot of REPL-style programs you already know: `bash`, `ipython`, `psql`, `mysql`, and many others.
+[GNU Readline](https://tiswww.case.edu/php/chet/readline/rluserman.html) is a library that provides command-line editing, history navigation, search, and auto-completion for interactive terminal applications. It is already installed on most Linux distributions, and it is used by a lot of REPL-style programs you already know: `bash`, `ipython`, `psql`, `mysql`, and many others.
 
 A practical example: when you press `TAB` in Bash and the command gets autocompleted, that is Readline acting behind the scenes. The same happens with `CTRL` + `R` for reverse history search, `CTRL` + `A` to jump to the start of the line, and `CTRL` + `E` to jump to the end. Those are Readline functions that Bash exposes, which is why they also work in `psql` and `ipython`.
 
 The behavior is controlled by a configuration file called `.inputrc`.
 
-> <i class="fa-solid fa-circle-info"></i> **About the `bind` command:**
->
-> In Bash, the [`$ bind`](https://ss64.com/bash/bind.html) command associates a key press to a GNU Readline function. It is the runtime equivalent of editing `.inputrc`.
+> _In Bash, the [bind](https://ss64.com/bash/bind.html) command associates a key press to a GNU Readline function. It is the runtime equivalent of editing `.inputrc`._
 
 ## Practical Example: Searching History by Prefix
 
@@ -95,7 +93,7 @@ The `vim` and `tail` lines are skipped entirely, because they do not start with 
 
 This is one of those tiny configurations that changes how the terminal feels once you get used to it. I have been using the prefix search on the arrow keys for years, and going back to a machine without it is genuinely annoying. The best part is that it costs nothing: no package to install, no plugin, just three lines in `.inputrc`.
 
-If you spend your day in the terminal running the same families of commands, give it a try. Drop those lines in your `.inputrc`, reload with `bind -f`, and type a prefix before hitting Up. I recommend it.
+GNU Readline is a powerful tool that can save you time during CNCF exams. Take a look at my post [Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)](/blog/2026/2026-07-09-workstation-setup-kubernetes-exams.md) to learn more about how I configure history search by prefix on my exam workstation.
 
 ## References
 
