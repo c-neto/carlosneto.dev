@@ -16,26 +16,26 @@ When a task matches a skill, load that skill and follow it. The skills are the s
 
 ## Repository Structure
 
-```
+```bash
 .
-├── .agents/skills/     # Agent skills (blog-writer, humanizer, bash-conventions, python-conventions, helm-chart-conventions)
-├── .github/            # GitHub Actions workflows and CI config
-├── _static/            # Static assets: images, custom.css, per-year post images (_static/<year>/)
-├── _templates/         # Sphinx HTML templates (layout.html, hello.html)
-├── blog/               # Published posts, organized by year: blog/<YEAR>/<YYYY-MM-DD>-<slug>.md
-├── in-progress/        # Draft posts not ready to publish
-├── scripts/            # Helper scripts (social_media/)
-├── blog.md             # Blog index page
-├── index.md            # Site landing page
-├── whoami.md           # About page
-├── conf.py             # Sphinx configuration
-├── myst.yml            # MyST project configuration
-├── Makefile            # Build commands (make setup, make live)
-├── noxfile.py          # Nox automation sessions
-├── requirements.txt    # Python dependencies for the site
-├── feed.xml            # RSS feed
-├── CNAME               # Custom domain for GitHub Pages
-└── import_posts.ipynb  # Notebook for importing/migrating posts
+├── .agents/skills/                   # Agent skills (blog-writer, humanizer)
+├── .github/                          # GitHub Actions workflows and CI config
+├── _static/                          # Static assets: images, custom.css, per-year post images (_static/<year>/)
+├── _templates/                       # Sphinx HTML templates (layout.html, hello.html)
+├── blog/                             # Published posts, organized by year: blog/<YEAR>/<YYYY-MM-DD>-<slug>.md
+├── in-progress/                      # Draft posts not ready to publish
+├── scripts/                          # Helper scripts (social_media/)
+├── blog.md                           # Blog index page
+├── index.md                          # Site landing page
+├── contribution-list.md   # Page with Open Source contributions
+├── conf.py                           # Sphinx configuration
+├── myst.yml                          # MyST project configuration
+├── Makefile                          # Build commands (make setup, make live)
+├── noxfile.py                        # Nox automation sessions
+├── requirements.txt                  # Python dependencies for the site
+├── feed.xml                          # RSS feed
+├── CNAME                             # Custom domain for GitHub Pages
+└── import_posts.ipynb                # Notebook for importing/migrating posts
 ```
 
 ### Key directories

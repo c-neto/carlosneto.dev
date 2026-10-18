@@ -68,7 +68,7 @@ html_sidebars = {
     "index": [
         "hello.html"
     ],
-    "whoami": [
+    "contribution-list": [
         "hello.html"
     ],
     "blog": [
