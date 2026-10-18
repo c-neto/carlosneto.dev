@@ -26,7 +26,7 @@
 ````{grid-item}
 :columns: 9
 
-- __[OpenSearch](https://github.com/opensearch-project/):__ Open source search and analytics engine used for applications requiring powerful search and data analytics capabilities, including logging, business intelligence, monitoring, and security information and event management (SIEM).
+__[OpenSearch](https://github.com/opensearch-project/):__ Open source search and analytics engine used for applications requiring powerful search and data analytics capabilities, including logging, business intelligence, monitoring, and security information and event management (SIEM).
 
 - <i class="fa-solid fa-code-pull-request"></i>: [#12892](https://github.com/opensearch-project/documentation-website/pull/12892): Detailed Searchable Snapshot cache size parameter.
 - <i class="fa-solid fa-code-pull-request"></i>: [#4597](https://github.com/opensearch-project/documentation-website/pull/4597): Described the behavior and outlined best practices for Searchable Snapshots cluster nodes.
