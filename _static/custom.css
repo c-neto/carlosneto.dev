@@ -82,14 +82,16 @@ div.profile-pic img {
 
 .whatido {
   margin-top: .8em;
-  /* text-justify: inter-word;
-  text-align: justify; */
   font-size: 0.8em;
 }
 
 /* Timeline CSS */
 div.timeline div.card {
   border: 0px;
+}
+
+div.sd-card-body {
+  padding: .5em;
 }
 
 div.timeline div.left {
