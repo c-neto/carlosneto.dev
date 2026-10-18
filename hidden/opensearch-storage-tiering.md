@@ -8,7 +8,7 @@ category: Log Analytics
 
 ---
 
-# OpenSearch Data Tiering: A Hands-On Guide to Hot, Warm, and Searchable Tiers
+# OpenSearch Storage Tiering: A Hands-On Guide to Hot, Warm, and Searchable Tiers
 
 Logs and time-series data share an inconvenient truth: the newest data is queried constantly, and the oldest data is almost never touched, but you still have to keep it. If you store everything on the same fast (and expensive) hardware, you burn money. If you store everything on slow, cheap hardware, your dashboards crawl.
 
