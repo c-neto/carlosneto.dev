@@ -1,6 +1,6 @@
 # Hello, There!
 
-It' is my space to share my experiences and open source contributions!
+It' is my space to share my experiences and open source contributions. You can talk to me in LinkedIn, let's connect!
 
 ::::{grid}
 
@@ -11,7 +11,7 @@ It' is my space to share my experiences and open source contributions!
 
 :::{grid-item-card}
 :link: contribution-list
-<i class="fa-solid fa-code-pull-request"></i> OpenSource Contributions
+<i class="fa-solid fa-code-pull-request"></i> Contributions
 :::
 
 ::::
@@ -36,12 +36,12 @@ It' is my space to share my experiences and open source contributions!
 
 :::{grid-item-card}
 :link: https://www.credly.com/users/c-neto/badges
-<i class="fa-solid fa-certificate"></i> Certificates
+<i class="fa-solid fa-certificate"></i> Certifications
 :::
 
 :::{grid-item-card}
 :link: https://github.com/c-neto/c-neto/blob/main/carlos-neto-cv.pdf
-<i class="fa-solid fa-address-card"></i> Resume/Curriculum Vitae
+<i class="fa-solid fa-address-card"></i> Resume/CV
 :::
 
 ::::
