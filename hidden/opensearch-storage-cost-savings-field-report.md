@@ -8,7 +8,7 @@ category: Log Analytics
 
 ---
 
-# How I Cut $8,000 to $10,000 a Month Off an OpenSearch Cluster by Rethinking Storage
+# How I Cut $8,000 a Month Off an OpenSearch Cluster by Rethinking Storage
 
 This is not a best-practices guide. It is a field report of how I restructured a production OpenSearch cluster to cut storage cost dramatically, somewhere between $8,000 and $10,000 a month, by understanding where the money was going, accepting some calculated risks, and weighing them against the benefits. Your numbers and risk tolerance will differ. The point is the reasoning, not the recipe.
 

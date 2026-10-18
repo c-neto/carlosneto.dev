@@ -19,7 +19,7 @@ Depending on how the SFTP server is configured, you sometimes have to explicitly
 Here is a real example. The connection fails with a permission error:
 
 ```bash
-$ sftp -i pk.pem -oPort=10122 john-doe@sftp.foobar.com
+$ sftp -i pk.pem john-doe@sftp.foobar.com
 
 john-doe@sftp.foobar.com: Permission denied (publickey).
 Connection closed
@@ -62,7 +62,6 @@ Now pick the algorithm and set it explicitly on the client side. You do this wit
 $ sftp -i pk.pem \
     -o HostKeyAlgorithms=+ssh-rsa \
     -o PubkeyAcceptedKeyTypes=+ssh-rsa \
-    -o Port=10122 \
     john-doe@sftp.foobar.com
 
 Connected to sftp.foobar.com.
