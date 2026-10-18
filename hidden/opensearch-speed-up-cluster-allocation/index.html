@@ -1,0 +1,580 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="OpenSearch: How to Speed Up Cluster Allocation" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/opensearch-speed-up-cluster-allocation/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/10/17 This blog post explains how to make shard allocation faster in OpenSearch when you are decommissioning a node or moving data from one node to another. It covers t..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_opensearch-speed-up-cluster-allocation_7c5ab771.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/17 This blog post explains how to make shard allocation faster in OpenSearch when you are decommissioning a node or moving data from one node to another. It covers t..." />
+<meta name="description" content="Blog Post Publish Date: 2026/10/17 This blog post explains how to make shard allocation faster in OpenSearch when you are decommissioning a node or moving data from one node to another. It covers t..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>OpenSearch: How to Speed Up Cluster Allocation &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=45791c5e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/opensearch-speed-up-cluster-allocation';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/17</em></p>
+<hr class="docutils" />
+<section id="opensearch-how-to-speed-up-cluster-allocation">
+<h1>OpenSearch: How to Speed Up Cluster Allocation<a class="headerlink" href="#opensearch-how-to-speed-up-cluster-allocation" title="Link to this heading">#</a></h1>
+<p>This blog post explains how to make shard allocation faster in OpenSearch when you are decommissioning a node or moving data from one node to another. It covers three dynamic cluster settings that control the speed of that process, what each one does, and the trade-off you accept when you raise them.</p>
+<section id="the-problem-draining-a-node-takes-forever">
+<h2>The Problem: Draining a Node Takes Forever<a class="headerlink" href="#the-problem-draining-a-node-takes-forever" title="Link to this heading">#</a></h2>
+<p>Picture the scenario. You need to remove a data node from the cluster, maybe to replace the instance, scale down, or recover from a problem. In OpenSearch you do that by excluding the node from allocation, which tells the cluster to move every shard off it onto the remaining nodes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>PUT<span class="w"> </span>_cluster/settings
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">"transient"</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">"cluster.routing.allocation.exclude._name"</span>:<span class="w"> </span><span class="s2">"node-to-remove"</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>The cluster starts relocating shards. Then you wait. On a cluster with a lot of data, draining a single node can take hours, because by default OpenSearch is deliberately conservative about how much it moves at once. That caution protects a busy cluster from choking on recovery traffic, but during a planned maintenance window it is just slow.</p>
+<p>The good news is that the throttling is controlled by a handful of dynamic settings. You can turn them up to drain faster, then put them back. If you want a refresher on what shards are before diving in, I wrote about it in <a class="reference external" href="https://carlosneto.dev/blog/2025/2025-01-05-opensearch-concepts-index-and-shards">OpenSearch Concepts - Index and Shards</a>.</p>
+</section>
+<section id="the-three-settings-that-control-allocation-speed">
+<h2>The Three Settings That Control Allocation Speed<a class="headerlink" href="#the-three-settings-that-control-allocation-speed" title="Link to this heading">#</a></h2>
+<p>Shard relocation has two bottlenecks: how many shards move in parallel, and how fast each one transfers. These three settings address both.</p>
+<section id="cluster-routing-allocation-node-concurrent-recoveries">
+<h3>cluster.routing.allocation.node_concurrent_recoveries<a class="headerlink" href="#cluster-routing-allocation-node-concurrent-recoveries" title="Link to this heading">#</a></h3>
+<p>This controls how many concurrent shard recoveries are allowed on a single node, counting both incoming and outgoing. The default is <code class="docutils literal notranslate"><span class="pre">2</span></code>, which means a node that is being drained only pushes two shards out at a time, and a node receiving data only pulls two in at a time.</p>
+<p>It is a convenience setting that sets the incoming and outgoing limits to the same value. Raising it lets more shards move in and out of each node simultaneously, which is usually the single biggest lever when draining a node.</p>
+</section>
+<section id="cluster-routing-allocation-cluster-concurrent-rebalance">
+<h3>cluster.routing.allocation.cluster_concurrent_rebalance<a class="headerlink" href="#cluster-routing-allocation-cluster-concurrent-rebalance" title="Link to this heading">#</a></h3>
+<p>This controls how many concurrent shard rebalances are allowed across the whole cluster at once. The default is also <code class="docutils literal notranslate"><span class="pre">2</span></code>. Where the previous setting is per node, this one is a global cap on rebalancing moves.</p>
+<p>When you drain a node, the cluster rebalances shards to even out the load, and this setting caps how many of those moves happen in parallel cluster-wide. Raising it lets the cluster coordinate more relocations at the same time.</p>
+</section>
+<section id="indices-recovery-max-bytes-per-sec">
+<h3>indices.recovery.max_bytes_per_sec<a class="headerlink" href="#indices-recovery-max-bytes-per-sec" title="Link to this heading">#</a></h3>
+<p>The two settings above control how many shards move at once. This one controls how fast each transfer is allowed to go. It limits the total inbound and outbound recovery traffic per node, and the default is <code class="docutils literal notranslate"><span class="pre">40mb</span></code> per second.</p>
+<p>On modern hardware with fast disks and a fast network, 40 MB/s is often the real bottleneck, not the concurrency. If your nodes and network can handle more, raising this lets each shard transfer saturate the available bandwidth instead of being artificially capped.</p>
+</section>
+</section>
+<section id="putting-it-together">
+<h2>Putting It Together<a class="headerlink" href="#putting-it-together" title="Link to this heading">#</a></h2>
+<p>Before draining a node, bump the three settings so the cluster moves more shards at once and each one moves faster:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>PUT<span class="w"> </span>_cluster/settings
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">"transient"</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">"cluster.routing.allocation.node_concurrent_recoveries"</span>:<span class="w"> </span><span class="m">10</span>,
+<span class="w">    </span><span class="s2">"cluster.routing.allocation.cluster_concurrent_rebalance"</span>:<span class="w"> </span><span class="m">10</span>,
+<span class="w">    </span><span class="s2">"indices.recovery.max_bytes_per_sec"</span>:<span class="w"> </span><span class="s2">"200mb"</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>I used <code class="docutils literal notranslate"><span class="pre">transient</span></code> on purpose. Transient settings are cleared on a full cluster restart, so they are a good fit for a temporary change during a maintenance window. Use <code class="docutils literal notranslate"><span class="pre">persistent</span></code> if you want the values to survive restarts.</p>
+<p>While the relocation runs, watch the progress with the <code class="docutils literal notranslate"><span class="pre">_cat</span></code> APIs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># shards currently relocating, and from/to which node</span>
+GET<span class="w"> </span>_cat/recovery?v<span class="p">&amp;</span><span class="nv">active_only</span><span class="o">=</span><span class="nb">true</span>
+
+<span class="c1"># cluster health, including the number of relocating shards</span>
+GET<span class="w"> </span>_cluster/health
+</pre></div>
+</div>
+<p>When the node is empty and you are done, put the settings back to their defaults so normal cluster activity is not competing with aggressive recovery traffic:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>PUT<span class="w"> </span>_cluster/settings
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">"transient"</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">"cluster.routing.allocation.node_concurrent_recoveries"</span>:<span class="w"> </span>null,
+<span class="w">    </span><span class="s2">"cluster.routing.allocation.cluster_concurrent_rebalance"</span>:<span class="w"> </span>null,
+<span class="w">    </span><span class="s2">"indices.recovery.max_bytes_per_sec"</span>:<span class="w"> </span>null
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Setting a value to <code class="docutils literal notranslate"><span class="pre">null</span></code> resets it to the default.</p>
+</section>
+<section id="mind-the-trade-off">
+<h2>Mind the Trade-Off<a class="headerlink" href="#mind-the-trade-off" title="Link to this heading">#</a></h2>
+<p>These settings are throttles for a reason, so turning them up is not free. More concurrent recoveries and higher bandwidth mean more CPU, disk I/O, and network pressure on every node involved. If you push too hard on a cluster that is also serving production traffic, you can slow down indexing and searches for your users, which defeats the purpose.</p>
+<p>My rule is to be aggressive during a dedicated maintenance window when the cluster is quiet, and conservative when real traffic is on the line. Raise the values gradually and keep an eye on node CPU and disk I/O while the relocation runs. If latency starts climbing, back off. There is no universal magic number, because the right value depends entirely on your hardware and how busy the cluster is.</p>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>The first time I had to drain a node on a large cluster, I assumed it was stuck, because the default pace is so slow it looks frozen. Once I understood that OpenSearch is just being cautious, these three settings turned an all-day chore into something that finishes while I grab a coffee.</p>
+<p>I treat them as a maintenance toolkit: raise <code class="docutils literal notranslate"><span class="pre">node_concurrent_recoveries</span></code> and <code class="docutils literal notranslate"><span class="pre">cluster_concurrent_rebalance</span></code> to move more shards at once, raise <code class="docutils literal notranslate"><span class="pre">indices.recovery.max_bytes_per_sec</span></code> to move each one faster, do the work, then reset everything. Just respect the trade-off and watch your cluster while it runs. Used carefully, they make node decommissioning and data migration a lot faster.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings-for-indexes/">https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings-for-indexes/</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/availability-recovery/">https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/availability-recovery/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

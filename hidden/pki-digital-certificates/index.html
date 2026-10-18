@@ -1,0 +1,601 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Digital Certificates Without the Mystery: What They Are and Why They Exist" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/pki-digital-certificates/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/10/17 This blog post explains what a digital certificate is and why it exists, in plain language, using analogies anyone can follow. It covers the security goals a cert..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_pki-digital-certificates_5878bbbc.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/17 This blog post explains what a digital certificate is and why it exists, in plain language, using analogies anyone can follow. It covers the security goals a cert..." />
+<meta name="description" content="Blog Post Publish Date: 2026/10/17 This blog post explains what a digital certificate is and why it exists, in plain language, using analogies anyone can follow. It covers the security goals a cert..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Digital Certificates Without the Mystery: What They Are and Why They Exist &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=45791c5e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/pki-digital-certificates';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/17</em></p>
+<hr class="docutils" />
+<section id="digital-certificates-without-the-mystery-what-they-are-and-why-they-exist">
+<h1>Digital Certificates Without the Mystery: What They Are and Why They Exist<a class="headerlink" href="#digital-certificates-without-the-mystery-what-they-are-and-why-they-exist" title="Link to this heading">#</a></h1>
+<p>This blog post explains what a digital certificate is and why it exists, in plain language, using analogies anyone can follow. It covers the security goals a certificate helps you achieve, the difference between symmetric and asymmetric cryptography, what a digital signature really is, how the X.509 certificate and its chain of trust tie everything together, and how all of it adds up to what people call PKI (Public Key Infrastructure). You do not need any cryptography background to read it.</p>
+<p>Certificates have a reputation for being scary. The first time someone shows you a block of text that starts with <code class="docutils literal notranslate"><span class="pre">-----BEGIN</span> <span class="pre">CERTIFICATE-----</span></code>, it looks like noise. I want to remove that mystery. By the end of this post, the padlock in your browser and the whole idea of “trust” on the internet should feel obvious.</p>
+<section id="what-is-a-certificate-really">
+<h2>What is a Certificate, Really?<a class="headerlink" href="#what-is-a-certificate-really" title="Link to this heading">#</a></h2>
+<p>Forget computers for a second. In everyday life, a certificate is a document, physical or digital, that proves something is true: that you completed a course, that you own a car, that you are who you claim to be. A diploma on a wall is a certificate. A medal from a competition is a certificate. What they all have in common is that some trusted authority vouches for a fact about you.</p>
+<p>A digital certificate is the same idea, moved into the digital world. It is a document that proves an identity, for example that <code class="docutils literal notranslate"><span class="pre">example.com</span></code> really is <code class="docutils literal notranslate"><span class="pre">example.com</span></code>, and that nobody is impersonating it. The hard part is not the definition. The hard part is how you make that proof trustworthy when the two sides have never met, and that is the job of cryptography.</p>
+</section>
+<section id="the-goals-what-security-actually-means">
+<h2>The Goals: What Security Actually Means<a class="headerlink" href="#the-goals-what-security-actually-means" title="Link to this heading">#</a></h2>
+<p>Before the tools, it helps to know what we are trying to achieve. Information security rests on a few goals, and certificates exist to serve them:</p>
+<ul class="simple">
+<li><p><strong>Confidentiality</strong>: only the intended people can read the information. If a message is intercepted on the way, the interceptor sees gibberish.</p></li>
+<li><p><strong>Integrity</strong>: the information was not altered in transit. If even one character changes, you can detect it.</p></li>
+<li><p><strong>Authenticity</strong>: the sender is really who they claim to be, not an impostor.</p></li>
+<li><p><strong>Non-repudiation</strong>: the author cannot later deny that they did it. The action is provably theirs.</p></li>
+</ul>
+<p>Every certificate feature maps back to one of these four.</p>
+</section>
+<section id="symmetric-vs-asymmetric-cryptography">
+<h2>Symmetric vs Asymmetric Cryptography<a class="headerlink" href="#symmetric-vs-asymmetric-cryptography" title="Link to this heading">#</a></h2>
+<p>Cryptography is just the art of turning readable text into unreadable text, so that only someone with the right key can turn it back. There are two flavors, and the difference between them is the most important idea in this post.</p>
+<section id="symmetric-one-shared-key">
+<h3>Symmetric: One Shared Key<a class="headerlink" href="#symmetric-one-shared-key" title="Link to this heading">#</a></h3>
+<p>Imagine you and a friend own the exact same key to a padlock. You put a message in a chest, lock it with your key, and send the chest. Your friend opens it with an identical copy of that same key.</p>
+<p>This is fast and efficient, but it has one painful problem: how do you get the key to your friend in the first place? If you mail the key and someone copies it along the way, that person can now open every chest you ever send. Symmetric encryption only works if both sides already share a secret and already trust each other.</p>
+</section>
+<section id="asymmetric-a-pair-of-keys">
+<h3>Asymmetric: A Pair of Keys<a class="headerlink" href="#asymmetric-a-pair-of-keys" title="Link to this heading">#</a></h3>
+<p>Now imagine a different setup. Each person has a pair: a <strong>public key</strong> that everyone can see, and a <strong>private key</strong> that only they keep.</p>
+<p>Think of the public key as an open padlock your friend hands out to anyone. Anyone can snap it shut, but only your friend holds the one key in the world that opens it. So you take your friend’s open padlock, lock your message inside the chest, and send it. Once the padlock clicks shut, even you cannot reopen it, because you do not have the key. Only your friend can, with their private key.</p>
+<p>This solves the delivery problem. You never have to send a secret key to anyone. That is why asymmetric cryptography is what makes secure communication between strangers, like browsing the web, possible.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Asymmetric cryptography is slower than symmetric. In practice, systems use asymmetric cryptography only to safely agree on a temporary shared key, then switch to fast symmetric encryption for the actual data. You get the safety of one and the speed of the other.</p>
+</div>
+</section>
+</section>
+<section id="digital-signatures-running-it-backwards">
+<h2>Digital Signatures: Running It Backwards<a class="headerlink" href="#digital-signatures-running-it-backwards" title="Link to this heading">#</a></h2>
+<p>A digital signature is asymmetric cryptography used in reverse, and it is how we get authenticity and non-repudiation.</p>
+<p>With encryption, anyone locks a message with your public key and only you unlock it with your private key. With a signature, you flip the roles: <strong>you</strong> lock (sign) with your private key, and <strong>anyone</strong> can unlock (verify) with your public key.</p>
+<p>The old analogy is a wax seal. You own a unique metal stamp (your private key) that nobody else has. You press it into hot wax on a document to seal it. To prove the seal is genuine, you have handed out plaster molds (your public key) to everyone. Nobody can use the mold to forge your seal, but anyone can press it against your wax seal to check that it matches.</p>
+<p>That is the “one to many” logic of signatures: only you can create the seal, but anyone can verify it is really yours. If the document changes after signing, the seal no longer matches, so a signature protects integrity too.</p>
+</section>
+<section id="x-509-the-standard-certificate-format">
+<h2>X.509: The Standard Certificate Format<a class="headerlink" href="#x-509-the-standard-certificate-format" title="Link to this heading">#</a></h2>
+<p>So far we have identities, key pairs, and signatures. X.509 is the standard that packages all of it into a single document. It is the format behind HTTPS websites, signed email, code signing, and government-issued electronic IDs.</p>
+<p>An X.509 certificate binds a <strong>public key</strong> to an <strong>identity</strong> (a website, a person, an organization) and carries a <strong>digital signature</strong> from the authority that issued it. The best way to understand its fields is to compare it to a driver’s license.</p>
+<ul class="simple">
+<li><p><strong>Subject (the holder)</strong>: your name on the license. In a certificate, the Subject says who owns it, for example the domain <code class="docutils literal notranslate"><span class="pre">example.com</span></code>. If the name does not match who is presenting it, it is invalid.</p></li>
+<li><p><strong>Issuer (who vouches for it)</strong>: you do not print your own driver’s license at home; a licensing authority issues it. In a certificate, the Issuer is the <strong>Certificate Authority (CA)</strong>. We trust your license because we trust the authority that signed it.</p></li>
+<li><p><strong>Public key</strong>: the photo on your license. Anyone can look at it and compare it against the person in front of them to confirm the identity. The matching private key stays secret with the owner.</p></li>
+<li><p><strong>Validity period</strong>: the “valid from” and “valid until” dates. An expired license has no legal value even if everything else is correct, and the same is true for an expired certificate.</p></li>
+<li><p><strong>Serial number</strong>: a unique registration number that identifies this specific document.</p></li>
+<li><p><strong>Revocation (CRL / OCSP)</strong>: if your license is suspended, it might still be physically valid by date, but the authority’s system says it no longer counts. Certificates work the same way. If a private key leaks, the CA can revoke the certificate before its expiration date.</p></li>
+</ul>
+<p>A license also tells you what you are allowed to drive. Certificates have the same idea: fields that say “this certificate may be used to authenticate a web server” or “this one may only sign email.” A certificate issued for one purpose should not be accepted for another.</p>
+</section>
+<section id="the-chain-of-trust">
+<h2>The Chain of Trust<a class="headerlink" href="#the-chain-of-trust" title="Link to this heading">#</a></h2>
+<p>Now the question that ties everything together. Your browser has never met <code class="docutils literal notranslate"><span class="pre">example.com</span></code>. So why does it trust the certificate that site presents?</p>
+<p>Because trust is delegated in a chain. It works like the hierarchy behind a driver’s license:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Leaf Certificate (example.com)
+        | signed by
+Intermediate CA
+        | signed by
+Root CA
+</pre></div>
+</div>
+<p>The site’s certificate (the <strong>leaf</strong>) is signed by an intermediate authority, which is signed by a <strong>Root CA</strong>. Your browser does not need to know the website in advance. It only needs to trust the Root CA at the top. If it trusts the root, and the root vouches for the intermediate, and the intermediate vouches for the site, then the trust flows all the way down.</p>
+<p>So where does that initial trust in the root come from? Your operating system and browser ship with a built-in list of trusted Root CAs, called a <strong>trust store</strong>. Apple, Microsoft, Google, and Mozilla each maintain their own list, and an industry group (the CA/Browser Forum) sets the rules that CAs must follow to be included. When you install your browser, you are implicitly trusting that curated list of roots. Everything else is derived from it.</p>
+<p>This is also why a <strong>self-signed</strong> certificate triggers a warning. A self-signed certificate is one where the Subject and the Issuer are the same entity, like printing your own license at home. There is no trusted authority vouching for it, so the chain has no root to lead back to, and your browser refuses to trust it by default.</p>
+</section>
+<section id="it-all-has-a-name-pki">
+<h2>It All Has a Name: PKI<a class="headerlink" href="#it-all-has-a-name-pki" title="Link to this heading">#</a></h2>
+<p>Everything in this post has a collective name, and it is a term that scares people more than it should: <strong>PKI, Public Key Infrastructure</strong>. It sounds like a heavy enterprise product you have to buy and install. It is not. PKI is just the name for the whole system that makes public keys trustworthy, and you have already learned every piece of it.</p>
+<p>Break the acronym apart and the mystery goes away:</p>
+<ul class="simple">
+<li><p><strong>Public Key</strong>: the asymmetric key pair from earlier, where the public half is shared and the private half stays secret.</p></li>
+<li><p><strong>Infrastructure</strong>: the set of roles, rules, and documents that let strangers trust those public keys without ever meeting.</p></li>
+</ul>
+<p>So PKI is not a single tool. It is the combination of the parts you already know:</p>
+<ul class="simple">
+<li><p><strong>Certificates</strong> (X.509): the documents that bind a public key to an identity.</p></li>
+<li><p><strong>Certificate Authorities (CAs)</strong>: the issuers that sign those documents, arranged as roots and intermediates.</p></li>
+<li><p><strong>The chain of trust</strong>: the path that links a leaf certificate back to a trusted root.</p></li>
+<li><p><strong>Trust stores</strong>: the lists of roots your operating system and browser decide to trust.</p></li>
+<li><p><strong>Revocation (CRL / OCSP)</strong>: the mechanism to cancel a certificate before it expires.</p></li>
+</ul>
+<p>Put those together and you have PKI. When you open an HTTPS site, your browser runs the whole PKI process in the background: it receives a certificate, walks the chain up to a root in its trust store, checks the signatures and validity dates, and checks whether the certificate was revoked. If all of that passes, you get the padlock. If any step fails, you get a warning.</p>
+<p>So PKI is not a mysterious product you install. It is the set of parts that turns a pile of keys and documents into actual trust, and it is already running on every device you own.</p>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>I used to treat certificates as a black box: generate one, install it, hope the padlock turns green. Taking the time to understand the pieces changed how I work. Once you see that a certificate is just a public key plus an identity, signed by someone you already trust, the error messages stop being cryptic. “Certificate expired”, “name mismatch”, “unknown issuer”, each one now maps to a specific field or a break in the chain.</p>
+<p>My advice is to internalize two ideas and the rest follows. First, asymmetric keys let strangers communicate securely because the public key can be shared freely while the private key never leaves its owner. Second, trust is not magic, it is delegated down a chain that ends at a root your system already trusts. Hold on to those two, and both certificates and the PKI around them stop being a mystery.</p>
+<p>One last point that I think is worth making, because it is a common misconception. It is wrong to think TLS is only about encrypting data. Yes, encryption matters and TLS does it, but that is just one part. TLS also guarantees integrity, so the data cannot be tampered with in transit, and it guarantees authenticity, so you know you are really talking to the server you intended and not an impostor. That authenticity part is exactly where the certificates from this post come in. Without them, you could have a perfectly encrypted conversation with an attacker and never know it.</p>
+<p>If you want to go deeper, the natural next steps are how TLS uses all of this during the HTTPS handshake, and mutual TLS, where the client also presents a certificate. Those build directly on the foundation here.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.ssl.com/faqs/what-is-an-x-509-certificate/">https://www.ssl.com/faqs/what-is-an-x-509-certificate/</a></p></li>
+<li><p><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc5280">https://www.rfc-editor.org/rfc/rfc5280</a></p></li>
+<li><p><a class="reference external" href="https://wiki.mozilla.org/CA">https://wiki.mozilla.org/CA</a></p></li>
+<li><p><a class="reference external" href="https://cabforum.org/">https://cabforum.org/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

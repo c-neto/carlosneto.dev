@@ -1,0 +1,609 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="TLS Key Exchange Without the Mystery: Diffie-Hellman vs RSA" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/pki-diffie-hellman-rsa/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="* Blog Post Publish Date:* This blog post explains how two computers that have never met agree on a secret key over a network everyone can watch. It covers the problem key exchange solves, how the ..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_pki-diffie-hellman-rsa_050165c3.png" />
+<meta property="og:image:alt" content="* Blog Post Publish Date:* This blog post explains how two computers that have never met agree on a secret key over a network everyone can watch. It covers the problem key exchange solves, how the ..." />
+<meta name="description" content="* Blog Post Publish Date:* This blog post explains how two computers that have never met agree on a secret key over a network everyone can watch. It covers the problem key exchange solves, how the ..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>TLS Key Exchange Without the Mystery: Diffie-Hellman vs RSA &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=45791c5e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/pki-diffie-hellman-rsa';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p>*<strong>Blog Post Publish Date:</strong> *</p>
+<hr class="docutils" />
+<section id="tls-key-exchange-without-the-mystery-diffie-hellman-vs-rsa">
+<h1>TLS Key Exchange Without the Mystery: Diffie-Hellman vs RSA<a class="headerlink" href="#tls-key-exchange-without-the-mystery-diffie-hellman-vs-rsa" title="Link to this heading">#</a></h1>
+<p>This blog post explains how two computers that have never met agree on a secret key over a network everyone can watch. It covers the problem key exchange solves, how the old RSA key exchange worked and why it was retired, how Diffie-Hellman lets both sides build the same secret without ever sending it, what forward secrecy means and why it is the whole point, and a small hands-on with <code class="docutils literal notranslate"><span class="pre">openssl</span></code> so you can see which key exchange your connections actually use. I will lean on a paint-mixing analogy, so you do not need any math background to follow it.</p>
+<p>This is a follow-up to my posts on digital certificates and TLS. In the TLS post I said step 4 of the handshake is “both sides agree on a temporary shared key” and left it there. This post opens that box. If the handshake already makes sense to you, this fills in the one piece I skipped.</p>
+<section id="the-problem-agreeing-on-a-secret-in-public">
+<h2>The Problem: Agreeing on a Secret in Public<a class="headerlink" href="#the-problem-agreeing-on-a-secret-in-public" title="Link to this heading">#</a></h2>
+<p>Symmetric encryption is fast, and TLS uses it for the actual data. But symmetric encryption has one requirement that sounds impossible: both sides need the same secret key. The server has it, the client needs it, and the only path between them is a network where anyone can be listening.</p>
+<p>So how do you send the key to the other side without the eavesdropper copying it on the way? If you just transmit it, you have handed your secret to everyone sniffing the wire. This is the key exchange problem, and for a long time it felt like a chicken-and-egg trap. You need a secure channel to share the key, but you need the key to have a secure channel.</p>
+<p>There are two classic ways TLS solved this. One is clever but flawed. The other feels like magic the first time you get it.</p>
+</section>
+<section id="the-old-way-rsa-key-exchange">
+<h2>The Old Way: RSA Key Exchange<a class="headerlink" href="#the-old-way-rsa-key-exchange" title="Link to this heading">#</a></h2>
+<p>The first approach TLS used leaned on the server’s certificate. Remember that the certificate carries the server’s <strong>public key</strong>, and asymmetric cryptography means anything encrypted with the public key can only be decrypted with the matching private key.</p>
+<p>So the RSA key exchange went like this:</p>
+<ul class="simple">
+<li><p><strong>1</strong>: The client generates a random secret (the material for the symmetric key).</p></li>
+<li><p><strong>2</strong>: The client encrypts that secret with the server’s public key, taken from the certificate.</p></li>
+<li><p><strong>3</strong>: The client sends the encrypted blob across the network. Anyone watching sees it, but only the server’s private key can open it.</p></li>
+<li><p><strong>4</strong>: The server decrypts it with its private key. Now both sides share the secret, and nobody in the middle could read it.</p></li>
+</ul>
+<p>This works, and for years it was everywhere. But it has a flaw that eventually got it removed from modern TLS, and the flaw is worth understanding because it leads straight to the reason Diffie-Hellman won.</p>
+<section id="why-rsa-key-exchange-was-retired">
+<h3>Why RSA Key Exchange Was Retired<a class="headerlink" href="#why-rsa-key-exchange-was-retired" title="Link to this heading">#</a></h3>
+<p>The secret only ever traveled in one form: encrypted with the server’s public key. That sounds safe, until you ask one question. What happens the day the server’s private key leaks?</p>
+<p>Imagine an attacker who has been patient. They cannot read your traffic today, so they just record all of it and store it. Encrypted blobs, year after year. Then, someday, the server’s private key is stolen, through a breach, a bug like Heartbleed, a subpoena, whatever. With that one private key, the attacker goes back and decrypts <strong>every</strong> recorded session, because every one of them shipped its secret encrypted with the matching public key.</p>
+<p>One stolen key unlocks the entire history, and that is the problem. The security of every past conversation depends on a long-lived private key staying secret forever, and “forever” is not a guarantee anyone can make.</p>
+<p>This attack even has a name people use now: <strong>harvest now, decrypt later</strong>. RSA key exchange is exactly the scenario it preys on.</p>
+</section>
+</section>
+<section id="the-new-way-diffie-hellman">
+<h2>The New Way: Diffie-Hellman<a class="headerlink" href="#the-new-way-diffie-hellman" title="Link to this heading">#</a></h2>
+<p>Diffie-Hellman solves the same problem from a completely different angle. Instead of one side creating the secret and shipping it to the other, <strong>both sides build the same secret together</strong>, and the secret itself is never sent across the network. Not encrypted, not in any form. It simply never travels.</p>
+<p>The first time I understood this, it genuinely felt like a trick. The clearest way I know to explain it is with paint.</p>
+<section id="the-paint-mixing-analogy">
+<h3>The Paint Mixing Analogy<a class="headerlink" href="#the-paint-mixing-analogy" title="Link to this heading">#</a></h3>
+<p>Picture two people, Alice and Bob, who want to end up with the same secret color of paint. They can shout across a room full of eavesdroppers, but anything they say out loud is public.</p>
+<ul class="simple">
+<li><p><strong>1</strong>: They publicly agree on a <strong>shared base color</strong>, say yellow. Everyone in the room hears this. It is not a secret.</p></li>
+<li><p><strong>2</strong>: Alice picks a <strong>private color</strong> and keeps it to herself, say red. Bob picks his own private color, say blue. Neither one tells anyone.</p></li>
+<li><p><strong>3</strong>: Each mixes their private color into the public yellow. Alice makes orange (yellow + red), Bob makes green (yellow + blue). They shout these mixtures across the room. The eavesdroppers now hear “orange” and “green”.</p></li>
+<li><p><strong>4</strong>: Alice takes Bob’s green and mixes in her own private red. Bob takes Alice’s orange and mixes in his own private blue. Both end up with the exact same muddy color: yellow + red + blue.</p></li>
+</ul>
+<p>The eavesdroppers heard yellow, orange, and green, but they cannot reproduce the final color. To get there they would need to un-mix orange back into its ingredients to recover Alice’s red, and separating mixed paint into its original colors is the hard part. Mixing is easy, un-mixing is practically impossible. That gap is the whole security.</p>
+<p>In real Diffie-Hellman the “colors” are numbers and the “mixing” is modular exponentiation, a math operation that is easy to do forward and brutally hard to reverse. But the shape is exactly the paint. Both sides derive the same secret, and the secret never once crosses the wire.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Diffie-Hellman handles the key exchange, but on its own it does not tell you <strong>who</strong> you are mixing paint with. An attacker in the middle could run the exchange with each side separately. That is why TLS still uses the server’s certificate to authenticate the server during the handshake. Diffie-Hellman agrees on the key, the certificate proves identity. I cover the identity side in my TLS and digital certificates posts.</p>
+</div>
+</section>
+<section id="why-diffie-hellman-gives-forward-secrecy">
+<h3>Why Diffie-Hellman Gives Forward Secrecy<a class="headerlink" href="#why-diffie-hellman-gives-forward-secrecy" title="Link to this heading">#</a></h3>
+<p>Now bring back the patient attacker who records everything. In modern TLS, the private colors Alice and Bob pick are <strong>fresh and temporary</strong>, generated for that one connection and thrown away the moment it ends. This variant is called <strong>ephemeral</strong> Diffie-Hellman, which is why you see it written as <strong>DHE</strong> or <strong>ECDHE</strong> (the E is for ephemeral).</p>
+<p>Because the secret for each session was built from throwaway private values that no longer exist, stealing the server’s long-lived private key later gets the attacker nothing. That private key was used to <strong>sign</strong> the handshake and prove identity, but it was never used to derive the session secret. There is no master key sitting around that unlocks the recorded history.</p>
+<p>This property is called <strong>forward secrecy</strong> (or perfect forward secrecy). Each session is its own island. Crack one, and you have exactly one session, not the archive. This single property is why the entire industry moved off RSA key exchange, and why TLS 1.3 removed it completely and only allows ephemeral Diffie-Hellman.</p>
+</section>
+</section>
+<section id="rsa-vs-diffie-hellman-side-by-side">
+<h2>RSA vs Diffie-Hellman Side by Side<a class="headerlink" href="#rsa-vs-diffie-hellman-side-by-side" title="Link to this heading">#</a></h2>
+<p>To make the difference concrete:</p>
+<ul class="simple">
+<li><p><strong>RSA key exchange</strong>: one side creates the secret and sends it encrypted with the server’s public key. Simple, but if the server’s private key ever leaks, every recorded past session can be decrypted. No forward secrecy.</p></li>
+<li><p><strong>Diffie-Hellman (ephemeral)</strong>: both sides build the same secret together, and the secret never travels. The per-session private values are discarded immediately, so a leaked long-term key does not expose past sessions. Forward secrecy by design.</p></li>
+</ul>
+<p>One more thing worth clearing up, because the naming confuses people. RSA shows up in two different jobs, and TLS 1.3 only retired one of them. The <strong>RSA key exchange</strong> is gone. But an <strong>RSA certificate</strong>, where the server’s RSA key is used to sign the handshake and prove identity, is still perfectly fine. So a modern connection can and often does use an RSA certificate for authentication while using ECDHE for the key exchange. RSA the key exchange is dead. RSA the signature is alive and well.</p>
+</section>
+<section id="hands-on-see-your-key-exchange">
+<h2>Hands-On: See Your Key Exchange<a class="headerlink" href="#hands-on-see-your-key-exchange" title="Link to this heading">#</a></h2>
+<p>Enough theory. You can see exactly which key exchange a connection negotiated, with tools you already have.</p>
+<p>Connect to a server and look at the negotiated cipher and key exchange:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">$ inspect the negotiated key exchange with openssl</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># connect and let the handshake complete, then read the details</span>
+<span class="nb">echo</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>s_client<span class="w"> </span>-connect<span class="w"> </span>example.com:443<span class="w"> </span>-servername<span class="w"> </span>example.com<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-iE<span class="w"> </span><span class="s2">"protocol|cipher"</span>
+</pre></div>
+</div>
+</div>
+<p>On a modern server you will see a TLS 1.3 protocol and a cipher like <code class="docutils literal notranslate"><span class="pre">TLS_AES_256_GCM_SHA384</span></code>. TLS 1.3 does not even print the key exchange in the cipher name anymore, because it is <strong>always</strong> ephemeral Diffie-Hellman. There is no other option left.</p>
+<p>On TLS 1.2 the key exchange is visible right in the cipher name, so you can tell the two approaches apart at a glance:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">$ the key exchange is written into the TLS 1.2 cipher name</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ECDHE at the front means ephemeral Diffie-Hellman, so forward secrecy</span>
+<span class="c1"># example: ECDHE-RSA-AES256-GCM-SHA384</span>
+<span class="c1">#          ^^^^^ key exchange   ^^^ certificate signature</span>
+
+<span class="c1"># a cipher that starts with TLS_RSA_... is the old RSA key exchange, no forward secrecy</span>
+</pre></div>
+</div>
+</div>
+<p>Read that cipher name like a sentence. <code class="docutils literal notranslate"><span class="pre">ECDHE-RSA-AES256-GCM-SHA384</span></code> means: use ephemeral elliptic-curve Diffie-Hellman for the key exchange, an RSA certificate to prove identity, and AES-256-GCM for the data. The <code class="docutils literal notranslate"><span class="pre">ECDHE</span></code> at the front is your forward secrecy. A name that starts with plain <code class="docutils literal notranslate"><span class="pre">RSA</span></code> for the exchange is the old, retired approach.</p>
+<p>You can also list which key exchanges your local OpenSSL supports:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">$ list ciphers that provide forward secrecy</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ECDHE and DHE ciphers are the ones with forward secrecy</span>
+openssl<span class="w"> </span>ciphers<span class="w"> </span>-v<span class="w"> </span><span class="s1">'ECDHE:DHE'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A full hands-on lab with a local CA, a server certificate, and the handshake end to end lives in my labs repository: <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/">c-neto/my-devops-labs</a>. If you want to reproduce a connection and watch the key exchange yourself, that is the place.</p>
+</div>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>For a long time, “how do two strangers agree on a secret key in public” was the one part of TLS I accepted on faith and never really understood. The paint analogy was what finally made it click for me, and I keep coming back to it because it is honest: mixing is easy, un-mixing is not, and that asymmetry is the entire trick.</p>
+<p>The takeaway I care about most is forward secrecy. RSA key exchange was clever, but tying the safety of every past conversation to one long-lived private key was a time bomb, and “harvest now, decrypt later” is not a hypothetical. Diffie-Hellman defused it by never sending the secret at all and throwing away the per-session values the moment the connection closes. That is why TLS 1.3 made it the only option, and I think that was the right call.</p>
+<p>If I had to compress this whole post into one sentence: RSA key exchange ships the secret and hopes the key never leaks, Diffie-Hellman builds the secret on both sides so there is nothing to leak. Once you see that difference, the move the whole industry made stops looking like a detail and starts looking obvious.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc8446">https://datatracker.ietf.org/doc/html/rfc8446</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange">https://en.wikipedia.org/wiki/Diffie–Hellman_key_exchange</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Forward_secrecy">https://en.wikipedia.org/wiki/Forward_secrecy</a></p></li>
+<li><p><a class="reference external" href="https://ssl-config.mozilla.org/">https://ssl-config.mozilla.org/</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

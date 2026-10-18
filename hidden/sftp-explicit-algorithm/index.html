@@ -400,7 +400,7 @@
 <h2>The Problem: a Misleading Error<a class="headerlink" href="#the-problem-a-misleading-error" title="Link to this heading">#</a></h2>
 <p>Depending on how the SFTP server is configured, you sometimes have to explicitly tell the client which algorithm to use for the connection. When this is the issue, the log message is confusing and does not clearly point at the algorithm as the cause.</p>
 <p>Here is a real example. The connection fails with a permission error:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sftp<span class="w"> </span>-i<span class="w"> </span>pk.pem<span class="w"> </span>-oPort<span class="o">=</span><span class="m">10122</span><span class="w"> </span>john-doe@sftp.foobar.com
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sftp<span class="w"> </span>-i<span class="w"> </span>pk.pem<span class="w"> </span>john-doe@sftp.foobar.com
 
 john-doe@sftp.foobar.com:<span class="w"> </span>Permission<span class="w"> </span>denied<span class="w"> </span><span class="o">(</span>publickey<span class="o">)</span>.
 Connection<span class="w"> </span>closed
@@ -439,7 +439,6 @@ ssh-rsa-cert-v01@openssh.com
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sftp<span class="w"> </span>-i<span class="w"> </span>pk.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-o<span class="w"> </span><span class="nv">HostKeyAlgorithms</span><span class="o">=</span>+ssh-rsa<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-o<span class="w"> </span><span class="nv">PubkeyAcceptedKeyTypes</span><span class="o">=</span>+ssh-rsa<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-o<span class="w"> </span><span class="nv">Port</span><span class="o">=</span><span class="m">10122</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>john-doe@sftp.foobar.com
 
 Connected<span class="w"> </span>to<span class="w"> </span>sftp.foobar.com.

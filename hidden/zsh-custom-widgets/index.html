@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="How to Build Your Own Custom Zsh Widgets" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/zsh-custom-widgets/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: YYYY/MM/DD This blog post explains what Zsh widgets are, how the Zsh Line Editor (ZLE) works behind the scenes, and how to build your own custom widgets bound to keyboard sh..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_zsh-custom-widgets_e9204fca.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: YYYY/MM/DD This blog post explains what Zsh widgets are, how the Zsh Line Editor (ZLE) works behind the scenes, and how to build your own custom widgets bound to keyboard sh..." />
+<meta name="description" content="Blog Post Publish Date: YYYY/MM/DD This blog post explains what Zsh widgets are, how the Zsh Line Editor (ZLE) works behind the scenes, and how to build your own custom widgets bound to keyboard sh..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>How to Build Your Own Custom Zsh Widgets &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=45791c5e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/zsh-custom-widgets';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../blog/">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <p><em><strong>Blog Post Publish Date:</strong> YYYY/MM/DD</em></p>
+<hr class="docutils" />
+<section id="how-to-build-your-own-custom-zsh-widgets">
+<h1>How to Build Your Own Custom Zsh Widgets<a class="headerlink" href="#how-to-build-your-own-custom-zsh-widgets" title="Link to this heading">#</a></h1>
+<p>This blog post explains what Zsh widgets are, how the Zsh Line Editor (ZLE) works behind the scenes, and how to build your own custom widgets bound to keyboard shortcuts. It includes hands-on examples you can paste directly into your <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> and test right away.</p>
+<section id="the-itch-repeating-the-same-keystrokes-all-day">
+<h2>The Itch: Repeating the Same Keystrokes All Day<a class="headerlink" href="#the-itch-repeating-the-same-keystrokes-all-day" title="Link to this heading">#</a></h2>
+<p>A while ago I wrote about <a class="reference internal" href="../../blog/2024/2024-04-21-fzf/"><span class="doc std std-doc">fzf</span></a> and how its Zsh widgets saved me from the tedious <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">command</span> <span class="pre">|</span> <span class="pre">grep</span></code> dance. That post left a question in my head: what exactly is a widget, and could I write my own?</p>
+<p>Every day I type the same small corrections over and over. I forget <code class="docutils literal notranslate"><span class="pre">sudo</span></code> and have to go back to the start of the line. I want to wrap the current command in a loop. I want to insert the output of the last command without reaching for the mouse. These are tiny annoyances, but they add up. The kind of thing that gets on my nerves after the hundredth time.</p>
+<p>Turns out Zsh already has the machinery to fix all of this. It is called ZLE, and once it clicks, writing a custom widget takes a few lines.</p>
+</section>
+<section id="what-is-a-widget">
+<h2>What is a Widget?<a class="headerlink" href="#what-is-a-widget" title="Link to this heading">#</a></h2>
+<p>In Zsh, almost everything you do at the prompt is handled by a <strong>widget</strong>. Moving the cursor, deleting a word, searching history, completing a command, accepting the line when you press <code class="docutils literal notranslate"><span class="pre">Enter</span></code>. All of these are widgets.</p>
+<p>ZLE (Zsh Line Editor) is the component that reads your keystrokes and edits the command line. When you press a key, ZLE looks up which widget that key is bound to and runs it. The <code class="docutils literal notranslate"><span class="pre">bindkey</span></code> command is the bridge between a key sequence and a widget.</p>
+<p>You can list every widget available in your shell with:</p>
+<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>zle<span class="w"> </span>-al
+</pre></div>
+</div>
+<p>Widgets whose name starts with a dot (like <code class="docutils literal notranslate"><span class="pre">.accept-line</span></code>) are read-only system widgets that you cannot change. The rest are fair game.</p>
+<p>To see your current key bindings, run <code class="docutils literal notranslate"><span class="pre">bindkey</span></code> alone. To print them as commands you could paste back into your <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>, use:</p>
+<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>bindkey<span class="w"> </span>-L
+</pre></div>
+</div>
+<p>So a widget is just a named action. A <strong>user-defined widget</strong> is a shell function you register with ZLE so it can be bound to a key, exactly like the built-in ones.</p>
+</section>
+<section id="the-three-commands-you-always-need">
+<h2>The Three Commands You Always Need<a class="headerlink" href="#the-three-commands-you-always-need" title="Link to this heading">#</a></h2>
+<p>Building a custom widget comes down to three steps:</p>
+<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>autoload<span class="w"> </span>-U<span class="w"> </span>my-widget<span class="w">   </span><span class="c1"># load a widget function from your $fpath</span>
+zle<span class="w"> </span>-N<span class="w"> </span>my-widget<span class="w">        </span><span class="c1"># register the function as a new widget</span>
+bindkey<span class="w"> </span><span class="s1">'^G'</span><span class="w"> </span>my-widget<span class="w">  </span><span class="c1"># bind it to a key sequence (here CTRL + G)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">autoload</span> <span class="pre">-U</span></code></strong>: finds a file named after the widget in your <code class="docutils literal notranslate"><span class="pre">$fpath</span></code> and makes it available. You only need this when the widget lives in a separate file. If you define the function directly in <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>, you can skip it.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-N</span></code></strong>: the important one. It takes a regular shell function and registers it as a <strong>new</strong> ZLE widget so it can edit the command line.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">bindkey</span></code></strong>: assigns the widget to a key sequence.</p></li>
+</ul>
+<p>When you define the function inline in your <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>, the recipe shrinks to two commands: define the function, then <code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-N</span></code> and <code class="docutils literal notranslate"><span class="pre">bindkey</span></code>.</p>
+<blockquote>
+<div><p><i class="fa-solid fa-circle-info"></i> <strong>About key sequences:</strong></p>
+<p>In <code class="docutils literal notranslate"><span class="pre">bindkey</span></code>, <code class="docutils literal notranslate"><span class="pre">^</span></code> means <code class="docutils literal notranslate"><span class="pre">CTRL</span></code>, so <code class="docutils literal notranslate"><span class="pre">^G</span></code> is <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">G</span></code>. The escape character <code class="docutils literal notranslate"><span class="pre">\e</span></code> (or <code class="docutils literal notranslate"><span class="pre">^[</span></code>) represents <code class="docutils literal notranslate"><span class="pre">ALT</span></code> / <code class="docutils literal notranslate"><span class="pre">Meta</span></code>, so <code class="docutils literal notranslate"><span class="pre">\e.</span></code> is <code class="docutils literal notranslate"><span class="pre">ALT</span></code> + <code class="docutils literal notranslate"><span class="pre">.</span></code>. You can discover the exact sequence a key sends by pressing <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">V</span></code> and then the key.</p>
+</div></blockquote>
+</section>
+<section id="talking-to-the-command-line-the-special-variables">
+<h2>Talking to the Command Line: The Special Variables<a class="headerlink" href="#talking-to-the-command-line-the-special-variables" title="Link to this heading">#</a></h2>
+<p>A widget edits the command line through a set of special variables that ZLE keeps in sync while your function runs. These are the ones I reach for most:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">BUFFER</span></code></strong>: the entire command line as a string.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">LBUFFER</span></code></strong>: everything to the left of the cursor.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">RBUFFER</span></code></strong>: everything to the right of the cursor.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">CURSOR</span></code></strong>: the cursor position, as an integer offset into <code class="docutils literal notranslate"><span class="pre">BUFFER</span></code>.</p></li>
+</ul>
+<p>Change any of these inside the widget and ZLE redraws the line to match. That is the whole trick. You do not print anything to the screen. You mutate the buffer and ZLE takes care of the rest.</p>
+<p>You can also call other widgets from inside your own with <code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">widget-name</span></code>, which lets you compose behavior on top of the built-ins.</p>
+</section>
+<section id="hands-on-a-few-widgets-i-actually-use">
+<h2>Hands-On: A Few Widgets I Actually Use<a class="headerlink" href="#hands-on-a-few-widgets-i-actually-use" title="Link to this heading">#</a></h2>
+<p>Enough theory. Let me show the widgets that scratched my original itch. Every example below goes straight into <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>. After editing it, reload with <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">~/.zshrc</span></code> and try the shortcut.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All code from this post is in my dotfiles: <i class="fab fa-github"></i> <em><a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc">c-neto/ansible-configure-fedora/files/dotfiles/.zshrc</a></em></p>
+</div>
+<section id="prepend-sudo-to-the-current-line">
+<h3>1. Prepend sudo to the Current Line<a class="headerlink" href="#prepend-sudo-to-the-current-line" title="Link to this heading">#</a></h3>
+<p>The classic. You type a long command, hit <code class="docutils literal notranslate"><span class="pre">Enter</span></code>, and get <em>permission denied</em>. Instead of retyping it, this widget adds <code class="docutils literal notranslate"><span class="pre">sudo</span> </code> to the front of the line and nudges the cursor so you keep typing where you left off.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">~/.zshrc</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>prepend-sudo<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$BUFFER</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"sudo "</span>*<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">BUFFER</span><span class="o">=</span><span class="s2">"sudo </span><span class="nv">$BUFFER</span><span class="s2">"</span>
+<span class="w">    </span><span class="nv">CURSOR</span><span class="o">+=</span><span class="m">5</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="o">}</span>
+zle<span class="w"> </span>-N<span class="w"> </span>prepend-sudo
+bindkey<span class="w"> </span><span class="s1">'^[s'</span><span class="w"> </span>prepend-sudo<span class="w">  </span><span class="c1"># ALT + S</span>
+</pre></div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">if</span></code> check avoids stacking <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">sudo</span></code> when you press the shortcut twice. <code class="docutils literal notranslate"><span class="pre">CURSOR+=5</span></code> moves the cursor forward by the five characters of <code class="docutils literal notranslate"><span class="pre">&quot;sudo</span> <span class="pre">&quot;</span></code> so the line keeps editing naturally.</p>
+</section>
+<section id="insert-the-output-of-the-last-command">
+<h3>2. Insert the Output of the Last Command<a class="headerlink" href="#insert-the-output-of-the-last-command" title="Link to this heading">#</a></h3>
+<p>This one feels like magic the first time. It evaluates the previous command again and drops its output right where the cursor is. Useful when you want to reuse a path, an ID, or a hash you just printed.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">~/.zshrc</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>zmodload<span class="w"> </span>-i<span class="w"> </span>zsh/parameter
+
+insert-last-command-output<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="nv">LBUFFER</span><span class="o">+=</span><span class="s2">"</span><span class="k">$(</span><span class="nb">eval</span><span class="w"> </span><span class="nv">$history</span><span class="o">[</span><span class="k">$((</span><span class="nv">HISTCMD</span><span class="o">-</span><span class="m">1</span><span class="k">))</span><span class="o">]</span><span class="k">)</span><span class="s2">"</span>
+<span class="o">}</span>
+zle<span class="w"> </span>-N<span class="w"> </span>insert-last-command-output
+bindkey<span class="w"> </span><span class="s1">'^[o'</span><span class="w"> </span>insert-last-command-output<span class="w">  </span><span class="c1"># ALT + O</span>
+</pre></div>
+</div>
+</div>
+<p>It loads the <code class="docutils literal notranslate"><span class="pre">zsh/parameter</span></code> module to access the <code class="docutils literal notranslate"><span class="pre">$history</span></code> associative array, then appends the re-run output to <code class="docutils literal notranslate"><span class="pre">LBUFFER</span></code>, so the text lands to the left of the cursor.</p>
+<blockquote>
+<div><p><i class="fa-solid fa-circle-info"></i> Be careful with this one. It <em>re-executes</em> the previous command. Do not use it right after something with side effects, like a <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">delete</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="delete-a-whole-path-segment-at-once">
+<h3>3. Delete a Whole Path Segment at Once<a class="headerlink" href="#delete-a-whole-path-segment-at-once" title="Link to this heading">#</a></h3>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">W</span></code> deletes back to the previous whitespace, which treats a full path as one blob. Sometimes I want to delete just one directory of a path. This widget tweaks <code class="docutils literal notranslate"><span class="pre">WORDCHARS</span></code> for a single call so <code class="docutils literal notranslate"><span class="pre">/</span></code> becomes a word boundary.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">~/.zshrc</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>backward-delete-path-segment<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="nb">local</span><span class="w"> </span><span class="nv">WORDCHARS</span><span class="o">=</span><span class="s2">"*?_[]~=&amp;;!#</span>$<span class="s2">%^(){}&lt;&gt;"</span>
+<span class="w">  </span>zle<span class="w"> </span>backward-delete-word
+<span class="o">}</span>
+zle<span class="w"> </span>-N<span class="w"> </span>backward-delete-path-segment
+bindkey<span class="w"> </span><span class="s1">'^W'</span><span class="w"> </span>backward-delete-path-segment<span class="w">  </span><span class="c1"># CTRL + W</span>
+</pre></div>
+</div>
+</div>
+<p>Notice the pattern: the widget sets a <code class="docutils literal notranslate"><span class="pre">local</span></code> variable, then delegates the real work to the built-in <code class="docutils literal notranslate"><span class="pre">backward-delete-word</span></code> widget with <code class="docutils literal notranslate"><span class="pre">zle</span></code>. You are not reimplementing deletion, you are wrapping it with different settings.</p>
+</section>
+<section id="wrap-the-current-command-in-a-for-loop">
+<h3>4. Wrap the Current Command in a for Loop<a class="headerlink" href="#wrap-the-current-command-in-a-for-loop" title="Link to this heading">#</a></h3>
+<p>This is the one I built for myself. I often prototype a command on one item, then want to run it over a list. This widget takes whatever is on the line and wraps it in a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop skeleton, leaving the cursor ready to fill in the list.</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">~/.zshrc</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
+<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>wrap-in-for-loop<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="nb">local</span><span class="w"> </span><span class="nv">cmd</span><span class="o">=</span><span class="s2">"</span><span class="nv">$BUFFER</span><span class="s2">"</span>
+<span class="w">  </span><span class="nv">BUFFER</span><span class="o">=</span><span class="s2">"for i in ; do </span><span class="si">${</span><span class="nv">cmd</span><span class="si">}</span><span class="s2">; done"</span>
+<span class="w">  </span><span class="nv">CURSOR</span><span class="o">=</span><span class="m">10</span>
+<span class="o">}</span>
+zle<span class="w"> </span>-N<span class="w"> </span>wrap-in-for-loop
+bindkey<span class="w"> </span><span class="s1">'^[f'</span><span class="w"> </span>wrap-in-for-loop<span class="w">  </span><span class="c1"># ALT + F</span>
+</pre></div>
+</div>
+</div>
+<p>It saves the current line, rebuilds <code class="docutils literal notranslate"><span class="pre">BUFFER</span></code> with the loop template, and parks <code class="docutils literal notranslate"><span class="pre">CURSOR</span></code> right after <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> </code> so you can type the list immediately. Nothing fancy, just the special variables doing their job.</p>
+</section>
+</section>
+<section id="testing-and-debugging-your-widgets">
+<h2>Testing and Debugging Your Widgets<a class="headerlink" href="#testing-and-debugging-your-widgets" title="Link to this heading">#</a></h2>
+<p>A couple of things that saved me time while experimenting:</p>
+<ul class="simple">
+<li><p><strong>Reload without a new shell</strong>: run <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">~/.zshrc</span></code> after each change. No need to close the terminal.</p></li>
+<li><p><strong>Confirm the binding stuck</strong>: <code class="docutils literal notranslate"><span class="pre">bindkey</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">my-widget</span></code> shows which key is mapped to your widget.</p></li>
+<li><p><strong>Confirm ZLE knows the widget</strong>: <code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-la</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">my-widget</span></code> lists it among the registered widgets.</p></li>
+<li><p><strong>Mind the key sequence</strong>: if a shortcut does nothing, it is usually because the terminal sends a different sequence than you expected, or another tool (like fzf or a plugin) already grabbed that key. Press <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">V</span></code> then the key to see the real sequence.</p></li>
+</ul>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>I went into this expecting ZLE to be some arcane corner of Zsh, and it turned out to be refreshingly simple. A widget is just a function. You mutate <code class="docutils literal notranslate"><span class="pre">BUFFER</span></code> and <code class="docutils literal notranslate"><span class="pre">CURSOR</span></code>, register it with <code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-N</span></code>, bind a key, and that is it.</p>
+<p>What I like most is that it is honest work with no dependencies. No plugin manager, no framework, just a few lines in a file I already maintain. The <code class="docutils literal notranslate"><span class="pre">prepend-sudo</span></code> widget alone has paid for the time I spent learning this, and the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop wrapper is now muscle memory.</p>
+<p>It is not a replacement for a tool like fzf when you need interactive searching. The two actually complement each other, since fzf ships its features <em>as</em> ZLE widgets. But for those tiny, personal, repetitive edits that only bother you, writing your own widget is the right fix.</p>
+<p>Give it a try. Start with <code class="docutils literal notranslate"><span class="pre">prepend-sudo</span></code>, feel how fast the loop is, and you will end up with a handful of your own before long.</p>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">zsh</span></code> reference: <a class="reference external" href="https://www.zsh.org/">https://www.zsh.org/</a></p></li>
+<li><p>Zsh ZLE manual: <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html">https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html</a></p></li>
+<li><p>Mastering Zsh - Widgets: <a class="github reference external" href="https://github.com/rothgar/mastering-zsh/blob/master/docs/helpers/widgets.md">rothgar/mastering-zsh</a></p></li>
+<li><p>My fzf blog post: <a class="reference external" href="https://carlosneto.dev/blog/2024/2024-04-21-fzf">https://carlosneto.dev/blog/2024/2024-04-21-fzf</a></p></li>
+<li><p>My custom Zsh configuration in <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>: <a class="github reference external" href="https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc">c-neto/ansible-configure-fedora</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+   
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
