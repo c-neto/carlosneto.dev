@@ -6,12 +6,12 @@ It' is my space to share my experiences and open source contributions!
 
 :::{grid-item-card}
 :link: blog
-<i class="fa-solid fa-blog"></i> Blog
+<i class="fa-solid fa-blog"></i> Blog Post List
 :::
 
 :::{grid-item-card}
 :link: contribution-list
-<i class="fa-solid fa-code-pull-request"></i> Open Source Contributions
+<i class="fa-solid fa-code-pull-request"></i> OpenSource Contributions
 :::
 
 ::::
