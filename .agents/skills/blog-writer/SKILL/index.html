@@ -400,7 +400,7 @@
 <ol class="arabic simple">
 <li><p><strong>Read the draft and at least one published post for voice.</strong> Good samples: <code class="docutils literal notranslate"><span class="pre">blog/2024/2024-07-21-dynaconf.md</span></code>, <code class="docutils literal notranslate"><span class="pre">blog/2024/2024-04-21-fzf.md</span></code>, <code class="docutils literal notranslate"><span class="pre">blog/2025/2025-02-25-helm-best-practices.md</span></code>.</p></li>
 <li><p><strong>Resolve conflicts before writing.</strong> If the filename, frontmatter, and content disagree (wrong topic, mismatched slug), ask the user which is the source of truth. Do not guess.</p></li>
-<li><p><strong>Draft or refactor</strong> following every section below. A new post is always created in <code class="docutils literal notranslate"><span class="pre">in-progress/</span></code> with no date prefix in the filename (see “File naming and location”).</p></li>
+<li><p><strong>Draft or refactor</strong> following every section below. A new post is always created in <code class="docutils literal notranslate"><span class="pre">hidden/</span></code> with no date prefix in the filename (see “File naming and location”).</p></li>
 <li><p><strong>Run the humanizer pass</strong> (see the last section). This is the final step before publishing.</p></li>
 <li><p><strong>Check the list</strong> at the end of this skill.</p></li>
 <li><p><strong>Promote only when asked.</strong> Move the post into <code class="docutils literal notranslate"><span class="pre">blog/&lt;YEAR&gt;/</span></code> only when the user explicitly says “promova”, “promote”, or “publish” (see “Promoting a post”).</p></li>
@@ -408,22 +408,22 @@
 </section>
 <section id="file-naming-and-location">
 <h2>File naming and location<a class="headerlink" href="#file-naming-and-location" title="Link to this heading">#</a></h2>
-<p>New posts are always created in <code class="docutils literal notranslate"><span class="pre">in-progress/</span></code>, with no date prefix in the filename:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ow">in</span><span class="o">-</span><span class="n">progress</span><span class="o">/&lt;</span><span class="n">slug</span><span class="o">&gt;.</span><span class="n">md</span>
+<p>New posts are always created in <code class="docutils literal notranslate"><span class="pre">hidden/</span></code>, with no date prefix in the filename:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hidden</span><span class="o">/&lt;</span><span class="n">slug</span><span class="o">&gt;.</span><span class="n">md</span>
 </pre></div>
 </div>
-<p>Examples: <code class="docutils literal notranslate"><span class="pre">in-progress/tcp-ephemeral-ports.md</span></code>, <code class="docutils literal notranslate"><span class="pre">in-progress/sftp-explicit-algorithm.md</span></code>.</p>
-<p>The slug must match the final title. While a post lives in <code class="docutils literal notranslate"><span class="pre">in-progress/</span></code>, do not add a date to the filename and do not move it into <code class="docutils literal notranslate"><span class="pre">blog/</span></code>. It stays there until the user explicitly asks to promote it.</p>
+<p>Examples: <code class="docutils literal notranslate"><span class="pre">hidden/tcp-ephemeral-ports.md</span></code>, <code class="docutils literal notranslate"><span class="pre">hidden/sftp-explicit-algorithm.md</span></code>.</p>
+<p>The slug must match the final title. While a post lives in <code class="docutils literal notranslate"><span class="pre">hidden/</span></code>, do not add a date to the filename and do not move it into <code class="docutils literal notranslate"><span class="pre">blog/</span></code>. It stays there until the user explicitly asks to promote it.</p>
 </section>
 <section id="promoting-a-post">
 <h2>Promoting a post<a class="headerlink" href="#promoting-a-post" title="Link to this heading">#</a></h2>
-<p>A post only moves to the published location when the user explicitly asks to “promova”, “promote”, or “publish” it. Until then, leave it in <code class="docutils literal notranslate"><span class="pre">in-progress/</span></code>.</p>
+<p>A post only moves to the published location when the user explicitly asks to “promova”, “promote”, or “publish” it. Until then, leave it in <code class="docutils literal notranslate"><span class="pre">hidden/</span></code>.</p>
 <p>When promoting, move the file into <code class="docutils literal notranslate"><span class="pre">blog/&lt;YEAR&gt;/</span></code> and add the date prefix to the filename:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">blog</span><span class="o">/&lt;</span><span class="n">YEAR</span><span class="o">&gt;/&lt;</span><span class="n">YYYY</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">DD</span><span class="o">&gt;-&lt;</span><span class="n">slug</span><span class="o">&gt;.</span><span class="n">md</span>
 </pre></div>
 </div>
 <p>Examples: <code class="docutils literal notranslate"><span class="pre">blog/2025/2025-02-16-logstash-db-enrichment.md</span></code>, <code class="docutils literal notranslate"><span class="pre">blog/2026/2026-07-15-vim-kubernetes-exams.md</span></code>.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">&lt;YEAR&gt;</span></code> and the <code class="docutils literal notranslate"><span class="pre">&lt;YYYY-MM-DD&gt;</span></code> prefix must match the <code class="docutils literal notranslate"><span class="pre">date</span></code> in the frontmatter. The slug stays the same as the <code class="docutils literal notranslate"><span class="pre">in-progress/</span></code> filename. If the frontmatter has no date yet, ask the user for the publish date before promoting.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;YEAR&gt;</span></code> and the <code class="docutils literal notranslate"><span class="pre">&lt;YYYY-MM-DD&gt;</span></code> prefix must match the <code class="docutils literal notranslate"><span class="pre">date</span></code> in the frontmatter. The slug stays the same as the <code class="docutils literal notranslate"><span class="pre">hidden/</span></code> filename. If the frontmatter has no date yet, ask the user for the publish date before promoting.</p>
 </section>
 <section id="frontmatter">
 <h2>Frontmatter<a class="headerlink" href="#frontmatter" title="Link to this heading">#</a></h2>
@@ -712,7 +712,7 @@ content here
 <li><p>[ ] Writing is direct and concise, with no filler.</p></li>
 <li><p>[ ] Ran the humanizer skill as a final pass with a voice sample.</p></li>
 <li><p>[ ] References section is present.</p></li>
-<li><p>[ ] While in draft, the file is in <code class="docutils literal notranslate"><span class="pre">in-progress/</span></code> with no date prefix in the filename, and the slug matches the title.</p></li>
+<li><p>[ ] While in draft, the file is in <code class="docutils literal notranslate"><span class="pre">hidden/</span></code> with no date prefix in the filename, and the slug matches the title.</p></li>
 <li><p>[ ] Only promote to <code class="docutils literal notranslate"><span class="pre">blog/&lt;YEAR&gt;/</span></code> (adding the <code class="docutils literal notranslate"><span class="pre">&lt;YYYY-MM-DD&gt;</span></code> date prefix) when the user explicitly asks to “promova”, “promote”, or “publish”.</p></li>
 </ul>
 </section>

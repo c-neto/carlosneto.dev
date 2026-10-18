@@ -20,26 +20,26 @@ The whole point of this skill is voice. If a draft reads like a polished corpora
 
 1. **Read the draft and at least one published post for voice.** Good samples: `blog/2024/2024-07-21-dynaconf.md`, `blog/2024/2024-04-21-fzf.md`, `blog/2025/2025-02-25-helm-best-practices.md`.
 2. **Resolve conflicts before writing.** If the filename, frontmatter, and content disagree (wrong topic, mismatched slug), ask the user which is the source of truth. Do not guess.
-3. **Draft or refactor** following every section below. A new post is always created in `in-progress/` with no date prefix in the filename (see "File naming and location").
+3. **Draft or refactor** following every section below. A new post is always created in `hidden/` with no date prefix in the filename (see "File naming and location").
 4. **Run the humanizer pass** (see the last section). This is the final step before publishing.
 5. **Check the list** at the end of this skill.
 6. **Promote only when asked.** Move the post into `blog/<YEAR>/` only when the user explicitly says "promova", "promote", or "publish" (see "Promoting a post").
 
 ## File naming and location
 
-New posts are always created in `in-progress/`, with no date prefix in the filename:
+New posts are always created in `hidden/`, with no date prefix in the filename:
 
 ```
-in-progress/<slug>.md
+hidden/<slug>.md
 ```
 
-Examples: `in-progress/tcp-ephemeral-ports.md`, `in-progress/sftp-explicit-algorithm.md`.
+Examples: `hidden/tcp-ephemeral-ports.md`, `hidden/sftp-explicit-algorithm.md`.
 
-The slug must match the final title. While a post lives in `in-progress/`, do not add a date to the filename and do not move it into `blog/`. It stays there until the user explicitly asks to promote it.
+The slug must match the final title. While a post lives in `hidden/`, do not add a date to the filename and do not move it into `blog/`. It stays there until the user explicitly asks to promote it.
 
 ## Promoting a post
 
-A post only moves to the published location when the user explicitly asks to "promova", "promote", or "publish" it. Until then, leave it in `in-progress/`.
+A post only moves to the published location when the user explicitly asks to "promova", "promote", or "publish" it. Until then, leave it in `hidden/`.
 
 When promoting, move the file into `blog/<YEAR>/` and add the date prefix to the filename:
 
@@ -49,7 +49,7 @@ blog/<YEAR>/<YYYY-MM-DD>-<slug>.md
 
 Examples: `blog/2025/2025-02-16-logstash-db-enrichment.md`, `blog/2026/2026-07-15-vim-kubernetes-exams.md`.
 
-The `<YEAR>` and the `<YYYY-MM-DD>` prefix must match the `date` in the frontmatter. The slug stays the same as the `in-progress/` filename. If the frontmatter has no date yet, ask the user for the publish date before promoting.
+The `<YEAR>` and the `<YYYY-MM-DD>` prefix must match the `date` in the frontmatter. The slug stays the same as the `hidden/` filename. If the frontmatter has no date yet, ask the user for the publish date before promoting.
 
 ## Frontmatter
 
@@ -316,5 +316,5 @@ The humanizer edits prose only. It leaves code blocks, inline code, commands, pa
 - [ ] Writing is direct and concise, with no filler.
 - [ ] Ran the humanizer skill as a final pass with a voice sample.
 - [ ] References section is present.
-- [ ] While in draft, the file is in `in-progress/` with no date prefix in the filename, and the slug matches the title.
+- [ ] While in draft, the file is in `hidden/` with no date prefix in the filename, and the slug matches the title.
 - [ ] Only promote to `blog/<YEAR>/` (adding the `<YYYY-MM-DD>` date prefix) when the user explicitly asks to "promova", "promote", or "publish".
