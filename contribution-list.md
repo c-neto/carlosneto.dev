@@ -2,37 +2,7 @@
 :description: A little bit about me...
 ---
 
-# whoami
-
-DevOps Engineer specializing in Kubernetes, Cloud Computing, Observability and Programming, with experience operating highly available systems at scale. Open source documentation contributor to projects including OpenSearch, Fluent Bit, and External Secrets Operator.
-
-::::{grid}
-
-:::{grid-item-card}
-:link: https://www.linkedin.com/in/c-neto/
-<i class="fa-linkedin fa-fade"></i> LinkedIn
-:::
-
-:::{grid-item-card}
-:link: https://github.com/c-neto
-<i class="fa-github fa-fade"></i> GitHub
-:::
-
-:::{grid-item-card}
-:link: https://www.credly.com/users/c-neto/badges
-<i class="fa-solid fa-certificate fa-fade"></i> Certificates
-:::
-
-:::{grid-item-card}
-:link: https://github.com/c-neto/c-neto/blob/main/carlos-neto-cv.pdf
-<i class="fa-solid fa-address-card"></i> Resume/CV
-:::
-
-::::
-
----
-
-# Open Source Contributions
+# My Open-Source Contributions
 
 <br/>
 
