@@ -19,9 +19,9 @@ Depending on how the SFTP server is configured, you sometimes have to explicitly
 Here is a real example. The connection fails with a permission error:
 
 ```bash
-$ sftp -i pk.pem -oPort=10122 mftTRSYs@mft-test.53.com
+$ sftp -i pk.pem -oPort=10122 john-doe@sftp.foobar.com
 
-mftTRSYs@mft-test.53.com: Permission denied (publickey).
+john-doe@sftp.foobar.com: Permission denied (publickey).
 Connection closed
 ```
 
@@ -32,7 +32,7 @@ At first glance, `Permission denied (publickey)` looks like a problem with the k
 Before guessing, ask the server which key algorithms it supports. The `ssh -Q key` command lists them:
 
 ```bash
-$ ssh -Q key mftTRSYs@mft-test.53.com
+$ ssh -Q key john-doe@sftp.foobar.com
 
 ssh-ed25519
 ssh-ed25519-cert-v01@openssh.com
@@ -63,9 +63,9 @@ $ sftp -i pk.pem \
     -o HostKeyAlgorithms=+ssh-rsa \
     -o PubkeyAcceptedKeyTypes=+ssh-rsa \
     -o Port=10122 \
-    mftTRSYs@mft-test.53.com
+    john-doe@sftp.foobar.com
 
-Connected to mft-test.53.com.
+Connected to sftp.foobar.com.
 sftp>
 ```
 
