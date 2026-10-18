@@ -6,7 +6,7 @@ It' is my space to share my experiences and open source contributions!
 
 :::{grid-item-card}
 :link: blog
-<i class="fa-solid fa-blog"></i> Blog Post List
+<i class="fa-solid fa-blog"></i> Blog
 :::
 
 :::{grid-item-card}
