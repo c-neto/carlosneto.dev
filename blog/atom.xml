@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-25T04:12:45.356835+00:00</updated>
+  <updated>2026-10-25T04:22:15.646559+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -19,12 +19,14 @@
 &lt;h2&gt;Understand the Basics&lt;/h2&gt;
 &lt;p&gt;The idea is simple: you create a Bash function and register it to a custom keyboard shortcut using the &lt;a class="reference external" href="https://ss64.com/bash/bind.html"&gt;bind&lt;/a&gt; command. There are some &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#Bash-Variables-1"&gt;Bash Reserved Variables&lt;/a&gt; that are made available to Bash functions when they are called using the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bind&lt;/span&gt; &lt;span class="pre"&gt;-x&lt;/span&gt;&lt;/code&gt; command. The two main variables in this case are: &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fLINE"&gt;READLINE_LINE&lt;/a&gt; that is the entire contents of the command line, and &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fPOINT"&gt;READLINE_POINT&lt;/a&gt; that is the cursor position, represented as an integer offset into &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;READLINE_LINE&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;To understand these variables in practice, let’s create a function called &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;debug-hook-variables&lt;/span&gt;&lt;/code&gt; and bind it to the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt; shortcut. This function will print the values of the two variables:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;debug-hook-variables&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# bash function to debug reserved variables&lt;/span&gt;
+debug-hook-variables&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&amp;gt;&amp;gt;&amp;gt; READLINE_LINE: &lt;/span&gt;&lt;span class="nv"&gt;$READLINE_LINE&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&amp;gt;&amp;gt;&amp;gt; READLINE_POINT: &lt;/span&gt;&lt;span class="nv"&gt;$READLINE_POINT&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
 &lt;span class="o"&gt;}&lt;/span&gt;
 
-&lt;span class="nb"&gt;bind&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-x&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'"\C-x": debug-hook-variables'&lt;/span&gt;
+&lt;span class="c1"&gt;# "\C-x" is the code for `Ctrl+x` shortcut&lt;/span&gt;
+&lt;span class="nb"&gt;bind&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-x&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'"\C-x": debug-hook-variables'&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Now, type anything at your prompt and press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt;. In this example, with your cursor positioned after &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;definitely&lt;/span&gt;&lt;/code&gt;, the output will be:&lt;/p&gt;

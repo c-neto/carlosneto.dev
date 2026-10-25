@@ -399,12 +399,14 @@
 <h2>Understand the Basics<a class="headerlink" href="#understand-the-basics" title="Link to this heading">#</a></h2>
 <p>The idea is simple: you create a Bash function and register it to a custom keyboard shortcut using the <a class="reference external" href="https://ss64.com/bash/bind.html">bind</a> command. There are some <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#Bash-Variables-1">Bash Reserved Variables</a> that are made available to Bash functions when they are called using the <code class="docutils literal notranslate"><span class="pre">bind</span> <span class="pre">-x</span></code> command. The two main variables in this case are: <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fLINE">READLINE_LINE</a> that is the entire contents of the command line, and <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fPOINT">READLINE_POINT</a> that is the cursor position, represented as an integer offset into <code class="docutils literal notranslate"><span class="pre">READLINE_LINE</span></code>.</p>
 <p>To understand these variables in practice, let’s create a function called <code class="docutils literal notranslate"><span class="pre">debug-hook-variables</span></code> and bind it to the <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> shortcut. This function will print the values of the two variables:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>debug-hook-variables<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># bash function to debug reserved variables</span>
+debug-hook-variables<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"&gt;&gt;&gt; READLINE_LINE: </span><span class="nv">$READLINE_LINE</span><span class="s2">"</span>
 <span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"&gt;&gt;&gt; READLINE_POINT: </span><span class="nv">$READLINE_POINT</span><span class="s2">"</span>
 <span class="o">}</span>
 
-<span class="nb">bind</span><span class="w"> </span>-x<span class="w"> </span><span class="s1">'"\C-x": debug-hook-variables'</span>
+<span class="c1"># "\C-x" is the code for `Ctrl+x` shortcut</span>
+<span class="nb">bind</span><span class="w"> </span>-x<span class="w"> </span><span class="s1">'"\C-x": debug-hook-variables'</span><span class="w">  </span>
 </pre></div>
 </div>
 <p>Now, type anything at your prompt and press <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>. In this example, with your cursor positioned after <code class="docutils literal notranslate"><span class="pre">definitely</span></code>, the output will be:</p>
