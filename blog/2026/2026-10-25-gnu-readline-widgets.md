@@ -85,10 +85,6 @@ bind -x '"\C-x": repeat-command-widget'
 
 The custom `Ctrl+x` shortcut will be available in new Bash sessions.
 
-## Conclusion
-
-It is important to understand that Bash also supports features that are available in Zsh and Fish. I'm not saying Bash is better or that you shouldn't use Fish or Zsh. My point is that you don't need to switch shells just because another shell offers features you like. Understanding how these mechanisms work behind the scenes expands your possibilities and helps you customize your terminal to suit your needs.
-
 ## Links
 
 - GNU Readline foundation: [https://carlosneto.dev/blog/2026/2026-10-18-gnu-readline-foundation](https://carlosneto.dev/blog/2026/2026-10-18-gnu-readline-foundation)
