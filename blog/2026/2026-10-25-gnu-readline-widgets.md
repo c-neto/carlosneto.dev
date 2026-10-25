@@ -39,7 +39,7 @@ There are other variables, such as [READLINE_ARGUMENT](https://www.gnu.org/softw
 
 ## Practical Example: Repeated Command Execution
 
-Now, let's implement an alternative to the [`watch`](https://man7.org/linux/man-pages/man1/watch.1.html) command. The `watch` command can behave unexpectedly when executing aliases such as `kgp`. The goal of this widget is to execute a command repeatedly every two seconds when you press `Ctrl+x`, while supporting aliases.
+Now, let's implement an alternative to the [$ watch](https://man7.org/linux/man-pages/man1/watch.1.html) command. The `watch` command can behave unexpectedly when executing aliases such as `kgp` (more details in this [Stack Overflow thread](https://stackoverflow.com/questions/54814543/bash-how-to-use-an-alias-command-in-combination-with-watch)). The goal of this widget is to execute a command repeatedly every two seconds when you press `Ctrl+x`, while supporting aliases.
 
 ```bash
 repeat-command-widget() {
@@ -59,7 +59,7 @@ You can test the widget by typing the following command and pressing `Ctrl+x`:
 kgp     # press `Ctrl+x` and stop execution by `Ctrl+c`
 ```
 
-The `kgp` is executed every two seconds automatically until you press `Ctrl+c`, just like `watch "kubectl get pods"`.
+The `kgp` command is executed in a loop every two seconds until you press `Ctrl+c`, just like `watch "kubectl get pods"`.
 
 ### How to Register the Widget
 
