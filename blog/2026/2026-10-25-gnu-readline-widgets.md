@@ -35,7 +35,7 @@ $ definitely maybe
 >>> READLINE_POINT: 11
 ```
 
-> _There are other variables, such as [READLINE_ARGUMENT](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT) and [READLINE_MARK](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK), that are also made available to Bash functions. However, their usage is less straightforward and is typically relevant to more advanced use cases._
+There are other variables, such as [READLINE_ARGUMENT](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT) and [READLINE_MARK](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK), that are also made available to Bash functions. However, their usage is less straightforward and is typically relevant to more advanced use cases.
 
 ## Practical Example: Repeated Command Execution
 
