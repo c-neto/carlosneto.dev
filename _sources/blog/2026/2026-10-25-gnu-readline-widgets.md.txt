@@ -14,7 +14,6 @@ This blog post is an extension of [GNU Readline: The Magic Behind Terminal Autoc
 
 The idea is simple: you create a Bash function and register it to a custom keyboard shortcut using the [bind](https://ss64.com/bash/bind.html) command. There are some [special Bash variables](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#Bash-Variables-1) that are made available to Bash functions when they are called using the `bind -x` command. The two main variables in this case are: [READLINE_LINE](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fLINE) that is the entire contents of the command line, and [READLINE_POINT](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fPOINT) that is the cursor position, represented as an integer offset into `READLINE_LINE`. 
 
-> _There are other variables, such as [READLINE_ARGUMENT](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT) and [READLINE_MARK](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK), that are also made available to Bash functions. However, their usage is less straightforward and is typically relevant to more advanced use cases._
 
 To understand these variables in practice, let's create a function called `debug-hook-variables` and bind it to the `Ctrl+x` shortcut. This function will print the values of the two variables:
 
@@ -36,7 +35,9 @@ $ definitely maybe
 >>> READLINE_POINT: 11
 ```
 
-### Practical Example: Repeated Command Execution
+> _There are other variables, such as [READLINE_ARGUMENT](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT) and [READLINE_MARK](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK), that are also made available to Bash functions. However, their usage is less straightforward and is typically relevant to more advanced use cases._
+
+## Practical Example: Repeated Command Execution
 
 Now, let's implement an alternative to the [`watch`](https://man7.org/linux/man-pages/man1/watch.1.html) command. The `watch` command can behave unexpectedly when executing aliases such as `kgp`. The goal of this widget is to execute a command repeatedly every two seconds when you press `Ctrl+x`, while supporting aliases.
 

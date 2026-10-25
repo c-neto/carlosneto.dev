@@ -398,9 +398,6 @@
 <section id="understand-the-basics">
 <h2>Understand the Basics<a class="headerlink" href="#understand-the-basics" title="Link to this heading">#</a></h2>
 <p>The idea is simple: you create a Bash function and register it to a custom keyboard shortcut using the <a class="reference external" href="https://ss64.com/bash/bind.html">bind</a> command. There are some <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#Bash-Variables-1">special Bash variables</a> that are made available to Bash functions when they are called using the <code class="docutils literal notranslate"><span class="pre">bind</span> <span class="pre">-x</span></code> command. The two main variables in this case are: <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fLINE">READLINE_LINE</a> that is the entire contents of the command line, and <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fPOINT">READLINE_POINT</a> that is the cursor position, represented as an integer offset into <code class="docutils literal notranslate"><span class="pre">READLINE_LINE</span></code>.</p>
-<blockquote>
-<div><p><em>There are other variables, such as <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT">READLINE_ARGUMENT</a> and <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK">READLINE_MARK</a>, that are also made available to Bash functions. However, their usage is less straightforward and is typically relevant to more advanced use cases.</em></p>
-</div></blockquote>
 <p>To understand these variables in practice, let’s create a function called <code class="docutils literal notranslate"><span class="pre">debug-hook-variables</span></code> and bind it to the <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> shortcut. This function will print the values of the two variables:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>debug-hook-variables<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"&gt;&gt;&gt; READLINE_LINE: </span><span class="nv">$READLINE_LINE</span><span class="s2">"</span>
@@ -417,8 +414,12 @@
 &gt;&gt;&gt; READLINE_POINT: 11
 </pre></div>
 </div>
+<blockquote>
+<div><p><em>There are other variables, such as <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT">READLINE_ARGUMENT</a> and <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK">READLINE_MARK</a>, that are also made available to Bash functions. However, their usage is less straightforward and is typically relevant to more advanced use cases.</em></p>
+</div></blockquote>
+</section>
 <section id="practical-example-repeated-command-execution">
-<h3>Practical Example: Repeated Command Execution<a class="headerlink" href="#practical-example-repeated-command-execution" title="Link to this heading">#</a></h3>
+<h2>Practical Example: Repeated Command Execution<a class="headerlink" href="#practical-example-repeated-command-execution" title="Link to this heading">#</a></h2>
 <p>Now, let’s implement an alternative to the <a class="reference external" href="https://man7.org/linux/man-pages/man1/watch.1.html"><code class="docutils literal notranslate"><span class="pre">watch</span></code></a> command. The <code class="docutils literal notranslate"><span class="pre">watch</span></code> command can behave unexpectedly when executing aliases such as <code class="docutils literal notranslate"><span class="pre">kgp</span></code>. The goal of this widget is to execute a command repeatedly every two seconds when you press <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>, while supporting aliases.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>repeat-command-widget<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">  </span><span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
@@ -435,7 +436,6 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kgp
 </pre></div>
 </div>
-</section>
 <section id="how-to-register-the-widget">
 <h3>How to Register the Widget<a class="headerlink" href="#how-to-register-the-widget" title="Link to this heading">#</a></h3>
 <p>Built-in Readline widgets can be configured in the <code class="docutils literal notranslate"><span class="pre">~/.inputrc</span></code> file. For custom Bash widgets, we need to register the function and its keyboard shortcut in the <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file.</p>
