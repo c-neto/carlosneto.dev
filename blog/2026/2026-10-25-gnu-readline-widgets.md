@@ -18,7 +18,7 @@ The idea is simple: you create a Bash function and register it to a custom keybo
 To understand these variables in practice, let's create a function called `debug-hook-variables` and bind it to the `Ctrl+x` shortcut. This function will print the values of the two variables:
 
 ```bash
-# bash function to debug reserved variables
+# bash function for debugging reserved variables
 debug-hook-variables() {
   echo ">>> READLINE_LINE: $READLINE_LINE"
   echo ">>> READLINE_POINT: $READLINE_POINT"
