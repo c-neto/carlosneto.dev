@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-25T03:26:42.668762+00:00</updated>
+  <updated>2026-10-25T03:28:44.519868+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -17,11 +17,7 @@
 &lt;p&gt;This blog post is an extension of &lt;a class="reference internal" href="2026/2026-10-18-gnu-readline-foundation/"&gt;&lt;span class="std std-doc"&gt;GNU Readline: The Magic Behind Terminal Autocomplete&lt;/span&gt;&lt;/a&gt;. Here, I explain how to create custom Bash widgets by registering Bash functions to keyboard shortcuts powered by the GNU Readline library.&lt;/p&gt;
 &lt;section id="understand-the-basics"&gt;
 &lt;h2&gt;Understand the Basics&lt;/h2&gt;
-&lt;p&gt;The idea is simple: you create a Bash function and register it to a custom keyboard shortcut using the &lt;a class="reference external" href="https://ss64.com/bash/bind.html"&gt;bind&lt;/a&gt; command. There are some &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#Bash-Variables-1"&gt;special Bash variables&lt;/a&gt; that are made available to Bash functions when they are called using the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bind&lt;/span&gt; &lt;span class="pre"&gt;-x&lt;/span&gt;&lt;/code&gt; command. The two main variables in this case are:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fLINE"&gt;READLINE_LINE&lt;/a&gt;: the entire contents of the command line.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fPOINT"&gt;READLINE_POINT&lt;/a&gt;: the cursor position, represented as an integer offset into &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;READLINE_LINE&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;The idea is simple: you create a Bash function and register it to a custom keyboard shortcut using the &lt;a class="reference external" href="https://ss64.com/bash/bind.html"&gt;bind&lt;/a&gt; command. There are some &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#Bash-Variables-1"&gt;special Bash variables&lt;/a&gt; that are made available to Bash functions when they are called using the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bind&lt;/span&gt; &lt;span class="pre"&gt;-x&lt;/span&gt;&lt;/code&gt; command. The two main variables in this case are: &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fLINE"&gt;READLINE_LINE&lt;/a&gt; that is the entire contents of the command line, and &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fPOINT"&gt;READLINE_POINT&lt;/a&gt; that is the cursor position, represented as an integer offset into &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;READLINE_LINE&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;&lt;em&gt;There are other variables, such as &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT"&gt;READLINE_ARGUMENT&lt;/a&gt; and &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK"&gt;READLINE_MARK&lt;/a&gt;, that are also made available to Bash functions. However, their usage is less straightforward and is typically relevant to more advanced use cases.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
