@@ -396,11 +396,8 @@
 <section id="gnu-readline-the-magic-behind-terminal-autocomplete">
 <h1>GNU Readline: The Magic Behind Terminal Autocomplete<a class="headerlink" href="#gnu-readline-the-magic-behind-terminal-autocomplete" title="Link to this heading">#</a></h1>
 <p>This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will also show the one configuration I reach for the most: making the Up and Down arrows search your command history by prefix. It is a small change that saved me a lot of keystrokes.</p>
-<section id="why-i-started-digging-into-this">
-<h2>Why I Started Digging Into This<a class="headerlink" href="#why-i-started-digging-into-this" title="Link to this heading">#</a></h2>
 <p>For a long time I thought certain terminal features were tied to the specific Linux distribution I was running. The more I used the terminal, the more curious I got about how it worked under the hood. Why would pressing Tab autocomplete a command on one machine and do nothing on another? Why did the Up arrow behave differently depending on where I was?</p>
 <p>After some research, I understood that most of these behaviors are not the shell itself. They come from a library sitting underneath it: <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html">GNU Readline</a>. Once I knew which component was responsible, configuring it became trivial.</p>
-</section>
 <section id="what-is-gnu-readline">
 <h2>What is GNU Readline<a class="headerlink" href="#what-is-gnu-readline" title="Link to this heading">#</a></h2>
 <p><a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html">GNU Readline</a> is a library that provides command-line editing, history navigation, search, and auto-completion for interactive terminal applications. It is already installed on most Linux distributions, and it is used by a lot of REPL-style programs you already know: <code class="docutils literal notranslate"><span class="pre">bash</span></code>, <code class="docutils literal notranslate"><span class="pre">ipython</span></code>, <code class="docutils literal notranslate"><span class="pre">psql</span></code>, <code class="docutils literal notranslate"><span class="pre">mysql</span></code>, and many others.</p>
@@ -409,6 +406,8 @@
 <blockquote>
 <div><p><em>In Bash, the <a class="reference external" href="https://ss64.com/bash/bind.html">bind</a> command associates a key press to a GNU Readline function. It is the runtime equivalent of editing <code class="docutils literal notranslate"><span class="pre">.inputrc</span></code>.</em></p>
 </div></blockquote>
+<p>Readline reads settings from <code class="docutils literal notranslate"><span class="pre">~/.inputrc</span></code> (or the system-wide <code class="docutils literal notranslate"><span class="pre">/etc/inputrc</span></code>). This file can change editor behavior and bind keys to built-in Readline functions or macros. A macro inserts a string as if you had typed it. Bash also provides the <code class="docutils literal notranslate"><span class="pre">bind</span></code> builtin to inspect and change bindings while the shell is running.</p>
+<p>These settings are useful beyond Bash. Any interactive program that uses the same Readline library can provide familiar line editing and history controls. Bash-specific shell functions are a separate case: they can be attached to keys with <code class="docutils literal notranslate"><span class="pre">bind</span> <span class="pre">-x</span></code>.</p>
 </section>
 <section id="practical-example-searching-history-by-prefix">
 <h2>Practical Example: Searching History by Prefix<a class="headerlink" href="#practical-example-searching-history-by-prefix" title="Link to this heading">#</a></h2>
@@ -491,6 +490,13 @@ kubectl
   </span>
   <span class="ablog__spacer">&nbsp;</span>
   <span class="ablog__next">
+     
+    <a href="../2026-10-25-gnu-readline-widgets/">
+      <span>How to Build Your Own Custom GNU Readline Widgets</span>
+      
+      <i class="fa fa-arrow-circle-right"></i>
+      
+    </a>
     
   </span>
 </div>

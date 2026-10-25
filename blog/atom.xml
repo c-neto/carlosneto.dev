@@ -2,11 +2,108 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-18T15:12:37.284557+00:00</updated>
+  <updated>2026-10-25T03:21:26.489699+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2026/2026-10-25-gnu-readline-widgets/</id>
+    <title>How to Build Your Own Custom GNU Readline Widgets</title>
+    <updated>2026-10-20T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;&lt;em&gt;* &lt;strong&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt;&lt;/strong&gt; 2026/10/25*&lt;/em&gt;&lt;/p&gt;
+&lt;section id="how-to-build-your-own-custom-gnu-readline-widgets"&gt;
+
+&lt;p&gt;This blog post is an extension of &lt;a class="reference internal" href="2026/2026-10-18-gnu-readline-foundation/"&gt;&lt;span class="std std-doc"&gt;GNU Readline: The Magic Behind Terminal Autocomplete&lt;/span&gt;&lt;/a&gt;. Here, I explain how to create custom Bash widgets by registering Bash functions to keyboard shortcuts powered by the GNU Readline library.&lt;/p&gt;
+&lt;section id="understand-the-basics"&gt;
+&lt;h2&gt;Understand the Basics&lt;/h2&gt;
+&lt;p&gt;The idea is simple: you create a Bash function and register it to a custom keyboard shortcut using the &lt;a class="reference external" href="https://ss64.com/bash/bind.html"&gt;bind&lt;/a&gt; command. There are some &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#Bash-Variables-1"&gt;special Bash variables&lt;/a&gt; that are made available to Bash functions when they are called using the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bind&lt;/span&gt; &lt;span class="pre"&gt;-x&lt;/span&gt;&lt;/code&gt; command. The two main variables in this case are:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fLINE"&gt;READLINE_LINE&lt;/a&gt;: the entire contents of the command line.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fPOINT"&gt;READLINE_POINT&lt;/a&gt;: the cursor position, represented as an integer offset into &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;READLINE_LINE&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;There are other variables, such as &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT"&gt;READLINE_ARGUMENT&lt;/a&gt; and &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK"&gt;READLINE_MARK&lt;/a&gt;, that are also made available to Bash functions. However, their usage is less straightforward and is typically relevant to more advanced use cases.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;p&gt;To understand these variables in practice, let’s create a function called &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;debug-hook-variables&lt;/span&gt;&lt;/code&gt; and bind it to the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt; shortcut. This function will print the values of the two variables:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;debug-hook-variables&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&amp;gt;&amp;gt;&amp;gt; READLINE_LINE: &lt;/span&gt;&lt;span class="nv"&gt;$READLINE_LINE&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&amp;gt;&amp;gt;&amp;gt; READLINE_POINT: &lt;/span&gt;&lt;span class="nv"&gt;$READLINE_POINT&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="nb"&gt;bind&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-x&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'"\C-x": debug-hook-variables'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Now, type anything at your prompt and press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt;. In this example, with your cursor positioned after &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;definitely&lt;/span&gt;&lt;/code&gt;, the output will be:&lt;/p&gt;
+&lt;div class="highlight-text notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ definitely maybe
+
+&amp;gt;&amp;gt;&amp;gt; READLINE_LINE: definitely maybe
+&amp;gt;&amp;gt;&amp;gt; READLINE_POINT: 11
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;section id="practical-example-repeated-command-execution"&gt;
+&lt;h3&gt;Practical Example: Repeated Command Execution&lt;/h3&gt;
+&lt;p&gt;Now, let’s implement an alternative to the &lt;a class="reference external" href="https://man7.org/linux/man-pages/man1/watch.1.html"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;watch&lt;/span&gt;&lt;/code&gt;&lt;/a&gt; command. The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;watch&lt;/span&gt;&lt;/code&gt; command can behave unexpectedly when executing aliases such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kgp&lt;/span&gt;&lt;/code&gt;. The goal of this widget is to execute a command repeatedly every two seconds when you press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt;, while supporting aliases.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;repeat-command-widget&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;local&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;cmd&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$READLINE_LINE&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;READLINE_LINE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;""&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;true&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;do&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;clear
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$cmd&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;sleep&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="nb"&gt;bind&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-x&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'"\C-x": repeat-command-widget'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;You can test the widget by typing the following command and pressing &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;kgp
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="how-to-register-the-widget"&gt;
+&lt;h3&gt;How to Register the Widget&lt;/h3&gt;
+&lt;p&gt;Built-in Readline widgets can be configured in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.inputrc&lt;/span&gt;&lt;/code&gt; file. For custom Bash widgets, we need to register the function and its keyboard shortcut in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.bashrc&lt;/span&gt;&lt;/code&gt; file.&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# ~/.bashrc&lt;/span&gt;
+
+repeat-command-widget&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;local&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;cmd&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$READLINE_LINE&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;READLINE_LINE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;""&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;true&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;do&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;clear
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$cmd&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;sleep&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="nb"&gt;bind&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-x&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'"\C-x": repeat-command-widget'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The custom &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt; shortcut will be available in new Bash sessions.&lt;/p&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;section id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;It is important to understand that Bash also supports features that are available in Zsh and Fish. I’m not saying Bash is better or that you shouldn’t use Fish or Zsh. My point is that you don’t need to switch shells just because another shell offers features you like. Understanding how these mechanisms work behind the scenes expands your possibilities and helps you customize your terminal to suit your needs.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="links"&gt;
+&lt;h2&gt;Links&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;GNU Readline foundation: &lt;a class="reference external" href="https://carlosneto.dev/blog/2026/2026-10-18-gnu-readline-foundation"&gt;https://carlosneto.dev/blog/2026/2026-10-18-gnu-readline-foundation&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Bash &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bind&lt;/span&gt;&lt;/code&gt; builtin: &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html"&gt;https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Bash variables (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;READLINE_LINE&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;READLINE_POINT&lt;/span&gt;&lt;/code&gt;): &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html"&gt;https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2026/2026-10-25-gnu-readline-widgets/"/>
+    <summary>* Blog Post Publish Date: 2026/10/25*This blog post is an extension of GNU Readline: The Magic Behind Terminal Autocomplete. Here, I explain how to create custom Bash widgets by registering Bash functions to keyboard shortcuts powered by the GNU Readline library.</summary>
+    <category term="bash" label="bash"/>
+    <category term="linux" label="linux"/>
+    <category term="terminal" label="terminal"/>
+    <published>2026-10-20T00:00:00+00:00</published>
+  </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2026/2026-10-18-gnu-readline-foundation/</id>
     <title>GNU Readline: The Magic Behind Terminal Autocomplete</title>
@@ -16,11 +113,8 @@
 &lt;section id="gnu-readline-the-magic-behind-terminal-autocomplete"&gt;
 
 &lt;p&gt;This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will also show the one configuration I reach for the most: making the Up and Down arrows search your command history by prefix. It is a small change that saved me a lot of keystrokes.&lt;/p&gt;
-&lt;section id="why-i-started-digging-into-this"&gt;
-&lt;h2&gt;Why I Started Digging Into This&lt;/h2&gt;
 &lt;p&gt;For a long time I thought certain terminal features were tied to the specific Linux distribution I was running. The more I used the terminal, the more curious I got about how it worked under the hood. Why would pressing Tab autocomplete a command on one machine and do nothing on another? Why did the Up arrow behave differently depending on where I was?&lt;/p&gt;
 &lt;p&gt;After some research, I understood that most of these behaviors are not the shell itself. They come from a library sitting underneath it: &lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html"&gt;GNU Readline&lt;/a&gt;. Once I knew which component was responsible, configuring it became trivial.&lt;/p&gt;
-&lt;/section&gt;
 &lt;section id="what-is-gnu-readline"&gt;
 &lt;h2&gt;What is GNU Readline&lt;/h2&gt;
 &lt;p&gt;&lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html"&gt;GNU Readline&lt;/a&gt; is a library that provides command-line editing, history navigation, search, and auto-completion for interactive terminal applications. It is already installed on most Linux distributions, and it is used by a lot of REPL-style programs you already know: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bash&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;ipython&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;psql&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;mysql&lt;/span&gt;&lt;/code&gt;, and many others.&lt;/p&gt;
@@ -29,6 +123,8 @@
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;&lt;em&gt;In Bash, the &lt;a class="reference external" href="https://ss64.com/bash/bind.html"&gt;bind&lt;/a&gt; command associates a key press to a GNU Readline function. It is the runtime equivalent of editing &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.inputrc&lt;/span&gt;&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
+&lt;p&gt;Readline reads settings from &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.inputrc&lt;/span&gt;&lt;/code&gt; (or the system-wide &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/etc/inputrc&lt;/span&gt;&lt;/code&gt;). This file can change editor behavior and bind keys to built-in Readline functions or macros. A macro inserts a string as if you had typed it. Bash also provides the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bind&lt;/span&gt;&lt;/code&gt; builtin to inspect and change bindings while the shell is running.&lt;/p&gt;
+&lt;p&gt;These settings are useful beyond Bash. Any interactive program that uses the same Readline library can provide familiar line editing and history controls. Bash-specific shell functions are a separate case: they can be attached to keys with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bind&lt;/span&gt; &lt;span class="pre"&gt;-x&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="practical-example-searching-history-by-prefix"&gt;
 &lt;h2&gt;Practical Example: Searching History by Prefix&lt;/h2&gt;
@@ -100,7 +196,7 @@ kubectl
     <summary>Blog Post Publish Date: 2026/10/18This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will also show the one configuration I reach for the most: making the Up and Down arrows search your command history by prefix. It is a small change that saved me a lot of keystrokes.</summary>
     <category term="bash" label="bash"/>
     <category term="linux" label="linux"/>
-    <category term="readline" label="readline"/>
+    <category term="terminal" label="terminal"/>
     <published>2026-10-18T00:00:00+00:00</published>
   </entry>
   <entry>
