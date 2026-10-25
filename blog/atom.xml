@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-25T03:35:32.827732+00:00</updated>
+  <updated>2026-10-25T03:51:14.197027+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -2719,19 +2719,19 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;section id="what-is-the-cloud-and-why-does-everyone-keep-talking-about-it"&gt;
 
 &lt;p&gt;If you’ve ever heard someone say “it’s on the cloud” and weren’t quite sure what that meant, this post is for you.&lt;/p&gt;
-&lt;p&gt;I decided to write this after watching it happen one too many times: a cloud vendor would walk into a meeting, give a slick pitch, and my bosses would walk out convinced that the Cloud was a magic solution that would fix every single problem we had. Spoiler: it isn’t. The Cloud is a powerful tool, but it’s &lt;strong&gt;not a silver bullet&lt;/strong&gt; — and in some cases it can even be the worse choice, especially financially.&lt;/p&gt;
-&lt;p&gt;So let’s start from the beginning — no technical jargon — and by the end you’ll understand what the Cloud actually is, what it’s good for, and when it might not be worth it.&lt;/p&gt;
+&lt;p&gt;I decided to write this after watching it happen one too many times: a cloud vendor would walk into a meeting, give a slick pitch, and my bosses would walk out convinced that the Cloud was a magic solution that would fix every single problem we had. Spoiler: it isn’t. The Cloud is a powerful tool, but it’s &lt;strong&gt;not a silver bullet&lt;/strong&gt;, and in some cases it can even be the worse choice, especially financially.&lt;/p&gt;
+&lt;p&gt;So let’s start from the beginning, no technical jargon, and by the end you’ll understand what the Cloud actually is, what it’s good for, and when it might not be worth it.&lt;/p&gt;
 &lt;section id="the-problem-the-cloud-solved"&gt;
 &lt;h2&gt;The problem the Cloud solved&lt;/h2&gt;
 &lt;p&gt;Imagine you want to launch an online store. Not too long ago, to make that work, you would need to buy a powerful computer to act as a server, find somewhere with a stable power supply to keep it running 24/7, hire someone to fix it when it broke, and hope it could handle the load when too many people visited at once.&lt;/p&gt;
 &lt;p&gt;All of that was expensive, time-consuming, and risky. If the server went down, so did your store.&lt;/p&gt;
-&lt;p&gt;Now imagine that instead of buying that computer, you simply &lt;strong&gt;rented&lt;/strong&gt; it. And only paid for the time you actually used it. And if you needed more capacity during a big sale, you scaled up with a click — then scaled back down when it was over.&lt;/p&gt;
+&lt;p&gt;Now imagine that instead of buying that computer, you simply &lt;strong&gt;rented&lt;/strong&gt; it. And only paid for the time you actually used it. And if you needed more capacity during a big sale, you scaled up with a click, then scaled back down when it was over.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;That’s the Cloud.&lt;/strong&gt;&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="cloud-renting-computers-over-the-internet"&gt;
 &lt;h2&gt;Cloud = renting computers over the internet&lt;/h2&gt;
 &lt;p&gt;The “cloud” is nothing more than massive data centers spread around the world, packed with servers and infrastructure, owned by companies like Amazon (AWS), Google (GCP), and Microsoft (Azure).&lt;/p&gt;
-&lt;p&gt;These companies offer all of that as a service. You access it over the internet, use what you need, and pay for what you consume — similar to how you pay your electricity bill.&lt;/p&gt;
+&lt;p&gt;These companies offer all of that as a service. You access it over the internet, use what you need, and pay for what you consume, similar to how you pay your electricity bill.&lt;/p&gt;
 &lt;p&gt;This means a small startup can use the same infrastructure as a giant corporation, without investing millions in hardware upfront.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="why-does-it-matter"&gt;
@@ -2742,21 +2742,21 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;section id="a-real-world-example"&gt;
 &lt;h2&gt;A real-world example&lt;/h2&gt;
 &lt;p&gt;Think about watching a movie on Netflix, listening to music on Spotify, or backing up your photos on Google Photos.&lt;/p&gt;
-&lt;p&gt;All of that runs on the Cloud. None of those companies have a server sitting in your house — your data lives in data centers, and you access it over the internet.&lt;/p&gt;
+&lt;p&gt;All of that runs on the Cloud. None of those companies have a server sitting in your house, your data lives in data centers, and you access it over the internet.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="what-about-companies-that-don-t-use-the-cloud"&gt;
 &lt;h2&gt;What about companies that don’t use the Cloud?&lt;/h2&gt;
-&lt;p&gt;Some companies still maintain their own physical servers — either in a rented data center or on their own premises. This is called &lt;strong&gt;on-premise infrastructure&lt;/strong&gt; (or “on-prem”).&lt;/p&gt;
-&lt;p&gt;That’s not necessarily wrong. In some cases, it actually makes more sense — especially when there are strict regulatory requirements about where data can be stored, or when usage is so predictable and constant that buying is cheaper than renting.&lt;/p&gt;
+&lt;p&gt;Some companies still maintain their own physical servers, either in a rented data center or on their own premises. This is called &lt;strong&gt;on-premise infrastructure&lt;/strong&gt; (or “on-prem”).&lt;/p&gt;
+&lt;p&gt;That’s not necessarily wrong. In some cases, it actually makes more sense, especially when there are strict regulatory requirements about where data can be stored, or when usage is so predictable and constant that buying is cheaper than renting.&lt;/p&gt;
 &lt;p&gt;The Cloud isn’t the answer to everything. But it’s a great fit for anyone who needs flexibility, agility, and scale.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="the-part-the-vendors-won-t-tell-you"&gt;
 &lt;h2&gt;The part the vendors won’t tell you&lt;/h2&gt;
-&lt;p&gt;Here’s the thing those sales pitches tend to skip: the Cloud can get expensive — sometimes a lot more expensive than running your own hardware.&lt;/p&gt;
+&lt;p&gt;Here’s the thing those sales pitches tend to skip: the Cloud can get expensive, sometimes a lot more expensive than running your own hardware.&lt;/p&gt;
 &lt;p&gt;Renting is great when your usage goes up and down, or when you’re still figuring things out. But if your workload is steady and predictable, running 24/7 at the same capacity, you end up paying a premium month after month for flexibility you’re not actually using. At that scale, buying your own servers and paying them off over a few years can be far cheaper.&lt;/p&gt;
-&lt;p&gt;The “pay only for what you use” promise cuts both ways. If your team doesn’t actively manage and optimize what’s running, those bills creep up fast — forgotten resources, oversized machines, and data transfer costs that nobody noticed until the invoice arrived.&lt;/p&gt;
+&lt;p&gt;The “pay only for what you use” promise cuts both ways. If your team doesn’t actively manage and optimize what’s running, those bills creep up fast, forgotten resources, oversized machines, and data transfer costs that nobody noticed until the invoice arrived.&lt;/p&gt;
 &lt;p&gt;The Cloud also isn’t automatically more secure, nor is migrating to it free. Moving an existing system requires real expertise, and doing it badly can cost you more than staying put.&lt;/p&gt;
-&lt;p&gt;None of this means the Cloud is bad. It means it’s a &lt;strong&gt;tool, not a cure-all&lt;/strong&gt;. The right question is never “should we move to the Cloud because it fixes everything?” — it’s “what problem are we actually trying to solve, and is the Cloud the best way to solve it?”&lt;/p&gt;
+&lt;p&gt;None of this means the Cloud is bad. It means it’s a &lt;strong&gt;tool, not a cure-all&lt;/strong&gt;. The right question is never “should we move to the Cloud because it fixes everything?”, it’s “what problem are we actually trying to solve, and is the Cloud the best way to solve it?”&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="tl-dr"&gt;
 &lt;h2&gt;TL;DR&lt;/h2&gt;
@@ -2786,8 +2786,8 @@ Glob Pattern Support&lt;/a&gt; and &lt;a class="reference external" href="https:
 &lt;/table&gt;
 &lt;/div&gt;
 &lt;hr class="docutils" /&gt;
-&lt;p&gt;The Cloud isn’t magic — it’s computing infrastructure offered as a service. It fundamentally changed how software is built and delivered, making it possible for small teams to build products that reach millions of people. But it’s a tool, not a silver bullet, and no vendor pitch changes that.&lt;/p&gt;
-&lt;p&gt;At its core, the problem it solves is simple: &lt;strong&gt;take the worry about computers off your plate, so you can focus on what actually matters.&lt;/strong&gt; Just make sure that, before you move, you know what problem you’re solving — and that the Cloud is genuinely the best (and most affordable) way to solve it.&lt;/p&gt;
+&lt;p&gt;The Cloud isn’t magic, it’s computing infrastructure offered as a service. It fundamentally changed how software is built and delivered, making it possible for small teams to build products that reach millions of people. But it’s a tool, not a silver bullet, and no vendor pitch changes that.&lt;/p&gt;
+&lt;p&gt;At its core, the problem it solves is simple: &lt;strong&gt;take the worry about computers off your plate, so you can focus on what actually matters.&lt;/strong&gt; Just make sure that, before you move, you know what problem you’re solving, and that the Cloud is genuinely the best (and most affordable) way to solve it.&lt;/p&gt;
 &lt;/section&gt;
 &lt;/section&gt;
 </content>
