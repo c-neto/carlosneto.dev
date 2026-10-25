@@ -18,13 +18,13 @@ The idea is simple: you create a Bash function and register it to a custom keybo
 To understand these variables in practice, let's create a function called `debug-hook-variables` and bind it to the `Ctrl+x` shortcut. This function will print the values of the two variables:
 
 ```bash
-# bash function for debugging reserved variables
+### bash function for debugging reserved variables
 debug-hook-variables() {
   echo ">>> READLINE_LINE: $READLINE_LINE"
   echo ">>> READLINE_POINT: $READLINE_POINT"
 }
 
-# "\C-x" is the code for `Ctrl+x` shortcut
+### "\C-x" is the code for `Ctrl+x` shortcut
 bind -x '"\C-x": debug-hook-variables'  
 ```
 
@@ -58,7 +58,9 @@ bind -x '"\C-x": repeat-command-widget'
 You can test the widget by typing the following command and pressing `Ctrl+x`:
 
 ```bash
-kgp     # press `Ctrl+x` and stop execution by `Ctrl+c`
+kgp     
+### press `Ctrl+x`
+### stop execution by `Ctrl+c`
 ```
 
 The `kgp` command is executed in a loop every two seconds until you press `Ctrl+c`, just like `watch "kubectl get pods"`.
