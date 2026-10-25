@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-25T04:23:13.681742+00:00</updated>
+  <updated>2026-10-25T04:23:59.773158+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -29,7 +29,7 @@ debug-hook-variables&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; 
 &lt;span class="nb"&gt;bind&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-x&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'"\C-x": debug-hook-variables'&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Now, type anything at your prompt and press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt;. In this example, with your cursor positioned after &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;definitely&lt;/span&gt;&lt;/code&gt;, the output will be:&lt;/p&gt;
+&lt;p&gt;Now, type anything at your prompt and press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt;. In this example, with your cursor positioned after &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;definitely&lt;/span&gt;&lt;/code&gt; and pressed &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt;, the output will be like:&lt;/p&gt;
 &lt;div class="highlight-text notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ definitely maybe
 
 &amp;gt;&amp;gt;&amp;gt; READLINE_LINE: definitely maybe
