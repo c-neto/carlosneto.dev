@@ -4,7 +4,7 @@ date: "2026-10-20"
 category: Linux
 ---
 
-*__Blog Post Publish Date:__ 2026/10/25*_
+*__Blog Post Publish Date:__ 2026/10/25*
 
 # Hacking Your Bash Prompt with Custom Widgets
 
