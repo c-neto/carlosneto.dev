@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-25T04:25:16.146064+00:00</updated>
+  <updated>2026-10-25T04:27:39.080278+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -30,10 +30,10 @@ debug-hook-variables&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; 
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Now, type anything at your prompt and press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt;. In this example, with your cursor positioned after &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;definitely&lt;/span&gt;&lt;/code&gt; and pressed &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt;, the output will be like:&lt;/p&gt;
-&lt;div class="highlight-text notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ definitely maybe
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;definitely&lt;span class="w"&gt; &lt;/span&gt;maybe&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# press `Ctrl+x`&lt;/span&gt;
 
-&amp;gt;&amp;gt;&amp;gt; READLINE_LINE: definitely maybe
-&amp;gt;&amp;gt;&amp;gt; READLINE_POINT: 11
+&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;READLINE_LINE:&lt;span class="w"&gt; &lt;/span&gt;definitely&lt;span class="w"&gt; &lt;/span&gt;maybe
+&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;READLINE_POINT:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;11&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;There are other variables, such as &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT"&gt;READLINE_ARGUMENT&lt;/a&gt; and &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK"&gt;READLINE_MARK&lt;/a&gt;, that are also made available to Bash functions. However, their usage is less straightforward and is typically relevant to more advanced use cases.&lt;/p&gt;
