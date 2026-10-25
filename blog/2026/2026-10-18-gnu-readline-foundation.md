@@ -1,5 +1,5 @@
 ---
-tags: bash, linux, readline
+tags: bash, linux, terminal
 date: "2026-10-18"
 category: Linux
 ---
@@ -11,8 +11,6 @@ category: Linux
 # GNU Readline: The Magic Behind Terminal Autocomplete
 
 This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will also show the one configuration I reach for the most: making the Up and Down arrows search your command history by prefix. It is a small change that saved me a lot of keystrokes.
-
-## Why I Started Digging Into This
 
 For a long time I thought certain terminal features were tied to the specific Linux distribution I was running. The more I used the terminal, the more curious I got about how it worked under the hood. Why would pressing Tab autocomplete a command on one machine and do nothing on another? Why did the Up arrow behave differently depending on where I was?
 
@@ -27,6 +25,10 @@ A practical example: when you press `TAB` in Bash and the command gets autocompl
 The behavior is controlled by a configuration file called `.inputrc`.
 
 > _In Bash, the [bind](https://ss64.com/bash/bind.html) command associates a key press to a GNU Readline function. It is the runtime equivalent of editing `.inputrc`._
+
+Readline reads settings from `~/.inputrc` (or the system-wide `/etc/inputrc`). This file can change editor behavior and bind keys to built-in Readline functions or macros. A macro inserts a string as if you had typed it. Bash also provides the `bind` builtin to inspect and change bindings while the shell is running.
+
+These settings are useful beyond Bash. Any interactive program that uses the same Readline library can provide familiar line editing and history controls. Bash-specific shell functions are a separate case: they can be attached to keys with `bind -x`.
 
 ## Practical Example: Searching History by Prefix
 
