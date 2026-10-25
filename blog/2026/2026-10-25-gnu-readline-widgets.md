@@ -42,11 +42,9 @@ Now, let's implement an alternative to the [`watch`](https://man7.org/linux/man-
 
 ```bash
 repeat-command-widget() {
-  local cmd="$READLINE_LINE"
-  READLINE_LINE=""
   while true; do
     clear
-    eval "$cmd"
+    eval "$READLINE_LINE"
     sleep 2
   done
 }
@@ -68,11 +66,9 @@ Built-in Readline widgets can be configured in the `~/.inputrc` file. For custom
 # ~/.bashrc
 
 repeat-command-widget() {
-  local cmd="$READLINE_LINE"
-  READLINE_LINE=""
   while true; do
     clear
-    eval "$cmd"
+    eval "$READLINE_LINE"
     sleep 2
   done
 }
