@@ -56,7 +56,7 @@ bind -x '"\C-x": repeat-command-widget'
 You can test the widget by typing the following command and pressing `Ctrl+x`:
 
 ```bash
-kgp     # press `Ctrl+x`
+kgp     # press `Ctrl+x` and stop execution by `Ctrl+c`
 ```
 
 The `kgp` is executed every two seconds automatically until you press `Ctrl+c`, just like `watch "kubectl get pods"`.
