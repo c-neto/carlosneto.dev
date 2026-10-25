@@ -30,8 +30,8 @@ bind -x '"\C-x": debug-hook-variables'
 
 Now, type anything at your prompt and press `Ctrl+x`. In this example, with your cursor positioned after `definitely` and pressed `Ctrl+x`, the output will be like:
 
-```text
-$ definitely maybe
+```bash
+definitely maybe    # press `Ctrl+x`
 
 >>> READLINE_LINE: definitely maybe
 >>> READLINE_POINT: 11
