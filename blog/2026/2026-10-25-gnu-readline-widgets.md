@@ -18,12 +18,14 @@ The idea is simple: you create a Bash function and register it to a custom keybo
 To understand these variables in practice, let's create a function called `debug-hook-variables` and bind it to the `Ctrl+x` shortcut. This function will print the values of the two variables:
 
 ```bash
+# bash function to debug reserved variables
 debug-hook-variables() {
   echo ">>> READLINE_LINE: $READLINE_LINE"
   echo ">>> READLINE_POINT: $READLINE_POINT"
 }
 
-bind -x '"\C-x": debug-hook-variables'
+# "\C-x" is the code for `Ctrl+x` shortcut
+bind -x '"\C-x": debug-hook-variables'  
 ```
 
 Now, type anything at your prompt and press `Ctrl+x`. In this example, with your cursor positioned after `definitely`, the output will be:
