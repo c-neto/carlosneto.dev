@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-25T03:28:44.519868+00:00</updated>
+  <updated>2026-10-25T03:29:40.938393+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -41,11 +41,9 @@
 &lt;h3&gt;Practical Example: Repeated Command Execution&lt;/h3&gt;
 &lt;p&gt;Now, let’s implement an alternative to the &lt;a class="reference external" href="https://man7.org/linux/man-pages/man1/watch.1.html"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;watch&lt;/span&gt;&lt;/code&gt;&lt;/a&gt; command. The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;watch&lt;/span&gt;&lt;/code&gt; command can behave unexpectedly when executing aliases such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kgp&lt;/span&gt;&lt;/code&gt;. The goal of this widget is to execute a command repeatedly every two seconds when you press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt;, while supporting aliases.&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;repeat-command-widget&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;local&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;cmd&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$READLINE_LINE&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;READLINE_LINE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;""&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;true&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;do&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;clear
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$cmd&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$READLINE_LINE&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;sleep&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;done&lt;/span&gt;
 &lt;span class="o"&gt;}&lt;/span&gt;
@@ -64,11 +62,9 @@
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# ~/.bashrc&lt;/span&gt;
 
 repeat-command-widget&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;local&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;cmd&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$READLINE_LINE&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;READLINE_LINE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;""&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;true&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;do&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;clear
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$cmd&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$READLINE_LINE&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;sleep&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;done&lt;/span&gt;
 &lt;span class="o"&gt;}&lt;/span&gt;

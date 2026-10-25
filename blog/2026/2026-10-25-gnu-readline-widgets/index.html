@@ -421,11 +421,9 @@
 <h3>Practical Example: Repeated Command Execution<a class="headerlink" href="#practical-example-repeated-command-execution" title="Link to this heading">#</a></h3>
 <p>Now, let’s implement an alternative to the <a class="reference external" href="https://man7.org/linux/man-pages/man1/watch.1.html"><code class="docutils literal notranslate"><span class="pre">watch</span></code></a> command. The <code class="docutils literal notranslate"><span class="pre">watch</span></code> command can behave unexpectedly when executing aliases such as <code class="docutils literal notranslate"><span class="pre">kgp</span></code>. The goal of this widget is to execute a command repeatedly every two seconds when you press <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>, while supporting aliases.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>repeat-command-widget<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<span class="w">  </span><span class="nb">local</span><span class="w"> </span><span class="nv">cmd</span><span class="o">=</span><span class="s2">"</span><span class="nv">$READLINE_LINE</span><span class="s2">"</span>
-<span class="w">  </span><span class="nv">READLINE_LINE</span><span class="o">=</span><span class="s2">""</span>
 <span class="w">  </span><span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">    </span>clear
-<span class="w">    </span><span class="nb">eval</span><span class="w"> </span><span class="s2">"</span><span class="nv">$cmd</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">eval</span><span class="w"> </span><span class="s2">"</span><span class="nv">$READLINE_LINE</span><span class="s2">"</span>
 <span class="w">    </span>sleep<span class="w"> </span><span class="m">2</span>
 <span class="w">  </span><span class="k">done</span>
 <span class="o">}</span>
@@ -444,11 +442,9 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ~/.bashrc</span>
 
 repeat-command-widget<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<span class="w">  </span><span class="nb">local</span><span class="w"> </span><span class="nv">cmd</span><span class="o">=</span><span class="s2">"</span><span class="nv">$READLINE_LINE</span><span class="s2">"</span>
-<span class="w">  </span><span class="nv">READLINE_LINE</span><span class="o">=</span><span class="s2">""</span>
 <span class="w">  </span><span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">    </span>clear
-<span class="w">    </span><span class="nb">eval</span><span class="w"> </span><span class="s2">"</span><span class="nv">$cmd</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">eval</span><span class="w"> </span><span class="s2">"</span><span class="nv">$READLINE_LINE</span><span class="s2">"</span>
 <span class="w">    </span>sleep<span class="w"> </span><span class="m">2</span>
 <span class="w">  </span><span class="k">done</span>
 <span class="o">}</span>
