@@ -4,7 +4,7 @@ date: "2026-10-20"
 category: Linux
 ---
 
-_* **__Blog Post Publish Date:__** 2026/10/25*_
+*__Blog Post Publish Date:__ 2026/10/25*_
 
 # How to Build Your Own Custom GNU Readline Widgets
 
