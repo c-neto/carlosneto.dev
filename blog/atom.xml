@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-25T03:25:41.490787+00:00</updated>
+  <updated>2026-10-25T03:26:25.337963+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -11,7 +11,7 @@
     <id>https://carlosneto.dev/blog/2026/2026-10-25-gnu-readline-widgets/</id>
     <title>Hacking Your Bash Prompt with Custom Widgets</title>
     <updated>2026-10-20T00:00:00+00:00</updated>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/10/25&lt;/em&gt;_&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/10/25&lt;/em&gt;&lt;/p&gt;
 &lt;section id="hacking-your-bash-prompt-with-custom-widgets"&gt;
 
 &lt;p&gt;This blog post is an extension of &lt;a class="reference internal" href="2026/2026-10-18-gnu-readline-foundation/"&gt;&lt;span class="std std-doc"&gt;GNU Readline: The Magic Behind Terminal Autocomplete&lt;/span&gt;&lt;/a&gt;. Here, I explain how to create custom Bash widgets by registering Bash functions to keyboard shortcuts powered by the GNU Readline library.&lt;/p&gt;
@@ -98,7 +98,7 @@ repeat-command-widget&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-10-25-gnu-readline-widgets/"/>
-    <summary>Blog Post Publish Date: 2026/10/25_This blog post is an extension of GNU Readline: The Magic Behind Terminal Autocomplete. Here, I explain how to create custom Bash widgets by registering Bash functions to keyboard shortcuts powered by the GNU Readline library.</summary>
+    <summary>Blog Post Publish Date: 2026/10/25This blog post is an extension of GNU Readline: The Magic Behind Terminal Autocomplete. Here, I explain how to create custom Bash widgets by registering Bash functions to keyboard shortcuts powered by the GNU Readline library.</summary>
     <category term="bash" label="bash"/>
     <category term="linux" label="linux"/>
     <category term="terminal" label="terminal"/>
