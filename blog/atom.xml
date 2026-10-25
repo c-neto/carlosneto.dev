@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-25T03:51:14.197027+00:00</updated>
+  <updated>2026-10-25T03:57:32.307435+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -34,9 +34,7 @@
 &amp;gt;&amp;gt;&amp;gt; READLINE_POINT: 11
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;&lt;em&gt;There are other variables, such as &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT"&gt;READLINE_ARGUMENT&lt;/a&gt; and &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK"&gt;READLINE_MARK&lt;/a&gt;, that are also made available to Bash functions. However, their usage is less straightforward and is typically relevant to more advanced use cases.&lt;/em&gt;&lt;/p&gt;
-&lt;/div&gt;&lt;/blockquote&gt;
+&lt;p&gt;There are other variables, such as &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT"&gt;READLINE_ARGUMENT&lt;/a&gt; and &lt;a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK"&gt;READLINE_MARK&lt;/a&gt;, that are also made available to Bash functions. However, their usage is less straightforward and is typically relevant to more advanced use cases.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="practical-example-repeated-command-execution"&gt;
 &lt;h2&gt;Practical Example: Repeated Command Execution&lt;/h2&gt;
