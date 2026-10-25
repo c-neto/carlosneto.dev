@@ -431,9 +431,10 @@
 </pre></div>
 </div>
 <p>You can test the widget by typing the following command and pressing <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kgp
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kgp<span class="w">     </span><span class="c1"># press `Ctrl+x` and stop execution by `Ctrl+c`</span>
 </pre></div>
 </div>
+<p>The <code class="docutils literal notranslate"><span class="pre">kgp</span></code> is executed every two seconds automatically until you press <code class="docutils literal notranslate"><span class="pre">Ctrl+c</span></code>, just like <code class="docutils literal notranslate"><span class="pre">watch</span> <span class="pre">&quot;kubectl</span> <span class="pre">get</span> <span class="pre">pods&quot;</span></code>.</p>
 <section id="how-to-register-the-widget">
 <h3>How to Register the Widget<a class="headerlink" href="#how-to-register-the-widget" title="Link to this heading">#</a></h3>
 <p>Built-in Readline widgets can be configured in the <code class="docutils literal notranslate"><span class="pre">~/.inputrc</span></code> file. For custom Bash widgets, we need to register the function and its keyboard shortcut in the <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file.</p>

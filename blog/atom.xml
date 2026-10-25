@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-25T04:06:22.589635+00:00</updated>
+  <updated>2026-10-25T04:09:51.918589+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -51,9 +51,10 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;You can test the widget by typing the following command and pressing &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;kgp
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;kgp&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="c1"&gt;# press `Ctrl+x` and stop execution by `Ctrl+c`&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;kgp&lt;/span&gt;&lt;/code&gt; is executed every two seconds automatically until you press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+c&lt;/span&gt;&lt;/code&gt;, just like &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;watch&lt;/span&gt; &lt;span class="pre"&gt;&amp;quot;kubectl&lt;/span&gt; &lt;span class="pre"&gt;get&lt;/span&gt; &lt;span class="pre"&gt;pods&amp;quot;&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;section id="how-to-register-the-widget"&gt;
 &lt;h3&gt;How to Register the Widget&lt;/h3&gt;
 &lt;p&gt;Built-in Readline widgets can be configured in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.inputrc&lt;/span&gt;&lt;/code&gt; file. For custom Bash widgets, we need to register the function and its keyboard shortcut in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.bashrc&lt;/span&gt;&lt;/code&gt; file.&lt;/p&gt;
