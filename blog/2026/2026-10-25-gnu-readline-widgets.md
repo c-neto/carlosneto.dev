@@ -6,7 +6,7 @@ category: Linux
 
 *__Blog Post Publish Date:__ 2026/10/25*
 
-# Hacking Your Prompt with Custom Widgets
+# Hacking Your Bash with Custom Widgets
 
 This blog post is an extension of [GNU Readline: The Magic Behind Terminal Autocomplete](./2026-10-18-gnu-readline-foundation.md). Here, I explain how to create custom Bash widgets by registering Bash functions to keyboard shortcuts powered by the GNU Readline library.
 
