@@ -12,19 +12,11 @@ category: Linux
 
 This blog post explains what Zsh widgets are, how the Zsh Line Editor (ZLE) works behind the scenes, and how to build your own custom widgets bound to keyboard shortcuts. It includes hands-on examples you can paste directly into your `~/.zshrc` and test right away.
 
-## The Itch: Repeating the Same Keystrokes All Day
-
-A while ago I wrote about [fzf](/blog/2024/2024-04-21-fzf) and how its Zsh widgets saved me from the tedious `$ command | grep` dance. That post left a question in my head: what exactly is a widget, and could I write my own?
-
-Every day I type the same small corrections over and over. I forget `sudo` and have to go back to the start of the line. I want to wrap the current command in a loop. I want to insert the output of the last command without reaching for the mouse. These are tiny annoyances, but they add up. The kind of thing that gets on my nerves after the hundredth time.
-
-Turns out Zsh already has the machinery to fix all of this. It is called ZLE, and once it clicks, writing a custom widget takes a few lines.
-
 ## What is a Widget?
 
 In Zsh, almost everything you do at the prompt is handled by a **widget**. Moving the cursor, deleting a word, searching history, completing a command, accepting the line when you press `Enter`. All of these are widgets.
 
-ZLE (Zsh Line Editor) is the component that reads your keystrokes and edits the command line. When you press a key, ZLE looks up which widget that key is bound to and runs it. The `bindkey` command is the bridge between a key sequence and a widget.
+ZLE (Zsh Line Editor) is the component that reads your keystrokes and edits the command line. When you press a key, ZLE looks up which widget that key is bound to and runs it. The `bindkey` command is the bridge between a key sequence and a [text](zsh-custom-widgets.md)widget.
 
 You can list every widget available in your shell with:
 
@@ -83,22 +75,6 @@ Enough theory. Let me show the widgets that scratched my original itch. Every ex
 All code from this post is in my dotfiles: <i class="fab fa-github"></i> _[c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc)_
 :::
 
-### 1. Prepend sudo to the Current Line
-
-The classic. You type a long command, hit `Enter`, and get _permission denied_. Instead of retyping it, this widget adds `sudo ` to the front of the line and nudges the cursor so you keep typing where you left off.
-
-```{code-block} zsh
-:caption: ~/.zshrc
-
-prepend-sudo() {
-  if [[ $BUFFER != "sudo "* ]]; then
-    BUFFER="sudo $BUFFER"
-    CURSOR+=5
-  fi
-}
-zle -N prepend-sudo
-bindkey '^[s' prepend-sudo  # ALT + S
-```
 
 The `if` check avoids stacking `sudo sudo` when you press the shortcut twice. `CURSOR+=5` moves the cursor forward by the five characters of `"sudo "` so the line keeps editing naturally.
 
