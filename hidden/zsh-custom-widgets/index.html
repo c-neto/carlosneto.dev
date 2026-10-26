@@ -396,16 +396,10 @@
 <section id="how-to-build-your-own-custom-zsh-widgets">
 <h1>How to Build Your Own Custom Zsh Widgets<a class="headerlink" href="#how-to-build-your-own-custom-zsh-widgets" title="Link to this heading">#</a></h1>
 <p>This blog post explains what Zsh widgets are, how the Zsh Line Editor (ZLE) works behind the scenes, and how to build your own custom widgets bound to keyboard shortcuts. It includes hands-on examples you can paste directly into your <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> and test right away.</p>
-<section id="the-itch-repeating-the-same-keystrokes-all-day">
-<h2>The Itch: Repeating the Same Keystrokes All Day<a class="headerlink" href="#the-itch-repeating-the-same-keystrokes-all-day" title="Link to this heading">#</a></h2>
-<p>A while ago I wrote about <a class="reference internal" href="../../blog/2024/2024-04-21-fzf/"><span class="doc std std-doc">fzf</span></a> and how its Zsh widgets saved me from the tedious <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">command</span> <span class="pre">|</span> <span class="pre">grep</span></code> dance. That post left a question in my head: what exactly is a widget, and could I write my own?</p>
-<p>Every day I type the same small corrections over and over. I forget <code class="docutils literal notranslate"><span class="pre">sudo</span></code> and have to go back to the start of the line. I want to wrap the current command in a loop. I want to insert the output of the last command without reaching for the mouse. These are tiny annoyances, but they add up. The kind of thing that gets on my nerves after the hundredth time.</p>
-<p>Turns out Zsh already has the machinery to fix all of this. It is called ZLE, and once it clicks, writing a custom widget takes a few lines.</p>
-</section>
 <section id="what-is-a-widget">
 <h2>What is a Widget?<a class="headerlink" href="#what-is-a-widget" title="Link to this heading">#</a></h2>
 <p>In Zsh, almost everything you do at the prompt is handled by a <strong>widget</strong>. Moving the cursor, deleting a word, searching history, completing a command, accepting the line when you press <code class="docutils literal notranslate"><span class="pre">Enter</span></code>. All of these are widgets.</p>
-<p>ZLE (Zsh Line Editor) is the component that reads your keystrokes and edits the command line. When you press a key, ZLE looks up which widget that key is bound to and runs it. The <code class="docutils literal notranslate"><span class="pre">bindkey</span></code> command is the bridge between a key sequence and a widget.</p>
+<p>ZLE (Zsh Line Editor) is the component that reads your keystrokes and edits the command line. When you press a key, ZLE looks up which widget that key is bound to and runs it. The <code class="docutils literal notranslate"><span class="pre">bindkey</span></code> command is the bridge between a key sequence and a <a class="reference internal" href="#"><span class="std std-doc">text</span></a>widget.</p>
 <p>You can list every widget available in your shell with:</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>zle<span class="w"> </span>-al
 </pre></div>
@@ -455,29 +449,12 @@ bindkey<span class="w"> </span><span class="s1">'^G'</span><span class="w"> </sp
 <p class="admonition-title">Note</p>
 <p>All code from this post is in my dotfiles: <i class="fab fa-github"></i> <em><a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc">c-neto/ansible-configure-fedora/files/dotfiles/.zshrc</a></em></p>
 </div>
-<section id="prepend-sudo-to-the-current-line">
-<h3>1. Prepend sudo to the Current Line<a class="headerlink" href="#prepend-sudo-to-the-current-line" title="Link to this heading">#</a></h3>
-<p>The classic. You type a long command, hit <code class="docutils literal notranslate"><span class="pre">Enter</span></code>, and get <em>permission denied</em>. Instead of retyping it, this widget adds <code class="docutils literal notranslate"><span class="pre">sudo</span> </code> to the front of the line and nudges the cursor so you keep typing where you left off.</p>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">~/.zshrc</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>prepend-sudo<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$BUFFER</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"sudo "</span>*<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">    </span><span class="nv">BUFFER</span><span class="o">=</span><span class="s2">"sudo </span><span class="nv">$BUFFER</span><span class="s2">"</span>
-<span class="w">    </span><span class="nv">CURSOR</span><span class="o">+=</span><span class="m">5</span>
-<span class="w">  </span><span class="k">fi</span>
-<span class="o">}</span>
-zle<span class="w"> </span>-N<span class="w"> </span>prepend-sudo
-bindkey<span class="w"> </span><span class="s1">'^[s'</span><span class="w"> </span>prepend-sudo<span class="w">  </span><span class="c1"># ALT + S</span>
-</pre></div>
-</div>
-</div>
 <p>The <code class="docutils literal notranslate"><span class="pre">if</span></code> check avoids stacking <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">sudo</span></code> when you press the shortcut twice. <code class="docutils literal notranslate"><span class="pre">CURSOR+=5</span></code> moves the cursor forward by the five characters of <code class="docutils literal notranslate"><span class="pre">&quot;sudo</span> <span class="pre">&quot;</span></code> so the line keeps editing naturally.</p>
-</section>
 <section id="insert-the-output-of-the-last-command">
 <h3>2. Insert the Output of the Last Command<a class="headerlink" href="#insert-the-output-of-the-last-command" title="Link to this heading">#</a></h3>
 <p>This one feels like magic the first time. It evaluates the previous command again and drops its output right where the cursor is. Useful when you want to reuse a path, an ID, or a hash you just printed.</p>
-<div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">~/.zshrc</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">~/.zshrc</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>zmodload<span class="w"> </span>-i<span class="w"> </span>zsh/parameter
 
 insert-last-command-output<span class="o">()</span><span class="w"> </span><span class="o">{</span>
@@ -496,8 +473,8 @@ bindkey<span class="w"> </span><span class="s1">'^[o'</span><span class="w"> </s
 <section id="delete-a-whole-path-segment-at-once">
 <h3>3. Delete a Whole Path Segment at Once<a class="headerlink" href="#delete-a-whole-path-segment-at-once" title="Link to this heading">#</a></h3>
 <p>By default, <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">W</span></code> deletes back to the previous whitespace, which treats a full path as one blob. Sometimes I want to delete just one directory of a path. This widget tweaks <code class="docutils literal notranslate"><span class="pre">WORDCHARS</span></code> for a single call so <code class="docutils literal notranslate"><span class="pre">/</span></code> becomes a word boundary.</p>
-<div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">~/.zshrc</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">~/.zshrc</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>backward-delete-path-segment<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">  </span><span class="nb">local</span><span class="w"> </span><span class="nv">WORDCHARS</span><span class="o">=</span><span class="s2">"*?_[]~=&amp;;!#</span>$<span class="s2">%^(){}&lt;&gt;"</span>
 <span class="w">  </span>zle<span class="w"> </span>backward-delete-word
@@ -512,8 +489,8 @@ bindkey<span class="w"> </span><span class="s1">'^W'</span><span class="w"> </sp
 <section id="wrap-the-current-command-in-a-for-loop">
 <h3>4. Wrap the Current Command in a for Loop<a class="headerlink" href="#wrap-the-current-command-in-a-for-loop" title="Link to this heading">#</a></h3>
 <p>This is the one I built for myself. I often prototype a command on one item, then want to run it over a list. This widget takes whatever is on the line and wraps it in a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop skeleton, leaving the cursor ready to fill in the list.</p>
-<div class="literal-block-wrapper docutils container" id="id4">
-<div class="code-block-caption"><span class="caption-text">~/.zshrc</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">~/.zshrc</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>wrap-in-for-loop<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">  </span><span class="nb">local</span><span class="w"> </span><span class="nv">cmd</span><span class="o">=</span><span class="s2">"</span><span class="nv">$BUFFER</span><span class="s2">"</span>
 <span class="w">  </span><span class="nv">BUFFER</span><span class="o">=</span><span class="s2">"for i in ; do </span><span class="si">${</span><span class="nv">cmd</span><span class="si">}</span><span class="s2">; done"</span>
