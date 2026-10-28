@@ -1,10 +1,12 @@
 ---
 tags: bash, linux, terminal
-date: "2026-10-20"
+date: "2026-10-25"
 category: Linux
 ---
 
 *__Blog Post Publish Date:__ 2026/10/25*
+
+---
 
 # Hacking Your Bash Terminal with Custom Widgets
 
