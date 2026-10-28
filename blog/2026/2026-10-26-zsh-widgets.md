@@ -36,6 +36,9 @@ zle -al | grep debug-hook-variables
 
 # '\C-x' is the code for `Ctrl+x` shortcut
 bindkey '^X' debug-hook-variables
+
+# list the widgets with shortcut registered
+bindkey -L
 ```
 
 Now, type anything at your prompt and press `Ctrl+x`. In this example, with your cursor positioned after `definitely` and pressed `Ctrl+x`, the output will be like:
