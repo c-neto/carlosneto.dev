@@ -19,7 +19,7 @@ The idea is simple: you create a Zsh function and register it to a custom keyboa
 To understand these variables in practice, let's create a function called `debug-hook-variables` and bind it to the `Ctrl+x` shortcut. This function will print the values of the variables:
 
 ```zsh
-### zsh function for debugging reserved variables
+# zsh function for debugging reserved variables
 function debug-hook-variables() {
   echo 
   echo ">>> BUFFER:   $BUFFER"
@@ -31,7 +31,10 @@ function debug-hook-variables() {
 # Register the function as a ZLE widget
 zle -N debug-hook-variables
 
-### '\C-x' is the code for `Ctrl+x` shortcut
+# list widget available
+zle -al | grep debug-hook-variables
+
+# '\C-x' is the code for `Ctrl+x` shortcut
 bindkey '^X' debug-hook-variables
 ```
 
@@ -80,7 +83,8 @@ Built-in ZLE widgets can be configured using standard `bindkey` bindings. For cu
 ```zsh
 # ~/.zshrc
 
-repeat-command-widget() {
+# define the function
+function repeat-command-widget() {
   while true; do
     clear
     eval "$BUFFER"
@@ -88,7 +92,10 @@ repeat-command-widget() {
   done
 }
 
+# register funtion as a widget
 zle -N repeat-command-widget
+
+# define Ctrl+x to execute "repeat-command-widget" command
 bindkey '^X' repeat-command-widget
 ```
 
