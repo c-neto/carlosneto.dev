@@ -412,13 +412,13 @@
 <span class="c1"># register the function as a ZLE widget</span>
 zle<span class="w"> </span>-N<span class="w"> </span>debug-hook-variables
 
-<span class="c1"># check if debug-hook-variables are registered as widget</span>
+<span class="c1"># check if "debug-hook-variables" are registered as widget</span>
 zle<span class="w"> </span>-al<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>debug-hook-variables
 
-<span class="c1"># '\C-x' is the code for `Ctrl+x` shortcut</span>
+<span class="c1"># define "Ctrl+x" shortcut for "debug-hook-variables" widget</span>
 bindkey<span class="w"> </span><span class="s1">'^X'</span><span class="w"> </span>debug-hook-variables
 
-<span class="c1"># list the widgets with shortcut registered</span>
+<span class="c1"># list all widgets with shortcut defined</span>
 bindkey<span class="w"> </span>-L
 </pre></div>
 </div>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-28T16:21:06.711913+00:00</updated>
+  <updated>2026-10-28T16:22:38.954554+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -32,13 +32,13 @@
 &lt;span class="c1"&gt;# register the function as a ZLE widget&lt;/span&gt;
 zle&lt;span class="w"&gt; &lt;/span&gt;-N&lt;span class="w"&gt; &lt;/span&gt;debug-hook-variables
 
-&lt;span class="c1"&gt;# check if debug-hook-variables are registered as widget&lt;/span&gt;
+&lt;span class="c1"&gt;# check if "debug-hook-variables" are registered as widget&lt;/span&gt;
 zle&lt;span class="w"&gt; &lt;/span&gt;-al&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;grep&lt;span class="w"&gt; &lt;/span&gt;debug-hook-variables
 
-&lt;span class="c1"&gt;# '\C-x' is the code for `Ctrl+x` shortcut&lt;/span&gt;
+&lt;span class="c1"&gt;# define "Ctrl+x" shortcut for "debug-hook-variables" widget&lt;/span&gt;
 bindkey&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'^X'&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;debug-hook-variables
 
-&lt;span class="c1"&gt;# list the widgets with shortcut registered&lt;/span&gt;
+&lt;span class="c1"&gt;# list all widgets with shortcut defined&lt;/span&gt;
 bindkey&lt;span class="w"&gt; &lt;/span&gt;-L
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;

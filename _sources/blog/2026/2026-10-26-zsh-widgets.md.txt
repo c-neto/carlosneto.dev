@@ -31,13 +31,13 @@ function debug-hook-variables() {
 # register the function as a ZLE widget
 zle -N debug-hook-variables
 
-# check if debug-hook-variables are registered as widget
+# check if "debug-hook-variables" are registered as widget
 zle -al | grep debug-hook-variables
 
-# '\C-x' is the code for `Ctrl+x` shortcut
+# define "Ctrl+x" shortcut for "debug-hook-variables" widget
 bindkey '^X' debug-hook-variables
 
-# list the widgets with shortcut registered
+# list all widgets with shortcut defined
 bindkey -L
 ```
 
