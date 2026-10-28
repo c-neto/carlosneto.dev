@@ -103,6 +103,5 @@ The custom `Ctrl+x` shortcut will be available in new Zsh sessions.
 
 ## Links
 
-- Zsh ZLE foundation: <https://carlosneto.dev/blog/2026/2026-10-21-zsh-zle-foundation>
 - Zsh Line Editor built-ins: <https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Builtins-1>
 - Zsh parameters: <https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Parameters-used-by-the-Line-Editor>
