@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-28T16:09:03.366230+00:00</updated>
+  <updated>2026-10-28T16:09:22.660636+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -29,7 +29,7 @@
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&amp;gt;&amp;gt;&amp;gt; CURSOR:   &lt;/span&gt;&lt;span class="nv"&gt;$CURSOR&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
 &lt;span class="o"&gt;}&lt;/span&gt;
 
-&lt;span class="c1"&gt;# Register the function as a ZLE widget&lt;/span&gt;
+&lt;span class="c1"&gt;# register the function as a ZLE widget&lt;/span&gt;
 zle&lt;span class="w"&gt; &lt;/span&gt;-N&lt;span class="w"&gt; &lt;/span&gt;debug-hook-variables
 
 &lt;span class="c1"&gt;# check if debug-hook-variables are registered as widget&lt;/span&gt;
