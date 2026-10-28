@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-28T16:08:07.143052+00:00</updated>
+  <updated>2026-10-28T16:09:03.366230+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -32,7 +32,7 @@
 &lt;span class="c1"&gt;# Register the function as a ZLE widget&lt;/span&gt;
 zle&lt;span class="w"&gt; &lt;/span&gt;-N&lt;span class="w"&gt; &lt;/span&gt;debug-hook-variables
 
-&lt;span class="c1"&gt;# list widget available&lt;/span&gt;
+&lt;span class="c1"&gt;# check if debug-hook-variables are registered as widget&lt;/span&gt;
 zle&lt;span class="w"&gt; &lt;/span&gt;-al&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;grep&lt;span class="w"&gt; &lt;/span&gt;debug-hook-variables
 
 &lt;span class="c1"&gt;# '\C-x' is the code for `Ctrl+x` shortcut&lt;/span&gt;

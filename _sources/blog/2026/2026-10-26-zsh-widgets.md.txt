@@ -31,7 +31,7 @@ function debug-hook-variables() {
 # Register the function as a ZLE widget
 zle -N debug-hook-variables
 
-# list widget available
+# check if debug-hook-variables are registered as widget
 zle -al | grep debug-hook-variables
 
 # '\C-x' is the code for `Ctrl+x` shortcut
