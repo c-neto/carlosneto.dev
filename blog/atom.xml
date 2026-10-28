@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-28T16:00:25.911772+00:00</updated>
+  <updated>2026-10-28T16:02:59.468102+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -129,7 +129,7 @@ debug-hook-variables&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; 
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Now, type anything at your prompt and press &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt;. In this example, with your cursor positioned after &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;definitely&lt;/span&gt;&lt;/code&gt; and pressed &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt;, the output will be like:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;definitely&lt;span class="w"&gt; &lt;/span&gt;maybe&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# press `Ctrl+x`&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;definitely&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;maybe&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# press `Ctrl+x`&lt;/span&gt;
 
 &amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;READLINE_LINE:&lt;span class="w"&gt; &lt;/span&gt;definitely&lt;span class="w"&gt; &lt;/span&gt;maybe
 &amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;READLINE_POINT:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;11&lt;/span&gt;
