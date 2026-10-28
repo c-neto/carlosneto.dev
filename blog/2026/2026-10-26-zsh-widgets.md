@@ -28,7 +28,7 @@ function debug-hook-variables() {
   echo ">>> CURSOR:   $CURSOR"
 }
 
-# Register the function as a ZLE widget
+# register the function as a ZLE widget
 zle -N debug-hook-variables
 
 # check if debug-hook-variables are registered as widget
