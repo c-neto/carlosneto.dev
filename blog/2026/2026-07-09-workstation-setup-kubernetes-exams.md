@@ -44,7 +44,7 @@ If you use window tiling apps such as [Rectangle](https://rectangleapp.com/) or 
 
 ## History Search by Prefix
 
-__This is probably my most valuable tip!__
+__My most valuable tip!__
 
 The exam environment uses __Bash__ as the default shell. Behind the scenes, Bash relies on the [GNU Readline](https://tiswww.case.edu/php/chet/readline/readline.html) library, which provides command-line editing, key bindings, and history navigation. For example, the interactive reverse search that appears when you press __CTRL + R__ is implemented by [GNU Readline](https://tiswww.case.edu/php/chet/readline/readline.html).
 
