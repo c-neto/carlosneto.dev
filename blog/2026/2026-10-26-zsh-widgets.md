@@ -54,10 +54,10 @@ $ definitely| maybe  # press `Ctrl+x`
 
 ## Practical Example: Repeated Command Execution
 
-Now, let's implement an alternative to the [`watch`](https://man7.org/linux/man-pages/man1/watch.1.html) command. The `watch` command can behave unexpectedly when executing aliases such as [`kgp`](https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/kubectl/kubectl.plugin.zsh) (more details in this [Stack Overflow thread](https://stackoverflow.com/questions/54814543/bash-how-to-use-an-alias-command-in-combination-with-watch)). The goal of this widget is to execute a command repeatedly every two seconds when you press `Ctrl+x`, while supporting aliases.
+Now, let's implement an alternative to the [$ watch](https://man7.org/linux/man-pages/man1/watch.1.html) command that can behave unexpectedly when executing aliases such as `kgp` (more details in this [Stack Overflow thread](https://stackoverflow.com/questions/54814543/bash-how-to-use-an-alias-command-in-combination-with-watch)). The goal of this widget is to execute a command repeatedly every two seconds when you press `Ctrl+x`, while supporting aliases.
 
 ```zsh
-repeat-command-widget() {
+function repeat-command-widget() {
   while true; do
     clear
     eval "$BUFFER"
