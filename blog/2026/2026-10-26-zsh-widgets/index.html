@@ -400,7 +400,7 @@
 <h2>Understand the Basics<a class="headerlink" href="#understand-the-basics" title="Link to this heading">#</a></h2>
 <p>The idea is simple: you create a Zsh function and register it to a custom keyboard shortcut using the <code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-N</span></code> and <code class="docutils literal notranslate"><span class="pre">bindkey</span></code> commands. There are some special ZLE parameters that are made available to Zsh functions when they are called as widgets. The four main variables in this case are <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-BUFFER">BUFFER</a> that is the entire contents of the command line, <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-CURSOR">CURSOR</a> that is the cursor position, represented as an integer offset into <code class="docutils literal notranslate"><span class="pre">BUFFER</span></code>, along with <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-LBUFFER">LBUFFER</a> and <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-RBUFFER">RBUFFER</a>.</p>
 <p>To understand these variables in practice, let’s create a function called <code class="docutils literal notranslate"><span class="pre">debug-hook-variables</span></code> and bind it to the <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> shortcut. This function will print the values of the variables:</p>
-<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span class="c1">### zsh function for debugging reserved variables</span>
+<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span class="c1"># zsh function for debugging reserved variables</span>
 <span class="k">function</span><span class="w"> </span>debug-hook-variables<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">  </span><span class="nb">echo</span><span class="w"> </span>
 <span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"&gt;&gt;&gt; BUFFER:   </span><span class="nv">$BUFFER</span><span class="s2">"</span>
@@ -412,7 +412,10 @@
 <span class="c1"># Register the function as a ZLE widget</span>
 zle<span class="w"> </span>-N<span class="w"> </span>debug-hook-variables
 
-<span class="c1">### '\C-x' is the code for `Ctrl+x` shortcut</span>
+<span class="c1"># list widget available</span>
+zle<span class="w"> </span>-al<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>debug-hook-variables
+
+<span class="c1"># '\C-x' is the code for `Ctrl+x` shortcut</span>
 bindkey<span class="w"> </span><span class="s1">'^X'</span><span class="w"> </span>debug-hook-variables
 </pre></div>
 </div>
@@ -453,7 +456,8 @@ bindkey<span class="w"> </span><span class="s1">'^X'</span><span class="w"> </sp
 <p>Built-in ZLE widgets can be configured using standard <code class="docutils literal notranslate"><span class="pre">bindkey</span></code> bindings. For custom Zsh widgets, we need to register the function, declare it via <code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-N</span></code>, and bind its keyboard shortcut in the <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> file.</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span class="c1"># ~/.zshrc</span>
 
-repeat-command-widget<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="c1"># define the function</span>
+<span class="k">function</span><span class="w"> </span>repeat-command-widget<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">  </span><span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">    </span>clear
 <span class="w">    </span><span class="nb">eval</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUFFER</span><span class="s2">"</span>
@@ -461,7 +465,10 @@ repeat-command-widget<span class="o">()</span><span class="w"> </span><span clas
 <span class="w">  </span><span class="k">done</span>
 <span class="o">}</span>
 
+<span class="c1"># register funtion as a widget</span>
 zle<span class="w"> </span>-N<span class="w"> </span>repeat-command-widget
+
+<span class="c1"># define Ctrl+x to execute "repeat-command-widget" command</span>
 bindkey<span class="w"> </span><span class="s1">'^X'</span><span class="w"> </span>repeat-command-widget
 </pre></div>
 </div>

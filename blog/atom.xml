@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-28T16:02:59.468102+00:00</updated>
+  <updated>2026-10-28T16:08:07.143052+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -20,7 +20,7 @@
 &lt;h2&gt;Understand the Basics&lt;/h2&gt;
 &lt;p&gt;The idea is simple: you create a Zsh function and register it to a custom keyboard shortcut using the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;zle&lt;/span&gt; &lt;span class="pre"&gt;-N&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bindkey&lt;/span&gt;&lt;/code&gt; commands. There are some special ZLE parameters that are made available to Zsh functions when they are called as widgets. The four main variables in this case are &lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-BUFFER"&gt;BUFFER&lt;/a&gt; that is the entire contents of the command line, &lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-CURSOR"&gt;CURSOR&lt;/a&gt; that is the cursor position, represented as an integer offset into &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;BUFFER&lt;/span&gt;&lt;/code&gt;, along with &lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-LBUFFER"&gt;LBUFFER&lt;/a&gt; and &lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-RBUFFER"&gt;RBUFFER&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;To understand these variables in practice, let’s create a function called &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;debug-hook-variables&lt;/span&gt;&lt;/code&gt; and bind it to the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ctrl+x&lt;/span&gt;&lt;/code&gt; shortcut. This function will print the values of the variables:&lt;/p&gt;
-&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;### zsh function for debugging reserved variables&lt;/span&gt;
+&lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# zsh function for debugging reserved variables&lt;/span&gt;
 &lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;debug-hook-variables&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&amp;gt;&amp;gt;&amp;gt; BUFFER:   &lt;/span&gt;&lt;span class="nv"&gt;$BUFFER&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
@@ -32,7 +32,10 @@
 &lt;span class="c1"&gt;# Register the function as a ZLE widget&lt;/span&gt;
 zle&lt;span class="w"&gt; &lt;/span&gt;-N&lt;span class="w"&gt; &lt;/span&gt;debug-hook-variables
 
-&lt;span class="c1"&gt;### '\C-x' is the code for `Ctrl+x` shortcut&lt;/span&gt;
+&lt;span class="c1"&gt;# list widget available&lt;/span&gt;
+zle&lt;span class="w"&gt; &lt;/span&gt;-al&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;grep&lt;span class="w"&gt; &lt;/span&gt;debug-hook-variables
+
+&lt;span class="c1"&gt;# '\C-x' is the code for `Ctrl+x` shortcut&lt;/span&gt;
 bindkey&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'^X'&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;debug-hook-variables
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -73,7 +76,8 @@ bindkey&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'^X'&lt;/span&
 &lt;p&gt;Built-in ZLE widgets can be configured using standard &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;bindkey&lt;/span&gt;&lt;/code&gt; bindings. For custom Zsh widgets, we need to register the function, declare it via &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;zle&lt;/span&gt; &lt;span class="pre"&gt;-N&lt;/span&gt;&lt;/code&gt;, and bind its keyboard shortcut in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.zshrc&lt;/span&gt;&lt;/code&gt; file.&lt;/p&gt;
 &lt;div class="highlight-zsh notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# ~/.zshrc&lt;/span&gt;
 
-repeat-command-widget&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="c1"&gt;# define the function&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;repeat-command-widget&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;true&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;do&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;clear
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$BUFFER&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
@@ -81,7 +85,10 @@ repeat-command-widget&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;done&lt;/span&gt;
 &lt;span class="o"&gt;}&lt;/span&gt;
 
+&lt;span class="c1"&gt;# register funtion as a widget&lt;/span&gt;
 zle&lt;span class="w"&gt; &lt;/span&gt;-N&lt;span class="w"&gt; &lt;/span&gt;repeat-command-widget
+
+&lt;span class="c1"&gt;# define Ctrl+x to execute "repeat-command-widget" command&lt;/span&gt;
 bindkey&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'^X'&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;repeat-command-widget
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
