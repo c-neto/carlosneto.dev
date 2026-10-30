@@ -2,13 +2,13 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-30T03:01:19.930555+00:00</updated>
+  <updated>2026-10-30T03:03:54.163004+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering</subtitle>
   <entry>
-    <id>https://carlosneto.dev/blog/2026/2026-10-29-otel-beyond-instrumentation/</id>
+    <id>https://carlosneto.dev/blog/2026/2026-10-29-otel-foundation/</id>
     <title>OpenTelemetry: A Framework to Decoupling Your Observability</title>
     <updated>2026-10-29T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/10/29&lt;/em&gt;&lt;/p&gt;
@@ -170,7 +170,7 @@
 &lt;/section&gt;
 &lt;/section&gt;
 </content>
-    <link href="https://carlosneto.dev/blog/2026/2026-10-29-otel-beyond-instrumentation/"/>
+    <link href="https://carlosneto.dev/blog/2026/2026-10-29-otel-foundation/"/>
     <summary>Blog Post Publish Date: 2026/10/29This blog post explains the foundation of OpenTelemetry and walks through a practical example of instrumenting a Python application. It demonstrates OpenTelemetry’s single API definition paired with multiple SDK implementations for Prometheus and Datadog.</summary>
     <category term="observability" label="observability"/>
     <category term="opentelemetry" label="opentelemetry"/>
