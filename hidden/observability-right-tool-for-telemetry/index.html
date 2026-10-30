@@ -7,19 +7,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Metrics, APM, and Logs: Stop Extracting Metrics from Your Logs" />
+<meta property="og:title" content="Stop Extracting Metrics from OpenSearch Logs" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/hidden/observability-right-tool-for-telemetry/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/10/17 One of the most common and most expensive mistakes in observability is quietly treating a log store as a metrics database. It usually starts innocently. Someone n..." />
+<meta property="og:description" content="Blog Post Publish Date: 2026/10/28 This blog post explains what metrics, APM, and logs each are, why they are fundamentally different kinds of data, why extracting metrics from logs does not scale,..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_observability-right-tool-for-telemetry_eaba9daf.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/17 One of the most common and most expensive mistakes in observability is quietly treating a log store as a metrics database. It usually starts innocently. Someone n..." />
-<meta name="description" content="Blog Post Publish Date: 2026/10/17 One of the most common and most expensive mistakes in observability is quietly treating a log store as a metrics database. It usually starts innocently. Someone n..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_observability-right-tool-for-telemetry_5cb81ed9.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/28 This blog post explains what metrics, APM, and logs each are, why they are fundamentally different kinds of data, why extracting metrics from logs does not scale,..." />
+<meta name="description" content="Blog Post Publish Date: 2026/10/28 This blog post explains what metrics, APM, and logs each are, why they are fundamentally different kinds of data, why extracting metrics from logs does not scale,..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>Metrics, APM, and Logs: Stop Extracting Metrics from Your Logs &#8212; Carlos Neto&#39;s Blog</title>
+    <title>Stop Extracting Metrics from OpenSearch Logs &#8212; Carlos Neto&#39;s Blog</title>
   
   
   
@@ -391,35 +391,38 @@
                 
 <div id="searchbox"></div>
                 <article class="bd-article">
-                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/17</em></p>
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/28</em></p>
 <hr class="docutils" />
-<section id="metrics-apm-and-logs-stop-extracting-metrics-from-your-logs">
-<h1>Metrics, APM, and Logs: Stop Extracting Metrics from Your Logs<a class="headerlink" href="#metrics-apm-and-logs-stop-extracting-metrics-from-your-logs" title="Link to this heading">#</a></h1>
-<p>One of the most common and most expensive mistakes in observability is quietly treating a log store as a metrics database. It usually starts innocently. Someone needs a number (“how many payments failed in the last hour?”), the logs are right there, so they write a query that counts matching log lines and pins it to a dashboard. It works. For a while.</p>
-<p>Then the dashboard gets slow. The log cluster gets hot. The query that counts “errors per minute” starts timing out at exactly the moment you need it most, during an incident. The root cause is not a bad query or an undersized cluster. It is a category error: logs were asked to do a metric’s job.</p>
+<section id="stop-extracting-metrics-from-opensearch-logs">
+<h1>Stop Extracting Metrics from OpenSearch Logs<a class="headerlink" href="#stop-extracting-metrics-from-opensearch-logs" title="Link to this heading">#</a></h1>
 <p>This blog post explains what metrics, APM, and logs each are, why they are fundamentally different kinds of data, why extracting metrics from logs does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. The goal is simple: use the right tool for each signal.</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>One of the most common and most expensive mistakes in observability is quietly treating a log store as a metrics database. It usually starts innocently. Someone needs a number (<em>“how many payments failed in the last hour?”</em>), the logs are right there, so they write a query that counts matching log lines and pins it to a dashboard. It works. For a while.</p>
+<p>Then the dashboard gets slow. The log cluster gets hot. The query that counts “errors per minute” starts timing out at exactly the moment you need it most, during an incident. The root cause is not a bad query or an undersized cluster. It is a category error: logs were asked to do a metric’s job.</p>
+</section>
 <section id="the-three-pillars-are-three-different-data-shapes">
 <h2>The Three Pillars Are Three Different Data Shapes<a class="headerlink" href="#the-three-pillars-are-three-different-data-shapes" title="Link to this heading">#</a></h2>
 <p>“Observability” is an umbrella over three distinct signal types. They are not interchangeable, because the shape of the data underneath each one is different.</p>
-<section id="logs-describe-an-event">
-<h3>Logs describe an event<a class="headerlink" href="#logs-describe-an-event" title="Link to this heading">#</a></h3>
+<section id="logs-event-description">
+<h3>Logs: Event Description<a class="headerlink" href="#logs-event-description" title="Link to this heading">#</a></h3>
 <p>A log is a discrete record of something that happened, meant to be read and understood by a human (or searched by a machine). It is rich, high-cardinality, and textual:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2026</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">14</span><span class="n">T10</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mi">11</span><span class="n">Z</span> <span class="n">level</span><span class="o">=</span><span class="n">error</span> <span class="n">service</span><span class="o">=</span><span class="n">payments</span> <span class="n">txn_id</span><span class="o">=</span><span class="mi">8</span><span class="n">f3c</span> <span class="n">user_id</span><span class="o">=</span><span class="mi">22190</span>
-  <span class="n">msg</span><span class="o">=</span><span class="s2">"payment authorization failed"</span> <span class="n">provider</span><span class="o">=</span><span class="n">acme</span> <span class="n">code</span><span class="o">=</span><span class="n">INSUFFICIENT_FUNDS</span> <span class="n">latency_ms</span><span class="o">=</span><span class="mi">812</span>
+<div class="highlight-log notranslate"><div class="highlight"><pre><span></span>2026-02-14T10:32:11Z level=error service=payments txn_id=8f3c user_id=22190
+  msg="payment authorization failed" provider=acme code=INSUFFICIENT_FUNDS latency_ms=812
 </pre></div>
 </div>
 <p>The value of a log is in its detail and context. When something breaks, a log tells you what happened, to whom, where, and often why. Logs answer: “walk me through this specific event.”</p>
 </section>
-<section id="metrics-quantify-an-event">
-<h3>Metrics quantify an event<a class="headerlink" href="#metrics-quantify-an-event" title="Link to this heading">#</a></h3>
+<section id="metrics-event-quantification">
+<h3>Metrics: Event Quantification<a class="headerlink" href="#metrics-event-quantification" title="Link to this heading">#</a></h3>
 <p>A metric is a numeric measurement sampled over time. It is small, structured, and aggregatable by design:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">payment_failures_total</span><span class="p">{</span><span class="n">provider</span><span class="o">=</span><span class="s2">"acme"</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">"INSUFFICIENT_FUNDS"</span><span class="p">}</span> <span class="mi">48213</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">payme</span><span class="kc">nt</span><span class="err">_</span><span class="kc">fa</span><span class="err">ilures_</span><span class="kc">t</span><span class="err">o</span><span class="kc">tal</span><span class="p">{</span><span class="err">provider=</span><span class="s2">"acme"</span><span class="p">,</span><span class="w"> </span><span class="err">code=</span><span class="s2">"INSUFFICIENT_FUNDS"</span><span class="p">}</span><span class="w"> </span><span class="mi">48213</span>
 </pre></div>
 </div>
-<p>A metric does not describe one payment. It counts all of them. Its whole purpose is to be aggregated, rated, and summarized cheaply across huge volumes. Metrics answer: “how many, how fast, how much, right now and over time.”</p>
+<p>A metric does not describe one payment. It counts all of them. Its whole purpose is to be aggregated, rated, and summarized cheaply across huge volumes. Metrics answer: _”how many, how fast, how much, right now and over time.” Metrics is always about number, and was perfectly desging and optmize to plot dashboards.</p>
 </section>
-<section id="apm-traces-follow-a-request">
-<h3>APM (traces) follow a request<a class="headerlink" href="#apm-traces-follow-a-request" title="Link to this heading">#</a></h3>
+<section id="apm-follow-a-request">
+<h3>APM: Follow a Request<a class="headerlink" href="#apm-follow-a-request" title="Link to this heading">#</a></h3>
 <p>Application Performance Monitoring, built on distributed tracing, follows a single request as it hops across services, recording timing and causality at each span:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>trace 8f3c  ├─ api-gateway        12ms
             ├─ payments-service   820ms   &lt;-- the slow one
@@ -462,21 +465,38 @@
 <h2>Why Logs Make Bad Metrics<a class="headerlink" href="#why-logs-make-bad-metrics" title="Link to this heading">#</a></h2>
 <p>OpenSearch is genuinely excellent at what it is designed for: full-text search over an inverted index. Give it millions of log lines and ask “show me every error from <code class="docutils literal notranslate"><span class="pre">payments</span></code> mentioning <code class="docutils literal notranslate"><span class="pre">acme</span></code> yesterday”, and it will answer fast, because the inverted index maps terms to the documents that contain them. That is a search workload, and it is the right tool.</p>
 <p>The problem is what happens when you ask it to behave like a metrics engine. Consider the number we wanted earlier, failed payments per minute. As a log query it looks like this:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">GET</span><span class="w"> </span><span class="err">pro</span><span class="mi">-</span><span class="err">log</span><span class="mi">-</span><span class="err">app</span><span class="mi">-</span><span class="err">*/_search</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">GET</span><span class="w"> </span><span class="err">my</span><span class="mi">-</span><span class="err">app</span><span class="mi">-</span><span class="err">logs</span><span class="mi">-</span><span class="err">i</span><span class="kc">n</span><span class="err">dex</span><span class="mi">-</span><span class="err">*/_search</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"bool"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"match"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
-<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"match_phrase"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"payment authorization failed"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
-<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"range"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"@timestamp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"gte"</span><span class="p">:</span><span class="w"> </span><span class="s2">"now-24h"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"match"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"match_phrase"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"payment authorization failed"</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"range"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"@timestamp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">"gte"</span><span class="p">:</span><span class="w"> </span><span class="s2">"now-24h"</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">]</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">"aggs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"per_minute"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">"date_histogram"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@timestamp"</span><span class="p">,</span><span class="w"> </span><span class="nt">"fixed_interval"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1m"</span><span class="w"> </span><span class="p">}</span>
+<span class="w">      </span><span class="nt">"date_histogram"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@timestamp"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"fixed_interval"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1m"</span>
+<span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>

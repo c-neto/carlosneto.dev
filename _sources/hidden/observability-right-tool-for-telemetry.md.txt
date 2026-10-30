@@ -1,47 +1,50 @@
 ---
 tags: opensearch, prometheus, metrics, logs, observability
-date: "2026-10-17"
+date: "2026-10-28"
 category: Log Analytics
 ---
 
-*__Blog Post Publish Date:__ 2026/10/17*
+*__Blog Post Publish Date:__ 2026/10/28*
 
 ---
 
-# Metrics, APM, and Logs: Stop Extracting Metrics from Your Logs
+# Stop Extracting Metrics from OpenSearch Logs
 
-One of the most common and most expensive mistakes in observability is quietly treating a log store as a metrics database. It usually starts innocently. Someone needs a number ("how many payments failed in the last hour?"), the logs are right there, so they write a query that counts matching log lines and pins it to a dashboard. It works. For a while.
+This blog post explains what metrics, APM, and logs each are, why they are fundamentally different kinds of data, why extracting metrics from logs does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. The goal is simple: use the right tool for each signal.
+
+## Introduction
+
+One of the most common and most expensive mistakes in observability is quietly treating a log store as a metrics database. It usually starts innocently. Someone needs a number (_"how many payments failed in the last hour?"_), the logs are right there, so they write a query that counts matching log lines and pins it to a dashboard. It works. For a while.
 
 Then the dashboard gets slow. The log cluster gets hot. The query that counts "errors per minute" starts timing out at exactly the moment you need it most, during an incident. The root cause is not a bad query or an undersized cluster. It is a category error: logs were asked to do a metric's job.
 
-This blog post explains what metrics, APM, and logs each are, why they are fundamentally different kinds of data, why extracting metrics from logs does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. The goal is simple: use the right tool for each signal.
 
 ## The Three Pillars Are Three Different Data Shapes
 
 "Observability" is an umbrella over three distinct signal types. They are not interchangeable, because the shape of the data underneath each one is different.
 
-### Logs describe an event
+### Logs: Event Description
 
 A log is a discrete record of something that happened, meant to be read and understood by a human (or searched by a machine). It is rich, high-cardinality, and textual:
 
-```
+```log
 2026-02-14T10:32:11Z level=error service=payments txn_id=8f3c user_id=22190
   msg="payment authorization failed" provider=acme code=INSUFFICIENT_FUNDS latency_ms=812
 ```
 
 The value of a log is in its detail and context. When something breaks, a log tells you what happened, to whom, where, and often why. Logs answer: "walk me through this specific event."
 
-### Metrics quantify an event
+### Metrics: Event Quantification 
 
 A metric is a numeric measurement sampled over time. It is small, structured, and aggregatable by design:
 
-```
+```json
 payment_failures_total{provider="acme", code="INSUFFICIENT_FUNDS"} 48213
 ```
 
-A metric does not describe one payment. It counts all of them. Its whole purpose is to be aggregated, rated, and summarized cheaply across huge volumes. Metrics answer: "how many, how fast, how much, right now and over time."
+A metric does not describe one payment. It counts all of them. Its whole purpose is to be aggregated, rated, and summarized cheaply across huge volumes. Metrics answer: _"how many, how fast, how much, right now and over time." Metrics is always about number, and was perfectly desging and optmize to plot dashboards.
 
-### APM (traces) follow a request
+### APM: Follow a Request
 
 Application Performance Monitoring, built on distributed tracing, follows a single request as it hops across services, recording timing and causality at each span:
 
@@ -69,21 +72,38 @@ OpenSearch is genuinely excellent at what it is designed for: full-text search o
 The problem is what happens when you ask it to behave like a metrics engine. Consider the number we wanted earlier, failed payments per minute. As a log query it looks like this:
 
 ```json
-GET pro-log-app-*/_search
+GET my-app-logs-index-*/_search
 {
   "size": 0,
   "query": {
     "bool": {
       "filter": [
-        { "match": { "level": "error" } },
-        { "match_phrase": { "msg": "payment authorization failed" } },
-        { "range": { "@timestamp": { "gte": "now-24h" } } }
+        {
+          "match": {
+            "level": "error"
+          }
+        },
+        {
+          "match_phrase": {
+            "msg": "payment authorization failed"
+          }
+        },
+        {
+          "range": {
+            "@timestamp": {
+              "gte": "now-24h"
+            }
+          }
+        }
       ]
     }
   },
   "aggs": {
     "per_minute": {
-      "date_histogram": { "field": "@timestamp", "fixed_interval": "1m" }
+      "date_histogram": {
+        "field": "@timestamp",
+        "fixed_interval": "1m"
+      }
     }
   }
 }

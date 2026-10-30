@@ -2,11 +2,199 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-10-28T16:36:16.183227+00:00</updated>
+  <updated>2026-10-30T02:26:41.078309+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2026/2026-10-29-otel-beyond-instrumentation/</id>
+    <title>OpenTelemetry: A Framework to Decoupling Your Observability</title>
+    <updated>2026-10-29T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/10/29&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="opentelemetry-a-framework-to-decoupling-your-observability"&gt;
+
+&lt;p&gt;This blog post explains the foundation of OpenTelemetry and walks through a practical example of instrumenting a Python application. It demonstrates OpenTelemetry’s single API definition paired with multiple SDK implementations for Prometheus and Datadog.&lt;/p&gt;
+&lt;section id="demystifying-opentelemetry"&gt;
+&lt;h2&gt;Demystifying OpenTelemetry&lt;/h2&gt;
+&lt;p&gt;While studying observability—specifically OpenTelemetry—I found it difficult to fully understand what it actually was, what problem it solved, and how it differed from and related to tools like Prometheus.&lt;/p&gt;
+&lt;p&gt;The official definition of OpenTelemetry is: &lt;em&gt;“An open-source, vendor-neutral observability framework designed to standardize how software generates, collects, and exports telemetry data.”&lt;/em&gt; As accurate as this definition is, I found it rather abstract. I kept asking myself: &lt;em&gt;How do I actually use this framework? Do I install it in my application? Do I run it as a service? Is it something like Prometheus?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The answer is that OpenTelemetry is neither just a library you add to your code nor a standalone service like Prometheus or Logstash. It is a broader framework that encompasses conceptual specifications, software instrumentation libraries (APIs and SDKs), and infrastructure components for collecting and exporting telemetry data.&lt;/p&gt;
+&lt;p&gt;Using OpenTelemetry involves instrumenting your application to generate telemetry data (traces, metrics, and logs), configuring components to collect that data, and choosing where to store and analyze it. This can introduce some complexity, especially in modern distributed systems and microservice architectures.&lt;/p&gt;
+&lt;p&gt;Naturally, questions arise: &lt;em&gt;Which library should you use? Which collector should you run? Which database should store your telemetry?&lt;/em&gt; This is where OpenTelemetry really shines: &lt;strong&gt;the strict separation between definitions and implementations.&lt;/strong&gt; You can choose the tools that best fit your infrastructure without coupling your application to a specific vendor or backend.&lt;/p&gt;
+&lt;p&gt;When instrumenting your application, you write code against the OpenTelemetry API (the specification). Your application does not need to know where the telemetry data is going. If you decide to replace your collection agent or backend later, you do not need to rewrite application code. You simply update the SDK configuration or the destination defined in the OpenTelemetry Collector. This approach ensures vendor neutrality and prevents vendor lock-in.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="a-practical-python-example"&gt;
+&lt;h2&gt;A Practical Python Example&lt;/h2&gt;
+&lt;p&gt;Imagine we have a simple payment application. We want to measure the total number of processed payments, and how long each payment takes to process.&lt;/p&gt;
+&lt;p&gt;To demonstrate OpenTelemetry’s vendor-neutral metric implementation, we will define a metric API once and set up two different backend SDK implementations: Prometheus and Datadog.&lt;/p&gt;
+&lt;p&gt;The key takeaway is that we aren’t writing code specific to Prometheus or Datadog inside our business logic. We instrument the Python application using the OpenTelemetry API. If we decide to switch from Prometheus to Datadog, we don’t touch the application domain code—we only update the SDK configuration parameters (such as the exporter endpoint, credentials, or protocol) to send metrics to Datadog.&lt;/p&gt;
+&lt;section id="the-api-instrumenting-the-application"&gt;
+&lt;h3&gt;1. The API: Instrumenting the Application&lt;/h3&gt;
+&lt;p&gt;Let’s start with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;app.py&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This file contains the application instrumentation. Notice that it imports only the OpenTelemetry API. It does not import SDK classes, exporters, or backend-specific libraries.&lt;/p&gt;
+&lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;random&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;time&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;time&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;perf_counter&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;opentelemetry&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;metrics&lt;/span&gt;
+
+
+&lt;span class="c1"&gt;# Get a meter from the OpenTelemetry API.&lt;/span&gt;
+&lt;span class="n"&gt;meter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;metrics&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_meter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"payment-api"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Create instruments.&lt;/span&gt;
+&lt;span class="n"&gt;payments_processed&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;meter&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_counter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="s2"&gt;"payments_processed"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Number of processed payments"&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;payment_duration&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;meter&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_histogram&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="s2"&gt;"payment_processing_duration"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;unit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"s"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Payment processing duration"&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;process_payment&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;perf_counter&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Simulate payment processing.&lt;/span&gt;
+    &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;uniform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+    &lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"success"&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mf"&gt;0.1&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s2"&gt;"failure"&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Record the number of processed payments.&lt;/span&gt;
+    &lt;span class="n"&gt;payments_processed&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"status"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Record how long the operation took.&lt;/span&gt;
+    &lt;span class="n"&gt;payment_duration&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;record&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;perf_counter&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"status"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"Payment processed: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Let’s break down what happens here:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;&lt;p&gt;We call &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;metrics.get_meter()&lt;/span&gt;&lt;/code&gt; to obtain a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Meter&lt;/span&gt;&lt;/code&gt;. The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Meter&lt;/span&gt;&lt;/code&gt; is responsible for creating instruments such as Counters and Histograms.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;We create two instruments: &lt;strong&gt;Counter:&lt;/strong&gt; Records cumulative values, such as the total number of processed payments; and &lt;strong&gt;Histogram:&lt;/strong&gt; Records distributions of values, such as payment processing durations.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;We use these instruments to record measurements whenever a payment is processed.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The crucial detail is that this code only interacts with the OpenTelemetry API. It does not know or care how metrics are collected, processed, or exported, nor whether they end up in Prometheus, Datadog, or another observability backend.&lt;/p&gt;
+&lt;p&gt;That is the power of this architectural separation.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="the-sdk-choosing-the-implementation"&gt;
+&lt;h3&gt;2. The SDK: Choosing the Implementation&lt;/h3&gt;
+&lt;p&gt;Now let’s look at &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;telemetry.py&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This file configures the OpenTelemetry SDK. Unlike &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;app.py&lt;/span&gt;&lt;/code&gt;, it imports SDK classes and defines how telemetry data will be collected and exported.&lt;/p&gt;
+&lt;p&gt;Let’s compare two different backend configurations: Prometheus and Datadog.&lt;/p&gt;
+&lt;section id="option-a-prometheus"&gt;
+&lt;h4&gt;Option A: Prometheus&lt;/h4&gt;
+&lt;p&gt;First, let’s configure the SDK to expose metrics in Prometheus format.&lt;/p&gt;
+&lt;p&gt;Install the required packages:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;opentelemetry-api&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;opentelemetry-sdk&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;opentelemetry-exporter-prometheus&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;prometheus-client
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Configure &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;telemetry.py&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;prometheus_client&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;start_http_server&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;opentelemetry&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;metrics&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;opentelemetry.exporter.prometheus&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;PrometheusMetricReader&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;opentelemetry.sdk.metrics&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MeterProvider&lt;/span&gt;
+
+
+&lt;span class="c1"&gt;# Expose the Prometheus metrics endpoint.&lt;/span&gt;
+&lt;span class="n"&gt;start_http_server&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;port&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;9464&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Configure the Prometheus Metric Reader.&lt;/span&gt;
+&lt;span class="n"&gt;reader&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PrometheusMetricReader&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Configure the SDK.&lt;/span&gt;
+&lt;span class="n"&gt;provider&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MeterProvider&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;metric_readers&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;reader&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Register the SDK implementation.&lt;/span&gt;
+&lt;span class="n"&gt;metrics&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_meter_provider&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;provider&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;In this setup, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;PrometheusMetricReader&lt;/span&gt;&lt;/code&gt; exposes an HTTP endpoint containing the application’s metrics. Prometheus periodically scrapes this endpoint to collect data.&lt;/p&gt;
+&lt;p&gt;The endpoint is available at:
+&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;http://localhost:9464/metrics&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="option-b-datadog"&gt;
+&lt;h4&gt;Option B: Datadog&lt;/h4&gt;
+&lt;p&gt;Now suppose we want to send those exact same metrics to Datadog instead.&lt;/p&gt;
+&lt;p&gt;We do not modify &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;app.py&lt;/span&gt;&lt;/code&gt; at all. We only update the SDK setup in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;telemetry.py&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For this example, we’ll use the OpenTelemetry Protocol (OTLP) exporter to push metrics to a Datadog Agent.&lt;/p&gt;
+&lt;p&gt;Install the required packages:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;opentelemetry-api&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;opentelemetry-sdk&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;opentelemetry-exporter-otlp-proto-grpc
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Configure &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;telemetry.py&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;opentelemetry&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;metrics&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;opentelemetry.sdk.metrics&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MeterProvider&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;opentelemetry.sdk.metrics.export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;PeriodicExportingMetricReader&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;opentelemetry.exporter.otlp.proto.grpc.metric_exporter&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;OTLPMetricExporter&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="c1"&gt;# Configure the OTLP exporter.&lt;/span&gt;
+&lt;span class="n"&gt;exporter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OTLPMetricExporter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;endpoint&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"http://localhost:4317"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;insecure&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Configure the metric reader.&lt;/span&gt;
+&lt;span class="n"&gt;reader&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PeriodicExportingMetricReader&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;exporter&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Configure the SDK.&lt;/span&gt;
+&lt;span class="n"&gt;provider&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MeterProvider&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;metric_readers&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;reader&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Register the SDK implementation.&lt;/span&gt;
+&lt;span class="n"&gt;metrics&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_meter_provider&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;provider&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Here, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;OTLPMetricExporter&lt;/span&gt;&lt;/code&gt; sends telemetry using OpenTelemetry Protocol (OTLP). The Datadog Agent receives these OTLP metrics and forwards them to Datadog.&lt;/p&gt;
+&lt;p&gt;Unlike the pull-based Prometheus integration, this approach uses a push-based model where the application periodically pushes metrics out to the collector agent.&lt;/p&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;section id="references"&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opentelemetry.io/docs/"&gt;OpenTelemetry Documentation&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opentelemetry-python.readthedocs.io/"&gt;OpenTelemetry Python Documentation&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opentelemetry-python.readthedocs.io/en/latest/sdk/metrics.html"&gt;OpenTelemetry Python SDK&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opentelemetry-python.readthedocs.io/en/latest/exporter/prometheus/prometheus.html"&gt;OpenTelemetry Python Prometheus Exporter&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opentelemetry-python.readthedocs.io/en/latest/exporter/otlp/otlp.html"&gt;OpenTelemetry OTLP Exporter&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.datadoghq.com/opentelemetry/"&gt;Datadog OTLP Ingestion&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2026/2026-10-29-otel-beyond-instrumentation/"/>
+    <summary>Blog Post Publish Date: 2026/10/29This blog post explains the foundation of OpenTelemetry and walks through a practical example of instrumenting a Python application. It demonstrates OpenTelemetry’s single API definition paired with multiple SDK implementations for Prometheus and Datadog.</summary>
+    <category term="observability" label="observability"/>
+    <category term="opentelemetry" label="opentelemetry"/>
+    <published>2026-10-29T00:00:00+00:00</published>
+  </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2026/2026-10-26-zsh-widgets/</id>
     <title>Hacking Your Zsh Terminal with Custom Widgets</title>
