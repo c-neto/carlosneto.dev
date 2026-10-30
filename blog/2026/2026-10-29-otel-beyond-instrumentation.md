@@ -32,11 +32,9 @@ Imagine we have a simple payment application. We want to measure the total numbe
 
 The key takeaway is that we aren't writing code specific to Prometheus or Datadog inside our business logic. We instrument the Python application using the OpenTelemetry API. If we decide to switch from Prometheus to Datadog, we don't touch the application domain code. We only update the SDK configuration parameters (such as the exporter endpoint, credentials, or protocol) to send metrics to Datadog.
 
-### 1. The API: Instrumenting the Application
+### The Metric API
 
-Let's start with `app.py`.
-
-This file contains the application instrumentation. Notice that it imports only the OpenTelemetry API. It does not import SDK classes, exporters, or backend-specific libraries.
+Let's start with `app.py`. This file contains the application instrumentation. Notice that it imports only the OpenTelemetry API. It does not import SDK classes, exporters, or backend-specific libraries.
 
 ```python
 import random
@@ -96,17 +94,11 @@ The crucial detail is that this code only interacts with the OpenTelemetry API. 
 
 That is the power of this architectural separation.
 
-### 2. The SDK: Choosing the Implementation
+### The SDK Implementation: Prometheus or Datadog
 
-Now let's look at `telemetry.py`.
+Now let's look at `telemetry.py`. This file configures the OpenTelemetry SDK. Unlike `app.py`, it imports SDK classes and defines how telemetry data will be collected and exported. Let's compare two different backend configurations: Prometheus and Datadog.
 
-This file configures the OpenTelemetry SDK. Unlike `app.py`, it imports SDK classes and defines how telemetry data will be collected and exported.
-
-Let's compare two different backend configurations: Prometheus and Datadog.
-
-#### Option A: Prometheus
-
-First, let's configure the SDK to expose metrics in Prometheus format. Configure `telemetry.py`:
+__Prometheus:__ First, let's configure the SDK to expose metrics in Prometheus format. Configure `telemetry.py`:
 
 ```python
 from prometheus_client import start_http_server
@@ -137,9 +129,9 @@ In this setup, `PrometheusMetricReader` exposes an HTTP endpoint containing the 
 
 The endpoint is available at: `http://localhost:9464/metrics`
 
-#### Option B: Datadog
+---
 
-Now suppose we want to send those exact same metrics to Datadog instead.
+__Datadog:__ Now suppose we want to send those exact same metrics to Datadog instead.
 
 We do not modify `app.py` at all. We only update the SDK setup in `telemetry.py`. For this example, we'll use the OpenTelemetry Protocol (OTLP) exporter to push metrics to a Datadog Agent.
 
