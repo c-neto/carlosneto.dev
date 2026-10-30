@@ -68,8 +68,11 @@ def process_payment():
 
     # Simulate payment processing.
     time.sleep(random.uniform(0.1, 0.5))
-
-    status = "success" if random.random() > 0.1 else "failure"
+    
+    if random.random() > 0.1:
+        status = "success" 
+    else:
+        status = "failure"
 
     # Record the number of processed payments.
     payments_processed.add(1, {"status": status})
@@ -81,7 +84,6 @@ def process_payment():
     )
 
     print(f"Payment processed: {status}")
-
 ```
 
 Let's break down what happens here:
