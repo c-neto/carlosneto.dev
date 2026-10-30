@@ -14,7 +14,7 @@ This blog post explains the foundation of OpenTelemetry and walks through a prac
 
 ## Demystifying OpenTelemetry
 
-While studying OpenTelemetry, I found it difficult to fully understand what it actually was, what problem it solved, and how it differed from and related to tools like Prometheus. I decided to create this blog post to share this challenge, as well as the line of reasoning I followed to truly understand what OpenTelemetry is.
+While studying OpenTelemetry, I struggled to understand what it actually was, what problem it was designed to solve, and how it related to tools like Prometheus. I decided to write this blog post to share that learning experience and walk through the reasoning that helped me understand what OpenTelemetry is and where it fits in the observability ecosystem.
 
 The official definition of OpenTelemetry is: *"An open-source, vendor-neutral observability framework designed to standardize how software generates, collects, and exports telemetry data."* As accurate as this definition is, I found it rather abstract. I kept asking myself: *How do I actually use this framework? Do I install it in my application? Do I run it as a service? Is it something like Prometheus?*
 
@@ -26,7 +26,7 @@ Naturally, questions arise: *Which library should you use? Which collector shoul
 
 When instrumenting your application, you write code against the OpenTelemetry API (the specification). Your application does not need to know where the telemetry data is going. If you decide to replace your collection agent or backend later, you do not need to rewrite application code. You simply update the SDK configuration or the destination defined in the OpenTelemetry Collector. This approach ensures vendor neutrality and prevents vendor lock-in.
 
-## A Practical Python Example
+## Application Instrumentation Example (metrics exposing)
 
 Imagine we have a simple payment application. We want to measure the total number of processed payments, and how long each payment takes to process. To demonstrate OpenTelemetry's vendor-neutral metric implementation, we will define a metric API once and set up two different backend SDK implementations: Prometheus and Datadog.
 
