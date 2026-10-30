@@ -175,9 +175,9 @@ Unlike the pull-based Prometheus integration, this approach uses a push-based mo
 
 ## References
 
-- [OpenTelemetry Documentation](https://opentelemetry.io/docs/)
-- [OpenTelemetry Python Documentation](https://opentelemetry-python.readthedocs.io/)
-- [OpenTelemetry Python SDK](https://opentelemetry-python.readthedocs.io/en/latest/sdk/metrics.html)
-- [OpenTelemetry Python Prometheus Exporter](https://opentelemetry-python.readthedocs.io/en/latest/exporter/prometheus/prometheus.html)
-- [OpenTelemetry OTLP Exporter](https://opentelemetry-python.readthedocs.io/en/latest/exporter/otlp/otlp.html)
-- [Datadog OTLP Ingestion](https://docs.datadoghq.com/opentelemetry/)
+- OpenTelemetry Documentation: <https://opentelemetry.io/docs/>
+- OpenTelemetry Python Documentation: <https://opentelemetry-python.readthedocs.io/>
+- OpenTelemetry Python SDK: <https://opentelemetry-python.readthedocs.io/en/latest/sdk/metrics.html>
+- OpenTelemetry Python Prometheus Exporter: <https://opentelemetry-python.readthedocs.io/en/latest/exporter/prometheus/prometheus.html>
+- OpenTelemetry OTLP Exporter: <https://opentelemetry-python.readthedocs.io/en/latest/exporter/otlp/otlp.html>
+- Datadog OTLP Ingestion: <https://docs.datadoghq.com/opentelemetry/>
