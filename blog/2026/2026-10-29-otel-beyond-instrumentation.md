@@ -20,7 +20,7 @@ The official definition of OpenTelemetry is: *"An open-source, vendor-neutral ob
 
 The answer is that OpenTelemetry is neither just a library you add to your code nor a standalone service like Prometheus or Logstash. OpenTelemetry encompassing API specifications, instrumentation SDKs, and data collection infrastructure (the OpenTelemetry Collector). OpenTelemetry defines the universal standard, while tools like Prometheus or Fluent Bit are simply execution backends, interchangeable mechanisms used to store, query, or transport the data your framework generates.
 
-Using OpenTelemetry involves instrumenting your application to generate telemetry data (traces, metrics, and logs), configuring components to collect that data, and choosing where to store and analyze it. This can introduce some complexity, especially in modern distributed systems and microservice architectures.
+OpenTelemetry is complex and involves instrumenting your application to generate telemetry data (traces, metrics, and logs), configuring components to collect that data, and choosing where to store and analyze it. However, this complexity is paid to provide a robust observability features, especially in modern distributed systems and microservice architectures.
 
 Naturally, questions arise: *Which library should you use? Which collector should you run? Which database should store your telemetry?* This is where OpenTelemetry really shines: **the strict separation between definitions and implementations.** You can choose the tools that best fit your infrastructure without coupling your application to a specific vendor or backend.
 
@@ -28,9 +28,7 @@ When instrumenting your application, you write code against the OpenTelemetry AP
 
 ## A Practical Python Example
 
-Imagine we have a simple payment application. We want to measure the total number of processed payments, and how long each payment takes to process.
-
-To demonstrate OpenTelemetry's vendor-neutral metric implementation, we will define a metric API once and set up two different backend SDK implementations: Prometheus and Datadog.
+Imagine we have a simple payment application. We want to measure the total number of processed payments, and how long each payment takes to process. To demonstrate OpenTelemetry's vendor-neutral metric implementation, we will define a metric API once and set up two different backend SDK implementations: Prometheus and Datadog.
 
 The key takeaway is that we aren't writing code specific to Prometheus or Datadog inside our business logic. We instrument the Python application using the OpenTelemetry API. If we decide to switch from Prometheus to Datadog, we don't touch the application domain code—we only update the SDK configuration parameters (such as the exporter endpoint, credentials, or protocol) to send metrics to Datadog.
 
