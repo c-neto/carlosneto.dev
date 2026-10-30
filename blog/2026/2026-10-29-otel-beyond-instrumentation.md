@@ -22,7 +22,7 @@ The answer is that OpenTelemetry is neither just a library you add to your code 
 
 OpenTelemetry is complex and involves instrumenting your application to generate telemetry data (traces, metrics, and logs), configuring components to collect that data, and choosing where to store and analyze it. However, this complexity is paid to provide a robust observability features, especially in modern distributed systems and microservice architectures.
 
-Naturally, questions arise: *Which library should you use? Which collector should you run? Which database should store your telemetry?* This is where OpenTelemetry really shines: **the strict separation between definitions and implementations.** You can choose the tools that best fit your infrastructure without coupling your application to a specific vendor or backend.
+Naturally, questions arise: *Which library should you use? Which collector should you run? Which database should store your telemetry?* This is where OpenTelemetry really shines: __the strict separation between definitions and implementations.__ You can choose the tools that best fit your infrastructure without coupling your application to a specific vendor or backend.
 
 When instrumenting your application, you write code against the OpenTelemetry API (the specification). Your application does not need to know where the telemetry data is going. If you decide to replace your collection agent or backend later, you do not need to rewrite application code. You simply update the SDK configuration or the destination defined in the OpenTelemetry Collector. This approach ensures vendor neutrality and prevents vendor lock-in.
 
@@ -30,7 +30,7 @@ When instrumenting your application, you write code against the OpenTelemetry AP
 
 Imagine we have a simple payment application. We want to measure the total number of processed payments, and how long each payment takes to process. To demonstrate OpenTelemetry's vendor-neutral metric implementation, we will define a metric API once and set up two different backend SDK implementations: Prometheus and Datadog.
 
-The key takeaway is that we aren't writing code specific to Prometheus or Datadog inside our business logic. We instrument the Python application using the OpenTelemetry API. If we decide to switch from Prometheus to Datadog, we don't touch the application domain code—we only update the SDK configuration parameters (such as the exporter endpoint, credentials, or protocol) to send metrics to Datadog.
+The key takeaway is that we aren't writing code specific to Prometheus or Datadog inside our business logic. We instrument the Python application using the OpenTelemetry API. If we decide to switch from Prometheus to Datadog, we don't touch the application domain code. We only update the SDK configuration parameters (such as the exporter endpoint, credentials, or protocol) to send metrics to Datadog.
 
 ### 1. The API: Instrumenting the Application
 
@@ -43,6 +43,7 @@ import random
 import time
 from time import perf_counter
 
+# it is the API library
 from opentelemetry import metrics
 
 
@@ -86,7 +87,7 @@ def process_payment():
 Let's break down what happens here:
 
 1. We call `metrics.get_meter()` to obtain a `Meter`. The `Meter` is responsible for creating instruments such as Counters and Histograms.
-2. We create two instruments: **Counter:** Records cumulative values, such as the total number of processed payments; and **Histogram:** Records distributions of values, such as payment processing durations.
+2. We create two instruments: __Counter:__ Records cumulative values, such as the total number of processed payments; and __Histogram:__ Records distributions of values, such as payment processing durations.
 3. We use these instruments to record measurements whenever a payment is processed.
 
 The crucial detail is that this code only interacts with the OpenTelemetry API. It does not know or care how metrics are collected, processed, or exported, nor whether they end up in Prometheus, Datadog, or another observability backend.
@@ -103,25 +104,15 @@ Let's compare two different backend configurations: Prometheus and Datadog.
 
 #### Option A: Prometheus
 
-First, let's configure the SDK to expose metrics in Prometheus format.
-
-Install the required packages:
-
-```bash
-pip install opentelemetry-api \
-            opentelemetry-sdk \
-            opentelemetry-exporter-prometheus \
-            prometheus-client
-
-```
-
-Configure `telemetry.py`:
+First, let's configure the SDK to expose metrics in Prometheus format. Configure `telemetry.py`:
 
 ```python
 from prometheus_client import start_http_server
 
 from opentelemetry import metrics
 from opentelemetry.exporter.prometheus import PrometheusMetricReader
+
+# it is the SDK library
 from opentelemetry.sdk.metrics import MeterProvider
 
 
@@ -138,35 +129,24 @@ provider = MeterProvider(
 
 # Register the SDK implementation.
 metrics.set_meter_provider(provider)
-
 ```
 
 In this setup, `PrometheusMetricReader` exposes an HTTP endpoint containing the application's metrics. Prometheus periodically scrapes this endpoint to collect data.
 
-The endpoint is available at:
-`http://localhost:9464/metrics`
+The endpoint is available at: `http://localhost:9464/metrics`
 
 #### Option B: Datadog
 
 Now suppose we want to send those exact same metrics to Datadog instead.
 
-We do not modify `app.py` at all. We only update the SDK setup in `telemetry.py`.
-
-For this example, we'll use the OpenTelemetry Protocol (OTLP) exporter to push metrics to a Datadog Agent.
-
-Install the required packages:
-
-```bash
-pip install opentelemetry-api \
-            opentelemetry-sdk \
-            opentelemetry-exporter-otlp-proto-grpc
-
-```
+We do not modify `app.py` at all. We only update the SDK setup in `telemetry.py`. For this example, we'll use the OpenTelemetry Protocol (OTLP) exporter to push metrics to a Datadog Agent.
 
 Configure `telemetry.py`:
 
 ```python
 from opentelemetry import metrics
+
+# it is SDK library
 from opentelemetry.sdk.metrics import MeterProvider
 from opentelemetry.sdk.metrics.export import (
     PeriodicExportingMetricReader,
