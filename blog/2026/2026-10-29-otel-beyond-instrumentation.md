@@ -14,11 +14,11 @@ This blog post explains the foundation of OpenTelemetry and walks through a prac
 
 ## Demystifying OpenTelemetry
 
-While studying observability—specifically OpenTelemetry—I found it difficult to fully understand what it actually was, what problem it solved, and how it differed from and related to tools like Prometheus.
+While studying OpenTelemetry, I found it difficult to fully understand what it actually was, what problem it solved, and how it differed from and related to tools like Prometheus.
 
 The official definition of OpenTelemetry is: *"An open-source, vendor-neutral observability framework designed to standardize how software generates, collects, and exports telemetry data."* As accurate as this definition is, I found it rather abstract. I kept asking myself: *How do I actually use this framework? Do I install it in my application? Do I run it as a service? Is it something like Prometheus?*
 
-The answer is that OpenTelemetry is neither just a library you add to your code nor a standalone service like Prometheus or Logstash. It is a broader framework that encompasses conceptual specifications, software instrumentation libraries (APIs and SDKs), and infrastructure components for collecting and exporting telemetry data.
+The answer is that OpenTelemetry is neither just a library you add to your code nor a standalone service like Prometheus or Logstash. OpenTelemetry encompassing API specifications, instrumentation SDKs, and data collection infrastructure (the OpenTelemetry Collector). At a high level, OpenTelemetry defines the universal standard, while tools like Prometheus or Fluent Bit are simply execution backends, interchangeable mechanisms used to store, query, or transport the data your framework generates.
 
 Using OpenTelemetry involves instrumenting your application to generate telemetry data (traces, metrics, and logs), configuring components to collect that data, and choosing where to store and analyze it. This can introduce some complexity, especially in modern distributed systems and microservice architectures.
 
