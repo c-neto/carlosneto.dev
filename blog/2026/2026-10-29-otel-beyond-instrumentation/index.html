@@ -409,10 +409,9 @@
 <h2>A Practical Python Example<a class="headerlink" href="#a-practical-python-example" title="Link to this heading">#</a></h2>
 <p>Imagine we have a simple payment application. We want to measure the total number of processed payments, and how long each payment takes to process. To demonstrate OpenTelemetry’s vendor-neutral metric implementation, we will define a metric API once and set up two different backend SDK implementations: Prometheus and Datadog.</p>
 <p>The key takeaway is that we aren’t writing code specific to Prometheus or Datadog inside our business logic. We instrument the Python application using the OpenTelemetry API. If we decide to switch from Prometheus to Datadog, we don’t touch the application domain code. We only update the SDK configuration parameters (such as the exporter endpoint, credentials, or protocol) to send metrics to Datadog.</p>
-<section id="the-api-instrumenting-the-application">
-<h3>1. The API: Instrumenting the Application<a class="headerlink" href="#the-api-instrumenting-the-application" title="Link to this heading">#</a></h3>
-<p>Let’s start with <code class="docutils literal notranslate"><span class="pre">app.py</span></code>.</p>
-<p>This file contains the application instrumentation. Notice that it imports only the OpenTelemetry API. It does not import SDK classes, exporters, or backend-specific libraries.</p>
+<section id="the-metric-api">
+<h3>The Metric API<a class="headerlink" href="#the-metric-api" title="Link to this heading">#</a></h3>
+<p>Let’s start with <code class="docutils literal notranslate"><span class="pre">app.py</span></code>. This file contains the application instrumentation. Notice that it imports only the OpenTelemetry API. It does not import SDK classes, exporters, or backend-specific libraries.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">perf_counter</span>
@@ -469,14 +468,10 @@
 <p>The crucial detail is that this code only interacts with the OpenTelemetry API. It does not know or care how metrics are collected, processed, or exported, nor whether they end up in Prometheus, Datadog, or another observability backend.</p>
 <p>That is the power of this architectural separation.</p>
 </section>
-<section id="the-sdk-choosing-the-implementation">
-<h3>2. The SDK: Choosing the Implementation<a class="headerlink" href="#the-sdk-choosing-the-implementation" title="Link to this heading">#</a></h3>
-<p>Now let’s look at <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code>.</p>
-<p>This file configures the OpenTelemetry SDK. Unlike <code class="docutils literal notranslate"><span class="pre">app.py</span></code>, it imports SDK classes and defines how telemetry data will be collected and exported.</p>
-<p>Let’s compare two different backend configurations: Prometheus and Datadog.</p>
-<section id="option-a-prometheus">
-<h4>Option A: Prometheus<a class="headerlink" href="#option-a-prometheus" title="Link to this heading">#</a></h4>
-<p>First, let’s configure the SDK to expose metrics in Prometheus format. Configure <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code>:</p>
+<section id="the-sdk-implementation-prometheus-or-datadog">
+<h3>The SDK Implementation: Prometheus or Datadog<a class="headerlink" href="#the-sdk-implementation-prometheus-or-datadog" title="Link to this heading">#</a></h3>
+<p>Now let’s look at <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code>. This file configures the OpenTelemetry SDK. Unlike <code class="docutils literal notranslate"><span class="pre">app.py</span></code>, it imports SDK classes and defines how telemetry data will be collected and exported. Let’s compare two different backend configurations: Prometheus and Datadog.</p>
+<p><strong>Prometheus:</strong> First, let’s configure the SDK to expose metrics in Prometheus format. Configure <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">prometheus_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">start_http_server</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">metrics</span>
@@ -503,10 +498,8 @@
 </div>
 <p>In this setup, <code class="docutils literal notranslate"><span class="pre">PrometheusMetricReader</span></code> exposes an HTTP endpoint containing the application’s metrics. Prometheus periodically scrapes this endpoint to collect data.</p>
 <p>The endpoint is available at: <code class="docutils literal notranslate"><span class="pre">http://localhost:9464/metrics</span></code></p>
-</section>
-<section id="option-b-datadog">
-<h4>Option B: Datadog<a class="headerlink" href="#option-b-datadog" title="Link to this heading">#</a></h4>
-<p>Now suppose we want to send those exact same metrics to Datadog instead.</p>
+<hr class="docutils" />
+<p><strong>Datadog:</strong> Now suppose we want to send those exact same metrics to Datadog instead.</p>
 <p>We do not modify <code class="docutils literal notranslate"><span class="pre">app.py</span></code> at all. We only update the SDK setup in <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code>. For this example, we’ll use the OpenTelemetry Protocol (OTLP) exporter to push metrics to a Datadog Agent.</p>
 <p>Configure <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">metrics</span>
@@ -542,7 +535,6 @@
 </div>
 <p>Here, <code class="docutils literal notranslate"><span class="pre">OTLPMetricExporter</span></code> sends telemetry using OpenTelemetry Protocol (OTLP). The Datadog Agent receives these OTLP metrics and forwards them to Datadog.</p>
 <p>Unlike the pull-based Prometheus integration, this approach uses a push-based model where the application periodically pushes metrics out to the collector agent.</p>
-</section>
 </section>
 </section>
 <section id="references">
