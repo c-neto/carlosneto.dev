@@ -1,10 +1,10 @@
 ---
 tags: opensearch, prometheus, metrics, logs, observability
-date: "2026-10-28"
+date: "2026-11-02"
 category: Log Analytics
 ---
 
-*__Blog Post Publish Date:__ 2026/10/28*
+*__Blog Post Publish Date:__ 2026/11/02*
 
 ---
 
@@ -14,16 +14,27 @@ This blog post explains what metrics, APM, and logs each are, why they are funda
 
 ## Introduction
 
-One of the most common and most expensive mistakes in observability is quietly treating a log store as a metrics database. It usually starts innocently. Someone needs a number (_"how many payments failed in the last hour?"_), the logs are right there, so they write a query that counts matching log lines and pins it to a dashboard. It works. For a while.
+One of the most common and most expensive mistakes in observability is quietly treating a log store as a metrics database. It usually starts innocently. Someone needs a number such as _"how many payments failed in the last hour?"_, the logs are right there, so they write a query that counts matching log lines and pins it to a dashboard. It works.
 
 Then the dashboard gets slow. The log cluster gets hot. The query that counts "errors per minute" starts timing out at exactly the moment you need it most, during an incident. The root cause is not a bad query or an undersized cluster. It is a category error: logs were asked to do a metric's job.
 
+## Observability Pillars: One Pillar for One Data Shape
 
-## The Three Pillars Are Three Different Data Shapes
+There is no unique organization responsible for define Observability 
+Observability definition  is an umbrella over three distinct signal types. They are not interchangeable, because the shape of the data underneath each one is different.
 
-"Observability" is an umbrella over three distinct signal types. They are not interchangeable, because the shape of the data underneath each one is different.
+Three questions, three data shapes:
 
-### Logs: Event Description
+| Signal | What it is | Primary question | Natural shape |
+| --- | --- | --- | --- |
+| Logs | Discrete event records | "What exactly happened here?" | High-cardinality text |
+| Metrics | Numeric samples over time | "How many / how fast / how much?" | Small numeric time series |
+| Traces | Request-scoped spans | "Where did the time go?" | Causal span trees |
+
+
+---
+
+**Logs:** Event Description
 
 A log is a discrete record of something that happened, meant to be read and understood by a human (or searched by a machine). It is rich, high-cardinality, and textual:
 
@@ -34,7 +45,9 @@ A log is a discrete record of something that happened, meant to be read and unde
 
 The value of a log is in its detail and context. When something breaks, a log tells you what happened, to whom, where, and often why. Logs answer: "walk me through this specific event."
 
-### Metrics: Event Quantification 
+---
+
+**Metrics:** Event Quantification 
 
 A metric is a numeric measurement sampled over time. It is small, structured, and aggregatable by design:
 
@@ -44,11 +57,13 @@ payment_failures_total{provider="acme", code="INSUFFICIENT_FUNDS"} 48213
 
 A metric does not describe one payment. It counts all of them. Its whole purpose is to be aggregated, rated, and summarized cheaply across huge volumes. Metrics answer: _"how many, how fast, how much, right now and over time." Metrics is always about number, and was perfectly desging and optmize to plot dashboards.
 
-### APM: Follow a Request
+---
+
+**Trace:** Follow a Request
 
 Application Performance Monitoring, built on distributed tracing, follows a single request as it hops across services, recording timing and causality at each span:
 
-```
+```bash
 trace 8f3c  ├─ api-gateway        12ms
             ├─ payments-service   820ms   <-- the slow one
             │   └─ provider-call  798ms
@@ -57,13 +72,7 @@ trace 8f3c  ├─ api-gateway        12ms
 
 APM answers: "where did the time go, and which service in the chain caused it?"
 
-Three questions, three data shapes:
 
-| Signal | What it is | Primary question | Natural shape |
-| --- | --- | --- | --- |
-| Logs | Discrete event records | "What exactly happened here?" | High-cardinality text |
-| Metrics | Numeric samples over time | "How many / how fast / how much?" | Small numeric time series |
-| APM / Traces | Request-scoped spans | "Where did the time go?" | Causal span trees |
 
 ## Why Logs Make Bad Metrics
 
