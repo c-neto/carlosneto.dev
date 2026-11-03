@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-03T03:45:26.422494+00:00</updated>
+  <updated>2026-11-03T11:46:54.320733+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -20,7 +20,7 @@
 &lt;h2&gt;Understanding the Data Before the Infrastructure&lt;/h2&gt;
 &lt;p&gt;Over the past five years, I have worked on optimizing large-scale OpenSearch deployments running on Kubernetes, facing several challenges in maintaining performance as data ingestion volumes grew. One of the main challenges was keeping query latency low while handling an increasingly large volume of logs. At some point, I started exploring different performance optimization strategies to keep the cluster efficient as ingestion rates increased.&lt;/p&gt;
 &lt;p&gt;However, this led me to a more fundamental question: &lt;strong&gt;how was the data actually being used?&lt;/strong&gt; In this particular case, logs were not simply being stored for troubleshooting. They were also queried to identify specific events and extract operational insights. This made query latency particularly important. As ingestion volumes continued to grow, maintaining this performance also became increasingly expensive.&lt;/p&gt;
-&lt;p&gt;That experience led me to an important realization: optimizing infrastructure is not just about scaling resources or tuning configurations. It is equally important to understand the nature of the data, how it is consumed, and the requirements of each use case. There is no silve bullet solution. Different types of data and access patterns require different approaches, architectures, and specific and optmized tools.&lt;/p&gt;
+&lt;p&gt;That experience led me to an important realization: optimizing infrastructure is not just about scaling resources or tuning configurations. It is equally important to understand the nature of the data, how it is consumed, and the requirements of each use case. There is no silver bullet solution. Different types of data and access patterns require different approaches, architectures, and specific and optmized tools.&lt;/p&gt;
 &lt;p&gt;I decided to write this article to share this perspective and explore why understanding data usage is just as important as choosing the right technology to process and store it.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="how-the-log-store-becomes-an-accidental-metrics-database"&gt;
