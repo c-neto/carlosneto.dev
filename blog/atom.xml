@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-03T02:47:01.839634+00:00</updated>
+  <updated>2026-11-03T02:58:14.966643+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -97,12 +97,10 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;This works. But look at what the cluster has to do to produce one small time series:&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;&lt;p&gt;The number was never stored, it is computed on every read. There is no &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;failures_per_minute&lt;/span&gt;&lt;/code&gt; value indexed anywhere. OpenSearch has to scan matching documents and build the count at query time, every single time the dashboard refreshes. The data you want was never indexed; only the raw events were.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;It must touch enormous volumes to produce a tiny answer. To return 1,440 numbers (one per minute for a day), it filters and buckets potentially millions of fat text documents. The cost of the answer is proportional to the raw log volume, not to the size of the result.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;It fights cardinality and retention. Want failures broken down by provider and error code over 90 days? Now the aggregation fans out across even more documents, and you are forced to retain verbose logs purely to keep a counter alive, long after the logs’ diagnostic value has expired.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;It competes with the real workload. These heavy aggregations run on the same hot nodes handling ingestion and incident-time searches. The “metric” dashboard becomes a source of load that slows down the logging the cluster actually exists to serve.&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Data not indexed&lt;/strong&gt;: The number was never stored, it is computed on every read. There is no &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;failures_per_minute&lt;/span&gt;&lt;/code&gt; value indexed anywhere. OpenSearch has to scan matching documents and build the count at query time, every single time the dashboard refreshes. The data you want was never indexed; only the raw events were.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;High scan volume cost&lt;/strong&gt;: It must touch enormous volumes to produce a tiny answer. To return 1,440 numbers (one per minute for a day), it filters and buckets potentially millions of fat text documents. The cost of the answer is proportional to the raw log volume, not to the size of the result.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Cardinality and retention struggles&lt;/strong&gt;: It fights cardinality and retention. Want failures broken down by provider and error code over 90 days? Now the aggregation fans out across even more documents, and you are forced to retain verbose logs purely to keep a counter alive, long after the logs’ diagnostic value has expired.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Competes with primary workload&lt;/strong&gt;: It competes with the real workload. These heavy aggregations run on the same hot nodes handling ingestion and incident-time searches. The “metric” dashboard becomes a source of load that slows down the logging the cluster actually exists to serve.&lt;/p&gt;
 &lt;p&gt;OpenSearch can do this. It has date histograms, aggregations, even dashboards. The tooling exists. But this is not what the tool is optimized for. A log line primarily exists to describe an event so a human can understand what is happening. Deriving a long-lived counter from term matches is a query-time reconstruction of data that was never stored as a measurement, and that is not sustainable as volume and retention grow.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="the-same-number-done-right-a-counter-in-the-application"&gt;
