@@ -34,7 +34,7 @@ The rest of this post walks three things, in order: why logs and metrics are dif
 
 Before blaming the query, it helps to see that logs and metrics are not two flavors of the same thing. The shape of the data underneath each one is different, and that is what the whole argument rests on.
 
-A log is a discrete record of something that happened, meant to be read and understood by a human (or searched by a machine). It is rich, high-cardinality, and textual:
+A log is a discrete record of something that happened, meant to be read and understood by a human (or AI agent). It is rich, high-cardinality, and textual:
 
 ```log
 2026-02-14T10:32:11Z level=error service=payments txn_id=8f3c user_id=22190
@@ -146,7 +146,7 @@ The counter in the application is the right answer. But sometimes you simply can
 
 There is a middle-ground workaround here, and it is not "count log lines in OpenSearch". The idea is to turn the event into a metric at ingestion time, inside the log pipeline itself, before the log ever reaches the storage. Your log shipper already sees every single line as it flows through. So instead of storing fat logs and reconstructing the count later, you let the shipper match the line that denotes the event and increment a real counter right there. The log still goes to OpenSearch for investigation, and a proper metric is emitted in parallel.
 
-Fluent Bit does this with the `log_to_metrics` filter. It watches the stream, matches the lines that represent the event (via regex), and emits a Prometheus metric that you expose through the `prometheus_exporter` output. Back to our failed payments, the config looks like this:
+Fluent Bit does this with the [log_to_metrics](https://docs.fluentbit.io/manual/data-pipeline/filters/log_to_metrics) filter. It watches the stream, matches the lines that represent the event (via regex), and emits a Prometheus metric that you expose through the [prometheus_exporter](https://docs.fluentbit.io/manual/data-pipeline/outputs/prometheus-exporter) output. Back to our failed payments, the config looks like this:
 
 ```{code-block} yaml
 :caption: fluent-bit.yaml
