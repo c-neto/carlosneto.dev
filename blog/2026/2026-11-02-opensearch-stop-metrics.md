@@ -90,10 +90,13 @@ The problem is what happens when you ask it to behave like a metrics engine. Con
 
 This works. But look at what the cluster has to do to produce one small time series:
 
-1. The number was never stored, it is computed on every read. There is no `failures_per_minute` value indexed anywhere. OpenSearch has to scan matching documents and build the count at query time, every single time the dashboard refreshes. The data you want was never indexed; only the raw events were.
-2. It must touch enormous volumes to produce a tiny answer. To return 1,440 numbers (one per minute for a day), it filters and buckets potentially millions of fat text documents. The cost of the answer is proportional to the raw log volume, not to the size of the result.
-3. It fights cardinality and retention. Want failures broken down by provider and error code over 90 days? Now the aggregation fans out across even more documents, and you are forced to retain verbose logs purely to keep a counter alive, long after the logs' diagnostic value has expired.
-4. It competes with the real workload. These heavy aggregations run on the same hot nodes handling ingestion and incident-time searches. The "metric" dashboard becomes a source of load that slows down the logging the cluster actually exists to serve.
+**Data not indexed**: The number was never stored, it is computed on every read. There is no `failures_per_minute` value indexed anywhere. OpenSearch has to scan matching documents and build the count at query time, every single time the dashboard refreshes. The data you want was never indexed; only the raw events were.
+
+**High scan volume cost**: It must touch enormous volumes to produce a tiny answer. To return 1,440 numbers (one per minute for a day), it filters and buckets potentially millions of fat text documents. The cost of the answer is proportional to the raw log volume, not to the size of the result.
+
+**Cardinality and retention struggles**: It fights cardinality and retention. Want failures broken down by provider and error code over 90 days? Now the aggregation fans out across even more documents, and you are forced to retain verbose logs purely to keep a counter alive, long after the logs' diagnostic value has expired.
+
+**Competes with primary workload**: It competes with the real workload. These heavy aggregations run on the same hot nodes handling ingestion and incident-time searches. The "metric" dashboard becomes a source of load that slows down the logging the cluster actually exists to serve.
 
 OpenSearch can do this. It has date histograms, aggregations, even dashboards. The tooling exists. But this is not what the tool is optimized for. A log line primarily exists to describe an event so a human can understand what is happening. Deriving a long-lived counter from term matches is a query-time reconstruction of data that was never stored as a measurement, and that is not sustainable as volume and retention grow.
 
