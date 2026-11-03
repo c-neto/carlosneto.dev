@@ -2,18 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-03T03:03:02.489193+00:00</updated>
+  <updated>2026-11-03T03:05:02.002361+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering</subtitle>
   <entry>
-    <id>https://carlosneto.dev/blog/2026/2026-11-03-opensearch-stop-extracting-metrics-from-logs/</id>
-    <title>Stop Extracting Metrics from OpenSearch Logs</title>
+    <id>https://carlosneto.dev/blog/2026/2026-11-03-opensearch-stop-extracting-metrics-from-your-logs/</id>
+    <title>OpenSearch: Stop Extracting Metrics from Your Logs</title>
     <updated>2026-11-02T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/11/02&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;section id="stop-extracting-metrics-from-opensearch-logs"&gt;
+&lt;section id="opensearch-stop-extracting-metrics-from-your-logs"&gt;
 
 &lt;p&gt;This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluen Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application. The goal is simple: use the right tool for each signal.&lt;/p&gt;
 &lt;section id="understanding-the-data-before-the-infrastructure"&gt;
@@ -262,7 +262,7 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
 &lt;/section&gt;
 &lt;/section&gt;
 </content>
-    <link href="https://carlosneto.dev/blog/2026/2026-11-03-opensearch-stop-extracting-metrics-from-logs/"/>
+    <link href="https://carlosneto.dev/blog/2026/2026-11-03-opensearch-stop-extracting-metrics-from-your-logs/"/>
     <summary>Blog Post Publish Date: 2026/11/02This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluen Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application. The goal is simple: use the right tool for each signal.</summary>
     <category term="fluentbit" label="fluentbit"/>
     <category term="logs" label="logs"/>
