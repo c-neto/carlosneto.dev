@@ -1,10 +1,10 @@
 ---
 tags: opensearch, prometheus, fluentbit, metrics, logs, observability
-date: "2026-11-02"
+date: "2026-11-03"
 category: opensearch
 ---
 
-*__Blog Post Publish Date:__ 2026/11/02*
+*__Blog Post Publish Date:__ 2026/11/03*
 
 ---
 
