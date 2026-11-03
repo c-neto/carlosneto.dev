@@ -7,19 +7,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Além do Hype: O Que São os Sinais de Telemetria e Quem Define as Regras da Observabilidade?" />
+<meta property="og:title" content="Who Defines Observability?" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/hidden/2026-11-02-who-defines/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Aqui está um rascunho de blog post pronto para publicação, estruturado para engajar desenvolvedores, arquitetos e profissionais de DevOps: Se você trabalha com desenvolvimento de software ou infrae..." />
+<meta property="og:description" content="Blog Post Publish Date: 2026/11/02 If you work with software development or cloud infrastructure, you have probably heard the buzzword observability. Beyond the buzzword, do you know exactly which ..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_2026-11-02-who-defines_3b8f41dc.png" />
-<meta property="og:image:alt" content="Aqui está um rascunho de blog post pronto para publicação, estruturado para engajar desenvolvedores, arquitetos e profissionais de DevOps: Se você trabalha com desenvolvimento de software ou infrae..." />
-<meta name="description" content="Aqui está um rascunho de blog post pronto para publicação, estruturado para engajar desenvolvedores, arquitetos e profissionais de DevOps: Se você trabalha com desenvolvimento de software ou infrae..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_2026-11-02-who-defines_6b560cf6.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/02 If you work with software development or cloud infrastructure, you have probably heard the buzzword observability. Beyond the buzzword, do you know exactly which ..." />
+<meta name="description" content="Blog Post Publish Date: 2026/11/02 If you work with software development or cloud infrastructure, you have probably heard the buzzword observability. Beyond the buzzword, do you know exactly which ..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>Além do Hype: O Que São os Sinais de Telemetria e Quem Define as Regras da Observabilidade? &#8212; Carlos Neto&#39;s Blog</title>
+    <title>Who Defines Observability? &#8212; Carlos Neto&#39;s Blog</title>
   
   
   
@@ -46,6 +46,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=45791c5e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tldr_ai.css?v=6a56bcb6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
@@ -391,67 +392,75 @@
                 
 <div id="searchbox"></div>
                 <article class="bd-article">
-                   <p>Aqui está um rascunho de blog post pronto para publicação, estruturado para engajar desenvolvedores, arquitetos e profissionais de DevOps:</p>
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/11/02</em></p>
 <hr class="docutils" />
-<section id="alem-do-hype-o-que-sao-os-sinais-de-telemetria-e-quem-define-as-regras-da-observabilidade">
-<h1>Além do Hype: O Que São os Sinais de Telemetria e Quem Define as Regras da Observabilidade?<a class="headerlink" href="#alem-do-hype-o-que-sao-os-sinais-de-telemetria-e-quem-define-as-regras-da-observabilidade" title="Link to this heading">#</a></h1>
-<p>Se você trabalha com desenvolvimento de software ou infraestrutura em nuvem, com certeza já ouviu a palavra da moda: <strong>Observabilidade</strong>. Mas além do <em>buzzword</em>, você sabe exatamente quais são os dados que tornam um sistema observável e quem decidiu que as coisas deveriam ser assim?</p>
-<p>Neste artigo, vamos desmistificar os pilares da telemetria moderna e entender como o mercado chegou a um consenso sobre como monitorar aplicações distribuídas.</p>
-<hr class="docutils" />
-<section id="os-tres-pilares-tradicionais-e-o-novo-integrante">
-<h2>Os Três Pilares Tradicionais (e o Novo Integrante)<a class="headerlink" href="#os-tres-pilares-tradicionais-e-o-novo-integrante" title="Link to this heading">#</a></h2>
-<p>A observabilidade baseia-se na capacidade de inferir os estados internos de um sistema a partir de suas saídas externas. Essas saídas são chamadas de <strong>sinais de telemetria</strong>.</p>
-<section id="metricas-o-termometro-do-sistema">
-<h3>1. Métricas: O Termômetro do Sistema<a class="headerlink" href="#metricas-o-termometro-do-sistema" title="Link to this heading">#</a></h3>
-<p>Valores numéricos agregados ao longo do tempo (como uso de CPU, taxa de requisições por segundo ou latência média).</p>
-<ul class="simple">
-<li><p><strong>Para que servem:</strong> Alertas e dashboards. Respondem rapidamente à pergunta: <em>“O sistema está saudável ou com problemas?”</em></p></li>
-</ul>
+<section id="who-defines-observability">
+<h1>Who Defines Observability?<a class="headerlink" href="#who-defines-observability" title="Link to this heading">#</a></h1>
+<p>If you work with software development or cloud infrastructure, you have probably heard the buzzword <strong>observability</strong>. Beyond the buzzword, do you know exactly which signals make a system observable, and who decided things should work this way?</p>
+<p>In this article, I will demystify the pillars of modern telemetry and show how the industry reached a consensus on monitoring distributed applications. The focus here is not on instrumenting code. It is on understanding where the standards come from and who maintains them.</p>
+<section id="the-three-traditional-pillars-and-the-new-addition">
+<h2>The Three Traditional Pillars (and the New Addition)<a class="headerlink" href="#the-three-traditional-pillars-and-the-new-addition" title="Link to this heading">#</a></h2>
+<p>Observability is the ability to infer a system’s internal state from its external outputs. These outputs are called <strong>telemetry signals</strong>. Before discussing who defines the standards, let’s get the terminology straight.</p>
+<section id="metrics-the-system-thermometer">
+<h3>1. Metrics: The System Thermometer<a class="headerlink" href="#metrics-the-system-thermometer" title="Link to this heading">#</a></h3>
+<p>Numeric values aggregated over time, such as CPU usage, requests per second, or average latency. They are used for alerts and dashboards, and quickly answer the question: <em>“Is the system healthy or having problems?”</em></p>
 </section>
-<section id="logs-o-diario-de-bordo">
-<h3>2. Logs: O Diário de Bordo<a class="headerlink" href="#logs-o-diario-de-bordo" title="Link to this heading">#</a></h3>
-<p>Registros de eventos discretos e carimbados com data/hora (<em>timestamps</em>).</p>
-<ul class="simple">
-<li><p><strong>Para que servem:</strong> Diagnóstico pontual. Respondem à pergunta: <em>“O que exatamente aconteceu neste segundo específico?”</em></p></li>
-</ul>
+<section id="logs-the-system-s-logbook">
+<h3>2. Logs: The System’s Logbook<a class="headerlink" href="#logs-the-system-s-logbook" title="Link to this heading">#</a></h3>
+<p>Records of discrete events stamped with a date and time (<em>timestamps</em>). They help with point-in-time diagnostics and answer the question: <em>“What exactly happened at this specific second?”</em></p>
 </section>
-<section id="traces-o-mapa-da-jornada">
-<h3>3. Traces: O Mapa da Jornada<a class="headerlink" href="#traces-o-mapa-da-jornada" title="Link to this heading">#</a></h3>
-<p>O rastreamento distribuído do caminho que uma requisição percorre através de múltiplos microsserviços e bancos de dados.</p>
-<ul class="simple">
-<li><p><strong>Para que servem:</strong> Identificar gargalos de performance em arquiteturas complexas. Respondem à pergunta: <em>“Onde a requisição está perdendo tempo?”</em></p></li>
-</ul>
+<section id="traces-the-journey-map">
+<h3>3. Traces: The Journey Map<a class="headerlink" href="#traces-the-journey-map" title="Link to this heading">#</a></h3>
+<p>Distributed tracing follows the path a request takes through multiple microservices and databases. It helps identify performance bottlenecks in complex architectures and answers the question: <em>“Where is the request spending too much time?”</em></p>
 <blockquote>
-<div><p><strong>O 4º Pilar:</strong> O <strong>Continuous Profiling</strong> vem ganhando espaço como o quarto sinal oficial. Ele analisa o consumo de recursos (memória e CPU) a nível de código/função em tempo real, sem impactar a produção.</p>
+<div><p><strong>The 4th Pillar:</strong> <strong>Continuous profiling</strong> is gaining ground as the fourth official signal. It analyzes resource consumption (memory and CPU) at the code or function level in real time, without affecting production.</p>
 </div></blockquote>
 </section>
 </section>
-<hr class="docutils" />
-<section id="mas-quem-define-esses-padroes">
-<h2>Mas Quem Define Esses Padrões?<a class="headerlink" href="#mas-quem-define-esses-padroes" title="Link to this heading">#</a></h2>
-<p>Diferente de protocolos rígidos da web (como a W3C faz com o HTML), a observabilidade evoluiu organicamente através da prática da engenharia de software:
-Aqui estão as referências e links oficiais para você verificar a origem e os padrões de cada um dos pontos citados:</p>
-<p>A Comunidade Open Source (2016-2017):</p>
+<section id="but-who-defines-these-standards">
+<h2>But Who Defines These Standards?<a class="headerlink" href="#but-who-defines-these-standards" title="Link to this heading">#</a></h2>
+<p>This is the part that intrigues me most: no single organization is responsible for defining observability. Unlike formal web standards (such as HTML, defined by the W3C), observability evolved organically through software engineering practice. Books, blog posts, and open source projects together shaped the consensus we use today.</p>
+<p>Below are the origins and milestones behind these ideas, so you can check for yourself where the standards come from.</p>
+<section id="the-open-source-community-2016-2017">
+<h3>The Open Source Community (2016-2017)<a class="headerlink" href="#the-open-source-community-2016-2017" title="Link to this heading">#</a></h3>
+<p>The conceptual foundation for the three pillars came from the community, not a formal committee. Two milestones helped popularize the shift from “traditional monitoring” to “observability” in microservices:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/">Distributed Systems Observability (O’Reilly Report - Cindy Sridharan)</a> — Publicado no final de 2017 por Cindy Sridharan (então engenheira da Apple/Uber), este e-book popularizou a definição clássica e a distinção entre os três pilares (<em>Logs, Metrics, Traces</em>) na engenharia de software moderna.</p></li>
-<li><p><a class="reference external" href="https://www.google.com/search?q=https://charity.wtf/2016/05/31/monitoring-a-tech-debt-story/">Post do Blog da Charity Majors (Honeycomb.io - 2016)</a> — Um dos marcos de discussão no ecossistema sobre a transição do “monitoramento tradicional” para a “observabilidade” em microsserviços.</p></li>
-</ul>
-<p>CNCF (Cloud Native Computing Foundation):</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://www.cncf.io/">Site Oficial da CNCF</a> — A fundação mantida pela <em>Linux Foundation</em> que incuba, gerencia e padroniza os principais projetos de código aberto para nuvem.</p></li>
-<li><p><a class="reference external" href="https://landscape.cncf.io/card-mode?category=observability-and-analysis">CNCF Landscape - Seção de Observabilidade</a> — O mapa oficial da CNCF mostrando todas as ferramentas neutras de mercado mantidas pela fundação (como Prometheus, Jaeger e OpenTelemetry).</p></li>
-</ul>
-<p>O Projeto OpenTelemetry (OTel):</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://opentelemetry.io/">Documentação Oficial do OpenTelemetry</a> — O portal oficial da CNCF que detalha as especificações técnicas, SDKs, APIs e o protocolo OTLP.</p></li>
-<li><p><a class="reference external" href="https://github.com/open-telemetry/opentelemetry-specification">Especificação Oficial do OTel no GitHub</a> — O repositório <em>open source</em> onde o grupo de trabalho define e aprova formalmente a estrutura de cada sinal de telemetria (Traces, Metrics, Logs e Profiles).</p></li>
+<li><p><a class="reference external" href="https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/">Distributed Systems Observability (O’Reilly report: Cindy Sridharan)</a>: Published in late 2017 by Cindy Sridharan, then an engineer at Apple/Uber, this e-book popularized the classic definition and distinction between the three pillars (<em>Logs, Metrics, Traces</em>) in modern software engineering.</p></li>
+<li><p><a class="reference external" href="https://charity.wtf/2016/05/31/monitoring-a-tech-debt-story/">Charity Majors’s blog post (Honeycomb.io, 2016)</a>: one of the notable discussions in the ecosystem about the shift from traditional monitoring to observability in microservices.</p></li>
 </ul>
 </section>
-<hr class="docutils" />
-<section id="conclusao">
-<h2>Conclusão<a class="headerlink" href="#conclusao" title="Link to this heading">#</a></h2>
-<p>Adotar observabilidade não é apenas instalar um agente de monitoramento; é garantir que sua aplicação emita os sinais corretos (Métricas, Logs, Traces e Profiles) em um formato padronizado. Com o avanço do OpenTelemetry, a telemetria tornou-se agnóstica de plataforma, dando total liberdade para a sua equipe escolher onde analisar esses dados.</p>
-<hr class="docutils" />
+<section id="cncf-cloud-native-computing-foundation">
+<h3>CNCF (Cloud Native Computing Foundation)<a class="headerlink" href="#cncf-cloud-native-computing-foundation" title="Link to this heading">#</a></h3>
+<p>With the community pointing the way, neutral standardization became the responsibility of the CNCF, a foundation under the <em>Linux Foundation</em> that incubates, manages, and standardizes major open source projects for cloud computing.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.cncf.io/">CNCF Official Website</a>: the foundation behind cloud native projects.</p></li>
+<li><p><a class="reference external" href="https://landscape.cncf.io/card-mode?category=observability-and-analysis">CNCF Landscape: Observability Section</a>: the CNCF’s official map of neutral market tools maintained by the foundation, such as Prometheus, Jaeger, and OpenTelemetry.</p></li>
+</ul>
+</section>
+<section id="the-opentelemetry-project-otel">
+<h3>The OpenTelemetry Project (OTel)<a class="headerlink" href="#the-opentelemetry-project-otel" title="Link to this heading">#</a></h3>
+<p>If there is anything close to a formal specification for telemetry signals today, it is OpenTelemetry. Its working groups define and approve the structure of each signal.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://opentelemetry.io/">Official OpenTelemetry Documentation</a>: the CNCF’s official portal with technical specifications, SDKs, APIs, and the OTLP protocol.</p></li>
+<li><p><a class="reference external" href="https://github.com/open-telemetry/opentelemetry-specification">Official OTel Specification on GitHub</a>: the <em>open source</em> repository where working groups formally define and approve the structure of each telemetry signal (Traces, Metrics, Logs, and Profiles).</p></li>
+</ul>
+</section>
+</section>
+<section id="conclusion-author-opinion">
+<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
+<p>After years of hearing “observability” talked about as if it were a product you could buy, what stands out to me is that nobody defined it from the top down. It grew out of practice. Engineers dealing with production problems wrote about it, and only later did it become a specification through the CNCF and OpenTelemetry.</p>
+<p>I find that liberating. Understanding observability means learning why the community settled on these signals, not memorizing a committee’s standard. If you want to go deeper, start with the references below and read the original sources. That is worth much more than any summary, including this one.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/">https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/</a></p></li>
+<li><p><a class="reference external" href="https://charity.wtf/2016/05/31/monitoring-a-tech-debt-story/">https://charity.wtf/2016/05/31/monitoring-a-tech-debt-story/</a></p></li>
+<li><p><a class="reference external" href="https://www.cncf.io/">https://www.cncf.io/</a></p></li>
+<li><p><a class="reference external" href="https://landscape.cncf.io/card-mode?category=observability-and-analysis">https://landscape.cncf.io/card-mode?category=observability-and-analysis</a></p></li>
+<li><p><a class="reference external" href="https://opentelemetry.io/">https://opentelemetry.io/</a></p></li>
+<li><p><a class="github reference external" href="https://github.com/open-telemetry/opentelemetry-specification">open-telemetry/opentelemetry-specification</a></p></li>
+</ul>
 </section>
 </section>
 

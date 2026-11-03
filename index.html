@@ -46,6 +46,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-examples.css?v=e236af4b" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=45791c5e" />
+    <link rel="stylesheet" type="text/css" href="_static/tldr_ai.css?v=6a56bcb6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
@@ -470,6 +471,10 @@
 <section id="recent-blog-posts">
 <h2>Recent blog posts<a class="headerlink" href="#recent-blog-posts" title="Link to this heading">#</a></h2>
 <ul class="postlist-style-none postlist">
+<li class="ablog-post"><p class="ablog-post-title"><a class="reference internal" href="blog/2026/2026-11-02-opensearch-stop-metrics/">Stop Extracting Metrics from OpenSearch Logs</a></p>
+<p class="ablog-post-excerpt"><em><strong>Blog Post Publish Date:</strong> 2026/11/02</em></p>
+<p class="ablog-post-excerpt">This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluen Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application. The goal is simple: use the right tool for each signal.</p>
+</li>
 <li class="ablog-post"><p class="ablog-post-title"><a class="reference internal" href="blog/2026/2026-10-29-otel-foundation/">OpenTelemetry: A Framework to Decoupling Your Observability</a></p>
 <p class="ablog-post-excerpt"><em><strong>Blog Post Publish Date:</strong> 2026/10/29</em></p>
 <p class="ablog-post-excerpt">This blog post explains the foundation of OpenTelemetry and walks through a practical example of instrumenting a Python application. It demonstrates OpenTelemetry’s single API definition paired with multiple SDK implementations for Prometheus and Datadog.</p>
