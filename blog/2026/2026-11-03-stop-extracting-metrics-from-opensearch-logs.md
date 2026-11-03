@@ -10,7 +10,7 @@ category: opensearch
 
 # Stop Extracting Metrics from OpenSearch Logs
 
-This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluen Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application. The goal is simple: use the right tool for each signal.
+This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluen Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application.
 
 ## Understanding the Data Before the Infrastructure
 
