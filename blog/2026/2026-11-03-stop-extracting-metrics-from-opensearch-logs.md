@@ -18,7 +18,7 @@ Over the past five years, I have worked on optimizing large-scale OpenSearch dep
 
 However, this led me to a more fundamental question: **how was the data actually being used?** In this particular case, logs were not simply being stored for troubleshooting. They were also queried to identify specific events and extract operational insights. This made query latency particularly important. As ingestion volumes continued to grow, maintaining this performance also became increasingly expensive.
 
-That experience led me to an important realization: optimizing infrastructure is not just about scaling resources or tuning configurations. It is equally important to understand the nature of the data, how it is consumed, and the requirements of each use case. There is no silve bullet solution. Different types of data and access patterns require different approaches, architectures, and specific and optmized tools.
+That experience led me to an important realization: optimizing infrastructure is not just about scaling resources or tuning configurations. It is equally important to understand the nature of the data, how it is consumed, and the requirements of each use case. There is no silver bullet solution. Different types of data and access patterns require different approaches, architectures, and specific and optmized tools.
 
 I decided to write this article to share this perspective and explore why understanding data usage is just as important as choosing the right technology to process and store it.
 
