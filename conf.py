@@ -5,6 +5,7 @@ sys.path.append(".")
 
 from pathlib import Path
 from social_media import add_social_media_js, SocialPost
+from tldr_ai import add_tldr_ai
 
 
 project = "Carlos Neto"
@@ -140,4 +141,6 @@ nb_execution_mode = "off"
 def setup(app):
     app.add_directive("socialpost", SocialPost)
     app.connect("html-page-context", add_social_media_js)
+    app.connect("html-page-context", add_tldr_ai)
     app.add_css_file("custom.css")
+    app.add_css_file("tldr_ai.css")
