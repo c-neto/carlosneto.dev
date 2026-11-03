@@ -12,6 +12,16 @@ category: Log Analytics
 
 This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluen Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application. The goal is simple: use the right tool for each signal.
 
+## Understanding the Data Before the Infrastructure
+
+Over the past five years, I have worked on optimizing large-scale OpenSearch deployments running on Kubernetes, facing several challenges in maintaining performance as data ingestion volumes grew. One of the main challenges was keeping query latency low while handling an increasingly large volume of logs. At some point, I started exploring different performance optimization strategies to keep the cluster efficient as ingestion rates increased.
+
+However, this led me to a more fundamental question: **how was the data actually being used?** In this particular case, logs were not simply being stored for troubleshooting. They were also queried to identify specific events and extract operational insights. This made query latency particularly important. As ingestion volumes continued to grow, maintaining this performance also became increasingly expensive.
+
+That experience led me to an important realization: optimizing infrastructure is not just about scaling resources or tuning configurations. It is equally important to understand the nature of the data, how it is consumed, and the requirements of each use case. There is no silve bullet solution. Different types of data and access patterns require different approaches, architectures, and specific and optmized tools.
+
+I decided to write this article to share this perspective and explore why understanding data usage is just as important as choosing the right technology to process and store it.
+
 ## How the Log Store Becomes an Accidental Metrics Database
 
 One of the most common and most expensive mistakes in observability is quietly treating a log store as a metrics database. It usually starts innocently. Someone needs a number such as _"how many payments failed in the last hour?"_, the logs are right there, so they write a query that counts matching log lines and pins it to a dashboard, and it works.
@@ -54,30 +64,16 @@ OpenSearch is really good at what it is designed for: full-text search over an i
 
 The problem is what happens when you ask it to behave like a metrics engine. Consider the number we wanted earlier, failed payments per minute. As a log query it looks like this:
 
-```json
-GET my-app-logs-index-*/_search
+```{code-block} json
+:caption: GET my-app-logs-index-*/_search
 {
   "size": 0,
   "query": {
     "bool": {
       "filter": [
-        {
-          "match": {
-            "level": "error"
-          }
-        },
-        {
-          "match_phrase": {
-            "msg": "payment authorization failed"
-          }
-        },
-        {
-          "range": {
-            "@timestamp": {
-              "gte": "now-24h"
-            }
-          }
-        }
+        { "match": { "level": "error" } },
+        { "match_phrase": { "msg": "payment authorization failed" } },
+        { "range": { "@timestamp": { "gte": "now-24h" } } }
       ]
     }
   },
@@ -208,7 +204,7 @@ I want to be clear about what this is: a workaround, not the ideal. You are stil
 
 Notice that even in the workaround, OpenSearch keeps doing what it is good at. The logs still land there for investigation, and the metric goes somewhere else, which is the principle worth zooming out on now.
 
-## This Is Not "OpenSearch Bad", It Is "Right Tool, Right Signal"
+## Conclusion: Right Tool for Right Signal
 
 None of this means OpenSearch is the wrong choice. For logs, it is a great tool. The inverted index makes event search and investigation fast. The mistake is using it for a signal it was not built to carry.
 
