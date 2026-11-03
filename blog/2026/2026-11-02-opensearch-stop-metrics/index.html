@@ -410,6 +410,13 @@
 <section id="stop-extracting-metrics-from-opensearch-logs">
 <h1>Stop Extracting Metrics from OpenSearch Logs<a class="headerlink" href="#stop-extracting-metrics-from-opensearch-logs" title="Link to this heading">#</a></h1>
 <p>This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluen Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application. The goal is simple: use the right tool for each signal.</p>
+<section id="understanding-the-data-before-the-infrastructure">
+<h2>Understanding the Data Before the Infrastructure<a class="headerlink" href="#understanding-the-data-before-the-infrastructure" title="Link to this heading">#</a></h2>
+<p>Over the past five years, I have worked on optimizing large-scale OpenSearch deployments running on Kubernetes, facing several challenges in maintaining performance as data ingestion volumes grew. One of the main challenges was keeping query latency low while handling an increasingly large volume of logs. At some point, I started exploring different performance optimization strategies to keep the cluster efficient as ingestion rates increased.</p>
+<p>However, this led me to a more fundamental question: <strong>how was the data actually being used?</strong> In this particular case, logs were not simply being stored for troubleshooting. They were also queried to identify specific events and extract operational insights. This made query latency particularly important. As ingestion volumes continued to grow, maintaining this performance also became increasingly expensive.</p>
+<p>That experience led me to an important realization: optimizing infrastructure is not just about scaling resources or tuning configurations. It is equally important to understand the nature of the data, how it is consumed, and the requirements of each use case. There is no silve bullet solution. Different types of data and access patterns require different approaches, architectures, and specific and optmized tools.</p>
+<p>I decided to write this article to share this perspective and explore why understanding data usage is just as important as choosing the right technology to process and store it.</p>
+</section>
 <section id="how-the-log-store-becomes-an-accidental-metrics-database">
 <h2>How the Log Store Becomes an Accidental Metrics Database<a class="headerlink" href="#how-the-log-store-becomes-an-accidental-metrics-database" title="Link to this heading">#</a></h2>
 <p>One of the most common and most expensive mistakes in observability is quietly treating a log store as a metrics database. It usually starts innocently. Someone needs a number such as <em>“how many payments failed in the last hour?”</em>, the logs are right there, so they write a query that counts matching log lines and pins it to a dashboard, and it works.</p>
@@ -458,29 +465,16 @@
 <h2>Why Logs Make Bad Metrics<a class="headerlink" href="#why-logs-make-bad-metrics" title="Link to this heading">#</a></h2>
 <p>OpenSearch is really good at what it is designed for: full-text search over an inverted index. Give it millions of log lines and ask “show me every error from <code class="docutils literal notranslate"><span class="pre">payments</span></code> mentioning <code class="docutils literal notranslate"><span class="pre">acme</span></code> yesterday”, and it will answer fast, because the inverted index maps terms to the documents that contain them. That is a search workload, and it is the right tool.</p>
 <p>The problem is what happens when you ask it to behave like a metrics engine. Consider the number we wanted earlier, failed payments per minute. As a log query it looks like this:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">GET</span><span class="w"> </span><span class="err">my</span><span class="mi">-</span><span class="err">app</span><span class="mi">-</span><span class="err">logs</span><span class="mi">-</span><span class="err">i</span><span class="kc">n</span><span class="err">dex</span><span class="mi">-</span><span class="err">*/_search</span>
-<span class="p">{</span>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">GET my-app-logs-index-*/_search</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"bool"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">"match"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span>
-<span class="w">          </span><span class="p">}</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">"match_phrase"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">"msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"payment authorization failed"</span>
-<span class="w">          </span><span class="p">}</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">"range"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">"@timestamp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">              </span><span class="nt">"gte"</span><span class="p">:</span><span class="w"> </span><span class="s2">"now-24h"</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">          </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"match"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"match_phrase"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"payment authorization failed"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"range"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"@timestamp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"gte"</span><span class="p">:</span><span class="w"> </span><span class="s2">"now-24h"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
 <span class="w">      </span><span class="p">]</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
@@ -494,6 +488,7 @@
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
+</div>
 </div>
 <p>This works. But look at what the cluster has to do to produce one small time series:</p>
 <ol class="arabic simple">
@@ -570,8 +565,8 @@
 <p>The counter in the application is the right answer. But sometimes you simply cannot touch the source code. Maybe it is a legacy service nobody wants to rebuild, a closed-source component, or a third-party app that only emits logs and will never expose a <code class="docutils literal notranslate"><span class="pre">/metrics</span></code> endpoint. In those cases you still need the number, and instrumenting the code is off the table.</p>
 <p>There is a middle-ground workaround here, and it is not “count log lines in OpenSearch”. The idea is to turn the event into a metric at ingestion time, inside the log pipeline itself, before the log ever reaches the storage. Your log shipper already sees every single line as it flows through. So instead of storing fat logs and reconstructing the count later, you let the shipper match the line that denotes the event and increment a real counter right there. The log still goes to OpenSearch for investigation, and a proper metric is emitted in parallel.</p>
 <p>Fluent Bit does this with the <code class="docutils literal notranslate"><span class="pre">log_to_metrics</span></code> filter. It watches the stream, matches the lines that represent the event (via regex), and emits a Prometheus metric that you expose through the <code class="docutils literal notranslate"><span class="pre">prometheus_exporter</span></code> output. Back to our failed payments, the config looks like this:</p>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">fluent-bit.yaml</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">fluent-bit.yaml</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">service</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">flush</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="w">  </span><span class="nt">log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">info</span>
@@ -614,8 +609,8 @@
 </div>
 </div>
 <p>Prometheus scrapes the exporter and you get the exact same counter you would have instrumented in the code, without touching the code:</p>
-<div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">$ curl -s http://127.0.0.1:9999/metrics</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">$ curl -s http://127.0.0.1:9999/metrics</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># HELP log_metric_counter_payment_failures_total Total number of failed payment authorizations</span>
 <span class="c1"># TYPE log_metric_counter_payment_failures_total counter</span>
 log_metric_counter_payment_failures_total<span class="o">{</span><span class="nv">provider</span><span class="o">=</span><span class="s2">"acme"</span>,code<span class="o">=</span><span class="s2">"INSUFFICIENT_FUNDS"</span><span class="o">}</span><span class="w"> </span><span class="m">48213</span>
@@ -626,8 +621,8 @@ log_metric_counter_payment_failures_total<span class="o">{</span><span class="nv
 <p>I want to be clear about what this is: a workaround, not the ideal. You are still parsing text to decide what counts, so a change in the log format can silently break the counter, and you depend on the event being logged in the first place. If you can instrument the application, do that. The in-code counter encodes business meaning that a regex on a log line is only approximating. But when the source is out of reach, extracting the metric at ingestion is far better than hammering your log store with query-time aggregations.</p>
 <p>Notice that even in the workaround, OpenSearch keeps doing what it is good at. The logs still land there for investigation, and the metric goes somewhere else, which is the principle worth zooming out on now.</p>
 </section>
-<section id="this-is-not-opensearch-bad-it-is-right-tool-right-signal">
-<h2>This Is Not “OpenSearch Bad”, It Is “Right Tool, Right Signal”<a class="headerlink" href="#this-is-not-opensearch-bad-it-is-right-tool-right-signal" title="Link to this heading">#</a></h2>
+<section id="conclusion-right-tool-for-right-signal">
+<h2>Conclusion: Right Tool for Right Signal<a class="headerlink" href="#conclusion-right-tool-for-right-signal" title="Link to this heading">#</a></h2>
 <p>None of this means OpenSearch is the wrong choice. For logs, it is a great tool. The inverted index makes event search and investigation fast. The mistake is using it for a signal it was not built to carry.</p>
 <p>Each signal has engines designed around its data shape:</p>
 <div class="pst-scrollable-table-container"><table class="table">
