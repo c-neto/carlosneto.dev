@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-03T03:18:03.699396+00:00</updated>
+  <updated>2026-11-03T03:45:26.422494+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -15,7 +15,7 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="stop-extracting-metrics-from-opensearch-logs"&gt;
 
-&lt;p&gt;This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluen Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application.&lt;/p&gt;
+&lt;p&gt;This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluent Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application.&lt;/p&gt;
 &lt;section id="understanding-the-data-before-the-infrastructure"&gt;
 &lt;h2&gt;Understanding the Data Before the Infrastructure&lt;/h2&gt;
 &lt;p&gt;Over the past five years, I have worked on optimizing large-scale OpenSearch deployments running on Kubernetes, facing several challenges in maintaining performance as data ingestion volumes grew. One of the main challenges was keeping query latency low while handling an increasingly large volume of logs. At some point, I started exploring different performance optimization strategies to keep the cluster efficient as ingestion rates increased.&lt;/p&gt;
@@ -263,7 +263,7 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/"/>
-    <summary>Blog Post Publish Date: 2026/11/03This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluen Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application.</summary>
+    <summary>Blog Post Publish Date: 2026/11/03This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluent Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application.</summary>
     <category term="fluentbit" label="fluentbit"/>
     <category term="logs" label="logs"/>
     <category term="metrics" label="metrics"/>
