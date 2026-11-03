@@ -1,0 +1,70 @@
+/* AI TL;DR block injected into blog posts by scripts/tldr_ai. */
+
+.aor-tldr {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin: 0.75rem 0 1.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--pst-color-border, #e5e7eb);
+  border-radius: 10px;
+  background: var(--pst-color-surface, #f8f9fb);
+}
+
+.aor-tldr__marvin {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.aor-tldr__copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.aor-tldr__copy strong {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.aor-tldr__copy span {
+  font-size: 0.75rem;
+  color: var(--pst-color-text-muted, #6b7280);
+}
+
+.aor-tldr__buttons {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.aor-tldr__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid var(--pst-color-border, #e5e7eb);
+  border-radius: 999px;
+  background: var(--pst-color-background, #fff);
+  color: var(--pst-color-text-base, #374151);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.aor-tldr__btn:hover {
+  border-color: var(--pst-color-primary, #4078c0);
+  color: var(--pst-color-primary, #4078c0);
+  text-decoration: none;
+}
+
+.aor-tldr__logo {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+}

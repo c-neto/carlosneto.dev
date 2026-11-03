@@ -1,62 +1,75 @@
-Aqui está um rascunho de blog post pronto para publicação, estruturado para engajar desenvolvedores, arquitetos e profissionais de DevOps:
+---
+tags: observability, opentelemetry, cncf, metrics, logs, traces
+date: "2026-11-02"
+category: Log Analytics
+---
+
+*__Blog Post Publish Date:__ 2026/11/02*
 
 ---
 
-# Além do Hype: O Que São os Sinais de Telemetria e Quem Define as Regras da Observabilidade?
+# Who Defines Observability?
 
-Se você trabalha com desenvolvimento de software ou infraestrutura em nuvem, com certeza já ouviu a palavra da moda: **Observabilidade**. Mas além do *buzzword*, você sabe exatamente quais são os dados que tornam um sistema observável e quem decidiu que as coisas deveriam ser assim?
+If you work with software development or cloud infrastructure, you have probably heard the buzzword **observability**. Beyond the buzzword, do you know exactly which signals make a system observable, and who decided things should work this way?
 
-Neste artigo, vamos desmistificar os pilares da telemetria moderna e entender como o mercado chegou a um consenso sobre como monitorar aplicações distribuídas.
+In this article, I will demystify the pillars of modern telemetry and show how the industry reached a consensus on monitoring distributed applications. The focus here is not on instrumenting code. It is on understanding where the standards come from and who maintains them.
 
----
+## The Three Traditional Pillars (and the New Addition)
 
-## Os Três Pilares Tradicionais (e o Novo Integrante)
+Observability is the ability to infer a system's internal state from its external outputs. These outputs are called **telemetry signals**. Before discussing who defines the standards, let's get the terminology straight.
 
-A observabilidade baseia-se na capacidade de inferir os estados internos de um sistema a partir de suas saídas externas. Essas saídas são chamadas de **sinais de telemetria**.
+### 1. Metrics: The System Thermometer
 
-### 1. Métricas: O Termômetro do Sistema
+Numeric values aggregated over time, such as CPU usage, requests per second, or average latency. They are used for alerts and dashboards, and quickly answer the question: *"Is the system healthy or having problems?"*
 
-Valores numéricos agregados ao longo do tempo (como uso de CPU, taxa de requisições por segundo ou latência média).
+### 2. Logs: The System's Logbook
 
-* **Para que servem:** Alertas e dashboards. Respondem rapidamente à pergunta: *"O sistema está saudável ou com problemas?"*
+Records of discrete events stamped with a date and time (*timestamps*). They help with point-in-time diagnostics and answer the question: *"What exactly happened at this specific second?"*
 
-### 2. Logs: O Diário de Bordo
+### 3. Traces: The Journey Map
 
-Registros de eventos discretos e carimbados com data/hora (*timestamps*).
+Distributed tracing follows the path a request takes through multiple microservices and databases. It helps identify performance bottlenecks in complex architectures and answers the question: *"Where is the request spending too much time?"*
 
-* **Para que servem:** Diagnóstico pontual. Respondem à pergunta: *"O que exatamente aconteceu neste segundo específico?"*
+> **The 4th Pillar:** **Continuous profiling** is gaining ground as the fourth official signal. It analyzes resource consumption (memory and CPU) at the code or function level in real time, without affecting production.
 
-### 3. Traces: O Mapa da Jornada
+## But Who Defines These Standards?
 
-O rastreamento distribuído do caminho que uma requisição percorre através de múltiplos microsserviços e bancos de dados.
+This is the part that intrigues me most: no single organization is responsible for defining observability. Unlike formal web standards (such as HTML, defined by the W3C), observability evolved organically through software engineering practice. Books, blog posts, and open source projects together shaped the consensus we use today.
 
-* **Para que servem:** Identificar gargalos de performance em arquiteturas complexas. Respondem à pergunta: *"Onde a requisição está perdendo tempo?"*
+Below are the origins and milestones behind these ideas, so you can check for yourself where the standards come from.
 
-> **O 4º Pilar:** O **Continuous Profiling** vem ganhando espaço como o quarto sinal oficial. Ele analisa o consumo de recursos (memória e CPU) a nível de código/função em tempo real, sem impactar a produção.
+### The Open Source Community (2016-2017)
 
----
+The conceptual foundation for the three pillars came from the community, not a formal committee. Two milestones helped popularize the shift from "traditional monitoring" to "observability" in microservices:
 
-## Mas Quem Define Esses Padrões?
+- [Distributed Systems Observability (O'Reilly report: Cindy Sridharan)](https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/): Published in late 2017 by Cindy Sridharan, then an engineer at Apple/Uber, this e-book popularized the classic definition and distinction between the three pillars (*Logs, Metrics, Traces*) in modern software engineering.
+- [Charity Majors's blog post (Honeycomb.io, 2016)](https://charity.wtf/2016/05/31/monitoring-a-tech-debt-story/): one of the notable discussions in the ecosystem about the shift from traditional monitoring to observability in microservices.
 
-Diferente de protocolos rígidos da web (como a W3C faz com o HTML), a observabilidade evoluiu organicamente através da prática da engenharia de software:
-Aqui estão as referências e links oficiais para você verificar a origem e os padrões de cada um dos pontos citados:
+### CNCF (Cloud Native Computing Foundation)
 
-A Comunidade Open Source (2016-2017):
-* [Distributed Systems Observability (O'Reilly Report - Cindy Sridharan)](https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/) — Publicado no final de 2017 por Cindy Sridharan (então engenheira da Apple/Uber), este e-book popularizou a definição clássica e a distinção entre os três pilares (*Logs, Metrics, Traces*) na engenharia de software moderna.
-* [Post do Blog da Charity Majors (Honeycomb.io - 2016)](https://www.google.com/search?q=https://charity.wtf/2016/05/31/monitoring-a-tech-debt-story/) — Um dos marcos de discussão no ecossistema sobre a transição do "monitoramento tradicional" para a "observabilidade" em microsserviços.
+With the community pointing the way, neutral standardization became the responsibility of the CNCF, a foundation under the *Linux Foundation* that incubates, manages, and standardizes major open source projects for cloud computing.
 
-CNCF (Cloud Native Computing Foundation):
-* [Site Oficial da CNCF](https://www.cncf.io/) — A fundação mantida pela *Linux Foundation* que incuba, gerencia e padroniza os principais projetos de código aberto para nuvem.
-* [CNCF Landscape - Seção de Observabilidade](https://landscape.cncf.io/card-mode?category=observability-and-analysis) — O mapa oficial da CNCF mostrando todas as ferramentas neutras de mercado mantidas pela fundação (como Prometheus, Jaeger e OpenTelemetry).
+- [CNCF Official Website](https://www.cncf.io/): the foundation behind cloud native projects.
+- [CNCF Landscape: Observability Section](https://landscape.cncf.io/card-mode?category=observability-and-analysis): the CNCF's official map of neutral market tools maintained by the foundation, such as Prometheus, Jaeger, and OpenTelemetry.
 
-O Projeto OpenTelemetry (OTel):
-* [Documentação Oficial do OpenTelemetry](https://opentelemetry.io/) — O portal oficial da CNCF que detalha as especificações técnicas, SDKs, APIs e o protocolo OTLP.
-* [Especificação Oficial do OTel no GitHub](https://github.com/open-telemetry/opentelemetry-specification) — O repositório *open source* onde o grupo de trabalho define e aprova formalmente a estrutura de cada sinal de telemetria (Traces, Metrics, Logs e Profiles).
+### The OpenTelemetry Project (OTel)
 
----
+If there is anything close to a formal specification for telemetry signals today, it is OpenTelemetry. Its working groups define and approve the structure of each signal.
 
-## Conclusão
+- [Official OpenTelemetry Documentation](https://opentelemetry.io/): the CNCF's official portal with technical specifications, SDKs, APIs, and the OTLP protocol.
+- [Official OTel Specification on GitHub](https://github.com/open-telemetry/opentelemetry-specification): the *open source* repository where working groups formally define and approve the structure of each telemetry signal (Traces, Metrics, Logs, and Profiles).
 
-Adotar observabilidade não é apenas instalar um agente de monitoramento; é garantir que sua aplicação emita os sinais corretos (Métricas, Logs, Traces e Profiles) em um formato padronizado. Com o avanço do OpenTelemetry, a telemetria tornou-se agnóstica de plataforma, dando total liberdade para a sua equipe escolher onde analisar esses dados.
+## Conclusion (Author Opinion)
 
----
+After years of hearing "observability" talked about as if it were a product you could buy, what stands out to me is that nobody defined it from the top down. It grew out of practice. Engineers dealing with production problems wrote about it, and only later did it become a specification through the CNCF and OpenTelemetry.
+
+I find that liberating. Understanding observability means learning why the community settled on these signals, not memorizing a committee's standard. If you want to go deeper, start with the references below and read the original sources. That is worth much more than any summary, including this one.
+
+## References
+
+- <https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/>
+- <https://charity.wtf/2016/05/31/monitoring-a-tech-debt-story/>
+- <https://www.cncf.io/>
+- <https://landscape.cncf.io/card-mode?category=observability-and-analysis>
+- <https://opentelemetry.io/>
+- <https://github.com/open-telemetry/opentelemetry-specification>
