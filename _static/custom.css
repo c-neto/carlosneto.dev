@@ -126,6 +126,15 @@ div.timeline div.entry.right::after {
   margin-top: 1em;
 }
 
+/* Justify blog post body text (Word-document style). Scoped to the
+   .blog-post wrapper so listing/home/meta pages are not affected. */
+.blog-post p,
+.blog-post li {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
 /* Twitter embed CSS */
 div.twitter-tweet {
   margin-left: auto;
