@@ -38,7 +38,7 @@ The allocator also works alongside other allocation deciders. These evaluate whe
 
 These deciders can prevent an allocation even when it would improve shard balance. The allocator determines where shards should ideally go, while the deciders evaluate whether those allocations are allowed.
 
-> _The [Cluster Allocation Explain API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/) is useful for investigating these decisions. It shows which deciders allowed or rejected an allocation and provides explanations for their decisions._
+> _See <https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/> to investigate these decisions. It shows which deciders allowed or rejected an allocation and provides explanations for their decisions._
 
 ## Other Shard Allocation Mechanisms
 
@@ -66,7 +66,7 @@ This mechanism is implemented by [`NodeLoadAwareAllocationDecider.java`](https:/
 
 In short, Load-Aware Allocation is about controlling shard concentration when cluster capacity is reduced, not balancing shards according to the actual CPU or memory resources available on each node. It complements the default allocator and does not replace it with a resource-aware or size-based balancing strategy.
 
-> _For more details, see the [OpenSearch cluster management settings](https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/) and the [`NodeLoadAwareAllocationDecider.java`](https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java) implementation._
+> _For more details, see <https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/>_
 
 ---
 
@@ -84,7 +84,7 @@ So how does OpenSearch account for disk usage? That's where __disk watermarks__ 
 
 Watermarks bring disk usage into shard allocation decisions. The default allocator balances shard distribution using shard counts and index distribution, while disk watermarks react to disk pressure and can trigger allocation changes when nodes get too full.
 
-> _More details about mentioned settings: <https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/>._
+> _For more details, see <https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/>._
 
 ## Watermark Limitation: One Setting For All Storage Tiers
 
