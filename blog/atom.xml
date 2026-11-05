@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-05T03:07:37.908831+00:00</updated>
+  <updated>2026-11-05T03:08:25.906607+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -47,7 +47,7 @@
 &lt;p&gt;Here, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;provisioned_capacity&lt;/span&gt;&lt;/code&gt; remains &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;10&lt;/span&gt;&lt;/code&gt;, even after the failure, because it represents the intended cluster capacity. &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;skew_factor&lt;/span&gt;&lt;/code&gt; allows 50% more shards than the original average (20), while &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;flat_skew&lt;/span&gt;&lt;/code&gt; adds 2 extra shards, bringing the limit to 32 per node.&lt;/p&gt;
 &lt;p&gt;With only 6 nodes available, this means up to 192 shards can be allocated. The remaining shards must wait for additional capacity. &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;allow_unassigned_primaries&lt;/span&gt;&lt;/code&gt; controls whether new primary shards can bypass this limit.&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;p&gt;&lt;strong&gt;Manual Shard Allocation&lt;/strong&gt;: Allows administrators to manually move shards between nodes. The &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/"&gt;Cluster Reroute API&lt;/a&gt; allows administrators to manually move shards between nodes, among other operations. This can be useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Manual Shard Allocation&lt;/strong&gt;: Allows administrators to manually move shards between nodes. The &lt;em&gt;Cluster Reroute API&lt;/em&gt; &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;POST&lt;/span&gt; &lt;span class="pre"&gt;/_cluster/reroute&lt;/span&gt;&lt;/code&gt;&lt;/a&gt; allows administrators to manually move shards between nodes, among other operations. This can be useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="balancing-by-size-disk-watermarks"&gt;
 &lt;h2&gt;Balancing by Size: Disk Watermarks&lt;/h2&gt;

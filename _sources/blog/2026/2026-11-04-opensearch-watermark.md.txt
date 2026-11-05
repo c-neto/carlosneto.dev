@@ -57,7 +57,7 @@ With only 6 nodes available, this means up to 192 shards can be allocated. The r
 
 ---
 
-__Manual Shard Allocation__: Allows administrators to manually move shards between nodes. The [Cluster Reroute API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/) allows administrators to manually move shards between nodes, among other operations. This can be useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.
+__Manual Shard Allocation__: Allows administrators to manually move shards between nodes. The _Cluster Reroute API_ [`POST /_cluster/reroute`](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/) allows administrators to manually move shards between nodes, among other operations. This can be useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.
 
 ## Balancing by Size: Disk Watermarks
 
