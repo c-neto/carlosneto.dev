@@ -36,23 +36,24 @@ The default allocator is not the only mechanism that influences shard placement.
 
 ---
 
-__Load-Aware Allocation__: Limits shard concentration when cluster capacity is reduced, such as when data nodes fail. For example, consider a cluster designed to run with 10 data nodes. If 4 nodes fail, the remaining 6 may receive additional shards during recovery, increasing their shard counts.
+**Load-Aware Allocation**: Limits shard concentration when cluster capacity is reduced, such as when data nodes fail.
 
-The following configuration tells OpenSearch that the cluster is provisioned for 10 nodes and defines how much shard-count imbalance is allowed:
+For example, consider a cluster with 10 data nodes and 200 shards, initially holding 20 shards per node. If 4 nodes fail, the remaining 6 nodes need to accommodate their shards. Without load-aware allocation, each surviving node could end up with around 33 shards.
+
+The following configuration allows each node to receive up to 32 shards:
 
 ```yaml
-# >>> https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/
+# https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/
+
 cluster.routing.allocation.load_awareness.provisioned_capacity: 10
 cluster.routing.allocation.load_awareness.skew_factor: 50
 cluster.routing.allocation.load_awareness.flat_skew: 2
 cluster.routing.allocation.load_awareness.allow_unassigned_primaries: true
 ```
 
-Even with only 6 nodes available, `provisioned_capacity` remains set to `10`, representing the cluster's intended capacity. The `skew_factor` allows a 50% deviation from the expected shard distribution, while `flat_skew` adds an allowance of 2 shards. Together, these settings determine when a node has too many shards to receive additional allocations.
+Here, `provisioned_capacity` remains `10`, even after the failure, because it represents the intended cluster capacity. `skew_factor` allows 50% more shards than the original average (20), while `flat_skew` adds 2 extra shards, bringing the limit to 32 per node.
 
-The provisioned capacity must be updated whenever the cluster scales. The `allow_unassigned_primaries` setting controls whether new primary shards can still be allocated when the skew limit is exceeded.
-
-See the [NodeLoadAwareAllocationDecider.java](https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java) implementation for details.
+With only 6 nodes available, this means up to 192 shards can be allocated. The remaining shards must wait for additional capacity. `allow_unassigned_primaries` controls whether new primary shards can bypass this limit.
 
 ---
 
@@ -65,7 +66,8 @@ OpenSearch uses three disk watermarks to control shard allocation based on disk 
 Watermarks accept percentage-based values or absolute disk space values. Percentages are calculated relative to each node's total disk capacity. For example, consider a node with 1 TB of storage and the following configuration:
 
 ```yaml
-# >>> https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/
+# https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/
+
 cluster.routing.allocation.disk.watermark.low: 85%
 cluster.routing.allocation.disk.watermark.high: 90%
 cluster.routing.allocation.disk.watermark.flood_stage: 95%
