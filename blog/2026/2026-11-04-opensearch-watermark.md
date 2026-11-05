@@ -18,7 +18,7 @@ Data nodes need enough free disk space to accommodate new shards as indices are 
 
 For this design to work well, data nodes need available capacity for new shard allocations. If most of the free space is concentrated on a few nodes, the cluster may struggle to allocate new shards even when there is plenty of storage available elsewhere.
 
-When shard allocation fails, the cluster can enter a yellow or red state, potentially resulting in data loss. Thus, a solid understanding of shard allocation can help protect cluster availability. The [`/_cluster/allocation/explain`](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/) endpoint is a useful way to investigate why a shard was allocated to a particular node or why an allocation or rebalance was rejected.
+When shard allocation fails, the cluster can enter a yellow or red state, potentially resulting in data loss. Thus, a solid understanding of shard allocation can help protect cluster availability. The [`GET /_cluster/allocation/explain`](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/) endpoint is a useful way to investigate why a shard was allocated to a particular node or why an allocation or rebalance was rejected.
 
 ## How OpenSearch Balances Shards Across Data Nodes
 
