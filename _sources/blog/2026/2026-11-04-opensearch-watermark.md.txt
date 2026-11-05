@@ -18,9 +18,7 @@ Data nodes need enough free disk space to accommodate new shards as indices are 
 
 For this design to work well, data nodes need available capacity for new shard allocations. If most of the free space is concentrated on a few nodes, the cluster may struggle to allocate new shards even when there is plenty of storage available elsewhere.
 
-When shard allocation fails, the cluster can enter a yellow or red state, affecting data availability. In a red state, at least one primary shard is unavailable, which can result in data loss if no recoverable copy exists. Understanding shard allocation is therefore important for protecting cluster availability.
-
-The [`GET /_cluster/allocation/explain`](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/) endpoint is useful for investigating why a shard was allocated to a particular node or why an allocation or rebalance was rejected.
+When shard allocation fails, the cluster can enter a yellow or red state, affecting data availability. In a red state, at least one primary shard is unavailable, which can result in data loss if no recoverable copy exists. Understanding shard allocation is therefore important for protecting cluster availability. The [`GET /_cluster/allocation/explain`](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/) endpoint is useful for investigating why a shard was allocated to a particular node or why an allocation or rebalance was rejected.
 
 ## How OpenSearch Balances Shards Across Data Nodes
 
@@ -30,9 +28,7 @@ The default weights are controlled by [`cluster.routing.allocation.balance.shard
 
 Shard size, however, is not a direct factor in this balancing model. As a result, two nodes can have a similar number of shards while consuming very different amounts of disk space. This can lead to unexpected results in production, especially in clusters with many small, granular indices. A node might hold dozens of tiny shards and use very little disk space, while another holds only a few large shards and is almost full. The shard distribution may look balanced, but disk usage tells a different story.
 
-The allocation process also considers other constraints that influence shard placement. These include disk availability, allocation filters, awareness across availability zones or racks, and limits on the number of shards per node. These mechanisms can prevent an allocation even when it would improve shard balance.
-
-For an overview of the available allocation deciders and their roles, see the [Common Allocators](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/#common-allocators) section in the OpenSearch documentation.
+The allocation process also considers other constraints that influence shard placement. These include disk availability, allocation filters, awareness across availability zones or racks, and limits on the number of shards per node. These mechanisms can prevent an allocation even when it would improve shard balance. For an overview of the available allocation deciders and their roles, see the [Common Allocators](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/#common-allocators) section in the OpenSearch documentation.
 
 ## Shard Allocation Mechanisms
 
@@ -63,11 +59,9 @@ With only 5 nodes available, each can hold up to 17 shards under this limit, all
 
 ---
 
-__Manual Shard Allocation__: Force allocation to specific Data node.
+__Manual Shard Allocation__: Force manually shard allocation to specific Data node.
 
-The Cluster Reroute API, [`POST /_cluster/reroute`](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/), allows administrators to manually move shards between nodes, among other operations.
-
-For example, imagine that `node1` is running low on disk space while `node2` has plenty of free capacity. You can simulate moving shard `0` of the `logs-2026.11` index from `node1` to `node2` with the following request:
+The Cluster Reroute API, [`POST /_cluster/reroute`](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/), allows administrators to manually move shards between nodes, among other operations. For example, imagine that `node1` is running low on disk space while `node2` has plenty of free capacity. You can simulate moving shard `0` of the `logs-2026.11` index from `node1` to `node2` with the following request:
 
 ```json
 POST /_cluster/reroute
@@ -89,9 +83,7 @@ Shard movement is still subject to allocation deciders. For example, OpenSearch 
 
 ## Balancing by Size: Disk Watermarks
 
-OpenSearch uses three disk watermarks to control shard allocation based on disk usage: `low`, `high`, and `flood_stage`. Each one defines a threshold that triggers a different action.
-
-Watermarks accept percentage-based values or absolute disk space values. Percentages are calculated relative to each node's total disk capacity. For example, consider a node with 1 TB of storage and the following configuration:
+OpenSearch uses three disk watermarks to control shard allocation based on disk usage: `low`, `high`, and `flood_stage`. Each one defines a threshold that triggers a different action. Watermarks accept percentage-based values or absolute disk space values. Percentages are calculated relative to each node's total disk capacity. For example, consider a node with 1 TB of storage and the following configuration:
 
 ```yaml
 # https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/
@@ -109,13 +101,9 @@ Disk usage is not a continuous balancing weight in the default allocator. Instea
 
 ## Watermark Limitation: One Setting For All Storage Tiers
 
-There is one limitation in the watermark design that I find particularly frustrating: __watermarks are global cluster settings__. You configure them once, and the same thresholds apply to every node, regardless of its storage tier.
+There is one limitation in the watermark design that I find particularly frustrating: __watermarks are global cluster settings__. You configure them once, and the same thresholds apply to every node, regardless of its storage tier. This becomes a problem in tiered clusters with hot, warm, and searchable nodes. Each tier has a different storage profile and a different cost per gigabyte. For example, a watermark that works well for warm nodes, where you want to use disk capacity efficiently before relocating shards, might be too aggressive for hot nodes. Hot nodes need more free space to handle indexing and query workloads. Yet OpenSearch gives you no way to configure different watermark thresholds for each tier.
 
-This becomes a problem in tiered clusters with hot, warm, and searchable nodes. Each tier has a different storage profile and a different cost per gigabyte. For example, a watermark that works well for warm nodes, where you want to use disk capacity efficiently before relocating shards, might be too aggressive for hot nodes. Hot nodes need more free space to handle indexing and query workloads. Yet OpenSearch gives you no way to configure different watermark thresholds for each tier.
-
-Another scenario worth considering is OpenSearch Dashboards [multi-tenancy](https://docs.opensearch.org/latest/security/multi-tenancy/multi-tenancy-config/). When [multi-tenancy](https://docs.opensearch.org/latest/security/multi-tenancy/multi-tenancy-config/) is enabled, each user has a private tenant with a dedicated index to store saved objects, such as visualizations, dashboards, and index patterns. Custom tenants also have their own indexes, while the global tenant is shared among users.
-
-In environments with many Dashboards users, this can result in a large number of small, granular indexes. Although each index may consume very little disk space, its shards still contribute to the total shard count considered by the default allocation strategy. This can make shard distribution less representative of actual disk usage, reinforcing the need to understand how shard count balancing and disk watermarks complement each other.
+Another scenario worth considering is OpenSearch Dashboards [multi-tenancy](https://docs.opensearch.org/latest/security/multi-tenancy/multi-tenancy-config/). When [multi-tenancy](https://docs.opensearch.org/latest/security/multi-tenancy/multi-tenancy-config/) is enabled, each user has a private tenant with a dedicated index to store saved objects, such as visualizations, dashboards, and index patterns. Custom tenants also have their own indexes, while the global tenant is shared among users. In environments with many Dashboards users, this can result in a large number of small, granular indexes. Although each index may consume very little disk space, its shards still contribute to the total shard count considered by the default allocation strategy. This can make shard distribution less representative of actual disk usage, reinforcing the need to understand how shard count balancing and disk watermarks complement each other.
 
 I'd like to see per-tier watermark configuration in OpenSearch. Until that happens, we're stuck with a single set of thresholds for the entire cluster. Keep this in mind when designing tiered clusters, because whatever values you choose will be a compromise across all storage tiers.
 
