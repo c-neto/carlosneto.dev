@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-05T01:57:59.533087+00:00</updated>
+  <updated>2026-11-05T02:03:46.273428+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -36,7 +36,9 @@
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;shards_limit&lt;/span&gt;&lt;/code&gt;: enforces configured shard limits per node.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;These deciders can prevent an allocation even when it would improve shard balance. The allocator determines where shards should ideally go, while the deciders evaluate whether those allocations are allowed.&lt;/p&gt;
-&lt;p&gt;The &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/"&gt;Cluster Allocation Explain API&lt;/a&gt; is useful for investigating these decisions. It shows which deciders allowed or rejected an allocation and provides explanations for their decisions.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;The &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/"&gt;Cluster Allocation Explain API&lt;/a&gt; is useful for investigating these decisions. It shows which deciders allowed or rejected an allocation and provides explanations for their decisions.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;/section&gt;
 &lt;section id="other-shard-allocation-mechanisms"&gt;
 &lt;h2&gt;Other Shard Allocation Mechanisms&lt;/h2&gt;

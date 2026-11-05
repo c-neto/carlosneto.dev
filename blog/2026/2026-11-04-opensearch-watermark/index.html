@@ -430,7 +430,9 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">shards_limit</span></code>: enforces configured shard limits per node.</p></li>
 </ul>
 <p>These deciders can prevent an allocation even when it would improve shard balance. The allocator determines where shards should ideally go, while the deciders evaluate whether those allocations are allowed.</p>
-<p>The <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/">Cluster Allocation Explain API</a> is useful for investigating these decisions. It shows which deciders allowed or rejected an allocation and provides explanations for their decisions.</p>
+<blockquote>
+<div><p><em>The <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/">Cluster Allocation Explain API</a> is useful for investigating these decisions. It shows which deciders allowed or rejected an allocation and provides explanations for their decisions.</em></p>
+</div></blockquote>
 </section>
 <section id="other-shard-allocation-mechanisms">
 <h2>Other Shard Allocation Mechanisms<a class="headerlink" href="#other-shard-allocation-mechanisms" title="Link to this heading">#</a></h2>
