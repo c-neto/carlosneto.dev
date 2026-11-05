@@ -435,8 +435,8 @@
 <section id="other-shard-allocation-mechanisms">
 <h2>Other Shard Allocation Mechanisms<a class="headerlink" href="#other-shard-allocation-mechanisms" title="Link to this heading">#</a></h2>
 <p>The default allocator is not the only mechanism that influences shard placement. OpenSearch provides additional allocation settings and APIs, although they do not all replace the default balancing strategy.</p>
-<section id="load-aware-allocation">
-<h3>Load-Aware Allocation<a class="headerlink" href="#load-aware-allocation" title="Link to this heading">#</a></h3>
+<hr class="docutils" />
+<p><strong>Load-Aware Allocation</strong>: Limits shard concentration when cluster capacity is reduced.</p>
 <p>Despite its name, Load-Aware Allocation does not monitor CPU utilization, memory usage, disk utilization, or indexing and search throughput to decide where shards should be allocated. Its purpose is more specific: to prevent surviving nodes from becoming overloaded with shards when the cluster loses nodes or operates below its provisioned capacity.</p>
 <p>For example, consider a cluster designed to run with 10 data nodes. If four nodes fail, the remaining six nodes may receive additional shards during recovery. Without an allocation limit, they could end up holding significantly more shards than originally intended.</p>
 <p>Load-Aware Allocation helps control this situation by considering the cluster’s provisioned capacity and the number of shards assigned to each node. It uses three main settings:</p>
@@ -452,11 +452,9 @@
 <blockquote>
 <div><p><em>For more details, see the <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">OpenSearch cluster management settings</a> and the <a class="reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java"><code class="docutils literal notranslate"><span class="pre">NodeLoadAwareAllocationDecider.java</span></code></a> implementation.</em></p>
 </div></blockquote>
-</section>
-<section id="manual-shard-allocation">
-<h3>Manual Shard Allocation<a class="headerlink" href="#manual-shard-allocation" title="Link to this heading">#</a></h3>
+<hr class="docutils" />
+<p><strong>Manual Shard Allocation</strong>: Allows administrators to manually move shards between nodes.</p>
 <p>The <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/">Cluster Reroute API</a> allows administrators to manually move shards between nodes, among other operations. This can be useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.</p>
-</section>
 </section>
 <section id="balancing-by-size-disk-watermarks">
 <h2>Balancing by Size: Disk Watermarks<a class="headerlink" href="#balancing-by-size-disk-watermarks" title="Link to this heading">#</a></h2>
