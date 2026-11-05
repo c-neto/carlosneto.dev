@@ -46,11 +46,9 @@ The default allocator is not the only mechanism that influences shard placement.
 
 ### Load-Aware Allocation
 
-Despite its name, Load-Aware Allocation does not monitor CPU utilization, memory usage, disk utilization, or indexing and search throughput to decide where shards should be allocated.
+Despite its name, Load-Aware Allocation does not monitor CPU utilization, memory usage, disk utilization, or indexing and search throughput to decide where shards should be allocated. Its purpose is more specific: to prevent surviving nodes from becoming overloaded with shards when the cluster loses nodes or operates below its provisioned capacity.
 
-Its purpose is more specific: to prevent surviving nodes from becoming overloaded with shards when the cluster loses nodes or operates below its provisioned capacity.
-
-For example, consider a cluster designed to run with 10 data nodes. If four nodes fail, the remaining six nodes may receive additional shards during recovery. Without an allocation limit, they could end up holding significantly more shards than originally intended.
+For example, consider a cluster designed to run with 10 data nodes. If four nodes fail, the remaining six nodes may receive additional shards during recovery. Without an allocation limit, they could end up holding significantly more shards than originally intended. 
 
 Load-Aware Allocation helps control this situation by considering the cluster's provisioned capacity and the number of shards assigned to each node. It uses three main settings:
 
@@ -66,19 +64,15 @@ This mechanism is implemented by [`NodeLoadAwareAllocationDecider.java`](https:/
 
 In short, Load-Aware Allocation is about controlling shard concentration when cluster capacity is reduced, not balancing shards according to the actual CPU or memory resources available on each node. It complements the default allocator and does not replace it with a resource-aware or size-based balancing strategy.
 
-For more details, see the [OpenSearch cluster management settings](https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/) and the [`NodeLoadAwareAllocationDecider` implementation](https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java).
+> _For more details, see the [OpenSearch cluster management settings](https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/) and the [`NodeLoadAwareAllocationDecider.java`](https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java) implementation._
 
 ### Manual Shard Allocation
 
-The [Cluster Reroute API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/) allows administrators to manually move shards between nodes, among other operations.
-
-This can be useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.
+The [Cluster Reroute API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/) allows administrators to manually move shards between nodes, among other operations. This can be useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.
 
 ## Balancing by Size: Disk Watermarks
 
-So how does OpenSearch account for disk usage? That's where **disk watermarks** come in.
-
-Watermark settings control shard allocation based on the percentage or absolute amount of disk space available on each node. They use three thresholds:
+So how does OpenSearch account for disk usage? That's where **disk watermarks** come in. Watermark settings control shard allocation based on the percentage or absolute amount of disk space available on each node. They use three thresholds:
 
 - `cluster.routing.allocation.disk.watermark.low`: when a node crosses this threshold, OpenSearch generally stops allocating new shards to it. One exception is primary shards of newly created indices. Existing shards remain in place.
 - `cluster.routing.allocation.disk.watermark.high`: when a node crosses this threshold, OpenSearch attempts to relocate shards to other nodes with more available disk space.
@@ -86,17 +80,13 @@ Watermark settings control shard allocation based on the percentage or absolute 
 
 Watermarks bring disk usage into shard allocation decisions. The default allocator balances shard distribution using shard counts and index distribution, while disk watermarks react to disk pressure and can trigger allocation changes when nodes get too full.
 
-More details: [OpenSearch cluster management settings](https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/).
+> _More details about mentioned settings: <https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/>._
 
-## My Thoughts on OpenSearch Watermark Design
-
-Understanding the difference between shard balancing and disk-based allocation helped me make sense of situations where disk usage varied significantly across nodes, even though the shard distribution looked balanced.
+## Watermark Limitation: One Setting For All Storage Tiers
 
 There is one limitation in the watermark design that I find particularly frustrating: **watermarks are global cluster settings**. You configure them once, and the same thresholds apply to every node, regardless of its storage tier.
 
-This becomes a problem in tiered clusters with hot, warm, and searchable nodes. Each tier has a different storage profile and a different cost per gigabyte.
-
-For example, a watermark that works well for warm nodes, where you want to use disk capacity efficiently before relocating shards, might be too aggressive for hot nodes. Hot nodes need more free space to handle indexing and query workloads. Yet OpenSearch gives you no way to configure different watermark thresholds for each tier.
+This becomes a problem in tiered clusters with hot, warm, and searchable nodes. Each tier has a different storage profile and a different cost per gigabyte. For example, a watermark that works well for warm nodes, where you want to use disk capacity efficiently before relocating shards, might be too aggressive for hot nodes. Hot nodes need more free space to handle indexing and query workloads. Yet OpenSearch gives you no way to configure different watermark thresholds for each tier.
 
 I'd like to see per-tier watermark configuration in OpenSearch. Until that happens, we're stuck with a single set of thresholds for the entire cluster. Keep this in mind when designing tiered clusters, because whatever values you choose will be a compromise across all storage tiers.
 
