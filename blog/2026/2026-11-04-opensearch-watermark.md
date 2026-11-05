@@ -36,41 +36,44 @@ The default allocator is not the only mechanism that influences shard placement.
 
 ---
 
-__Load-Aware Allocation__: Limits shard concentration when cluster capacity is reduced.
+__Load-Aware Allocation__: Limits shard concentration when cluster capacity is reduced, such as when data nodes fail. For example, consider a cluster designed to run with 10 data nodes. If 4 nodes fail, the remaining 6 may receive additional shards during recovery, increasing their shard counts.
 
-Despite its name, Load-Aware Allocation does not monitor CPU utilization, memory usage, disk utilization, or indexing and search throughput to decide where shards should be allocated. Its purpose is more specific: to prevent surviving nodes from becoming overloaded with shards when the cluster loses nodes or operates below its provisioned capacity.
+The following configuration tells OpenSearch that the cluster is provisioned for 10 nodes and defines how much shard-count imbalance is allowed:
 
-For example, consider a cluster designed to run with 10 data nodes. If four nodes fail, the remaining six nodes may receive additional shards during recovery. Without an allocation limit, they could end up holding significantly more shards than originally intended. 
+```yaml
+# >>> https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/
+cluster.routing.allocation.load_awareness.provisioned_capacity: 10
+cluster.routing.allocation.load_awareness.skew_factor: 50
+cluster.routing.allocation.load_awareness.flat_skew: 2
+cluster.routing.allocation.load_awareness.allow_unassigned_primaries: true
+```
 
-Load-Aware Allocation helps control this situation by considering the cluster's provisioned capacity and the number of shards assigned to each node. It uses three main settings:
+Even with only 6 nodes available, `provisioned_capacity` remains set to `10`, representing the cluster's intended capacity. The `skew_factor` allows a 50% deviation from the expected shard distribution, while `flat_skew` adds an allowance of 2 shards. Together, these settings determine when a node has too many shards to receive additional allocations.
 
-- [`cluster.routing.allocation.load_awareness.provisioned_capacity`](https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/): the number of nodes the cluster is provisioned to run. Its default value is `-1`, which disables this allocation control.
-- [`cluster.routing.allocation.load_awareness.skew_factor`](https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/): the percentage of shard-count imbalance allowed between nodes. Its default value is `50`.
-- [`cluster.routing.allocation.load_awareness.flat_skew`](https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/): an additional absolute allowance for shard-count imbalance. Its default value is `2`.
+The provisioned capacity must be updated whenever the cluster scales. The `allow_unassigned_primaries` setting controls whether new primary shards can still be allocated when the skew limit is exceeded.
 
-The provisioned capacity must be updated when the cluster scales up or down. Otherwise, the allocation limits may not reflect the cluster's intended capacity.
-
-There is also an important setting called [`cluster.routing.allocation.load_awareness.allow_unassigned_primaries`](https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/). It defaults to `true`, allowing newly created primary shards to be allocated even if doing so exceeds the configured skew limit. Setting it to `false` can leave primary shards unassigned and cause the cluster to turn red.
-
-This mechanism is implemented by [`NodeLoadAwareAllocationDecider.java`](https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java). Its implementation calculates an allowed shard count per node using the total number of shards, provisioned capacity, skew factor, and flat skew.
-
-In short, Load-Aware Allocation is about controlling shard concentration when cluster capacity is reduced, not balancing shards according to the actual CPU or memory resources available on each node. It complements the default allocator and does not replace it with a resource-aware or size-based balancing strategy.
+See the [NodeLoadAwareAllocationDecider.java](https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java) implementation for details.
 
 ---
 
-__Manual Shard Allocation__: Allows administrators to manually move shards between nodes.
-
-The [Cluster Reroute API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/) allows administrators to manually move shards between nodes, among other operations. This can be useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.
+__Manual Shard Allocation__: Allows administrators to manually move shards between nodes. The [Cluster Reroute API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/) allows administrators to manually move shards between nodes, among other operations. This can be useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.
 
 ## Balancing by Size: Disk Watermarks
 
-So how does OpenSearch account for disk usage? That's where __disk watermarks__ come in. Watermark settings control shard allocation based on the percentage or absolute amount of disk space available on each node. They use three thresholds:
+OpenSearch uses three disk watermarks to control shard allocation based on disk usage: `low`, `high`, and `flood_stage`. Each one defines a threshold that triggers a different action.
 
-- [`cluster.routing.allocation.disk.watermark.low`](https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/): when a node crosses this threshold, OpenSearch generally stops allocating new shards to it. One exception is primary shards of newly created indices. Existing shards remain in place.
-- [`cluster.routing.allocation.disk.watermark.high`](https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/): when a node crosses this threshold, OpenSearch attempts to relocate shards to other nodes with more available disk space.
-- [`cluster.routing.allocation.disk.watermark.flood_stage`](https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/): the last line of defense. When a node crosses this threshold, OpenSearch applies a read-only block to indices with shards on that node to prevent the disk from filling completely.
+Watermarks accept percentage-based values or absolute disk space values. Percentages are calculated relative to each node's total disk capacity. For example, consider a node with 1 TB of storage and the following configuration:
 
-Watermarks bring disk usage into shard allocation decisions. The default allocator balances shard distribution using shard counts and index distribution, while disk watermarks react to disk pressure and can trigger allocation changes when nodes get too full.
+```yaml
+# >>> https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/
+cluster.routing.allocation.disk.watermark.low: 85%
+cluster.routing.allocation.disk.watermark.high: 90%
+cluster.routing.allocation.disk.watermark.flood_stage: 95%
+```
+
+When disk usage reaches 85%, the `low` watermark prevents OpenSearch from allocating new shards to that node, except for primary shards of newly created indices. At 90%, the `high` watermark triggers shard relocation attempts to nodes with more available disk space. If usage reaches 95%, the `flood_stage` watermark applies a read-only block to indices with shards on that node to prevent the disk from running out of space.
+
+These percentages scale with disk capacity. A node with 10 TB of storage, for example, reaches the same thresholds at 8.5 TB, 9 TB, and 9.5 TB of used space. The default allocator balances shard counts and index distribution, while disk watermarks account for storage usage and trigger allocation or protection actions when nodes approach their disk limits.
 
 ## Watermark Limitation: One Setting For All Storage Tiers
 
