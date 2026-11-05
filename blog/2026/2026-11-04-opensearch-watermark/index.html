@@ -431,7 +431,7 @@
 </ul>
 <p>These deciders can prevent an allocation even when it would improve shard balance. The allocator determines where shards should ideally go, while the deciders evaluate whether those allocations are allowed.</p>
 <blockquote>
-<div><p><em>The <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/">Cluster Allocation Explain API</a> is useful for investigating these decisions. It shows which deciders allowed or rejected an allocation and provides explanations for their decisions.</em></p>
+<div><p><em>See <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/">https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/</a> to investigate these decisions. It shows which deciders allowed or rejected an allocation and provides explanations for their decisions.</em></p>
 </div></blockquote>
 </section>
 <section id="other-shard-allocation-mechanisms">
@@ -452,7 +452,7 @@
 <p>This mechanism is implemented by <a class="reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java"><code class="docutils literal notranslate"><span class="pre">NodeLoadAwareAllocationDecider.java</span></code></a>. Its implementation calculates an allowed shard count per node using the total number of shards, provisioned capacity, skew factor, and flat skew.</p>
 <p>In short, Load-Aware Allocation is about controlling shard concentration when cluster capacity is reduced, not balancing shards according to the actual CPU or memory resources available on each node. It complements the default allocator and does not replace it with a resource-aware or size-based balancing strategy.</p>
 <blockquote>
-<div><p><em>For more details, see the <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">OpenSearch cluster management settings</a> and the <a class="reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java"><code class="docutils literal notranslate"><span class="pre">NodeLoadAwareAllocationDecider.java</span></code></a> implementation.</em></p>
+<div><p><em>For more details, see <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/</a></em></p>
 </div></blockquote>
 <hr class="docutils" />
 <p><strong>Manual Shard Allocation</strong>: Allows administrators to manually move shards between nodes.</p>
@@ -468,7 +468,7 @@
 </ul>
 <p>Watermarks bring disk usage into shard allocation decisions. The default allocator balances shard distribution using shard counts and index distribution, while disk watermarks react to disk pressure and can trigger allocation changes when nodes get too full.</p>
 <blockquote>
-<div><p><em>More details about mentioned settings: <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/</a>.</em></p>
+<div><p><em>For more details, see <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/</a>.</em></p>
 </div></blockquote>
 </section>
 <section id="watermark-limitation-one-setting-for-all-storage-tiers">
