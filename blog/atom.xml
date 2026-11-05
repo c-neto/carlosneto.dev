@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-05T04:01:47.038288+00:00</updated>
+  <updated>2026-11-05T04:02:45.689008+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -50,8 +50,9 @@
 &lt;hr class="docutils" /&gt;
 &lt;p&gt;&lt;strong&gt;Manual Shard Allocation&lt;/strong&gt;: Force manually shard allocation to specific Data node.&lt;/p&gt;
 &lt;p&gt;The Cluster Reroute API, &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;POST&lt;/span&gt; &lt;span class="pre"&gt;/_cluster/reroute&lt;/span&gt;&lt;/code&gt;&lt;/a&gt;, allows administrators to manually move shards between nodes, among other operations. For example, imagine that &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node1&lt;/span&gt;&lt;/code&gt; is running low on disk space while &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node2&lt;/span&gt;&lt;/code&gt; has plenty of free capacity. You can simulate moving shard &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0&lt;/span&gt;&lt;/code&gt; of the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;logs-2026.11&lt;/span&gt;&lt;/code&gt; index from &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node1&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node2&lt;/span&gt;&lt;/code&gt; with the following request:&lt;/p&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;POST&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/rerou&lt;/span&gt;&lt;span class="kc"&gt;te&lt;/span&gt;
-&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;POST /_cluster/reroute&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"commands"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"move"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -64,6 +65,7 @@
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Shard movement is still subject to allocation deciders. For example, OpenSearch can reject the operation if the destination node does not have enough disk space or violates another allocation constraint. This API is useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.&lt;/p&gt;
 &lt;/section&gt;
