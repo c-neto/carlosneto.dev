@@ -6,6 +6,7 @@ sys.path.append(".")
 from pathlib import Path
 from social_media import add_social_media_js, SocialPost
 from tldr_ai import add_tldr_ai
+from giscus import add_giscus
 
 
 project = "Carlos Neto"
@@ -142,5 +143,7 @@ def setup(app):
     app.add_directive("socialpost", SocialPost)
     app.connect("html-page-context", add_social_media_js)
     app.connect("html-page-context", add_tldr_ai)
+    # Giscus runs late so it lands at the very bottom of the post body.
+    app.connect("html-page-context", add_giscus, priority=900)
     app.add_css_file("custom.css")
     app.add_css_file("tldr_ai.css")
