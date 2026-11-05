@@ -18,6 +18,8 @@ Data nodes need enough free disk space to accommodate new shards as indices are 
 
 For this design to work well, data nodes need available capacity for new shard allocations. If most of the free space is concentrated on a few nodes, the cluster may struggle to allocate new shards even when there is plenty of storage available elsewhere.
 
+When shard allocation fails, the cluster can enter a yellow or red state, potentially resulting in data loss. Thus, a solid understanding of shard allocation can help protect cluster availability. The [`/_cluster/allocation/explain`](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/) endpoint is a useful way to investigate why a shard was allocated to a particular node or why an allocation or rebalance was rejected.
+
 ## How OpenSearch Balances Shards Across Data Nodes
 
 OpenSearch's default shard allocator, [`BalancedShardsAllocator.java`](https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/allocator/BalancedShardsAllocator.java), uses a weighted balancing model. It considers both the total number of shards per node and how shards from each index are distributed across the nodes.
@@ -26,17 +28,9 @@ The default weights are controlled by [`cluster.routing.allocation.balance.shard
 
 Shard size, however, is not a direct factor in this balancing model. As a result, two nodes can have a similar number of shards while consuming very different amounts of disk space. This can lead to unexpected results in production, especially in clusters with many small, granular indices. A node might hold dozens of tiny shards and use very little disk space, while another holds only a few large shards and is almost full. The shard distribution may look balanced, but disk usage tells a different story.
 
-The allocator also works alongside other allocation deciders. These evaluate whether a shard can be allocated to a particular node. For example:
+The allocation process also considers other constraints that influence shard placement. These include disk availability, allocation filters, awareness across availability zones or racks, and limits on the number of shards per node. These mechanisms can prevent an allocation even when it would improve shard balance.
 
-- `disk_threshold`: checks whether the node has enough available disk space, based on the configured watermarks.
-- `filter`: enforces allocation rules based on node attributes.
-- `awareness`: helps distribute shard copies across failure domains, such as availability zones.
-- `same_shard`: prevents multiple copies of the same shard from being allocated to the same node.
-- `shards_limit`: enforces configured shard limits per node.
-
-These deciders can prevent an allocation even when it would improve shard balance. The allocator determines where shards should ideally go, while the deciders evaluate whether those allocations are allowed.
-
-> _See <https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/> to investigate these decisions. It shows which deciders allowed or rejected an allocation and provides explanations for their decisions._
+For an overview of the available allocation deciders and their roles, see the _Common Allocators_ section in the OpenSearch documentation: <https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/#common-allocators>
 
 ## Other Shard Allocation Mechanisms
 
