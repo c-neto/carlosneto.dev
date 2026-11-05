@@ -371,7 +371,7 @@
     </li>
       
     <li>
-      <a href="category/log-analytics/">Log Analytics (6)</a>
+      <a href="category/log-analytics/">Log Analytics (7)</a>
     </li>
       
     <li>
@@ -487,7 +487,7 @@
       <a href="tag/observability/">observability</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-3">
+    <li class="ablog-cloud ablog-cloud-5">
       <a href="tag/opensearch/">opensearch</a>
     </li>
       
@@ -530,6 +530,12 @@
   <ul>
      
     <li>
+      <a href="2026/2026-11-04-opensearch-watermark/">
+        04 November - OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks
+      </a>
+    </li>
+    
+    <li>
       <a href="2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/">
         03 November - Stop Extracting Metrics from OpenSearch Logs
       </a>
@@ -553,12 +559,6 @@
       </a>
     </li>
     
-    <li>
-      <a href="2026/2026-10-18-gnu-readline-foundation/">
-        18 October - GNU Readline: The Magic Behind Terminal Autocomplete
-      </a>
-    </li>
-    
   </ul>
 </div>
 </div>
@@ -570,7 +570,7 @@
   <ul>
      
     <li>
-      <a href="2026/">2026 (8)</a>
+      <a href="2026/">2026 (9)</a>
     </li>
       
     <li>
@@ -627,6 +627,54 @@
     </span>
   </h1>
    
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="2026/2026-11-04-opensearch-watermark/">OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>04 November 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+      
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="category/log-analytics/">Log Analytics</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tag"></i>
+      
+    </span>
+     
+    <a href="tag/opensearch/">opensearch</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/04</em></p>
+<p>This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage in clusters with many small indices, and how disk watermarks help address that. I’ll also discuss other allocation mechanisms and a limitation in the watermark design: it’s a cluster-wide setting, even in clusters with different storage tiers.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="2026/2026-11-04-opensearch-watermark/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
       <a href="2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/">Stop Extracting Metrics from OpenSearch Logs</a>

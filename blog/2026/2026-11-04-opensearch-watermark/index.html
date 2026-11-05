@@ -1,0 +1,606 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-11-04-opensearch-watermark/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/11/04 This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-04-opensearch-watermark_eb5bc264.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/04 This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage..." />
+<meta name="description" content="Blog Post Publish Date: 2026/11/04 This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=45791c5e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=6a56bcb6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2026/2026-11-04-opensearch-watermark';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../../genindex/" />
+    <link rel="search" title="Search" href="../../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   
+<div class="aor-tldr">
+  <img class="aor-tldr__marvin" src="../../../_static/marvin.jpg" alt="">
+  <span class="aor-tldr__copy">
+    <strong>AI TL;DR</strong>
+    <span>Too lazy to read? Summarize this post with:</span>
+  </span>
+  <span class="aor-tldr__buttons">
+    <a class="aor-tldr__btn" href="https://chatgpt.com/?q=Please+open+this+URL+with+web+search+and+read+the+full+article%3A+https%3A%2F%2Fcarlosneto.dev%2Fblog%2F2026%2F2026-11-04-opensearch-watermark%2F%0A%0AAfter+reading+the+real+content+of+that+article%2C+do+the+following%3A%0A1%29+Summarize+the+5+most+important+points+and+the+conclusion.%0A2%29+After+the+summary%2C+tell+the+reader+what+key+details%2C+data+and+insights+they+are+missing+by+not+reading+the+full+article.+Be+specific+enough+to+make+them+curious.%0A3%29+Remind+them+they+can+keep+asking+follow-up+questions+about+this+article+right+here+in+this+chat.%0A4%29+Suggest+one+good+follow-up+question+they+could+ask+as+a+starter.%0A%0AWrite+your+entire+answer+in+my+native+language.+Detect+it+from+the+language+I+use+to+talk+to+you%2C+and+if+it+is+not+clear%2C+ask+me+which+language+I+prefer+before+summarizing." target="_blank" rel="noopener"><svg class="aor-tldr__logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071.006l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071-.006l4.83 2.787a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/></svg><span>ChatGPT</span></a>
+    <a class="aor-tldr__btn" href="https://claude.ai/new?q=Please+open+this+URL+with+web+search+and+read+the+full+article%3A+https%3A%2F%2Fcarlosneto.dev%2Fblog%2F2026%2F2026-11-04-opensearch-watermark%2F%0A%0AAfter+reading+the+real+content+of+that+article%2C+do+the+following%3A%0A1%29+Summarize+the+5+most+important+points+and+the+conclusion.%0A2%29+After+the+summary%2C+tell+the+reader+what+key+details%2C+data+and+insights+they+are+missing+by+not+reading+the+full+article.+Be+specific+enough+to+make+them+curious.%0A3%29+Remind+them+they+can+keep+asking+follow-up+questions+about+this+article+right+here+in+this+chat.%0A4%29+Suggest+one+good+follow-up+question+they+could+ask+as+a+starter.%0A%0AWrite+your+entire+answer+in+my+native+language.+Detect+it+from+the+language+I+use+to+talk+to+you%2C+and+if+it+is+not+clear%2C+ask+me+which+language+I+prefer+before+summarizing." target="_blank" rel="noopener"><svg class="aor-tldr__logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.157-1.005.654-.72.878.06.225.061.89.683 1.9 1.47 2.48 1.826.364.303.145-.103.018-.072-.163-.274-1.354-2.446-1.446-2.49-.643-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.455.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.983-1.306 1.651-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.542-.28 1.84-.315.831.388.091.395-.328.807-1.967.486-2.307.462-3.436.813-.042.03.049.061 1.548.146.662.036h1.62l3.018.225.79.522.473.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.003 1.81 2.507 2.33.127.578-.32.455-.34-.049-2.204-1.657-.85-.746-1.925-1.62h-.127v.17l.443.649 2.343 3.521.122 1.08-.17.353-.607.213-.668-.122-1.372-1.925-1.415-2.167-1.14-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.631-.012-.042-.14.018-1.433 1.967-2.18 2.945-1.725 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312z"/></svg><span>Claude</span></a>
+    <a class="aor-tldr__btn" href="https://grok.com/?q=Please+open+this+URL+with+web+search+and+read+the+full+article%3A+https%3A%2F%2Fcarlosneto.dev%2Fblog%2F2026%2F2026-11-04-opensearch-watermark%2F%0A%0AAfter+reading+the+real+content+of+that+article%2C+do+the+following%3A%0A1%29+Summarize+the+5+most+important+points+and+the+conclusion.%0A2%29+After+the+summary%2C+tell+the+reader+what+key+details%2C+data+and+insights+they+are+missing+by+not+reading+the+full+article.+Be+specific+enough+to+make+them+curious.%0A3%29+Remind+them+they+can+keep+asking+follow-up+questions+about+this+article+right+here+in+this+chat.%0A4%29+Suggest+one+good+follow-up+question+they+could+ask+as+a+starter.%0A%0AWrite+your+entire+answer+in+my+native+language.+Detect+it+from+the+language+I+use+to+talk+to+you%2C+and+if+it+is+not+clear%2C+ask+me+which+language+I+prefer+before+summarizing." target="_blank" rel="noopener"><svg class="aor-tldr__logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M9.27 15.29l7.978-5.897c.391-.29.95-.177 1.137.272.98 2.369.542 5.215-1.41 7.169-1.951 1.954-4.667 2.382-7.149 1.406l-2.711 1.257c3.889 2.661 8.611 2.003 11.562-.953 2.341-2.344 3.066-5.539 2.388-8.42l.006.007c-.983-4.232.242-5.924 2.75-9.383.06-.082.12-.164.179-.248l-3.301 3.305v-.01L9.267 15.292M7.623 16.723c-2.792-2.666-2.31-6.825.058-9.195 1.751-1.754 4.584-2.465 7.17-1.414l2.705-1.25a7.808 7.808 0 00-1.364-.834c-3.004-1.416-6.724-.898-9.195 1.576-2.372 2.375-3.059 5.956-1.598 9.017 1.09 2.289-.885 5.323-2.368 7.17.922-.414 2.276-1.111 3.335-2.263.667-.726.667-.726 1.257-2.607z"/></svg><span>Grok</span></a>
+  </span>
+</div>
+<p><em><strong>Blog Post Publish Date:</strong> 2026/11/04</em></p>
+<hr class="docutils" />
+<section id="opensearch-shard-allocation-balanced-by-count-rebalanced-by-watermarks">
+<h1>OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks<a class="headerlink" href="#opensearch-shard-allocation-balanced-by-count-rebalanced-by-watermarks" title="Link to this heading">#</a></h1>
+<p>This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage in clusters with many small indices, and how disk watermarks help address that. I’ll also discuss other allocation mechanisms and a limitation in the watermark design: it’s a cluster-wide setting, even in clusters with different storage tiers.</p>
+<section id="why-shard-balance-matters">
+<h2>Why Shard Balance Matters<a class="headerlink" href="#why-shard-balance-matters" title="Link to this heading">#</a></h2>
+<p>Data nodes need enough free disk space to accommodate new shards as indices are created and existing data grows. This is especially relevant in OpenSearch because Lucene shards allow an index to be split across multiple nodes. Each shard handles part of the data, allowing indexing and search operations to run across the cluster.</p>
+<p>For this design to work well, data nodes need available capacity for new shard allocations. If most of the free space is concentrated on a few nodes, the cluster may struggle to allocate new shards even when there is plenty of storage available elsewhere.</p>
+</section>
+<section id="how-opensearch-balances-shards-across-data-nodes">
+<h2>How OpenSearch Balances Shards Across Data Nodes<a class="headerlink" href="#how-opensearch-balances-shards-across-data-nodes" title="Link to this heading">#</a></h2>
+<p>OpenSearch’s default shard allocator, <a class="reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/allocator/BalancedShardsAllocator.java"><code class="docutils literal notranslate"><span class="pre">BalancedShardsAllocator.java</span></code></a>, uses a weighted balancing model. It considers both the total number of shards per node and how shards from each index are distributed across the nodes.</p>
+<p>The default weights are controlled by <code class="docutils literal notranslate"><span class="pre">cluster.routing.allocation.balance.shard</span></code> and <code class="docutils literal notranslate"><span class="pre">cluster.routing.allocation.balance.index</span></code>. Their default values are <code class="docutils literal notranslate"><span class="pre">0.45</span></code> and <code class="docutils literal notranslate"><span class="pre">0.55</span></code>, respectively. You can find these settings in the <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">OpenSearch cluster management documentation</a>.</p>
+<p>Shard size, however, is not a direct factor in this balancing model. As a result, two nodes can have a similar number of shards while consuming very different amounts of disk space.</p>
+<p>This can lead to unexpected results in production, especially in clusters with many small, granular indices. A node might hold dozens of tiny shards and use very little disk space, while another holds only a few large shards and is almost full. The shard distribution may look balanced, but disk usage tells a different story.</p>
+<p>The allocator also works alongside other allocation deciders. These evaluate whether a shard can be allocated to a particular node. For example:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">disk_threshold</span></code>: checks whether the node has enough available disk space, based on the configured watermarks.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filter</span></code>: enforces allocation rules based on node attributes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">awareness</span></code>: helps distribute shard copies across failure domains, such as availability zones.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">same_shard</span></code>: prevents multiple copies of the same shard from being allocated to the same node.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shards_limit</span></code>: enforces configured shard limits per node.</p></li>
+</ul>
+<p>These deciders can prevent an allocation even when it would improve shard balance. The allocator determines where shards should ideally go, while the deciders evaluate whether those allocations are allowed.</p>
+<p>The <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/">Cluster Allocation Explain API</a> is useful for investigating these decisions. It shows which deciders allowed or rejected an allocation and provides explanations for their decisions.</p>
+</section>
+<section id="other-shard-allocation-mechanisms">
+<h2>Other Shard Allocation Mechanisms<a class="headerlink" href="#other-shard-allocation-mechanisms" title="Link to this heading">#</a></h2>
+<p>The default allocator is not the only mechanism that influences shard placement. OpenSearch provides additional allocation settings and APIs, although they do not all replace the default balancing strategy.</p>
+<section id="load-aware-allocation">
+<h3>Load-Aware Allocation<a class="headerlink" href="#load-aware-allocation" title="Link to this heading">#</a></h3>
+<p>Despite its name, Load-Aware Allocation does not monitor CPU utilization, memory usage, disk utilization, or indexing and search throughput to decide where shards should be allocated.</p>
+<p>Its purpose is more specific: to prevent surviving nodes from becoming overloaded with shards when the cluster loses nodes or operates below its provisioned capacity.</p>
+<p>For example, consider a cluster designed to run with 10 data nodes. If four nodes fail, the remaining six nodes may receive additional shards during recovery. Without an allocation limit, they could end up holding significantly more shards than originally intended.</p>
+<p>Load-Aware Allocation helps control this situation by considering the cluster’s provisioned capacity and the number of shards assigned to each node. It uses three main settings:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cluster.routing.allocation.load_awareness.provisioned_capacity</span></code>: the number of nodes the cluster is provisioned to run. Its default value is <code class="docutils literal notranslate"><span class="pre">-1</span></code>, which disables this allocation control.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cluster.routing.allocation.load_awareness.skew_factor</span></code>: the percentage of shard-count imbalance allowed between nodes. Its default value is <code class="docutils literal notranslate"><span class="pre">50</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cluster.routing.allocation.load_awareness.flat_skew</span></code>: an additional absolute allowance for shard-count imbalance. Its default value is <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+</ul>
+<p>The provisioned capacity must be updated when the cluster scales up or down. Otherwise, the allocation limits may not reflect the cluster’s intended capacity.</p>
+<p>There is also an important setting called <code class="docutils literal notranslate"><span class="pre">cluster.routing.allocation.load_awareness.allow_unassigned_primaries</span></code>. It defaults to <code class="docutils literal notranslate"><span class="pre">true</span></code>, allowing newly created primary shards to be allocated even if doing so exceeds the configured skew limit. Setting it to <code class="docutils literal notranslate"><span class="pre">false</span></code> can leave primary shards unassigned and cause the cluster to turn red.</p>
+<p>This mechanism is implemented by <a class="reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java"><code class="docutils literal notranslate"><span class="pre">NodeLoadAwareAllocationDecider.java</span></code></a>. Its implementation calculates an allowed shard count per node using the total number of shards, provisioned capacity, skew factor, and flat skew.</p>
+<p>In short, Load-Aware Allocation is about controlling shard concentration when cluster capacity is reduced, not balancing shards according to the actual CPU or memory resources available on each node. It complements the default allocator and does not replace it with a resource-aware or size-based balancing strategy.</p>
+<p>For more details, see the <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">OpenSearch cluster management settings</a> and the <a class="reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java"><code class="docutils literal notranslate"><span class="pre">NodeLoadAwareAllocationDecider</span></code> implementation</a>.</p>
+</section>
+<section id="manual-shard-allocation">
+<h3>Manual Shard Allocation<a class="headerlink" href="#manual-shard-allocation" title="Link to this heading">#</a></h3>
+<p>The <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/">Cluster Reroute API</a> allows administrators to manually move shards between nodes, among other operations.</p>
+<p>This can be useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.</p>
+</section>
+</section>
+<section id="balancing-by-size-disk-watermarks">
+<h2>Balancing by Size: Disk Watermarks<a class="headerlink" href="#balancing-by-size-disk-watermarks" title="Link to this heading">#</a></h2>
+<p>So how does OpenSearch account for disk usage? That’s where <strong>disk watermarks</strong> come in.</p>
+<p>Watermark settings control shard allocation based on the percentage or absolute amount of disk space available on each node. They use three thresholds:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cluster.routing.allocation.disk.watermark.low</span></code>: when a node crosses this threshold, OpenSearch generally stops allocating new shards to it. One exception is primary shards of newly created indices. Existing shards remain in place.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cluster.routing.allocation.disk.watermark.high</span></code>: when a node crosses this threshold, OpenSearch attempts to relocate shards to other nodes with more available disk space.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cluster.routing.allocation.disk.watermark.flood_stage</span></code>: the last line of defense. When a node crosses this threshold, OpenSearch applies a read-only block to indices with shards on that node to prevent the disk from filling completely.</p></li>
+</ul>
+<p>Watermarks bring disk usage into shard allocation decisions. The default allocator balances shard distribution using shard counts and index distribution, while disk watermarks react to disk pressure and can trigger allocation changes when nodes get too full.</p>
+<p>More details: <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">OpenSearch cluster management settings</a>.</p>
+</section>
+<section id="my-thoughts-on-opensearch-watermark-design">
+<h2>My Thoughts on OpenSearch Watermark Design<a class="headerlink" href="#my-thoughts-on-opensearch-watermark-design" title="Link to this heading">#</a></h2>
+<p>Understanding the difference between shard balancing and disk-based allocation helped me make sense of situations where disk usage varied significantly across nodes, even though the shard distribution looked balanced.</p>
+<p>There is one limitation in the watermark design that I find particularly frustrating: <strong>watermarks are global cluster settings</strong>. You configure them once, and the same thresholds apply to every node, regardless of its storage tier.</p>
+<p>This becomes a problem in tiered clusters with hot, warm, and searchable nodes. Each tier has a different storage profile and a different cost per gigabyte.</p>
+<p>For example, a watermark that works well for warm nodes, where you want to use disk capacity efficiently before relocating shards, might be too aggressive for hot nodes. Hot nodes need more free space to handle indexing and query workloads. Yet OpenSearch gives you no way to configure different watermark thresholds for each tier.</p>
+<p>I’d like to see per-tier watermark configuration in OpenSearch. Until that happens, we’re stuck with a single set of thresholds for the entire cluster. Keep this in mind when designing tiered clusters, because whatever values you choose will be a compromise across all storage tiers.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>BalancedShardsAllocator.java: <a class="github reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/allocator/BalancedShardsAllocator.java">opensearch-project/OpenSearch</a></p></li>
+<li><p>NodeLoadAwareAllocationDecider.java: <a class="github reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java">opensearch-project/OpenSearch</a></p></li>
+<li><p>OpenSearch Cluster Management Settings: <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/</a></p></li>
+<li><p>Cluster Settings API: <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/">https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/</a></p></li>
+<li><p>Cluster Allocation Explain API: <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/">https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/</a></p></li>
+<li><p>Shard Allocation Filtering: <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/index-apis/shard-allocation/">https://docs.opensearch.org/latest/api-reference/index-apis/shard-allocation/</a></p></li>
+<li><p>Cluster Reroute API: <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/">https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/</a></p></li>
+<li><p>ShardsAllocator Interface (OpenSearch source code): <a class="github reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/allocator/ShardsAllocator.java">opensearch-project/OpenSearch</a></p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+     
+<div class="section ablog__prev-next">
+  <span class="ablog__prev">
+     
+    <a href="../2026-11-03-stop-extracting-metrics-from-opensearch-logs/">
+      
+      <i class="fa fa-arrow-circle-left"></i>
+      
+      <span>Stop Extracting Metrics from OpenSearch Logs</span>
+    </a>
+    
+  </span>
+  <span class="ablog__spacer">&nbsp;</span>
+  <span class="ablog__next">
+    
+  </span>
+</div>
+  
+</div>
+
+                </article>
+              
+<!-- Add a comment box underneath the page's content -->
+<script 
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
