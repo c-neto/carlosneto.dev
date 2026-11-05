@@ -38,7 +38,7 @@ The allocator also works alongside other allocation deciders. These evaluate whe
 
 These deciders can prevent an allocation even when it would improve shard balance. The allocator determines where shards should ideally go, while the deciders evaluate whether those allocations are allowed.
 
-The [Cluster Allocation Explain API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/) is useful for investigating these decisions. It shows which deciders allowed or rejected an allocation and provides explanations for their decisions.
+> _The [Cluster Allocation Explain API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/) is useful for investigating these decisions. It shows which deciders allowed or rejected an allocation and provides explanations for their decisions._
 
 ## Other Shard Allocation Mechanisms
 
