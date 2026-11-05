@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-05T02:30:38.557117+00:00</updated>
+  <updated>2026-11-05T02:36:00.737643+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -20,7 +20,7 @@
 &lt;h2&gt;Why Shard Balance Matters&lt;/h2&gt;
 &lt;p&gt;Data nodes need enough free disk space to accommodate new shards as indices are created and existing data grows. This is especially relevant in OpenSearch because Lucene shards allow an index to be split across multiple nodes. Each shard handles part of the data, allowing indexing and search operations to run across the cluster.&lt;/p&gt;
 &lt;p&gt;For this design to work well, data nodes need available capacity for new shard allocations. If most of the free space is concentrated on a few nodes, the cluster may struggle to allocate new shards even when there is plenty of storage available elsewhere.&lt;/p&gt;
-&lt;p&gt;When shard allocation fails, the cluster can enter a yellow or red state, potentially resulting in data loss. Thus, a solid understanding of shard allocation can help protect cluster availability. The &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/_cluster/allocation/explain&lt;/span&gt;&lt;/code&gt;&lt;/a&gt; endpoint is a useful way to investigate why a shard was allocated to a particular node or why an allocation or rebalance was rejected.&lt;/p&gt;
+&lt;p&gt;When shard allocation fails, the cluster can enter a yellow or red state, potentially resulting in data loss. Thus, a solid understanding of shard allocation can help protect cluster availability. The &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cluster/allocation/explain&lt;/span&gt;&lt;/code&gt;&lt;/a&gt; endpoint is a useful way to investigate why a shard was allocated to a particular node or why an allocation or rebalance was rejected.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="how-opensearch-balances-shards-across-data-nodes"&gt;
 &lt;h2&gt;How OpenSearch Balances Shards Across Data Nodes&lt;/h2&gt;
