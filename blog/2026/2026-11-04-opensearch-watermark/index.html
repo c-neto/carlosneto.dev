@@ -423,8 +423,8 @@
 <p>The allocation process also considers other constraints that influence shard placement. These include disk availability, allocation filters, awareness across availability zones or racks, and limits on the number of shards per node. These mechanisms can prevent an allocation even when it would improve shard balance.</p>
 <p>For an overview of the available allocation deciders and their roles, see the <em>Common Allocators</em> section in the OpenSearch documentation: <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/#common-allocators">https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/#common-allocators</a></p>
 </section>
-<section id="other-shard-allocation-mechanisms">
-<h2>Other Shard Allocation Mechanisms<a class="headerlink" href="#other-shard-allocation-mechanisms" title="Link to this heading">#</a></h2>
+<section id="shard-allocation-mechanisms">
+<h2>Shard Allocation Mechanisms<a class="headerlink" href="#shard-allocation-mechanisms" title="Link to this heading">#</a></h2>
 <p>The default allocator is not the only mechanism that influences shard placement. OpenSearch provides additional allocation settings and APIs, although they do not all replace the default balancing strategy.</p>
 <hr class="docutils" />
 <p><strong>Load-Aware Allocation</strong>: Limits shard concentration when cluster capacity is reduced, such as when data nodes fail.</p>

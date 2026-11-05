@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-05T03:06:42.823233+00:00</updated>
+  <updated>2026-11-05T03:07:37.908831+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -29,8 +29,8 @@
 &lt;p&gt;The allocation process also considers other constraints that influence shard placement. These include disk availability, allocation filters, awareness across availability zones or racks, and limits on the number of shards per node. These mechanisms can prevent an allocation even when it would improve shard balance.&lt;/p&gt;
 &lt;p&gt;For an overview of the available allocation deciders and their roles, see the &lt;em&gt;Common Allocators&lt;/em&gt; section in the OpenSearch documentation: &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/#common-allocators"&gt;https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/#common-allocators&lt;/a&gt;&lt;/p&gt;
 &lt;/section&gt;
-&lt;section id="other-shard-allocation-mechanisms"&gt;
-&lt;h2&gt;Other Shard Allocation Mechanisms&lt;/h2&gt;
+&lt;section id="shard-allocation-mechanisms"&gt;
+&lt;h2&gt;Shard Allocation Mechanisms&lt;/h2&gt;
 &lt;p&gt;The default allocator is not the only mechanism that influences shard placement. OpenSearch provides additional allocation settings and APIs, although they do not all replace the default balancing strategy.&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;p&gt;&lt;strong&gt;Load-Aware Allocation&lt;/strong&gt;: Limits shard concentration when cluster capacity is reduced, such as when data nodes fail.&lt;/p&gt;

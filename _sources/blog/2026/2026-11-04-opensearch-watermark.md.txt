@@ -30,7 +30,7 @@ The allocation process also considers other constraints that influence shard pla
 
 For an overview of the available allocation deciders and their roles, see the _Common Allocators_ section in the OpenSearch documentation: <https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/#common-allocators>
 
-## Other Shard Allocation Mechanisms
+## Shard Allocation Mechanisms
 
 The default allocator is not the only mechanism that influences shard placement. OpenSearch provides additional allocation settings and APIs, although they do not all replace the default balancing strategy.
 
