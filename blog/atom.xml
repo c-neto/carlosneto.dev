@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-05T02:06:42.474470+00:00</updated>
+  <updated>2026-11-05T02:08:44.454202+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -25,8 +25,7 @@
 &lt;h2&gt;How OpenSearch Balances Shards Across Data Nodes&lt;/h2&gt;
 &lt;p&gt;OpenSearch’s default shard allocator, &lt;a class="reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/allocator/BalancedShardsAllocator.java"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;BalancedShardsAllocator.java&lt;/span&gt;&lt;/code&gt;&lt;/a&gt;, uses a weighted balancing model. It considers both the total number of shards per node and how shards from each index are distributed across the nodes.&lt;/p&gt;
 &lt;p&gt;The default weights are controlled by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;cluster.routing.allocation.balance.shard&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;cluster.routing.allocation.balance.index&lt;/span&gt;&lt;/code&gt;. Their default values are &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.45&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0.55&lt;/span&gt;&lt;/code&gt;, respectively. You can find these settings in the &lt;a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/"&gt;OpenSearch cluster management documentation&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Shard size, however, is not a direct factor in this balancing model. As a result, two nodes can have a similar number of shards while consuming very different amounts of disk space.&lt;/p&gt;
-&lt;p&gt;This can lead to unexpected results in production, especially in clusters with many small, granular indices. A node might hold dozens of tiny shards and use very little disk space, while another holds only a few large shards and is almost full. The shard distribution may look balanced, but disk usage tells a different story.&lt;/p&gt;
+&lt;p&gt;Shard size, however, is not a direct factor in this balancing model. As a result, two nodes can have a similar number of shards while consuming very different amounts of disk space. This can lead to unexpected results in production, especially in clusters with many small, granular indices. A node might hold dozens of tiny shards and use very little disk space, while another holds only a few large shards and is almost full. The shard distribution may look balanced, but disk usage tells a different story.&lt;/p&gt;
 &lt;p&gt;The allocator also works alongside other allocation deciders. These evaluate whether a shard can be allocated to a particular node. For example:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;disk_threshold&lt;/span&gt;&lt;/code&gt;: checks whether the node has enough available disk space, based on the configured watermarks.&lt;/p&gt;&lt;/li&gt;
