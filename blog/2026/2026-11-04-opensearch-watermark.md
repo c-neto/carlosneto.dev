@@ -24,9 +24,7 @@ OpenSearch's default shard allocator, [`BalancedShardsAllocator.java`](https://g
 
 The default weights are controlled by `cluster.routing.allocation.balance.shard` and `cluster.routing.allocation.balance.index`. Their default values are `0.45` and `0.55`, respectively. You can find these settings in the [OpenSearch cluster management documentation](https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/).
 
-Shard size, however, is not a direct factor in this balancing model. As a result, two nodes can have a similar number of shards while consuming very different amounts of disk space.
-
-This can lead to unexpected results in production, especially in clusters with many small, granular indices. A node might hold dozens of tiny shards and use very little disk space, while another holds only a few large shards and is almost full. The shard distribution may look balanced, but disk usage tells a different story.
+Shard size, however, is not a direct factor in this balancing model. As a result, two nodes can have a similar number of shards while consuming very different amounts of disk space. This can lead to unexpected results in production, especially in clusters with many small, granular indices. A node might hold dozens of tiny shards and use very little disk space, while another holds only a few large shards and is almost full. The shard distribution may look balanced, but disk usage tells a different story.
 
 The allocator also works alongside other allocation deciders. These evaluate whether a shard can be allocated to a particular node. For example:
 
