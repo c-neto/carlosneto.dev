@@ -427,18 +427,19 @@
 <h2>Other Shard Allocation Mechanisms<a class="headerlink" href="#other-shard-allocation-mechanisms" title="Link to this heading">#</a></h2>
 <p>The default allocator is not the only mechanism that influences shard placement. OpenSearch provides additional allocation settings and APIs, although they do not all replace the default balancing strategy.</p>
 <hr class="docutils" />
-<p><strong>Load-Aware Allocation</strong>: Limits shard concentration when cluster capacity is reduced, such as when data nodes fail. For example, consider a cluster designed to run with 10 data nodes. If 4 nodes fail, the remaining 6 may receive additional shards during recovery, increasing their shard counts.</p>
-<p>The following configuration tells OpenSearch that the cluster is provisioned for 10 nodes and defines how much shard-count imbalance is allowed:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># &gt;&gt;&gt; https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/</span>
+<p><strong>Load-Aware Allocation</strong>: Limits shard concentration when cluster capacity is reduced, such as when data nodes fail.</p>
+<p>For example, consider a cluster with 10 data nodes and 200 shards, initially holding 20 shards per node. If 4 nodes fail, the remaining 6 nodes need to accommodate their shards. Without load-aware allocation, each surviving node could end up with around 33 shards.</p>
+<p>The following configuration allows each node to receive up to 32 shards:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/</span>
+
 <span class="nt">cluster.routing.allocation.load_awareness.provisioned_capacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
 <span class="nt">cluster.routing.allocation.load_awareness.skew_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
 <span class="nt">cluster.routing.allocation.load_awareness.flat_skew</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
 <span class="nt">cluster.routing.allocation.load_awareness.allow_unassigned_primaries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </pre></div>
 </div>
-<p>Even with only 6 nodes available, <code class="docutils literal notranslate"><span class="pre">provisioned_capacity</span></code> remains set to <code class="docutils literal notranslate"><span class="pre">10</span></code>, representing the cluster’s intended capacity. The <code class="docutils literal notranslate"><span class="pre">skew_factor</span></code> allows a 50% deviation from the expected shard distribution, while <code class="docutils literal notranslate"><span class="pre">flat_skew</span></code> adds an allowance of 2 shards. Together, these settings determine when a node has too many shards to receive additional allocations.</p>
-<p>The provisioned capacity must be updated whenever the cluster scales. The <code class="docutils literal notranslate"><span class="pre">allow_unassigned_primaries</span></code> setting controls whether new primary shards can still be allocated when the skew limit is exceeded.</p>
-<p>See the <a class="reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java">NodeLoadAwareAllocationDecider.java</a> implementation for details.</p>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">provisioned_capacity</span></code> remains <code class="docutils literal notranslate"><span class="pre">10</span></code>, even after the failure, because it represents the intended cluster capacity. <code class="docutils literal notranslate"><span class="pre">skew_factor</span></code> allows 50% more shards than the original average (20), while <code class="docutils literal notranslate"><span class="pre">flat_skew</span></code> adds 2 extra shards, bringing the limit to 32 per node.</p>
+<p>With only 6 nodes available, this means up to 192 shards can be allocated. The remaining shards must wait for additional capacity. <code class="docutils literal notranslate"><span class="pre">allow_unassigned_primaries</span></code> controls whether new primary shards can bypass this limit.</p>
 <hr class="docutils" />
 <p><strong>Manual Shard Allocation</strong>: Allows administrators to manually move shards between nodes. The <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/">Cluster Reroute API</a> allows administrators to manually move shards between nodes, among other operations. This can be useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.</p>
 </section>
@@ -446,7 +447,8 @@
 <h2>Balancing by Size: Disk Watermarks<a class="headerlink" href="#balancing-by-size-disk-watermarks" title="Link to this heading">#</a></h2>
 <p>OpenSearch uses three disk watermarks to control shard allocation based on disk usage: <code class="docutils literal notranslate"><span class="pre">low</span></code>, <code class="docutils literal notranslate"><span class="pre">high</span></code>, and <code class="docutils literal notranslate"><span class="pre">flood_stage</span></code>. Each one defines a threshold that triggers a different action.</p>
 <p>Watermarks accept percentage-based values or absolute disk space values. Percentages are calculated relative to each node’s total disk capacity. For example, consider a node with 1 TB of storage and the following configuration:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># &gt;&gt;&gt; https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/</span>
+
 <span class="nt">cluster.routing.allocation.disk.watermark.low</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">85%</span>
 <span class="nt">cluster.routing.allocation.disk.watermark.high</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">90%</span>
 <span class="nt">cluster.routing.allocation.disk.watermark.flood_stage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">95%</span>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-05T02:54:38.180632+00:00</updated>
+  <updated>2026-11-05T03:06:42.823233+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -33,18 +33,19 @@
 &lt;h2&gt;Other Shard Allocation Mechanisms&lt;/h2&gt;
 &lt;p&gt;The default allocator is not the only mechanism that influences shard placement. OpenSearch provides additional allocation settings and APIs, although they do not all replace the default balancing strategy.&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;p&gt;&lt;strong&gt;Load-Aware Allocation&lt;/strong&gt;: Limits shard concentration when cluster capacity is reduced, such as when data nodes fail. For example, consider a cluster designed to run with 10 data nodes. If 4 nodes fail, the remaining 6 may receive additional shards during recovery, increasing their shard counts.&lt;/p&gt;
-&lt;p&gt;The following configuration tells OpenSearch that the cluster is provisioned for 10 nodes and defines how much shard-count imbalance is allowed:&lt;/p&gt;
-&lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/&lt;/span&gt;
+&lt;p&gt;&lt;strong&gt;Load-Aware Allocation&lt;/strong&gt;: Limits shard concentration when cluster capacity is reduced, such as when data nodes fail.&lt;/p&gt;
+&lt;p&gt;For example, consider a cluster with 10 data nodes and 200 shards, initially holding 20 shards per node. If 4 nodes fail, the remaining 6 nodes need to accommodate their shards. Without load-aware allocation, each surviving node could end up with around 33 shards.&lt;/p&gt;
+&lt;p&gt;The following configuration allows each node to receive up to 32 shards:&lt;/p&gt;
+&lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/&lt;/span&gt;
+
 &lt;span class="nt"&gt;cluster.routing.allocation.load_awareness.provisioned_capacity&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;10&lt;/span&gt;
 &lt;span class="nt"&gt;cluster.routing.allocation.load_awareness.skew_factor&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;50&lt;/span&gt;
 &lt;span class="nt"&gt;cluster.routing.allocation.load_awareness.flat_skew&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;2&lt;/span&gt;
 &lt;span class="nt"&gt;cluster.routing.allocation.load_awareness.allow_unassigned_primaries&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;true&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Even with only 6 nodes available, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;provisioned_capacity&lt;/span&gt;&lt;/code&gt; remains set to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;10&lt;/span&gt;&lt;/code&gt;, representing the cluster’s intended capacity. The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;skew_factor&lt;/span&gt;&lt;/code&gt; allows a 50% deviation from the expected shard distribution, while &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;flat_skew&lt;/span&gt;&lt;/code&gt; adds an allowance of 2 shards. Together, these settings determine when a node has too many shards to receive additional allocations.&lt;/p&gt;
-&lt;p&gt;The provisioned capacity must be updated whenever the cluster scales. The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;allow_unassigned_primaries&lt;/span&gt;&lt;/code&gt; setting controls whether new primary shards can still be allocated when the skew limit is exceeded.&lt;/p&gt;
-&lt;p&gt;See the &lt;a class="reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java"&gt;NodeLoadAwareAllocationDecider.java&lt;/a&gt; implementation for details.&lt;/p&gt;
+&lt;p&gt;Here, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;provisioned_capacity&lt;/span&gt;&lt;/code&gt; remains &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;10&lt;/span&gt;&lt;/code&gt;, even after the failure, because it represents the intended cluster capacity. &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;skew_factor&lt;/span&gt;&lt;/code&gt; allows 50% more shards than the original average (20), while &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;flat_skew&lt;/span&gt;&lt;/code&gt; adds 2 extra shards, bringing the limit to 32 per node.&lt;/p&gt;
+&lt;p&gt;With only 6 nodes available, this means up to 192 shards can be allocated. The remaining shards must wait for additional capacity. &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;allow_unassigned_primaries&lt;/span&gt;&lt;/code&gt; controls whether new primary shards can bypass this limit.&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;p&gt;&lt;strong&gt;Manual Shard Allocation&lt;/strong&gt;: Allows administrators to manually move shards between nodes. The &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/"&gt;Cluster Reroute API&lt;/a&gt; allows administrators to manually move shards between nodes, among other operations. This can be useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.&lt;/p&gt;
 &lt;/section&gt;
@@ -52,7 +53,8 @@
 &lt;h2&gt;Balancing by Size: Disk Watermarks&lt;/h2&gt;
 &lt;p&gt;OpenSearch uses three disk watermarks to control shard allocation based on disk usage: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;low&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;high&lt;/span&gt;&lt;/code&gt;, and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;flood_stage&lt;/span&gt;&lt;/code&gt;. Each one defines a threshold that triggers a different action.&lt;/p&gt;
 &lt;p&gt;Watermarks accept percentage-based values or absolute disk space values. Percentages are calculated relative to each node’s total disk capacity. For example, consider a node with 1 TB of storage and the following configuration:&lt;/p&gt;
-&lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# &amp;gt;&amp;gt;&amp;gt; https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/&lt;/span&gt;
+&lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/&lt;/span&gt;
+
 &lt;span class="nt"&gt;cluster.routing.allocation.disk.watermark.low&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;85%&lt;/span&gt;
 &lt;span class="nt"&gt;cluster.routing.allocation.disk.watermark.high&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;90%&lt;/span&gt;
 &lt;span class="nt"&gt;cluster.routing.allocation.disk.watermark.flood_stage&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;95%&lt;/span&gt;
