@@ -456,11 +456,27 @@
 </div>
 <p>This template only sets the default for new matching indices. Existing indices must be checked and updated separately, and explicit index settings can override the template. For that reason, replica configuration should also be validated and monitored to ensure that no index is left without the required redundancy.</p>
 </section>
-<section id="one-node-per-pod-across-availability-zones">
-<h3>2. One Node per Pod, Across Availability Zones<a class="headerlink" href="#one-node-per-pod-across-availability-zones" title="Link to this heading">#</a></h3>
-<p>Running one OpenSearch hot data node per Kubernetes pod makes node placement and lifecycle management easier to reason about. It also allows Kubernetes to enforce that two hot data pods do not run on the same worker node, reducing the chance that a single EC2 failure takes down multiple OpenSearch nodes. The following configuration uses node affinity to select dedicated hot-tier workers, pod anti-affinity to keep hot pods on separate Kubernetes nodes, and topology spread constraints to distribute them across Availability Zones.</p>
+<section id="use-statefulsets-for-hot-data-nodes">
+<h3>2. Use StatefulSets for Hot Data Nodes<a class="headerlink" href="#use-statefulsets-for-hot-data-nodes" title="Link to this heading">#</a></h3>
+<p>StatefulSets provide stable pod identities and predictable names, which are useful when managing OpenSearch nodes that use local storage. Unlike Deployments, StatefulSets maintain an ordinal identity for each pod and, by default, use the <code class="docutils literal notranslate"><span class="pre">OrderedReady</span></code> pod management policy. During a rolling update, Kubernetes updates or replaces pods one at a time and waits for each pod to become ready before proceeding. This behavior helps prevent multiple hot data nodes from being replaced simultaneously.</p>
+<p>Stable pod names are also useful when decommissioning or migrating nodes. For example, before removing <code class="docutils literal notranslate"><span class="pre">opensearch-hot-3</span></code>, you can ask OpenSearch to relocate its shards to other nodes by excluding it from shard allocation:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">opensearch-data-hot-statefulset.yaml</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="code-block-caption"><span class="caption-text">PUT /_cluster/settings</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"opensearch-hot-3"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>OpenSearch will then relocate the shards away from the excluded node. Once relocation is complete, the node can be safely removed from the cluster. This requires the OpenSearch <code class="docutils literal notranslate"><span class="pre">node.name</span></code> to match the pod identity used in the exclusion setting. After the decommissioning operation, remember to clear the exclusion setting so that the node can participate in shard allocation again.</p>
+</section>
+<section id="one-node-per-pod-across-availability-zones">
+<h3>3. One Node per Pod, Across Availability Zones<a class="headerlink" href="#one-node-per-pod-across-availability-zones" title="Link to this heading">#</a></h3>
+<p>Running one OpenSearch hot data node per Kubernetes pod makes node placement and lifecycle management easier to reason about. It also allows Kubernetes to enforce that two hot data pods do not run on the same worker node, reducing the chance that a single EC2 failure takes down multiple OpenSearch nodes. The following configuration uses node affinity to select dedicated hot-tier workers, pod anti-affinity to keep hot pods on separate Kubernetes nodes, and topology spread constraints to distribute them across Availability Zones.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">opensearch-data-hot-statefulset.yaml</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">template</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
@@ -505,30 +521,14 @@
 </div>
 </div>
 <p>Kubernetes controls where pods run, but OpenSearch must also understand the underlying failure domains when allocating shards. Its allocation awareness feature allows the cluster to distribute primary and replica shards across Availability Zones, reducing the risk of placing both copies in the same zone. To enable it, configure the zone as an allocation awareness attribute and provide the corresponding attribute on every OpenSearch node.</p>
-<div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">opensearch.yaml</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">opensearch.yaml</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">cluster.routing.allocation.awareness.attributes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zone</span>
 <span class="nt">node.attr.zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
 </pre></div>
 </div>
 </div>
 <p>The value of <code class="docutils literal notranslate"><span class="pre">node.attr.zone</span></code> must reflect the actual Availability Zone where each node is running. This configuration complements Kubernetes scheduling: Kubernetes spreads pods across zones, while OpenSearch uses the zone attribute to distribute shard copies across those same failure domains.</p>
-</section>
-<section id="use-statefulsets-for-hot-data-nodes">
-<h3>3. Use StatefulSets for Hot Data Nodes<a class="headerlink" href="#use-statefulsets-for-hot-data-nodes" title="Link to this heading">#</a></h3>
-<p>StatefulSets provide stable pod identities and predictable names, which are useful when managing OpenSearch nodes that use local storage. Unlike Deployments, StatefulSets maintain an ordinal identity for each pod and, by default, use the <code class="docutils literal notranslate"><span class="pre">OrderedReady</span></code> pod management policy. During a rolling update, Kubernetes updates or replaces pods one at a time and waits for each pod to become ready before proceeding. This behavior helps prevent multiple hot data nodes from being replaced simultaneously.</p>
-<p>Stable pod names are also useful when decommissioning or migrating nodes. For example, before removing <code class="docutils literal notranslate"><span class="pre">opensearch-hot-3</span></code>, you can ask OpenSearch to relocate its shards to other nodes by excluding it from shard allocation:</p>
-<div class="literal-block-wrapper docutils container" id="id4">
-<div class="code-block-caption"><span class="caption-text">PUT /_cluster/settings</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"opensearch-hot-3"</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-<p>OpenSearch will then relocate the shards away from the excluded node. Once relocation is complete, the node can be safely removed from the cluster. This requires the OpenSearch <code class="docutils literal notranslate"><span class="pre">node.name</span></code> to match the pod identity used in the exclusion setting. After the decommissioning operation, remember to clear the exclusion setting so that the node can participate in shard allocation again.</p>
 </section>
 <section id="use-a-readiness-probe-to-wait-for-cluster-green">
 <h3>4. Use a Readiness Probe to Wait for Cluster Green<a class="headerlink" href="#use-a-readiness-probe-to-wait-for-cluster-green" title="Link to this heading">#</a></h3>
@@ -572,6 +572,9 @@
 </section>
 <section id="control-node-disruptions-with-karpenter">
 <h3>6. Control Node Disruptions with Karpenter<a class="headerlink" href="#control-node-disruptions-with-karpenter" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>I’ll use Karpenter as an example. However, the logic behind it remains the same for any node scheduling.</p>
+</div></blockquote>
 <p>Karpenter can replace nodes for several reasons, including consolidation and drift from the desired NodePool configuration. For workloads using Instance Store, these operations require special attention because terminating a node permanently destroys its local data. Karpenter provides mechanisms to control voluntary disruptions, allowing node replacement to be coordinated with OpenSearch shard recovery.</p>
 <p>One option is to add the <code class="docutils literal notranslate"><span class="pre">karpenter.sh/do-not-disrupt</span></code> annotation to the pod template. This tells Karpenter not to voluntarily disrupt the annotated pod, subject to documented exceptions.</p>
 <div class="literal-block-wrapper docutils container" id="id7">
