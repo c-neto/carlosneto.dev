@@ -1,5 +1,5 @@
 ---
-tags: opensearch, aws, kubernetes, performance
+tags: opensearch, aws, kubernetes
 date: "2026-11-08"
 category: Log Analytics
 ---
@@ -8,7 +8,7 @@ category: Log Analytics
 
 ---
 
-# OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage Performance
+# OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage
 
 This blog post covers how to run OpenSearch on EC2 Instance Store, from storage performance and shard replication to multi-AZ placement, safe rollouts, data migration, and disruption control with Kubernetes and Karpenter.
 
