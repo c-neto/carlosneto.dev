@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-08T18:58:20.082331+00:00</updated>
+  <updated>2026-11-08T18:59:29.258275+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -15,7 +15,7 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="opensearch-ec2-instance-store-a-disruptive-approach-to-hot-tier-storage"&gt;
 
-&lt;p&gt;This blog post covers how to run OpenSearch on EC2 Instance Store, from storage performance and shard replication to multi-AZ placement, safe rollouts, data migration, and disruption control with Kubernetes and Karpenter.&lt;/p&gt;
+&lt;p&gt;This blog post covers an architectural approach for running the OpenSearch Hot Data Tier using EC2 Instance Store (local NVMe) instead of EBS, exploring performance gains and how to manage the risks of data loss through OpenSearch replication, Kubernetes, and Karpenter.&lt;/p&gt;
 &lt;section id="instance-store-less-durability-more-performance"&gt;
 &lt;h2&gt;Instance Store: Less Durability, More Performance&lt;/h2&gt;
 &lt;p&gt;I’ve been managing OpenSearch clusters on EKS for over five years, handling ingestion rates of around 70K ~ 100K documents per second. During this time, I’ve worked on improving indexing throughput, reducing query latency, and optimizing infrastructure costs. One of the most important changes was introducing hot, warm, and cold storage tiers to handle different data access patterns more efficiently. As the clusters grew, however, the hot tier eventually became a performance bottleneck.&lt;/p&gt;
@@ -189,7 +189,7 @@
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-08-opensearch-hot-instance-store/"/>
-    <summary>Blog Post Publish Date: 2026/11/08This blog post covers how to run OpenSearch on EC2 Instance Store, from storage performance and shard replication to multi-AZ placement, safe rollouts, data migration, and disruption control with Kubernetes and Karpenter.</summary>
+    <summary>Blog Post Publish Date: 2026/11/08This blog post covers an architectural approach for running the OpenSearch Hot Data Tier using EC2 Instance Store (local NVMe) instead of EBS, exploring performance gains and how to manage the risks of data loss through OpenSearch replication, Kubernetes, and Karpenter.</summary>
     <category term="aws" label="aws"/>
     <category term="kubernetes" label="kubernetes"/>
     <category term="opensearch" label="opensearch"/>
