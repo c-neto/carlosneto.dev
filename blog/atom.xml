@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-08T17:28:02.210804+00:00</updated>
+  <updated>2026-11-08T17:34:03.539628+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -207,8 +207,8 @@
 &lt;p&gt;These mechanisms protect against different types of disruption. The readiness probe, combined with the StatefulSet’s &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;OrderedReady&lt;/span&gt;&lt;/code&gt; policy, controls the sequence of pod replacements during a StatefulSet rolling update. The PodDisruptionBudget limits voluntary evictions, such as those performed during Karpenter node draining, but does not prevent StatefulSet-initiated pod replacements. The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;karpenter.sh/do-not-disrupt&lt;/span&gt;&lt;/code&gt; annotation blocks voluntary Karpenter disruptions for the annotated pod, subject to Karpenter’s documented exceptions. None of these mechanisms protects against unexpected infrastructure failures, such as an EC2 instance interruption.&lt;/p&gt;
 &lt;/section&gt;
 &lt;/section&gt;
-&lt;section id="post-takeaways"&gt;
-&lt;h2&gt;Post Takeaways&lt;/h2&gt;
+&lt;section id="takeaways"&gt;
+&lt;h2&gt;Takeaways&lt;/h2&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;Instance Store can improve hot-tier performance: Local NVMe provides high I/O performance and can reduce storage costs compared with EBS.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Replication makes ephemeral storage viable: Every index needs replicas, and shard copies must be distributed across independent failure domains.&lt;/p&gt;&lt;/li&gt;

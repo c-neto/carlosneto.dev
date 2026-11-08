@@ -218,7 +218,7 @@ This blocks voluntary drift-related replacements while the budget is active. Whe
 
 These mechanisms protect against different types of disruption. The readiness probe, combined with the StatefulSet's `OrderedReady` policy, controls the sequence of pod replacements during a StatefulSet rolling update. The PodDisruptionBudget limits voluntary evictions, such as those performed during Karpenter node draining, but does not prevent StatefulSet-initiated pod replacements. The `karpenter.sh/do-not-disrupt` annotation blocks voluntary Karpenter disruptions for the annotated pod, subject to Karpenter's documented exceptions. None of these mechanisms protects against unexpected infrastructure failures, such as an EC2 instance interruption.
 
-## Post Takeaways
+## Takeaways
 
 - Instance Store can improve hot-tier performance: Local NVMe provides high I/O performance and can reduce storage costs compared with EBS.
 - Replication makes ephemeral storage viable: Every index needs replicas, and shard copies must be distributed across independent failure domains.
