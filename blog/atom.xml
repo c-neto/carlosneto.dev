@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-08T19:02:23.556421+00:00</updated>
+  <updated>2026-11-08T19:06:12.603122+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -45,7 +45,7 @@
 &lt;section id="running-instance-store-safely-on-kubernetes"&gt;
 &lt;h2&gt;Running Instance Store Safely on Kubernetes&lt;/h2&gt;
 &lt;p&gt;The following six mechanisms combine OpenSearch capabilities with Kubernetes and Karpenter features to reduce the risk of data loss. They address three important areas: shard redundancy, workload placement, and controlled node replacement.&lt;/p&gt;
-&lt;p&gt;NOTE: These mechanisms mitigate risks under controlled failure scenarios, but they cannot guarantee durability. If multiple nodes fail before OpenSearch can recover their shard copies, data loss is still possible. Using Instance Store means accepting this durability trade-off in exchange for performance. EBS remains the safer choice when data durability is the priority.&lt;/p&gt;
+&lt;p&gt;It is important reinforce that these mechanisms mitigate risks under controlled failure scenarios, but they cannot guarantee durability. If multiple nodes fail before OpenSearch can recover their shard copies, data loss is still possible. Using Instance Store means accepting this durability trade-off in exchange for performance. EBS remains the safer choice when data durability is the priority.&lt;/p&gt;
 &lt;section id="ensure-all-indices-have-replicas"&gt;
 &lt;h3&gt;1. Ensure All Indices Have Replicas&lt;/h3&gt;
 &lt;p&gt;Every index stored on Instance Store nodes should have at least one replica. Without replicas, a node failure can permanently remove the only copy of a shard. An index template can establish a default replica count for newly created indices, ensuring that indices matching the configured pattern are created with the expected redundancy.&lt;/p&gt;
