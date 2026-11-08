@@ -2,18 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-08T18:55:38.878704+00:00</updated>
+  <updated>2026-11-08T18:56:23.702233+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering</subtitle>
   <entry>
     <id>https://carlosneto.dev/blog/2026/2026-11-08-opensearch-hot-instance-store/</id>
-    <title>OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage Performance</title>
+    <title>OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage</title>
     <updated>2026-11-08T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/11/08&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;section id="opensearch-ec2-instance-store-a-disruptive-approach-to-hot-tier-storage-performance"&gt;
+&lt;section id="opensearch-ec2-instance-store-a-disruptive-approach-to-hot-tier-storage"&gt;
 
 &lt;p&gt;This blog post covers how to run OpenSearch on EC2 Instance Store, from storage performance and shard replication to multi-AZ placement, safe rollouts, data migration, and disruption control with Kubernetes and Karpenter.&lt;/p&gt;
 &lt;section id="instance-store-less-durability-more-performance"&gt;
@@ -193,7 +193,6 @@
     <category term="aws" label="aws"/>
     <category term="kubernetes" label="kubernetes"/>
     <category term="opensearch" label="opensearch"/>
-    <category term="performance" label="performance"/>
     <published>2026-11-08T00:00:00+00:00</published>
   </entry>
   <entry>
