@@ -27,7 +27,7 @@ PROMPT_TEMPLATE = (
     "3) Remind them they can keep asking follow-up questions about this article "
     "right here in this chat.\n"
     "4) Suggest one good follow-up question they could ask as a starter.\n\n"
-    "Be concise, it is a summary. \n\n"
+    "Be concise, use few words. It is a summary. \n\n"
     "Write your entire answer in my native language. Detect it from the "
     "language I use to talk to you, and if it is not clear, ask me which "
     "language I prefer before summarizing."
