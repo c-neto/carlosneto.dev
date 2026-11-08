@@ -579,42 +579,6 @@
 <li><p>The risks of using Instance Store can be controlled through application-level data replication mechanisms and Kubernetes guardrails.</p></li>
 </ul>
 </section>
-<section id="references">
-<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p><a class="reference external" href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html">Amazon EC2 Instance Store</a>: Overview of instance-attached ephemeral storage and its lifecycle.</p></li>
-<li><p><a class="reference external" href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-store-nvme.html">NVMe Instance Store volumes</a>: NVMe-specific details for EC2 Instance Store volumes.</p></li>
-<li><p><a class="reference external" href="https://docs.aws.amazon.com/ebs/latest/userguide/what-is-ebs.html">Amazon EBS</a>: Persistent block storage for EC2.</p></li>
-<li><p><a class="reference external" href="https://aws.amazon.com/ec2/instance-types/storage-optimized">Storage Optimized EC2 instances</a>: EC2 families designed for high local-storage performance.</p></li>
-<li><p><a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/performance">Tuning Your Cluster for Indexing Speed (OpenSearch)</a>: Official indexing and storage performance guidance.</p></li>
-<li><p><a class="reference external" href="https://clickhouse.com/blog/posette-talk-recap-postgres-isnt-slow-your-storage-is">Postgres Isn’t Slow. Your Storage Is (ClickHouse)</a>: EBS gp3 and local NVMe benchmark discussion.</p></li>
-<li><p><a class="reference external" href="https://www.storagereview.com/review/amazon-ec2-i3-metal-review">Amazon EC2 i3.metal Review (StorageReview)</a>: Storage performance measurements for EBS and local NVMe.</p></li>
-<li><p><a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards">Replica Shards</a>: How OpenSearch uses replica shards for availability and recovery.</p></li>
-<li><p><a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/index-templates">Index Templates</a>: Configure default settings for newly created indices.</p></li>
-<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-health">Cluster Health API</a>: Inspect cluster health and wait for a target status.</p></li>
-<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-awareness">Index Shard Allocation Awareness</a>: Distribute shard copies across failure domains such as Availability Zones.</p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset">StatefulSets</a>: Stable pod identity and ordered deployment behavior.</p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/">StatefulSet Deployment and Scaling Guarantees</a>: <code class="docutils literal notranslate"><span class="pre">OrderedReady</span></code> behavior during updates.</p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/">Assigning Pods to Nodes: Node Affinity</a>: Select nodes using labels and scheduling constraints.</p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/">Pod Affinity and Anti-Affinity</a>: Keep selected pods on separate nodes.</p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints">Topology Spread Constraints</a>: Spread pods across topology domains.</p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes">Liveness, Readiness, and Startup Probes</a>: Configure application health checks.</p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/tasks/run-application/configure-pdb">Configure a PodDisruptionBudget</a>: Limit voluntary disruptions to application pods.</p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/api-eviction">Kubernetes API-initiated Eviction</a>: How voluntary pod eviction is requested and processed.</p></li>
-<li><p><a class="reference external" href="https://karpenter.sh/docs">Karpenter Documentation</a>: Main documentation.</p></li>
-<li><p><a class="reference external" href="https://karpenter.sh/docs/concepts/disruption">Disruption</a>: Overview of graceful and forceful disruption methods, control flow, and safeguards.</p></li>
-<li><p><a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/">Consolidation</a>: How Karpenter removes or replaces underutilized nodes.</p></li>
-<li><p><a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/">Drift</a>: How Karpenter detects nodes that no longer match the desired NodePool or EC2NodeClass configuration.</p></li>
-<li><p><a class="reference external" href="https://karpenter.sh/docs/concepts/nodepools">NodePool</a>: Configure node provisioning and lifecycle behavior.</p></li>
-<li><p><a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/">NodePool Disruption Budgets</a>: Rate-limit voluntary disruptions, including drift and consolidation.</p></li>
-<li><p><a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/">Pod-level Disruption Controls (<code class="docutils literal notranslate"><span class="pre">karpenter.sh/do-not-disrupt</span></code>)</a>: Prevent selected pods from being voluntarily disrupted, subject to documented exceptions.</p></li>
-<li><p><a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/">Node-level Disruption Controls</a>: Prevent voluntary disruption of selected nodes.</p></li>
-<li><p><a class="reference external" href="https://karpenter.sh/docs/faq">Disruption FAQ</a>: Additional explanations of Karpenter disruption behavior.</p></li>
-<li><p><a class="reference external" href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">Amazon EKS</a>: Managed Kubernetes on AWS.</p></li>
-<li><p><a class="reference external" href="https://lucene.apache.org/core/9_12_0/core/org/apache/lucene/search/package-summary.html">Apache Lucene Search Package</a>: Search primitives used by OpenSearch.</p></li>
-<li><p><a class="reference external" href="https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/availability-zones.html">AWS Availability Zones</a>: AWS fault-isolation boundaries.</p></li>
-</ul>
-</section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->

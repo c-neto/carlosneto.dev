@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-08T19:19:37.122688+00:00</updated>
+  <updated>2026-11-08T19:23:38.498303+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -184,42 +184,6 @@
 &lt;li&gt;&lt;p&gt;For the OpenSearch Hot Data Tier, Instance Store delivers better performance.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Instance Store is lost when the EC2 node fails, making it a riskier approach.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;The risks of using Instance Store can be controlled through application-level data replication mechanisms and Kubernetes guardrails.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/section&gt;
-&lt;section id="references"&gt;
-&lt;h2&gt;References&lt;/h2&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html"&gt;Amazon EC2 Instance Store&lt;/a&gt;: Overview of instance-attached ephemeral storage and its lifecycle.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-store-nvme.html"&gt;NVMe Instance Store volumes&lt;/a&gt;: NVMe-specific details for EC2 Instance Store volumes.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.aws.amazon.com/ebs/latest/userguide/what-is-ebs.html"&gt;Amazon EBS&lt;/a&gt;: Persistent block storage for EC2.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://aws.amazon.com/ec2/instance-types/storage-optimized"&gt;Storage Optimized EC2 instances&lt;/a&gt;: EC2 families designed for high local-storage performance.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/performance"&gt;Tuning Your Cluster for Indexing Speed (OpenSearch)&lt;/a&gt;: Official indexing and storage performance guidance.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://clickhouse.com/blog/posette-talk-recap-postgres-isnt-slow-your-storage-is"&gt;Postgres Isn’t Slow. Your Storage Is (ClickHouse)&lt;/a&gt;: EBS gp3 and local NVMe benchmark discussion.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.storagereview.com/review/amazon-ec2-i3-metal-review"&gt;Amazon EC2 i3.metal Review (StorageReview)&lt;/a&gt;: Storage performance measurements for EBS and local NVMe.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards"&gt;Replica Shards&lt;/a&gt;: How OpenSearch uses replica shards for availability and recovery.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/index-templates"&gt;Index Templates&lt;/a&gt;: Configure default settings for newly created indices.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-health"&gt;Cluster Health API&lt;/a&gt;: Inspect cluster health and wait for a target status.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-awareness"&gt;Index Shard Allocation Awareness&lt;/a&gt;: Distribute shard copies across failure domains such as Availability Zones.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset"&gt;StatefulSets&lt;/a&gt;: Stable pod identity and ordered deployment behavior.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"&gt;StatefulSet Deployment and Scaling Guarantees&lt;/a&gt;: &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;OrderedReady&lt;/span&gt;&lt;/code&gt; behavior during updates.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/"&gt;Assigning Pods to Nodes: Node Affinity&lt;/a&gt;: Select nodes using labels and scheduling constraints.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/"&gt;Pod Affinity and Anti-Affinity&lt;/a&gt;: Keep selected pods on separate nodes.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints"&gt;Topology Spread Constraints&lt;/a&gt;: Spread pods across topology domains.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes"&gt;Liveness, Readiness, and Startup Probes&lt;/a&gt;: Configure application health checks.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/tasks/run-application/configure-pdb"&gt;Configure a PodDisruptionBudget&lt;/a&gt;: Limit voluntary disruptions to application pods.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/api-eviction"&gt;Kubernetes API-initiated Eviction&lt;/a&gt;: How voluntary pod eviction is requested and processed.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://karpenter.sh/docs"&gt;Karpenter Documentation&lt;/a&gt;: Main documentation.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption"&gt;Disruption&lt;/a&gt;: Overview of graceful and forceful disruption methods, control flow, and safeguards.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/"&gt;Consolidation&lt;/a&gt;: How Karpenter removes or replaces underutilized nodes.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/"&gt;Drift&lt;/a&gt;: How Karpenter detects nodes that no longer match the desired NodePool or EC2NodeClass configuration.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://karpenter.sh/docs/concepts/nodepools"&gt;NodePool&lt;/a&gt;: Configure node provisioning and lifecycle behavior.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/"&gt;NodePool Disruption Budgets&lt;/a&gt;: Rate-limit voluntary disruptions, including drift and consolidation.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/"&gt;Pod-level Disruption Controls (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;karpenter.sh/do-not-disrupt&lt;/span&gt;&lt;/code&gt;)&lt;/a&gt;: Prevent selected pods from being voluntarily disrupted, subject to documented exceptions.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/"&gt;Node-level Disruption Controls&lt;/a&gt;: Prevent voluntary disruption of selected nodes.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://karpenter.sh/docs/faq"&gt;Disruption FAQ&lt;/a&gt;: Additional explanations of Karpenter disruption behavior.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html"&gt;Amazon EKS&lt;/a&gt;: Managed Kubernetes on AWS.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://lucene.apache.org/core/9_12_0/core/org/apache/lucene/search/package-summary.html"&gt;Apache Lucene Search Package&lt;/a&gt;: Search primitives used by OpenSearch.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/availability-zones.html"&gt;AWS Availability Zones&lt;/a&gt;: AWS fault-isolation boundaries.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/section&gt;
 &lt;/section&gt;
