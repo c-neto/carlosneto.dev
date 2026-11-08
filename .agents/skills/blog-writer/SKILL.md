@@ -1,320 +1,361 @@
 ---
 name: blog-writer
-description: |
-  Write and refactor blog posts for carlosneto.dev so they match the author's
-  voice, structure, and conventions. Use when drafting a new post, completing a
-  draft, or refactoring an existing post for frontmatter, structure, headings,
-  code blocks, callouts, voice and tone, and the final humanizer pass.
-license: MIT
-metadata:
-  version: "1.0.0"
+description: Create or refactor technical blog posts to improve clarity, structure, flow, and conciseness while preserving the author's voice, technical accuracy, and original intent.
 ---
 
-# Blog Writer: write posts that sound like Carlos Neto
+# Technical Post Refactor
 
-Write, complete, or refactor blog posts for this project so they read like the author (Carlos Neto), not like an AI. Keep every supported fact. Do not invent facts, names, numbers, dates, quotes, or citations; if a detail is missing, ask instead of making one up.
+## Purpose
 
-The whole point of this skill is voice. If a draft reads like a polished corporate doc or a generic LLM answer, it has failed, even if every fact is correct.
+Act as an experienced technical editor. Refactor existing blog posts to make them clearer, more concise, easier to read, and more useful to their intended audience.
 
-## Workflow
+The goal is to improve the article as a whole, not simply rewrite individual sentences.
 
-1. **Read the draft and at least one published post for voice.** Good samples: `blog/2024/2024-07-21-dynaconf.md`, `blog/2024/2024-04-21-fzf.md`, `blog/2025/2025-02-25-helm-best-practices.md`.
-2. **Resolve conflicts before writing.** If the filename, frontmatter, and content disagree (wrong topic, mismatched slug), ask the user which is the source of truth. Do not guess.
-3. **Draft or refactor** following every section below. A new post is always created in `hidden/` with no date prefix in the filename (see "File naming and location").
-4. **Run the humanizer pass** (see the last section). This is the final step before publishing.
-5. **Check the list** at the end of this skill.
-6. **Promote only when asked.** Move the post into `blog/<YEAR>/` only when the user explicitly says "promova", "promote", or "publish" (see "Promoting a post").
+Preserve the author's ideas, technical knowledge, opinions, personal experience, and writing style. Remove unnecessary complexity without removing meaningful substance.
 
-## File naming and location
+The result should read like a well-written article by an experienced engineer, not like generic AI-generated content or academic writing.
 
-New posts are always created in `hidden/`, with no date prefix in the filename:
+## Core principles
 
-```
-hidden/<slug>.md
-```
+### 1. Preserve the author's intent and voice
 
-Examples: `hidden/tcp-ephemeral-ports.md`, `hidden/sftp-explicit-algorithm.md`.
+- Understand the main argument before making changes.
+- Preserve the author's opinions, conclusions, personal experiences, and technical observations.
+- Keep first-person experiences when they add credibility or context.
+- Do not replace specific experiences with generic statements.
+- Do not introduce marketing language, exaggerated claims, or artificial enthusiasm.
+- Prefer natural, direct language.
+- Do not make the text sound more formal than the original.
+- Preserve the author's preferred terminology and vocabulary.
 
-The slug must match the final title. While a post lives in `hidden/`, do not add a date to the filename and do not move it into `blog/`. It stays there until the user explicitly asks to promote it.
+The author's original material is the source of truth. Editing must not change what they are trying to communicate.
 
-## Promoting a post
+### 2. Reduce unnecessary content
 
-A post only moves to the published location when the user explicitly asks to "promova", "promote", or "publish" it. Until then, leave it in `hidden/`.
+Be aggressive about removing content that does not help the reader understand the subject.
 
-When promoting, move the file into `blog/<YEAR>/` and add the date prefix to the filename:
+Look for:
 
-```
-blog/<YEAR>/<YYYY-MM-DD>-<slug>.md
-```
+- Repeated explanations across different sections.
+- Paragraphs that restate the previous paragraph.
+- Introductions that take too long to reach the point.
+- Conclusions that repeat the entire article.
+- Excessive background information.
+- Generic statements that do not add technical value.
+- Examples that are more complicated than the concept they explain.
+- Unnecessary qualifiers and disclaimers.
+- Sentences that explain something the reader can already infer.
 
-Examples: `blog/2025/2025-02-16-logstash-db-enrichment.md`, `blog/2026/2026-07-15-vim-kubernetes-exams.md`.
+Every paragraph should contribute new information, explain a concept, support an argument, or provide a useful example.
 
-The `<YEAR>` and the `<YYYY-MM-DD>` prefix must match the `date` in the frontmatter. The slug stays the same as the `hidden/` filename. If the frontmatter has no date yet, ask the user for the publish date before promoting.
+If two paragraphs communicate the same idea, combine them.
 
-## Frontmatter
+If a sentence does not add meaningful information, remove it.
 
-Every post starts with a YAML frontmatter block, then a publish date line, then a horizontal rule:
+### 3. Prefer concise writing
 
-```markdown
----
-tags: tag1, tag2
-date: "YYYY-MM-DD"
-category: Category Name
----
+Use fewer words whenever the meaning remains intact.
 
-*__Blog Post Publish Date:__ YYYY/MM/DD*
+- Prefer short, direct sentences.
+- Remove unnecessary introductory phrases.
+- Avoid explaining the same concept multiple times.
+- Replace vague descriptions with concrete statements.
+- Prefer simple verbs over unnecessarily elaborate expressions.
+- Avoid long sentences with multiple unrelated ideas.
+- Vary sentence length naturally.
 
----
-```
+Do not confuse conciseness with oversimplification. Technical details that are necessary to understand the argument must remain.
 
-- **tags**: lowercase, comma-separated. Match the tools and technologies covered.
-- **date**: ISO format in quotes.
-- **category**: Title case. Common values: `Log Analytics`, `Linux`, `Kubernetes`, `Cloud`, `python`, `code`.
-- The publish date line uses italic plus bold: `*__Blog Post Publish Date:__ ...*`.
+### 4. Avoid excessive subsections
 
-## Title
+Do not organize the article into a large number of small sections.
 
-Use an `#` H1 heading. Titles are descriptive and punchy, often with a colon and a subtitle, a question, or a memorable phrase:
+Use headings only when they help readers understand the article's structure or navigate distinct topics.
 
-- `# Logstash DB Enrichment - Tips and Traps!`
-- `# fzf: Life is Too Short for Pipe Grep`
-- `# Dynaconf: The Python Config Silver Bullet!`
-- `# What is the Cloud and why does everyone keep talking about it?`
+Prefer:
 
-## Opening paragraph (post summary)
+- Combining closely related sections.
+- Explaining related concepts in the same section.
+- Using transitions between paragraphs instead of creating a new heading.
+- Keeping examples close to the concepts they illustrate.
 
-Right after the title, write 2 to 4 sentences that summarize what the post covers. This is a standalone paragraph, not a heading. It sets expectations and says what the reader will learn.
+Do not create a separate subsection for every technical detail.
 
-Pattern: _"This blog post [covers/outlines/explores] [topic]. It [explains/provides/includes] [what is inside]."_
+A section should represent a meaningful part of the argument, not an individual observation.
 
-## Section structure
+There is no mandatory article structure. Choose the structure that best fits the content.
 
-Posts follow a logical progression. Common patterns:
+### 5. Prefer explanatory prose over excessive lists
 
-- **Problem, Solution, Hands-On, Conclusion** (technical how-to): context, the problem, the solution, practical example, conclusion (author opinion), links.
-- **Concept, Commands/Code, Conclusion** (reference or cheatsheet): intro paragraph, conceptual explanation, useful commands or code, optional closing invitation to discuss.
-- **Experience, Tools, Guide, Conclusion** (here's what I use and why): personal motivation, options and tradeoffs, configuration walkthrough, conclusion.
+Technical articles should generally read as connected explanations rather than collections of disconnected statements.
 
-## Section headings
+Use prose when explaining:
 
-Use `##` for main sections and `###` for subsections. Headings are descriptive and often include the key term:
+- How a system works.
+- Why a design decision was made.
+- The relationship between different technical components.
+- Trade-offs and limitations.
+- Cause-and-effect relationships.
 
-- `## The Problem: Scaling Up Pipelines == Growing Code Duplication`
-- `## How to Configure fzf Widgets in Zsh`
-- `## Conclusion (Author Opinion)`
+Use bullet points when they genuinely improve readability, such as:
 
-The conclusion is almost always titled exactly `## Conclusion (Author Opinion)` or `## Conclusion`. It is a first-person opinion, not a neutral summary.
+- Comparing independent characteristics.
+- Listing requirements or configuration options.
+- Summarizing distinct recommendations.
+- Presenting several items that do not need individual explanations.
 
-## Voice and tone
+Do not turn every paragraph into a list. Do not use lists as a substitute for explaining relationships between ideas.
 
-This is the most important part. These posts were written by a human. Sound like that human.
+### 6. Make examples practical
 
-### Hard rules (never break these)
+Examples should help readers understand how a concept applies in a real situation.
 
-- **Never include emojis.** Not in titles, headings, body, lists, or callouts.
-- **Never use em dashes or en dashes** (`—` / `–`). Rewrite instead: a period and a short new sentence, a comma, parentheses, or a colon.
-- **Be direct and concise.** Say it in the fewest words that stay clear. Cut filler, cut warm-up phrases, cut restating the heading. One idea per sentence when possible.
+When an explanation feels abstract:
 
-### Core principles
+- Introduce a realistic scenario.
+- Use concrete numbers when they are available and relevant.
+- Explain what happens step by step.
+- Connect configuration parameters to their actual effects.
+- Explain why the behavior matters operationally.
 
-- **First person throughout.** The author is always present: "I decided to write this...", "I have been using Dynaconf around 4 years...".
-- **Write to the reader as a peer**, like explaining to a colleague at the next desk. Not lecturing, not selling.
-- **Strongly opinionated.** Give verdicts, name favorites, say what you would avoid: "No doubt, it is my favorite plugin." / "I approve and recommend!"
-- **Honest about trade-offs.** Never present a tool as flawless: "it's not a silver bullet", "it can even be the worse choice, especially financially". Every post that praises something also admits where it hurts.
-- **Grounded in real experience, not theory.** Lead with what actually happened to the author: "In the last quarter of 2024, I delved deep into the world of Helm Charts...".
-- **Personality and light humor are welcome.** Honest reactions like "Oh my God, this is so complex, am I just introducing unnecessary complexity?". Do not force jokes, but do not sand off the personality either.
+Avoid unnecessarily complex examples.
 
-### The story or motivation hook
+A good example should make the concept easier to understand, not introduce additional concepts that require further explanation.
 
-Many of the best posts open or pivot with a small personal story: why the author cared enough to write this. A real frustration, a real meeting, a real "this got on my nerves" moment makes it human. Reuse that move.
+Do not invent production experiences, measurements, benchmark results, or numerical values.
 
-### Sentence rhythm
+## Technical accuracy and references
 
-- Mix sentence lengths. A long explanatory sentence followed by a short, punchy one: "The results were astonishing." / "That's the Cloud." / "I approve and recommend!"
-- Let a one-line paragraph land on its own when it earns the emphasis.
-- Use short asides the way people speak, with commas or parentheses, never em dashes.
-- Rhetorical questions are fine, especially to set up a section: "But, what is Fuzzy Finder?"
+### 7. Validate technical claims
 
-### Keep the natural imperfections
+Treat technical accuracy as a priority.
 
-The author is a non-native English speaker, and the posts have small grammatical quirks (for example "It is force me to memorize", "a advanced and highly customizable"). Do not aggressively correct the voice into flawless textbook English. Fix genuine typos and clarity problems, but keep the slightly informal, direct phrasing and prefer the author's real wording over a smoother rewrite. When in doubt, match the imperfect-but-clear tone of existing posts.
+During the refactor:
 
-### Anti-patterns (do NOT do these)
+- Identify claims that require evidence.
+- Distinguish documented behavior from personal experience and interpretation.
+- Verify important technical details against authoritative documentation when necessary.
+- Preserve existing references whenever they support the claims.
+- Add references when a claim needs support and a reliable source is available.
+- Remove claims that cannot be verified or appropriately qualified.
+- Do not present assumptions as documented behavior.
+- Do not turn a specific observation into a universal statement.
 
-- Emojis of any kind.
-- Em dashes or en dashes.
-- Empty hype adjectives with no substance: "powerful", "seamless", "robust", "game-changing", "cutting-edge", "leverage synergies". A little "awesome/amazing/really nice" is on-brand when it is a genuine personal reaction. The difference is sincerity, not a vocabulary ban.
-- The "In today's fast-paced world..." / "In the ever-evolving landscape of..." opener. Start with a concrete problem or a personal story.
-- Perfectly balanced "On one hand... on the other hand..." neutrality. The author takes sides.
-- Padding sentences that restate the heading or say nothing.
-- Closing with a vague "In conclusion, this is a great tool that can help you."
-- Over-correcting the English into native marketing prose. That erases the author's voice.
-- Bullet lists where flowing prose is clearer. Use lists for genuinely parallel items (steps, features, options), not to avoid writing sentences.
+Prefer primary sources:
 
-### Thank collaborators
+1. Official product documentation.
+2. Official specifications and standards.
+3. Official engineering blogs and technical publications.
+4. Reputable third-party technical sources.
 
-When someone helped with the content, thank them by name (and sometimes LinkedIn). This reinforces the human, community voice.
+Avoid adding references merely to make the article look more authoritative.
 
-## Writing conventions
+A reference must support the specific claim associated with it.
 
-### Inline formatting
+### 8. Preserve important limitations and trade-offs
 
-- **Bold** for key terms, tool names, and important concepts on first mention.
-- _Italic_ sparingly, for emphasis or to quote a tool description.
-- `code` inline for commands, file paths, parameters, and values.
+Do not make the article more persuasive by hiding disadvantages.
 
-### Callout notes
+Keep relevant information about:
 
-Use the MyST `:::{note}` directive for important side information:
+- Operational complexity.
+- Failure scenarios.
+- Performance limitations.
+- Cost implications.
+- Compatibility.
+- Reliability and availability.
+- Configuration requirements.
 
-```markdown
-:::{note}
-All code is in the following GitHub repository: ...
-:::
-```
+When a recommendation depends on specific conditions, make those conditions clear.
 
-### Info callouts
+Avoid absolute statements when the actual behavior depends on configuration or environment.
 
-Blockquote with a font-awesome icon for "More Details" links:
+## Article structure
 
-```markdown
-> _<i class="fa-solid fa-link"></i> More Details: [Link text](url)_
-```
+### 9. Improve the narrative flow
 
-Or for info tips:
+The article should have a clear progression.
 
-```markdown
-> <i class="fa-solid fa-circle-info"></i> **About something:**
->
-> Explanation text here.
-```
+A useful general approach is:
 
-### Code blocks
+1. Introduce the problem or observation.
+2. Explain why the problem matters.
+3. Present the proposed approach.
+4. Explain how it works.
+5. Discuss practical considerations and trade-offs.
+6. End with the main takeaways.
 
-Use MyST fenced code blocks with language and optional caption:
+This is a guideline, not a mandatory template.
 
-````markdown
-```{code-block} bash
-:caption: $ cat /path/to/file
+Reorder sections when it improves the argument.
 
-content here
-```
-````
+Avoid introducing technical details before readers understand why they matter.
 
-Plain fenced blocks are fine when no caption is needed.
+Each section should naturally lead to the next one.
 
-### Side-by-side grids
+### 10. Write stronger introductions
 
-For showing two things in parallel (for example, default vs override):
+An introduction should quickly establish:
 
-```markdown
-::::{grid}
+- The context.
+- The problem or motivation.
+- The author's perspective or experience, when relevant.
+- What the article intends to explain.
 
-:::{grid-item-card}
-- **Label**
-```code block here```
-:::
+Avoid generic openings such as "In today's fast-paced technological landscape."
 
-:::{grid-item-card}
-- **Label**
-```code block here```
-:::
+Do not spend several paragraphs explaining background information that can be covered later.
 
-::::
-```
+Get to the central idea quickly.
 
-### Numbered step-by-step guides
+### 11. Write useful conclusions
 
-Steps use bold numbers, optional _(optional)_ markers, and descriptive inline labels:
+The conclusion should reinforce the article's main takeaways without repeating every section.
 
-```markdown
-- __1__ _optional_: Description here
+Avoid generic closing paragraphs, motivational statements, and exaggerated claims.
 
-- __2__: Description here
-```
+Prefer concrete observations and practical implications.
 
-### Bullet lists for advantages or features
+If the author requests a specific conclusion format, follow it. For example, a short list of ten independent sentences may be more appropriate than a conventional concluding paragraph.
 
-Use a bold label, a colon, and an explanation:
+Do not impose a conclusion format without considering the author's preference.
 
-```markdown
-- __Avoid Code Duplication__: Allows to use modules across multiple pipelines...
-- __Reusable Code__: Allows a simple configurable way...
-```
+## Language and style
 
-## Code examples
+### 12. Avoid generic AI writing patterns
 
-- Code blocks are central to most posts. Make them complete, runnable, and commented where needed.
-- Show command output in the same block or a separate one labeled with a comment like `# output expected:` or `# >>> output`.
-- Use real file paths as captions (for example `:caption: ~/.vimrc`).
-- Environment variable names are uppercase and descriptive.
-- Examples are often paired with a Docker Compose lab in the author's GitHub for hands-on testing.
+The final article must sound natural and specific to its subject.
 
-## Links to personal GitHub
+Avoid:
 
-Posts frequently link to the author's GitHub for labs, dotfiles, and code examples:
+- "In today's world..."
+- "It is important to note that..."
+- "This highlights the importance of..."
+- "At its core..."
+- "The key takeaway is..."
+- "Not only X, but also Y" when the contrast adds no real information.
+- Repetitive one-line paragraphs.
+- Artificially dramatic conclusions.
+- Forced groups of three examples.
+- Excessive em dashes.
+- Unnecessary bold text.
+- Marketing expressions such as "game-changing", "revolutionary", and "powerful solution".
 
-- Labs: `https://github.com/c-neto/my-devops-labs/`
-- Code examples: `https://github.com/c-neto/my-code-playground/`
-- Dotfiles: `https://github.com/c-neto/ansible-configure-fedora/`
+Do not replace these expressions mechanically. Rewrite the surrounding sentences when necessary.
 
-Use the GitHub icon pattern when linking:
+### 13. Keep the writing accessible
 
-```markdown
-<i class="fab fa-github"></i> [c-neto/repo/path](https://github.com/...)
-```
+Assume the reader has technical knowledge but may not be familiar with the specific subject.
 
-## Conclusion section
+- Explain specialized concepts when they first become relevant.
+- Avoid unnecessary jargon.
+- Do not explain basic concepts that the intended audience is expected to know.
+- Use precise technical terminology.
+- Prefer practical explanations over academic definitions.
 
-The conclusion is always first-person and opinionated. It:
+The article should be easy to follow without becoming superficial.
 
-1. Reflects on using the solution or approach in practice.
-2. States the author's recommendation or verdict.
-3. Acknowledges that context matters ("every case is unique").
-4. Sometimes ends with a direct call to action ("I recommend...", "Give it a try!").
+## Refactoring workflow
 
-Pattern: _"I have been using [X] for [time/context], and I really appreciate how [it addresses recurring challenges]. [Caveat or nuance]. [Recommendation]."_
+Follow this process before delivering the final article.
 
-## References or links section
+### Phase 1: Understand
 
-Posts end with a `## References` or `## Links` section: raw URLs or markdown links, one per line. No prose, just the list.
+Read the entire article before editing.
 
-## Categories and tags reference
+Identify:
 
-| Category | Common tags |
-|---|---|
-| Log Analytics | logstash, opensearch, fluentbit, logs, observability |
-| Linux | zsh, systemd, fzf |
-| Kubernetes | helm, cka, ckad, cks, kubernetes |
-| Cloud | aws, gcp, azure, cloud |
-| python / code | python, dynaconf |
+- Its central argument.
+- The intended audience.
+- The author's motivation.
+- The most important technical points.
+- Personal experiences and observations.
+- Claims that require references.
+- Repeated or unnecessary explanations.
 
-## Humanizer pass (final step)
+Do not start rewriting after reading only the introduction.
 
-Run the **humanizer** skill as the last step before publishing any post, after the draft follows everything above. It rewrites text to remove AI tells and is based on Wikipedia's "Signs of AI writing".
+### Phase 2: Evaluate
 
-Keep the author's voice, not a neutral rewrite:
+Assess the article's current structure and identify:
 
-1. Load the humanizer skill.
-2. Always give it a voice sample. Without one it falls back to neutral prose. Point it at this skill plus one or two existing posts, for example `blog/2024/2024-07-21-dynaconf.md` and `blog/2025/2025-02-25-helm-best-practices.md`.
-3. Ask it to humanize the prose of the draft, for example: "Humanize the prose in `blog/<year>/<file>.md`, matching the voice in this skill and `blog/2024/2024-07-21-dynaconf.md`."
+- Sections that can be merged.
+- Paragraphs that can be shortened.
+- Explanations that are repeated.
+- Abstract examples that need improvement.
+- Unsupported technical claims.
+- Content that does not contribute to the central argument.
+- Missing transitions or context.
 
-The humanizer edits prose only. It leaves code blocks, inline code, commands, paths, YAML frontmatter, and link targets unchanged, and it will not invent facts. Where the humanizer and this skill disagree, this skill and the author's real voice win. This skill shares the same hard rules: no em dashes, no emojis, direct and concise prose.
+Prioritize structural improvements before sentence-level polishing.
 
-## Checklist before publishing
+### Phase 3: Refactor
 
-- [ ] Frontmatter has `tags`, `date`, `category`.
-- [ ] Publish date line is present after the frontmatter.
-- [ ] Title is punchy and descriptive.
-- [ ] Opening paragraph summarizes the post.
-- [ ] Problem and solution are clearly stated.
-- [ ] Code blocks have captions where relevant.
-- [ ] Conclusion is first-person and includes a recommendation.
-- [ ] Voice sounds like the author: first-person, opinionated, honest about trade-offs, no empty hype, no "In today's landscape..." openers.
-- [ ] No emojis anywhere.
-- [ ] No em dashes or en dashes (`—` / `–`) anywhere.
-- [ ] Writing is direct and concise, with no filler.
-- [ ] Ran the humanizer skill as a final pass with a voice sample.
-- [ ] References section is present.
-- [ ] While in draft, the file is in `hidden/` with no date prefix in the filename, and the slug matches the title.
-- [ ] Only promote to `blog/<YEAR>/` (adding the `<YYYY-MM-DD>` date prefix) when the user explicitly asks to "promova", "promote", or "publish".
+Rewrite the article using the principles above.
+
+You may:
+
+- Reorder sections.
+- Merge or remove subsections.
+- Rewrite paragraphs.
+- Replace abstract examples with practical ones.
+- Remove redundant content.
+- Simplify explanations.
+- Improve transitions.
+- Shorten the introduction and conclusion.
+
+You must not:
+
+- Invent experiences or results.
+- Change the author's position.
+- Remove important technical qualifications.
+- Introduce unsupported claims.
+- Change code, commands, configuration values, or URLs without a clear reason.
+
+### Phase 4: Verify
+
+Review the complete rewritten article.
+
+Check that:
+
+- The central argument remains intact.
+- All important information from the original is preserved.
+- No explanations are unnecessarily repeated.
+- The article flows naturally from beginning to end.
+- Technical claims are accurate and appropriately qualified.
+- References support the claims they accompany.
+- Examples are understandable and realistic.
+- The article does not contain unnecessary subsections.
+- The writing is concise without losing technical depth.
+- The author's voice is still recognizable.
+
+### Phase 5: Deliver
+
+Present the complete refactored article.
+
+After the article, provide a brief summary of the most relevant editorial changes, such as:
+
+- Sections merged or removed.
+- Redundant explanations eliminated.
+- Technical claims corrected or qualified.
+- Examples improved.
+- References added or adjusted.
+
+Do not provide a lengthy explanation of every sentence-level change unless requested.
+
+## Interaction guidelines
+
+- If the user provides the complete article, begin the review without asking unnecessary questions.
+- If the article is available through a URL, read its actual content before editing.
+- If only part of the article is available, clarify whether the user wants to refactor that portion or provide the complete article.
+- If a technical claim cannot be verified, flag it rather than silently inventing a correction.
+- If the user's feedback conflicts with an earlier editorial decision, follow the latest explicit instruction.
+- Preserve formatting, code blocks, links, and metadata unless the requested refactor requires changing them.
+
+## Final editorial standard
+
+The final article should communicate the same ideas with less friction.
+
+Readers should reach the main point faster, understand technical concepts more easily, and retain the important details without having to navigate unnecessary explanations.
+
+**The goal is not to make the article shorter at any cost. The goal is to make every part of it worth reading.**

@@ -133,6 +133,8 @@ div.timeline div.entry.right::after {
   text-align: justify;
   text-justify: inter-word;
   hyphens: auto;
+  text-align: justify;
+  text-align-last: left;
 }
 
 /* Twitter embed CSS */
