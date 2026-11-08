@@ -149,7 +149,7 @@ The value of `node.attr.zone` must reflect the actual Availability Zone where ea
 
 A process responding to HTTP requests does not necessarily mean that an OpenSearch node is ready to handle workloads safely. The local service may become available before the cluster has recovered its shards and restored replica redundancy. A readiness probe that only checks whether the HTTP endpoint responds can therefore allow Kubernetes to proceed with the next pod replacement too early.
 
-Instead, the probe can use the Cluster Health API to wait until the cluster reaches a green state. Combined with the StatefulSet's `OrderedReady` policy, this makes Kubernetes wait for shard recovery before moving on to the next pod during a rolling update.
+Instead, the probe can use the Cluster Health API to wait until the cluster reaches a green state. Combined with the StatefulSet's `OrderedReady` policy, this makes Kubernetes wait for shard recovery before moving on to the next pod during a rolling update. Check following example:
 
 ```{code-block} yaml
 :caption: opensearch-data-hot-statefulset.yaml
@@ -163,10 +163,6 @@ readinessProbe:
           "${OPENSEARCH_URL}/_cluster/health?wait_for_status=green&timeout=5s" \
           | jq -e '.status == "green" and .timed_out == false' >/dev/null
 ```
-
-The credentials can be injected into the container through a Kubernetes Secret rather than being stored directly in the pod specification. This example assumes that `curl` and `jq` are available in the container and that the probe can reach the OpenSearch endpoint. The `-k` flag disables TLS certificate verification, so it should only be used when appropriate for the environment; in production, trusting the relevant CA certificate is preferable.
-
-An `OrderedReady` StatefulSet combined with a green readiness probe can prevent subsequent pods from being created during initial cluster bootstrap. If the first pod cannot reach green without additional nodes, Kubernetes will wait indefinitely before creating the next pod. The initial bootstrap process must account for this dependency.
 
 ### 5. Use a PodDisruptionBudget (PDB)
 
