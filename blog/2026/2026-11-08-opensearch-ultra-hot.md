@@ -70,7 +70,24 @@ Every index stored on Instance Store nodes should have at least one replica. Wit
 
 This template only sets the default for new matching indices. Existing indices must be checked and updated separately, and explicit index settings can override the template. For that reason, replica configuration should also be validated and monitored to ensure that no index is left without the required redundancy.
 
-### 2. One Node per Pod, Across Availability Zones
+### 2. Use StatefulSets for Hot Data Nodes
+
+StatefulSets provide stable pod identities and predictable names, which are useful when managing OpenSearch nodes that use local storage. Unlike Deployments, StatefulSets maintain an ordinal identity for each pod and, by default, use the `OrderedReady` pod management policy. During a rolling update, Kubernetes updates or replaces pods one at a time and waits for each pod to become ready before proceeding. This behavior helps prevent multiple hot data nodes from being replaced simultaneously.
+
+Stable pod names are also useful when decommissioning or migrating nodes. For example, before removing `opensearch-hot-3`, you can ask OpenSearch to relocate its shards to other nodes by excluding it from shard allocation:
+
+```{code-block} json
+:caption: PUT /_cluster/settings
+{
+  "persistent": {
+    "cluster.routing.allocation.exclude._name": "opensearch-hot-3"
+  }
+}
+```
+
+OpenSearch will then relocate the shards away from the excluded node. Once relocation is complete, the node can be safely removed from the cluster. This requires the OpenSearch `node.name` to match the pod identity used in the exclusion setting. After the decommissioning operation, remember to clear the exclusion setting so that the node can participate in shard allocation again.
+
+### 3. One Node per Pod, Across Availability Zones
 
 Running one OpenSearch hot data node per Kubernetes pod makes node placement and lifecycle management easier to reason about. It also allows Kubernetes to enforce that two hot data pods do not run on the same worker node, reducing the chance that a single EC2 failure takes down multiple OpenSearch nodes. The following configuration uses node affinity to select dedicated hot-tier workers, pod anti-affinity to keep hot pods on separate Kubernetes nodes, and topology spread constraints to distribute them across Availability Zones.
 
@@ -128,23 +145,6 @@ node.attr.zone: us-east-1a
 
 The value of `node.attr.zone` must reflect the actual Availability Zone where each node is running. This configuration complements Kubernetes scheduling: Kubernetes spreads pods across zones, while OpenSearch uses the zone attribute to distribute shard copies across those same failure domains.
 
-### 3. Use StatefulSets for Hot Data Nodes
-
-StatefulSets provide stable pod identities and predictable names, which are useful when managing OpenSearch nodes that use local storage. Unlike Deployments, StatefulSets maintain an ordinal identity for each pod and, by default, use the `OrderedReady` pod management policy. During a rolling update, Kubernetes updates or replaces pods one at a time and waits for each pod to become ready before proceeding. This behavior helps prevent multiple hot data nodes from being replaced simultaneously.
-
-Stable pod names are also useful when decommissioning or migrating nodes. For example, before removing `opensearch-hot-3`, you can ask OpenSearch to relocate its shards to other nodes by excluding it from shard allocation:
-
-```{code-block} json
-:caption: PUT /_cluster/settings
-{
-  "persistent": {
-    "cluster.routing.allocation.exclude._name": "opensearch-hot-3"
-  }
-}
-```
-
-OpenSearch will then relocate the shards away from the excluded node. Once relocation is complete, the node can be safely removed from the cluster. This requires the OpenSearch `node.name` to match the pod identity used in the exclusion setting. After the decommissioning operation, remember to clear the exclusion setting so that the node can participate in shard allocation again.
-
 ### 4. Use a Readiness Probe to Wait for Cluster Green
 
 A process responding to HTTP requests does not necessarily mean that an OpenSearch node is ready to handle workloads safely. The local service may become available before the cluster has recovered its shards and restored replica redundancy. A readiness probe that only checks whether the HTTP endpoint responds can therefore allow Kubernetes to proceed with the next pod replacement too early.
@@ -188,6 +188,8 @@ spec:
 The value of `maxUnavailable` must be chosen according to the cluster size, replica configuration, and failure tolerance. A limit of one may be reasonable for some clusters, but it is not universally safe. Also, a PDB only protects against voluntary evictions performed through Kubernetes' Eviction API. It does not prevent involuntary failures, such as an EC2 instance interruption, or directly control pod replacements initiated by a StatefulSet rolling update.
 
 ### 6. Control Node Disruptions with Karpenter
+
+> I'll use Karpenter as an example. However, the logic behind it remains the same for any node scheduling.
 
 Karpenter can replace nodes for several reasons, including consolidation and drift from the desired NodePool configuration. For workloads using Instance Store, these operations require special attention because terminating a node permanently destroys its local data. Karpenter provides mechanisms to control voluntary disruptions, allowing node replacement to be coordinated with OpenSearch shard recovery.
 
