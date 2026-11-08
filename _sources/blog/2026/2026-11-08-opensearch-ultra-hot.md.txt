@@ -20,7 +20,7 @@ I experimented with different EC2 instance families and increased CPU and memory
 
 There is an important trade-off, though. Unlike EBS volumes, Instance Store disks are tied to the physical EC2 host. If an instance is stopped, terminated, or experiences a host failure, its local data is permanently lost. This makes Instance Store a less durable storage option, but it does not necessarily make it unsuitable for OpenSearch. The key is to understand how shard replication works and design the infrastructure so that losing a node does not mean losing the only copy of its data.
 
-This article explains why Instance Store can be an effective option for OpenSearch hot tiers and how to operate it safely with Kubernetes and Karpenter.
+This article explains why Instance Store can be an effective option for OpenSearch hot tiers and how to operate it safely with Kubernetes.
 
 ## EC2 Instance Store vs. EBS
 
