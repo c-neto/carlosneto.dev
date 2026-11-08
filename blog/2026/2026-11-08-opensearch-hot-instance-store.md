@@ -10,7 +10,7 @@ category: Log Analytics
 
 # OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage
 
-This blog post covers how to run OpenSearch on EC2 Instance Store, from storage performance and shard replication to multi-AZ placement, safe rollouts, data migration, and disruption control with Kubernetes and Karpenter.
+This blog post covers an architectural approach for running the OpenSearch Hot Data Tier using EC2 Instance Store (local NVMe) instead of EBS, exploring performance gains and how to manage the risks of data loss through OpenSearch replication, Kubernetes, and Karpenter.
 
 ## Instance Store: Less Durability, More Performance
 
