@@ -1,3 +1,6 @@
+total_primary_shards_per_node
+
+
 ---
 tags: opensearch
 date: "2026-10-17"

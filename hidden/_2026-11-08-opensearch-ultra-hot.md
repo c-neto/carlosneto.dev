@@ -1,27 +1,34 @@
 ---
 tags: opensearch, aws, kubernetes, performance
-date: "2026-10-17"
+date: "2026-11-08"
 category: Log Analytics
 ---
 
-*__Blog Post Publish Date:__ 2026/10/17*
+*__Blog Post Publish Date:__ 2026/11/08*
 
 ---
 
-# OpenSearch Instance Storage: The Controlled Risk for Superior Performance
+# OpenSearch + EC2 Instance Store: A Disruptive Way for Data Hot Tiering
 
-When you run OpenSearch at scale, storage I/O is often the bottleneck that decides how fast you can index documents and how quickly you can serve queries. Most teams reach for network-attached block storage like Amazon EBS by default. It is durable, resizable, and survives instance termination. But there is a faster option hiding in plain sight: the local NVMe SSD that comes physically attached to certain EC2 instances, known as instance store (or ephemeral storage).
+This blog post explains why Instance Store delivers dramatically better I/O performance for OpenSearch hot data nodes, backs that claim with technical evidence, and shows how the one serious drawback, data loss when an instance dies, is a controlled risk thanks to OpenSearch's native replication.
 
-This blog post explains why instance store delivers dramatically better I/O performance for OpenSearch hot data nodes, backs that claim with technical evidence, and shows how the one serious drawback, data loss when an instance dies, is a controlled risk thanks to OpenSearch's native replication.
+## Introduction
 
-## The Core Idea
+I'm adminster OpenSearch clusters running in EKS clusters across 5 years. The ingestion volume is high around 70K ~ 100K documents per second. Ingestion perfomance, query time, is the objective, unified with the keep down the costs. During this journey, I introduced several strategies to improve the documents ingested and decrease query time. First of all, I exported metrics to detected perfotmance gaps, and the become clear that I need to better resize the EC2 instance according the data. 
+
+Thus, I have implemented storage tiering Hot, Warm, Cold with according the ingested data category. It was crucial to decrease costs. But in certain moment, the hot data tiering become the bottleneck. I tried some EC2 families, and even tough I added more Memory and CPU, the perfomance is no satisfactory and the costs of the EC2 choosed is overkill and dont solve the problem. After more analyses, I have detected the the bottleneck is the I/O. I'm was using the EBS to store the data, that is the better reliable storage strategy to store data. However, One highly risk strategy was tried: *Use Storage Optimized EC2 Family in the Data Hot, and use the Instance Store instead of EBS*. The results were totally statisfactory and trust me, with less expansive that use the EBS.
+
+It Dont means that intance store is better that EBS. Each one solve one problem, one with better perfomacne, in other reliable and interchable data between instaces. It is importante mentioned that if the instance die, the data die too. Yes, is extremelly risky strategy.
+
+I solved to create this blog post to share how I implement the usage of Instance Store safe way in Data Hot. During the post I will introduced better the particulaties of each tecnhnologies and cautions that you need to an safe usage.
+
+## Data Hot: Instance Store vs EBS
+
+When you run OpenSearch at scale, storage I/O is often the bottleneck that decides how fast you can index documents and how quickly you can serve queries. Most teams reach for network-attached block storage like Amazon EBS by default. It is durable, resizable, and survives instance termination. But there is a faster option hiding in plain sight: the local NVMe SSD that comes physically attached to certain EC2 instances, known as Instance Store (or ephemeral storage).
 
 OpenSearch hot data nodes handle the most demanding workload in the cluster: freshly indexed documents, the most frequent searches, and continuous merges and refreshes. All of that is I/O-bound. The storage you put under those nodes directly caps your indexing throughput and query latency.
 
-There are two architectural choices on AWS:
-
-- __EBS (network-attached block storage)__: the disk lives on a separate storage tier in the same availability zone and is reached over the network.
-- __Instance store NVMe (locally-attached SSD)__: the disk is physically present in the host machine running your instance.
+__EBS (network-attached block storage)__: the disk lives on a separate storage tier in the same availability zone and is reached over the network. __Instance Store NVMe (locally-attached SSD)__: the disk is physically present in the host machine running your instance.
 
 That single difference, network hop vs. no network hop, is the root cause of the performance gap.
 
@@ -38,7 +45,7 @@ AWS has engineered this path to be very good. Modern `gp3` volumes deliver singl
 - __The volume's provisioned limits__, for example `gp3` tops out at 80,000 IOPS and 2,000 MiB/s (and you pay extra for anything above the 3,000 IOPS / 125 MiB/s baseline).
 - __The instance's EBS bandwidth cap__: every instance type has a dedicated EBS link. For example, an `i8g.2xlarge` provides up to 10 Gbps of EBS bandwidth, which is the aggregate ceiling for all EBS traffic on that node, no matter how many volumes you attach.
 
-Instance store NVMe has none of these problems because the SSD is wired directly into the host. There is no network, no provisioned IOPS to buy, and no shared EBS bandwidth budget to compete for.
+Instance Store NVMe has none of these problems because the SSD is wired directly into the host. There is no network, no provisioned IOPS to buy, and no shared EBS bandwidth budget to compete for.
 
 ## The Evidence: A Concrete Comparison
 
@@ -48,7 +55,7 @@ Let's compare two instances with identical compute and memory, differing only in
 | --- | --- | --- |
 | vCPU | 8 (Graviton4) | 8 |
 | Memory | 64 GiB | 64 GiB |
-| Storage type | 1 x 1,875 GB NVMe instance store (3rd-gen Nitro SSD) | Network-attached `gp3` volume |
+| Storage type | 1 x 1,875 GB NVMe Instance Store (3rd-gen Nitro SSD) | Network-attached `gp3` volume |
 | Storage path | Directly attached to host | Over the network |
 | Latency (4K random read) | ~20-100 microseconds | ~200 microseconds (p50), ~900 microseconds (p99) |
 | Max throughput | 10+ GB/s (local bus) | Capped by instance EBS link (~1,250 MiB/s on a 10 Gbps class node) |
@@ -75,7 +82,7 @@ Local NVMe is not universally faster. For large-block, high-residency workloads 
 
 ## The Catch: Ephemeral Means Ephemeral
 
-Here is the tradeoff you cannot ignore. Instance store data is wiped the moment the instance stops, terminates, or is rotated. There is no snapshot, no detach-and-reattach, no recovery of the raw volume. If the underlying host fails, the data on that NVMe disk is simply gone.
+Here is the tradeoff you cannot ignore. Instance Store data is wiped the moment the instance stops, terminates, or is rotated. There is no snapshot, no detach-and-reattach, no recovery of the raw volume. If the underlying host fails, the data on that NVMe disk is simply gone.
 
 For a stateful system like OpenSearch, that sounds terrifying. A node holding primary shards vanishing with no disk recovery is a classic data-loss scenario.
 
@@ -98,7 +105,7 @@ PUT /my-index/_settings
 
 With `number_of_replicas` set to at least `1`, the loss of any single node, including the total loss of its ephemeral disk, does not lose data:
 
-1. A node dies and its instance store NVMe is wiped.
+1. A node dies and its Instance Store NVMe is wiped.
 2. OpenSearch detects the node left the cluster.
 3. For every primary that was on the dead node, OpenSearch promotes its replica (living on another node) to primary.
 4. OpenSearch then rebuilds the missing replicas on surviving nodes to restore full redundancy.
@@ -165,7 +172,7 @@ If you raise your indexes to two replicas, raise the PDB to `maxUnavailable: 2` 
 
 ## When to Reach for Instance Store
 
-Use locally-attached NVMe instance store for your OpenSearch hot data tier when:
+Use locally-attached NVMe Instance Store for your OpenSearch hot data tier when:
 
 - Indexing throughput and query latency are your bottleneck.
 - Your dataset on the hot tier exceeds RAM, so reads actually hit disk.
@@ -180,7 +187,7 @@ Stick with EBS when:
 
 ## Conclusion (Author Opinion)
 
-Instance store used to make me nervous, and I understand why it makes other people nervous too. The word "ephemeral" sounds like a trap for a stateful system. But once I internalized that replication means no single disk is ever the only copy, the fear turned into a deliberate engineering trade I am comfortable making on hot tiers.
+Instance Store used to make me nervous, and I understand why it makes other people nervous too. The word "ephemeral" sounds like a trap for a stateful system. But once I internalized that replication means no single disk is ever the only copy, the fear turned into a deliberate engineering trade I am comfortable making on hot tiers.
 
 It is not a reckless shortcut. You accept that any single disk is disposable, and you lean on OpenSearch's distributed design to make that disposability safe. In exchange you get storage performance that network-attached disks simply cannot match. On a hot tier backed by replicas and AZ-aware allocation, with a safe rotation process (and the right Kubernetes guardrails), I recommend it. Just make sure the controls are actually in place before you rely on them.
 
