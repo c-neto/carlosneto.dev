@@ -533,7 +533,7 @@
 <section id="use-a-readiness-probe-to-wait-for-cluster-green">
 <h3>4. Use a Readiness Probe to Wait for Cluster Green<a class="headerlink" href="#use-a-readiness-probe-to-wait-for-cluster-green" title="Link to this heading">#</a></h3>
 <p>A process responding to HTTP requests does not necessarily mean that an OpenSearch node is ready to handle workloads safely. The local service may become available before the cluster has recovered its shards and restored replica redundancy. A readiness probe that only checks whether the HTTP endpoint responds can therefore allow Kubernetes to proceed with the next pod replacement too early.</p>
-<p>Instead, the probe can use the Cluster Health API to wait until the cluster reaches a green state. Combined with the StatefulSet’s <code class="docutils literal notranslate"><span class="pre">OrderedReady</span></code> policy, this makes Kubernetes wait for shard recovery before moving on to the next pod during a rolling update.</p>
+<p>Instead, the probe can use the Cluster Health API to wait until the cluster reaches a green state. Combined with the StatefulSet’s <code class="docutils literal notranslate"><span class="pre">OrderedReady</span></code> policy, this makes Kubernetes wait for shard recovery before moving on to the next pod during a rolling update. Check following example:</p>
 <div class="literal-block-wrapper docutils container" id="id5">
 <div class="code-block-caption"><span class="caption-text">opensearch-data-hot-statefulset.yaml</span><a class="headerlink" href="#id5" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">readinessProbe</span><span class="p">:</span>
@@ -548,8 +548,6 @@
 </pre></div>
 </div>
 </div>
-<p>The credentials can be injected into the container through a Kubernetes Secret rather than being stored directly in the pod specification. This example assumes that <code class="docutils literal notranslate"><span class="pre">curl</span></code> and <code class="docutils literal notranslate"><span class="pre">jq</span></code> are available in the container and that the probe can reach the OpenSearch endpoint. The <code class="docutils literal notranslate"><span class="pre">-k</span></code> flag disables TLS certificate verification, so it should only be used when appropriate for the environment; in production, trusting the relevant CA certificate is preferable.</p>
-<p>An <code class="docutils literal notranslate"><span class="pre">OrderedReady</span></code> StatefulSet combined with a green readiness probe can prevent subsequent pods from being created during initial cluster bootstrap. If the first pod cannot reach green without additional nodes, Kubernetes will wait indefinitely before creating the next pod. The initial bootstrap process must account for this dependency.</p>
 </section>
 <section id="use-a-poddisruptionbudget-pdb">
 <h3>5. Use a PodDisruptionBudget (PDB)<a class="headerlink" href="#use-a-poddisruptionbudget-pdb" title="Link to this heading">#</a></h3>
