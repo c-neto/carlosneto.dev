@@ -89,7 +89,9 @@ OpenSearch will then relocate the shards away from the excluded node. Once reloc
 
 ### 3. One Node per Pod, Across Availability Zones
 
-Running one OpenSearch hot data node per Kubernetes pod makes node placement and lifecycle management easier to reason about. It also allows Kubernetes to enforce that two hot data pods do not run on the same worker node, reducing the chance that a single EC2 failure takes down multiple OpenSearch nodes. The following configuration uses node affinity to select dedicated hot-tier workers, pod anti-affinity to keep hot pods on separate Kubernetes nodes, and topology spread constraints to distribute them across Availability Zones.
+Running one OpenSearch hot data node per Kubernetes pod makes node placement and lifecycle management easier to reason about. It also ensures that a single worker node failure does not take down multiple OpenSearch nodes, potentially affecting both copies of the same shard. By enforcing one hot data pod per worker node, Kubernetes provides an additional layer of failure isolation.
+
+The following configuration uses node affinity to select dedicated hot-tier workers, pod anti-affinity to keep hot pods on separate Kubernetes nodes, and topology spread constraints to distribute them across Availability Zones.
 
 ```{code-block} yaml
 :caption: opensearch-data-hot-statefulset.yaml
@@ -100,16 +102,6 @@ spec:
         app: opensearch-hot
     spec:
       affinity:
-        # Schedule only on dedicated OpenSearch hot nodes
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: workload
-                    operator: In
-                    values:
-                      - opensearch-hot
-
         # Ensure only one OpenSearch hot pod per Kubernetes node
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -117,33 +109,9 @@ spec:
                 matchLabels:
                   app: opensearch-hot
               topologyKey: kubernetes.io/hostname
-
-      # Allow pods to run on nodes tainted for OpenSearch
-      tolerations:
-        - key: workload
-          operator: Equal
-          value: opensearch-hot
-          effect: NoSchedule
-
-      # Spread pods evenly across Availability Zones
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: topology.kubernetes.io/zone
-          whenUnsatisfiable: DoNotSchedule
-          labelSelector:
-            matchLabels:
-              app: opensearch-hot
 ```
 
-Kubernetes controls where pods run, but OpenSearch must also understand the underlying failure domains when allocating shards. Its allocation awareness feature allows the cluster to distribute primary and replica shards across Availability Zones, reducing the risk of placing both copies in the same zone. To enable it, configure the zone as an allocation awareness attribute and provide the corresponding attribute on every OpenSearch node.
-
-```{code-block} yaml
-:caption: opensearch.yaml
-cluster.routing.allocation.awareness.attributes: zone
-node.attr.zone: us-east-1a
-```
-
-The value of `node.attr.zone` must reflect the actual Availability Zone where each node is running. This configuration complements Kubernetes scheduling: Kubernetes spreads pods across zones, while OpenSearch uses the zone attribute to distribute shard copies across those same failure domains.
+OpenSearch also supports [index shard allocation awareness](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-awareness/), which allows nodes to be assigned attributes representing their failure domains, such as Availability Zones. This gives OpenSearch additional context when distributing shard copies across zones. However, cross-AZ traffic can increase AWS VPC data transfer costs, so the trade-off should be considered when designing multi-AZ deployments.
 
 ### 4. Use a Readiness Probe to Wait for Cluster Green
 
