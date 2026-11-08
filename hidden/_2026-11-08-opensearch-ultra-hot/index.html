@@ -7,19 +7,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="OpenSearch Instance Storage: The Controlled Risk for Superior Performance" />
+<meta property="og:title" content="OpenSearch + EC2 Instance Store: A Disruptive Way for Data Hot Tiering" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://carlosneto.dev/hidden/opensearch-instance-storage-controlled-risk/" />
+<meta property="og:url" content="https://carlosneto.dev/hidden/_2026-11-08-opensearch-ultra-hot/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/10/17 When you run OpenSearch at scale, storage I/O is often the bottleneck that decides how fast you can index documents and how quickly you can serve queries. Most te..." />
+<meta property="og:description" content="Blog Post Publish Date: 2026/11/08 This blog post explains why Instance Store delivers dramatically better I/O performance for OpenSearch hot data nodes, backs that claim with technical evidence, a..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden_opensearch-instance-storage-controlled-risk_a20cfa99.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/17 When you run OpenSearch at scale, storage I/O is often the bottleneck that decides how fast you can index documents and how quickly you can serve queries. Most te..." />
-<meta name="description" content="Blog Post Publish Date: 2026/10/17 When you run OpenSearch at scale, storage I/O is often the bottleneck that decides how fast you can index documents and how quickly you can serve queries. Most te..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_hidden__2026-11-08-opensearch-ultra-hot_6803ad77.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/08 This blog post explains why Instance Store delivers dramatically better I/O performance for OpenSearch hot data nodes, backs that claim with technical evidence, a..." />
+<meta name="description" content="Blog Post Publish Date: 2026/11/08 This blog post explains why Instance Store delivers dramatically better I/O performance for OpenSearch hot data nodes, backs that claim with technical evidence, a..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>OpenSearch Instance Storage: The Controlled Risk for Superior Performance &#8212; Carlos Neto&#39;s Blog</title>
+    <title>OpenSearch + EC2 Instance Store: A Disruptive Way for Data Hot Tiering &#8212; Carlos Neto&#39;s Blog</title>
   
   
   
@@ -45,7 +45,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8c95994f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=e9556b53" />
     <link rel="stylesheet" type="text/css" href="../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -61,7 +61,7 @@
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/opensearch-instance-storage-controlled-risk';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hidden/_2026-11-08-opensearch-ultra-hot';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../genindex/" />
@@ -391,20 +391,23 @@
                 
 <div id="searchbox"></div>
                 <article class="bd-article">
-                   <p><em><strong>Blog Post Publish Date:</strong> 2026/10/17</em></p>
+                   <p><em><strong>Blog Post Publish Date:</strong> 2026/11/08</em></p>
 <hr class="docutils" />
-<section id="opensearch-instance-storage-the-controlled-risk-for-superior-performance">
-<h1>OpenSearch Instance Storage: The Controlled Risk for Superior Performance<a class="headerlink" href="#opensearch-instance-storage-the-controlled-risk-for-superior-performance" title="Link to this heading">#</a></h1>
-<p>When you run OpenSearch at scale, storage I/O is often the bottleneck that decides how fast you can index documents and how quickly you can serve queries. Most teams reach for network-attached block storage like Amazon EBS by default. It is durable, resizable, and survives instance termination. But there is a faster option hiding in plain sight: the local NVMe SSD that comes physically attached to certain EC2 instances, known as instance store (or ephemeral storage).</p>
-<p>This blog post explains why instance store delivers dramatically better I/O performance for OpenSearch hot data nodes, backs that claim with technical evidence, and shows how the one serious drawback, data loss when an instance dies, is a controlled risk thanks to OpenSearch’s native replication.</p>
-<section id="the-core-idea">
-<h2>The Core Idea<a class="headerlink" href="#the-core-idea" title="Link to this heading">#</a></h2>
+<section id="opensearch-ec2-instance-store-a-disruptive-way-for-data-hot-tiering">
+<h1>OpenSearch + EC2 Instance Store: A Disruptive Way for Data Hot Tiering<a class="headerlink" href="#opensearch-ec2-instance-store-a-disruptive-way-for-data-hot-tiering" title="Link to this heading">#</a></h1>
+<p>This blog post explains why Instance Store delivers dramatically better I/O performance for OpenSearch hot data nodes, backs that claim with technical evidence, and shows how the one serious drawback, data loss when an instance dies, is a controlled risk thanks to OpenSearch’s native replication.</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>I’m adminster OpenSearch clusters running in EKS clusters across 5 years. The ingestion volume is high around 70K ~ 100K documents per second. Ingestion perfomance, query time, is the objective, unified with the keep down the costs. During this journey, I introduced several strategies to improve the documents ingested and decrease query time. First of all, I exported metrics to detected perfotmance gaps, and the become clear that I need to better resize the EC2 instance according the data.</p>
+<p>Thus, I have implemented storage tiering Hot, Warm, Cold with according the ingested data category. It was crucial to decrease costs. But in certain moment, the hot data tiering become the bottleneck. I tried some EC2 families, and even tough I added more Memory and CPU, the perfomance is no satisfactory and the costs of the EC2 choosed is overkill and dont solve the problem. After more analyses, I have detected the the bottleneck is the I/O. I’m was using the EBS to store the data, that is the better reliable storage strategy to store data. However, One highly risk strategy was tried: <em>Use Storage Optimized EC2 Family in the Data Hot, and use the Instance Store instead of EBS</em>. The results were totally statisfactory and trust me, with less expansive that use the EBS.</p>
+<p>It Dont means that intance store is better that EBS. Each one solve one problem, one with better perfomacne, in other reliable and interchable data between instaces. It is importante mentioned that if the instance die, the data die too. Yes, is extremelly risky strategy.</p>
+<p>I solved to create this blog post to share how I implement the usage of Instance Store safe way in Data Hot. During the post I will introduced better the particulaties of each tecnhnologies and cautions that you need to an safe usage.</p>
+</section>
+<section id="data-hot-instance-store-vs-ebs">
+<h2>Data Hot: Instance Store vs EBS<a class="headerlink" href="#data-hot-instance-store-vs-ebs" title="Link to this heading">#</a></h2>
+<p>When you run OpenSearch at scale, storage I/O is often the bottleneck that decides how fast you can index documents and how quickly you can serve queries. Most teams reach for network-attached block storage like Amazon EBS by default. It is durable, resizable, and survives instance termination. But there is a faster option hiding in plain sight: the local NVMe SSD that comes physically attached to certain EC2 instances, known as Instance Store (or ephemeral storage).</p>
 <p>OpenSearch hot data nodes handle the most demanding workload in the cluster: freshly indexed documents, the most frequent searches, and continuous merges and refreshes. All of that is I/O-bound. The storage you put under those nodes directly caps your indexing throughput and query latency.</p>
-<p>There are two architectural choices on AWS:</p>
-<ul class="simple">
-<li><p><strong>EBS (network-attached block storage)</strong>: the disk lives on a separate storage tier in the same availability zone and is reached over the network.</p></li>
-<li><p><strong>Instance store NVMe (locally-attached SSD)</strong>: the disk is physically present in the host machine running your instance.</p></li>
-</ul>
+<p><strong>EBS (network-attached block storage)</strong>: the disk lives on a separate storage tier in the same availability zone and is reached over the network. <strong>Instance Store NVMe (locally-attached SSD)</strong>: the disk is physically present in the host machine running your instance.</p>
 <p>That single difference, network hop vs. no network hop, is the root cause of the performance gap.</p>
 </section>
 <section id="why-ebs-is-slower-it-is-not-actually-in-the-instance">
@@ -420,7 +423,7 @@
 <li><p><strong>The volume’s provisioned limits</strong>, for example <code class="docutils literal notranslate"><span class="pre">gp3</span></code> tops out at 80,000 IOPS and 2,000 MiB/s (and you pay extra for anything above the 3,000 IOPS / 125 MiB/s baseline).</p></li>
 <li><p><strong>The instance’s EBS bandwidth cap</strong>: every instance type has a dedicated EBS link. For example, an <code class="docutils literal notranslate"><span class="pre">i8g.2xlarge</span></code> provides up to 10 Gbps of EBS bandwidth, which is the aggregate ceiling for all EBS traffic on that node, no matter how many volumes you attach.</p></li>
 </ul>
-<p>Instance store NVMe has none of these problems because the SSD is wired directly into the host. There is no network, no provisioned IOPS to buy, and no shared EBS bandwidth budget to compete for.</p>
+<p>Instance Store NVMe has none of these problems because the SSD is wired directly into the host. There is no network, no provisioned IOPS to buy, and no shared EBS bandwidth budget to compete for.</p>
 </section>
 <section id="the-evidence-a-concrete-comparison">
 <h2>The Evidence: A Concrete Comparison<a class="headerlink" href="#the-evidence-a-concrete-comparison" title="Link to this heading">#</a></h2>
@@ -442,7 +445,7 @@
 <td><p>64 GiB</p></td>
 </tr>
 <tr class="row-even"><td><p>Storage type</p></td>
-<td><p>1 x 1,875 GB NVMe instance store (3rd-gen Nitro SSD)</p></td>
+<td><p>1 x 1,875 GB NVMe Instance Store (3rd-gen Nitro SSD)</p></td>
 <td><p>Network-attached <code class="docutils literal notranslate"><span class="pre">gp3</span></code> volume</p></td>
 </tr>
 <tr class="row-odd"><td><p>Storage path</p></td>
@@ -489,7 +492,7 @@
 </section>
 <section id="the-catch-ephemeral-means-ephemeral">
 <h2>The Catch: Ephemeral Means Ephemeral<a class="headerlink" href="#the-catch-ephemeral-means-ephemeral" title="Link to this heading">#</a></h2>
-<p>Here is the tradeoff you cannot ignore. Instance store data is wiped the moment the instance stops, terminates, or is rotated. There is no snapshot, no detach-and-reattach, no recovery of the raw volume. If the underlying host fails, the data on that NVMe disk is simply gone.</p>
+<p>Here is the tradeoff you cannot ignore. Instance Store data is wiped the moment the instance stops, terminates, or is rotated. There is no snapshot, no detach-and-reattach, no recovery of the raw volume. If the underlying host fails, the data on that NVMe disk is simply gone.</p>
 <p>For a stateful system like OpenSearch, that sounds terrifying. A node holding primary shards vanishing with no disk recovery is a classic data-loss scenario.</p>
 <p>This is a real risk. But it is a controlled one.</p>
 </section>
@@ -507,7 +510,7 @@
 </div>
 <p>With <code class="docutils literal notranslate"><span class="pre">number_of_replicas</span></code> set to at least <code class="docutils literal notranslate"><span class="pre">1</span></code>, the loss of any single node, including the total loss of its ephemeral disk, does not lose data:</p>
 <ol class="arabic simple">
-<li><p>A node dies and its instance store NVMe is wiped.</p></li>
+<li><p>A node dies and its Instance Store NVMe is wiped.</p></li>
 <li><p>OpenSearch detects the node left the cluster.</p></li>
 <li><p>For every primary that was on the dead node, OpenSearch promotes its replica (living on another node) to primary.</p></li>
 <li><p>OpenSearch then rebuilds the missing replicas on surviving nodes to restore full redundancy.</p></li>
@@ -570,7 +573,7 @@
 </section>
 <section id="when-to-reach-for-instance-store">
 <h2>When to Reach for Instance Store<a class="headerlink" href="#when-to-reach-for-instance-store" title="Link to this heading">#</a></h2>
-<p>Use locally-attached NVMe instance store for your OpenSearch hot data tier when:</p>
+<p>Use locally-attached NVMe Instance Store for your OpenSearch hot data tier when:</p>
 <ul class="simple">
 <li><p>Indexing throughput and query latency are your bottleneck.</p></li>
 <li><p>Your dataset on the hot tier exceeds RAM, so reads actually hit disk.</p></li>
@@ -586,7 +589,7 @@
 </section>
 <section id="conclusion-author-opinion">
 <h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
-<p>Instance store used to make me nervous, and I understand why it makes other people nervous too. The word “ephemeral” sounds like a trap for a stateful system. But once I internalized that replication means no single disk is ever the only copy, the fear turned into a deliberate engineering trade I am comfortable making on hot tiers.</p>
+<p>Instance Store used to make me nervous, and I understand why it makes other people nervous too. The word “ephemeral” sounds like a trap for a stateful system. But once I internalized that replication means no single disk is ever the only copy, the fear turned into a deliberate engineering trade I am comfortable making on hot tiers.</p>
 <p>It is not a reckless shortcut. You accept that any single disk is disposable, and you lean on OpenSearch’s distributed design to make that disposability safe. In exchange you get storage performance that network-attached disks simply cannot match. On a hot tier backed by replicas and AZ-aware allocation, with a safe rotation process (and the right Kubernetes guardrails), I recommend it. Just make sure the controls are actually in place before you rely on them.</p>
 </section>
 <section id="references">

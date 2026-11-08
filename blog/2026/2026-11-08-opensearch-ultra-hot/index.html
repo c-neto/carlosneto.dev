@@ -1,0 +1,736 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-11-08-opensearch-ultra-hot/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="Blog Post Publish Date: 2026/11/08 This blog post covers how to run OpenSearch on EC2 Instance Store, from storage performance and shard replication to multi-AZ placement, safe rollouts, data migra..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-08-opensearch-ultra-hot_9fdbb547.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/08 This blog post covers how to run OpenSearch on EC2 Instance Store, from storage performance and shard replication to multi-AZ placement, safe rollouts, data migra..." />
+<meta name="description" content="Blog Post Publish Date: 2026/11/08 This blog post covers how to run OpenSearch on EC2 Instance Store, from storage performance and shard replication to multi-AZ placement, safe rollouts, data migra..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=e9556b53" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2026/2026-11-08-opensearch-ultra-hot';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../../genindex/" />
+    <link rel="search" title="Search" href="../../../search/" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+   
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <div class="blog-post">
+<div class="aor-tldr">
+  <img class="aor-tldr__marvin" src="../../../_static/marvin.jpg" alt="">
+  <span class="aor-tldr__copy">
+    <strong>AI TL;DR</strong>
+    <span>Too lazy to read? Summarize this post with:</span>
+  </span>
+  <span class="aor-tldr__buttons">
+    <a class="aor-tldr__btn" href="https://chatgpt.com/?q=Please+open+this+URL+with+web+search+and+read+the+full+article%3A+https%3A%2F%2Fcarlosneto.dev%2Fblog%2F2026%2F2026-11-08-opensearch-ultra-hot%2F%0A%0AAfter+reading+the+real+content+of+that+article%2C+do+the+following%3A%0A1%29+Summarize+the+5+most+important+points+and+the+conclusion.%0A2%29+After+the+summary%2C+tell+the+reader+what+key+details%2C+data+and+insights+they+are+missing+by+not+reading+the+full+article.+Be+specific+enough+to+make+them+curious.%0A3%29+Remind+them+they+can+keep+asking+follow-up+questions+about+this+article+right+here+in+this+chat.%0A4%29+Suggest+one+good+follow-up+question+they+could+ask+as+a+starter.%0A%0AWrite+your+entire+answer+in+my+native+language.+Detect+it+from+the+language+I+use+to+talk+to+you%2C+and+if+it+is+not+clear%2C+ask+me+which+language+I+prefer+before+summarizing." target="_blank" rel="noopener"><svg class="aor-tldr__logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071.006l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071-.006l4.83 2.787a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/></svg><span>ChatGPT</span></a>
+    <a class="aor-tldr__btn" href="https://claude.ai/new?q=Please+open+this+URL+with+web+search+and+read+the+full+article%3A+https%3A%2F%2Fcarlosneto.dev%2Fblog%2F2026%2F2026-11-08-opensearch-ultra-hot%2F%0A%0AAfter+reading+the+real+content+of+that+article%2C+do+the+following%3A%0A1%29+Summarize+the+5+most+important+points+and+the+conclusion.%0A2%29+After+the+summary%2C+tell+the+reader+what+key+details%2C+data+and+insights+they+are+missing+by+not+reading+the+full+article.+Be+specific+enough+to+make+them+curious.%0A3%29+Remind+them+they+can+keep+asking+follow-up+questions+about+this+article+right+here+in+this+chat.%0A4%29+Suggest+one+good+follow-up+question+they+could+ask+as+a+starter.%0A%0AWrite+your+entire+answer+in+my+native+language.+Detect+it+from+the+language+I+use+to+talk+to+you%2C+and+if+it+is+not+clear%2C+ask+me+which+language+I+prefer+before+summarizing." target="_blank" rel="noopener"><svg class="aor-tldr__logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.157-1.005.654-.72.878.06.225.061.89.683 1.9 1.47 2.48 1.826.364.303.145-.103.018-.072-.163-.274-1.354-2.446-1.446-2.49-.643-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.455.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.983-1.306 1.651-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.542-.28 1.84-.315.831.388.091.395-.328.807-1.967.486-2.307.462-3.436.813-.042.03.049.061 1.548.146.662.036h1.62l3.018.225.79.522.473.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.003 1.81 2.507 2.33.127.578-.32.455-.34-.049-2.204-1.657-.85-.746-1.925-1.62h-.127v.17l.443.649 2.343 3.521.122 1.08-.17.353-.607.213-.668-.122-1.372-1.925-1.415-2.167-1.14-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.631-.012-.042-.14.018-1.433 1.967-2.18 2.945-1.725 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312z"/></svg><span>Claude</span></a>
+    <a class="aor-tldr__btn" href="https://grok.com/?q=Please+open+this+URL+with+web+search+and+read+the+full+article%3A+https%3A%2F%2Fcarlosneto.dev%2Fblog%2F2026%2F2026-11-08-opensearch-ultra-hot%2F%0A%0AAfter+reading+the+real+content+of+that+article%2C+do+the+following%3A%0A1%29+Summarize+the+5+most+important+points+and+the+conclusion.%0A2%29+After+the+summary%2C+tell+the+reader+what+key+details%2C+data+and+insights+they+are+missing+by+not+reading+the+full+article.+Be+specific+enough+to+make+them+curious.%0A3%29+Remind+them+they+can+keep+asking+follow-up+questions+about+this+article+right+here+in+this+chat.%0A4%29+Suggest+one+good+follow-up+question+they+could+ask+as+a+starter.%0A%0AWrite+your+entire+answer+in+my+native+language.+Detect+it+from+the+language+I+use+to+talk+to+you%2C+and+if+it+is+not+clear%2C+ask+me+which+language+I+prefer+before+summarizing." target="_blank" rel="noopener"><svg class="aor-tldr__logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M9.27 15.29l7.978-5.897c.391-.29.95-.177 1.137.272.98 2.369.542 5.215-1.41 7.169-1.951 1.954-4.667 2.382-7.149 1.406l-2.711 1.257c3.889 2.661 8.611 2.003 11.562-.953 2.341-2.344 3.066-5.539 2.388-8.42l.006.007c-.983-4.232.242-5.924 2.75-9.383.06-.082.12-.164.179-.248l-3.301 3.305v-.01L9.267 15.292M7.623 16.723c-2.792-2.666-2.31-6.825.058-9.195 1.751-1.754 4.584-2.465 7.17-1.414l2.705-1.25a7.808 7.808 0 00-1.364-.834c-3.004-1.416-6.724-.898-9.195 1.576-2.372 2.375-3.059 5.956-1.598 9.017 1.09 2.289-.885 5.323-2.368 7.17.922-.414 2.276-1.111 3.335-2.263.667-.726.667-.726 1.257-2.607z"/></svg><span>Grok</span></a>
+  </span>
+</div>
+<p><em><strong>Blog Post Publish Date:</strong> 2026/11/08</em></p>
+<hr class="docutils" />
+<section id="opensearch-ec2-instance-store-a-disruptive-approach-to-hot-tier-storage">
+<h1>OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage<a class="headerlink" href="#opensearch-ec2-instance-store-a-disruptive-approach-to-hot-tier-storage" title="Link to this heading">#</a></h1>
+<p>This blog post covers how to run OpenSearch on EC2 Instance Store, from storage performance and shard replication to multi-AZ placement, safe rollouts, data migration, and disruption control with Kubernetes and Karpenter.</p>
+<section id="why-instance-store">
+<h2>Why Instance Store?<a class="headerlink" href="#why-instance-store" title="Link to this heading">#</a></h2>
+<p>I’ve been managing OpenSearch clusters running on EKS for over five years, handling ingestion rates of around 70K–100K documents per second. Throughout this experience, I’ve worked on improving indexing throughput, query latency, and infrastructure costs.</p>
+<p>One of the strategies I introduced was storage tiering, separating hot, warm, and cold data according to access patterns. This helped reduce costs, but the hot tier eventually became a performance bottleneck.</p>
+<p>I tried different EC2 families, increasing CPU and memory, but the results were disappointing. After investigating the cluster metrics, I identified storage I/O as the main bottleneck.</p>
+<p>At that point, I decided to try something different: using storage-optimized EC2 instances with local NVMe Instance Store instead of EBS for hot data nodes.</p>
+<p>The results were very good. I achieved the performance I was looking for while reducing storage costs compared to my previous EBS-based configuration.</p>
+<p>There was one concern, though: Instance Store is ephemeral. If an instance is terminated or its underlying host fails, its local data is lost. For a stateful system like OpenSearch, this introduces an important operational challenge.</p>
+<p>This article explains why I chose this approach and how OpenSearch replication and Kubernetes configurations can make it a viable strategy.</p>
+</section>
+<section id="ec2-instance-store-vs-ebs">
+<h2>EC2 Instance Store vs. EBS<a class="headerlink" href="#ec2-instance-store-vs-ebs" title="Link to this heading">#</a></h2>
+<p>The main difference between these storage options is where the data physically resides. EBS is network-attached block storage. Instance Store uses local NVMe SSDs physically attached to the EC2 host. This difference affects both performance and data durability.</p>
+<p>With EBS, performance depends on the volume configuration and the instance’s available EBS bandwidth. For example, a <code class="docutils literal notranslate"><span class="pre">gp3</span></code> volume starts with 3,000 IOPS and 125 MiB/s, with higher limits available at additional cost. For more, see <a class="reference external" href="https://docs.aws.amazon.com/ebs/latest/userguide/general-purpose.html">AWS EBS documentation</a>.</p>
+<p>Instance Store provides local storage without a separate EBS volume or provisioned IOPS charge. Its performance depends on the instance family and local SSD capabilities. For example, an <code class="docutils literal notranslate"><span class="pre">i8g.2xlarge</span></code> provides 8 vCPUs, 64 GiB of memory, and 1,875 GB of local NVMe storage. For more, see <a class="reference external" href="https://aws.amazon.com/ec2/instance-types/i8g/">AWS I8g specifications</a>.</p>
+<p>For I/O-intensive workloads, this can be an interesting cost-performance advantage. Local NVMe is particularly attractive when the hot dataset generates frequent disk reads and writes.</p>
+<p>However, there is an important trade-off: EBS volumes persist independently of the EC2 instance, while Instance Store data is lost when the instance is stopped, terminated, or hibernated. Instance Store volumes cannot be detached and attached to another instance. <a class="reference external" href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-store-lifetime.html">AWS Instance Store documentation</a>.</p>
+<p>Therefore, the choice depends on the workload. EBS provides persistence and operational flexibility. Instance Store prioritizes local storage performance and can reduce the need for expensive EBS configurations.</p>
+</section>
+<section id="why-instance-store-works-for-opensearch">
+<h2>Why Instance Store Works for OpenSearch<a class="headerlink" href="#why-instance-store-works-for-opensearch" title="Link to this heading">#</a></h2>
+<p>OpenSearch already has a mechanism that makes this architecture possible: shard replication. Each index is divided into primary shards, with replica shards providing additional copies of the data. OpenSearch distributes a primary shard and its replicas across different nodes, allowing the cluster to recover when a node becomes unavailable. <a class="reference external" href="https://docs.opensearch.org/latest/getting-started/intro/">OpenSearch replication documentation</a>.</p>
+<p>For hot data nodes using Instance Store, this means local disks can be treated as disposable storage, provided that another valid copy of every shard is available elsewhere.</p>
+<p>For example, with one replica configured:</p>
+<ol class="arabic simple">
+<li><p>A data node fails and its local NVMe data is lost.</p></li>
+<li><p>OpenSearch detects the node failure.</p></li>
+<li><p>The replica shards on surviving nodes can be promoted to primaries.</p></li>
+<li><p>OpenSearch creates new replicas to restore redundancy.</p></li>
+</ol>
+<p>This is the foundation of the architecture: instead of relying on persistent local storage, we rely on OpenSearch’s distributed storage model to recover from node failures.</p>
+<p>However, replication alone is not enough. Shard copies must be distributed across independent failure domains, and node replacement must be controlled to give the cluster enough time to recover.</p>
+</section>
+<section id="running-instance-store-safely-on-kubernetes">
+<h2>Running Instance Store Safely on Kubernetes<a class="headerlink" href="#running-instance-store-safely-on-kubernetes" title="Link to this heading">#</a></h2>
+<p>The following six mechanisms combine OpenSearch capabilities with Kubernetes and Karpenter features to reduce the risk of data loss. They address three important areas: shard redundancy, workload placement, and controlled node replacement.</p>
+<p><strong>NOTE:</strong> It is important to understand that these mechanisms only mitigate the risks under controlled failure scenarios. If multiple nodes fail before OpenSearch can recover their shard copies, data loss is still possible. Using Instance Store means accepting this durability trade-off in exchange for performance. EBS remains the safer choice when data durability is the priority.</p>
+<section id="ensure-all-indices-have-replicas">
+<h3>1. Ensure All Indices Have Replicas<a class="headerlink" href="#ensure-all-indices-have-replicas" title="Link to this heading">#</a></h3>
+<p>Every index must have at least one replica. Without replicas, losing a node also means permanently losing the shard copies stored on its local disk. You can define the default number of replicas for newly created indices using an index template:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_i</span><span class="kc">n</span><span class="err">dex_</span><span class="kc">te</span><span class="err">mpla</span><span class="kc">te</span><span class="err">/de</span><span class="kc">fault</span><span class="mi">-</span><span class="err">replicas</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"index_patterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*"</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"number_of_replicas"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This sets one replica as the default for matching indices. Existing indices must be checked and updated separately. Replicas provide protection only while another healthy copy exists. Replacing multiple nodes before recovery completes can still result in data loss.</p>
+</section>
+<section id="one-node-per-pod-across-availability-zones">
+<h3>2. One Node per Pod, Across Availability Zones<a class="headerlink" href="#one-node-per-pod-across-availability-zones" title="Link to this heading">#</a></h3>
+<p>Run one OpenSearch Data Hot node per Pod. This provides a clear mapping between Kubernetes pods and OpenSearch nodes, making node-level operations and failure recovery easier to manage.</p>
+<p>Whenever possible, distribute these pods across different Availability Zones using Kubernetes topology spread constraints or pod anti-affinity. This reduces the chance of losing multiple shard copies due to a single AZ failure.</p>
+<p>OpenSearch replicas should also be allocated across different nodes. With awareness of the cluster’s AZ topology, shard allocation can keep primary and replica copies in separate failure domains. This way, losing a node or an entire AZ does not necessarily mean losing access to the shard’s data.</p>
+<p>However, this protection depends on having enough nodes and replicas distributed across independent failure domains. If another copy is lost before OpenSearch completes recovery, data loss is still possible.</p>
+<p>The following Kubernetes configuration combines node affinity, pod anti-affinity, taints, tolerations, and topology spread constraints to control pod placement:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># opensearch-data-hot-statufulset.yaml</span>
+
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">opensearch-hot</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">affinity</span><span class="p">:</span>
+<span class="w">        </span><span class="c1"># Schedule only on dedicated OpenSearch hot nodes</span>
+<span class="w">        </span><span class="nt">nodeAffinity</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">nodeSelectorTerms</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">matchExpressions</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">workload</span>
+<span class="w">                    </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">In</span>
+<span class="w">                    </span><span class="nt">values</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">opensearch-hot</span>
+
+<span class="w">        </span><span class="c1"># Ensure only one OpenSearch hot pod per Kubernetes node</span>
+<span class="w">        </span><span class="nt">podAntiAffinity</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">labelSelector</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">opensearch-hot</span>
+<span class="w">              </span><span class="nt">topologyKey</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes.io/hostname</span>
+
+<span class="w">      </span><span class="c1"># Allow pods to run on nodes tainted for OpenSearch</span>
+<span class="w">      </span><span class="nt">tolerations</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">workload</span>
+<span class="w">          </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Equal</span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">opensearch-hot</span>
+<span class="w">          </span><span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NoSchedule</span>
+
+<span class="w">      </span><span class="c1"># Spread pods evenly across Availability Zones</span>
+<span class="w">      </span><span class="nt">topologySpreadConstraints</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">maxSkew</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">          </span><span class="nt">topologyKey</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">topology.kubernetes.io/zone</span>
+<span class="w">          </span><span class="nt">whenUnsatisfiable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DoNotSchedule</span>
+<span class="w">          </span><span class="nt">labelSelector</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">opensearch-hot</span>
+</pre></div>
+</div>
+<p>Kubernetes handles pod placement, while OpenSearch shard allocation awareness must be configured separately to distribute primary and replica shards across Availability Zones.</p>
+<p>For example, configure the AZ as an allocation awareness attribute:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># opensearch.yml</span>
+<span class="nt">cluster.routing.allocation.awareness.attributes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zone</span>
+</pre></div>
+</div>
+<p>Each OpenSearch node must also expose its Availability Zone:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example for a node in us-east-1a</span>
+<span class="nt">node.attr.zone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1a</span>
+</pre></div>
+</div>
+<p>The attribute value must match the actual AZ of each node.</p>
+</section>
+<section id="use-statefulsets-for-hot-data-nodes">
+<h3>3. Use StatefulSets for Hot Data Nodes<a class="headerlink" href="#use-statefulsets-for-hot-data-nodes" title="Link to this heading">#</a></h3>
+<p>StatefulSets are a good fit for OpenSearch hot data nodes. Unlike Deployments, they provide stable pod identities and predictable names. Their default <code class="docutils literal notranslate"><span class="pre">OrderedReady</span></code> policy also allows pods to be updated or replaced one at a time, waiting for each pod to become ready before proceeding.</p>
+<p>Predictable node names are useful for data management operations as well. For example, when decommissioning nodes or migrating data to a new StatefulSet, you can use the OpenSearch <code class="docutils literal notranslate"><span class="pre">cluster.routing.allocation.exclude._name</span></code> cluster setting to prevent shards from being allocated to specific nodes.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"opensearch-hot-3"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This tells OpenSearch to relocate shards away from the specified node before it is removed. To make this work reliably, configure <code class="docutils literal notranslate"><span class="pre">node.name</span></code> to match the predictable pod identity.</p>
+</section>
+<section id="use-a-readiness-probe-to-wait-for-cluster-green">
+<h3>4. Use a Readiness Probe to Wait for Cluster Green<a class="headerlink" href="#use-a-readiness-probe-to-wait-for-cluster-green" title="Link to this heading">#</a></h3>
+<p>A pod can become responsive before OpenSearch has recovered its shards or completed replication. A readiness probe that only checks whether the local HTTP endpoint responds is therefore insufficient.</p>
+<p>Instead, the readiness probe should verify that the OpenSearch cluster has reached green before reporting the pod as ready. Combined with a StatefulSet using the <code class="docutils literal notranslate"><span class="pre">OrderedReady</span></code> policy, this gives OpenSearch time to restore shard redundancy before Kubernetes proceeds with the next pod replacement.</p>
+<p>OpenSearch provides the <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-health/#query-parameters">Cluster Health API</a>, which supports the <code class="docutils literal notranslate"><span class="pre">wait_for_status</span></code> parameter. You can use it to wait for the cluster to reach green:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">readinessProbe</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">exec</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sh</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-c</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">curl -s -k -f -u "$OPENSEARCH_USER:$OPENSEARCH_PASS" "$OPENSEARCH_URL/_cluster/health?wait_for_status=green&amp;timeout=5s") | grep -q '"status":"green"'</span>
+</pre></div>
+</div>
+<p>Green cluster health means that all primary and replica shards are allocated. Waiting for this state before continuing a rollout gives OpenSearch time to restore redundancy after each replacement, reducing the risk of losing the last available copy of a shard if another node fails during the process.</p>
+<blockquote>
+<div><p><strong>NOTE</strong>: An <code class="docutils literal notranslate"><span class="pre">OrderedReady</span></code> StatefulSet combined with a green readiness probe can prevent subsequent pods from being created during initial cluster bootstrap. If the first pod cannot reach green without additional nodes, Kubernetes will wait indefinitely before creating the next pod. The initial bootstrap process must account for this dependency.</p>
+</div></blockquote>
+</section>
+<section id="use-a-poddisruptionbudget-pdb">
+<h3>5. Use a PodDisruptionBudget (PDB)<a class="headerlink" href="#use-a-poddisruptionbudget-pdb" title="Link to this heading">#</a></h3>
+<p>A PodDisruptionBudget provides an additional limit on voluntary pod evictions during node draining. For example, setting <code class="docutils literal notranslate"><span class="pre">maxUnavailable:</span> <span class="pre">1</span></code> prevents the eviction API from voluntarily disrupting more than one available pod at a time.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">policy/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PodDisruptionBudget</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">opensearch-hot</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">maxUnavailable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">opensearch-hot</span>
+</pre></div>
+</div>
+<p>This adds another layer of protection during node maintenance and replacement.</p>
+<blockquote>
+<div><p><strong>NOTE</strong>: PDBs only protect against voluntary disruptions handled through the Kubernetes Eviction API. They do not prevent involuntary disruptions, such as instance failures, or directly control rolling updates performed by workload controllers.</p>
+</div></blockquote>
+</section>
+<section id="control-node-disruptions-with-karpenter">
+<h3>6. Control Node Disruptions with Karpenter<a class="headerlink" href="#control-node-disruptions-with-karpenter" title="Link to this heading">#</a></h3>
+<p>Pod-level readiness is only part of the solution. The node manager must also avoid replacing nodes while OpenSearch is still recovering data.</p>
+<p>In this article, I’ll use <strong>Karpenter</strong> as the node manager because it is the technology I have hands-on experience with. The same principles apply to other node-management solutions: avoid replacing nodes too aggressively, and allow the workload to recover before starting another disruption.</p>
+<p>For Karpenter, two mechanisms are particularly relevant.</p>
+<p><strong>Prevent voluntary disruptions:</strong> The <code class="docutils literal notranslate"><span class="pre">karpenter.sh/do-not-disrupt:</span> <span class="pre">&quot;true&quot;</span></code> annotation prevents Karpenter from voluntarily disrupting a pod, subject to its documented exceptions.</p>
+<p>Add it to the pod template:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">karpenter.sh/do-not-disrupt</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
+</pre></div>
+</div>
+<p>This helps prevent Karpenter from removing nodes hosting OpenSearch pods during voluntary disruption operations.</p>
+<blockquote>
+<div><p>NOTE: The <code class="docutils literal notranslate"><span class="pre">do-not-disrupt</span></code> annotation does not protect against forceful disruptions, such as instance interruptions or node failures.</p>
+</div></blockquote>
+<p><strong>Prevent automatic rotation on drift:</strong> Karpenter can replace nodes when they drift from the desired NodePool configuration. With Instance Store, this means that a configuration change can trigger the termination of a node and permanently destroy its local data.</p>
+<p>A disruption budget can block voluntary drift-related replacements:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">disruption</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">budgets</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">nodes</span><span class="p">:</span><span class="w"> </span><span class="s">"0"</span>
+<span class="w">        </span><span class="nt">reasons</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Drifted</span>
+</pre></div>
+</div>
+<p>This prevents Karpenter from voluntarily replacing drifted nodes while the budget is active. When a rotation is needed, the budget can be adjusted to allow a controlled replacement process.</p>
+</section>
+</section>
+<section id="takeaways">
+<h2>Takeaways<a class="headerlink" href="#takeaways" title="Link to this heading">#</a></h2>
+<p>Running OpenSearch on EC2 Instance Store can deliver significant performance and cost benefits for I/O-intensive hot tiers. However, it requires a different approach to storage durability and node lifecycle management.</p>
+<p>The key takeaways are:</p>
+<ul class="simple">
+<li><p><strong>Replication is essential:</strong> Every index must have replicas, and shard copies should be distributed across independent Availability Zones.</p></li>
+<li><p><strong>Kubernetes controls placement:</strong> Running one OpenSearch node per Pod and spreading pods across AZs helps reduce the impact of node and AZ failures.</p></li>
+<li><p><strong>Recovery must precede replacement:</strong> StatefulSets, readiness probes, and PodDisruptionBudgets help control how quickly nodes are replaced and give OpenSearch time to restore redundancy.</p></li>
+<li><p><strong>Node disruptions require coordination:</strong> Karpenter must be configured to avoid unnecessary voluntary replacements, especially when drift could trigger the termination of nodes holding local data.</p></li>
+<li><p><strong>Data loss is still possible:</strong> These mechanisms reduce operational risks but cannot guarantee durability when multiple nodes or failure domains are lost before replication completes.</p></li>
+</ul>
+<p>Ultimately, Instance Store is a trade-off. You exchange the durability and flexibility of EBS for higher local storage performance and potentially lower costs. For workloads where hot-tier I/O is a major bottleneck, that trade-off can make sense, provided the architecture and operational procedures are designed around the ephemeral nature of the storage.</p>
+</section>
+</section>
+</div>
+<!-- Add a comment box underneath the page's content -->
+<script
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+<div class="section ablog__blog_comments">
+     
+<div class="section ablog__prev-next">
+  <span class="ablog__prev">
+     
+    <a href="../2026-11-04-opensearch-watermark/">
+      
+      <i class="fa fa-arrow-circle-left"></i>
+      
+      <span>OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks</span>
+    </a>
+    
+  </span>
+  <span class="ablog__spacer">&nbsp;</span>
+  <span class="ablog__next">
+    
+  </span>
+</div>
+  
+</div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.19.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

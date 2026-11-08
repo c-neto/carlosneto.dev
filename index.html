@@ -45,7 +45,7 @@
     <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-examples.css?v=e236af4b" />
-    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=8c95994f" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=e9556b53" />
     <link rel="stylesheet" type="text/css" href="_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -470,6 +470,10 @@
 <section id="recent-blog-posts">
 <h2>Recent blog posts<a class="headerlink" href="#recent-blog-posts" title="Link to this heading">#</a></h2>
 <ul class="postlist-style-none postlist">
+<li class="ablog-post"><p class="ablog-post-title"><a class="reference internal" href="blog/2026/2026-11-08-opensearch-ultra-hot/">OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage</a></p>
+<p class="ablog-post-excerpt"><em><strong>Blog Post Publish Date:</strong> 2026/11/08</em></p>
+<p class="ablog-post-excerpt">This blog post covers how to run OpenSearch on EC2 Instance Store, from storage performance and shard replication to multi-AZ placement, safe rollouts, data migration, and disruption control with Kubernetes and Karpenter.</p>
+</li>
 <li class="ablog-post"><p class="ablog-post-title"><a class="reference internal" href="blog/2026/2026-11-04-opensearch-watermark/">OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks</a></p>
 <p class="ablog-post-excerpt"><em><strong>Blog Post Publish Date:</strong> 2026/11/04</em></p>
 <p class="ablog-post-excerpt">This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage in clusters with many small indices, and how disk watermarks help address that. I’ll also discuss other allocation mechanisms and a limitation in the watermark design: it’s a cluster-wide setting, even in clusters with different storage tiers.</p>
