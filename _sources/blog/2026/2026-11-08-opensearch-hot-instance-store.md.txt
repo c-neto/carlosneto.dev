@@ -23,14 +23,12 @@ There is an important trade-off, though. Unlike EBS volumes, Instance Store disk
 For more information about performance, see these publicly available benchmarks and case studies:
 
 - [Tuning Your Cluster for Indexing Speed (by OpenSearch)](https://docs.opensearch.org/latest/tuning-your-cluster/performance/): Official OpenSearch guidance on indexing performance, including recommendations for SSD-backed Instance Store and storage configuration.
-- [Postgres Isn't Slow. Your Storage Is (by ClickHouse)](https://clickhouse.com/blog/postgres-isnt-slow-your-storage-is): Benchmark comparing EBS gp3 and local NVMe Instance Store using PostgreSQL workloads. Reports significant improvements in transaction throughput and latency with local NVMe.
+- [Postgres Isn't Slow. Your Storage Is (by ClickHouse)](https://clickhouse.com/blog/posette-talk-recap-postgres-isnt-slow-your-storage-is): Benchmark comparing EBS gp3 and local NVMe Instance Store using PostgreSQL workloads. Reports significant improvements in transaction throughput and latency with local NVMe.
 - [Amazon EC2 i3.metal Review (by StorageReview)](https://www.storagereview.com/review/amazon-ec2-i3-metal-review): Storage benchmark comparing EBS and local NVMe on EC2 i3.metal instances, including random read/write IOPS and sequential throughput.
 
 ## EC2 Instance Store vs. EBS
 
 The choice between EBS and Instance Store comes down to physical location and how your application accesses storage. EBS volumes operate as network-attached block devices that exist independently of any individual EC2 instance. Instance Store, by contrast, relies on NVMe SSDs plugged directly into the host server’s PCIe bus, completely cutting out the network layer.
-
-That distinction heavily dictates how both storage options perform under real world pressure, though not always in the ways people expect.
 
 Local NVMe is not universally faster. For large-block, sequential workloads where a significant portion of the active dataset resides in RAM, a modern `gp3` volume running on a high-bandwidth Nitro instance can comfortably match or even edge out local drives on sustained throughput. In those scenarios, the performance bottleneck shifts away from the underlying storage media and lands squarely on the instance's allocated EBS network bandwidth.
 
@@ -47,8 +45,6 @@ OpenSearch distributes index data across shards and can maintain replica copies 
 This replication model makes it possible to treat Instance Store disks as disposable, provided that every shard has another valid copy on a different node. For example, when a hot data node fails, its local NVMe data is lost along with the instance. OpenSearch detects that the node is unavailable, promotes available replica shards to primary, and allocates new replicas across the remaining nodes. Once a replacement node joins the cluster, it can receive shard copies and restore the desired redundancy.
 
 The important part is ensuring that shard copies are distributed across independent failure domains and that node replacement is controlled. If multiple nodes holding copies of the same shard fail before OpenSearch can recover, the remaining copies may be insufficient to prevent data loss. Instance Store is therefore viable when replication, placement, and disruption management are designed together.
-
-> _For more details, see: [OpenSearch Getting Started](https://docs.opensearch.org/latest/getting-started/intro/)._
 
 ## Running Instance Store Safely on Kubernetes
 
