@@ -12,7 +12,7 @@ category: Log Analytics
 
 This blog post covers how to run OpenSearch on EC2 Instance Store, from storage performance and shard replication to multi-AZ placement, safe rollouts, data migration, and disruption control with Kubernetes and Karpenter.
 
-## Instance Store: Less Durability, More Performance (For Hot Nodes)
+## Instance Store: Less Durability, More Performance
 
 I've been managing OpenSearch clusters on EKS for over five years, handling ingestion rates of around 70K–100K documents per second. During this time, I've worked on improving indexing throughput, reducing query latency, and optimizing infrastructure costs. One of the most important changes was introducing hot, warm, and cold storage tiers to handle different data access patterns more efficiently. As the clusters grew, however, the hot tier eventually became a performance bottleneck.
 
@@ -20,7 +20,11 @@ I experimented with different EC2 instance families and increased CPU and memory
 
 There is an important trade-off, though. Unlike EBS volumes, Instance Store disks are tied to the physical EC2 host. If an instance is stopped, terminated, or experiences a host failure, its local data is permanently lost. This makes Instance Store a less durable storage option, but it does not necessarily make it unsuitable for OpenSearch. The key is to understand how shard replication works and design the infrastructure so that losing a node does not mean losing the only copy of its data.
 
-This article explains why Instance Store can be an effective option for OpenSearch hot tiers and how to operate it safely with Kubernetes.
+For more information about performance, see these publicly available benchmarks and case studies:
+
+- [Tuning Your Cluster for Indexing Speed (by OpenSearch)](https://docs.opensearch.org/latest/tuning-your-cluster/performance/): Official OpenSearch guidance on indexing performance, including recommendations for SSD-backed Instance Store and storage configuration.
+- [Postgres Isn't Slow. Your Storage Is (by ClickHouse)](https://clickhouse.com/blog/postgres-isnt-slow-your-storage-is): Benchmark comparing EBS gp3 and local NVMe Instance Store using PostgreSQL workloads. Reports significant improvements in transaction throughput and latency with local NVMe.
+- [Amazon EC2 i3.metal Review (by StorageReview)](https://www.storagereview.com/review/amazon-ec2-i3-metal-review): Storage benchmark comparing EBS and local NVMe on EC2 i3.metal instances, including random read/write IOPS and sequential throughput.
 
 ## EC2 Instance Store vs. EBS
 
@@ -186,13 +190,9 @@ These mechanisms protect against different types of disruption. The readiness pr
 
 ## Takeaways
 
-- Instance Store can improve hot-tier performance: Local NVMe provides high I/O performance and can reduce storage costs compared with EBS.
-- Replication makes ephemeral storage viable: Every index needs replicas, and shard copies must be distributed across independent failure domains.
-- Kubernetes controls workload placement: Running one OpenSearch node per pod and spreading pods across Availability Zones reduces the impact of individual node failures.
-- StatefulSets help coordinate replacements: Stable pod identities and ordered updates make node lifecycle operations more predictable.
-- Readiness probes help protect cluster recovery: Waiting for cluster health to return to green prevents the next pod replacement from proceeding before redundancy is restored.
-- PDBs limit voluntary evictions: They help prevent too many hot data pods from being evicted during node draining.
-- Karpenter disruptions need explicit control: Drift and other voluntary replacements should be coordinated with OpenSearch recovery.
-- These mechanisms complement each other: No single Kubernetes or Karpenter setting provides complete protection for Instance Store data.
-- Unexpected failures remain a risk: Multiple node or Availability Zone failures can still cause data loss before replicas are recovered.
-- Instance Store is a deliberate trade-off: It makes sense when hot-tier I/O performance and storage cost justify accepting lower durability.
+The blog post presented several technical considerations and disruptive approaches. Let's summarize the main points:
+
+- Instance Store is neither better nor faster than EBS, nor is EBS inherently better than Instance Store. Each has its own use cases.
+- For the OpenSearch Hot Data Tier, Instance Store delivers better performance.
+- Instance Store is lost when the EC2 node fails, making this a riskier approach.
+- The risks of using Instance Store can be controlled through application-level data replication mechanisms and Kubernetes guardrails.
