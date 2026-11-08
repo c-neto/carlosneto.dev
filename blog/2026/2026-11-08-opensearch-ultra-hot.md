@@ -12,7 +12,7 @@ category: Log Analytics
 
 This blog post covers how to run OpenSearch on EC2 Instance Store, from storage performance and shard replication to multi-AZ placement, safe rollouts, data migration, and disruption control with Kubernetes and Karpenter.
 
-## Instance Store for Hot Nodes: Less Durability, More Performance
+## Instance Store: Less Durability, More Performance (For Hot Nodes)
 
 I've been managing OpenSearch clusters on EKS for over five years, handling ingestion rates of around 70K–100K documents per second. During this time, I've worked on improving indexing throughput, reducing query latency, and optimizing infrastructure costs. One of the most important changes was introducing hot, warm, and cold storage tiers to handle different data access patterns more efficiently. As the clusters grew, however, the hot tier eventually became a performance bottleneck.
 
@@ -32,7 +32,7 @@ Local NVMe is not universally faster. For large-block, sequential workloads wher
 
 Where local NVMe establishes an un-closable gap is small-block random read latency. Because EBS must traverse the virtualized network stack, it inevitably introduces microsecond-level overhead. Direct PCIe access bypasses that entirely, delivering sub-millisecond access times. This latency differential becomes the single most critical factor for search engines like OpenSearch. When an OpenSearch hot tier serves queries against indices that exceed available RAM, Lucene index traversals trigger relentless random small-block reads, making local storage substantially more responsive.
 
-The trade-off for that raw speed is persistence. An EBS volume acts as a stable baseline: it survives instance stops, can be detached, and scales its baseline 3,000 IOPS and 125 MiB/s up to specific operational needs. Instance Store storage—like the 1,875 GB NVMe drive baked into an `i8g.2xlarge`—is strictly ephemeral. If the host stops, hibernates, or fails, the local data vanishes.
+The trade-off for that raw speed is persistence. An EBS volume acts as a stable baseline: it survives instance stops, can be detached, and scales its baseline 3,000 IOPS and 125 MiB/s up to specific operational needs. Instance Store storage, like the 1,875 GB NVMe drive baked into an `i8g.2xlarge`, is strictly ephemeral. If the host stops, hibernates, or fails, the local data vanishes.
 
 For traditional stateful applications, EBS remains the sensible default. But in distributed search systems where application-level shard replication already handles node failure, local NVMe transforms storage latency from a persistent bottleneck into a solved problem.
 
