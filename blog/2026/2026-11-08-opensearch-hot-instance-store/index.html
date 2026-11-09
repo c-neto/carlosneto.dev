@@ -473,8 +473,8 @@
 </div>
 <p>OpenSearch will then relocate the shards away from the excluded node. Once relocation is complete, the node can be safely removed from the cluster. This requires the OpenSearch <code class="docutils literal notranslate"><span class="pre">node.name</span></code> to match the pod identity used in the exclusion setting. After the decommissioning operation, remember to clear the exclusion setting so that the node can participate in shard allocation again.</p>
 </section>
-<section id="one-node-per-pod-across-availability-zones">
-<h3>3. One Node per Pod, Across Availability Zones<a class="headerlink" href="#one-node-per-pod-across-availability-zones" title="Link to this heading">#</a></h3>
+<section id="one-node-per-pod">
+<h3>3. One Node per Pod<a class="headerlink" href="#one-node-per-pod" title="Link to this heading">#</a></h3>
 <p>Running one OpenSearch hot data node per Kubernetes pod makes node placement and lifecycle management easier to reason about. It also ensures that a single worker node failure does not take down multiple OpenSearch nodes, potentially affecting both copies of the same shard. By enforcing one hot data pod per worker node, Kubernetes provides an additional layer of failure isolation.</p>
 <p>The following configuration uses <a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/">node affinity</a> to select dedicated hot-tier workers, <a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/">pod anti-affinity</a> to keep hot pods on separate Kubernetes nodes, and <a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints">topology spread constraints</a> to distribute them across Availability Zones.</p>
 <div class="literal-block-wrapper docutils container" id="id3">
@@ -510,9 +510,10 @@
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sh</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-c</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">        </span><span class="no">curl -sSkf -u "${OPENSEARCH_USER}:${OPENSEARCH_PASS}" \</span>
-<span class="w">          </span><span class="no">"${OPENSEARCH_URL}/_cluster/health?wait_for_status=green&amp;timeout=5s" \</span>
-<span class="w">          </span><span class="no">| jq -e '.status == "green" and .timed_out == false' &gt;/dev/null</span>
+<span class="w">        </span><span class="no">curl -sSkf \</span>
+<span class="w">        </span><span class="no">-u "${USER}:${PASS}" \</span>
+<span class="w">        </span><span class="no">"${URL}/_cluster/health?wait_for_status=green&amp;timeout=5s" \</span>
+<span class="w">        </span><span class="no">| jq -e '.status == "green" and .timed_out == false'</span>
 </pre></div>
 </div>
 </div>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-09T01:41:02.229057+00:00</updated>
+  <updated>2026-11-09T01:42:40.018410+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -80,8 +80,8 @@
 &lt;/div&gt;
 &lt;p&gt;OpenSearch will then relocate the shards away from the excluded node. Once relocation is complete, the node can be safely removed from the cluster. This requires the OpenSearch &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node.name&lt;/span&gt;&lt;/code&gt; to match the pod identity used in the exclusion setting. After the decommissioning operation, remember to clear the exclusion setting so that the node can participate in shard allocation again.&lt;/p&gt;
 &lt;/section&gt;
-&lt;section id="one-node-per-pod-across-availability-zones"&gt;
-&lt;h3&gt;3. One Node per Pod, Across Availability Zones&lt;/h3&gt;
+&lt;section id="one-node-per-pod"&gt;
+&lt;h3&gt;3. One Node per Pod&lt;/h3&gt;
 &lt;p&gt;Running one OpenSearch hot data node per Kubernetes pod makes node placement and lifecycle management easier to reason about. It also ensures that a single worker node failure does not take down multiple OpenSearch nodes, potentially affecting both copies of the same shard. By enforcing one hot data pod per worker node, Kubernetes provides an additional layer of failure isolation.&lt;/p&gt;
 &lt;p&gt;The following configuration uses &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/"&gt;node affinity&lt;/a&gt; to select dedicated hot-tier workers, &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/"&gt;pod anti-affinity&lt;/a&gt; to keep hot pods on separate Kubernetes nodes, and &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints"&gt;topology spread constraints&lt;/a&gt; to distribute them across Availability Zones.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
@@ -117,9 +117,10 @@
 &lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;sh&lt;/span&gt;
 &lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;-c&lt;/span&gt;
 &lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p p-Indicator"&gt;|&lt;/span&gt;
-&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="no"&gt;curl -sSkf -u "${OPENSEARCH_USER}:${OPENSEARCH_PASS}" \&lt;/span&gt;
-&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="no"&gt;"${OPENSEARCH_URL}/_cluster/health?wait_for_status=green&amp;amp;timeout=5s" \&lt;/span&gt;
-&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="no"&gt;| jq -e '.status == "green" and .timed_out == false' &amp;gt;/dev/null&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="no"&gt;curl -sSkf \&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="no"&gt;-u "${USER}:${PASS}" \&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="no"&gt;"${URL}/_cluster/health?wait_for_status=green&amp;amp;timeout=5s" \&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="no"&gt;| jq -e '.status == "green" and .timed_out == false'&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

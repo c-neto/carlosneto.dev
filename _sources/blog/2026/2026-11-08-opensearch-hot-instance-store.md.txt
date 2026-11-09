@@ -87,7 +87,7 @@ Stable pod names are also useful when decommissioning or migrating nodes. For ex
 
 OpenSearch will then relocate the shards away from the excluded node. Once relocation is complete, the node can be safely removed from the cluster. This requires the OpenSearch `node.name` to match the pod identity used in the exclusion setting. After the decommissioning operation, remember to clear the exclusion setting so that the node can participate in shard allocation again.
 
-### 3. One Node per Pod, Across Availability Zones
+### 3. One Node per Pod
 
 Running one OpenSearch hot data node per Kubernetes pod makes node placement and lifecycle management easier to reason about. It also ensures that a single worker node failure does not take down multiple OpenSearch nodes, potentially affecting both copies of the same shard. By enforcing one hot data pod per worker node, Kubernetes provides an additional layer of failure isolation.
 
@@ -127,9 +127,10 @@ readinessProbe:
       - sh
       - -c
       - |
-        curl -sSkf -u "${OPENSEARCH_USER}:${OPENSEARCH_PASS}" \
-          "${OPENSEARCH_URL}/_cluster/health?wait_for_status=green&timeout=5s" \
-          | jq -e '.status == "green" and .timed_out == false' >/dev/null
+        curl -sSkf \
+        -u "${USER}:${PASS}" \
+        "${URL}/_cluster/health?wait_for_status=green&timeout=5s" \
+        | jq -e '.status == "green" and .timed_out == false'
 ```
 
 ### 5. Use a PodDisruptionBudget (PDB)
