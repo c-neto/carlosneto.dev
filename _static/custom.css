@@ -157,3 +157,8 @@ div.twitter-tweet {
 :root {
   scroll-padding-top: 0 !important;
 }
+
+ol, ul {
+  padding-inline-start: 2rem;
+  padding-left: 16px;
+}
