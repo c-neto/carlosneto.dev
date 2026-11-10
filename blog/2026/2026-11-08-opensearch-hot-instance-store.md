@@ -10,17 +10,17 @@ category: Log Analytics
 
 # OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage
 
-This blog post covers an architectural approach for running the OpenSearch Hot Data Tier using EC2 Instance Store (local NVMe) instead of EBS, exploring performance gains and how to manage the risks of data loss through OpenSearch replication, Kubernetes, and Karpenter.
+This blog post covers running the OpenSearch Hot Data Tier on EC2 Instance Store (local NVMe) instead of EBS: why it performs better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.
 
 ## Instance Store: Less Durability, More Performance
 
-I've been managing OpenSearch clusters on [EKS](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html) for over five years, handling ingestion rates of around 70K~100K documents per second. During this time, I've worked on improving indexing throughput, reducing query latency, and optimizing infrastructure costs. One of the most important changes was introducing hot, warm, and cold storage tiers to handle different data access patterns more efficiently. As the clusters grew, however, the hot tier eventually became a performance bottleneck.
+I've been managing OpenSearch clusters on [EKS](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html) for over five years, handling ingestion rates of around 70K~100K documents per second. During this time, I've worked on improving indexing throughput, reducing query latency, and optimizing infrastructure costs. One of the most important changes was introducing hot, warm, and cold storage tiers to handle different data access patterns more efficiently. As the clusters grew, however, the hot tier became a performance bottleneck.
 
-I experimented with different EC2 instance families and increased CPU and memory resources, but the metrics consistently pointed to storage I/O as the limiting factor. This led me to test [Storage Optimized EC2 instances](https://aws.amazon.com/ec2/instance-types/storage-optimized) equipped with local NVMe Instance Store instead of EBS for hot data nodes. The results were very good: the local disks provided the performance we needed while significantly reducing storage costs compared with EBS.
+I experimented with different EC2 instance families and increased CPU and memory, but the metrics consistently pointed to storage I/O as the limiting factor. This led me to test [Storage Optimized EC2 instances](https://aws.amazon.com/ec2/instance-types/storage-optimized) with local NVMe Instance Store for the hot data nodes. The results were very good: the local disks gave us the performance we needed and reduced storage costs compared with EBS.
 
-There is an important trade-off, though. Unlike EBS volumes, Instance Store disks are tied to the physical EC2 host. If an instance is stopped, terminated, or experiences a host failure, its local data is permanently lost. This makes Instance Store a less durable storage option, but it does not necessarily make it unsuitable for OpenSearch. The key is to understand how [shard replication](https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards) works and design the infrastructure so that losing a node does not mean losing the only copy of its data.
+There is an important trade-off, though. Instance Store disks are tied to the physical EC2 host. If an instance is stopped, terminated, or hits a host failure, its local data is permanently lost. That makes Instance Store less durable, but it does not make it unsuitable for OpenSearch. The key is understanding how [shard replication](https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards) works (I covered the basics in [OpenSearch Concepts - Index and Shards](/blog/2025/2025-01-05-opensearch-concepts-index-and-shards.md)) and designing the infrastructure so that losing a node never means losing the only copy of its data.
 
-For more information about performance, see these publicly available benchmarks and case studies:
+For more on performance, see these public benchmarks and case studies:
 
 - [Tuning Your Cluster for Indexing Speed (by OpenSearch)](https://docs.opensearch.org/latest/tuning-your-cluster/performance): Official OpenSearch guidance on indexing performance, including recommendations for SSD-backed Instance Store and storage configuration.
 - [Postgres Isn't Slow. Your Storage Is (by ClickHouse)](https://clickhouse.com/blog/posette-talk-recap-postgres-isnt-slow-your-storage-is): Benchmark comparing EBS gp3 and local NVMe Instance Store using PostgreSQL workloads. Reports significant improvements in transaction throughput and latency with local NVMe.
@@ -28,33 +28,37 @@ For more information about performance, see these publicly available benchmarks 
 
 ## EC2 Instance Store vs. EBS
 
-The choice between EBS and Instance Store comes down to physical location and how your application accesses storage. EBS volumes operate as network-attached block devices that exist independently of any individual EC2 instance. Instance Store, by contrast, relies on NVMe SSDs plugged directly into the host server’s PCIe bus, completely cutting out the network layer.
+The difference comes down to where the disk is. An EBS volume is a network-attached block device that exists independently of any EC2 instance, so every I/O makes a network round trip. Instance Store is an NVMe SSD attached to the host's PCIe bus, with no network in the path.
 
-Local NVMe is not universally faster. For large-block, sequential workloads where a significant portion of the active dataset resides in RAM, a modern `gp3` volume running on a high-bandwidth Nitro instance can comfortably match or even edge out local drives on sustained throughput. In those scenarios, the performance bottleneck shifts away from the underlying storage media and lands squarely on the instance's allocated EBS network bandwidth.
+| | EBS (gp3) | Instance Store (local NVMe) |
+|---|---|---|
+| Attachment | Network-attached, independent of the instance | Physically attached to the host |
+| Survives stop or terminate | Yes, and can be detached and reattached | No, the data is lost |
+| Performance | [3,000 IOPS and 125 MiB/s baseline](https://docs.aws.amazon.com/ebs/latest/userguide/general-purpose.html), provisioned higher if needed and capped by the instance's EBS bandwidth | Fixed by the instance type, with no network hop |
+| Size | Chosen per volume, can grow | Fixed by the instance type, e.g. 1 x 1,875 GB on an [`i8g.2xlarge`](https://aws.amazon.com/ec2/instance-types/i8g/) |
+| Cost | Billed separately per GB-month, plus provisioned IOPS and throughput above the baseline | Included in the instance price |
 
-Where local NVMe establishes an un-closable gap is small-block random read latency. Because EBS must traverse the virtualized network stack, it inevitably introduces microsecond-level overhead. Direct PCIe access bypasses that entirely, delivering sub-millisecond access times. This latency differential becomes the single most critical factor for search engines like OpenSearch. When an OpenSearch hot tier serves queries against indices that exceed available RAM, [Lucene index traversals](https://lucene.apache.org/core/9_12_0/core/org/apache/lucene/search/package-summary.html) trigger relentless random small-block reads, making local storage substantially more responsive.
+Local NVMe is not faster for every workload. For large sequential reads and writes, where most of the active data fits in RAM, a `gp3` volume on an instance with enough EBS bandwidth can keep up with local drives, and the bottleneck becomes the instance's EBS bandwidth rather than the disk.
 
-The trade-off for that raw speed is persistence. An EBS volume acts as a stable baseline: it survives instance stops, can be detached, and scales its baseline 3,000 IOPS and 125 MiB/s up to specific operational needs. Instance Store storage, like the 1,875 GB NVMe drive baked into an `i8g.2xlarge`, is strictly ephemeral. If the host stops, hibernates, or fails, the local data vanishes.
+Small random reads are where local NVMe clearly wins, because removing the network hop removes latency from every single I/O. This is the access pattern that matters for a search engine. When an OpenSearch hot tier serves queries against indices larger than the available RAM, [Lucene](https://lucene.apache.org/core/9_12_0/core/org/apache/lucene/search/package-summary.html) has to read many small blocks from disk, and local storage answers those reads faster.
 
-For traditional stateful applications, EBS remains the sensible default. But in distributed search systems where application-level shard replication already handles node failure, local NVMe transforms storage latency from a persistent bottleneck into a solved problem.
+For most stateful applications, EBS remains the sensible default. In a distributed search system where shard replication already handles node failure, the durability EBS adds matters less, and local NVMe removes storage latency as the bottleneck.
 
 ## Why Instance Store Works for OpenSearch
 
-OpenSearch distributes index data across shards and can maintain [replica copies](https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards) of each shard on different data nodes. This means a node failure does not necessarily result in data loss: if another node holds a valid copy of the affected shard, OpenSearch can promote that replica to primary and create new replicas to restore the configured redundancy.
+OpenSearch splits index data into shards and can keep [replica copies](https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards) of each shard on different data nodes. When a hot data node fails, its local NVMe data is gone, but if another node holds a valid copy of each affected shard, OpenSearch promotes those replicas to primary and allocates new replicas on the remaining nodes. Once a replacement node joins the cluster, it receives shard copies and the configured redundancy is restored.
 
-This replication model makes it possible to treat Instance Store disks as disposable, provided that every shard has another valid copy on a different node. For example, when a hot data node fails, its local NVMe data is lost along with the instance. OpenSearch detects that the node is unavailable, promotes available replica shards to primary, and allocates new replicas across the remaining nodes. Once a replacement node joins the cluster, it can receive shard copies and restore the desired redundancy.
-
-The important part is ensuring that shard copies are distributed across independent failure domains and that node replacement is controlled. If multiple nodes holding copies of the same shard fail before OpenSearch can recover, the remaining copies may be insufficient to prevent data loss. Instance Store is therefore viable when replication, placement, and disruption management are designed together.
+This is what makes it possible to treat Instance Store disks as disposable, as long as every shard has another valid copy on a different node. The risk is losing several nodes that hold copies of the same shard before OpenSearch finishes recovering. So Instance Store is viable only when replication, placement, and node replacement are designed together. If you want more detail on how OpenSearch decides where shards go, see [OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks](/blog/2026/2026-11-04-opensearch-watermark.md).
 
 ## Running Instance Store Safely on Kubernetes
 
-The following six mechanisms combine OpenSearch capabilities with Kubernetes and Karpenter features to reduce the risk of data loss. They address three important areas: shard redundancy, workload placement, and controlled node replacement.
+The following six mechanisms combine OpenSearch, Kubernetes, and Karpenter features to reduce the risk of data loss. They cover three areas: shard redundancy, workload placement, and controlled node replacement.
 
-It is important reinforce that these mechanisms mitigate risks under controlled failure scenarios, but they cannot guarantee durability. If multiple nodes fail before OpenSearch can recover their shard copies, data loss is still possible. Using Instance Store means accepting this durability trade-off in exchange for performance. EBS remains the safer choice when data durability is the priority.
+These mechanisms reduce risk during controlled operations, but they cannot guarantee durability. If multiple nodes fail before OpenSearch recovers their shard copies, data can still be lost. Using Instance Store means accepting that trade-off in exchange for performance. When durability is the priority, EBS remains the safer choice.
 
 ### 1. Ensure All Indices Have Replicas
 
-Every index stored on Instance Store nodes should have at least one replica. Without replicas, a node failure can permanently remove the only copy of a shard. An [index template](https://docs.opensearch.org/latest/im-plugin/index-templates) can establish a default replica count for newly created indices, ensuring that indices matching the configured pattern are created with the expected redundancy.
+Every index stored on Instance Store nodes needs at least one replica. Without replicas, a node failure can permanently remove the only copy of a shard. An [index template](https://docs.opensearch.org/latest/im-plugin/index-templates) can set a default replica count for new indices:
 
 ```{code-block} json
 :caption: PUT /_index_template/default-replicas
@@ -68,13 +72,13 @@ Every index stored on Instance Store nodes should have at least one replica. Wit
 }
 ```
 
-This template only sets the default for new matching indices. Existing indices must be checked and updated separately, and explicit index settings can override the template. For that reason, replica configuration should also be validated and monitored to ensure that no index is left without the required redundancy.
+This template only applies to new indices. Existing indices must be checked and updated separately, and explicit index settings or other templates with a higher `priority` can override it. Validate and monitor replica counts so that no index is left without redundancy.
 
 ### 2. Use StatefulSets for Hot Data Nodes
 
-StatefulSets provide stable pod identities and predictable names, which are useful when managing OpenSearch nodes that use local storage. Unlike Deployments, StatefulSets maintain an ordinal identity for each pod and, by default, use the [OrderedReady](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) pod management policy. During a rolling update, Kubernetes updates or replaces pods one at a time and waits for each pod to become ready before proceeding. This behavior helps prevent multiple hot data nodes from being replaced simultaneously.
+[StatefulSets](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) give each pod a stable identity and a predictable name, which helps when managing OpenSearch nodes that use local storage. With the default `RollingUpdate` strategy, Kubernetes replaces StatefulSet pods one at a time and waits for each updated pod to become Ready before moving to the next one. This prevents multiple hot data nodes from being replaced at the same time during an update.
 
-Stable pod names are also useful when decommissioning or migrating nodes. For example, before removing `opensearch-hot-3`, you can ask OpenSearch to relocate its shards to other nodes by excluding it from shard allocation:
+Stable pod names are also useful when decommissioning or migrating nodes. For example, before removing `opensearch-hot-3`, you can ask OpenSearch to move its shards elsewhere by excluding it from shard allocation:
 
 ```{code-block} json
 :caption: PUT /_cluster/settings
@@ -85,13 +89,13 @@ Stable pod names are also useful when decommissioning or migrating nodes. For ex
 }
 ```
 
-OpenSearch will then relocate the shards away from the excluded node. Once relocation is complete, the node can be safely removed from the cluster. This requires the OpenSearch `node.name` to match the pod identity used in the exclusion setting. After the decommissioning operation, remember to clear the exclusion setting so that the node can participate in shard allocation again.
+OpenSearch then relocates the shards away from the excluded node, and once relocation finishes, the node can be removed safely. This requires the OpenSearch `node.name` to match the pod name. After the operation, clear the exclusion setting so the node can receive shards again.
 
-### 3. One Node per Pod
+### 3. One Hot Data Pod per Worker Node
 
-Running one OpenSearch hot data node per Kubernetes pod makes node placement and lifecycle management easier to reason about. It also ensures that a single worker node failure does not take down multiple OpenSearch nodes, potentially affecting both copies of the same shard. By enforcing one hot data pod per worker node, Kubernetes provides an additional layer of failure isolation.
+If two OpenSearch hot data pods run on the same Kubernetes worker, one EC2 failure takes down both, and they may hold the primary and the replica of the same shard. Running at most one hot data pod per worker keeps each EC2 instance a separate failure domain.
 
-The following configuration uses [node affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) to select dedicated hot-tier workers, [pod anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) to keep hot pods on separate Kubernetes nodes, and [topology spread constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints) to distribute them across Availability Zones.
+The following configuration uses [pod anti-affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) to keep hot pods on separate Kubernetes nodes. You can combine it with node affinity to select dedicated hot-tier workers and [topology spread constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints) to distribute the pods across Availability Zones.
 
 ```{code-block} yaml
 :caption: opensearch-data-hot-statefulset.yaml
@@ -111,17 +115,18 @@ spec:
               topologyKey: kubernetes.io/hostname
 ```
 
-OpenSearch also supports [index shard allocation awareness](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-awareness), which allows nodes to be assigned attributes representing their failure domains, such as Availability Zones. This gives OpenSearch additional context when distributing shard copies across zones. However, cross-AZ traffic can increase AWS VPC data transfer costs, so the trade-off should be considered when designing multi-AZ deployments.
+OpenSearch also supports [shard allocation awareness](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-awareness), which tags nodes with their failure domain, such as the Availability Zone, so that OpenSearch places a shard's copies in different zones. Keep in mind that cross-AZ traffic increases AWS data transfer costs.
 
 ### 4. Use a Readiness Probe to Wait for Cluster Green
 
-A process responding to HTTP requests does not necessarily mean that an OpenSearch node is ready to handle workloads safely. The local service may become available before the cluster has recovered its shards and restored replica redundancy. A [readiness probe](https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes) that only checks whether the HTTP endpoint responds can therefore allow Kubernetes to proceed with the next pod replacement too early.
+An OpenSearch node that answers HTTP requests is not necessarily safe to move past. The process can be up before the cluster has recovered its shards and restored replica redundancy. A [readiness probe](https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes) that only checks the HTTP endpoint lets Kubernetes replace the next pod too early.
 
-Instead, the probe can use the [Cluster Health API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-health) to wait until the cluster reaches a green state. Combined with the StatefulSet's [OrderedReady](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) policy, this makes Kubernetes wait for shard recovery before moving on to the next pod during a rolling update. Check following example:
+Instead, the probe can call the [Cluster Health API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-health) and only report Ready when the cluster is green. Because the StatefulSet rolling update waits for each pod to be Ready, Kubernetes now waits for shard recovery before replacing the next pod. Set `timeoutSeconds` above the API's own `timeout`; the default probe timeout is one second, which would make the probe fail while the request is still waiting:
 
 ```{code-block} yaml
 :caption: opensearch-data-hot-statefulset.yaml
 readinessProbe:
+  timeoutSeconds: 10
   exec:
     command:
       - sh
@@ -133,12 +138,14 @@ readinessProbe:
         | jq -e '.status == "green" and .timed_out == false'
 ```
 
+This check is cluster-wide. If any index turns yellow for an unrelated reason, every hot pod becomes NotReady at the same time, and Kubernetes removes all of them from the endpoints of any Service that selects them. Make sure clients reach the cluster through a Service that does not depend on this probe, such as one that points to coordinating nodes.
+
 ### 5. Use a PodDisruptionBudget (PDB)
 
-A PodDisruptionBudget limits how many pods can be voluntarily evicted at the same time. This is particularly useful during node draining, when Kubernetes needs to move workloads away from a worker node. For example, the following PDB allows at most one hot data pod to be unavailable due to voluntary disruptions:
+A [PodDisruptionBudget](https://kubernetes.io/docs/tasks/run-application/configure-pdb) limits how many pods can be voluntarily evicted at the same time, for example while Kubernetes drains a worker node. The following PDB allows at most one hot data pod to be unavailable due to voluntary disruptions:
 
 ```{code-block} yaml
-:caption: opensearch-data-hot-statefulset.yaml
+:caption: opensearch-data-hot-pdb.yaml
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
@@ -150,15 +157,15 @@ spec:
       app: opensearch-hot
 ```
 
-The value of `maxUnavailable` must be chosen according to the cluster size, replica configuration, and failure tolerance. A limit of one may be reasonable for some clusters, but it is not universally safe. Also, a PDB only protects against voluntary evictions performed through Kubernetes' [Eviction API](https://kubernetes.io/docs/concepts/scheduling-eviction/api-eviction). It does not prevent involuntary failures, such as an EC2 instance interruption, or directly control pod replacements initiated by a StatefulSet rolling update.
+Choose `maxUnavailable` according to the cluster size, replica configuration, and failure tolerance. A limit of one is reasonable for many clusters, but it is not universally safe. A PDB also only covers evictions made through the [Eviction API](https://kubernetes.io/docs/concepts/scheduling-eviction/api-eviction). It does not prevent involuntary failures, such as an EC2 instance interruption, and it does not control pod replacements made by a StatefulSet rolling update.
 
 ### 6. Control Node Disruptions with Karpenter
 
-> I'll use Karpenter as an example. However, the logic behind it remains the same for any node scheduling.
+> I'll use Karpenter as an example, but the same logic applies to any node autoscaler.
 
-Karpenter can replace nodes for several reasons, including [consolidation](https://karpenter.sh/docs/concepts/disruption/) and [drift](https://karpenter.sh/docs/concepts/disruption/) from the desired [NodePool](https://karpenter.sh/docs/concepts/nodepools) configuration. For workloads using Instance Store, these operations require special attention because terminating a node permanently destroys its local data. Karpenter provides mechanisms to control voluntary disruptions, allowing node replacement to be coordinated with OpenSearch shard recovery.
+Karpenter can replace nodes for several reasons, including consolidation and drift from the desired [NodePool](https://karpenter.sh/docs/concepts/nodepools) configuration. With Instance Store, terminating a node destroys its local data, so these replacements must be coordinated with OpenSearch shard recovery. Karpenter provides [disruption controls](https://karpenter.sh/docs/concepts/disruption/) for this.
 
-One option is to add the `karpenter.sh/do-not-disrupt` annotation to the pod template. This tells Karpenter not to voluntarily disrupt the annotated pod, subject to documented exceptions. See [Pod-level Disruption Controls](https://karpenter.sh/docs/concepts/disruption/).
+One option is to add the `karpenter.sh/do-not-disrupt` annotation to the pod template. Karpenter will not voluntarily disrupt a node running the annotated pod, subject to the documented exceptions:
 
 ```{code-block} yaml
 :caption: opensearch-data-hot-statefulset.yaml
@@ -169,7 +176,7 @@ spec:
         karpenter.sh/do-not-disrupt: "true"
 ```
 
-Another concern is drift. When a node no longer matches its NodePool configuration, Karpenter may replace it to bring the infrastructure back in line with the desired state. For hot data nodes using Instance Store, automatic drift replacement can result in unnecessary data movement and local data loss. A [NodePool Disruption Budget](https://karpenter.sh/docs/concepts/disruption/) can prevent Karpenter from voluntarily replacing drifted nodes while the budget is set to zero:
+Drift needs separate attention. When a node no longer matches its NodePool configuration, Karpenter may replace it, and for Instance Store hot nodes that means unplanned data movement and local data loss. A NodePool disruption budget set to zero for the `Drifted` reason stops Karpenter from voluntarily replacing drifted nodes:
 
 ```{code-block} yaml
 :caption: opensearch-karpenter-nodepool.yaml
@@ -181,15 +188,13 @@ spec:
           - Drifted
 ```
 
-This blocks voluntary drift-related replacements while the budget is active. When a node needs to be updated, the budget can be adjusted to allow a controlled replacement process. The `do-not-disrupt` annotation and NodePool disruption budgets serve different purposes and should be configured with an understanding of [Karpenter's disruption rules and exceptions](https://karpenter.sh/docs/concepts/disruption).
+When a node needs to be updated, adjust the budget to allow a controlled replacement, one node at a time.
 
-These mechanisms protect against different types of disruption. The readiness probe, combined with the StatefulSet's [OrderedReady](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) policy, controls the sequence of pod replacements during a StatefulSet rolling update. The [PodDisruptionBudget](https://kubernetes.io/docs/tasks/run-application/configure-pdb) limits voluntary evictions, such as those performed during Karpenter node draining, but does not prevent StatefulSet-initiated pod replacements. The `karpenter.sh/do-not-disrupt` annotation blocks voluntary Karpenter disruptions for the annotated pod, subject to [Karpenter's documented exceptions](https://karpenter.sh/docs/concepts/disruption/). None of these mechanisms protects against unexpected infrastructure failures, such as an EC2 instance interruption.
+Each of these mechanisms covers a different kind of disruption. The readiness probe and the StatefulSet rolling update control the order of pod replacements during an update. The PDB limits voluntary evictions, such as Karpenter draining a node, but not StatefulSet-initiated replacements. The `do-not-disrupt` annotation and the NodePool budget stop Karpenter from replacing nodes on its own. None of them protects against unexpected infrastructure failures, such as an EC2 instance interruption.
 
 ## Takeaways
 
-The blog post presented several technical considerations and disruptive approaches. Let's summarize the main points:
-
-- Instance Store is neither better nor faster than EBS, nor is EBS inherently better than Instance Store. Each has its own use cases.
-- For the OpenSearch Hot Data Tier, Instance Store delivers better performance.
-- Instance Store is lost when the EC2 node fails, making it a riskier approach.
-- The risks of using Instance Store can be controlled through application-level data replication mechanisms and Kubernetes guardrails.
+- Neither Instance Store nor EBS is better in general. EBS is durable and flexible; Instance Store trades durability for lower latency.
+- For an OpenSearch hot tier that serves queries on indices larger than RAM, the small random reads favor local NVMe.
+- Instance Store data is lost when the EC2 instance stops, terminates, or fails, so every index needs replicas.
+- Kubernetes and Karpenter guardrails (StatefulSet rolling updates, a green-cluster readiness probe, PDBs, anti-affinity, and disruption budgets) control planned replacements. Replication is what protects against unplanned ones.
