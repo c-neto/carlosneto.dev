@@ -2,6 +2,14 @@
 tags: opensearch
 date: "2026-11-10"
 category: OpenSearch
+author: Carlos Neto
+title: Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data
+description: How to drain, scale down, and resize OpenSearch data nodes on Kubernetes without losing data, including Blue/Green migrations for EC2 Instance Store.
+myst:
+  html_meta:
+    description: How to drain, scale down, and resize OpenSearch data nodes on Kubernetes without losing data, including Blue/Green migrations for EC2 Instance Store.
+og:title: Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data
+og:description: How to drain, scale down, and resize OpenSearch data nodes on Kubernetes without losing data, including Blue/Green migrations for EC2 Instance Store.
 ---
 
 *__Blog Post Publish Date:__ 2026/11/10*
@@ -14,7 +22,7 @@ This blog post covers the patterns and API calls I use to scale down and resize 
 
 ## Why Removing Nodes Is Risky
 
-Scaling down or resizing the data tier is one of the riskiest operations you can perform on an OpenSearch cluster, whether you are shrinking the fleet to cut cost, moving to a different instance type, or replacing nodes that use ephemeral storage. Every time I do it, I treat it that way, and I have never regretted being slow about it.
+Scaling down or resizing the data tier is one of the riskiest operations you can perform on an OpenSearch cluster. That is true whether you are shrinking the fleet to cut cost, moving to a different instance type, or replacing nodes that use ephemeral storage. Every time I do it, I treat it that way, and I have never regretted being slow about it.
 
 OpenSearch distributes data as shards across nodes (see [OpenSearch Concepts - Index and Shards](/blog/2025/2025-01-05-opensearch-concepts-index-and-shards.md)). When a node disappears abruptly, the cluster has to rebuild the missing shard copies from the ones that survive, which consumes bandwidth, CPU, and I/O. If several nodes go at once, or replica counts are too low, the last copy of a shard can disappear before recovery completes.
 
@@ -22,77 +30,49 @@ Scaling up only adds capacity. Scaling down removes capacity that currently hold
 
 A few concepts come up in every step:
 
-- __Allocation__: OpenSearch assigns shards to nodes automatically. You can influence where shards go through the [Cluster Settings API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/).
-- __Rebalancing__: moving shards between nodes to keep an even distribution. It runs continuously in the background, and during a scale-down or resize you want to pause it to avoid unnecessary shard movement.
-- __Draining__: using an allocation exclusion to tell OpenSearch to move every shard off a specific node before you remove it. This is the core of a safe scale-down, and it works for any kind of storage, including Instance Store, because once a node is empty, losing its disk does not matter.
-- __Blue/Green__: bringing up a parallel set of nodes in the new shape, migrating all data to them, then decommissioning the old set. This is how you resize nodes whose disks do not survive replacement.
+- **Allocation** is how OpenSearch decides which node holds each shard. It happens automatically, and you can influence it through the [Cluster Settings API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/).
+- **Rebalancing** is the background process that moves shards between nodes to keep an even distribution. During a scale-down or resize, you want to pause it to avoid unnecessary shard movement.
+- **Draining** is using an allocation exclusion to tell OpenSearch to move every shard off a specific node before you remove it. It works for any kind of storage, including Instance Store, because once a node is empty, losing its disk does not matter.
+- **Blue/Green** is bringing up a parallel set of nodes in the new shape, migrating all data to them, then decommissioning the old set. This is how you resize nodes whose disks do not survive replacement.
 
 The safe path is always the same: control shard allocation explicitly, verify the cluster state before each step, and only then remove nodes.
 
 ### Use Persistent Settings
 
-All the examples below use `persistent` cluster settings. [Transient settings are cleared after a full cluster restart](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/), so if the cluster restarts in the middle of a migration, a transient allocation exclusion silently disappears and OpenSearch starts placing shards on the nodes you were draining. Persistent settings stay until you remove them, which also means you must remember to clear them at the end.
+All the examples below use `persistent` cluster settings. [Transient settings are cleared after a full cluster restart](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/). If the cluster restarts in the middle of a migration, a transient allocation exclusion silently disappears and OpenSearch starts placing shards on the nodes you were draining. Persistent settings stay until you remove them, which also means you must remember to clear them at the end.
 
 ## What to Watch During a Migration
 
 Monitoring is essential during shard migrations, especially when increasing recovery concurrency or bandwidth limits. I use the following APIs to track shard relocation progress, identify allocation issues, and watch resource consumption across the cluster:
 
-```bash
-# All shards, sorted by state
-GET /_cat/shards?v&s=state
+| What it shows | API call |
+|---|---|
+| All shards, sorted by state | `GET /_cat/shards?v&s=state` |
+| Shards grouped by index | `GET /_cat/shards?v&s=index` |
+| Shards grouped by node | `GET /_cat/shards?v&s=node` |
+| Compact view: index, shard, primary/replica, state, node | `GET /_cat/shards?v&h=index,shard,prirep,state,node&s=index` |
+| Ongoing recoveries with details | `GET /_cat/recovery?active_only=true&detailed=true&bytes=gb&v` |
+| Recovery history, including completed ones | `GET /_cat/recovery?v` |
+| Overall cluster health | `GET /_cluster/health` |
+| Wait for relocations and initializations to finish | `GET /_cluster/health?wait_for_no_relocating_shards=true&wait_for_no_initializing_shards=true` |
+| Pending cluster tasks | `GET /_cat/pending_tasks?v` |
+| Active cluster tasks | `GET /_cat/tasks?v` |
+| Why a shard is unassigned or cannot be allocated | `GET /_cluster/allocation/explain` |
+| Node list and resource information | `GET /_cat/nodes?v&s=name` |
+| Disk usage and shard count per node | `GET /_cat/allocation?v` |
+| Filesystem and JVM statistics | `GET /_nodes/stats/fs,jvm` |
+| Operating system and thread pool statistics | `GET /_nodes/stats/os,thread_pool` |
+| Network transport statistics | `GET /_nodes/stats/transport` |
 
-# Shards grouped by index
-GET /_cat/shards?v&s=index
+The [Cluster Allocation Explain API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/) can also investigate a specific shard:
 
-# Shards grouped by node
-GET /_cat/shards?v&s=node
-
-# Compact shard view: index, shard number, primary/replica, state, and node
-GET /_cat/shards?v&h=index,shard,prirep,state,node&s=index
-
-# All ongoing recoveries with detailed information
-GET /_cat/recovery?active_only=true&detailed=true&bytes=gb&v
-
-# Recovery history, including completed operations
-GET /_cat/recovery?v
-
-# Overall cluster health
-GET /_cluster/health
-
-# Wait for ongoing shard relocations and initializations
-GET /_cluster/health?wait_for_no_relocating_shards=true&wait_for_no_initializing_shards=true
-
-# Pending cluster tasks
-GET /_cat/pending_tasks?v
-
-# Active cluster tasks
-GET /_cat/tasks?v
-
-# Get logs about allocation error
-GET /_cluster/allocation/explain
-
-# You can also investigate a specific shard
-POST /_cluster/allocation/explain
+```{code-block} json
+:caption: POST /_cluster/allocation/explain
 {
   "index": "my-index",
   "shard": 0,
   "primary": true
 }
-
-# Node list and resource information
-GET /_cat/nodes?v&s=name
-
-# Disk allocation and shard count per node
-GET /_cat/allocation?v
-
-# Filesystem and JVM statistics
-GET /_nodes/stats/fs,jvm
-
-# Operating system and thread pool statistics
-GET /_nodes/stats/os,thread_pool
-
-# Network transport statistics
-GET /_nodes/stats/transport
 ```
 
 Pay particular attention to filesystem utilization and JVM memory pressure. When increasing recovery concurrency, also monitor network throughput at the infrastructure level, since the OpenSearch transport statistics alone do not give a complete picture of network bandwidth. If nodes start approaching resource limits, reduce recovery concurrency and bandwidth before the migration affects normal cluster operations.
@@ -117,6 +97,7 @@ Shards moved off an excluded node are relocations, so they are throttled by thes
 
 Be careful when increasing these values. More concurrent recoveries and higher transfer rates put significant pressure on data nodes. If the infrastructure cannot handle the additional work, the nodes become overloaded, normal cluster operations suffer, and the entire cluster can become unresponsive.
 
+<!-- [PERSONAL EXPERIENCE] -->
 I've experienced this firsthand: increasing recovery concurrency too aggressively overloaded the nodes and brought the cluster to a point where it stopped responding properly. Network saturation is another risk, especially when relocating large amounts of data between nodes.
 
 Treat these values as temporary tuning, not recommended defaults. Increase them gradually, watch node and network utilization, and reduce them if the cluster shows signs of saturation. Once the migration is complete, restore the defaults by setting them to `null`:
@@ -131,9 +112,24 @@ Treat these values as temporary tuning, not recommended defaults. Increase them 
 }
 ```
 
+## Which Downsize Pattern to Use
+
+The right approach depends on the operation and on whether the disk survives the node:
+
+| Operation | Network-attached storage (EBS) | Instance Store |
+|---|---|---|
+| Remove nodes (scale down) | Pattern 1: drain, then remove | Pattern 1: drain, then remove |
+| Change the instance type (resize) | Rolling replacement that reattaches the volume, or Pattern 2 | Pattern 2: Blue/Green |
+
+---
+
+<img src="/_static/2026/2026-11-10/opensearch-scale-down-patterns.svg" alt="Diagram of the two OpenSearch patterns: draining and scaling down a StatefulSet, and migrating shards from a blue node set to a green node set" loading="lazy" width="960" height="300" style="max-width: 100%; height: auto;">
+
 ## Pattern 1: Scale Down by Draining
 
 Use this when you want fewer data nodes. It works for both network-attached storage (EBS, NFS) and ephemeral storage (Instance Store), because the node is empty before it is terminated.
+
+Both patterns assume dedicated data nodes. If the nodes you are removing are also cluster-manager-eligible, removing several of them at once can break the cluster-manager quorum, so take them out of the voting configuration first.
 
 ### Step 1: Check Capacity
 
@@ -174,16 +170,16 @@ On Kubernetes, a StatefulSet scale-down always removes the pods with the [highes
 OpenSearch now moves all primary and replica shards off the excluded nodes. Monitor progress with:
 
 ```bash
-# Overall shard state: look for RELOCATING or UNASSIGNED
+# look for `RELOCATING` or `UNASSIGNED` shards.
 GET _cat/shards?v&s=state
 
-# Shards by node: verify the excluded nodes are draining
+# verify the excluded nodes are draining.
 GET _cat/shards?v&s=node
 
-# Active tasks: watch for recover and relocation tasks
+# watch the recovery and relocation tasks.
 GET _cat/tasks
 
-# Cluster health: wait for green
+# wait for green.
 GET _cluster/health
 ```
 
@@ -192,6 +188,8 @@ Wait until the excluded nodes have zero shards assigned and the cluster is green
 ### Step 4: Remove the Drained Nodes
 
 Once the nodes are empty, remove them, for example by scaling the StatefulSet down, and confirm the cluster is still green afterward.
+
+With EBS, scaling down does not delete the PersistentVolumeClaims of the removed pods by default. Their volumes keep costing money, and they reattach with stale data the next time you scale up. Delete them, or set the StatefulSet's [`persistentVolumeClaimRetentionPolicy`](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention) so Kubernetes removes them on scale-down.
 
 ### Step 5: Clear the Exclusion and Re-enable Rebalancing
 
@@ -207,13 +205,14 @@ Remove the exclusion and restore rebalancing:
 }
 ```
 
+<!-- [UNIQUE INSIGHT] -->
 Do not skip the exclusion cleanup. StatefulSets reuse pod names, so the next time you scale up, a new `opensearch-data-4` would join the cluster still excluded and never receive shards. If you raised the recovery limits, restore them as well.
 
 ## Pattern 2: Resize with Blue/Green Node Sets
 
 Use this when you need to replace the nodes themselves, not just remove some of them. The typical case is changing the instance type of nodes whose disks do not survive replacement, such as NVMe SSDs on EC2 Instance Store. You cannot resize these nodes in place, because the new instance starts with an empty disk. The data has to move to the new node set before the old one goes away.
 
-With network-attached storage the trade-off is different. On Kubernetes, an EBS-backed StatefulSet pod can be moved to a node with a different instance type and its volume reattaches, so a rolling replacement only has to recover the writes that happened while the pod was down. Blue/Green still works for EBS, but it copies the entire dataset.
+With network-attached storage the trade-off is different. On Kubernetes, an EBS-backed StatefulSet pod can move to a node with a different instance type and its volume reattaches. A rolling replacement then only has to recover the writes that happened while the pod was down. EBS volumes are bound to one Availability Zone, so the new node must run in the same zone as the volume. Blue/Green still works for EBS, but it copies the entire dataset.
 
 The idea: run two StatefulSets in parallel (`blue` and `green`), migrate shards from one to the other, then decommission the old set. If you run the hot tier on Instance Store, the readiness probe and Karpenter settings from [OpenSearch + EC2 Instance Store](/blog/2026/2026-11-08-opensearch-hot-instance-store.md) apply to both StatefulSets during this process.
 
@@ -243,7 +242,7 @@ Exclude the new nodes from shard allocation before they start, so they can boot 
 }
 ```
 
-Deploy the new node set and wait for all nodes to reach `Ready` status. The green nodes need the same node attributes as the blue ones (for example, the attribute that marks them as hot tier). If your indices use `index.routing.allocation.require.*` filters and the green nodes lack the matching attribute, the shards have nowhere to go and the migration stalls.
+Deploy the new node set and wait for all nodes to reach `Ready` status. The green nodes need the same node attributes as the blue ones, for example the attribute that marks them as hot tier. If your indices use `index.routing.allocation.require.*` filters and the green nodes lack the matching attribute, the shards have nowhere to go and the migration stalls.
 
 ### Step 3: Migrate Data from Blue to Green
 
@@ -261,16 +260,16 @@ Now flip the exclusion to the old (blue) nodes. OpenSearch begins moving shards 
 Monitor the migration closely:
 
 ```bash
-# Overall shard state: look for RELOCATING or UNASSIGNED
+# look for `RELOCATING` or `UNASSIGNED` shards.
 GET _cat/shards?v&s=state
 
-# Shards by node: verify blue nodes are draining
+# verify the blue nodes are draining.
 GET _cat/shards?v&s=node
 
-# Active tasks: watch for recover and relocation tasks
+# watch the recovery and relocation tasks.
 GET _cat/tasks
 
-# Cluster health: wait for green
+# wait for green.
 GET _cluster/health
 ```
 
@@ -284,21 +283,25 @@ Once all data is on the green nodes, delete the old (blue) StatefulSet:
 kubectl delete sts <blue-statefulset-name>
 ```
 
-### Step 5: Clear the Exclusion and Re-enable Rebalancing
+This terminates every blue pod at once. That is safe for empty data-only nodes, but see the cluster-manager note in Pattern 1 if the blue nodes have other roles.
 
-Remove the exclusion rules so future shard assignments work normally, and restore rebalancing:
+### Step 5: Clean Up Exclusions and Restore Settings
+
+Remove the exclusion rules so future shard assignments work normally, restore rebalancing, and reset the recovery limits if you raised them:
 
 ```{code-block} json
 :caption: PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.allocation.exclude._name": null,
-    "cluster.routing.rebalance.enable": null
+    "cluster.routing.rebalance.enable": null,
+    "cluster.routing.allocation.node_concurrent_recoveries": null,
+    "indices.recovery.max_bytes_per_sec": null
   }
 }
 ```
 
-## Takeaways
+## Key Takeaways
 
 - Scaling down is riskier than scaling up because existing data must be relocated before nodes are removed.
 - Draining with `exclude._name` works for any storage type. Once a node is empty, losing its disk does not matter.
@@ -311,6 +314,46 @@ Remove the exclusion rules so future shard assignments work normally, and restor
 
 - [Cluster Settings API (OpenSearch)](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/)
 - [Cluster settings reference (OpenSearch)](https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/)
+- [Cluster Allocation Explain API (OpenSearch)](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/)
 - [Availability and recovery (OpenSearch)](https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/)
 - [CAT shards (OpenSearch)](https://docs.opensearch.org/latest/api-reference/cat/cat-shards/)
 - [StatefulSets (Kubernetes)](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/)
+
+*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+
+```{raw} html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data",
+      "description": "How to drain, scale down, and resize OpenSearch data nodes on Kubernetes without losing data, including Blue/Green migrations for EC2 Instance Store.",
+      "datePublished": "2026-11-10",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down/",
+      "image": "https://carlosneto.dev/_static/2026/2026-11-10/opensearch-scale-down-patterns.svg",
+      "keywords": ["OpenSearch", "Kubernetes", "StatefulSet", "shard allocation", "Blue/Green"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data"}
+      ]
+    }
+  ]
+}
+</script>
+```
