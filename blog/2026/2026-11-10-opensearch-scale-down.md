@@ -105,8 +105,8 @@ OpenSearch applies conservative limits to shard recovery and relocation so these
 
 Shards moved off an excluded node are relocations, so they are throttled by these recovery limits, not by the rebalancing settings. If your cluster has spare CPU, memory, disk I/O, and network capacity, you can raise them:
 
-```json
-PUT /_cluster/settings
+```{code-block} json
+:caption: PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.allocation.node_concurrent_recoveries": 10,
@@ -121,8 +121,8 @@ I've experienced this firsthand: increasing recovery concurrency too aggressivel
 
 Treat these values as temporary tuning, not recommended defaults. Increase them gradually, watch node and network utilization, and reduce them if the cluster shows signs of saturation. Once the migration is complete, restore the defaults by setting them to `null`:
 
-```json
-PUT /_cluster/settings
+```{code-block} json
+:caption: PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.allocation.node_concurrent_recoveries": null,
@@ -145,8 +145,8 @@ Use `GET /_cat/allocation?v` to compare the disk used on the nodes you are remov
 
 Tell OpenSearch to stop moving shards around for balance:
 
-```json
-PUT /_cluster/settings
+```{code-block} json
+:caption: PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.rebalance.enable": "none"
@@ -160,8 +160,8 @@ This prevents background rebalancing from competing with the drain and wasting I
 
 Exclude the nodes from shard allocation before terminating them:
 
-```json
-PUT /_cluster/settings
+```{code-block} json
+:caption: PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.allocation.exclude._name": "opensearch-data-4, opensearch-data-5"
@@ -221,8 +221,8 @@ The idea: run two StatefulSets in parallel (`blue` and `green`), migrate shards 
 
 Same as Pattern 1, prevent automatic redistribution while you are in control:
 
-```json
-PUT /_cluster/settings
+```{code-block} json
+:caption: PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.rebalance.enable": "none"
