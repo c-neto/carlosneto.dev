@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-examples.css?v=e236af4b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=c7f5b344" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=3341f81b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -363,7 +363,7 @@
   <h3><a href="../">Tags</a></h3>
   <ul class="ablog-cloud">
      
-    <li class="ablog-cloud ablog-cloud-2">
+    <li class="ablog-cloud ablog-cloud-1">
       <a href="../aws/">aws</a>
     </li>
       
@@ -371,19 +371,19 @@
       <a href="../azure/">azure</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-2">
+    <li class="ablog-cloud ablog-cloud-1">
       <a href="../bash/">bash</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-2">
+    <li class="ablog-cloud ablog-cloud-1">
       <a href="../cka/">cka</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-2">
+    <li class="ablog-cloud ablog-cloud-1">
       <a href="../ckad/">ckad</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-2">
+    <li class="ablog-cloud ablog-cloud-1">
       <a href="../cks/">cks</a>
     </li>
       
@@ -395,7 +395,7 @@
       <a href="../dynaconf/">dynaconf</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-3">
+    <li class="ablog-cloud ablog-cloud-2">
       <a href="../fluentbit/">fluentbit</a>
     </li>
       
@@ -411,23 +411,23 @@
       <a href="../helm/">helm</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-3">
+    <li class="ablog-cloud ablog-cloud-2">
       <a href="../kubernetes/">kubernetes</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-2">
+    <li class="ablog-cloud ablog-cloud-1">
       <a href="../linux/">linux</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-2">
+    <li class="ablog-cloud ablog-cloud-1">
       <a href="../linux-foundation/">linux-foundation</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-3">
+    <li class="ablog-cloud ablog-cloud-2">
       <a href="../logs/">logs</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-3">
+    <li class="ablog-cloud ablog-cloud-2">
       <a href="../logstash/">logstash</a>
     </li>
       
@@ -435,7 +435,7 @@
       <a href="../metrics/">metrics</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-4">
+    <li class="ablog-cloud ablog-cloud-3">
       <a href="../observability/">observability</a>
     </li>
       
@@ -451,7 +451,7 @@
       <a href="../prometheus/">prometheus</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-3">
+    <li class="ablog-cloud ablog-cloud-2">
       <a href="../python/">python</a>
     </li>
       
@@ -459,7 +459,7 @@
       <a href="../systemd/">systemd</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-3">
+    <li class="ablog-cloud ablog-cloud-2">
       <a href="../terminal/">terminal</a>
     </li>
       
@@ -467,7 +467,7 @@
       <a href="../zle/">zle</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-3">
+    <li class="ablog-cloud ablog-cloud-2">
       <a href="../zsh/">zsh</a>
     </li>
      
@@ -514,6 +514,54 @@
    
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
+      <a href="../../2026/2026-11-10-opensearch-scale-down/">How to Scale OpenSearch Data Nodes Safely</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>10 November 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+      
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/opensearch/">OpenSearch</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tag"></i>
+      
+    </span>
+     
+    <a href="#">opensearch</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/10</em></p>
+<p>This blog post covers the patterns and API calls I use to scale down and resize OpenSearch data nodes without losing data. The rule behind all of them is simple: the data on a node you remove has to end up somewhere else first. If you take nodes away faster than the cluster can relocate their shards, you lose data.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-11-10-opensearch-scale-down/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
       <a href="../../2026/2026-11-08-opensearch-hot-instance-store/">OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage</a>
     </h2>
     <ul class="ablog-archive">
@@ -555,7 +603,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/08</em></p>
-<p>This blog post covers an architectural approach for running the OpenSearch Hot Data Tier using EC2 Instance Store (local NVMe) instead of EBS, exploring performance gains and how to manage the risks of data loss through OpenSearch replication, Kubernetes, and Karpenter.</p>
+<p>This blog post covers running the OpenSearch Hot Data Tier on EC2 Instance Store (local NVMe) instead of EBS: why it performs better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
 </p>
 
     <p class="ablog-post-expand">

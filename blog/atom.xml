@@ -2,11 +2,313 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-10T01:54:59.990937+00:00</updated>
+  <updated>2026-11-10T23:02:04.587678+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down/</id>
+    <title>How to Scale OpenSearch Data Nodes Safely</title>
+    <updated>2026-11-10T00:00:00+00:00</updated>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/11/10&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="how-to-scale-opensearch-data-nodes-safely"&gt;
+
+&lt;p&gt;This blog post covers the patterns and API calls I use to scale down and resize OpenSearch data nodes without losing data. The rule behind all of them is simple: the data on a node you remove has to end up somewhere else first. If you take nodes away faster than the cluster can relocate their shards, you lose data.&lt;/p&gt;
+&lt;section id="the-core-challenge"&gt;
+&lt;h2&gt;The Core Challenge&lt;/h2&gt;
+&lt;p&gt;Scaling down or resizing the data tier is one of the riskiest operations you can perform on an OpenSearch cluster, whether you are shrinking the fleet to cut cost, moving to a different instance type, or replacing nodes that use ephemeral storage. Every time I do it, I treat it that way, and I have never regretted being slow about it.&lt;/p&gt;
+&lt;p&gt;OpenSearch distributes data as shards across nodes (see &lt;a class="reference internal" href="2025/2025-01-05-opensearch-concepts-index-and-shards/"&gt;&lt;span class="std std-doc"&gt;OpenSearch Concepts - Index and Shards&lt;/span&gt;&lt;/a&gt;). When a node disappears abruptly, the cluster has to rebuild the missing shard copies from the ones that survive, which consumes bandwidth, CPU, and I/O. If several nodes go at once, or replica counts are too low, the last copy of a shard can disappear before recovery completes.&lt;/p&gt;
+&lt;p&gt;Scaling up only adds capacity. Scaling down removes capacity that currently holds data, so every node you take out must have its shards relocated to the survivors before it goes. A resize is a scale-down and a scale-up chained together: you replace a node, or a whole node group, with a different shape, and the same rule applies.&lt;/p&gt;
+&lt;p&gt;A few concepts come up in every step:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Allocation&lt;/strong&gt;: OpenSearch assigns shards to nodes automatically. You can influence where shards go through the &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/"&gt;Cluster Settings API&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Rebalancing&lt;/strong&gt;: moving shards between nodes to keep an even distribution. It runs continuously in the background, and during a scale-down or resize you want to pause it to avoid unnecessary shard movement.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Draining&lt;/strong&gt;: using an allocation exclusion to tell OpenSearch to move every shard off a specific node before you remove it. This is the core of a safe scale-down, and it works for any kind of storage, including Instance Store, because once a node is empty, losing its disk does not matter.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Blue/Green&lt;/strong&gt;: bringing up a parallel set of nodes in the new shape, migrating all data to them, then decommissioning the old set. This is how you resize nodes whose disks do not survive replacement.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The safe path is always the same: control shard allocation explicitly, verify the cluster state before each step, and only then remove nodes.&lt;/p&gt;
+&lt;section id="persistent-vs-transient-settings"&gt;
+&lt;h3&gt;Persistent vs. Transient Settings&lt;/h3&gt;
+&lt;p&gt;All the examples below use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;persistent&lt;/span&gt;&lt;/code&gt; cluster settings. &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/"&gt;Transient settings are cleared after a full cluster restart&lt;/a&gt;, so if the cluster restarts in the middle of a migration, a transient allocation exclusion silently disappears and OpenSearch starts placing shards on the nodes you were draining. Persistent settings stay until you remove them, which also means you must remember to clear them at the end.&lt;/p&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;section id="monitoring-shard-relocation-and-cluster-health"&gt;
+&lt;h2&gt;Monitoring Shard Relocation and Cluster Health&lt;/h2&gt;
+&lt;p&gt;Monitoring is essential during shard migrations, especially when increasing recovery concurrency or bandwidth limits. I use the following APIs to track shard relocation progress, identify allocation issues, and watch resource consumption across the cluster:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# All shards, sorted by state&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
+
+&lt;span class="c1"&gt;# Shards grouped by index&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index
+
+&lt;span class="c1"&gt;# Shards grouped by node&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
+
+&lt;span class="c1"&gt;# Compact shard view: index, shard number, primary/replica, state, and node&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;h&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index,shard,prirep,state,node&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index
+
+&lt;span class="c1"&gt;# All ongoing recoveries with detailed information&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/recovery?active_only&lt;span class="o"&gt;=&lt;/span&gt;true&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;detailed&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;true&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;bytes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;gb&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;v
+
+&lt;span class="c1"&gt;# Recovery history, including completed operations&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/recovery?v
+
+&lt;span class="c1"&gt;# Overall cluster health&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cluster/health
+
+&lt;span class="c1"&gt;# Wait for ongoing shard relocations and initializations&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cluster/health?wait_for_no_relocating_shards&lt;span class="o"&gt;=&lt;/span&gt;true&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;wait_for_no_initializing_shards&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Pending cluster tasks&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/pending_tasks?v
+
+&lt;span class="c1"&gt;# Active cluster tasks&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/tasks?v
+
+&lt;span class="c1"&gt;# Get logs about allocation error&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cluster/allocation/explain
+
+&lt;span class="c1"&gt;# You can also investigate a specific shard&lt;/span&gt;
+POST&lt;span class="w"&gt; &lt;/span&gt;/_cluster/allocation/explain
+&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="s2"&gt;"index"&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"my-index"&lt;/span&gt;,
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="s2"&gt;"shard"&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;,
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="s2"&gt;"primary"&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Node list and resource information&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/nodes?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;name
+
+&lt;span class="c1"&gt;# Disk allocation and shard count per node&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/allocation?v
+
+&lt;span class="c1"&gt;# Filesystem and JVM statistics&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/fs,jvm
+
+&lt;span class="c1"&gt;# Operating system and thread pool statistics&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/os,thread_pool
+
+&lt;span class="c1"&gt;# Network transport statistics&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Pay particular attention to filesystem utilization and JVM memory pressure. When increasing recovery concurrency, also monitor network throughput at the infrastructure level, since the OpenSearch transport statistics alone do not give a complete picture of network bandwidth. If nodes start approaching resource limits, reduce recovery concurrency and bandwidth before the migration affects normal cluster operations.&lt;/p&gt;
+&lt;p&gt;Keep these commands at hand throughout the migration and check them before removing each node. A migration is only complete when the intended nodes are empty, shard recoveries have finished, and the cluster is healthy again.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="speed-up-shard-migration"&gt;
+&lt;h2&gt;Speed Up Shard Migration&lt;/h2&gt;
+&lt;p&gt;OpenSearch applies conservative limits to shard recovery and relocation so these operations do not consume too many cluster resources. By default, a node allows &lt;a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/"&gt;two concurrent incoming and two concurrent outgoing shard recoveries&lt;/a&gt;, and the recovery transfer rate is limited to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;40mb&lt;/span&gt;&lt;/code&gt; per second per node. These limits keep the cluster stable during shard movements, but they can also make large migrations take much longer than necessary.&lt;/p&gt;
+&lt;p&gt;Shards moved off an excluded node are relocations, so they are throttled by these recovery limits, not by the rebalancing settings. If your cluster has spare CPU, memory, disk I/O, and network capacity, you can raise them:&lt;/p&gt;
+&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.node_concurrent_recoveries"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"indices.recovery.max_bytes_per_sec"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"200mb"&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Be careful when increasing these values. More concurrent recoveries and higher transfer rates put significant pressure on data nodes. If the infrastructure cannot handle the additional work, the nodes become overloaded, normal cluster operations suffer, and the entire cluster can become unresponsive.&lt;/p&gt;
+&lt;p&gt;I’ve experienced this firsthand: increasing recovery concurrency too aggressively overloaded the nodes and brought the cluster to a point where it stopped responding properly. Network saturation is another risk, especially when relocating large amounts of data between nodes.&lt;/p&gt;
+&lt;p&gt;Treat these values as temporary tuning, not recommended defaults. Increase them gradually, watch node and network utilization, and reduce them if the cluster shows signs of saturation. Once the migration is complete, restore the defaults by setting them to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;null&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.node_concurrent_recoveries"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"indices.recovery.max_bytes_per_sec"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="pattern-1-scaling-down-by-draining-nodes"&gt;
+&lt;h2&gt;Pattern 1: Scaling Down by Draining Nodes&lt;/h2&gt;
+&lt;p&gt;Use this when you want fewer data nodes. It works for both network-attached storage (EBS, NFS) and ephemeral storage (Instance Store), because the node is empty before it is terminated.&lt;/p&gt;
+&lt;section id="step-1-check-capacity"&gt;
+&lt;h3&gt;Step 1: Check capacity&lt;/h3&gt;
+&lt;p&gt;Before draining, make sure the remaining nodes have enough free disk to absorb the shards you are about to relocate and still stay under the disk watermarks. Removing nodes puts the same data on fewer machines. If the remaining nodes fill past &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;cluster.routing.allocation.disk.watermark.high&lt;/span&gt;&lt;/code&gt;, allocation stalls and you get stuck mid-scale-down. I explain how watermarks drive allocation in &lt;a class="reference internal" href="2026/2026-11-04-opensearch-watermark/"&gt;&lt;span class="std std-doc"&gt;OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/allocation?v&lt;/span&gt;&lt;/code&gt; to compare the disk used on the nodes you are removing with the free disk on the nodes that stay.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="step-2-disable-shard-rebalancing"&gt;
+&lt;h3&gt;Step 2: Disable shard rebalancing&lt;/h3&gt;
+&lt;p&gt;Tell OpenSearch to stop moving shards around for balance:&lt;/p&gt;
+&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.rebalance.enable"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"none"&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This prevents background rebalancing from competing with the drain and wasting I/O and bandwidth on movements you are about to undo. Disabling rebalancing does not stop OpenSearch from moving shards off excluded nodes, so the drain in the next step still works.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="step-3-drain-the-nodes-you-are-removing"&gt;
+&lt;h3&gt;Step 3: Drain the nodes you are removing&lt;/h3&gt;
+&lt;p&gt;Exclude the nodes from shard allocation before terminating them:&lt;/p&gt;
+&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.exclude._name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"opensearch-data-4, opensearch-data-5"&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;On Kubernetes, a StatefulSet scale-down always removes the pods with the &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"&gt;highest ordinals&lt;/a&gt;. Going from six replicas to four removes &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;opensearch-data-5&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;opensearch-data-4&lt;/span&gt;&lt;/code&gt;, so those are the nodes to exclude.&lt;/p&gt;
+&lt;p&gt;OpenSearch now moves all primary and replica shards off the excluded nodes. Monitor progress with:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Overall shard state: look for RELOCATING or UNASSIGNED&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
+
+&lt;span class="c1"&gt;# Shards by node: verify blue nodes are draining&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
+
+&lt;span class="c1"&gt;# Active tasks: watch for recover and relocation tasks&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;_cat/tasks
+
+&lt;span class="c1"&gt;# Cluster health: wait for green&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Wait until the excluded nodes have zero shards assigned and the cluster is green before proceeding.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="step-4-remove-the-drained-nodes"&gt;
+&lt;h3&gt;Step 4: Remove the drained nodes&lt;/h3&gt;
+&lt;p&gt;Once the nodes are empty, remove them, for example by scaling the StatefulSet down, and confirm the cluster is still green afterward.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="step-5-clear-the-exclusion-and-re-enable-rebalancing"&gt;
+&lt;h3&gt;Step 5: Clear the exclusion and re-enable rebalancing&lt;/h3&gt;
+&lt;p&gt;Remove the exclusion and restore rebalancing:&lt;/p&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;PUT /_cluster/settings&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.exclude._name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.rebalance.enable"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Do not skip the exclusion cleanup. StatefulSets reuse pod names, so the next time you scale up, a new &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;opensearch-data-4&lt;/span&gt;&lt;/code&gt; would join the cluster still excluded and never receive shards. If you raised the recovery limits, restore them as well.&lt;/p&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;section id="pattern-2-resizing-nodes-with-blue-green"&gt;
+&lt;h2&gt;Pattern 2: Resizing Nodes with Blue/Green&lt;/h2&gt;
+&lt;p&gt;Use this when you need to replace the nodes themselves, not just remove some of them. The typical case is changing the instance type of nodes whose disks do not survive replacement, such as NVMe SSDs on EC2 Instance Store. You cannot resize these nodes in place, because the new instance starts with an empty disk. The data has to move to the new node set before the old one goes away.&lt;/p&gt;
+&lt;p&gt;With network-attached storage the trade-off is different. On Kubernetes, an EBS-backed StatefulSet pod can be moved to a node with a different instance type and its volume reattaches, so a rolling replacement only has to recover the writes that happened while the pod was down. Blue/Green still works for EBS, but it copies the entire dataset.&lt;/p&gt;
+&lt;p&gt;The idea: run two StatefulSets in parallel (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;blue&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;green&lt;/span&gt;&lt;/code&gt;), migrate shards from one to the other, then decommission the old set. If you run the hot tier on Instance Store, the readiness probe and Karpenter settings from &lt;a class="reference internal" href="2026/2026-11-08-opensearch-hot-instance-store/"&gt;&lt;span class="std std-doc"&gt;OpenSearch + EC2 Instance Store&lt;/span&gt;&lt;/a&gt; apply to both StatefulSets during this process.&lt;/p&gt;
+&lt;section id="step-1-disable-shard-rebalancing"&gt;
+&lt;h3&gt;Step 1: Disable shard rebalancing&lt;/h3&gt;
+&lt;p&gt;Same as Pattern 1, prevent automatic redistribution while you are in control:&lt;/p&gt;
+&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.rebalance.enable"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"none"&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="step-2-bring-up-the-new-node-set-green-without-data"&gt;
+&lt;h3&gt;Step 2: Bring up the new node set (green) without data&lt;/h3&gt;
+&lt;p&gt;Exclude the new nodes from shard allocation before they start, so they can boot and join the cluster without triggering a flood of shard movement. New indices, such as the next rollover, would otherwise be allocated to them right away:&lt;/p&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;PUT /_cluster/settings&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.exclude._name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"green-node-1, green-node-2, green-node-N"&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Deploy the new node set and wait for all nodes to reach &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ready&lt;/span&gt;&lt;/code&gt; status. The green nodes need the same node attributes as the blue ones (for example, the attribute that marks them as hot tier). If your indices use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;index.routing.allocation.require.*&lt;/span&gt;&lt;/code&gt; filters and the green nodes lack the matching attribute, the shards have nowhere to go and the migration stalls.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="step-3-migrate-data-from-blue-to-green"&gt;
+&lt;h3&gt;Step 3: Migrate data from blue to green&lt;/h3&gt;
+&lt;p&gt;Now flip the exclusion to the old (blue) nodes. OpenSearch begins moving shards off the blue nodes and onto the green nodes:&lt;/p&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id4"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;PUT /_cluster/settings&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.exclude._name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"blue-node-1, blue-node-2, blue-node-N"&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Monitor the migration closely:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Overall shard state: look for RELOCATING or UNASSIGNED&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
+
+&lt;span class="c1"&gt;# Shards by node: verify blue nodes are draining&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
+
+&lt;span class="c1"&gt;# Active tasks: watch for recover and relocation tasks&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;_cat/tasks
+
+&lt;span class="c1"&gt;# Cluster health: wait for green&lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Do not proceed until all shards have moved off the blue nodes and cluster health is green.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="step-4-decommission-the-old-node-set"&gt;
+&lt;h3&gt;Step 4: Decommission the old node set&lt;/h3&gt;
+&lt;p&gt;Once all data is on the green nodes, delete the old (blue) StatefulSet:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;kubectl&lt;span class="w"&gt; &lt;/span&gt;delete&lt;span class="w"&gt; &lt;/span&gt;sts&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;blue-statefulset-name&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="id1"&gt;
+&lt;h3&gt;Step 5: Clear the exclusion and re-enable rebalancing&lt;/h3&gt;
+&lt;aside class="system-message"&gt;
+&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down.md&lt;/span&gt;, line 287); &lt;em&gt;&lt;a href="#id1"&gt;backlink&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Duplicate implicit target name: “step 5: clear the exclusion and re-enable rebalancing”.&lt;/p&gt;
+&lt;/aside&gt;
+&lt;p&gt;Remove the exclusion rules so future shard assignments work normally, and restore rebalancing:&lt;/p&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id5"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;PUT /_cluster/settings&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.exclude._name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.rebalance.enable"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;section id="key-takeaways"&gt;
+&lt;h2&gt;Key Takeaways&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Scaling down is riskier than scaling up because existing data must be relocated before nodes are removed.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Draining with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;exclude._name&lt;/span&gt;&lt;/code&gt; works for any storage type. Once a node is empty, losing its disk does not matter.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Resizing nodes on ephemeral storage requires Blue/Green. On EBS-backed StatefulSets, a rolling replacement that reattaches volumes is usually cheaper.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Disable shard rebalancing during planned migrations. It does not block the relocation of shards off excluded nodes.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Use persistent settings so a cluster restart does not silently drop your exclusions, and clear them afterward. StatefulSets reuse pod names, so a leftover exclusion will catch the next node with the same name.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Always verify shard allocation, cluster health, and available disk capacity before moving to the next step.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;section id="references"&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/"&gt;Cluster Settings API (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/"&gt;Cluster settings reference (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/"&gt;Availability and recovery (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cat/cat-shards/"&gt;CAT shards (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"&gt;StatefulSets (Kubernetes)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down/"/>
+    <summary>Blog Post Publish Date: 2026/11/10This blog post covers the patterns and API calls I use to scale down and resize OpenSearch data nodes without losing data. The rule behind all of them is simple: the data on a node you remove has to end up somewhere else first. If you take nodes away faster than the cluster can relocate their shards, you lose data.</summary>
+    <category term="opensearch" label="opensearch"/>
+    <published>2026-11-10T00:00:00+00:00</published>
+  </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2026/2026-11-08-opensearch-hot-instance-store/</id>
     <title>OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage</title>
@@ -15,13 +317,13 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="opensearch-ec2-instance-store-a-disruptive-approach-to-hot-tier-storage"&gt;
 
-&lt;p&gt;This blog post covers an architectural approach for running the OpenSearch Hot Data Tier using EC2 Instance Store (local NVMe) instead of EBS, exploring performance gains and how to manage the risks of data loss through OpenSearch replication, Kubernetes, and Karpenter.&lt;/p&gt;
+&lt;p&gt;This blog post covers running the OpenSearch Hot Data Tier on EC2 Instance Store (local NVMe) instead of EBS: why it performs better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.&lt;/p&gt;
 &lt;section id="instance-store-less-durability-more-performance"&gt;
 &lt;h2&gt;Instance Store: Less Durability, More Performance&lt;/h2&gt;
-&lt;p&gt;I’ve been managing OpenSearch clusters on &lt;a class="reference external" href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html"&gt;EKS&lt;/a&gt; for over five years, handling ingestion rates of around 70K~100K documents per second. During this time, I’ve worked on improving indexing throughput, reducing query latency, and optimizing infrastructure costs. One of the most important changes was introducing hot, warm, and cold storage tiers to handle different data access patterns more efficiently. As the clusters grew, however, the hot tier eventually became a performance bottleneck.&lt;/p&gt;
-&lt;p&gt;I experimented with different EC2 instance families and increased CPU and memory resources, but the metrics consistently pointed to storage I/O as the limiting factor. This led me to test &lt;a class="reference external" href="https://aws.amazon.com/ec2/instance-types/storage-optimized"&gt;Storage Optimized EC2 instances&lt;/a&gt; equipped with local NVMe Instance Store instead of EBS for hot data nodes. The results were very good: the local disks provided the performance we needed while significantly reducing storage costs compared with EBS.&lt;/p&gt;
-&lt;p&gt;There is an important trade-off, though. Unlike EBS volumes, Instance Store disks are tied to the physical EC2 host. If an instance is stopped, terminated, or experiences a host failure, its local data is permanently lost. This makes Instance Store a less durable storage option, but it does not necessarily make it unsuitable for OpenSearch. The key is to understand how &lt;a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards"&gt;shard replication&lt;/a&gt; works and design the infrastructure so that losing a node does not mean losing the only copy of its data.&lt;/p&gt;
-&lt;p&gt;For more information about performance, see these publicly available benchmarks and case studies:&lt;/p&gt;
+&lt;p&gt;I’ve been managing OpenSearch clusters on &lt;a class="reference external" href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html"&gt;EKS&lt;/a&gt; for over five years, handling ingestion rates of around 70K~100K documents per second. During this time, I’ve worked on improving indexing throughput, reducing query latency, and optimizing infrastructure costs. One of the most important changes was introducing hot, warm, and cold storage tiers to handle different data access patterns more efficiently. As the clusters grew, however, the hot tier became a performance bottleneck.&lt;/p&gt;
+&lt;p&gt;I experimented with different EC2 instance families and increased CPU and memory, but the metrics consistently pointed to storage I/O as the limiting factor. This led me to test &lt;a class="reference external" href="https://aws.amazon.com/ec2/instance-types/storage-optimized"&gt;Storage Optimized EC2 instances&lt;/a&gt; with local NVMe Instance Store for the hot data nodes. The results were very good: the local disks gave us the performance we needed and reduced storage costs compared with EBS.&lt;/p&gt;
+&lt;p&gt;There is an important trade-off, though. Instance Store disks are tied to the physical EC2 host. If an instance is stopped, terminated, or hits a host failure, its local data is permanently lost. That makes Instance Store less durable, but it does not make it unsuitable for OpenSearch. The key is understanding how &lt;a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards"&gt;shard replication&lt;/a&gt; works (I covered the basics in &lt;a class="reference internal" href="2025/2025-01-05-opensearch-concepts-index-and-shards/"&gt;&lt;span class="std std-doc"&gt;OpenSearch Concepts - Index and Shards&lt;/span&gt;&lt;/a&gt;) and designing the infrastructure so that losing a node never means losing the only copy of its data.&lt;/p&gt;
+&lt;p&gt;For more on performance, see these public benchmarks and case studies:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/performance"&gt;Tuning Your Cluster for Indexing Speed (by OpenSearch)&lt;/a&gt;: Official OpenSearch guidance on indexing performance, including recommendations for SSD-backed Instance Store and storage configuration.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://clickhouse.com/blog/posette-talk-recap-postgres-isnt-slow-your-storage-is"&gt;Postgres Isn’t Slow. Your Storage Is (by ClickHouse)&lt;/a&gt;: Benchmark comparing EBS gp3 and local NVMe Instance Store using PostgreSQL workloads. Reports significant improvements in transaction throughput and latency with local NVMe.&lt;/p&gt;&lt;/li&gt;
@@ -30,25 +332,54 @@
 &lt;/section&gt;
 &lt;section id="ec2-instance-store-vs-ebs"&gt;
 &lt;h2&gt;EC2 Instance Store vs. EBS&lt;/h2&gt;
-&lt;p&gt;The choice between EBS and Instance Store comes down to physical location and how your application accesses storage. EBS volumes operate as network-attached block devices that exist independently of any individual EC2 instance. Instance Store, by contrast, relies on NVMe SSDs plugged directly into the host server’s PCIe bus, completely cutting out the network layer.&lt;/p&gt;
-&lt;p&gt;Local NVMe is not universally faster. For large-block, sequential workloads where a significant portion of the active dataset resides in RAM, a modern &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;gp3&lt;/span&gt;&lt;/code&gt; volume running on a high-bandwidth Nitro instance can comfortably match or even edge out local drives on sustained throughput. In those scenarios, the performance bottleneck shifts away from the underlying storage media and lands squarely on the instance’s allocated EBS network bandwidth.&lt;/p&gt;
-&lt;p&gt;Where local NVMe establishes an un-closable gap is small-block random read latency. Because EBS must traverse the virtualized network stack, it inevitably introduces microsecond-level overhead. Direct PCIe access bypasses that entirely, delivering sub-millisecond access times. This latency differential becomes the single most critical factor for search engines like OpenSearch. When an OpenSearch hot tier serves queries against indices that exceed available RAM, &lt;a class="reference external" href="https://lucene.apache.org/core/9_12_0/core/org/apache/lucene/search/package-summary.html"&gt;Lucene index traversals&lt;/a&gt; trigger relentless random small-block reads, making local storage substantially more responsive.&lt;/p&gt;
-&lt;p&gt;The trade-off for that raw speed is persistence. An EBS volume acts as a stable baseline: it survives instance stops, can be detached, and scales its baseline 3,000 IOPS and 125 MiB/s up to specific operational needs. Instance Store storage, like the 1,875 GB NVMe drive baked into an &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;i8g.2xlarge&lt;/span&gt;&lt;/code&gt;, is strictly ephemeral. If the host stops, hibernates, or fails, the local data vanishes.&lt;/p&gt;
-&lt;p&gt;For traditional stateful applications, EBS remains the sensible default. But in distributed search systems where application-level shard replication already handles node failure, local NVMe transforms storage latency from a persistent bottleneck into a solved problem.&lt;/p&gt;
+&lt;p&gt;The difference comes down to where the disk is. An EBS volume is a network-attached block device that exists independently of any EC2 instance, so every I/O makes a network round trip. Instance Store is an NVMe SSD attached to the host’s PCIe bus, with no network in the path.&lt;/p&gt;
+&lt;div class="pst-scrollable-table-container"&gt;&lt;table class="table"&gt;
+&lt;thead&gt;
+&lt;tr class="row-odd"&gt;&lt;th class="head"&gt;&lt;p&gt;&lt;/p&gt;&lt;/th&gt;
+&lt;th class="head"&gt;&lt;p&gt;EBS (gp3)&lt;/p&gt;&lt;/th&gt;
+&lt;th class="head"&gt;&lt;p&gt;Instance Store (local NVMe)&lt;/p&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Attachment&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Network-attached, independent of the instance&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Physically attached to the host&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Survives stop or terminate&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Yes, and can be detached and reattached&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;No, the data is lost&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Performance&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.aws.amazon.com/ebs/latest/userguide/general-purpose.html"&gt;3,000 IOPS and 125 MiB/s baseline&lt;/a&gt;, provisioned higher if needed and capped by the instance’s EBS bandwidth&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Fixed by the instance type, with no network hop&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Size&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Chosen per volume, can grow&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Fixed by the instance type, e.g. 1 x 1,875 GB on an &lt;a class="reference external" href="https://aws.amazon.com/ec2/instance-types/i8g/"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;i8g.2xlarge&lt;/span&gt;&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Cost&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Billed separately per GB-month, plus provisioned IOPS and throughput above the baseline&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Included in the instance price&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Local NVMe is not faster for every workload. For large sequential reads and writes, where most of the active data fits in RAM, a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;gp3&lt;/span&gt;&lt;/code&gt; volume on an instance with enough EBS bandwidth can keep up with local drives, and the bottleneck becomes the instance’s EBS bandwidth rather than the disk.&lt;/p&gt;
+&lt;p&gt;Small random reads are where local NVMe clearly wins, because removing the network hop removes latency from every single I/O. This is the access pattern that matters for a search engine. When an OpenSearch hot tier serves queries against indices larger than the available RAM, &lt;a class="reference external" href="https://lucene.apache.org/core/9_12_0/core/org/apache/lucene/search/package-summary.html"&gt;Lucene&lt;/a&gt; has to read many small blocks from disk, and local storage answers those reads faster.&lt;/p&gt;
+&lt;p&gt;For most stateful applications, EBS remains the sensible default. In a distributed search system where shard replication already handles node failure, the durability EBS adds matters less, and local NVMe removes storage latency as the bottleneck.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="why-instance-store-works-for-opensearch"&gt;
 &lt;h2&gt;Why Instance Store Works for OpenSearch&lt;/h2&gt;
-&lt;p&gt;OpenSearch distributes index data across shards and can maintain &lt;a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards"&gt;replica copies&lt;/a&gt; of each shard on different data nodes. This means a node failure does not necessarily result in data loss: if another node holds a valid copy of the affected shard, OpenSearch can promote that replica to primary and create new replicas to restore the configured redundancy.&lt;/p&gt;
-&lt;p&gt;This replication model makes it possible to treat Instance Store disks as disposable, provided that every shard has another valid copy on a different node. For example, when a hot data node fails, its local NVMe data is lost along with the instance. OpenSearch detects that the node is unavailable, promotes available replica shards to primary, and allocates new replicas across the remaining nodes. Once a replacement node joins the cluster, it can receive shard copies and restore the desired redundancy.&lt;/p&gt;
-&lt;p&gt;The important part is ensuring that shard copies are distributed across independent failure domains and that node replacement is controlled. If multiple nodes holding copies of the same shard fail before OpenSearch can recover, the remaining copies may be insufficient to prevent data loss. Instance Store is therefore viable when replication, placement, and disruption management are designed together.&lt;/p&gt;
+&lt;p&gt;OpenSearch splits index data into shards and can keep &lt;a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards"&gt;replica copies&lt;/a&gt; of each shard on different data nodes. When a hot data node fails, its local NVMe data is gone, but if another node holds a valid copy of each affected shard, OpenSearch promotes those replicas to primary and allocates new replicas on the remaining nodes. Once a replacement node joins the cluster, it receives shard copies and the configured redundancy is restored.&lt;/p&gt;
+&lt;p&gt;This is what makes it possible to treat Instance Store disks as disposable, as long as every shard has another valid copy on a different node. The risk is losing several nodes that hold copies of the same shard before OpenSearch finishes recovering. So Instance Store is viable only when replication, placement, and node replacement are designed together. If you want more detail on how OpenSearch decides where shards go, see &lt;a class="reference internal" href="2026/2026-11-04-opensearch-watermark/"&gt;&lt;span class="std std-doc"&gt;OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="running-instance-store-safely-on-kubernetes"&gt;
 &lt;h2&gt;Running Instance Store Safely on Kubernetes&lt;/h2&gt;
-&lt;p&gt;The following six mechanisms combine OpenSearch capabilities with Kubernetes and Karpenter features to reduce the risk of data loss. They address three important areas: shard redundancy, workload placement, and controlled node replacement.&lt;/p&gt;
-&lt;p&gt;It is important reinforce that these mechanisms mitigate risks under controlled failure scenarios, but they cannot guarantee durability. If multiple nodes fail before OpenSearch can recover their shard copies, data loss is still possible. Using Instance Store means accepting this durability trade-off in exchange for performance. EBS remains the safer choice when data durability is the priority.&lt;/p&gt;
+&lt;p&gt;The following six mechanisms combine OpenSearch, Kubernetes, and Karpenter features to reduce the risk of data loss. They cover three areas: shard redundancy, workload placement, and controlled node replacement.&lt;/p&gt;
+&lt;p&gt;These mechanisms reduce risk during controlled operations, but they cannot guarantee durability. If multiple nodes fail before OpenSearch recovers their shard copies, data can still be lost. Using Instance Store means accepting that trade-off in exchange for performance. When durability is the priority, EBS remains the safer choice.&lt;/p&gt;
 &lt;section id="ensure-all-indices-have-replicas"&gt;
 &lt;h3&gt;1. Ensure All Indices Have Replicas&lt;/h3&gt;
-&lt;p&gt;Every index stored on Instance Store nodes should have at least one replica. Without replicas, a node failure can permanently remove the only copy of a shard. An &lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/index-templates"&gt;index template&lt;/a&gt; can establish a default replica count for newly created indices, ensuring that indices matching the configured pattern are created with the expected redundancy.&lt;/p&gt;
+&lt;p&gt;Every index stored on Instance Store nodes needs at least one replica. Without replicas, a node failure can permanently remove the only copy of a shard. An &lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/index-templates"&gt;index template&lt;/a&gt; can set a default replica count for new indices:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;PUT /_index_template/default-replicas&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -62,12 +393,12 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;This template only sets the default for new matching indices. Existing indices must be checked and updated separately, and explicit index settings can override the template. For that reason, replica configuration should also be validated and monitored to ensure that no index is left without the required redundancy.&lt;/p&gt;
+&lt;p&gt;This template only applies to new indices. Existing indices must be checked and updated separately, and explicit index settings or other templates with a higher &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;priority&lt;/span&gt;&lt;/code&gt; can override it. Validate and monitor replica counts so that no index is left without redundancy.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="use-statefulsets-for-hot-data-nodes"&gt;
 &lt;h3&gt;2. Use StatefulSets for Hot Data Nodes&lt;/h3&gt;
-&lt;p&gt;StatefulSets provide stable pod identities and predictable names, which are useful when managing OpenSearch nodes that use local storage. Unlike Deployments, StatefulSets maintain an ordinal identity for each pod and, by default, use the &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"&gt;OrderedReady&lt;/a&gt; pod management policy. During a rolling update, Kubernetes updates or replaces pods one at a time and waits for each pod to become ready before proceeding. This behavior helps prevent multiple hot data nodes from being replaced simultaneously.&lt;/p&gt;
-&lt;p&gt;Stable pod names are also useful when decommissioning or migrating nodes. For example, before removing &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;opensearch-hot-3&lt;/span&gt;&lt;/code&gt;, you can ask OpenSearch to relocate its shards to other nodes by excluding it from shard allocation:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"&gt;StatefulSets&lt;/a&gt; give each pod a stable identity and a predictable name, which helps when managing OpenSearch nodes that use local storage. With the default &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;RollingUpdate&lt;/span&gt;&lt;/code&gt; strategy, Kubernetes replaces StatefulSet pods one at a time and waits for each updated pod to become Ready before moving to the next one. This prevents multiple hot data nodes from being replaced at the same time during an update.&lt;/p&gt;
+&lt;p&gt;Stable pod names are also useful when decommissioning or migrating nodes. For example, before removing &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;opensearch-hot-3&lt;/span&gt;&lt;/code&gt;, you can ask OpenSearch to move its shards elsewhere by excluding it from shard allocation:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;PUT /_cluster/settings&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -78,12 +409,12 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;OpenSearch will then relocate the shards away from the excluded node. Once relocation is complete, the node can be safely removed from the cluster. This requires the OpenSearch &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node.name&lt;/span&gt;&lt;/code&gt; to match the pod identity used in the exclusion setting. After the decommissioning operation, remember to clear the exclusion setting so that the node can participate in shard allocation again.&lt;/p&gt;
+&lt;p&gt;OpenSearch then relocates the shards away from the excluded node, and once relocation finishes, the node can be removed safely. This requires the OpenSearch &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node.name&lt;/span&gt;&lt;/code&gt; to match the pod name. After the operation, clear the exclusion setting so the node can receive shards again.&lt;/p&gt;
 &lt;/section&gt;
-&lt;section id="one-node-per-pod"&gt;
-&lt;h3&gt;3. One Node per Pod&lt;/h3&gt;
-&lt;p&gt;Running one OpenSearch hot data node per Kubernetes pod makes node placement and lifecycle management easier to reason about. It also ensures that a single worker node failure does not take down multiple OpenSearch nodes, potentially affecting both copies of the same shard. By enforcing one hot data pod per worker node, Kubernetes provides an additional layer of failure isolation.&lt;/p&gt;
-&lt;p&gt;The following configuration uses &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/"&gt;node affinity&lt;/a&gt; to select dedicated hot-tier workers, &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/"&gt;pod anti-affinity&lt;/a&gt; to keep hot pods on separate Kubernetes nodes, and &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints"&gt;topology spread constraints&lt;/a&gt; to distribute them across Availability Zones.&lt;/p&gt;
+&lt;section id="one-hot-data-pod-per-worker-node"&gt;
+&lt;h3&gt;3. One Hot Data Pod per Worker Node&lt;/h3&gt;
+&lt;p&gt;If two OpenSearch hot data pods run on the same Kubernetes worker, one EC2 failure takes down both, and they may hold the primary and the replica of the same shard. Running at most one hot data pod per worker keeps each EC2 instance a separate failure domain.&lt;/p&gt;
+&lt;p&gt;The following configuration uses &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/"&gt;pod anti-affinity&lt;/a&gt; to keep hot pods on separate Kubernetes nodes. You can combine it with node affinity to select dedicated hot-tier workers and &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints"&gt;topology spread constraints&lt;/a&gt; to distribute the pods across Availability Zones.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;opensearch-data-hot-statefulset.yaml&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;spec&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -103,15 +434,16 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;OpenSearch also supports &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-awareness"&gt;index shard allocation awareness&lt;/a&gt;, which allows nodes to be assigned attributes representing their failure domains, such as Availability Zones. This gives OpenSearch additional context when distributing shard copies across zones. However, cross-AZ traffic can increase AWS VPC data transfer costs, so the trade-off should be considered when designing multi-AZ deployments.&lt;/p&gt;
+&lt;p&gt;OpenSearch also supports &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-awareness"&gt;shard allocation awareness&lt;/a&gt;, which tags nodes with their failure domain, such as the Availability Zone, so that OpenSearch places a shard’s copies in different zones. Keep in mind that cross-AZ traffic increases AWS data transfer costs.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="use-a-readiness-probe-to-wait-for-cluster-green"&gt;
 &lt;h3&gt;4. Use a Readiness Probe to Wait for Cluster Green&lt;/h3&gt;
-&lt;p&gt;A process responding to HTTP requests does not necessarily mean that an OpenSearch node is ready to handle workloads safely. The local service may become available before the cluster has recovered its shards and restored replica redundancy. A &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes"&gt;readiness probe&lt;/a&gt; that only checks whether the HTTP endpoint responds can therefore allow Kubernetes to proceed with the next pod replacement too early.&lt;/p&gt;
-&lt;p&gt;Instead, the probe can use the &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-health"&gt;Cluster Health API&lt;/a&gt; to wait until the cluster reaches a green state. Combined with the StatefulSet’s &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"&gt;OrderedReady&lt;/a&gt; policy, this makes Kubernetes wait for shard recovery before moving on to the next pod during a rolling update. Check following example:&lt;/p&gt;
+&lt;p&gt;An OpenSearch node that answers HTTP requests is not necessarily safe to move past. The process can be up before the cluster has recovered its shards and restored replica redundancy. A &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes"&gt;readiness probe&lt;/a&gt; that only checks the HTTP endpoint lets Kubernetes replace the next pod too early.&lt;/p&gt;
+&lt;p&gt;Instead, the probe can call the &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-health"&gt;Cluster Health API&lt;/a&gt; and only report Ready when the cluster is green. Because the StatefulSet rolling update waits for each pod to be Ready, Kubernetes now waits for shard recovery before replacing the next pod. Set &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;timeoutSeconds&lt;/span&gt;&lt;/code&gt; above the API’s own &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;timeout&lt;/span&gt;&lt;/code&gt;; the default probe timeout is one second, which would make the probe fail while the request is still waiting:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id4"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;opensearch-data-hot-statefulset.yaml&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;readinessProbe&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;timeoutSeconds&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;10&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;exec&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;command&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 &lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;sh&lt;/span&gt;
@@ -124,12 +456,13 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;p&gt;This check is cluster-wide. If any index turns yellow for an unrelated reason, every hot pod becomes NotReady at the same time, and Kubernetes removes all of them from the endpoints of any Service that selects them. Make sure clients reach the cluster through a Service that does not depend on this probe, such as one that points to coordinating nodes.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="use-a-poddisruptionbudget-pdb"&gt;
 &lt;h3&gt;5. Use a PodDisruptionBudget (PDB)&lt;/h3&gt;
-&lt;p&gt;A PodDisruptionBudget limits how many pods can be voluntarily evicted at the same time. This is particularly useful during node draining, when Kubernetes needs to move workloads away from a worker node. For example, the following PDB allows at most one hot data pod to be unavailable due to voluntary disruptions:&lt;/p&gt;
+&lt;p&gt;A &lt;a class="reference external" href="https://kubernetes.io/docs/tasks/run-application/configure-pdb"&gt;PodDisruptionBudget&lt;/a&gt; limits how many pods can be voluntarily evicted at the same time, for example while Kubernetes drains a worker node. The following PDB allows at most one hot data pod to be unavailable due to voluntary disruptions:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id5"&gt;
-&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;opensearch-data-hot-statefulset.yaml&lt;/span&gt;&lt;/div&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;opensearch-data-hot-pdb.yaml&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;apiVersion&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;policy/v1&lt;/span&gt;
 &lt;span class="nt"&gt;kind&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;PodDisruptionBudget&lt;/span&gt;
 &lt;span class="nt"&gt;metadata&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -142,15 +475,15 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;The value of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;maxUnavailable&lt;/span&gt;&lt;/code&gt; must be chosen according to the cluster size, replica configuration, and failure tolerance. A limit of one may be reasonable for some clusters, but it is not universally safe. Also, a PDB only protects against voluntary evictions performed through Kubernetes’ &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/api-eviction"&gt;Eviction API&lt;/a&gt;. It does not prevent involuntary failures, such as an EC2 instance interruption, or directly control pod replacements initiated by a StatefulSet rolling update.&lt;/p&gt;
+&lt;p&gt;Choose &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;maxUnavailable&lt;/span&gt;&lt;/code&gt; according to the cluster size, replica configuration, and failure tolerance. A limit of one is reasonable for many clusters, but it is not universally safe. A PDB also only covers evictions made through the &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/api-eviction"&gt;Eviction API&lt;/a&gt;. It does not prevent involuntary failures, such as an EC2 instance interruption, and it does not control pod replacements made by a StatefulSet rolling update.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="control-node-disruptions-with-karpenter"&gt;
 &lt;h3&gt;6. Control Node Disruptions with Karpenter&lt;/h3&gt;
 &lt;blockquote&gt;
-&lt;div&gt;&lt;p&gt;I’ll use Karpenter as an example. However, the logic behind it remains the same for any node scheduling.&lt;/p&gt;
+&lt;div&gt;&lt;p&gt;I’ll use Karpenter as an example, but the same logic applies to any node autoscaler.&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
-&lt;p&gt;Karpenter can replace nodes for several reasons, including &lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/"&gt;consolidation&lt;/a&gt; and &lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/"&gt;drift&lt;/a&gt; from the desired &lt;a class="reference external" href="https://karpenter.sh/docs/concepts/nodepools"&gt;NodePool&lt;/a&gt; configuration. For workloads using Instance Store, these operations require special attention because terminating a node permanently destroys its local data. Karpenter provides mechanisms to control voluntary disruptions, allowing node replacement to be coordinated with OpenSearch shard recovery.&lt;/p&gt;
-&lt;p&gt;One option is to add the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;karpenter.sh/do-not-disrupt&lt;/span&gt;&lt;/code&gt; annotation to the pod template. This tells Karpenter not to voluntarily disrupt the annotated pod, subject to documented exceptions. See &lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/"&gt;Pod-level Disruption Controls&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Karpenter can replace nodes for several reasons, including consolidation and drift from the desired &lt;a class="reference external" href="https://karpenter.sh/docs/concepts/nodepools"&gt;NodePool&lt;/a&gt; configuration. With Instance Store, terminating a node destroys its local data, so these replacements must be coordinated with OpenSearch shard recovery. Karpenter provides &lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/"&gt;disruption controls&lt;/a&gt; for this.&lt;/p&gt;
+&lt;p&gt;One option is to add the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;karpenter.sh/do-not-disrupt&lt;/span&gt;&lt;/code&gt; annotation to the pod template. Karpenter will not voluntarily disrupt a node running the annotated pod, subject to the documented exceptions:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id6"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;opensearch-data-hot-statefulset.yaml&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;spec&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -161,7 +494,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Another concern is drift. When a node no longer matches its NodePool configuration, Karpenter may replace it to bring the infrastructure back in line with the desired state. For hot data nodes using Instance Store, automatic drift replacement can result in unnecessary data movement and local data loss. A &lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/"&gt;NodePool Disruption Budget&lt;/a&gt; can prevent Karpenter from voluntarily replacing drifted nodes while the budget is set to zero:&lt;/p&gt;
+&lt;p&gt;Drift needs separate attention. When a node no longer matches its NodePool configuration, Karpenter may replace it, and for Instance Store hot nodes that means unplanned data movement and local data loss. A NodePool disruption budget set to zero for the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Drifted&lt;/span&gt;&lt;/code&gt; reason stops Karpenter from voluntarily replacing drifted nodes:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id7"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;opensearch-karpenter-nodepool.yaml&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;spec&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -173,24 +506,23 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;This blocks voluntary drift-related replacements while the budget is active. When a node needs to be updated, the budget can be adjusted to allow a controlled replacement process. The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;do-not-disrupt&lt;/span&gt;&lt;/code&gt; annotation and NodePool disruption budgets serve different purposes and should be configured with an understanding of &lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption"&gt;Karpenter’s disruption rules and exceptions&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;These mechanisms protect against different types of disruption. The readiness probe, combined with the StatefulSet’s &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"&gt;OrderedReady&lt;/a&gt; policy, controls the sequence of pod replacements during a StatefulSet rolling update. The &lt;a class="reference external" href="https://kubernetes.io/docs/tasks/run-application/configure-pdb"&gt;PodDisruptionBudget&lt;/a&gt; limits voluntary evictions, such as those performed during Karpenter node draining, but does not prevent StatefulSet-initiated pod replacements. The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;karpenter.sh/do-not-disrupt&lt;/span&gt;&lt;/code&gt; annotation blocks voluntary Karpenter disruptions for the annotated pod, subject to &lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/"&gt;Karpenter’s documented exceptions&lt;/a&gt;. None of these mechanisms protects against unexpected infrastructure failures, such as an EC2 instance interruption.&lt;/p&gt;
+&lt;p&gt;When a node needs to be updated, adjust the budget to allow a controlled replacement, one node at a time.&lt;/p&gt;
+&lt;p&gt;Each of these mechanisms covers a different kind of disruption. The readiness probe and the StatefulSet rolling update control the order of pod replacements during an update. The PDB limits voluntary evictions, such as Karpenter draining a node, but not StatefulSet-initiated replacements. The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;do-not-disrupt&lt;/span&gt;&lt;/code&gt; annotation and the NodePool budget stop Karpenter from replacing nodes on its own. None of them protects against unexpected infrastructure failures, such as an EC2 instance interruption.&lt;/p&gt;
 &lt;/section&gt;
 &lt;/section&gt;
 &lt;section id="takeaways"&gt;
 &lt;h2&gt;Takeaways&lt;/h2&gt;
-&lt;p&gt;The blog post presented several technical considerations and disruptive approaches. Let’s summarize the main points:&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;Instance Store is neither better nor faster than EBS, nor is EBS inherently better than Instance Store. Each has its own use cases.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;For the OpenSearch Hot Data Tier, Instance Store delivers better performance.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Instance Store is lost when the EC2 node fails, making it a riskier approach.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;The risks of using Instance Store can be controlled through application-level data replication mechanisms and Kubernetes guardrails.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Neither Instance Store nor EBS is better in general. EBS is durable and flexible; Instance Store trades durability for lower latency.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;For an OpenSearch hot tier that serves queries on indices larger than RAM, the small random reads favor local NVMe.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Instance Store data is lost when the EC2 instance stops, terminates, or fails, so every index needs replicas.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Kubernetes and Karpenter guardrails (StatefulSet rolling updates, a green-cluster readiness probe, PDBs, anti-affinity, and disruption budgets) control planned replacements. Replication is what protects against unplanned ones.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/section&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-08-opensearch-hot-instance-store/"/>
-    <summary>Blog Post Publish Date: 2026/11/08This blog post covers an architectural approach for running the OpenSearch Hot Data Tier using EC2 Instance Store (local NVMe) instead of EBS, exploring performance gains and how to manage the risks of data loss through OpenSearch replication, Kubernetes, and Karpenter.</summary>
+    <summary>Blog Post Publish Date: 2026/11/08This blog post covers running the OpenSearch Hot Data Tier on EC2 Instance Store (local NVMe) instead of EBS: why it performs better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</summary>
     <category term="aws" label="aws"/>
     <category term="kubernetes" label="kubernetes"/>
     <category term="opensearch" label="opensearch"/>

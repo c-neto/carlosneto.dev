@@ -137,6 +137,18 @@ div.timeline div.entry.right::after {
   text-align-last: left;
 }
 
+/* Let inline code wrap inside justified text. Sphinx's basic.css sets
+   span.pre { white-space: nowrap } */
+.blog-post p code.literal,
+.blog-post li code.literal,
+.blog-post p code.literal span.pre,
+.blog-post li code.literal span.pre {
+  white-space: normal;
+  /* overflow-wrap only breaks tokens that would overflow on their own
+     line; break-all lets the token split to fill the current line. */
+  word-break: break-all;
+}
+
 /* Twitter embed CSS */
 div.twitter-tweet {
   margin-left: auto;
