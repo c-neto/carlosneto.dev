@@ -2,22 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-10T23:02:04.587678+00:00</updated>
+  <updated>2026-11-10T23:11:47.578074+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering</subtitle>
   <entry>
     <id>https://carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down/</id>
-    <title>How to Scale OpenSearch Data Nodes Safely</title>
+    <title>Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data</title>
     <updated>2026-11-10T00:00:00+00:00</updated>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/11/10&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;section id="how-to-scale-opensearch-data-nodes-safely"&gt;
+&lt;section id="scaling-down-and-resizing-opensearch-data-nodes-without-losing-data"&gt;
 
 &lt;p&gt;This blog post covers the patterns and API calls I use to scale down and resize OpenSearch data nodes without losing data. The rule behind all of them is simple: the data on a node you remove has to end up somewhere else first. If you take nodes away faster than the cluster can relocate their shards, you lose data.&lt;/p&gt;
-&lt;section id="the-core-challenge"&gt;
-&lt;h2&gt;The Core Challenge&lt;/h2&gt;
+&lt;section id="why-removing-nodes-is-risky"&gt;
+&lt;h2&gt;Why Removing Nodes Is Risky&lt;/h2&gt;
 &lt;p&gt;Scaling down or resizing the data tier is one of the riskiest operations you can perform on an OpenSearch cluster, whether you are shrinking the fleet to cut cost, moving to a different instance type, or replacing nodes that use ephemeral storage. Every time I do it, I treat it that way, and I have never regretted being slow about it.&lt;/p&gt;
 &lt;p&gt;OpenSearch distributes data as shards across nodes (see &lt;a class="reference internal" href="2025/2025-01-05-opensearch-concepts-index-and-shards/"&gt;&lt;span class="std std-doc"&gt;OpenSearch Concepts - Index and Shards&lt;/span&gt;&lt;/a&gt;). When a node disappears abruptly, the cluster has to rebuild the missing shard copies from the ones that survive, which consumes bandwidth, CPU, and I/O. If several nodes go at once, or replica counts are too low, the last copy of a shard can disappear before recovery completes.&lt;/p&gt;
 &lt;p&gt;Scaling up only adds capacity. Scaling down removes capacity that currently holds data, so every node you take out must have its shards relocated to the survivors before it goes. A resize is a scale-down and a scale-up chained together: you replace a node, or a whole node group, with a different shape, and the same rule applies.&lt;/p&gt;
@@ -29,13 +29,13 @@
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Blue/Green&lt;/strong&gt;: bringing up a parallel set of nodes in the new shape, migrating all data to them, then decommissioning the old set. This is how you resize nodes whose disks do not survive replacement.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The safe path is always the same: control shard allocation explicitly, verify the cluster state before each step, and only then remove nodes.&lt;/p&gt;
-&lt;section id="persistent-vs-transient-settings"&gt;
-&lt;h3&gt;Persistent vs. Transient Settings&lt;/h3&gt;
+&lt;section id="use-persistent-settings"&gt;
+&lt;h3&gt;Use Persistent Settings&lt;/h3&gt;
 &lt;p&gt;All the examples below use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;persistent&lt;/span&gt;&lt;/code&gt; cluster settings. &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/"&gt;Transient settings are cleared after a full cluster restart&lt;/a&gt;, so if the cluster restarts in the middle of a migration, a transient allocation exclusion silently disappears and OpenSearch starts placing shards on the nodes you were draining. Persistent settings stay until you remove them, which also means you must remember to clear them at the end.&lt;/p&gt;
 &lt;/section&gt;
 &lt;/section&gt;
-&lt;section id="monitoring-shard-relocation-and-cluster-health"&gt;
-&lt;h2&gt;Monitoring Shard Relocation and Cluster Health&lt;/h2&gt;
+&lt;section id="what-to-watch-during-a-migration"&gt;
+&lt;h2&gt;What to Watch During a Migration&lt;/h2&gt;
 &lt;p&gt;Monitoring is essential during shard migrations, especially when increasing recovery concurrency or bandwidth limits. I use the following APIs to track shard relocation progress, identify allocation issues, and watch resource consumption across the cluster:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# All shards, sorted by state&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
@@ -97,8 +97,8 @@ GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
 &lt;p&gt;Pay particular attention to filesystem utilization and JVM memory pressure. When increasing recovery concurrency, also monitor network throughput at the infrastructure level, since the OpenSearch transport statistics alone do not give a complete picture of network bandwidth. If nodes start approaching resource limits, reduce recovery concurrency and bandwidth before the migration affects normal cluster operations.&lt;/p&gt;
 &lt;p&gt;Keep these commands at hand throughout the migration and check them before removing each node. A migration is only complete when the intended nodes are empty, shard recoveries have finished, and the cluster is healthy again.&lt;/p&gt;
 &lt;/section&gt;
-&lt;section id="speed-up-shard-migration"&gt;
-&lt;h2&gt;Speed Up Shard Migration&lt;/h2&gt;
+&lt;section id="speeding-up-shard-relocation"&gt;
+&lt;h2&gt;Speeding Up Shard Relocation&lt;/h2&gt;
 &lt;p&gt;OpenSearch applies conservative limits to shard recovery and relocation so these operations do not consume too many cluster resources. By default, a node allows &lt;a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/"&gt;two concurrent incoming and two concurrent outgoing shard recoveries&lt;/a&gt;, and the recovery transfer rate is limited to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;40mb&lt;/span&gt;&lt;/code&gt; per second per node. These limits keep the cluster stable during shard movements, but they can also make large migrations take much longer than necessary.&lt;/p&gt;
 &lt;p&gt;Shards moved off an excluded node are relocations, so they are throttled by these recovery limits, not by the rebalancing settings. If your cluster has spare CPU, memory, disk I/O, and network capacity, you can raise them:&lt;/p&gt;
 &lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
@@ -123,16 +123,16 @@ GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
-&lt;section id="pattern-1-scaling-down-by-draining-nodes"&gt;
-&lt;h2&gt;Pattern 1: Scaling Down by Draining Nodes&lt;/h2&gt;
+&lt;section id="pattern-1-scale-down-by-draining"&gt;
+&lt;h2&gt;Pattern 1: Scale Down by Draining&lt;/h2&gt;
 &lt;p&gt;Use this when you want fewer data nodes. It works for both network-attached storage (EBS, NFS) and ephemeral storage (Instance Store), because the node is empty before it is terminated.&lt;/p&gt;
 &lt;section id="step-1-check-capacity"&gt;
-&lt;h3&gt;Step 1: Check capacity&lt;/h3&gt;
+&lt;h3&gt;Step 1: Check Capacity&lt;/h3&gt;
 &lt;p&gt;Before draining, make sure the remaining nodes have enough free disk to absorb the shards you are about to relocate and still stay under the disk watermarks. Removing nodes puts the same data on fewer machines. If the remaining nodes fill past &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;cluster.routing.allocation.disk.watermark.high&lt;/span&gt;&lt;/code&gt;, allocation stalls and you get stuck mid-scale-down. I explain how watermarks drive allocation in &lt;a class="reference internal" href="2026/2026-11-04-opensearch-watermark/"&gt;&lt;span class="std std-doc"&gt;OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/allocation?v&lt;/span&gt;&lt;/code&gt; to compare the disk used on the nodes you are removing with the free disk on the nodes that stay.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="step-2-disable-shard-rebalancing"&gt;
-&lt;h3&gt;Step 2: Disable shard rebalancing&lt;/h3&gt;
+&lt;h3&gt;Step 2: Disable Shard Rebalancing&lt;/h3&gt;
 &lt;p&gt;Tell OpenSearch to stop moving shards around for balance:&lt;/p&gt;
 &lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
 &lt;span class="p"&gt;{&lt;/span&gt;
@@ -145,7 +145,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
 &lt;p&gt;This prevents background rebalancing from competing with the drain and wasting I/O and bandwidth on movements you are about to undo. Disabling rebalancing does not stop OpenSearch from moving shards off excluded nodes, so the drain in the next step still works.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="step-3-drain-the-nodes-you-are-removing"&gt;
-&lt;h3&gt;Step 3: Drain the nodes you are removing&lt;/h3&gt;
+&lt;h3&gt;Step 3: Drain the Nodes You Are Removing&lt;/h3&gt;
 &lt;p&gt;Exclude the nodes from shard allocation before terminating them:&lt;/p&gt;
 &lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
 &lt;span class="p"&gt;{&lt;/span&gt;
@@ -160,7 +160,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Overall shard state: look for RELOCATING or UNASSIGNED&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
 
-&lt;span class="c1"&gt;# Shards by node: verify blue nodes are draining&lt;/span&gt;
+&lt;span class="c1"&gt;# Shards by node: verify the excluded nodes are draining&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
 
 &lt;span class="c1"&gt;# Active tasks: watch for recover and relocation tasks&lt;/span&gt;
@@ -173,11 +173,11 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;p&gt;Wait until the excluded nodes have zero shards assigned and the cluster is green before proceeding.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="step-4-remove-the-drained-nodes"&gt;
-&lt;h3&gt;Step 4: Remove the drained nodes&lt;/h3&gt;
+&lt;h3&gt;Step 4: Remove the Drained Nodes&lt;/h3&gt;
 &lt;p&gt;Once the nodes are empty, remove them, for example by scaling the StatefulSet down, and confirm the cluster is still green afterward.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="step-5-clear-the-exclusion-and-re-enable-rebalancing"&gt;
-&lt;h3&gt;Step 5: Clear the exclusion and re-enable rebalancing&lt;/h3&gt;
+&lt;h3&gt;Step 5: Clear the Exclusion and Re-enable Rebalancing&lt;/h3&gt;
 &lt;p&gt;Remove the exclusion and restore rebalancing:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;PUT /_cluster/settings&lt;/span&gt;&lt;/div&gt;
@@ -193,13 +193,13 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;p&gt;Do not skip the exclusion cleanup. StatefulSets reuse pod names, so the next time you scale up, a new &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;opensearch-data-4&lt;/span&gt;&lt;/code&gt; would join the cluster still excluded and never receive shards. If you raised the recovery limits, restore them as well.&lt;/p&gt;
 &lt;/section&gt;
 &lt;/section&gt;
-&lt;section id="pattern-2-resizing-nodes-with-blue-green"&gt;
-&lt;h2&gt;Pattern 2: Resizing Nodes with Blue/Green&lt;/h2&gt;
+&lt;section id="pattern-2-resize-with-blue-green-node-sets"&gt;
+&lt;h2&gt;Pattern 2: Resize with Blue/Green Node Sets&lt;/h2&gt;
 &lt;p&gt;Use this when you need to replace the nodes themselves, not just remove some of them. The typical case is changing the instance type of nodes whose disks do not survive replacement, such as NVMe SSDs on EC2 Instance Store. You cannot resize these nodes in place, because the new instance starts with an empty disk. The data has to move to the new node set before the old one goes away.&lt;/p&gt;
 &lt;p&gt;With network-attached storage the trade-off is different. On Kubernetes, an EBS-backed StatefulSet pod can be moved to a node with a different instance type and its volume reattaches, so a rolling replacement only has to recover the writes that happened while the pod was down. Blue/Green still works for EBS, but it copies the entire dataset.&lt;/p&gt;
 &lt;p&gt;The idea: run two StatefulSets in parallel (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;blue&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;green&lt;/span&gt;&lt;/code&gt;), migrate shards from one to the other, then decommission the old set. If you run the hot tier on Instance Store, the readiness probe and Karpenter settings from &lt;a class="reference internal" href="2026/2026-11-08-opensearch-hot-instance-store/"&gt;&lt;span class="std std-doc"&gt;OpenSearch + EC2 Instance Store&lt;/span&gt;&lt;/a&gt; apply to both StatefulSets during this process.&lt;/p&gt;
 &lt;section id="step-1-disable-shard-rebalancing"&gt;
-&lt;h3&gt;Step 1: Disable shard rebalancing&lt;/h3&gt;
+&lt;h3&gt;Step 1: Disable Shard Rebalancing&lt;/h3&gt;
 &lt;p&gt;Same as Pattern 1, prevent automatic redistribution while you are in control:&lt;/p&gt;
 &lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
 &lt;span class="p"&gt;{&lt;/span&gt;
@@ -211,7 +211,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/div&gt;
 &lt;/section&gt;
 &lt;section id="step-2-bring-up-the-new-node-set-green-without-data"&gt;
-&lt;h3&gt;Step 2: Bring up the new node set (green) without data&lt;/h3&gt;
+&lt;h3&gt;Step 2: Bring Up the New Node Set (Green) Without Data&lt;/h3&gt;
 &lt;p&gt;Exclude the new nodes from shard allocation before they start, so they can boot and join the cluster without triggering a flood of shard movement. New indices, such as the next rollover, would otherwise be allocated to them right away:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;PUT /_cluster/settings&lt;/span&gt;&lt;/div&gt;
@@ -226,7 +226,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;p&gt;Deploy the new node set and wait for all nodes to reach &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ready&lt;/span&gt;&lt;/code&gt; status. The green nodes need the same node attributes as the blue ones (for example, the attribute that marks them as hot tier). If your indices use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;index.routing.allocation.require.*&lt;/span&gt;&lt;/code&gt; filters and the green nodes lack the matching attribute, the shards have nowhere to go and the migration stalls.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="step-3-migrate-data-from-blue-to-green"&gt;
-&lt;h3&gt;Step 3: Migrate data from blue to green&lt;/h3&gt;
+&lt;h3&gt;Step 3: Migrate Data from Blue to Green&lt;/h3&gt;
 &lt;p&gt;Now flip the exclusion to the old (blue) nodes. OpenSearch begins moving shards off the blue nodes and onto the green nodes:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id4"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;PUT /_cluster/settings&lt;/span&gt;&lt;/div&gt;
@@ -255,14 +255,14 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;p&gt;Do not proceed until all shards have moved off the blue nodes and cluster health is green.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="step-4-decommission-the-old-node-set"&gt;
-&lt;h3&gt;Step 4: Decommission the old node set&lt;/h3&gt;
+&lt;h3&gt;Step 4: Decommission the Old Node Set&lt;/h3&gt;
 &lt;p&gt;Once all data is on the green nodes, delete the old (blue) StatefulSet:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;kubectl&lt;span class="w"&gt; &lt;/span&gt;delete&lt;span class="w"&gt; &lt;/span&gt;sts&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;blue-statefulset-name&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
 &lt;section id="id1"&gt;
-&lt;h3&gt;Step 5: Clear the exclusion and re-enable rebalancing&lt;/h3&gt;
+&lt;h3&gt;Step 5: Clear the Exclusion and Re-enable Rebalancing&lt;/h3&gt;
 &lt;aside class="system-message"&gt;
 &lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down.md&lt;/span&gt;, line 287); &lt;em&gt;&lt;a href="#id1"&gt;backlink&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Duplicate implicit target name: “step 5: clear the exclusion and re-enable rebalancing”.&lt;/p&gt;
@@ -281,8 +281,8 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/div&gt;
 &lt;/section&gt;
 &lt;/section&gt;
-&lt;section id="key-takeaways"&gt;
-&lt;h2&gt;Key Takeaways&lt;/h2&gt;
+&lt;section id="takeaways"&gt;
+&lt;h2&gt;Takeaways&lt;/h2&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;Scaling down is riskier than scaling up because existing data must be relocated before nodes are removed.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Draining with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;exclude._name&lt;/span&gt;&lt;/code&gt; works for any storage type. Once a node is empty, losing its disk does not matter.&lt;/p&gt;&lt;/li&gt;
