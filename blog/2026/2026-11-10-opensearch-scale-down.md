@@ -45,24 +45,40 @@ All the examples below use `persistent` cluster settings. [Transient settings ar
 
 Monitoring is essential during shard migrations, especially when increasing recovery concurrency or bandwidth limits. I use the following APIs to track shard relocation progress, identify allocation issues, and watch resource consumption across the cluster:
 
-| What it shows | API call |
-|---|---|
-| All shards, sorted by state | `GET /_cat/shards?v&s=state` |
-| Shards grouped by index | `GET /_cat/shards?v&s=index` |
-| Shards grouped by node | `GET /_cat/shards?v&s=node` |
-| Compact view: index, shard, primary/replica, state, node | `GET /_cat/shards?v&h=index,shard,prirep,state,node&s=index` |
-| Ongoing recoveries with details | `GET /_cat/recovery?active_only=true&detailed=true&bytes=gb&v` |
-| Recovery history, including completed ones | `GET /_cat/recovery?v` |
-| Overall cluster health | `GET /_cluster/health` |
-| Wait for relocations and initializations to finish | `GET /_cluster/health?wait_for_no_relocating_shards=true&wait_for_no_initializing_shards=true` |
-| Pending cluster tasks | `GET /_cat/pending_tasks?v` |
-| Active cluster tasks | `GET /_cat/tasks?v` |
-| Why a shard is unassigned or cannot be allocated | `GET /_cluster/allocation/explain` |
-| Node list and resource information | `GET /_cat/nodes?v&s=name` |
-| Disk usage and shard count per node | `GET /_cat/allocation?v` |
-| Filesystem and JVM statistics | `GET /_nodes/stats/fs,jvm` |
-| Operating system and thread pool statistics | `GET /_nodes/stats/os,thread_pool` |
-| Network transport statistics | `GET /_nodes/stats/transport` |
+```bash
+# All shards, sorted by state 
+GET /_cat/shards?v&s=state
+# Shards grouped by index 
+GET /_cat/shards?v&s=index
+# Shards grouped by node 
+GET /_cat/shards?v&s=node
+# Compact view: index, shard, primary/replica, state, node 
+GET /_cat/shards?v&h=index,shard,prirep,state,node&s=index
+# Ongoing recoveries with details 
+GET /_cat/recovery?active_only=true&detailed=true&bytes=gb&v
+# Recovery history, including completed ones 
+GET /_cat/recovery?v
+# Overall cluster health 
+GET /_cluster/health
+# Wait for relocations and initializations to finish 
+GET /_cluster/health?wait_for_no_relocating_shards=true&wait_for_no_initializing_shards=true
+# Pending cluster tasks 
+GET /_cat/pending_tasks?v
+# Active cluster tasks 
+GET /_cat/tasks?v
+# Why a shard is unassigned or cannot be allocated 
+GET /_cluster/allocation/explain
+# Node list and resource information 
+GET /_cat/nodes?v&s=name
+# Disk usage and shard count per node 
+GET /_cat/allocation?v
+# Filesystem and JVM statistics 
+GET /_nodes/stats/fs,jvm
+# Operating system and thread pool statistics 
+GET /_nodes/stats/os,thread_pool
+# Network transport statistics 
+GET /_nodes/stats/transport
+```
 
 The [Cluster Allocation Explain API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/) can also investigate a specific shard:
 
