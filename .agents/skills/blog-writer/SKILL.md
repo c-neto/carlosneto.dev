@@ -7,7 +7,7 @@ description: Create or refactor technical blog posts to improve clarity, structu
 
 ## Purpose
 
-Act as an experienced technical editor. Refactor existing blog posts to make them clearer, more concise, easier to read, and more useful to their intended audience.
+Act as an experienced technical editor. Make them clearer, more concise, easier to read, and more useful to their intended audience.
 
 The goal is to improve the article as a whole, not simply rewrite individual sentences.
 
