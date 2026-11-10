@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="960" height="300" role="img" aria-labelledby="t d">
+  <title id="t">OpenSearch scale-down and Blue/Green resize patterns</title>
+  <desc id="d">Pattern 1 drains the highest-ordinal nodes, waits for shards to relocate, scales the StatefulSet down and clears the exclusion. Pattern 2 starts an excluded green node set, flips the exclusion to the blue set, waits for shards to move to green, then deletes the blue set and clears the exclusion.</desc>
+  <defs>
+    <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3b82f6"/></marker>
+    <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#16a34a"/></marker>
+  </defs>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="14">
+    <text x="20" y="34" font-size="16" font-weight="700" fill="#3b82f6">Pattern 1: Scale Down by Draining</text>
+    <g fill="none" stroke="#3b82f6" stroke-width="2">
+      <rect x="20" y="52" width="200" height="72" rx="10"/>
+      <rect x="265" y="52" width="200" height="72" rx="10"/>
+      <rect x="510" y="52" width="200" height="72" rx="10"/>
+      <rect x="755" y="52" width="185" height="72" rx="10"/>
+      <line x1="222" y1="88" x2="261" y2="88" marker-end="url(#a1)"/>
+      <line x1="467" y1="88" x2="506" y2="88" marker-end="url(#a1)"/>
+      <line x1="712" y1="88" x2="751" y2="88" marker-end="url(#a1)"/>
+    </g>
+    <g fill="#64748b" text-anchor="middle">
+      <text x="120" y="83">Exclude highest</text><text x="120" y="103">ordinals (data-4, data-5)</text>
+      <text x="365" y="83">Shards relocate to</text><text x="365" y="103">data-0 … data-3</text>
+      <text x="610" y="83">Scale StatefulSet</text><text x="610" y="103">6 → 4 replicas</text>
+      <text x="847" y="83">Clear exclusion,</text><text x="847" y="103">restore settings</text>
+    </g>
+
+    <text x="20" y="184" font-size="16" font-weight="700" fill="#16a34a">Pattern 2: Resize with Blue/Green Node Sets</text>
+    <g fill="none" stroke="#16a34a" stroke-width="2">
+      <rect x="20" y="202" width="200" height="72" rx="10"/>
+      <rect x="265" y="202" width="200" height="72" rx="10"/>
+      <rect x="510" y="202" width="200" height="72" rx="10"/>
+      <rect x="755" y="202" width="185" height="72" rx="10"/>
+      <line x1="222" y1="238" x2="261" y2="238" marker-end="url(#a2)"/>
+      <line x1="467" y1="238" x2="506" y2="238" marker-end="url(#a2)"/>
+      <line x1="712" y1="238" x2="751" y2="238" marker-end="url(#a2)"/>
+    </g>
+    <g fill="#64748b" text-anchor="middle">
+      <text x="120" y="233">Start green set,</text><text x="120" y="253">excluded from allocation</text>
+      <text x="365" y="233">Flip the exclusion</text><text x="365" y="253">to the blue set</text>
+      <text x="610" y="233">Shards move</text><text x="610" y="253">blue → green</text>
+      <text x="847" y="233">Delete blue set,</text><text x="847" y="253">clear exclusion</text>
+    </g>
+  </g>
+</svg>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-10T23:28:25.008671+00:00</updated>
+  <updated>2026-11-10T23:57:49.582794+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -11,6 +11,9 @@
     <id>https://carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down/</id>
     <title>Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data</title>
     <updated>2026-11-10T00:00:00+00:00</updated>
+    <author>
+      <name>Carlos Neto</name>
+    </author>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/11/10&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="scaling-down-and-resizing-opensearch-data-nodes-without-losing-data"&gt;
@@ -18,81 +21,93 @@
 &lt;p&gt;This blog post covers the patterns and API calls I use to scale down and resize OpenSearch data nodes without losing data. The rule behind all of them is simple: the data on a node you remove has to end up somewhere else first. If you take nodes away faster than the cluster can relocate their shards, you lose data.&lt;/p&gt;
 &lt;section id="why-removing-nodes-is-risky"&gt;
 &lt;h2&gt;Why Removing Nodes Is Risky&lt;/h2&gt;
-&lt;p&gt;Scaling down or resizing the data tier is one of the riskiest operations you can perform on an OpenSearch cluster, whether you are shrinking the fleet to cut cost, moving to a different instance type, or replacing nodes that use ephemeral storage. Every time I do it, I treat it that way, and I have never regretted being slow about it.&lt;/p&gt;
+&lt;p&gt;Scaling down or resizing the data tier is one of the riskiest operations you can perform on an OpenSearch cluster. That is true whether you are shrinking the fleet to cut cost, moving to a different instance type, or replacing nodes that use ephemeral storage. Every time I do it, I treat it that way, and I have never regretted being slow about it.&lt;/p&gt;
 &lt;p&gt;OpenSearch distributes data as shards across nodes (see &lt;a class="reference internal" href="2025/2025-01-05-opensearch-concepts-index-and-shards/"&gt;&lt;span class="std std-doc"&gt;OpenSearch Concepts - Index and Shards&lt;/span&gt;&lt;/a&gt;). When a node disappears abruptly, the cluster has to rebuild the missing shard copies from the ones that survive, which consumes bandwidth, CPU, and I/O. If several nodes go at once, or replica counts are too low, the last copy of a shard can disappear before recovery completes.&lt;/p&gt;
 &lt;p&gt;Scaling up only adds capacity. Scaling down removes capacity that currently holds data, so every node you take out must have its shards relocated to the survivors before it goes. A resize is a scale-down and a scale-up chained together: you replace a node, or a whole node group, with a different shape, and the same rule applies.&lt;/p&gt;
 &lt;p&gt;A few concepts come up in every step:&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Allocation&lt;/strong&gt;: OpenSearch assigns shards to nodes automatically. You can influence where shards go through the &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/"&gt;Cluster Settings API&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Rebalancing&lt;/strong&gt;: moving shards between nodes to keep an even distribution. It runs continuously in the background, and during a scale-down or resize you want to pause it to avoid unnecessary shard movement.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Draining&lt;/strong&gt;: using an allocation exclusion to tell OpenSearch to move every shard off a specific node before you remove it. This is the core of a safe scale-down, and it works for any kind of storage, including Instance Store, because once a node is empty, losing its disk does not matter.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Blue/Green&lt;/strong&gt;: bringing up a parallel set of nodes in the new shape, migrating all data to them, then decommissioning the old set. This is how you resize nodes whose disks do not survive replacement.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Allocation&lt;/strong&gt; is how OpenSearch decides which node holds each shard. It happens automatically, and you can influence it through the &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/"&gt;Cluster Settings API&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Rebalancing&lt;/strong&gt; is the background process that moves shards between nodes to keep an even distribution. During a scale-down or resize, you want to pause it to avoid unnecessary shard movement.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Draining&lt;/strong&gt; is using an allocation exclusion to tell OpenSearch to move every shard off a specific node before you remove it. It works for any kind of storage, including Instance Store, because once a node is empty, losing its disk does not matter.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Blue/Green&lt;/strong&gt; is bringing up a parallel set of nodes in the new shape, migrating all data to them, then decommissioning the old set. This is how you resize nodes whose disks do not survive replacement.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The safe path is always the same: control shard allocation explicitly, verify the cluster state before each step, and only then remove nodes.&lt;/p&gt;
 &lt;section id="use-persistent-settings"&gt;
 &lt;h3&gt;Use Persistent Settings&lt;/h3&gt;
-&lt;p&gt;All the examples below use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;persistent&lt;/span&gt;&lt;/code&gt; cluster settings. &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/"&gt;Transient settings are cleared after a full cluster restart&lt;/a&gt;, so if the cluster restarts in the middle of a migration, a transient allocation exclusion silently disappears and OpenSearch starts placing shards on the nodes you were draining. Persistent settings stay until you remove them, which also means you must remember to clear them at the end.&lt;/p&gt;
+&lt;p&gt;All the examples below use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;persistent&lt;/span&gt;&lt;/code&gt; cluster settings. &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/"&gt;Transient settings are cleared after a full cluster restart&lt;/a&gt;. If the cluster restarts in the middle of a migration, a transient allocation exclusion silently disappears and OpenSearch starts placing shards on the nodes you were draining. Persistent settings stay until you remove them, which also means you must remember to clear them at the end.&lt;/p&gt;
 &lt;/section&gt;
 &lt;/section&gt;
 &lt;section id="what-to-watch-during-a-migration"&gt;
 &lt;h2&gt;What to Watch During a Migration&lt;/h2&gt;
 &lt;p&gt;Monitoring is essential during shard migrations, especially when increasing recovery concurrency or bandwidth limits. I use the following APIs to track shard relocation progress, identify allocation issues, and watch resource consumption across the cluster:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# All shards, sorted by state&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
-
-&lt;span class="c1"&gt;# Shards grouped by index&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index
-
-&lt;span class="c1"&gt;# Shards grouped by node&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
-
-&lt;span class="c1"&gt;# Compact shard view: index, shard number, primary/replica, state, and node&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;h&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index,shard,prirep,state,node&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index
-
-&lt;span class="c1"&gt;# All ongoing recoveries with detailed information&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/recovery?active_only&lt;span class="o"&gt;=&lt;/span&gt;true&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;detailed&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;true&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;bytes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;gb&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;v
-
-&lt;span class="c1"&gt;# Recovery history, including completed operations&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/recovery?v
-
-&lt;span class="c1"&gt;# Overall cluster health&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cluster/health
-
-&lt;span class="c1"&gt;# Wait for ongoing shard relocations and initializations&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cluster/health?wait_for_no_relocating_shards&lt;span class="o"&gt;=&lt;/span&gt;true&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;wait_for_no_initializing_shards&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;
-
-&lt;span class="c1"&gt;# Pending cluster tasks&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/pending_tasks?v
-
-&lt;span class="c1"&gt;# Active cluster tasks&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/tasks?v
-
-&lt;span class="c1"&gt;# Get logs about allocation error&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cluster/allocation/explain
-
-&lt;span class="c1"&gt;# You can also investigate a specific shard&lt;/span&gt;
-POST&lt;span class="w"&gt; &lt;/span&gt;/_cluster/allocation/explain
-&lt;span class="o"&gt;{&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="s2"&gt;"index"&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"my-index"&lt;/span&gt;,
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="s2"&gt;"shard"&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;,
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="s2"&gt;"primary"&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;
-&lt;span class="o"&gt;}&lt;/span&gt;
-
-&lt;span class="c1"&gt;# Node list and resource information&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/nodes?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;name
-
-&lt;span class="c1"&gt;# Disk allocation and shard count per node&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/allocation?v
-
-&lt;span class="c1"&gt;# Filesystem and JVM statistics&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/fs,jvm
-
-&lt;span class="c1"&gt;# Operating system and thread pool statistics&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/os,thread_pool
-
-&lt;span class="c1"&gt;# Network transport statistics&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
+&lt;div class="pst-scrollable-table-container"&gt;&lt;table class="table"&gt;
+&lt;thead&gt;
+&lt;tr class="row-odd"&gt;&lt;th class="head"&gt;&lt;p&gt;What it shows&lt;/p&gt;&lt;/th&gt;
+&lt;th class="head"&gt;&lt;p&gt;API call&lt;/p&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;All shards, sorted by state&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/shards?v&amp;amp;s=state&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Shards grouped by index&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/shards?v&amp;amp;s=index&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Shards grouped by node&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/shards?v&amp;amp;s=node&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Compact view: index, shard, primary/replica, state, node&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/shards?v&amp;amp;h=index,shard,prirep,state,node&amp;amp;s=index&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Ongoing recoveries with details&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/recovery?active_only=true&amp;amp;detailed=true&amp;amp;bytes=gb&amp;amp;v&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Recovery history, including completed ones&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/recovery?v&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Overall cluster health&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cluster/health&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Wait for relocations and initializations to finish&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cluster/health?wait_for_no_relocating_shards=true&amp;amp;wait_for_no_initializing_shards=true&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Pending cluster tasks&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/pending_tasks?v&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Active cluster tasks&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/tasks?v&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Why a shard is unassigned or cannot be allocated&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cluster/allocation/explain&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Node list and resource information&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/nodes?v&amp;amp;s=name&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Disk usage and shard count per node&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/allocation?v&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Filesystem and JVM statistics&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_nodes/stats/fs,jvm&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Operating system and thread pool statistics&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_nodes/stats/os,thread_pool&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Network transport statistics&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_nodes/stats/transport&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;The &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/"&gt;Cluster Allocation Explain API&lt;/a&gt; can also investigate a specific shard:&lt;/p&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
+&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;POST /_cluster/allocation/explain&lt;/span&gt;&lt;/div&gt;
+&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"index"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"my-index"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"shard"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"primary"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Pay particular attention to filesystem utilization and JVM memory pressure. When increasing recovery concurrency, also monitor network throughput at the infrastructure level, since the OpenSearch transport statistics alone do not give a complete picture of network bandwidth. If nodes start approaching resource limits, reduce recovery concurrency and bandwidth before the migration affects normal cluster operations.&lt;/p&gt;
 &lt;p&gt;Keep these commands at hand throughout the migration and check them before removing each node. A migration is only complete when the intended nodes are empty, shard recoveries have finished, and the cluster is healthy again.&lt;/p&gt;
@@ -113,6 +128,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Be careful when increasing these values. More concurrent recoveries and higher transfer rates put significant pressure on data nodes. If the infrastructure cannot handle the additional work, the nodes become overloaded, normal cluster operations suffer, and the entire cluster can become unresponsive.&lt;/p&gt;
+&lt;!-- [PERSONAL EXPERIENCE] --&gt;
 &lt;p&gt;I’ve experienced this firsthand: increasing recovery concurrency too aggressively overloaded the nodes and brought the cluster to a point where it stopped responding properly. Network saturation is another risk, especially when relocating large amounts of data between nodes.&lt;/p&gt;
 &lt;p&gt;Treat these values as temporary tuning, not recommended defaults. Increase them gradually, watch node and network utilization, and reduce them if the cluster shows signs of saturation. Once the migration is complete, restore the defaults by setting them to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;null&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
@@ -127,9 +143,35 @@ GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/section&gt;
+&lt;section id="which-downsize-pattern-to-use"&gt;
+&lt;h2&gt;Which Downsize Pattern to Use&lt;/h2&gt;
+&lt;p&gt;The right approach depends on the operation and on whether the disk survives the node:&lt;/p&gt;
+&lt;div class="pst-scrollable-table-container"&gt;&lt;table class="table"&gt;
+&lt;thead&gt;
+&lt;tr class="row-odd"&gt;&lt;th class="head"&gt;&lt;p&gt;Operation&lt;/p&gt;&lt;/th&gt;
+&lt;th class="head"&gt;&lt;p&gt;Network-attached storage (EBS)&lt;/p&gt;&lt;/th&gt;
+&lt;th class="head"&gt;&lt;p&gt;Instance Store&lt;/p&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Remove nodes (scale down)&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Pattern 1: drain, then remove&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Pattern 1: drain, then remove&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Change the instance type (resize)&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Rolling replacement that reattaches the volume, or Pattern 2&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Pattern 2: Blue/Green&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;hr class="docutils" /&gt;
+&lt;img alt="Diagram of the two OpenSearch patterns: draining and scaling down a StatefulSet, and migrating shards from a blue node set to a green node set" src="https://carlosneto.dev/_images/opensearch-scale-down-patterns.svg" style="width: 960px; height: 300px;" /&gt;
+&lt;/section&gt;
 &lt;section id="pattern-1-scale-down-by-draining"&gt;
 &lt;h2&gt;Pattern 1: Scale Down by Draining&lt;/h2&gt;
 &lt;p&gt;Use this when you want fewer data nodes. It works for both network-attached storage (EBS, NFS) and ephemeral storage (Instance Store), because the node is empty before it is terminated.&lt;/p&gt;
+&lt;p&gt;Both patterns assume dedicated data nodes. If the nodes you are removing are also cluster-manager-eligible, removing several of them at once can break the cluster-manager quorum, so take them out of the voting configuration first.&lt;/p&gt;
 &lt;section id="step-1-check-capacity"&gt;
 &lt;h3&gt;Step 1: Check Capacity&lt;/h3&gt;
 &lt;p&gt;Before draining, make sure the remaining nodes have enough free disk to absorb the shards you are about to relocate and still stay under the disk watermarks. Removing nodes puts the same data on fewer machines. If the remaining nodes fill past &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;cluster.routing.allocation.disk.watermark.high&lt;/span&gt;&lt;/code&gt;, allocation stalls and you get stuck mid-scale-down. I explain how watermarks drive allocation in &lt;a class="reference internal" href="2026/2026-11-04-opensearch-watermark/"&gt;&lt;span class="std std-doc"&gt;OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
@@ -165,16 +207,16 @@ GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
 &lt;/div&gt;
 &lt;p&gt;On Kubernetes, a StatefulSet scale-down always removes the pods with the &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"&gt;highest ordinals&lt;/a&gt;. Going from six replicas to four removes &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;opensearch-data-5&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;opensearch-data-4&lt;/span&gt;&lt;/code&gt;, so those are the nodes to exclude.&lt;/p&gt;
 &lt;p&gt;OpenSearch now moves all primary and replica shards off the excluded nodes. Monitor progress with:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Overall shard state: look for RELOCATING or UNASSIGNED&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# look for `RELOCATING` or `UNASSIGNED` shards.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
 
-&lt;span class="c1"&gt;# Shards by node: verify the excluded nodes are draining&lt;/span&gt;
+&lt;span class="c1"&gt;# verify the excluded nodes are draining.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
 
-&lt;span class="c1"&gt;# Active tasks: watch for recover and relocation tasks&lt;/span&gt;
+&lt;span class="c1"&gt;# watch the recovery and relocation tasks.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/tasks
 
-&lt;span class="c1"&gt;# Cluster health: wait for green&lt;/span&gt;
+&lt;span class="c1"&gt;# wait for green.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -183,6 +225,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;section id="step-4-remove-the-drained-nodes"&gt;
 &lt;h3&gt;Step 4: Remove the Drained Nodes&lt;/h3&gt;
 &lt;p&gt;Once the nodes are empty, remove them, for example by scaling the StatefulSet down, and confirm the cluster is still green afterward.&lt;/p&gt;
+&lt;p&gt;With EBS, scaling down does not delete the PersistentVolumeClaims of the removed pods by default. Their volumes keep costing money, and they reattach with stale data the next time you scale up. Delete them, or set the StatefulSet’s &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;persistentVolumeClaimRetentionPolicy&lt;/span&gt;&lt;/code&gt;&lt;/a&gt; so Kubernetes removes them on scale-down.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="step-5-clear-the-exclusion-and-re-enable-rebalancing"&gt;
 &lt;h3&gt;Step 5: Clear the Exclusion and Re-enable Rebalancing&lt;/h3&gt;
@@ -198,13 +241,14 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;!-- [UNIQUE INSIGHT] --&gt;
 &lt;p&gt;Do not skip the exclusion cleanup. StatefulSets reuse pod names, so the next time you scale up, a new &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;opensearch-data-4&lt;/span&gt;&lt;/code&gt; would join the cluster still excluded and never receive shards. If you raised the recovery limits, restore them as well.&lt;/p&gt;
 &lt;/section&gt;
 &lt;/section&gt;
 &lt;section id="pattern-2-resize-with-blue-green-node-sets"&gt;
 &lt;h2&gt;Pattern 2: Resize with Blue/Green Node Sets&lt;/h2&gt;
 &lt;p&gt;Use this when you need to replace the nodes themselves, not just remove some of them. The typical case is changing the instance type of nodes whose disks do not survive replacement, such as NVMe SSDs on EC2 Instance Store. You cannot resize these nodes in place, because the new instance starts with an empty disk. The data has to move to the new node set before the old one goes away.&lt;/p&gt;
-&lt;p&gt;With network-attached storage the trade-off is different. On Kubernetes, an EBS-backed StatefulSet pod can be moved to a node with a different instance type and its volume reattaches, so a rolling replacement only has to recover the writes that happened while the pod was down. Blue/Green still works for EBS, but it copies the entire dataset.&lt;/p&gt;
+&lt;p&gt;With network-attached storage the trade-off is different. On Kubernetes, an EBS-backed StatefulSet pod can move to a node with a different instance type and its volume reattaches. A rolling replacement then only has to recover the writes that happened while the pod was down. EBS volumes are bound to one Availability Zone, so the new node must run in the same zone as the volume. Blue/Green still works for EBS, but it copies the entire dataset.&lt;/p&gt;
 &lt;p&gt;The idea: run two StatefulSets in parallel (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;blue&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;green&lt;/span&gt;&lt;/code&gt;), migrate shards from one to the other, then decommission the old set. If you run the hot tier on Instance Store, the readiness probe and Karpenter settings from &lt;a class="reference internal" href="2026/2026-11-08-opensearch-hot-instance-store/"&gt;&lt;span class="std std-doc"&gt;OpenSearch + EC2 Instance Store&lt;/span&gt;&lt;/a&gt; apply to both StatefulSets during this process.&lt;/p&gt;
 &lt;section id="step-1-disable-shard-rebalancing"&gt;
 &lt;h3&gt;Step 1: Disable Shard Rebalancing&lt;/h3&gt;
@@ -233,7 +277,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Deploy the new node set and wait for all nodes to reach &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ready&lt;/span&gt;&lt;/code&gt; status. The green nodes need the same node attributes as the blue ones (for example, the attribute that marks them as hot tier). If your indices use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;index.routing.allocation.require.*&lt;/span&gt;&lt;/code&gt; filters and the green nodes lack the matching attribute, the shards have nowhere to go and the migration stalls.&lt;/p&gt;
+&lt;p&gt;Deploy the new node set and wait for all nodes to reach &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Ready&lt;/span&gt;&lt;/code&gt; status. The green nodes need the same node attributes as the blue ones, for example the attribute that marks them as hot tier. If your indices use &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;index.routing.allocation.require.*&lt;/span&gt;&lt;/code&gt; filters and the green nodes lack the matching attribute, the shards have nowhere to go and the migration stalls.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="step-3-migrate-data-from-blue-to-green"&gt;
 &lt;h3&gt;Step 3: Migrate Data from Blue to Green&lt;/h3&gt;
@@ -249,16 +293,16 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Monitor the migration closely:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Overall shard state: look for RELOCATING or UNASSIGNED&lt;/span&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# look for `RELOCATING` or `UNASSIGNED` shards.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
 
-&lt;span class="c1"&gt;# Shards by node: verify blue nodes are draining&lt;/span&gt;
+&lt;span class="c1"&gt;# verify the blue nodes are draining.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
 
-&lt;span class="c1"&gt;# Active tasks: watch for recover and relocation tasks&lt;/span&gt;
+&lt;span class="c1"&gt;# watch the recovery and relocation tasks.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/tasks
 
-&lt;span class="c1"&gt;# Cluster health: wait for green&lt;/span&gt;
+&lt;span class="c1"&gt;# wait for green.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -270,20 +314,19 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;kubectl&lt;span class="w"&gt; &lt;/span&gt;delete&lt;span class="w"&gt; &lt;/span&gt;sts&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;blue-statefulset-name&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
+&lt;p&gt;This terminates every blue pod at once. That is safe for empty data-only nodes, but see the cluster-manager note in Pattern 1 if the blue nodes have other roles.&lt;/p&gt;
 &lt;/section&gt;
-&lt;section id="id1"&gt;
-&lt;h3&gt;Step 5: Clear the Exclusion and Re-enable Rebalancing&lt;/h3&gt;
-&lt;aside class="system-message"&gt;
-&lt;p class="system-message-title"&gt;System Message: INFO/1 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down.md&lt;/span&gt;, line 287); &lt;em&gt;&lt;a href="#id1"&gt;backlink&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Duplicate implicit target name: “step 5: clear the exclusion and re-enable rebalancing”.&lt;/p&gt;
-&lt;/aside&gt;
-&lt;p&gt;Remove the exclusion rules so future shard assignments work normally, and restore rebalancing:&lt;/p&gt;
+&lt;section id="step-5-clean-up-exclusions-and-restore-settings"&gt;
+&lt;h3&gt;Step 5: Clean Up Exclusions and Restore Settings&lt;/h3&gt;
+&lt;p&gt;Remove the exclusion rules so future shard assignments work normally, restore rebalancing, and reset the recovery limits if you raised them:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id10"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;PUT /_cluster/settings&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.exclude._name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.rebalance.enable"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.rebalance.enable"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.node_concurrent_recoveries"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"indices.recovery.max_bytes_per_sec"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -291,8 +334,8 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/div&gt;
 &lt;/section&gt;
 &lt;/section&gt;
-&lt;section id="takeaways"&gt;
-&lt;h2&gt;Takeaways&lt;/h2&gt;
+&lt;section id="key-takeaways"&gt;
+&lt;h2&gt;Key Takeaways&lt;/h2&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;Scaling down is riskier than scaling up because existing data must be relocated before nodes are removed.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Draining with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;exclude._name&lt;/span&gt;&lt;/code&gt; works for any storage type. Once a node is empty, losing its disk does not matter.&lt;/p&gt;&lt;/li&gt;
@@ -307,11 +350,46 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/"&gt;Cluster Settings API (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/"&gt;Cluster settings reference (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/"&gt;Cluster Allocation Explain API (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/"&gt;Availability and recovery (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cat/cat-shards/"&gt;CAT shards (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"&gt;StatefulSets (Kubernetes)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/section&gt;
+&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data",
+      "description": "How to drain, scale down, and resize OpenSearch data nodes on Kubernetes without losing data, including Blue/Green migrations for EC2 Instance Store.",
+      "datePublished": "2026-11-10",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down/",
+      "image": "https://carlosneto.dev/_static/2026/2026-11-10/opensearch-scale-down-patterns.svg",
+      "keywords": ["OpenSearch", "Kubernetes", "StatefulSet", "shard allocation", "Blue/Green"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data"}
+      ]
+    }
+  ]
+}
+&lt;/script&gt;&lt;/section&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down/"/>
