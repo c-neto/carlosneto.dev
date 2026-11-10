@@ -1,198 +1,302 @@
 ---
-tags: opensearch, aws, kubernetes, performance
-date: "2026-11-08"
-category: Log Analytics
+tags: opensearch
+date: "2026-11-09"
+category: OpenSearch
 ---
 
-*__Blog Post Publish Date:__ 2026/11/08*
+*__Blog Post Publish Date:__ 2026/10/17*
 
 ---
 
-# OpenSearch + EC2 Instance Store: A Disruptive Way for Data Hot Tiering
+# How to Scaling OpenSearch Data Nodes Safely
 
-This blog post explains why Instance Store delivers dramatically better I/O performance for OpenSearch hot data nodes, backs that claim with technical evidence, and shows how the one serious drawback, data loss when an instance dies, is a controlled risk thanks to OpenSearch's native replication.
+This blog post covers the patterns and API calls I use to scale down and resize OpenSearch data nodes with zero data loss. The data on a node you remove has to end up somewhere else first, and if you take nodes away faster than the cluster can relocate their shards, you lose data.
 
-## Introduction
+## The Core Challenge
 
-I'm adminster OpenSearch clusters running in EKS clusters across 5 years. The ingestion volume is high around 70K ~ 100K documents per second. Ingestion perfomance, query time, is the objective, unified with the keep down the costs. During this journey, I introduced several strategies to improve the documents ingested and decrease query time. First of all, I exported metrics to detected perfotmance gaps, and the become clear that I need to better resize the EC2 instance according the data. 
+Every time I scale down a data tier, I treat it as the risky operation it is, and I have never regretted being slow about it. The rule that keeps me out of trouble is boring and absolute: move the data off before the node disappears. Disable rebalancing first, drain with `exclude._name`, check capacity, and never advance a step until the cluster is green and every shard is assigned.
 
-Thus, I have implemented storage tiering Hot, Warm, Cold with according the ingested data category. It was crucial to decrease costs. But in certain moment, the hot data tiering become the bottleneck. I tried some EC2 families, and even tough I added more Memory and CPU, the perfomance is no satisfactory and the costs of the EC2 choosed is overkill and dont solve the problem. After more analyses, I have detected the the bottleneck is the I/O. I'm was using the EBS to store the data, that is the better reliable storage strategy to store data. However, One highly risk strategy was tried: *Use Storage Optimized EC2 Family in the Data Hot, and use the Instance Store instead of EBS*. The results were totally statisfactory and trust me, with less expansive that use the EBS.
+For ephemeral storage, Blue/Green is not optional, it is the only safe way to resize or scale down, because you cannot drain a disk that gets wiped on termination. And whatever pattern you use, clear your transient settings afterward. Leftover exclusion rules or disabled rebalancing will bite you the next time the topology changes. Go slow, verify at every step, and the scariest operation on the cluster becomes routine.
 
-It Dont means that intance store is better that EBS. Each one solve one problem, one with better perfomacne, in other reliable and interchable data between instaces. It is importante mentioned that if the instance die, the data die too. Yes, is extremelly risky strategy.
+Scaling down or resizing the data tier is one of the riskiest operations you can perform on an OpenSearch cluster. Whether you are shrinking the fleet to cut cost, moving to a smaller or larger instance type, or swapping out ephemeral-storage nodes, doing it wrong can cause data loss or extended downtime.
 
-I solved to create this blog post to share how I implement the usage of Instance Store safe way in Data Hot. During the post I will introduced better the particulaties of each tecnhnologies and cautions that you need to an safe usage.
+OpenSearch distributes data as shards across nodes. When you remove a node abruptly, the cluster scrambles to re-replicate its shards from elsewhere, consuming bandwidth, CPU, and I/O. If you scale down multiple nodes simultaneously, or if replica counts are too low, you risk losing data before recovery can complete.
 
-## Data Hot: Instance Store vs EBS
+Scaling down is riskier than scaling up for a simple reason: you are removing capacity that currently holds data. Every node you take out must have its shards relocated to the survivors before it goes. Resizing is just a scale-down and scale-up chained together. You replace a node (or a whole node group) with a different shape, so the same rule applies: move the data off before the old node disappears.
 
-When you run OpenSearch at scale, storage I/O is often the bottleneck that decides how fast you can index documents and how quickly you can serve queries. Most teams reach for network-attached block storage like Amazon EBS by default. It is durable, resizable, and survives instance termination. But there is a faster option hiding in plain sight: the local NVMe SSD that comes physically attached to certain EC2 instances, known as Instance Store (or ephemeral storage).
+The safe path is always the same: control shard allocation explicitly, verify state before each step, and only then remove nodes.
 
-OpenSearch hot data nodes handle the most demanding workload in the cluster: freshly indexed documents, the most frequent searches, and continuous merges and refreshes. All of that is I/O-bound. The storage you put under those nodes directly caps your indexing throughput and query latency.
+## Monitoring Shard Relocation and Cluster Health
 
-__EBS (network-attached block storage)__: the disk lives on a separate storage tier in the same availability zone and is reached over the network. __Instance Store NVMe (locally-attached SSD)__: the disk is physically present in the host machine running your instance.
+- __Allocation__: OpenSearch automatically assigns shards to nodes and rebalances when the cluster topology changes. You can override this behavior via the cluster settings API.
 
-That single difference, network hop vs. no network hop, is the root cause of the performance gap.
+- __Rebalancing__: the process of moving shards between nodes to maintain an even distribution. This runs continuously in the background. During a scale-down or resize, you want to pause it to avoid unnecessary shard movement.
 
-## Why EBS Is Slower: It Is Not Actually "In" the Instance
+- __Draining__: using allocation exclusion to tell OpenSearch to move every shard off a specific node before you remove it. This is the heart of a safe scale-down.
 
-EBS is often described as a disk attached to your EC2 instance, but physically it is not inside the host at all. It is a separate storage system that your instance talks to over the network. Every read and write has to:
+- __Blue/Green for stateful workloads__: when nodes use locally-attached (ephemeral) storage such as NVMe Instance Store, data is lost when the node terminates. For resizing these nodes you cannot drain in place, so Blue/Green lets you bring up a parallel set of nodes in the new shape, migrate all data to them, then decommission the old ones cleanly.
 
-1. Leave the instance through the network interface,
-2. Traverse the AWS storage fabric to reach the EBS backend,
-3. Get acknowledged back across the same path.
+Monitoring is essential during shard migrations, especially when increasing recovery concurrency or bandwidth limits. I use the following APIs to track shard relocation progress, identify allocation issues, and monitor resource consumption across the cluster.
 
-AWS has engineered this path to be very good. Modern `gp3` volumes deliver single-digit millisecond latency, and `io2 Block Express` can hit sub-500-microsecond averages. But it is still a network round trip, and it is subject to two hard ceilings:
+```bash
+# All shards, sorted by state
+GET /_cat/shards?v&s=state
 
-- __The volume's provisioned limits__, for example `gp3` tops out at 80,000 IOPS and 2,000 MiB/s (and you pay extra for anything above the 3,000 IOPS / 125 MiB/s baseline).
-- __The instance's EBS bandwidth cap__: every instance type has a dedicated EBS link. For example, an `i8g.2xlarge` provides up to 10 Gbps of EBS bandwidth, which is the aggregate ceiling for all EBS traffic on that node, no matter how many volumes you attach.
+# Shards grouped by index
+GET /_cat/shards?v&s=index
 
-Instance Store NVMe has none of these problems because the SSD is wired directly into the host. There is no network, no provisioned IOPS to buy, and no shared EBS bandwidth budget to compete for.
+# Shards grouped by node
+GET /_cat/shards?v&s=node
 
-## The Evidence: A Concrete Comparison
+# Shards assigned to a specific node
+GET /_cat/shards?v&h=index,shard,prirep,state,node&s=index
 
-Let's compare two instances with identical compute and memory, differing only in storage architecture. We will use the `i8g.2xlarge` (storage-optimized, local NVMe) against a compute-equivalent instance of the same vCPU/memory shape that relies on EBS.
+# All ongoing recoveries with detailed information
+GET /_cat/recovery?active_only=true&detailed=true&bytes=gb&v
 
-| Attribute | `i8g.2xlarge` (local NVMe) | Equivalent instance + EBS `gp3` |
-| --- | --- | --- |
-| vCPU | 8 (Graviton4) | 8 |
-| Memory | 64 GiB | 64 GiB |
-| Storage type | 1 x 1,875 GB NVMe Instance Store (3rd-gen Nitro SSD) | Network-attached `gp3` volume |
-| Storage path | Directly attached to host | Over the network |
-| Latency (4K random read) | ~20-100 microseconds | ~200 microseconds (p50), ~900 microseconds (p99) |
-| Max throughput | 10+ GB/s (local bus) | Capped by instance EBS link (~1,250 MiB/s on a 10 Gbps class node) |
-| IOPS ceiling | Native drive IOPS (100k+) | Must be provisioned and paid for; also capped by EBS bandwidth |
-| Extra IOPS/throughput cost | $0 (bundled) | Billed per provisioned IOPS and MiB/s above baseline |
+# Recovery history, including completed operations
+GET /_cat/recovery?v
 
-### Latency is the headline number
+# Overall cluster health
+GET /_cluster/health
 
-Published benchmarks consistently show local NVMe serving 4K random reads at roughly 30 microseconds (p50) and 100 microseconds (p99), compared to EBS `gp3` at roughly 200 microseconds (p50) and 900 microseconds (p99). That is a 5-10x advantage in small-block random read latency, exactly the access pattern OpenSearch generates when fetching documents and traversing on-disk data structures that are not resident in RAM.
+# Wait for ongoing shard relocations and initializations
+GET /_cluster/health?wait_for_no_relocating_shards=true&wait_for_no_initializing_shards=true
 
-### Real-world OpenSearch/Elasticsearch results
+# Pending cluster tasks
+GET /_cat/pending_tasks?v
 
-This is not just synthetic benchmarking. Teams running search workloads on these instances report concrete gains:
+# Active cluster tasks
+GET /_cat/tasks?v
 
-- __HubSpot__, migrating a large Elasticsearch/OpenSearch fleet to EC2 `i8g` instances, measured up to 20% better p99 search and index latencies, 40% better bulk index latencies, and 100ms faster client search response times versus the previous generation.
-- __Elastic__ reported up to 21% better indexing throughput on the storage-dense `i8ge` variant versus the prior generation.
-- __ScyllaDB__ measured up to 400% higher write throughput on `i8g` compared to older storage-optimized instances.
+# If a shard remains unassigned or relocation does not progress as expected, use the Cluster Allocation Explain API to understand why OpenSearch cannot allocate it:
+GET /_cluster/allocation/explain
 
-The common thread: workloads that constantly hit disk for writes (indexing, merges) and random reads (queries) benefit enormously from eliminating the network hop.
+# You can also investigate a specific shard:
+POST /_cluster/allocation/explain
+{
+  "index": "my-index",
+  "shard": 0,
+  "primary": true
+}
 
-### A fair caveat
+# Node list and resource information
+GET /_cat/nodes?v&s=name
 
-Local NVMe is not universally faster. For large-block, high-residency workloads where most reads are served from RAM, modern EBS `gp3` on a high-bandwidth instance can match or even edge out local NVMe on sustained throughput, because the bottleneck shifts to instance-level EBS bandwidth rather than the disk itself. The decisive, un-closable gap is small-block random read latency, and that is precisely what dominates an OpenSearch hot tier that is actively serving queries against data larger than RAM.
+# Disk allocation per node
+GET /_cat/allocation?v
 
-## The Catch: Ephemeral Means Ephemeral
+# Filesystem and JVM statistics
+GET /_nodes/stats/fs,jvm
 
-Here is the tradeoff you cannot ignore. Instance Store data is wiped the moment the instance stops, terminates, or is rotated. There is no snapshot, no detach-and-reattach, no recovery of the raw volume. If the underlying host fails, the data on that NVMe disk is simply gone.
+# Operating system and thread pool statistics
+GET /_nodes/stats/os,thread_pool
 
-For a stateful system like OpenSearch, that sounds terrifying. A node holding primary shards vanishing with no disk recovery is a classic data-loss scenario.
+# Network transport statistics
+GET /_nodes/stats/transport
+```
 
-This is a real risk. But it is a controlled one.
+Pay particular attention to filesystem utilization and JVM memory pressure. When increasing recovery concurrency, also monitor network throughput at the infrastructure level, since the OpenSearch transport statistics alone do not provide a complete picture of network bandwidth utilization.
 
-## Why the Risk Is Controlled: OpenSearch Replication
+If nodes start approaching resource limits, reduce recovery concurrency and bandwidth settings before the migration affects normal cluster operations.
 
-OpenSearch is a distributed system designed from the ground up to survive node loss. The mechanism that makes ephemeral storage safe is shard replication.
+I recommend keeping these commands available throughout the migration and checking them before removing each node. A migration is only complete when the intended nodes are empty, shard recoveries have finished, and the cluster has returned to a healthy state.
 
-Every index is split into primary shards, and OpenSearch maintains one or more replica shards for each primary. The critical guarantee: OpenSearch always places a replica on a different node than its primary. A replica is a full, continuously-updated copy of the data.
+## Speed Up Shard Migration
+
+OpenSearch applies conservative limits to shard recovery and relocation to prevent these operations from consuming too many cluster resources. By default, a node allows two concurrent incoming and two concurrent outgoing shard recoveries, while the maximum recovery transfer rate is limited to `40mb` per second per node.
+
+These limits help preserve cluster stability during shard movements, but they can also make large migrations take longer than necessary.
+
+If your cluster has spare CPU, memory, disk I/O, and network capacity, you can increase these limits to speed up the migration. For example:
 
 ```json
-PUT /my-index/_settings
+PUT /_cluster/settings
 {
-  "index": {
-    "number_of_replicas": 1
+  "transient": {
+    "cluster.routing.allocation.node_concurrent_recoveries": 10,
+    "cluster.routing.allocation.cluster_concurrent_rebalance": 10,
+    "indices.recovery.max_bytes_per_sec": "200mb"
   }
 }
 ```
 
-With `number_of_replicas` set to at least `1`, the loss of any single node, including the total loss of its ephemeral disk, does not lose data:
+Be careful when increasing these values. More concurrent recoveries and higher transfer rates can put significant pressure on data nodes, consuming CPU, memory, disk I/O, and network bandwidth. If the infrastructure cannot handle the additional workload, the nodes can become overloaded, affecting normal cluster operations and potentially making the entire cluster unresponsive.
 
-1. A node dies and its Instance Store NVMe is wiped.
-2. OpenSearch detects the node left the cluster.
-3. For every primary that was on the dead node, OpenSearch promotes its replica (living on another node) to primary.
-4. OpenSearch then rebuilds the missing replicas on surviving nodes to restore full redundancy.
+I've experienced this firsthand: increasing recovery concurrency too aggressively caused node overload and brought the cluster to a point where it stopped responding properly. Network saturation is another risk, especially when relocating large amounts of data between nodes.
 
-The data was never in a single place to begin with. The ephemeral disk held a copy, not the copy.
+Treat these values as temporary tuning parameters, not recommended defaults. Increase them gradually, monitor node and network utilization, and reduce them if the cluster starts showing signs of saturation. Once the migration is complete, restore the original settings.
 
-### Making the control robust
+## Pattern 1: Scaling Down / Resizing Nodes with Network-Attached Storage
 
-Replication turns a catastrophic risk into a routine, self-healing event, but only if you configure the cluster to respect it:
+Use this when your data nodes use EBS, NFS, or any other persistent storage that survives node termination. This is the pattern for shrinking the fleet or resizing to a different instance type when the disk is not ephemeral.
 
-- __Keep at least one replica__ (`number_of_replicas >= 1`) on any index you cannot afford to lose. Zero replicas means ephemeral storage will lose data on node failure.
-- __Spread replicas across failure domains.__ Use shard allocation awareness / topology spread so that a primary and its replica never land in the same availability zone. Losing an entire AZ should still leave a full copy.
-- __Rotate nodes safely.__ Because the disk is ephemeral, you cannot rotate these nodes in place. Use a controlled migration (drain shards off a node, or a blue/green node-group swap) so OpenSearch moves all data to new nodes before the old ones are terminated. Never terminate an instance-store node while it still holds the only copy of a shard.
-- __Consider `wait_for_active_shards`__ on critical writes to ensure a write is acknowledged by more than just the primary before it is considered durable.
+### Step 1: Disable shard rebalancing
 
-## Critical on Kubernetes: Stop the Node From Being Rotated Out From Under You
+Before draining or terminating any node, tell OpenSearch to stop moving shards around:
 
-Everything above assumes node loss is an occasional, handled event. But on Kubernetes with a node autoscaler, there is a far more frequent threat to ephemeral hot nodes: voluntary disruption. The autoscaler may decide to consolidate, bin-pack, or rotate a node for perfectly ordinary reasons, and when it does, the local NVMe on that node is wiped, exactly as if the host had failed.
-
-For a stateless workload that is a non-event. For an instance-store hot node, a careless rotation can race ahead of shard recovery and destroy the last surviving copy of a shard. So on top of replication, it is of utmost importance to configure policies that prevent these nodes from being casually rotated. Two controls do the heavy lifting.
-
-### 1. Tell the autoscaler not to disrupt hot nodes
-
-If you run Karpenter, the single most important annotation on an instance-store hot pod is `do-not-disrupt`. It tells Karpenter it may not voluntarily drain or terminate the node hosting that pod (no consolidation, no drift rotation), so the only disruptions left are ones you initiate deliberately:
-
-```yaml
-# On the hot data pod template
-metadata:
-  annotations:
-    karpenter.sh/do-not-disrupt: "true"
+```json
+PUT /_cluster/settings
+{
+  "transient": {
+    "cluster.routing.rebalance.enable": "none"
+  }
+}
 ```
 
-This converts node rotation from something the platform does to you on its own schedule into something you do, under a controlled, shard-aware process. On ephemeral storage, that distinction is the difference between a routine maintenance window and silent data loss.
+This prevents the cluster from immediately trying to re-distribute shards the moment a node disappears, which would waste I/O and bandwidth on work you are about to undo.
 
-### 2. Size the PodDisruptionBudget to your replica count
+### Step 2: Drain the node you are removing
 
-A PodDisruptionBudget (PDB) caps how many data pods may be unavailable at once during voluntary disruptions. The safe limit is dictated directly by how many copies of your data you keep, which is your index replica count.
+Mark the node for exclusion from shard allocation before terminating it:
 
-The rule of thumb: you can afford to lose at most as many nodes simultaneously as you have extra copies of every shard.
-
-- With `number_of_replicas: 1` (one primary plus one replica, so 2 copies), only one node may go down at a time. Lose two at once and you can lose the only remaining copy of a shard. So `maxUnavailable: 1`.
-- With `number_of_replicas: 2` (three copies), you can tolerate two nodes down simultaneously: `maxUnavailable: 2`.
-
-```yaml
-# PDB for a hot tier running number_of_replicas: 1
-apiVersion: policy/v1
-kind: PodDisruptionBudget
-metadata:
-  name: opensearch-data-hot
-spec:
-  maxUnavailable: 1
-  selector:
-    matchLabels:
-      app: opensearch
-      role: data
-      category: hot
+```json
+PUT /_cluster/settings
+{
+  "transient": {
+    "cluster.routing.allocation.exclude._name": "node-name-0, node-name-1, node-name-2"
+  }
+}
 ```
 
-If you raise your indexes to two replicas, raise the PDB to `maxUnavailable: 2` to match, and vice versa. The PDB and the replica count are two halves of the same guarantee: the PDB must never allow more nodes to be disrupted at once than your replication can survive.
+OpenSearch will now move all primary and replica shards off that node before it is empty. When resizing, exclude every node you intend to replace. When scaling down, exclude the nodes you are removing. Monitor progress with:
 
-### How the two work together
+```bash
+GET _cat/shards?v&s=node
+GET _cat/nodes?v&s=name
+GET _cat/tasks
+```
 
-`do-not-disrupt` stops the autoscaler from rotating hot nodes on its own initiative. The PDB bounds the blast radius of any disruption that does happen (including the deliberate ones you trigger) to what your replicas can cover. With both in place, replication's safety guarantee, "there is always another copy", is never quietly violated by the orchestration layer.
+Wait until the target node has zero shards assigned before proceeding.
 
-## When to Reach for Instance Store
+Before draining, make sure the remaining nodes have enough free disk to absorb the shards you are about to relocate, and stay under the watermark thresholds. Removing a node redistributes its data onto fewer nodes. If they fill past `cluster.routing.allocation.disk.watermark.high`, allocation stalls and you can get stuck mid-scale-down. Shrink too far and the cluster has nowhere to put the data at all.
 
-Use locally-attached NVMe Instance Store for your OpenSearch hot data tier when:
+### Step 3: Terminate the drained node (and, for resize, bring up its replacement)
 
-- Indexing throughput and query latency are your bottleneck.
-- Your dataset on the hot tier exceeds RAM, so reads actually hit disk.
-- You run `number_of_replicas >= 1` with AZ-aware allocation.
-- You have a safe node-rotation / blue-green process in place.
+Once the node is empty, you can safely terminate it. For a pure scale-down, you simply stop here with fewer nodes. For a resize, bring up a replacement in the new instance shape. The new node will join the cluster and receive shards as part of normal allocation.
 
-Stick with EBS when:
+### Step 4: Re-enable rebalancing
 
-- You need the disk to survive instance termination without relying on replication (for example, single-node setups, or tiers where you have chosen zero replicas).
-- Your workload is high-residency and served mostly from RAM, where the latency gap disappears.
-- Operational simplicity (snapshots, resize, detach/reattach) outweighs the raw performance gain.
+After all nodes have been rotated and the cluster is green:
 
-## Conclusion (Author Opinion)
+```json
+PUT /_cluster/settings
+{
+  "transient": {
+    "cluster.routing.rebalance.enable": "all"
+  }
+}
+```
 
-Instance Store used to make me nervous, and I understand why it makes other people nervous too. The word "ephemeral" sounds like a trap for a stateful system. But once I internalized that replication means no single disk is ever the only copy, the fear turned into a deliberate engineering trade I am comfortable making on hot tiers.
+## Pattern 2: Blue/Green for Resizing Ephemeral Storage Nodes
 
-It is not a reckless shortcut. You accept that any single disk is disposable, and you lean on OpenSearch's distributed design to make that disposability safe. In exchange you get storage performance that network-attached disks simply cannot match. On a hot tier backed by replicas and AZ-aware allocation, with a safe rotation process (and the right Kubernetes guardrails), I recommend it. Just make sure the controls are actually in place before you rely on them.
+Use this when nodes have locally-attached storage (for example, NVMe SSDs via EC2 Instance Store). Because data is wiped when the instance terminates, you cannot drain and resize these nodes in place. You must migrate the data to the new node set first. This is the safe way to resize (or scale down) an ephemeral hot tier.
+
+The idea: run two StatefulSets in parallel (`blue` and `green`), migrate shards from one to the other, then decommission the old set.
+
+### Step 1: Disable shard rebalancing
+
+Same as above, prevent automatic redistribution while you are in control:
+
+```json
+PUT /_cluster/settings
+{
+  "transient": {
+    "cluster.routing.rebalance.enable": "none"
+  }
+}
+```
+
+### Step 2: Bring up the new node set (green) without data
+
+Start your new nodes but exclude them from receiving any shard allocations immediately. This lets them boot and join the cluster without triggering a flood of shard movement:
+
+```json
+PUT /_cluster/settings
+{
+  "transient": {
+    "cluster.routing.allocation.exclude._name": "green-node-1, green-node-2, green-node-N"
+  }
+}
+```
+
+Deploy your new node set and wait for all nodes to reach `Ready` status.
+
+### Step 3: Migrate data from blue to green
+
+Now flip the exclusion to the old (blue) nodes. OpenSearch will begin moving shards off the blue nodes and onto the green nodes:
+
+```json
+PUT /_cluster/settings
+{
+  "transient": {
+    "cluster.routing.allocation.exclude._name": "blue-node-1, blue-node-2, blue-node-N"
+  }
+}
+```
+
+Monitor the migration closely:
+
+```bash
+# Overall shard state: look for RELOCATING or UNASSIGNED
+GET _cat/shards?v&s=state
+
+# Shards by node: verify blue nodes are draining
+GET _cat/shards?v&s=node
+
+# Active tasks: watch for recover and relocation tasks
+GET _cat/tasks
+
+# Cluster health: wait for green
+GET _cluster/health
+```
+
+Do not proceed until all shards have moved off the blue nodes and cluster health is green.
+
+### Step 4: Decommission the old node set
+
+Once all data is on the green nodes, delete the old (blue) StatefulSet:
+
+```bash
+kubectl delete sts <blue-statefulset-name>
+```
+
+### Step 5: Clear allocation exclusions
+
+Remove the exclusion rules so future shard assignments work normally:
+
+```json
+PUT /_cluster/settings
+{
+  "transient": {
+    "cluster.routing.allocation.exclude._name": null
+  }
+}
+```
+
+### Step 6: Re-enable rebalancing
+
+```json
+PUT /_cluster/settings
+{
+  "transient": {
+    "cluster.routing.rebalance.enable": "all"
+  }
+}
+```
+
+
+## Key Takeaways
+
+- Scaling down is riskier than scaling up because existing data must be relocated before nodes are removed.
+- Disable shard rebalancing during planned migrations to avoid unnecessary background shard movements while retaining the allocation required for draining nodes.
+- For persistent storage, use shard allocation exclusions to drain nodes before terminating them.
+- For ephemeral storage, use a Blue/Green approach to migrate shards to a new node group before removing the old instances.
+- Always verify shard allocation, cluster health, and available disk capacity before proceeding to the next step.
+- Restore the original cluster settings after the migration. Leftover allocation exclusions or disabled rebalancing can interfere with future topology changes.
 
 ## References
 
-- <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html>
+- <https://opensearch.org/docs/latest/api-reference/cluster-api/cluster-settings/>
 - <https://opensearch.org/docs/latest/tuning-your-cluster/availability-and-recovery/>
-- <https://karpenter.sh/docs/concepts/disruption/>
+- <https://opensearch.org/docs/latest/api-reference/cat/cat-shards/>
