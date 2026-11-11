@@ -662,7 +662,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -694,7 +705,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/03</em></p>
-<p>This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluent Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application.</p>
+<p>This blog post explains why counting log lines in OpenSearch is an expensive way to produce a metric. The same number captured as a Prometheus counter is stored once and read almost for free. When you cannot change the application, Fluent Bit can extract that metric while the logs are ingested, so OpenSearch never has to rebuild it at query time.</p>
 </p>
 
     <p class="ablog-post-expand">

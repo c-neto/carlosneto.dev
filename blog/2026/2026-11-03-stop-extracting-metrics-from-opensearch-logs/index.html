@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Why counting log lines in OpenSearch is an expensive way to get a metric, how a Prometheus counter answers the same question for almost nothing, and how Fluent Bit can extract the metric at ingestion when you cannot change the code." name="description" />
 <meta property="og:title" content="Stop Extracting Metrics from OpenSearch Logs" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/11/03 This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the sam..." />
+<meta property="og:description" content="Why counting log lines in OpenSearch is an expensive way to get a metric, how a Prometheus counter answers the same question for almost nothing, and how Fluent Bit can extract the metric at ingestion when you cannot change the code." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-03-stop-extracting-metrics-from-opensearch-logs_467541ee.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/03 This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the sam..." />
-<meta name="description" content="Blog Post Publish Date: 2026/11/03 This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the sam..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-03-stop-extracting-metrics-from-opensearch-logs_8915d13d.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/03 This blog post explains why counting log lines in OpenSearch is an expensive way to produce a metric. The same number captured as a Prometheus counter is stored o..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Stop Extracting Metrics from OpenSearch Logs &#8212; Carlos Neto&#39;s Blog</title>
@@ -408,34 +408,25 @@
 <hr class="docutils" />
 <section id="stop-extracting-metrics-from-opensearch-logs">
 <h1>Stop Extracting Metrics from OpenSearch Logs<a class="headerlink" href="#stop-extracting-metrics-from-opensearch-logs" title="Link to this heading">#</a></h1>
-<p>This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluent Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application.</p>
-<section id="understanding-the-data-before-the-infrastructure">
-<h2>Understanding the Data Before the Infrastructure<a class="headerlink" href="#understanding-the-data-before-the-infrastructure" title="Link to this heading">#</a></h2>
-<p>Over the past five years, I have worked on optimizing large-scale OpenSearch deployments running on Kubernetes, facing several challenges in maintaining performance as data ingestion volumes grew. One of the main challenges was keeping query latency low while handling an increasingly large volume of logs. At some point, I started exploring different performance optimization strategies to keep the cluster efficient as ingestion rates increased.</p>
-<p>However, this led me to a more fundamental question: <strong>how was the data actually being used?</strong> In this particular case, logs were not simply being stored for troubleshooting. They were also queried to identify specific events and extract operational insights. This made query latency particularly important. As ingestion volumes continued to grow, maintaining this performance also became increasingly expensive.</p>
-<p>That experience led me to an important realization: optimizing infrastructure is not just about scaling resources or tuning configurations. It is equally important to understand the nature of the data, how it is consumed, and the requirements of each use case. There is no silver bullet solution. Different types of data and access patterns require different approaches, architectures, and specific and optmized tools.</p>
-<p>I decided to write this article to share this perspective and explore why understanding data usage is just as important as choosing the right technology to process and store it.</p>
-</section>
-<section id="how-the-log-store-becomes-an-accidental-metrics-database">
-<h2>How the Log Store Becomes an Accidental Metrics Database<a class="headerlink" href="#how-the-log-store-becomes-an-accidental-metrics-database" title="Link to this heading">#</a></h2>
-<p>One of the most common and most expensive mistakes in observability is quietly treating a log store as a metrics database. It usually starts innocently. Someone needs a number such as <em>“how many payments failed in the last hour?”</em>, the logs are right there, so they write a query that counts matching log lines and pins it to a dashboard, and it works.</p>
-<p>Then the dashboard gets slow. The log cluster gets hot. The query that counts “errors per minute” starts timing out at exactly the moment you need it most, during an incident. The root cause is usually not a bad query or an undersized cluster. It is a category error: logs were asked to do a metric’s job.</p>
-<p>The rest of this post walks three things, in order: why logs and metrics are different kinds of data in the first place, how to capture the number the right way, and a workaround for the real world, when the application is out of your reach and you still need that number.</p>
+<p>This blog post explains why counting log lines in OpenSearch is an expensive way to produce a metric. The same number captured as a Prometheus counter is stored once and read almost for free. When you cannot change the application, Fluent Bit can extract that metric while the logs are ingested, so OpenSearch never has to rebuild it at query time.</p>
+<section id="how-a-log-store-becomes-a-metrics-database">
+<h2>How a Log Store Becomes a Metrics Database<a class="headerlink" href="#how-a-log-store-becomes-a-metrics-database" title="Link to this heading">#</a></h2>
+<p>For the past five years, I have worked on large OpenSearch deployments running on Kubernetes. One of the hardest problems was keeping query latency low while the volume of logs kept growing. I tried many performance optimizations, but the most useful step was a different question: how was the data actually being used?</p>
+<p>In one case, the logs were not only stored for troubleshooting. Teams also queried them to find specific events and extract operational numbers, which made query latency critical and more expensive as ingestion grew. That taught me that tuning the infrastructure is only part of the answer. You also have to understand what the data is, how it is consumed, and which tool fits each use case.</p>
+<p>It usually starts small. Someone needs a number, such as <em>“how many payments failed in the last hour?”</em>. The logs are already there, so they write a query that counts the matching log lines and pin it to a dashboard. It works. Then the dashboard gets slow, the log cluster runs hot, and the query that counts errors per minute starts timing out during an incident, when you need it most. The cause is rarely a bad query or an undersized cluster. Logs are being asked to do a metric’s job.</p>
 </section>
 <section id="logs-and-metrics-are-different-shapes-of-data">
 <h2>Logs and Metrics Are Different Shapes of Data<a class="headerlink" href="#logs-and-metrics-are-different-shapes-of-data" title="Link to this heading">#</a></h2>
-<p>Before blaming the query, it helps to see that logs and metrics are not two flavors of the same thing. The shape of the data underneath each one is different, and that is what the whole argument rests on.</p>
-<p>A log is a discrete record of something that happened, meant to be read and understood by a human (or AI agent). It is rich, high-cardinality, and textual:</p>
-<div class="highlight-log notranslate"><div class="highlight"><pre><span></span>2026-02-14T10:32:11Z level=error service=payments txn_id=8f3c user_id=22190
-  msg="payment authorization failed" provider=acme code=INSUFFICIENT_FUNDS latency_ms=812
+<p>A <strong>log</strong> is a record of one event, written for a human (or an AI agent) to read. It is detailed, high-cardinality text:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>2026-02-14T10:32:11Z level=error service=payments txn_id=8f3c user_id=22190 msg="payment authorization failed" provider=acme code=INSUFFICIENT_FUNDS latency_ms=812
 </pre></div>
 </div>
-<p>The value of a log is in its detail and context. When something breaks, a log tells you what happened, to whom, where, and often why. Logs answer: “walk me through this specific event.”</p>
-<p>A metric is a numeric measurement sampled over time. It is small, structured, and aggregatable by design:</p>
-<div class="highlight-prometheus notranslate"><div class="highlight"><pre><span></span>payment_failures_total{provider="acme", code="INSUFFICIENT_FUNDS"} 48213
+<p>The value of a log is its context. When something breaks, it tells you what happened, to whom, and often why. A log answers “walk me through this specific event.”</p>
+<p>A <strong>metric</strong> is a number sampled over time. It is small, structured, and built to be aggregated:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>payment_failures_total{provider="acme", code="INSUFFICIENT_FUNDS"} 48213
 </pre></div>
 </div>
-<p>A metric does not describe one payment. It counts all of them. Its whole purpose is to be aggregated, rated, and summarized cheaply across huge volumes. Metrics answer: “how many, how fast, how much, right now and over time.”</p>
+<p>This metric does not describe one payment. It counts all of them, so it can be summed, rated, and broken down cheaply across huge volumes. A metric answers “how many, how fast, how much, right now and over time.”</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Signal</p></th>
@@ -458,12 +449,12 @@
 </tbody>
 </table>
 </div>
-<p>The moment you ask a log store to answer the metric question, you are forcing one data shape to behave like the other, and that is where the cost comes from.</p>
+<p>When you ask a log store to answer the metric question, you force one shape of data to behave like the other. That is where the cost comes from.</p>
 </section>
-<section id="why-logs-make-bad-metrics">
-<h2>Why Logs Make Bad Metrics<a class="headerlink" href="#why-logs-make-bad-metrics" title="Link to this heading">#</a></h2>
-<p>OpenSearch is really good at what it is designed for: full-text search over an inverted index. Give it millions of log lines and ask “show me every error from <code class="docutils literal notranslate"><span class="pre">payments</span></code> mentioning <code class="docutils literal notranslate"><span class="pre">acme</span></code> yesterday”, and it will answer fast, because the inverted index maps terms to the documents that contain them. That is a search workload, and it is the right tool.</p>
-<p>The problem is what happens when you ask it to behave like a metrics engine. Consider the number we wanted earlier, failed payments per minute. As a log query it looks like this:</p>
+<section id="why-counting-log-lines-doesn-t-scale">
+<h2>Why Counting Log Lines Doesn’t Scale<a class="headerlink" href="#why-counting-log-lines-doesn-t-scale" title="Link to this heading">#</a></h2>
+<p>OpenSearch is very good at full-text search. Its inverted index maps terms to the documents that contain them, so a question like “show me every error from <code class="docutils literal notranslate"><span class="pre">payments</span></code> mentioning <code class="docutils literal notranslate"><span class="pre">acme</span></code> yesterday” comes back fast. That is a search workload, and OpenSearch is the right tool for it.</p>
+<p>Failed payments per minute is a different kind of question. As a log query, it looks like this:</p>
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET my-app-logs-index-*/_search
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
@@ -487,16 +478,18 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This works. But look at what the cluster has to do to produce one small time series:</p>
-<p><strong>Data not indexed</strong>: The number was never stored, it is computed on every read. There is no <code class="docutils literal notranslate"><span class="pre">failures_per_minute</span></code> value indexed anywhere. OpenSearch has to scan matching documents and build the count at query time, every single time the dashboard refreshes. The data you want was never indexed; only the raw events were.</p>
-<p><strong>High scan volume cost</strong>: It must touch enormous volumes to produce a tiny answer. To return 1,440 numbers (one per minute for a day), it filters and buckets potentially millions of fat text documents. The cost of the answer is proportional to the raw log volume, not to the size of the result.</p>
-<p><strong>Cardinality and retention struggles</strong>: It fights cardinality and retention. Want failures broken down by provider and error code over 90 days? Now the aggregation fans out across even more documents, and you are forced to retain verbose logs purely to keep a counter alive, long after the logs’ diagnostic value has expired.</p>
-<p><strong>Competes with primary workload</strong>: It competes with the real workload. These heavy aggregations run on the same hot nodes handling ingestion and incident-time searches. The “metric” dashboard becomes a source of load that slows down the logging the cluster actually exists to serve.</p>
-<p>OpenSearch can do this. It has date histograms, aggregations, even dashboards. The tooling exists. But this is not what the tool is optimized for. A log line primarily exists to describe an event so a human can understand what is happening. Deriving a long-lived counter from term matches is a query-time reconstruction of data that was never stored as a measurement, and that is not sustainable as volume and retention grow.</p>
+<p>The query works, but look at what the cluster does to return one small time series:</p>
+<ul class="simple">
+<li><p><strong>The number is rebuilt on every read</strong>. No <code class="docutils literal notranslate"><span class="pre">failures_per_minute</span></code> value is stored anywhere, only the raw events. OpenSearch scans the matching documents and builds the count again each time the dashboard refreshes.</p></li>
+<li><p><strong>The cost follows the raw volume</strong>. To return 1,440 numbers (one per minute for a day), the cluster filters and buckets potentially millions of large text documents.</p></li>
+<li><p><strong>Breakdowns and long retention multiply the work</strong>. Splitting failures by provider and error code over 90 days fans the aggregation out across even more documents. You also have to keep verbose logs for 90 days only to keep a counter alive, long after they stopped being useful for debugging.</p></li>
+<li><p><strong>It competes with the real workload</strong>. These aggregations run on the same hot nodes that handle ingestion and incident searches, so the dashboard slows down the logging the cluster exists to serve.</p></li>
+</ul>
+<p>OpenSearch has date histograms, aggregations, and dashboards, so it can do this. It is just not built for it. Counting term matches to produce a long-lived counter is a query-time reconstruction of data that was never stored as a measurement, and it gets worse as volume and retention grow.</p>
 </section>
-<section id="the-same-number-done-right-a-counter-in-the-application">
-<h2>The Same Number, Done Right: A Counter in the Application<a class="headerlink" href="#the-same-number-done-right-a-counter-in-the-application" title="Link to this heading">#</a></h2>
-<p>If logs are the wrong shape for this job, the fix is to capture the number in the right shape from the start. Now capture the exact same information as a real metric. Instead of logging a line and counting it later, you instrument the application to increment a counter the moment a payment fails, and expose it to Prometheus:</p>
+<section id="the-same-number-as-a-prometheus-counter">
+<h2>The Same Number as a Prometheus Counter<a class="headerlink" href="#the-same-number-as-a-prometheus-counter" title="Link to this heading">#</a></h2>
+<p>The fix is to capture the number in the right shape from the start. Instead of logging a line and counting it later, the application increments a counter when a payment fails and exposes it to Prometheus:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">prometheus_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
 
 <span class="n">payment_failures</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span>
@@ -509,7 +502,7 @@
 <span class="n">payment_failures</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">provider</span><span class="o">=</span><span class="s2">"acme"</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s2">"INSUFFICIENT_FUNDS"</span><span class="p">)</span><span class="o">.</span><span class="n">inc</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The application exposes this on a <code class="docutils literal notranslate"><span class="pre">/metrics</span></code> endpoint, Prometheus scrapes it every 15 seconds, and now the number is the stored data: a monotonically increasing counter per label combination. Because a counter only ever goes up, <code class="docutils literal notranslate"><span class="pre">rate()</span></code> turns that running total into failures per second over any window you want (<code class="docutils literal notranslate"><span class="pre">[5m]</span></code>, <code class="docutils literal notranslate"><span class="pre">[1h]</span></code>), grouped by any label, and it even handles counter resets from deploys. Getting “failures per minute” is now a trivial, instant query:</p>
+<p>The application serves this counter on a <code class="docutils literal notranslate"><span class="pre">/metrics</span></code> endpoint, and Prometheus scrapes it, every 15 seconds for example. The number is now the stored data: one running total per label combination. Because a <a class="reference external" href="https://prometheus.io/docs/concepts/metric_types/">counter</a> only goes up, <a class="reference external" href="https://prometheus.io/docs/prometheus/latest/querying/functions/#rate"><code class="docutils literal notranslate"><span class="pre">rate()</span></code></a> turns it into failures per second over any window, grouped by any label, and it handles counter resets after a deploy. Failures per minute become a short, instant query:</p>
 <div class="highlight-promql notranslate"><div class="highlight"><pre><span></span><span class="c1"># per-second rate of failures over the last 5 minutes, by provider and code</span>
 <span class="kr">rate</span><span class="o">(</span><span class="nv">payment_failures_total</span><span class="p">[</span><span class="s">5m</span><span class="p">]</span><span class="o">)</span>
 
@@ -517,7 +510,7 @@
 <span class="k">sum</span><span class="o">(</span><span class="kr">rate</span><span class="o">(</span><span class="nv">payment_failures_total</span><span class="p">[</span><span class="s">1m</span><span class="p">]</span><span class="o">))</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="o">(</span><span class="nv">code</span><span class="o">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">60</span>
 </pre></div>
 </div>
-<p>Compare what the two systems do for the identical question:</p>
+<p>Here is what each system does for the same question:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p></p></th>
@@ -553,24 +546,30 @@
 </tbody>
 </table>
 </div>
-<p>The same insight (“failures are spiking”) costs OpenSearch a full-volume scan and costs Prometheus almost nothing, because one tool reconstructs the number and the other simply reads it.</p>
+<p>OpenSearch pays for a full-volume scan to see that failures are spiking. Prometheus pays almost nothing, because it reads the number instead of rebuilding it. If you instrument with <a class="reference internal" href="../2026-10-29-otel-foundation/"><span class="std std-doc">OpenTelemetry</span></a> instead of the Prometheus client, the idea is the same: the application emits the measurement.</p>
 </section>
-<section id="workaround-extract-metrics-from-logs-when-you-can-t-touch-the-code">
-<h2>Workaround: Extract Metrics From Logs When You Can’t Touch the Code<a class="headerlink" href="#workaround-extract-metrics-from-logs-when-you-can-t-touch-the-code" title="Link to this heading">#</a></h2>
-<p>The counter in the application is the right answer. But sometimes you simply cannot touch the source code. Maybe it is a legacy service nobody wants to rebuild, a closed-source component, or a third-party app that only emits logs and will never expose a <code class="docutils literal notranslate"><span class="pre">/metrics</span></code> endpoint. In those cases you still need the number, and instrumenting the code is off the table.</p>
-<p>There is a middle-ground workaround here, and it is not “count log lines in OpenSearch”. The idea is to turn the event into a metric at ingestion time, inside the log pipeline itself, before the log ever reaches the storage. Your log shipper already sees every single line as it flows through. So instead of storing fat logs and reconstructing the count later, you let the shipper match the line that denotes the event and increment a real counter right there. The log still goes to OpenSearch for investigation, and a proper metric is emitted in parallel.</p>
-<p>Fluent Bit does this with the <a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/filters/log_to_metrics">log_to_metrics</a> filter. It watches the stream, matches the lines that represent the event (via regex), and emits a Prometheus metric that you expose through the <a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/outputs/prometheus-exporter">prometheus_exporter</a> output. Back to our failed payments, the config looks like this:</p>
+<section id="workaround-extract-the-metric-at-ingestion-with-fluent-bit">
+<h2>Workaround: Extract the Metric at Ingestion With Fluent Bit<a class="headerlink" href="#workaround-extract-the-metric-at-ingestion-with-fluent-bit" title="Link to this heading">#</a></h2>
+<p>The counter in the application is the right answer, but sometimes you cannot touch the code. It may be a legacy service nobody wants to rebuild, a closed-source component, or a third-party app that only writes logs and will never expose <code class="docutils literal notranslate"><span class="pre">/metrics</span></code>. You still need the number.</p>
+<p>The middle ground is not counting log lines in OpenSearch. It is turning the event into a metric inside the log pipeline, before the log reaches storage. The log shipper already sees every line, so it can match the lines that represent the event and increment a real counter on the spot. The log still goes to OpenSearch for investigation, and the metric is emitted next to it.</p>
+<p>Fluent Bit does this with the <a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/filters/log_to_metrics"><code class="docutils literal notranslate"><span class="pre">log_to_metrics</span></code></a> filter. It needs structured records, though. Without a parser, the <a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/inputs/tail"><code class="docutils literal notranslate"><span class="pre">tail</span></code></a> input stores each line as a single string under <code class="docutils literal notranslate"><span class="pre">log</span></code>, so fields like <code class="docutils literal notranslate"><span class="pre">msg</span></code>, <code class="docutils literal notranslate"><span class="pre">provider</span></code>, and <code class="docutils literal notranslate"><span class="pre">code</span></code> do not exist yet. The sample log above is in logfmt, so the input uses a <a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/parsers/logfmt">logfmt parser</a> first. The filter then matches the event with a <code class="docutils literal notranslate"><span class="pre">KEY</span> <span class="pre">REGEX</span></code> rule and turns fields into labels. The <a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/outputs/prometheus-exporter"><code class="docutils literal notranslate"><span class="pre">prometheus_exporter</span></code></a> output exposes the result:</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">fluent-bit.yaml</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">service</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">flush</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="w">  </span><span class="nt">log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">info</span>
 
+<span class="nt">parsers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">logfmt</span>
+<span class="w">    </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">logfmt</span>
+
 <span class="nt">pipeline</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">inputs</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tail</span>
 <span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/log/payments/*.log</span>
 <span class="w">      </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">payments.log</span>
+<span class="w">      </span><span class="c1"># turn each logfmt line into a structured record (msg, provider, code, ...)</span>
+<span class="w">      </span><span class="nt">parser</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">logfmt</span>
 
 <span class="w">  </span><span class="nt">filters</span><span class="p">:</span>
 <span class="w">    </span><span class="c1"># emit a counter every time a line denotes a failed payment</span>
@@ -580,9 +579,9 @@
 <span class="w">      </span><span class="nt">metric_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">counter</span>
 <span class="w">      </span><span class="nt">metric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">payment_failures_total</span>
 <span class="w">      </span><span class="nt">metric_description</span><span class="p">:</span><span class="w"> </span><span class="s">"Total</span><span class="nv"> </span><span class="s">number</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">failed</span><span class="nv"> </span><span class="s">payment</span><span class="nv"> </span><span class="s">authorizations"</span>
-<span class="w">      </span><span class="c1"># only the lines that actually represent the event</span>
-<span class="w">      </span><span class="nt">regex</span><span class="p">:</span><span class="w"> </span><span class="s">'msg</span><span class="nv"> </span><span class="s">"payment</span><span class="nv"> </span><span class="s">authorization</span><span class="nv"> </span><span class="s">failed"'</span>
-<span class="w">      </span><span class="c1"># turn log fields into metric labels, same breakdown you wanted</span>
+<span class="w">      </span><span class="c1"># KEY REGEX: only the records that represent the event</span>
+<span class="w">      </span><span class="nt">regex</span><span class="p">:</span><span class="w"> </span><span class="s">'msg</span><span class="nv"> </span><span class="s">^payment</span><span class="nv"> </span><span class="s">authorization</span><span class="nv"> </span><span class="s">failed$'</span>
+<span class="w">      </span><span class="c1"># turn record fields into metric labels, same breakdown you wanted</span>
 <span class="w">      </span><span class="nt">label_field</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">provider</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">code</span>
@@ -603,7 +602,7 @@
 </pre></div>
 </div>
 </div>
-<p>Prometheus scrapes the exporter and you get the exact same counter you would have instrumented in the code, without touching the code:</p>
+<p>Prometheus scrapes the exporter and gets the same counter you would have written in the code. Fluent Bit prefixes the name with <code class="docutils literal notranslate"><span class="pre">log_metric_counter_</span></code> by default:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">$ curl -s http://127.0.0.1:9999/metrics</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># HELP log_metric_counter_payment_failures_total Total number of failed payment authorizations</span>
@@ -612,14 +611,12 @@ log_metric_counter_payment_failures_total<span class="o">{</span><span class="nv
 </pre></div>
 </div>
 </div>
-<p>Notice the difference from the OpenSearch aggregation. The number is computed once, as the log passes through, not reconstructed on every dashboard refresh. OpenSearch keeps the raw logs for when you need to investigate a specific event, and the metric lives where metrics belong, cheap to query and cheap to retain.</p>
-<p>I want to be clear about what this is: a workaround, not the ideal. You are still parsing text to decide what counts, so a change in the log format can silently break the counter, and you depend on the event being logged in the first place. If you can instrument the application, do that. The in-code counter encodes business meaning that a regex on a log line is only approximating. But when the source is out of reach, extracting the metric at ingestion is far better than hammering your log store with query-time aggregations.</p>
-<p>Notice that even in the workaround, OpenSearch keeps doing what it is good at. The logs still land there for investigation, and the metric goes somewhere else, which is the principle worth zooming out on now.</p>
+<p>The number is computed once, as the log passes through, instead of on every dashboard refresh. OpenSearch keeps the raw logs for investigating a specific event, and the metric lives in a store that is cheap to query and cheap to retain. If you already run Fluent Bit in the cluster, this fits in the same pipeline that <a class="reference internal" href="../../2025/2025-06-22-kubernetes-logs-simplified/"><span class="std std-doc">collects pod logs</span></a>.</p>
+<p>This is still a workaround. You are parsing text to decide what counts, so a change in the log format can silently break the counter, and the event has to be logged in the first place. A counter in the code carries business meaning that a regex on a log line can only approximate, so instrument the application whenever you can. When the source is out of reach, extracting the metric at ingestion is far better than hammering the log store with query-time aggregations.</p>
 </section>
-<section id="conclusion-right-tool-for-right-signal">
-<h2>Conclusion: Right Tool for Right Signal<a class="headerlink" href="#conclusion-right-tool-for-right-signal" title="Link to this heading">#</a></h2>
-<p>None of this means OpenSearch is the wrong choice. For logs, it is a great tool. The inverted index makes event search and investigation fast. The mistake is using it for a signal it was not built to carry.</p>
-<p>Each signal has engines designed around its data shape:</p>
+<section id="right-tool-for-each-signal">
+<h2>Right Tool for Each Signal<a class="headerlink" href="#right-tool-for-each-signal" title="Link to this heading">#</a></h2>
+<p>None of this makes OpenSearch the wrong choice. For logs, it is a great tool, and the inverted index makes event search and investigation fast. The mistake is using it for a signal it was not built to carry.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Signal</p></th>
@@ -639,18 +636,67 @@ log_metric_counter_payment_failures_total<span class="o">{</span><span class="nv
 </tbody>
 </table>
 </div>
-<p>You can force everything into one system. But a single tool stretched across signals it was not built for ends up unoptimized: slow dashboards, bloated retention, and a pile of query-time hacks to approximate what a purpose-built engine does natively. There is no silver bullet in a telemetry architecture. The best architecture is the one where each signal lands in the tool shaped for it.</p>
-<p>And part of getting there is organizational, not just technical. Good observability is a partnership: the application team instruments the code, because only the people who understand the business logic know which events matter and which labels make a metric meaningful, while the infrastructure team provides the pipes that ingest, store, and expose each signal where it belongs. A <code class="docutils literal notranslate"><span class="pre">payment_failures_total{code=...}</span></code> counter encodes business meaning that infrastructure cannot invent from the outside.</p>
+<p>You can force every signal into one system, but you end up with slow dashboards, bloated retention, and query-time hacks that approximate what a purpose-built engine does natively. There is no silver bullet in a telemetry architecture. The best architecture is the one where each signal lands in the tool shaped for it.</p>
+<p>Part of getting there is organizational. Good observability is a partnership between teams. The application team instruments the code, because only the people who know the business logic know which events matter and which labels make a metric meaningful. The infrastructure team provides the pipelines that ingest, store, and expose each signal where it belongs. A <code class="docutils literal notranslate"><span class="pre">payment_failures_total{code=...}</span></code> counter carries business meaning that infrastructure cannot invent from the outside.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Logs describe individual events. Metrics are numbers sampled over time. Treat them as different kinds of data.</p></li>
+<li><p>Counting log lines in OpenSearch rebuilds the number on every read, so the cost grows with raw log volume and retention.</p></li>
+<li><p>Metric dashboards on the log cluster run on the same hot nodes that serve ingestion and incident searches.</p></li>
+<li><p>A Prometheus counter stores the number once. <code class="docutils literal notranslate"><span class="pre">rate()</span></code> turns it into any per-second or per-minute view, grouped by any label.</p></li>
+<li><p>When you cannot change the code, extract the metric at ingestion with Fluent Bit’s <code class="docutils literal notranslate"><span class="pre">log_to_metrics</span></code> filter. Parse the line first so the fields exist.</p></li>
+<li><p>Ingestion-time metrics are a workaround: a log format change can break them silently. Instrument the application when you can.</p></li>
+<li><p>Keep each signal in a tool built for it, and let the application team decide which events and labels matter.</p></li>
+</ul>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://opensearch.org/docs/latest/aggregations/">https://opensearch.org/docs/latest/aggregations/</a></p></li>
-<li><p><a class="reference external" href="https://prometheus.io/docs/concepts/metric_types/">https://prometheus.io/docs/concepts/metric_types/</a></p></li>
-<li><p><a class="reference external" href="https://prometheus.io/docs/prometheus/latest/querying/functions/#rate">https://prometheus.io/docs/prometheus/latest/querying/functions/#rate</a></p></li>
-<li><p><a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/filters/log_to_metrics">https://docs.fluentbit.io/manual/pipeline/filters/log_to_metrics</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/aggregations/">Aggregations (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://prometheus.io/docs/concepts/metric_types/">Metric types (Prometheus)</a></p></li>
+<li><p><a class="reference external" href="https://prometheus.io/docs/prometheus/latest/querying/functions/#rate">Query functions: rate() (Prometheus)</a></p></li>
+<li><p><a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/filters/log_to_metrics">Log to metrics filter (Fluent Bit)</a></p></li>
+<li><p><a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/inputs/tail">Tail input (Fluent Bit)</a></p></li>
+<li><p><a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/parsers/logfmt">Logfmt parser (Fluent Bit)</a></p></li>
+<li><p><a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/outputs/prometheus-exporter">Prometheus exporter output (Fluent Bit)</a></p></li>
 </ul>
-</section>
+<p><em>I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Stop Extracting Metrics from OpenSearch Logs",
+      "description": "Why counting log lines in OpenSearch is an expensive way to get a metric, how a Prometheus counter answers the same question for almost nothing, and how Fluent Bit can extract the metric at ingestion when you cannot change the code.",
+      "datePublished": "2026-11-03",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/",
+      "keywords": ["OpenSearch", "Prometheus", "Fluent Bit", "metrics", "logs", "observability"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Stop Extracting Metrics from OpenSearch Logs"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->
