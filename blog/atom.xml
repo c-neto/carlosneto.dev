@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-11T00:04:23.516505+00:00</updated>
+  <updated>2026-11-11T00:20:15.203222+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -286,10 +286,13 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;p&gt;Monitor the migration closely:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# look for `RELOCATING` or `UNASSIGNED` shards.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
+
 &lt;span class="c1"&gt;# verify the blue nodes are draining.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
+
 &lt;span class="c1"&gt;# watch the recovery and relocation tasks.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/tasks
+
 &lt;span class="c1"&gt;# wait for green.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/pre&gt;&lt;/div&gt;

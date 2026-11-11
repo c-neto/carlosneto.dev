@@ -174,3 +174,11 @@ ol, ul {
   padding-inline-start: 2rem;
   padding-left: 16px;
 }
+
+/* Left-align all table text (headers and cells, overriding MyST/theme alignment) */
+.bd-content table th,
+.bd-content table td,
+.bd-content table th p,
+.bd-content table td p {
+  text-align: left !important;
+}

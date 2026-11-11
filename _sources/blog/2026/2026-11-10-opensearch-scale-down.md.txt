@@ -294,10 +294,13 @@ Monitor the migration closely:
 ```bash
 # look for `RELOCATING` or `UNASSIGNED` shards.
 GET _cat/shards?v&s=state
+
 # verify the blue nodes are draining.
 GET _cat/shards?v&s=node
+
 # watch the recovery and relocation tasks.
 GET _cat/tasks
+
 # wait for green.
 GET _cluster/health
 ```
