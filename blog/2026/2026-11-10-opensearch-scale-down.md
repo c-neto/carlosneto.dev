@@ -148,7 +148,7 @@ PUT /_cluster/settings
 
 The right approach depends on the operation and on whether the disk survives the node:
 
-| Operation | Network-attached storage (EBS) | Instance Store |
+| Operation | EBS/EFS | Instance Store |
 |---|---|---|
 | Remove nodes (scale down) | Pattern 1: drain, then remove | Pattern 1: drain, then remove |
 | Change the instance type (resize) | Rolling replacement that reattaches the volume, or Pattern 2 | Pattern 2: Blue/Green |
