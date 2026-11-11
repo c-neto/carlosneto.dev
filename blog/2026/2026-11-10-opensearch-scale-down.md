@@ -98,8 +98,8 @@ GET /_nodes/stats/transport
 
 The [Cluster Allocation Explain API](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/) can also investigate a specific shard:
 
-```{code-block} json
-:caption: POST /_cluster/allocation/explain
+```json
+POST /_cluster/allocation/explain
 {
   "index": "my-index",
   "shard": 0,
@@ -117,8 +117,8 @@ OpenSearch applies conservative limits to shard recovery and relocation so these
 
 Shards moved off an excluded node are relocations, so they are throttled by these recovery limits, not by the rebalancing settings. If your cluster has spare CPU, memory, disk I/O, and network capacity, you can raise them:
 
-```{code-block} json
-:caption: PUT /_cluster/settings
+```json
+PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.allocation.node_concurrent_recoveries": 10,
@@ -134,8 +134,8 @@ I've experienced this firsthand: increasing recovery concurrency too aggressivel
 
 Treat these values as temporary tuning, not recommended defaults. Increase them gradually, watch node and network utilization, and reduce them if the cluster shows signs of saturation. Once the migration is complete, restore the defaults by setting them to `null`:
 
-```{code-block} json
-:caption: PUT /_cluster/settings
+```json
+PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.allocation.node_concurrent_recoveries": null,
@@ -173,8 +173,8 @@ Use `GET /_cat/allocation?v` to compare the disk used on the nodes you are remov
 
 Tell OpenSearch to stop moving shards around for balance:
 
-```{code-block} json
-:caption: PUT /_cluster/settings
+```json
+PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.rebalance.enable": "none"
@@ -188,8 +188,8 @@ This prevents background rebalancing from competing with the drain and wasting I
 
 Exclude the nodes from shard allocation before terminating them:
 
-```{code-block} json
-:caption: PUT /_cluster/settings
+```json
+PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.allocation.exclude._name": "opensearch-data-4, opensearch-data-5"
@@ -227,8 +227,8 @@ With EBS, scaling down does not delete the PersistentVolumeClaims of the removed
 
 Remove the exclusion and restore rebalancing:
 
-```{code-block} json
-:caption: PUT /_cluster/settings
+```json
+PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.allocation.exclude._name": null,
@@ -252,8 +252,8 @@ The idea: run two StatefulSets in parallel (`blue` and `green`), migrate shards 
 
 Same as Pattern 1, prevent automatic redistribution while you are in control:
 
-```{code-block} json
-:caption: PUT /_cluster/settings
+```json
+PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.rebalance.enable": "none"
@@ -265,8 +265,8 @@ Same as Pattern 1, prevent automatic redistribution while you are in control:
 
 Exclude the new nodes from shard allocation before they start, so they can boot and join the cluster without triggering a flood of shard movement. New indices, such as the next rollover, would otherwise be allocated to them right away:
 
-```{code-block} json
-:caption: PUT /_cluster/settings
+```json
+PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.allocation.exclude._name": "green-node-1, green-node-2, green-node-N"
@@ -280,8 +280,8 @@ Deploy the new node set and wait for all nodes to reach `Ready` status. The gree
 
 Now flip the exclusion to the old (blue) nodes. OpenSearch begins moving shards off the blue nodes and onto the green nodes:
 
-```{code-block} json
-:caption: PUT /_cluster/settings
+```json
+PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.allocation.exclude._name": "blue-node-1, blue-node-2, blue-node-N"
@@ -321,8 +321,8 @@ This terminates every blue pod at once. That is safe for empty data-only nodes, 
 
 Remove the exclusion rules so future shard assignments work normally, restore rebalancing, and reset the recovery limits if you raised them:
 
-```{code-block} json
-:caption: PUT /_cluster/settings
+```json
+PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.allocation.exclude._name": null,
