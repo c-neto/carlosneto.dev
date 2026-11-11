@@ -480,15 +480,13 @@ GET<span class="w"> </span>/_nodes/stats/transport
 </pre></div>
 </div>
 <p>The <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/">Cluster Allocation Explain API</a> can also investigate a specific shard:</p>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">POST /_cluster/allocation/explain</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">POST</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/alloca</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">/explai</span><span class="kc">n</span>
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">"index"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-index"</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"shard"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"primary"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="p">}</span>
 </pre></div>
-</div>
 </div>
 <p>Pay particular attention to filesystem utilization and JVM memory pressure. When increasing recovery concurrency, also monitor network throughput at the infrastructure level, since the OpenSearch transport statistics alone do not give a complete picture of network bandwidth. If nodes start approaching resource limits, reduce recovery concurrency and bandwidth before the migration affects normal cluster operations.</p>
 <p>Keep these commands at hand throughout the migration and check them before removing each node. A migration is only complete when the intended nodes are empty, shard recoveries have finished, and the cluster is healthy again.</p>
@@ -497,9 +495,8 @@ GET<span class="w"> </span>/_nodes/stats/transport
 <h2>Speeding Up Shard Relocation<a class="headerlink" href="#speeding-up-shard-relocation" title="Link to this heading">#</a></h2>
 <p>OpenSearch applies conservative limits to shard recovery and relocation so these operations do not consume too many cluster resources. By default, a node allows <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">two concurrent incoming and two concurrent outgoing shard recoveries</a>, and the recovery transfer rate is limited to <code class="docutils literal notranslate"><span class="pre">40mb</span></code> per second per node. These limits keep the cluster stable during shard movements, but they can also make large migrations take much longer than necessary.</p>
 <p>Shards moved off an excluded node are relocations, so they are throttled by these recovery limits, not by the rebalancing settings. If your cluster has spare CPU, memory, disk I/O, and network capacity, you can raise them:</p>
-<div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">PUT /_cluster/settings</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"cluster.routing.allocation.node_concurrent_recoveries"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"indices.recovery.max_bytes_per_sec"</span><span class="p">:</span><span class="w"> </span><span class="s2">"200mb"</span>
@@ -507,21 +504,18 @@ GET<span class="w"> </span>/_nodes/stats/transport
 <span class="p">}</span>
 </pre></div>
 </div>
-</div>
 <p>Be careful when increasing these values. More concurrent recoveries and higher transfer rates put significant pressure on data nodes. If the infrastructure cannot handle the additional work, the nodes become overloaded, normal cluster operations suffer, and the entire cluster can become unresponsive.</p>
 <!-- [PERSONAL EXPERIENCE] -->
 <p>I’ve experienced this firsthand: increasing recovery concurrency too aggressively overloaded the nodes and brought the cluster to a point where it stopped responding properly. Network saturation is another risk, especially when relocating large amounts of data between nodes.</p>
 <p>Treat these values as temporary tuning, not recommended defaults. Increase them gradually, watch node and network utilization, and reduce them if the cluster shows signs of saturation. Once the migration is complete, restore the defaults by setting them to <code class="docutils literal notranslate"><span class="pre">null</span></code>:</p>
-<div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">PUT /_cluster/settings</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"cluster.routing.allocation.node_concurrent_recoveries"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"indices.recovery.max_bytes_per_sec"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
-</div>
 </div>
 </section>
 <section id="which-downsize-pattern-to-use">
@@ -562,30 +556,26 @@ GET<span class="w"> </span>/_nodes/stats/transport
 <section id="step-2-disable-shard-rebalancing">
 <h3>Step 2: Disable Shard Rebalancing<a class="headerlink" href="#step-2-disable-shard-rebalancing" title="Link to this heading">#</a></h3>
 <p>Tell OpenSearch to stop moving shards around for balance:</p>
-<div class="literal-block-wrapper docutils container" id="id4">
-<div class="code-block-caption"><span class="caption-text">PUT /_cluster/settings</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"cluster.routing.rebalance.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-</div>
 <p>This prevents background rebalancing from competing with the drain and wasting I/O and bandwidth on movements you are about to undo. Disabling rebalancing does not stop OpenSearch from moving shards off excluded nodes, so the drain in the next step still works.</p>
 </section>
 <section id="step-3-drain-the-nodes-you-are-removing">
 <h3>Step 3: Drain the Nodes You Are Removing<a class="headerlink" href="#step-3-drain-the-nodes-you-are-removing" title="Link to this heading">#</a></h3>
 <p>Exclude the nodes from shard allocation before terminating them:</p>
-<div class="literal-block-wrapper docutils container" id="id5">
-<div class="code-block-caption"><span class="caption-text">PUT /_cluster/settings</span><a class="headerlink" href="#id5" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"opensearch-data-4, opensearch-data-5"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
-</div>
 </div>
 <p>On Kubernetes, a StatefulSet scale-down always removes the pods with the <a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/">highest ordinals</a>. Going from six replicas to four removes <code class="docutils literal notranslate"><span class="pre">opensearch-data-5</span></code> and <code class="docutils literal notranslate"><span class="pre">opensearch-data-4</span></code>, so those are the nodes to exclude.</p>
 <p>OpenSearch now moves all primary and replica shards off the excluded nodes. Monitor progress with:</p>
@@ -612,16 +602,14 @@ GET<span class="w"> </span>_cluster/health
 <section id="step-5-clear-the-exclusion-and-re-enable-rebalancing">
 <h3>Step 5: Clear the Exclusion and Re-enable Rebalancing<a class="headerlink" href="#step-5-clear-the-exclusion-and-re-enable-rebalancing" title="Link to this heading">#</a></h3>
 <p>Remove the exclusion and restore rebalancing:</p>
-<div class="literal-block-wrapper docutils container" id="id6">
-<div class="code-block-caption"><span class="caption-text">PUT /_cluster/settings</span><a class="headerlink" href="#id6" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"cluster.routing.rebalance.enable"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
-</div>
 </div>
 <!-- [UNIQUE INSIGHT] -->
 <p>Do not skip the exclusion cleanup. StatefulSets reuse pod names, so the next time you scale up, a new <code class="docutils literal notranslate"><span class="pre">opensearch-data-4</span></code> would join the cluster still excluded and never receive shards. If you raised the recovery limits, restore them as well.</p>
@@ -635,44 +623,38 @@ GET<span class="w"> </span>_cluster/health
 <section id="step-1-disable-shard-rebalancing">
 <h3>Step 1: Disable Shard Rebalancing<a class="headerlink" href="#step-1-disable-shard-rebalancing" title="Link to this heading">#</a></h3>
 <p>Same as Pattern 1, prevent automatic redistribution while you are in control:</p>
-<div class="literal-block-wrapper docutils container" id="id7">
-<div class="code-block-caption"><span class="caption-text">PUT /_cluster/settings</span><a class="headerlink" href="#id7" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"cluster.routing.rebalance.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-</div>
 </section>
 <section id="step-2-bring-up-the-new-node-set-green-without-data">
 <h3>Step 2: Bring Up the New Node Set (Green) Without Data<a class="headerlink" href="#step-2-bring-up-the-new-node-set-green-without-data" title="Link to this heading">#</a></h3>
 <p>Exclude the new nodes from shard allocation before they start, so they can boot and join the cluster without triggering a flood of shard movement. New indices, such as the next rollover, would otherwise be allocated to them right away:</p>
-<div class="literal-block-wrapper docutils container" id="id8">
-<div class="code-block-caption"><span class="caption-text">PUT /_cluster/settings</span><a class="headerlink" href="#id8" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"green-node-1, green-node-2, green-node-N"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-</div>
 <p>Deploy the new node set and wait for all nodes to reach <code class="docutils literal notranslate"><span class="pre">Ready</span></code> status. The green nodes need the same node attributes as the blue ones, for example the attribute that marks them as hot tier. If your indices use <code class="docutils literal notranslate"><span class="pre">index.routing.allocation.require.*</span></code> filters and the green nodes lack the matching attribute, the shards have nowhere to go and the migration stalls.</p>
 </section>
 <section id="step-3-migrate-data-from-blue-to-green">
 <h3>Step 3: Migrate Data from Blue to Green<a class="headerlink" href="#step-3-migrate-data-from-blue-to-green" title="Link to this heading">#</a></h3>
 <p>Now flip the exclusion to the old (blue) nodes. OpenSearch begins moving shards off the blue nodes and onto the green nodes:</p>
-<div class="literal-block-wrapper docutils container" id="id9">
-<div class="code-block-caption"><span class="caption-text">PUT /_cluster/settings</span><a class="headerlink" href="#id9" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"blue-node-1, blue-node-2, blue-node-N"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
-</div>
 </div>
 <p>Monitor the migration closely:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># look for `RELOCATING` or `UNASSIGNED` shards.</span>
@@ -701,9 +683,8 @@ GET<span class="w"> </span>_cluster/health
 <section id="step-5-clean-up-exclusions-and-restore-settings">
 <h3>Step 5: Clean Up Exclusions and Restore Settings<a class="headerlink" href="#step-5-clean-up-exclusions-and-restore-settings" title="Link to this heading">#</a></h3>
 <p>Remove the exclusion rules so future shard assignments work normally, restore rebalancing, and reset the recovery limits if you raised them:</p>
-<div class="literal-block-wrapper docutils container" id="id10">
-<div class="code-block-caption"><span class="caption-text">PUT /_cluster/settings</span><a class="headerlink" href="#id10" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="err">PUT</span><span class="w"> </span><span class="err">/_clus</span><span class="kc">ter</span><span class="err">/se</span><span class="kc">tt</span><span class="err">i</span><span class="kc">n</span><span class="err">gs</span>
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">"cluster.routing.rebalance.enable"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
@@ -712,7 +693,6 @@ GET<span class="w"> </span>_cluster/health
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
-</div>
 </div>
 </section>
 </section>
