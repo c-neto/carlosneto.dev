@@ -64,8 +64,8 @@ OpenSearch is really good at what it is designed for: full-text search over an i
 
 The problem is what happens when you ask it to behave like a metrics engine. Consider the number we wanted earlier, failed payments per minute. As a log query it looks like this:
 
-```{code-block} json
-:caption: GET my-app-logs-index-*/_search
+```opensearch
+GET my-app-logs-index-*/_search
 {
   "size": 0,
   "query": {

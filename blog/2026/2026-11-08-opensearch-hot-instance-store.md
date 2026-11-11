@@ -60,8 +60,8 @@ These mechanisms reduce risk during controlled operations, but they cannot guara
 
 Every index stored on Instance Store nodes needs at least one replica. Without replicas, a node failure can permanently remove the only copy of a shard. An [index template](https://docs.opensearch.org/latest/im-plugin/index-templates) can set a default replica count for new indices:
 
-```{code-block} json
-:caption: PUT /_index_template/default-replicas
+```opensearch
+PUT /_index_template/default-replicas
 {
   "index_patterns": ["*"],
   "template": {
@@ -80,8 +80,8 @@ This template only applies to new indices. Existing indices must be checked and 
 
 Stable pod names are also useful when decommissioning or migrating nodes. For example, before removing `opensearch-hot-3`, you can ask OpenSearch to move its shards elsewhere by excluding it from shard allocation:
 
-```{code-block} json
-:caption: PUT /_cluster/settings
+```opensearch
+PUT /_cluster/settings
 {
   "persistent": {
     "cluster.routing.allocation.exclude._name": "opensearch-hot-3"

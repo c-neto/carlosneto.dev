@@ -61,8 +61,8 @@ __Manual Shard Allocation__: Force manually shard allocation to specific Data no
 
 The Cluster Reroute API, [`POST /_cluster/reroute`](https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/), allows administrators to manually move shards between nodes, among other operations. For example, imagine that `node1` is running low on disk space while `node2` has plenty of free capacity. You can simulate moving shard `0` of the `logs-2026.11` index from `node1` to `node2` with the following request:
 
-```{code-block} json
-:caption: POST /_cluster/reroute
+```opensearch
+POST /_cluster/reroute
 {
   "commands": [
     {
