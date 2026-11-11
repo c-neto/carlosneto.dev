@@ -431,61 +431,61 @@
 <ul class="simple">
 <li><p>List all indices, sorted by name:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>_cat/indices?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>index
+<div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _cat/indices?v&amp;s=index
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>List the shards composing a specific index:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>&lt;INDEX-NAME&gt;/_search_shards
+<div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET &lt;INDEX-NAME&gt;/_search_shards
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Get index metadata (e.g., number of shards, replicas, creation time):</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>&lt;INDEX-NAME&gt;/_settings
+<div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET &lt;INDEX-NAME&gt;/_settings
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Retrieve field types defined in the index mapping:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>&lt;INDEX-NAME&gt;/_mapping
+<div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET &lt;INDEX-NAME&gt;/_mapping
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>List the ISM Policy attached to an index during creation:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>_plugins/ism/explain/&lt;INDEX-NAME&gt;?show_policy<span class="o">=</span><span class="nb">true</span>
+<div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _plugins/ism/explain/&lt;INDEX-NAME&gt;?show_policy=true
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>List shards not currently allocated to any node (status: <em>UNASSIGNED</em>):</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>_cat/shards?v<span class="p">&amp;</span><span class="nv">h</span><span class="o">=</span>index,shard,prirep,state,unassigned.reason<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>state
+<div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _cat/shards?v&amp;h=index,shard,prirep,state,unassigned.reason&amp;s=state
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Check shard allocation across cluster nodes:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>_cat/allocation?v
+<div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _cat/allocation?v
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Monitor shard recovery or relocation progress:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>_cat/recovery/&lt;INDEX-NAME&gt;?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>stage:desc
+<div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _cat/recovery/&lt;INDEX-NAME&gt;?v&amp;s=stage:desc
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>List all shards, sorted by index:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>_cat/shards?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>index
+<div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _cat/shards?v&amp;s=index
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>List indices, sorted by size:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>_cat/indices?v<span class="p">&amp;</span><span class="nv">h</span><span class="o">=</span>index,store.size<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>store.size:desc
+<div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _cat/indices?v&amp;h=index,store.size&amp;s=store.size:desc
 </pre></div>
 </div>
 <p>With these commands you can efficiently get useful information about your OpenSearch clusters and streamline troubleshooting processes. If you have any questions or need further insights into OpenSearch, feel free to leave a comment below!</p>

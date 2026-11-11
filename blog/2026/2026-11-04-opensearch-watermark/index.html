@@ -442,9 +442,8 @@
 <hr class="docutils" />
 <p><strong>Manual Shard Allocation</strong>: Force manually shard allocation to specific Data node.</p>
 <p>The Cluster Reroute API, <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/_cluster/reroute</span></code></a>, allows administrators to manually move shards between nodes, among other operations. For example, imagine that <code class="docutils literal notranslate"><span class="pre">node1</span></code> is running low on disk space while <code class="docutils literal notranslate"><span class="pre">node2</span></code> has plenty of free capacity. You can simulate moving shard <code class="docutils literal notranslate"><span class="pre">0</span></code> of the <code class="docutils literal notranslate"><span class="pre">logs-2026.11</span></code> index from <code class="docutils literal notranslate"><span class="pre">node1</span></code> to <code class="docutils literal notranslate"><span class="pre">node2</span></code> with the following request:</p>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">POST /_cluster/reroute</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>POST /_cluster/reroute
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">"commands"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"move"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -457,7 +456,6 @@
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
-</div>
 </div>
 <p>Shard movement is still subject to allocation deciders. For example, OpenSearch can reject the operation if the destination node does not have enough disk space or violates another allocation constraint. This API is useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.</p>
 </section>

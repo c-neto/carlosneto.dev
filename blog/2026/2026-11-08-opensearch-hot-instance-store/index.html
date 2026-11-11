@@ -471,9 +471,8 @@
 <section id="ensure-all-indices-have-replicas">
 <h3>1. Ensure All Indices Have Replicas<a class="headerlink" href="#ensure-all-indices-have-replicas" title="Link to this heading">#</a></h3>
 <p>Every index stored on Instance Store nodes needs at least one replica. Without replicas, a node failure can permanently remove the only copy of a shard. An <a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/index-templates">index template</a> can set a default replica count for new indices:</p>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">PUT /_index_template/default-replicas</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>PUT /_index_template/default-replicas
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">"index_patterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*"</span><span class="p">],</span>
 <span class="w">  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -483,22 +482,19 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-</div>
 <p>This template only applies to new indices. Existing indices must be checked and updated separately, and explicit index settings or other templates with a higher <code class="docutils literal notranslate"><span class="pre">priority</span></code> can override it. Validate and monitor replica counts so that no index is left without redundancy.</p>
 </section>
 <section id="use-statefulsets-for-hot-data-nodes">
 <h3>2. Use StatefulSets for Hot Data Nodes<a class="headerlink" href="#use-statefulsets-for-hot-data-nodes" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/">StatefulSets</a> give each pod a stable identity and a predictable name, which helps when managing OpenSearch nodes that use local storage. With the default <code class="docutils literal notranslate"><span class="pre">RollingUpdate</span></code> strategy, Kubernetes replaces StatefulSet pods one at a time and waits for each updated pod to become Ready before moving to the next one. This prevents multiple hot data nodes from being replaced at the same time during an update.</p>
 <p>Stable pod names are also useful when decommissioning or migrating nodes. For example, before removing <code class="docutils literal notranslate"><span class="pre">opensearch-hot-3</span></code>, you can ask OpenSearch to move its shards elsewhere by excluding it from shard allocation:</p>
-<div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">PUT /_cluster/settings</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>PUT /_cluster/settings
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"cluster.routing.allocation.exclude._name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"opensearch-hot-3"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
-</div>
 </div>
 <p>OpenSearch then relocates the shards away from the excluded node, and once relocation finishes, the node can be removed safely. This requires the OpenSearch <code class="docutils literal notranslate"><span class="pre">node.name</span></code> to match the pod name. After the operation, clear the exclusion setting so the node can receive shards again.</p>
 </section>
@@ -506,8 +502,8 @@
 <h3>3. One Hot Data Pod per Worker Node<a class="headerlink" href="#one-hot-data-pod-per-worker-node" title="Link to this heading">#</a></h3>
 <p>If two OpenSearch hot data pods run on the same Kubernetes worker, one EC2 failure takes down both, and they may hold the primary and the replica of the same shard. Running at most one hot data pod per worker keeps each EC2 instance a separate failure domain.</p>
 <p>The following configuration uses <a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/">pod anti-affinity</a> to keep hot pods on separate Kubernetes nodes. You can combine it with node affinity to select dedicated hot-tier workers and <a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints">topology spread constraints</a> to distribute the pods across Availability Zones.</p>
-<div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">opensearch-data-hot-statefulset.yaml</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">opensearch-data-hot-statefulset.yaml</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">template</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
@@ -531,8 +527,8 @@
 <h3>4. Use a Readiness Probe to Wait for Cluster Green<a class="headerlink" href="#use-a-readiness-probe-to-wait-for-cluster-green" title="Link to this heading">#</a></h3>
 <p>An OpenSearch node that answers HTTP requests is not necessarily safe to move past. The process can be up before the cluster has recovered its shards and restored replica redundancy. A <a class="reference external" href="https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes">readiness probe</a> that only checks the HTTP endpoint lets Kubernetes replace the next pod too early.</p>
 <p>Instead, the probe can call the <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-health">Cluster Health API</a> and only report Ready when the cluster is green. Because the StatefulSet rolling update waits for each pod to be Ready, Kubernetes now waits for shard recovery before replacing the next pod. Set <code class="docutils literal notranslate"><span class="pre">timeoutSeconds</span></code> above the API’s own <code class="docutils literal notranslate"><span class="pre">timeout</span></code>; the default probe timeout is one second, which would make the probe fail while the request is still waiting:</p>
-<div class="literal-block-wrapper docutils container" id="id4">
-<div class="code-block-caption"><span class="caption-text">opensearch-data-hot-statefulset.yaml</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">opensearch-data-hot-statefulset.yaml</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">readinessProbe</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">timeoutSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
 <span class="w">  </span><span class="nt">exec</span><span class="p">:</span>
@@ -552,8 +548,8 @@
 <section id="use-a-poddisruptionbudget-pdb">
 <h3>5. Use a PodDisruptionBudget (PDB)<a class="headerlink" href="#use-a-poddisruptionbudget-pdb" title="Link to this heading">#</a></h3>
 <p>A <a class="reference external" href="https://kubernetes.io/docs/tasks/run-application/configure-pdb">PodDisruptionBudget</a> limits how many pods can be voluntarily evicted at the same time, for example while Kubernetes drains a worker node. The following PDB allows at most one hot data pod to be unavailable due to voluntary disruptions:</p>
-<div class="literal-block-wrapper docutils container" id="id5">
-<div class="code-block-caption"><span class="caption-text">opensearch-data-hot-pdb.yaml</span><a class="headerlink" href="#id5" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">opensearch-data-hot-pdb.yaml</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">policy/v1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PodDisruptionBudget</span>
 <span class="nt">metadata</span><span class="p">:</span>
@@ -575,8 +571,8 @@
 </div></blockquote>
 <p>Karpenter can replace nodes for several reasons, including consolidation and drift from the desired <a class="reference external" href="https://karpenter.sh/docs/concepts/nodepools">NodePool</a> configuration. With Instance Store, terminating a node destroys its local data, so these replacements must be coordinated with OpenSearch shard recovery. Karpenter provides <a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/">disruption controls</a> for this.</p>
 <p>One option is to add the <code class="docutils literal notranslate"><span class="pre">karpenter.sh/do-not-disrupt</span></code> annotation to the pod template. Karpenter will not voluntarily disrupt a node running the annotated pod, subject to the documented exceptions:</p>
-<div class="literal-block-wrapper docutils container" id="id6">
-<div class="code-block-caption"><span class="caption-text">opensearch-data-hot-statefulset.yaml</span><a class="headerlink" href="#id6" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">opensearch-data-hot-statefulset.yaml</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">template</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
@@ -586,8 +582,8 @@
 </div>
 </div>
 <p>Drift needs separate attention. When a node no longer matches its NodePool configuration, Karpenter may replace it, and for Instance Store hot nodes that means unplanned data movement and local data loss. A NodePool disruption budget set to zero for the <code class="docutils literal notranslate"><span class="pre">Drifted</span></code> reason stops Karpenter from voluntarily replacing drifted nodes:</p>
-<div class="literal-block-wrapper docutils container" id="id7">
-<div class="code-block-caption"><span class="caption-text">opensearch-karpenter-nodepool.yaml</span><a class="headerlink" href="#id7" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">opensearch-karpenter-nodepool.yaml</span><a class="headerlink" href="#id5" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">disruption</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">budgets</span><span class="p">:</span>

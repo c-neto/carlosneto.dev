@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-11T23:38:07.020713+00:00</updated>
+  <updated>2026-11-11T23:43:11.461623+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -250,57 +250,57 @@ my-app-logs-prod
 &lt;section id="what-to-watch-during-a-migration"&gt;
 &lt;h2&gt;What to Watch During a Migration&lt;/h2&gt;
 &lt;p&gt;Monitoring is essential during shard migrations, especially when increasing recovery concurrency or bandwidth limits. I use the following APIs to track shard relocation progress, identify allocation issues, and watch resource consumption across the cluster:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# All shards, sorted by state &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# All shards, sorted by state &lt;/span&gt;
+GET /_cat/shards?v&amp;amp;s=state
 
 &lt;span class="c1"&gt;# Shards grouped by index &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index
+GET /_cat/shards?v&amp;amp;s=index
 
 &lt;span class="c1"&gt;# Shards grouped by node &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
+GET /_cat/shards?v&amp;amp;s=node
 
 &lt;span class="c1"&gt;# Compact view: index, shard, primary/replica, state, node &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;h&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index,shard,prirep,state,node&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index
+GET /_cat/shards?v&amp;amp;h=index,shard,prirep,state,node&amp;amp;s=index
 
 &lt;span class="c1"&gt;# Ongoing recoveries with details &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/recovery?active_only&lt;span class="o"&gt;=&lt;/span&gt;true&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;detailed&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;true&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;bytes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;gb&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;v
+GET /_cat/recovery?active_only=true&amp;amp;detailed=true&amp;amp;bytes=gb&amp;amp;v
 
 &lt;span class="c1"&gt;# Recovery history, including completed ones &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/recovery?v
+GET /_cat/recovery?v
 
 &lt;span class="c1"&gt;# Overall cluster health &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cluster/health
+GET /_cluster/health
 
 &lt;span class="c1"&gt;# Wait for relocations and initializations to finish &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cluster/health?wait_for_no_relocating_shards&lt;span class="o"&gt;=&lt;/span&gt;true&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;wait_for_no_initializing_shards&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;
+GET /_cluster/health?wait_for_no_relocating_shards=true&amp;amp;wait_for_no_initializing_shards=true
 
 &lt;span class="c1"&gt;# Pending cluster tasks &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/pending_tasks?v
+GET /_cat/pending_tasks?v
 
 &lt;span class="c1"&gt;# Active cluster tasks &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/tasks?v
+GET /_cat/tasks?v
 
 &lt;span class="c1"&gt;# Why a shard is unassigned or cannot be allocated &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cluster/allocation/explain
+GET /_cluster/allocation/explain
 
 &lt;span class="c1"&gt;# Node list and resource information &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/nodes?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;name
+GET /_cat/nodes?v&amp;amp;s=name
 
 &lt;span class="c1"&gt;# Disk usage and shard count per node &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/allocation?v
+GET /_cat/allocation?v
 
 &lt;span class="c1"&gt;# Filesystem and JVM statistics &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/fs,jvm
+GET /_nodes/stats/fs,jvm
 
 &lt;span class="c1"&gt;# Operating system and thread pool statistics &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/os,thread_pool
+GET /_nodes/stats/os,thread_pool
 
 &lt;span class="c1"&gt;# Network transport statistics &lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
+GET /_nodes/stats/transport
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;The &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/"&gt;Cluster Allocation Explain API&lt;/a&gt; can also investigate a specific shard:&lt;/p&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;POST&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/alloca&lt;/span&gt;&lt;span class="kc"&gt;t&lt;/span&gt;&lt;span class="err"&gt;io&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;/explai&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;POST /_cluster/allocation/explain
 &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"index"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"my-index"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"shard"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -315,7 +315,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
 &lt;h2&gt;Speeding Up Shard Relocation&lt;/h2&gt;
 &lt;p&gt;OpenSearch applies conservative limits to shard recovery and relocation so these operations do not consume too many cluster resources. By default, a node allows &lt;a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/"&gt;two concurrent incoming and two concurrent outgoing shard recoveries&lt;/a&gt;, and the recovery transfer rate is limited to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;40mb&lt;/span&gt;&lt;/code&gt; per second per node. These limits keep the cluster stable during shard movements, but they can also make large migrations take much longer than necessary.&lt;/p&gt;
 &lt;p&gt;Shards moved off an excluded node are relocations, so they are throttled by these recovery limits, not by the rebalancing settings. If your cluster has spare CPU, memory, disk I/O, and network capacity, you can raise them:&lt;/p&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT /_cluster/settings
 &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.node_concurrent_recoveries"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -328,7 +328,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
 &lt;!-- [PERSONAL EXPERIENCE] --&gt;
 &lt;p&gt;I’ve experienced this firsthand: increasing recovery concurrency too aggressively overloaded the nodes and brought the cluster to a point where it stopped responding properly. Network saturation is another risk, especially when relocating large amounts of data between nodes.&lt;/p&gt;
 &lt;p&gt;Treat these values as temporary tuning, not recommended defaults. Increase them gradually, watch node and network utilization, and reduce them if the cluster shows signs of saturation. Once the migration is complete, restore the defaults by setting them to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;null&lt;/span&gt;&lt;/code&gt;:&lt;/p&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT /_cluster/settings
 &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.node_concurrent_recoveries"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -375,7 +375,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
 &lt;section id="step-2-disable-shard-rebalancing"&gt;
 &lt;h3&gt;Step 2: Disable Shard Rebalancing&lt;/h3&gt;
 &lt;p&gt;Tell OpenSearch to stop moving shards around for balance:&lt;/p&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT /_cluster/settings
 &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.rebalance.enable"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"none"&lt;/span&gt;
@@ -388,7 +388,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
 &lt;section id="step-3-drain-the-nodes-you-are-removing"&gt;
 &lt;h3&gt;Step 3: Drain the Nodes You Are Removing&lt;/h3&gt;
 &lt;p&gt;Exclude the nodes from shard allocation before terminating them:&lt;/p&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT /_cluster/settings
 &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.exclude._name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"opensearch-data-4, opensearch-data-5"&lt;/span&gt;
@@ -398,17 +398,17 @@ GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
 &lt;/div&gt;
 &lt;p&gt;On Kubernetes, a StatefulSet scale-down always removes the pods with the &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"&gt;highest ordinals&lt;/a&gt;. Going from six replicas to four removes &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;opensearch-data-5&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;opensearch-data-4&lt;/span&gt;&lt;/code&gt;, so those are the nodes to exclude.&lt;/p&gt;
 &lt;p&gt;OpenSearch now moves all primary and replica shards off the excluded nodes. Monitor progress with:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# look for `RELOCATING` or `UNASSIGNED` shards.&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# look for `RELOCATING` or `UNASSIGNED` shards.&lt;/span&gt;
+GET _cat/shards?v&amp;amp;s=state
 
 &lt;span class="c1"&gt;# verify the excluded nodes are draining.&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
+GET _cat/shards?v&amp;amp;s=node
 
 &lt;span class="c1"&gt;# watch the recovery and relocation tasks.&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;_cat/tasks
+GET _cat/tasks
 
 &lt;span class="c1"&gt;# wait for green.&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
+GET _cluster/health
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Wait until the excluded nodes have zero shards assigned and the cluster is green before proceeding.&lt;/p&gt;
@@ -421,7 +421,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;section id="step-5-clear-the-exclusion-and-re-enable-rebalancing"&gt;
 &lt;h3&gt;Step 5: Clear the Exclusion and Re-enable Rebalancing&lt;/h3&gt;
 &lt;p&gt;Remove the exclusion and restore rebalancing:&lt;/p&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT /_cluster/settings
 &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.exclude._name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -442,7 +442,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;section id="step-1-disable-shard-rebalancing"&gt;
 &lt;h3&gt;Step 1: Disable Shard Rebalancing&lt;/h3&gt;
 &lt;p&gt;Same as Pattern 1, prevent automatic redistribution while you are in control:&lt;/p&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT /_cluster/settings
 &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.rebalance.enable"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"none"&lt;/span&gt;
@@ -454,7 +454,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;section id="step-2-bring-up-the-new-node-set-green-without-data"&gt;
 &lt;h3&gt;Step 2: Bring Up the New Node Set (Green) Without Data&lt;/h3&gt;
 &lt;p&gt;Exclude the new nodes from shard allocation before they start, so they can boot and join the cluster without triggering a flood of shard movement. New indices, such as the next rollover, would otherwise be allocated to them right away:&lt;/p&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT /_cluster/settings
 &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.exclude._name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"green-node-1, green-node-2, green-node-N"&lt;/span&gt;
@@ -467,7 +467,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;section id="step-3-migrate-data-from-blue-to-green"&gt;
 &lt;h3&gt;Step 3: Migrate Data from Blue to Green&lt;/h3&gt;
 &lt;p&gt;Now flip the exclusion to the old (blue) nodes. OpenSearch begins moving shards off the blue nodes and onto the green nodes:&lt;/p&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT /_cluster/settings
 &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.exclude._name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"blue-node-1, blue-node-2, blue-node-N"&lt;/span&gt;
@@ -476,17 +476,17 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Monitor the migration closely:&lt;/p&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# look for `RELOCATING` or `UNASSIGNED` shards.&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# look for `RELOCATING` or `UNASSIGNED` shards.&lt;/span&gt;
+GET _cat/shards?v&amp;amp;s=state
 
 &lt;span class="c1"&gt;# verify the blue nodes are draining.&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
+GET _cat/shards?v&amp;amp;s=node
 
 &lt;span class="c1"&gt;# watch the recovery and relocation tasks.&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;_cat/tasks
+GET _cat/tasks
 
 &lt;span class="c1"&gt;# wait for green.&lt;/span&gt;
-GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
+GET _cluster/health
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Do not proceed until all shards have moved off the blue nodes and cluster health is green.&lt;/p&gt;
@@ -502,7 +502,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;section id="step-5-clean-up-exclusions-and-restore-settings"&gt;
 &lt;h3&gt;Step 5: Clean Up Exclusions and Restore Settings&lt;/h3&gt;
 &lt;p&gt;Remove the exclusion rules so future shard assignments work normally, restore rebalancing, and reset the recovery limits if you raised them:&lt;/p&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;PUT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/_clus&lt;/span&gt;&lt;span class="kc"&gt;ter&lt;/span&gt;&lt;span class="err"&gt;/se&lt;/span&gt;&lt;span class="kc"&gt;tt&lt;/span&gt;&lt;span class="err"&gt;i&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;gs&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT /_cluster/settings
 &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.exclude._name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -652,9 +652,8 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;section id="ensure-all-indices-have-replicas"&gt;
 &lt;h3&gt;1. Ensure All Indices Have Replicas&lt;/h3&gt;
 &lt;p&gt;Every index stored on Instance Store nodes needs at least one replica. Without replicas, a node failure can permanently remove the only copy of a shard. An &lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/index-templates"&gt;index template&lt;/a&gt; can set a default replica count for new indices:&lt;/p&gt;
-&lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
-&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;PUT /_index_template/default-replicas&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT /_index_template/default-replicas
+&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"index_patterns"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"*"&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"template"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"settings"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -664,22 +663,19 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;
 &lt;p&gt;This template only applies to new indices. Existing indices must be checked and updated separately, and explicit index settings or other templates with a higher &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;priority&lt;/span&gt;&lt;/code&gt; can override it. Validate and monitor replica counts so that no index is left without redundancy.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="use-statefulsets-for-hot-data-nodes"&gt;
 &lt;h3&gt;2. Use StatefulSets for Hot Data Nodes&lt;/h3&gt;
 &lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"&gt;StatefulSets&lt;/a&gt; give each pod a stable identity and a predictable name, which helps when managing OpenSearch nodes that use local storage. With the default &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;RollingUpdate&lt;/span&gt;&lt;/code&gt; strategy, Kubernetes replaces StatefulSet pods one at a time and waits for each updated pod to become Ready before moving to the next one. This prevents multiple hot data nodes from being replaced at the same time during an update.&lt;/p&gt;
 &lt;p&gt;Stable pod names are also useful when decommissioning or migrating nodes. For example, before removing &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;opensearch-hot-3&lt;/span&gt;&lt;/code&gt;, you can ask OpenSearch to move its shards elsewhere by excluding it from shard allocation:&lt;/p&gt;
-&lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
-&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;PUT /_cluster/settings&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT /_cluster/settings
+&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.exclude._name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"opensearch-hot-3"&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;OpenSearch then relocates the shards away from the excluded node, and once relocation finishes, the node can be removed safely. This requires the OpenSearch &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node.name&lt;/span&gt;&lt;/code&gt; to match the pod name. After the operation, clear the exclusion setting so the node can receive shards again.&lt;/p&gt;
 &lt;/section&gt;
@@ -687,7 +683,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;h3&gt;3. One Hot Data Pod per Worker Node&lt;/h3&gt;
 &lt;p&gt;If two OpenSearch hot data pods run on the same Kubernetes worker, one EC2 failure takes down both, and they may hold the primary and the replica of the same shard. Running at most one hot data pod per worker keeps each EC2 instance a separate failure domain.&lt;/p&gt;
 &lt;p&gt;The following configuration uses &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/"&gt;pod anti-affinity&lt;/a&gt; to keep hot pods on separate Kubernetes nodes. You can combine it with node affinity to select dedicated hot-tier workers and &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints"&gt;topology spread constraints&lt;/a&gt; to distribute the pods across Availability Zones.&lt;/p&gt;
-&lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;opensearch-data-hot-statefulset.yaml&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;spec&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;template&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -712,7 +708,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;h3&gt;4. Use a Readiness Probe to Wait for Cluster Green&lt;/h3&gt;
 &lt;p&gt;An OpenSearch node that answers HTTP requests is not necessarily safe to move past. The process can be up before the cluster has recovered its shards and restored replica redundancy. A &lt;a class="reference external" href="https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes"&gt;readiness probe&lt;/a&gt; that only checks the HTTP endpoint lets Kubernetes replace the next pod too early.&lt;/p&gt;
 &lt;p&gt;Instead, the probe can call the &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-health"&gt;Cluster Health API&lt;/a&gt; and only report Ready when the cluster is green. Because the StatefulSet rolling update waits for each pod to be Ready, Kubernetes now waits for shard recovery before replacing the next pod. Set &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;timeoutSeconds&lt;/span&gt;&lt;/code&gt; above the API’s own &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;timeout&lt;/span&gt;&lt;/code&gt;; the default probe timeout is one second, which would make the probe fail while the request is still waiting:&lt;/p&gt;
-&lt;div class="literal-block-wrapper docutils container" id="id4"&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;opensearch-data-hot-statefulset.yaml&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;readinessProbe&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;timeoutSeconds&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;10&lt;/span&gt;
@@ -733,7 +729,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;section id="use-a-poddisruptionbudget-pdb"&gt;
 &lt;h3&gt;5. Use a PodDisruptionBudget (PDB)&lt;/h3&gt;
 &lt;p&gt;A &lt;a class="reference external" href="https://kubernetes.io/docs/tasks/run-application/configure-pdb"&gt;PodDisruptionBudget&lt;/a&gt; limits how many pods can be voluntarily evicted at the same time, for example while Kubernetes drains a worker node. The following PDB allows at most one hot data pod to be unavailable due to voluntary disruptions:&lt;/p&gt;
-&lt;div class="literal-block-wrapper docutils container" id="id5"&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;opensearch-data-hot-pdb.yaml&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;apiVersion&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;policy/v1&lt;/span&gt;
 &lt;span class="nt"&gt;kind&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;PodDisruptionBudget&lt;/span&gt;
@@ -756,7 +752,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;p&gt;Karpenter can replace nodes for several reasons, including consolidation and drift from the desired &lt;a class="reference external" href="https://karpenter.sh/docs/concepts/nodepools"&gt;NodePool&lt;/a&gt; configuration. With Instance Store, terminating a node destroys its local data, so these replacements must be coordinated with OpenSearch shard recovery. Karpenter provides &lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/"&gt;disruption controls&lt;/a&gt; for this.&lt;/p&gt;
 &lt;p&gt;One option is to add the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;karpenter.sh/do-not-disrupt&lt;/span&gt;&lt;/code&gt; annotation to the pod template. Karpenter will not voluntarily disrupt a node running the annotated pod, subject to the documented exceptions:&lt;/p&gt;
-&lt;div class="literal-block-wrapper docutils container" id="id6"&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id4"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;opensearch-data-hot-statefulset.yaml&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;spec&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;template&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -767,7 +763,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Drift needs separate attention. When a node no longer matches its NodePool configuration, Karpenter may replace it, and for Instance Store hot nodes that means unplanned data movement and local data loss. A NodePool disruption budget set to zero for the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Drifted&lt;/span&gt;&lt;/code&gt; reason stops Karpenter from voluntarily replacing drifted nodes:&lt;/p&gt;
-&lt;div class="literal-block-wrapper docutils container" id="id7"&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id5"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;opensearch-karpenter-nodepool.yaml&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;spec&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;disruption&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -842,9 +838,8 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;hr class="docutils" /&gt;
 &lt;p&gt;&lt;strong&gt;Manual Shard Allocation&lt;/strong&gt;: Force manually shard allocation to specific Data node.&lt;/p&gt;
 &lt;p&gt;The Cluster Reroute API, &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;POST&lt;/span&gt; &lt;span class="pre"&gt;/_cluster/reroute&lt;/span&gt;&lt;/code&gt;&lt;/a&gt;, allows administrators to manually move shards between nodes, among other operations. For example, imagine that &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node1&lt;/span&gt;&lt;/code&gt; is running low on disk space while &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node2&lt;/span&gt;&lt;/code&gt; has plenty of free capacity. You can simulate moving shard &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;0&lt;/span&gt;&lt;/code&gt; of the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;logs-2026.11&lt;/span&gt;&lt;/code&gt; index from &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node1&lt;/span&gt;&lt;/code&gt; to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node2&lt;/span&gt;&lt;/code&gt; with the following request:&lt;/p&gt;
-&lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
-&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;POST /_cluster/reroute&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;POST /_cluster/reroute
+&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"commands"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"move"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -857,7 +852,6 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Shard movement is still subject to allocation deciders. For example, OpenSearch can reject the operation if the destination node does not have enough disk space or violates another allocation constraint. This API is useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.&lt;/p&gt;
 &lt;/section&gt;
@@ -967,9 +961,8 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;h2&gt;Why Logs Make Bad Metrics&lt;/h2&gt;
 &lt;p&gt;OpenSearch is really good at what it is designed for: full-text search over an inverted index. Give it millions of log lines and ask “show me every error from &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;payments&lt;/span&gt;&lt;/code&gt; mentioning &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;acme&lt;/span&gt;&lt;/code&gt; yesterday”, and it will answer fast, because the inverted index maps terms to the documents that contain them. That is a search workload, and it is the right tool.&lt;/p&gt;
 &lt;p&gt;The problem is what happens when you ask it to behave like a metrics engine. Consider the number we wanted earlier, failed payments per minute. As a log query it looks like this:&lt;/p&gt;
-&lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
-&lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;GET my-app-logs-index-*/_search&lt;/span&gt;&lt;/div&gt;
-&lt;div class="highlight-json notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET my-app-logs-index-*/_search
+&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"size"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"query"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"bool"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -990,7 +983,6 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;This works. But look at what the cluster has to do to produce one small time series:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Data not indexed&lt;/strong&gt;: The number was never stored, it is computed on every read. There is no &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;failures_per_minute&lt;/span&gt;&lt;/code&gt; value indexed anywhere. OpenSearch has to scan matching documents and build the count at query time, every single time the dashboard refreshes. The data you want was never indexed; only the raw events were.&lt;/p&gt;
@@ -1065,7 +1057,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;p&gt;The counter in the application is the right answer. But sometimes you simply cannot touch the source code. Maybe it is a legacy service nobody wants to rebuild, a closed-source component, or a third-party app that only emits logs and will never expose a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/metrics&lt;/span&gt;&lt;/code&gt; endpoint. In those cases you still need the number, and instrumenting the code is off the table.&lt;/p&gt;
 &lt;p&gt;There is a middle-ground workaround here, and it is not “count log lines in OpenSearch”. The idea is to turn the event into a metric at ingestion time, inside the log pipeline itself, before the log ever reaches the storage. Your log shipper already sees every single line as it flows through. So instead of storing fat logs and reconstructing the count later, you let the shipper match the line that denotes the event and increment a real counter right there. The log still goes to OpenSearch for investigation, and a proper metric is emitted in parallel.&lt;/p&gt;
 &lt;p&gt;Fluent Bit does this with the &lt;a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/filters/log_to_metrics"&gt;log_to_metrics&lt;/a&gt; filter. It watches the stream, matches the lines that represent the event (via regex), and emits a Prometheus metric that you expose through the &lt;a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/outputs/prometheus-exporter"&gt;prometheus_exporter&lt;/a&gt; output. Back to our failed payments, the config looks like this:&lt;/p&gt;
-&lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;fluent-bit.yaml&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;service&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;flush&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;1&lt;/span&gt;
@@ -1109,7 +1101,7 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Prometheus scrapes the exporter and you get the exact same counter you would have instrumented in the code, without touching the code:&lt;/p&gt;
-&lt;div class="literal-block-wrapper docutils container" id="id3"&gt;
+&lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;$ curl -s http://127.0.0.1:9999/metrics&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-shell notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# HELP log_metric_counter_payment_failures_total Total number of failed payment authorizations&lt;/span&gt;
 &lt;span class="c1"&gt;# TYPE log_metric_counter_payment_failures_total counter&lt;/span&gt;
@@ -2959,61 +2951,61 @@ part&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;List all indices, sorted by name:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_cat/indices?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET _cat/indices?v&amp;amp;s=index
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;List the shards composing a specific index:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;INDEX-NAME&amp;gt;/_search_shards
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET &amp;lt;INDEX-NAME&amp;gt;/_search_shards
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;Get index metadata (e.g., number of shards, replicas, creation time):&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;INDEX-NAME&amp;gt;/_settings
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET &amp;lt;INDEX-NAME&amp;gt;/_settings
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;Retrieve field types defined in the index mapping:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;INDEX-NAME&amp;gt;/_mapping
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET &amp;lt;INDEX-NAME&amp;gt;/_mapping
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;List the ISM Policy attached to an index during creation:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_plugins/ism/explain/&amp;lt;INDEX-NAME&amp;gt;?show_policy&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET _plugins/ism/explain/&amp;lt;INDEX-NAME&amp;gt;?show_policy=true
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;List shards not currently allocated to any node (status: &lt;em&gt;UNASSIGNED&lt;/em&gt;):&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;h&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index,shard,prirep,state,unassigned.reason&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET _cat/shards?v&amp;amp;h=index,shard,prirep,state,unassigned.reason&amp;amp;s=state
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;Check shard allocation across cluster nodes:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_cat/allocation?v
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET _cat/allocation?v
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;Monitor shard recovery or relocation progress:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_cat/recovery/&amp;lt;INDEX-NAME&amp;gt;?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;stage:desc
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET _cat/recovery/&amp;lt;INDEX-NAME&amp;gt;?v&amp;amp;s=stage:desc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;List all shards, sorted by index:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET _cat/shards?v&amp;amp;s=index
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;List indices, sorted by size:&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET&lt;span class="w"&gt; &lt;/span&gt;_cat/indices?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;h&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index,store.size&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;store.size:desc
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET _cat/indices?v&amp;amp;h=index,store.size&amp;amp;s=store.size:desc
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;With these commands you can efficiently get useful information about your OpenSearch clusters and streamline troubleshooting processes. If you have any questions or need further insights into OpenSearch, feel free to leave a comment below!&lt;/p&gt;

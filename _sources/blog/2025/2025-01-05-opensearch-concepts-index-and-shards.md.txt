@@ -37,61 +37,61 @@ The following commands are especially useful for troubleshooting and monitoring 
 
 - List all indices, sorted by name:
 
-```bash
+```opensearch
 GET _cat/indices?v&s=index
 ```
 
 - List the shards composing a specific index:
 
-```bash
+```opensearch
 GET <INDEX-NAME>/_search_shards
 ```
 
 - Get index metadata (e.g., number of shards, replicas, creation time):
 
-```bash
+```opensearch
 GET <INDEX-NAME>/_settings
 ```
 
 - Retrieve field types defined in the index mapping:
 
-```bash
+```opensearch
 GET <INDEX-NAME>/_mapping
 ```
 
 - List the ISM Policy attached to an index during creation:
 
-```bash
+```opensearch
 GET _plugins/ism/explain/<INDEX-NAME>?show_policy=true
 ```
 
 - List shards not currently allocated to any node (status: _UNASSIGNED_):
 
-```bash
+```opensearch
 GET _cat/shards?v&h=index,shard,prirep,state,unassigned.reason&s=state
 ```
 
 - Check shard allocation across cluster nodes:
 
-```bash
+```opensearch
 GET _cat/allocation?v
 ```
 
 - Monitor shard recovery or relocation progress:
 
-```bash
+```opensearch
 GET _cat/recovery/<INDEX-NAME>?v&s=stage:desc
 ```
 
 - List all shards, sorted by index:
 
-```bash
+```opensearch
 GET _cat/shards?v&s=index
 ```
 
 - List indices, sorted by size:
 
-```bash
+```opensearch
 GET _cat/indices?v&h=index,store.size&s=store.size:desc
 ```
 
