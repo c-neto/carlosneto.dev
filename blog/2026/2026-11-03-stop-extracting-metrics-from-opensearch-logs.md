@@ -1,7 +1,7 @@
 ---
-tags: opensearch, prometheus, fluentbit, metrics, logs, observability
+tags: opensearch, prometheus, fluent-bit, metrics
 date: "2026-11-03"
-category: opensearch
+category: Observability
 ---
 
 *__Blog Post Publish Date:__ 2026/11/03*

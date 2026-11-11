@@ -1,7 +1,7 @@
 ---
-tags: fluentbit, logs, observability
+tags: fluent-bit, logs
 date: "2025-06-19"
-category: Log Analytics
+category: Observability
 ---
 
 *__Blog Post Publish Date:__ 2025/06/19*

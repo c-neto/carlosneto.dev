@@ -1,7 +1,7 @@
 ---
 tags: python
-date: "2025-06-22"
-category: code
+date: "2025-07-28"
+category: Python
 ---
 
 *__Blog Post Publish Date:__ 2025/07/28*

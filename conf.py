@@ -101,6 +101,25 @@ html_sidebars = {
 }
 
 
+# Redirects for category and tag pages renamed by the 2026-11 taxonomy cleanup.
+# Keys and values are output paths (dirhtml), without the trailing /index.html.
+rediraffe_redirects = {
+    "blog/category/log-analytics": "blog/category/observability",
+    "blog/category/opensearch": "blog/category/observability",
+    "blog/category/code": "blog/category/python",
+    "blog/category/helm": "blog/category/kubernetes",
+    "blog/tag/fluentbit": "blog/tag/fluent-bit",
+    "blog/tag/cka": "blog/tag/certification",
+    "blog/tag/ckad": "blog/tag/certification",
+    "blog/tag/cks": "blog/tag/certification",
+    "blog/tag/linux-foundation": "blog/tag/certification",
+    "blog/tag/zle": "blog/tag/zsh",
+    "blog/tag/observability": "blog/category/observability",
+    "blog/tag/linux": "blog/category/linux",
+    "blog/tag/cloud": "blog/category/cloud",
+}
+
+
 # OpenGraph config
 ogp_site_url = "https://carlosneto.dev"
 ogp_social_cards = {

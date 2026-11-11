@@ -1,7 +1,7 @@
 ---
-tags: logstash, opensearch
+tags: logstash, opensearch, logs
 date: "2024-06-08"
-category: Log Analytics
+category: Observability
 ---
 
 *__Blog Post Publish Date:__ 2024/06/08*
