@@ -2,11 +2,224 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-11T00:24:32.393336+00:00</updated>
+  <updated>2026-11-11T23:29:52.956809+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2026/2026-11-11-opensearch-alias-filtered-by-field/</id>
+    <title>Avoiding Over-Sharding in OpenSearch with Filtered Aliases per Environment</title>
+    <updated>2026-11-11T00:00:00+00:00</updated>
+    <author>
+      <name>Carlos Neto</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/11/11&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="avoiding-over-sharding-in-opensearch-with-filtered-aliases-per-environment"&gt;
+
+&lt;p&gt;This blog post covers one of the strategies I use to avoid over-sharding in OpenSearch. Instead of per-environment indexes, I write all logs into one index series and expose each environment as a filtered alias. The rule behind it is simple: the environment is an attribute of each document, so it belongs in a field, not in the index name. The cluster keeps fewer, fuller shards and one mapping, and OpenSearch Dashboards users still get a per-environment view that behaves like a dedicated index.&lt;/p&gt;
+&lt;section id="too-many-small-shards-the-problem-with-per-environment-indexes"&gt;
+&lt;h2&gt;Too Many Small Shards: The Problem With Per-Environment Indexes&lt;/h2&gt;
+&lt;p&gt;The instinct is to give every environment its own index, and I used to do exactly that:&lt;/p&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;my-app-logs-dev
+my-app-logs-stage
+my-app-logs-sandbox
+my-app-logs-prod
+...
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;It looks tidy, but it scales badly. Every index has a footprint, even an empty one. Each &lt;a class="reference internal" href="2025/2025-01-05-opensearch-concepts-index-and-shards/"&gt;&lt;span class="std std-doc"&gt;shard&lt;/span&gt;&lt;/a&gt; is a Lucene index. It uses heap and file handles and takes up space in the cluster state. A &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;dev&lt;/span&gt;&lt;/code&gt; environment that gets a trickle of logs still gets the shard count your template sets, so a 50 MB index can end up split into several half-empty shards. Multiply that by every environment and every log type, and the cluster carries hundreds of nearly empty shards for no benefit. That is over-sharding.&lt;/p&gt;
+&lt;p&gt;Small shards also cause the problem I described in my post about &lt;a class="reference internal" href="2026/2026-11-04-opensearch-watermark/"&gt;&lt;span class="std std-doc"&gt;shard allocation and disk watermarks&lt;/span&gt;&lt;/a&gt;. The default allocator balances shards by count, not by size. In a cluster with many small, granular indexes, one node can hold dozens of tiny shards and use very little disk, while another holds a few large shards and is almost full. The shard distribution looks balanced, but disk usage tells a different story, and the disk watermarks end up doing the balancing work. Per-environment indexes are an easy way to end up there, so they are one of the first things I avoid when I design index templates.&lt;/p&gt;
+&lt;p&gt;Splitting the data also makes it harder to query. To look at all environments, or a subset of them, someone has to know which indexes exist and target them with wildcards or comma-separated lists.&lt;/p&gt;
+&lt;p&gt;The data has the same shape in every environment: the same application’s logs, coming from a different cluster. That makes the environment an attribute of each record, so I model it as a field. It looks like a minor decision, but it saves a lot of operational work later.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="how-filtered-aliases-split-one-index-by-environment"&gt;
+&lt;h2&gt;How Filtered Aliases Split One Index by Environment&lt;/h2&gt;
+&lt;p&gt;A &lt;strong&gt;filtered alias&lt;/strong&gt; is an alias with a query filter attached. According to the &lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/index-alias/"&gt;OpenSearch documentation&lt;/a&gt;, the filter applies to every search, count, and delete-by-query call that goes through the alias. For example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-app-logs-prod&lt;/span&gt;&lt;/code&gt; points at the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-app-logs&lt;/span&gt;&lt;/code&gt; indexes with a filter of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;environment:&lt;/span&gt; &lt;span class="pre"&gt;prod&lt;/span&gt;&lt;/code&gt;. A query on &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-app-logs-prod&lt;/span&gt;&lt;/code&gt; returns only production documents, even though all environments share the same indexes.&lt;/p&gt;
+&lt;img alt="Diagram of four source clusters (dev, stage, sandbox, prod) writing through the my-app-logs rollover alias into one OpenSearch index series, with four filtered aliases reading the same indexes by environment field" src="https://carlosneto.dev/_images/opensearch-filtered-aliases.svg" /&gt;
+&lt;p&gt;An alias doesn’t copy data or add shards. The cluster holds one index series and a handful of alias definitions.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="defining-the-aliases-in-an-index-template"&gt;
+&lt;h2&gt;Defining the Aliases in an Index Template&lt;/h2&gt;
+&lt;p&gt;An &lt;strong&gt;index template&lt;/strong&gt; is a set of settings, mappings, and aliases that OpenSearch applies to every new index whose name matches its pattern. The aliases belong in the &lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/index-templates/"&gt;index template&lt;/a&gt;, not in a one-off &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;_aliases&lt;/span&gt;&lt;/code&gt; call. An alias added through the API attaches only to the indexes that exist at that moment, even with a wildcard pattern. Indexes created later are not added. With the aliases in the template, every new index in the series carries them from the start:&lt;/p&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT _index_template/my-app-logs
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"index_patterns"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"my-app-logs*"&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"template"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"settings"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"index.number_of_shards"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"4"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"index.number_of_replicas"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"1"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"index.refresh_interval"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"10s"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"index.routing.allocation.require.temp"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"hot"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"plugins.index_state_management.rollover_alias"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"my-app-logs"&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"aliases"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"my-app-logs-dev"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"is_write_index"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"filter"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;"term"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;"environment"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"dev"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"my-app-logs-stage"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"is_write_index"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"filter"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;"term"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;"environment"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"stage"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"my-app-logs-sandbox"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"is_write_index"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"filter"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;"term"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;"environment"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"sandbox"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"my-app-logs-prod"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"is_write_index"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"filter"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;"term"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;"environment"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"prod"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"composed_of"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s2"&gt;"settings-default"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s2"&gt;"default-mappings"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s2"&gt;"kubernetes-mappings"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s2"&gt;"my-app-logs-mappings"&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Each environment alias pairs &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;is_write_index:&lt;/span&gt; &lt;span class="pre"&gt;false&lt;/span&gt;&lt;/code&gt; with a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;term&lt;/span&gt;&lt;/code&gt; filter. The aliases are read-only views, and nothing writes through them. &lt;a class="reference external" href="https://docs.opensearch.org/latest/query-dsl/term/term/"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;term&lt;/span&gt;&lt;/code&gt;&lt;/a&gt; is an exact-match query, so &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-app-logs-prod&lt;/span&gt;&lt;/code&gt; resolves to the documents whose &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;environment&lt;/span&gt;&lt;/code&gt; is exactly &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;prod&lt;/span&gt;&lt;/code&gt;. For that to work, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;environment&lt;/span&gt;&lt;/code&gt; must be mapped as a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;keyword&lt;/span&gt;&lt;/code&gt; field in one of the component templates. On an analyzed &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;text&lt;/span&gt;&lt;/code&gt; field, a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;term&lt;/span&gt;&lt;/code&gt; filter can silently miss documents.&lt;/p&gt;
+&lt;p&gt;The shared settings and mappings come from the component templates listed in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;composed_of&lt;/span&gt;&lt;/code&gt;. Because every environment writes into the same indexes, they all get the same field mappings. Two environments can no longer drift apart, which is a common problem when each one has its own index.&lt;/p&gt;
+&lt;p&gt;Writes go through a single rollover alias, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-app-logs&lt;/span&gt;&lt;/code&gt;. A &lt;strong&gt;rollover alias&lt;/strong&gt; is the alias that ISM moves to a new index each time the current one gets too big or too old. Here it is set in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;plugins.index_state_management.rollover_alias&lt;/span&gt;&lt;/code&gt; and managed by an &lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/ism/policies/"&gt;ISM policy&lt;/a&gt;. Create the first index with that alias as the write index, as you would for any rollover setup:&lt;/p&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT my-app-logs-000001
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"aliases"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"my-app-logs"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"is_write_index"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The log shipper in each environment’s cluster writes to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-app-logs&lt;/span&gt;&lt;/code&gt; and sets the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;environment&lt;/span&gt;&lt;/code&gt; field from the cluster it runs in. ISM rolls the series over by size or age (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-app-logs-000001&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-app-logs-000002&lt;/span&gt;&lt;/code&gt;, …). Because the environment aliases live in the template, each new index starts with all of them attached.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="per-environment-views-in-opensearch-dashboards"&gt;
+&lt;h2&gt;Per-Environment Views in OpenSearch Dashboards&lt;/h2&gt;
+&lt;p&gt;The people reading the logs benefit the most from this pattern. In Dashboards, create one index pattern per environment alias. &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-app-logs-prod&lt;/span&gt;&lt;/code&gt; shows only production logs, and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-app-logs-stage&lt;/span&gt;&lt;/code&gt; shows only staging. An index pattern of &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-app-logs*&lt;/span&gt;&lt;/code&gt; shows every environment in one place.&lt;/p&gt;
+&lt;p&gt;To an analyst, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-app-logs-prod&lt;/span&gt;&lt;/code&gt; looks and behaves like a dedicated production index, with the same fields and search experience, scoped to production. They don’t need to know it is a filtered view. Cross-environment questions such as “show me this error in stage and production” are easy to answer because the data was never split up.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="per-environment-indexes-vs-filtered-aliases"&gt;
+&lt;h2&gt;Per-Environment Indexes vs. Filtered Aliases&lt;/h2&gt;
+&lt;div class="pst-scrollable-table-container"&gt;&lt;table class="table"&gt;
+&lt;thead&gt;
+&lt;tr class="row-odd"&gt;&lt;th class="head"&gt;&lt;p&gt;Concern&lt;/p&gt;&lt;/th&gt;
+&lt;th class="head"&gt;&lt;p&gt;Per-environment indexes&lt;/p&gt;&lt;/th&gt;
+&lt;th class="head"&gt;&lt;p&gt;Unified index + filtered aliases&lt;/p&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Shard and cluster-state footprint&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;One or more shards per environment, even tiny ones&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;One index’s shards, shared by all environments&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Small environments&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Under-filled shards wasting heap and disk&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;No dedicated footprint, just an alias&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Cross-environment queries&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Wildcards or comma lists across many indexes&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;One index series, optionally filtered&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Per-environment view&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Natural&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Preserved through the filtered alias&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Mapping consistency&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Can drift between environments&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;One shared mapping&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Rollover and ISM&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;One rollover series per environment&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;One rollover series&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="when-to-use-separate-indexes-anyway"&gt;
+&lt;h2&gt;When to Use Separate Indexes Anyway&lt;/h2&gt;
+&lt;p&gt;A filtered alias is a read convenience over shared storage. When environments need real physical separation, use separate indexes:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Hard isolation and access control&lt;/strong&gt;. If production and dev must live on different storage tiers, or a user must never be able to touch production shards, an alias filter is not a security boundary. Anyone allowed to read the underlying indexes can query them directly and skip the filter. If you only need to restrict which documents a role can read, the Security plugin’s &lt;a class="reference external" href="https://docs.opensearch.org/latest/security/access-control/document-level-security/"&gt;document-level security&lt;/a&gt; does that on a shared index.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Very different retention or sizing&lt;/strong&gt;. Say production needs 180 days of retention on large shards and dev needs 2 days on small ones. Separate index series with their own ISM policies are cleaner than one policy for everything.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Very different volume&lt;/strong&gt;. If one environment produces far more data than the others and needs a different shard layout, splitting it out can be justified.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The common case is the same log type coming from several environments with similar retention and mappings. For that, I use this pattern almost by default: one index series, one mapping, one rollover alias, and as many per-environment views as you need.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="key-takeaways"&gt;
+&lt;h2&gt;Key Takeaways&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Model the environment as a field. Every environment’s logs have the same shape, so they belong in the same index series.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;One index per environment multiplies under-filled shards, and each one costs heap, file handles, and cluster state even when it holds almost no data.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Fewer, fuller shards keep count-based shard balancing closer to real disk usage, so the disk watermarks have less to correct.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;A filtered alias doesn’t copy data. Searches, counts, and delete-by-query through the alias only see documents that match its filter.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Define the environment aliases in the index template. Aliases added with the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;_aliases&lt;/span&gt;&lt;/code&gt; API do not attach to indexes that rollover creates later.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Map &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;environment&lt;/span&gt;&lt;/code&gt; as a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;keyword&lt;/span&gt;&lt;/code&gt; field so the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;term&lt;/span&gt;&lt;/code&gt; filter matches exactly.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Write through a single rollover alias managed by ISM, and keep the environment aliases read-only with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;is_write_index:&lt;/span&gt; &lt;span class="pre"&gt;false&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;An alias filter is not a security boundary. Use document-level security to restrict reads, and separate indexes when an environment needs physical isolation, different retention, or a different shard layout.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;section id="references"&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/index-alias/"&gt;Index aliases (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/index-templates/"&gt;Index templates (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/query-dsl/term/term/"&gt;Term query (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/ism/policies/"&gt;ISM policies (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/security/access-control/document-level-security/"&gt;Document-level security (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Avoiding Over-Sharding in OpenSearch with Filtered Aliases per Environment",
+      "description": "Store logs from every environment in one OpenSearch index series and expose each environment as a filtered alias defined in the index template, instead of creating one index per environment.",
+      "datePublished": "2026-11-11",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-11-11-opensearch-alias-filtered-by-field/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-11-opensearch-alias-filtered-by-field/",
+      "image": "https://carlosneto.dev/_static/2026/2026-11-11/opensearch-filtered-aliases.svg",
+      "keywords": ["OpenSearch", "index alias", "filtered alias", "index template", "ISM"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Avoiding Over-Sharding in OpenSearch with Filtered Aliases per Environment"}
+      ]
+    }
+  ]
+}
+&lt;/script&gt;&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2026/2026-11-11-opensearch-alias-filtered-by-field/"/>
+    <summary>Blog Post Publish Date: 2026/11/11This blog post covers one of the strategies I use to avoid over-sharding in OpenSearch. Instead of per-environment indexes, I write all logs into one index series and expose each environment as a filtered alias. The rule behind it is simple: the environment is an attribute of each document, so it belongs in a field, not in the index name. The cluster keeps fewer, fuller shards and one mapping, and OpenSearch Dashboards users still get a per-environment view that behaves like a dedicated index.</summary>
+    <category term="index-alias" label="index-alias"/>
+    <category term="index-template" label="index-template"/>
+    <category term="ism" label="ism"/>
+    <category term="logs" label="logs"/>
+    <category term="observability" label="observability"/>
+    <category term="opensearch" label="opensearch"/>
+    <published>2026-11-11T00:00:00+00:00</published>
+  </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down/</id>
     <title>Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data</title>
