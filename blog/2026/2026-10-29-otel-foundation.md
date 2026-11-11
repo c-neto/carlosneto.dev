@@ -1,7 +1,7 @@
 ---
-tags: opentelemetry, observability
+tags: opentelemetry
 date: "2026-10-29"
-category: observability
+category: Observability
 ---
 
 *__Blog Post Publish Date:__ 2026/10/29*

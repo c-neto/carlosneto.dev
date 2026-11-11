@@ -343,6 +343,43 @@ After the article, provide a brief summary of the most relevant editorial change
 
 Do not provide a lengthy explanation of every sentence-level change unless requested.
 
+## Frontmatter, category, and tags
+
+Every post in `blog/<YEAR>/` follows the same taxonomy. Check it whenever you create or refactor a post.
+
+### Category
+
+Use exactly one category, written exactly as one of these values:
+
+| Category | Scope |
+| --- | --- |
+| `Observability` | Logs, metrics, traces, OpenSearch, Logstash, Fluent Bit, OpenTelemetry |
+| `Kubernetes` | Kubernetes, Helm, CNCF certifications |
+| `Linux` | Shell, terminal, systemd, CLI tools |
+| `Python` | The language and its libraries |
+| `Cloud` | Cloud concepts and providers |
+
+Do not create a new category without the author's approval. When a post fits two categories, pick the one that matches its main subject.
+
+### Tags
+
+- Write tags in lowercase kebab-case, based on the official name of the tool (`fluent-bit`, `opentelemetry`).
+- Use 1 to 4 tags. Put the main technology first.
+- Do not repeat the category as a tag. For example, an `Observability` post never gets an `observability` tag.
+- Reuse the vocabulary below. Add a new tag only when it will group at least two posts. Keep narrow concepts in the text, not in tags.
+  - Tools: `opensearch`, `logstash`, `fluent-bit`, `opentelemetry`, `prometheus`, `kubernetes`, `helm`, `aws`, `gcp`, `azure`, `python`, `dynaconf`, `bash`, `zsh`, `readline`, `starship`, `fzf`, `vim`, `systemd`
+  - Subjects: `logs`, `metrics`, `sharding`, `terminal`, `certification`
+
+Format: `tags: opensearch, sharding, logs` (a comma-separated string).
+
+### Other fields
+
+- `date` must be quoted (`date: "YYYY-MM-DD"`) and match the visible "Blog Post Publish Date" line.
+- New posts also set `author`, `title`, `description`, `myst.html_meta.description`, `og:title`, and `og:description`. Use `blog/2026/2026-11-10-opensearch-scale-down.md` as the model.
+- Quote any value that contains `: ` (for example, a title with a colon). Without quotes, MyST drops the whole frontmatter and logs only a "Malformed YAML" warning.
+- Never set an `image` key. ABlog reads it as the number of images in the excerpt.
+- When you rename or remove a category or tag that was already published, add a redirect to `rediraffe_redirects` in `conf.py`.
+
 ## Interaction guidelines
 
 - If the user provides the complete article, begin the review without asking unnecessary questions.

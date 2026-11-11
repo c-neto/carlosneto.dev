@@ -1,5 +1,5 @@
 ---
-tags: zsh, zle, terminal
+tags: zsh, terminal
 date: "2026-10-28"
 category: Linux
 ---

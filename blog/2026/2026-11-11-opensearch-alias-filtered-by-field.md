@@ -1,7 +1,7 @@
 ---
-tags: opensearch, index-alias, index-template, ism, logs, observability
+tags: opensearch, sharding, logs
 date: "2026-11-11"
-category: Log Analytics
+category: Observability
 author: Carlos Neto
 title: "Avoiding Over-Sharding in OpenSearch with Filtered Aliases per Environment"
 description: Store logs from every environment in one OpenSearch index series and expose each environment as a filtered alias defined in the index template, instead of creating one index per environment.

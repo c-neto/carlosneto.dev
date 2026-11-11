@@ -1,7 +1,7 @@
 ---
-tags: opensearch
+tags: opensearch, sharding
 date: "2025-01-05"
-category: Log Analytics
+category: Observability
 ---
 
 *__Blog Post Publish Date:__ 2025/01/05*

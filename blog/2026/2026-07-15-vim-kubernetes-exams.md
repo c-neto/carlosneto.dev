@@ -1,7 +1,7 @@
 ---
-tags: cks, cka, ckad, linux-foundation, kubernetes
+tags: kubernetes, certification, vim
 date: "2026-07-15"
-category: kubernetes
+category: Kubernetes
 ---
 
 *__Blog Post Publish Date:__ 2026/07/15*

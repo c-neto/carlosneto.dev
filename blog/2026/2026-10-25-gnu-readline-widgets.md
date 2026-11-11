@@ -1,5 +1,5 @@
 ---
-tags: bash, linux, terminal
+tags: bash, readline, terminal
 date: "2026-10-25"
 category: Linux
 ---

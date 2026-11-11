@@ -1,7 +1,7 @@
 ---
-tags: opensearch
+tags: opensearch, kubernetes, sharding
 date: "2026-11-10"
-category: OpenSearch
+category: Observability
 author: Carlos Neto
 title: Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data
 description: How to drain, scale down, and resize OpenSearch data nodes on Kubernetes without losing data, including Blue/Green migrations for EC2 Instance Store.
