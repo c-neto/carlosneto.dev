@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-10T23:57:49.582794+00:00</updated>
+  <updated>2026-11-11T00:01:03.888488+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -40,63 +40,39 @@
 &lt;section id="what-to-watch-during-a-migration"&gt;
 &lt;h2&gt;What to Watch During a Migration&lt;/h2&gt;
 &lt;p&gt;Monitoring is essential during shard migrations, especially when increasing recovery concurrency or bandwidth limits. I use the following APIs to track shard relocation progress, identify allocation issues, and watch resource consumption across the cluster:&lt;/p&gt;
-&lt;div class="pst-scrollable-table-container"&gt;&lt;table class="table"&gt;
-&lt;thead&gt;
-&lt;tr class="row-odd"&gt;&lt;th class="head"&gt;&lt;p&gt;What it shows&lt;/p&gt;&lt;/th&gt;
-&lt;th class="head"&gt;&lt;p&gt;API call&lt;/p&gt;&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;All shards, sorted by state&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/shards?v&amp;amp;s=state&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Shards grouped by index&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/shards?v&amp;amp;s=index&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Shards grouped by node&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/shards?v&amp;amp;s=node&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Compact view: index, shard, primary/replica, state, node&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/shards?v&amp;amp;h=index,shard,prirep,state,node&amp;amp;s=index&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Ongoing recoveries with details&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/recovery?active_only=true&amp;amp;detailed=true&amp;amp;bytes=gb&amp;amp;v&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Recovery history, including completed ones&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/recovery?v&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Overall cluster health&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cluster/health&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Wait for relocations and initializations to finish&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cluster/health?wait_for_no_relocating_shards=true&amp;amp;wait_for_no_initializing_shards=true&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Pending cluster tasks&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/pending_tasks?v&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Active cluster tasks&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/tasks?v&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Why a shard is unassigned or cannot be allocated&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cluster/allocation/explain&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Node list and resource information&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/nodes?v&amp;amp;s=name&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Disk usage and shard count per node&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_cat/allocation?v&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Filesystem and JVM statistics&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_nodes/stats/fs,jvm&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Operating system and thread pool statistics&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_nodes/stats/os,thread_pool&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Network transport statistics&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;/_nodes/stats/transport&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+&lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# All shards, sorted by state &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
+&lt;span class="c1"&gt;# Shards grouped by index &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index
+&lt;span class="c1"&gt;# Shards grouped by node &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
+&lt;span class="c1"&gt;# Compact view: index, shard, primary/replica, state, node &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;h&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index,shard,prirep,state,node&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;index
+&lt;span class="c1"&gt;# Ongoing recoveries with details &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/recovery?active_only&lt;span class="o"&gt;=&lt;/span&gt;true&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;detailed&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;true&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;bytes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;gb&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;v
+&lt;span class="c1"&gt;# Recovery history, including completed ones &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/recovery?v
+&lt;span class="c1"&gt;# Overall cluster health &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cluster/health
+&lt;span class="c1"&gt;# Wait for relocations and initializations to finish &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cluster/health?wait_for_no_relocating_shards&lt;span class="o"&gt;=&lt;/span&gt;true&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;wait_for_no_initializing_shards&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;
+&lt;span class="c1"&gt;# Pending cluster tasks &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/pending_tasks?v
+&lt;span class="c1"&gt;# Active cluster tasks &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/tasks?v
+&lt;span class="c1"&gt;# Why a shard is unassigned or cannot be allocated &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cluster/allocation/explain
+&lt;span class="c1"&gt;# Node list and resource information &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/nodes?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;name
+&lt;span class="c1"&gt;# Disk usage and shard count per node &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_cat/allocation?v
+&lt;span class="c1"&gt;# Filesystem and JVM statistics &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/fs,jvm
+&lt;span class="c1"&gt;# Operating system and thread pool statistics &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/os,thread_pool
+&lt;span class="c1"&gt;# Network transport statistics &lt;/span&gt;
+GET&lt;span class="w"&gt; &lt;/span&gt;/_nodes/stats/transport
+&lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;The &lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/"&gt;Cluster Allocation Explain API&lt;/a&gt; can also investigate a specific shard:&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id1"&gt;
@@ -209,13 +185,10 @@
 &lt;p&gt;OpenSearch now moves all primary and replica shards off the excluded nodes. Monitor progress with:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# look for `RELOCATING` or `UNASSIGNED` shards.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
-
 &lt;span class="c1"&gt;# verify the excluded nodes are draining.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
-
 &lt;span class="c1"&gt;# watch the recovery and relocation tasks.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/tasks
-
 &lt;span class="c1"&gt;# wait for green.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/pre&gt;&lt;/div&gt;
@@ -295,13 +268,10 @@ GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;p&gt;Monitor the migration closely:&lt;/p&gt;
 &lt;div class="highlight-bash notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# look for `RELOCATING` or `UNASSIGNED` shards.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;state
-
 &lt;span class="c1"&gt;# verify the blue nodes are draining.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/shards?v&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;s&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;node
-
 &lt;span class="c1"&gt;# watch the recovery and relocation tasks.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cat/tasks
-
 &lt;span class="c1"&gt;# wait for green.&lt;/span&gt;
 GET&lt;span class="w"&gt; &lt;/span&gt;_cluster/health
 &lt;/pre&gt;&lt;/div&gt;
