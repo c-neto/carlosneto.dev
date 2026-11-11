@@ -1,7 +1,7 @@
 ---
-tags: fluentbit, logs, observability
+tags: kubernetes, fluent-bit, logs
 date: "2025-06-22"
-category: Log Analytics
+category: Observability
 ---
 
 *__Blog Post Publish Date:__ 2025/06/22*

@@ -1,7 +1,7 @@
 ---
-tags: python
+tags: helm
 date: "2026-02-25"
-category: helm
+category: Kubernetes
 ---
 
 *__Blog Post Publish Date:__ 2026/02/25*

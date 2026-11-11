@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Posts in observability &#8212; Carlos Neto&#39;s Blog</title>
+    <title>Posts in Observability &#8212; Carlos Neto&#39;s Blog</title>
   
   
   
@@ -67,7 +67,7 @@
   rel="alternate"
   type="application/atom+xml"
   href="../../../blog/atom.xml"
-  title="Posts in observability"
+  title="Posts in Observability"
 />
   
   </head>
@@ -365,7 +365,7 @@
     </li>
       
     <li>
-      <a href="../kubernetes/">Kubernetes (1)</a>
+      <a href="../kubernetes/">Kubernetes (4)</a>
     </li>
       
     <li>
@@ -373,35 +373,11 @@
     </li>
       
     <li>
-      <a href="../log-analytics/">Log Analytics (9)</a>
+      <a href="#">Observability (12)</a>
     </li>
       
     <li>
-      <a href="../opensearch/">OpenSearch (1)</a>
-    </li>
-      
-    <li>
-      <a href="../code/">code (1)</a>
-    </li>
-      
-    <li>
-      <a href="../helm/">helm (1)</a>
-    </li>
-      
-    <li>
-      <a href="../kubernetes/">kubernetes (2)</a>
-    </li>
-      
-    <li>
-      <a href="#">observability (1)</a>
-    </li>
-      
-    <li>
-      <a href="../opensearch/">opensearch (1)</a>
-    </li>
-      
-    <li>
-      <a href="../python/">python (1)</a>
+      <a href="../python/">Python (2)</a>
     </li>
      
   </ul>
@@ -441,10 +417,292 @@
   <h1>
     
     <span
-      >Posts in  observability 
+      >Posts in  Observability 
     </span>
   </h1>
    
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-11-11-opensearch-alias-filtered-by-field/">Avoiding Over-Sharding in OpenSearch with Filtered Aliases per Environment</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>11 November 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="#">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/opensearch/">opensearch</a>
+        
+    <a href="../../tag/sharding/">sharding</a>
+        
+    <a href="../../tag/logs/">logs</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/11</em></p>
+<p>This blog post covers one of the strategies I use to avoid over-sharding in OpenSearch. Instead of per-environment indexes, I write all logs into one index series and expose each environment as a filtered alias. The rule behind it is simple: the environment is an attribute of each document, so it belongs in a field, not in the index name. The cluster keeps fewer, fuller shards and one mapping, and OpenSearch Dashboards users still get a per-environment view that behaves like a dedicated index.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-11-11-opensearch-alias-filtered-by-field/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-11-10-opensearch-scale-down/">Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>10 November 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="#">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/opensearch/">opensearch</a>
+        
+    <a href="../../tag/kubernetes/">kubernetes</a>
+        
+    <a href="../../tag/sharding/">sharding</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/10</em></p>
+<p>This blog post covers the patterns and API calls I use to scale down and resize OpenSearch data nodes without losing data. The rule behind all of them is simple: the data on a node you remove has to end up somewhere else first. If you take nodes away faster than the cluster can relocate their shards, you lose data.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-11-10-opensearch-scale-down/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-11-08-opensearch-hot-instance-store/">OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>08 November 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+      
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="#">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/opensearch/">opensearch</a>
+        
+    <a href="../../tag/aws/">aws</a>
+        
+    <a href="../../tag/kubernetes/">kubernetes</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/08</em></p>
+<p>This blog post covers running the OpenSearch Hot Data Tier on EC2 Instance Store (local NVMe) instead of EBS: why it performs better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-11-08-opensearch-hot-instance-store/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-11-04-opensearch-watermark/">OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>04 November 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+      
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="#">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/opensearch/">opensearch</a>
+        
+    <a href="../../tag/sharding/">sharding</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/04</em></p>
+<p>This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage in clusters with many small indices, and how disk watermarks help address that. I’ll also discuss other allocation mechanisms and a limitation in the watermark design: it’s a cluster-wide setting, even in clusters with different storage tiers.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-11-04-opensearch-watermark/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/">Stop Extracting Metrics from OpenSearch Logs</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>03 November 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+      
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="#">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/opensearch/">opensearch</a>
+        
+    <a href="../../tag/prometheus/">prometheus</a>
+        
+    <a href="../../tag/fluent-bit/">fluent-bit</a>
+        
+    <a href="../../tag/metrics/">metrics</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/03</em></p>
+<p>This blog post explains why logs and metrics are fundamentally different kinds of data, why counting log lines to produce a metric does not scale, and how the same number captured as a real metric is dramatically cheaper and faster. It also shows a pragmatic workaround using Fluent Bit to expose metrics in log ingetion step for when you cannot instrumentalize metrics into the application.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
       <a href="../../2026/2026-10-29-otel-foundation/">OpenTelemetry: A Framework to Decoupling Your Observability</a>
@@ -466,20 +724,18 @@
       
     </span>
      
-    <a href="#">observability</a>
+    <a href="#">Observability</a>
       
   </li>
    
   <li id="ablog-sidebar-item tags ablog__tags">
     <span>
        
-      <i class="fa-fw fa fa-tags"></i>
-       
+      <i class="fa-fw fa fa-tag"></i>
+      
     </span>
      
     <a href="../../tag/opentelemetry/">opentelemetry</a>
-        
-    <a href="../../tag/observability/">observability</a>
       
   </li>
    
@@ -491,6 +747,310 @@
 
     <p class="ablog-post-expand">
       <a href="../../2026/2026-10-29-otel-foundation/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2025/2025-06-22-kubernetes-logs-simplified/">Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>22 June 2025</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+      
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="#">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/kubernetes/">kubernetes</a>
+        
+    <a href="../../tag/fluent-bit/">fluent-bit</a>
+        
+    <a href="../../tag/logs/">logs</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/06/22</em></p>
+<p>Have you ever wondered how <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex, but understanding it is key to troubleshooting and monitoring. This blog post outlines how Kubernetes organizes logs, how to send them to external systems, and tips to manage log growth effectively.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2025/2025-06-22-kubernetes-logs-simplified/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2025/2025-06-19-fluentbit-log-dedup/">Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>19 June 2025</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+      
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="#">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/fluent-bit/">fluent-bit</a>
+        
+    <a href="../../tag/logs/">logs</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/06/19</em></p>
+<p>This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to create SHA-256 hashes for effective deduplication without relying on external scripts or plugins.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2025/2025-06-19-fluentbit-log-dedup/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2025/2025-02-16-logstash-db-enrichment/">Logstash DB Enrichment - Tips and Traps!</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>16 February 2025</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+      
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="#">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/logstash/">logstash</a>
+        
+    <a href="../../tag/logs/">logs</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/02/16</em></p>
+<p>In this blog post, I share my experiences with Logstash log enrichment using a database. I’ll cover some hidden behaviors and the importance of configuring the JDBC connection string parameters to avoid mysterious problems that are hard to replicate and not clearly documented. These tips come from real-world scenarios and aren’t always obvious in the official documentation. I hope they help you save hours of troubleshooting and searching through forums.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2025/2025-02-16-logstash-db-enrichment/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/">OpenSearch Concepts - Index and Shards</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>05 January 2025</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+      
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="#">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/opensearch/">opensearch</a>
+        
+    <a href="../../tag/sharding/">sharding</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/01/05</em></p>
+<p>OpenSearch is a powerful platform, but having a solid understanding of its basic concepts is essential for a seamless experience with the stack. In this blog post, we’ll cover one of the most fundamental aspects of OpenSearch administration: <strong>Indices and Shards</strong>.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2024/2024-06-08-logstash-sniffing/">Logstash Sniffing: Improving Log Ingestion in OpenSearch Scalable Clusters</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>08 June 2024</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+      
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="#">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/logstash/">logstash</a>
+        
+    <a href="../../tag/opensearch/">opensearch</a>
+        
+    <a href="../../tag/logs/">logs</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2024/06/08</em></p>
+<p>This blog post outlines an optimize log ingestion in OpenSearch using Logstash. It will address a common issue related to shipping logs to scalable OpenSearch clusters and provide an effective solution to enhance resource utilization.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2024/2024-06-08-logstash-sniffing/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2023/2023-11-02-logstash-modular-pipelines/">Logstash Modular Pipelines: An Elegant Structure for Code Reusability and Duplication Avoiding</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>12 November 2023</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+      
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="#">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/logstash/">logstash</a>
+        
+    <a href="../../tag/logs/">logs</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/11/12</em></p>
+<p>This blog post explores a Logstash pipelines structure to mitigate code duplicated and presents an elegant method for reusing code section across multiple pipelines.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2023/2023-11-02-logstash-modular-pipelines/"><em>Read more ...</em></a>
     </p>
     <hr />
   </div>

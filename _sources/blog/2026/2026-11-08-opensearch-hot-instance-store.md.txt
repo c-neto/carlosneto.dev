@@ -1,7 +1,7 @@
 ---
 tags: opensearch, aws, kubernetes
 date: "2026-11-08"
-category: Log Analytics
+category: Observability
 ---
 
 *__Blog Post Publish Date:__ 2026/11/08*

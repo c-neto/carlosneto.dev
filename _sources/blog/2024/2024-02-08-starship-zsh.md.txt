@@ -1,5 +1,5 @@
 ---
-tags: zsh
+tags: zsh, starship, terminal
 date: "2024-02-08"
 category: Linux
 ---

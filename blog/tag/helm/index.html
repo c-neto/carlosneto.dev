@@ -376,19 +376,7 @@
     </li>
       
     <li class="ablog-cloud ablog-cloud-1">
-      <a href="../cka/">cka</a>
-    </li>
-      
-    <li class="ablog-cloud ablog-cloud-1">
-      <a href="../ckad/">ckad</a>
-    </li>
-      
-    <li class="ablog-cloud ablog-cloud-1">
-      <a href="../cks/">cks</a>
-    </li>
-      
-    <li class="ablog-cloud ablog-cloud-1">
-      <a href="../cloud/">cloud</a>
+      <a href="../certification/">certification</a>
     </li>
       
     <li class="ablog-cloud ablog-cloud-1">
@@ -396,7 +384,7 @@
     </li>
       
     <li class="ablog-cloud ablog-cloud-2">
-      <a href="../fluentbit/">fluentbit</a>
+      <a href="../fluent-bit/">fluent-bit</a>
     </li>
       
     <li class="ablog-cloud ablog-cloud-1">
@@ -411,31 +399,11 @@
       <a href="#">helm</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-1">
-      <a href="../index-alias/">index-alias</a>
-    </li>
-      
-    <li class="ablog-cloud ablog-cloud-1">
-      <a href="../index-template/">index-template</a>
-    </li>
-      
-    <li class="ablog-cloud ablog-cloud-1">
-      <a href="../ism/">ism</a>
-    </li>
-      
-    <li class="ablog-cloud ablog-cloud-2">
+    <li class="ablog-cloud ablog-cloud-3">
       <a href="../kubernetes/">kubernetes</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-1">
-      <a href="../linux/">linux</a>
-    </li>
-      
-    <li class="ablog-cloud ablog-cloud-1">
-      <a href="../linux-foundation/">linux-foundation</a>
-    </li>
-      
-    <li class="ablog-cloud ablog-cloud-3">
+    <li class="ablog-cloud ablog-cloud-4">
       <a href="../logs/">logs</a>
     </li>
       
@@ -445,10 +413,6 @@
       
     <li class="ablog-cloud ablog-cloud-1">
       <a href="../metrics/">metrics</a>
-    </li>
-      
-    <li class="ablog-cloud ablog-cloud-3">
-      <a href="../observability/">observability</a>
     </li>
       
     <li class="ablog-cloud ablog-cloud-5">
@@ -463,20 +427,32 @@
       <a href="../prometheus/">prometheus</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-2">
+    <li class="ablog-cloud ablog-cloud-1">
       <a href="../python/">python</a>
+    </li>
+      
+    <li class="ablog-cloud ablog-cloud-1">
+      <a href="../readline/">readline</a>
+    </li>
+      
+    <li class="ablog-cloud ablog-cloud-3">
+      <a href="../sharding/">sharding</a>
+    </li>
+      
+    <li class="ablog-cloud ablog-cloud-1">
+      <a href="../starship/">starship</a>
     </li>
       
     <li class="ablog-cloud ablog-cloud-1">
       <a href="../systemd/">systemd</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-2">
+    <li class="ablog-cloud ablog-cloud-4">
       <a href="../terminal/">terminal</a>
     </li>
       
     <li class="ablog-cloud ablog-cloud-1">
-      <a href="../zle/">zle</a>
+      <a href="../vim/">vim</a>
     </li>
       
     <li class="ablog-cloud ablog-cloud-2">
@@ -524,6 +500,54 @@
     </span>
   </h1>
    
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-02-25-helm-tips-inspect-context/">Helm Tips: Inspect Your Chart Context with JSON</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>25 February 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+      
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/kubernetes/">Kubernetes</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tag"></i>
+      
+    </span>
+     
+    <a href="#">helm</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/02/25</em></p>
+<p>Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother development experience. It is common to face issues when you create a template that tries to access a parameter defined in the <code class="docutils literal notranslate"><span class="pre">.Values</span></code> files, and for any reason, whether a syntax error or typo, the <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">helm</span> <span class="pre">template</span></code> command fails, and the stack trace shows confusing messages that don’t point to the root cause. This blog post provides an alternative approach to inspect the Helm Chart context with JSON, helping you understand how to access chart properties for use in your templates.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-02-25-helm-tips-inspect-context/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
       <a href="../../2025/2025-02-25-helm-best-practices/">Helm Charts: Development Practices from a Programmer’s Perspective</a>

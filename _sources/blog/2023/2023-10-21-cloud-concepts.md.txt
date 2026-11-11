@@ -1,5 +1,5 @@
 ---
-tags: aws, gcp, azure, cloud
+tags: aws, gcp, azure
 date: "2023-10-21"
 category: Cloud
 ---

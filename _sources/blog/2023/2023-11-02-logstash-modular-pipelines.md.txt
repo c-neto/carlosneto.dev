@@ -1,7 +1,7 @@
 ---
-tags: logstash
+tags: logstash, logs
 date: "2023-11-12"
-category: Log Analytics
+category: Observability
 ---
 
 *__Blog Post Publish Date:__ 2023/11/12*
