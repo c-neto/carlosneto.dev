@@ -432,34 +432,49 @@
 <p>Monitoring is essential during shard migrations, especially when increasing recovery concurrency or bandwidth limits. I use the following APIs to track shard relocation progress, identify allocation issues, and watch resource consumption across the cluster:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># All shards, sorted by state </span>
 GET<span class="w"> </span>/_cat/shards?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>state
+
 <span class="c1"># Shards grouped by index </span>
 GET<span class="w"> </span>/_cat/shards?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>index
+
 <span class="c1"># Shards grouped by node </span>
 GET<span class="w"> </span>/_cat/shards?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>node
+
 <span class="c1"># Compact view: index, shard, primary/replica, state, node </span>
 GET<span class="w"> </span>/_cat/shards?v<span class="p">&amp;</span><span class="nv">h</span><span class="o">=</span>index,shard,prirep,state,node<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>index
+
 <span class="c1"># Ongoing recoveries with details </span>
 GET<span class="w"> </span>/_cat/recovery?active_only<span class="o">=</span>true<span class="p">&amp;</span><span class="nv">detailed</span><span class="o">=</span>true<span class="p">&amp;</span><span class="nv">bytes</span><span class="o">=</span>gb<span class="p">&amp;</span>v
+
 <span class="c1"># Recovery history, including completed ones </span>
 GET<span class="w"> </span>/_cat/recovery?v
+
 <span class="c1"># Overall cluster health </span>
 GET<span class="w"> </span>/_cluster/health
+
 <span class="c1"># Wait for relocations and initializations to finish </span>
 GET<span class="w"> </span>/_cluster/health?wait_for_no_relocating_shards<span class="o">=</span>true<span class="p">&amp;</span><span class="nv">wait_for_no_initializing_shards</span><span class="o">=</span><span class="nb">true</span>
+
 <span class="c1"># Pending cluster tasks </span>
 GET<span class="w"> </span>/_cat/pending_tasks?v
+
 <span class="c1"># Active cluster tasks </span>
 GET<span class="w"> </span>/_cat/tasks?v
+
 <span class="c1"># Why a shard is unassigned or cannot be allocated </span>
 GET<span class="w"> </span>/_cluster/allocation/explain
+
 <span class="c1"># Node list and resource information </span>
 GET<span class="w"> </span>/_cat/nodes?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>name
+
 <span class="c1"># Disk usage and shard count per node </span>
 GET<span class="w"> </span>/_cat/allocation?v
+
 <span class="c1"># Filesystem and JVM statistics </span>
 GET<span class="w"> </span>/_nodes/stats/fs,jvm
+
 <span class="c1"># Operating system and thread pool statistics </span>
 GET<span class="w"> </span>/_nodes/stats/os,thread_pool
+
 <span class="c1"># Network transport statistics </span>
 GET<span class="w"> </span>/_nodes/stats/transport
 </pre></div>
@@ -576,10 +591,13 @@ GET<span class="w"> </span>/_nodes/stats/transport
 <p>OpenSearch now moves all primary and replica shards off the excluded nodes. Monitor progress with:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># look for `RELOCATING` or `UNASSIGNED` shards.</span>
 GET<span class="w"> </span>_cat/shards?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>state
+
 <span class="c1"># verify the excluded nodes are draining.</span>
 GET<span class="w"> </span>_cat/shards?v<span class="p">&amp;</span><span class="nv">s</span><span class="o">=</span>node
+
 <span class="c1"># watch the recovery and relocation tasks.</span>
 GET<span class="w"> </span>_cat/tasks
+
 <span class="c1"># wait for green.</span>
 GET<span class="w"> </span>_cluster/health
 </pre></div>
