@@ -359,3 +359,8 @@ The final article should communicate the same ideas with less friction.
 Readers should reach the main point faster, understand technical concepts more easily, and retain the important details without having to navigate unnecessary explanations.
 
 **The goal is not to make the article shorter at any cost. The goal is to make every part of it worth reading.**
+
+# Notes
+
+- The last topic is the `Key Takeaways` with bullet points with summary of the article's main points, not a generic conclusion.
+- The first paragraph is a summary of the article. It is used as a preview in search results and social media. It should be concise, clear, and informative. Avoid generic statements that do not convey the article's specific content.
