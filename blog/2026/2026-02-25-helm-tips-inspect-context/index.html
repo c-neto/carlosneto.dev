@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Helm has no real debugger, so dump the whole chart context (Values, Chart, Release, Capabilities, Files) as JSON with toPrettyJson and helm template to see exactly what your templates can access." name="description" />
 <meta property="og:title" content="Helm Tips: Inspect Your Chart Context with JSON" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-02-25-helm-tips-inspect-context/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/02/25 Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide ..." />
+<meta property="og:description" content="Helm has no real debugger, so dump the whole chart context (Values, Chart, Release, Capabilities, Files) as JSON with toPrettyJson and helm template to see exactly what your templates can access." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-02-25-helm-tips-inspect-context_0bfeffaa.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/02/25 Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide ..." />
-<meta name="description" content="Blog Post Publish Date: 2026/02/25 Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide ..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-02-25-helm-tips-inspect-context_675c496e.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/02/25 This blog post shows a simple way to debug Helm charts: dump the entire chart context as JSON and look at exactly what your templates can access. It helps most wh..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Helm Tips: Inspect Your Chart Context with JSON &#8212; Carlos Neto&#39;s Blog</title>
@@ -408,31 +408,34 @@
 <hr class="docutils" />
 <section id="helm-tips-inspect-your-chart-context-with-json">
 <h1>Helm Tips: Inspect Your Chart Context with JSON<a class="headerlink" href="#helm-tips-inspect-your-chart-context-with-json" title="Link to this heading">#</a></h1>
-<p>Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother development experience. It is common to face issues when you create a template that tries to access a parameter defined in the <code class="docutils literal notranslate"><span class="pre">.Values</span></code> files, and for any reason, whether a syntax error or typo, the <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">helm</span> <span class="pre">template</span></code> command fails, and the stack trace shows confusing messages that don’t point to the root cause. This blog post provides an alternative approach to inspect the Helm Chart context with JSON, helping you understand how to access chart properties for use in your templates.</p>
+<p>This blog post shows a simple way to debug Helm charts: dump the entire chart context as JSON and look at exactly what your templates can access. It helps most when <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">helm</span> <span class="pre">template</span></code> fails with a message that doesn’t point to the real problem, such as a typo in a <code class="docutils literal notranslate"><span class="pre">.Values</span></code> path.</p>
+<p>Debugging Helm charts is frustrating at first, especially if you come from programming languages with debuggers and IDE auto-completion. A template that reads a wrong <code class="docutils literal notranslate"><span class="pre">.Values</span></code> key, because of a typo or a wrong nesting level, often fails with an error far from the root cause.</p>
 <section id="are-there-ides-for-helm-charts">
 <h2>Are There IDEs for Helm Charts?<a class="headerlink" href="#are-there-ides-for-helm-charts" title="Link to this heading">#</a></h2>
-<p>Unfortunately, there is no definitive IDE specifically for Helm. There are plugins for VSCode and JetBrains IDEA that provide some tooling for auto-completion, but they don’t come close to the code experience available with popular programming languages like Python and Java. I use VSCode’s <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools">Kubernetes (by Microsoft)</a> + <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml">YAML (by Red Hat)</a>, which helps avoid typos in <code class="docutils literal notranslate"><span class="pre">.Values</span></code> usage and checks available Go template functions. However, there are limitations, some variables are omitted in auto-complete, which diminishes the experience. I tried the <a class="reference external" href="https://www.jetbrains.com/help/idea/helm.html">JetBrains Helm Plugin</a>, but it doesn’t work as simply as the <em>.gif</em> present in the Plugin page shows. Additionally, the Kubernetes plugin is not available in IntelliJ IDEA without an Ultimate subscription.</p>
+<p>Unfortunately, there is no IDE built for Helm. VS Code and JetBrains IDEA have plugins with some auto-completion, but nothing close to what you get with languages such as Python and Java.</p>
+<p>I use VS Code with <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools">Kubernetes (by Microsoft)</a> and <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml">YAML (by Red Hat)</a>. They help avoid typos in <code class="docutils literal notranslate"><span class="pre">.Values</span></code> and show the available Go template functions, but some variables are missing from auto-completion. I also tried the <a class="reference external" href="https://www.jetbrains.com/help/idea/helm.html">JetBrains Helm plugin</a>, but it didn’t work as smoothly as the animation on its page suggests, and the Kubernetes plugin requires an IntelliJ IDEA Ultimate subscription.</p>
 </section>
-<section id="debug-the-right-way">
-<h2>Debug the Right Way!<a class="headerlink" href="#debug-the-right-way" title="Link to this heading">#</a></h2>
-<p>As an alternative to lacks a robust auto-completion, you can dump the entire Helm Chart context in JSON format to understand the Values references, Chart and Subchart metadata, and available static files.</p>
-<p>Let’s get started. First, create a Helm Chart called <code class="docutils literal notranslate"><span class="pre">foobar</span></code>.</p>
+<section id="dump-the-chart-context-as-json">
+<h2>Dump the Chart Context as JSON<a class="headerlink" href="#dump-the-chart-context-as-json" title="Link to this heading">#</a></h2>
+<p>Since the tooling falls short, I use another approach: render the whole Helm chart context as JSON. The <strong>chart context</strong> is the root object (<code class="docutils literal notranslate"><span class="pre">.</span></code>) that every template receives. It holds <code class="docutils literal notranslate"><span class="pre">.Values</span></code>, the chart and subchart metadata, release information, cluster capabilities, and the chart’s files.</p>
+<p>First, create a chart called <code class="docutils literal notranslate"><span class="pre">foobar</span></code> and enter its directory:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>create<span class="w"> </span>foobar
+<span class="nb">cd</span><span class="w"> </span>foobar
 </pre></div>
 </div>
-<p>Now, create a template named <code class="docutils literal notranslate"><span class="pre">debug.yaml</span></code>:</p>
+<p>Then create a template named <code class="docutils literal notranslate"><span class="pre">debug.yaml</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vim<span class="w"> </span>templates/debug.yaml
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">debug.yaml</span></code> file should contain:</p>
+<p>With this content. <a class="reference external" href="https://helm.sh/docs/chart_template_guide/function_list/#toprettyjson"><code class="docutils literal notranslate"><span class="pre">toPrettyJson</span></code></a> is a template function that converts any object to indented JSON:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">. | toPrettyJson</span><span class="w"> </span><span class="p p-Indicator">}}</span>
 </pre></div>
 </div>
-<p>Now, render only the <code class="docutils literal notranslate"><span class="pre">debug.yaml</span></code> template:</p>
+<p>Now render only that template. <a class="reference external" href="https://helm.sh/docs/helm/helm_template/"><code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">template</span></code></a> with <code class="docutils literal notranslate"><span class="pre">-s</span></code> (<code class="docutils literal notranslate"><span class="pre">--show-only</span></code>) renders a single file, <code class="docutils literal notranslate"><span class="pre">tail</span> <span class="pre">-n</span> <span class="pre">+3</span></code> drops the <code class="docutils literal notranslate"><span class="pre">---</span></code> separator and the <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Source:</span></code> comment that Helm adds, and <code class="docutils literal notranslate"><span class="pre">jq</span></code> formats the result:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>template<span class="w"> </span>-s<span class="w"> </span>templates/debug.yaml<span class="w"> </span>.<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span>+3<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq
 </pre></div>
 </div>
-<p>The output shows the Helm Chart context with all variables available in your templates.</p>
+<p>The output is the full context, with every variable your templates can use. The <a class="reference external" href="https://helm.sh/docs/chart_template_guide/builtin_objects/">built-in objects</a> page documents each one:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">"Capabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"KubeVersion"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -638,7 +641,80 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>A few things stand out in this output. For example, <code class="docutils literal notranslate"><span class="pre">Capabilities.APIVersions</span></code> lists the APIs you can check with <code class="docutils literal notranslate"><span class="pre">.Capabilities.APIVersions.Has</span></code>, <code class="docutils literal notranslate"><span class="pre">Chart</span></code> shows the metadata from <code class="docutils literal notranslate"><span class="pre">Chart.yaml</span></code> with Go-style capitalized names, and <code class="docutils literal notranslate"><span class="pre">Files</span></code> holds the content of every non-template file in the chart, base64-encoded in this dump.</p>
 </section>
+<section id="inspect-only-what-you-need">
+<h2>Inspect Only What You Need<a class="headerlink" href="#inspect-only-what-you-need" title="Link to this heading">#</a></h2>
+<p>The full context is long. To focus on one part, pipe only that object to <code class="docutils literal notranslate"><span class="pre">toPrettyJson</span></code>. For example, to see the merged values after applying a values file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">.Values | toPrettyJson</span><span class="w"> </span><span class="p p-Indicator">}}</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>template<span class="w"> </span>-s<span class="w"> </span>templates/debug.yaml<span class="w"> </span>.<span class="w"> </span>-f<span class="w"> </span>values-prod.yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span>+3<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq
+</pre></div>
+</div>
+<p>This is the fastest way I know to check what a chart actually receives after values files, <code class="docutils literal notranslate"><span class="pre">--set</span></code> flags, and subchart values are merged.</p>
+</section>
+<section id="remove-the-debug-template-when-you-are-done">
+<h2>Remove the Debug Template When You Are Done<a class="headerlink" href="#remove-the-debug-template-when-you-are-done" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">debug.yaml</span></code> is a regular template, so <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">install</span></code> and <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">upgrade</span></code> would render it too, and its JSON is not a valid Kubernetes manifest. Delete it after debugging, or keep it out of the release with a condition such as <code class="docutils literal notranslate"><span class="pre">{{-</span> <span class="pre">if</span> <span class="pre">.Values.debug</span> <span class="pre">}}</span></code>.</p>
+<p>If you’re designing a chart from scratch, <a class="reference internal" href="../../2025/2025-02-25-helm-best-practices/"><span class="std std-doc">Helm Charts: Development Practices from a Programmer’s Perspective</span></a> covers how I decide what to template and what not to. I also template Logstash pipelines with Helm, as I show in <a class="reference internal" href="../../2025/2025-02-16-logstash-db-enrichment/"><span class="std std-doc">Logstash DB Enrichment</span></a>.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Helm has no real debugger, and IDE plugins only partly auto-complete chart variables.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">.</span> <span class="pre">|</span> <span class="pre">toPrettyJson</span> <span class="pre">}}</span></code> in a template renders the whole chart context as JSON.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">template</span> <span class="pre">-s</span> <span class="pre">templates/debug.yaml</span> <span class="pre">.</span> <span class="pre">|</span> <span class="pre">tail</span> <span class="pre">-n</span> <span class="pre">+3</span> <span class="pre">|</span> <span class="pre">jq</span></code> renders only that template and formats the output.</p></li>
+<li><p>The context has <code class="docutils literal notranslate"><span class="pre">Values</span></code>, <code class="docutils literal notranslate"><span class="pre">Chart</span></code>, <code class="docutils literal notranslate"><span class="pre">Release</span></code>, <code class="docutils literal notranslate"><span class="pre">Capabilities</span></code>, <code class="docutils literal notranslate"><span class="pre">Files</span></code>, <code class="docutils literal notranslate"><span class="pre">Subcharts</span></code>, and <code class="docutils literal notranslate"><span class="pre">Template</span></code>.</p></li>
+<li><p>Dump <code class="docutils literal notranslate"><span class="pre">.Values</span></code> alone to check the final merged values after values files and <code class="docutils literal notranslate"><span class="pre">--set</span></code>.</p></li>
+<li><p>Delete the debug template, or guard it with a condition, before installing the chart.</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://helm.sh/docs/chart_template_guide/builtin_objects/">Built-in objects (Helm)</a></p></li>
+<li><p><a class="reference external" href="https://helm.sh/docs/chart_template_guide/function_list/#toprettyjson">Template function list: toPrettyJson (Helm)</a></p></li>
+<li><p><a class="reference external" href="https://helm.sh/docs/helm/helm_template/">helm template (Helm)</a></p></li>
+<li><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools">Kubernetes extension for VS Code (Microsoft)</a></p></li>
+<li><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml">YAML extension for VS Code (Red Hat)</a></p></li>
+<li><p><a class="reference external" href="https://www.jetbrains.com/help/idea/helm.html">Helm plugin (JetBrains)</a></p></li>
+</ul>
+<p><em>I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Helm Tips: Inspect Your Chart Context with JSON",
+      "description": "Helm has no real debugger, so dump the whole chart context (Values, Chart, Release, Capabilities, Files) as JSON with toPrettyJson and helm template to see exactly what your templates can access.",
+      "datePublished": "2026-02-25",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-02-25-helm-tips-inspect-context/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-02-25-helm-tips-inspect-context/",
+      "keywords": ["Helm", "Helm template", "toPrettyJson", "debugging", "Kubernetes"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Helm Tips: Inspect Your Chart Context with JSON"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->

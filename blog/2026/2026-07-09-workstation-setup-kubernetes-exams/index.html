@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="The workstation tweaks I use to save time in the CKA, CKAD, and CKS exams: macOS keyboard and shortcut settings, Bash history search by prefix, a minimal vimrc, kubectl aliases, and how to copy them to each question node." name="description" />
 <meta property="og:title" content="Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-07-09-workstation-setup-kubernetes-exams/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/07/09 This blog post walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell al..." />
+<meta property="og:description" content="The workstation tweaks I use to save time in the CKA, CKAD, and CKS exams: macOS keyboard and shortcut settings, Bash history search by prefix, a minimal vimrc, kubectl aliases, and how to copy them to each question node." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-07-09-workstation-setup-kubernetes-exams_968e0465.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/07/09 This blog post walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell al..." />
-<meta name="description" content="Blog Post Publish Date: 2026/07/09 This blog post walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell al..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-07-09-workstation-setup-kubernetes-exams_a1756ff5.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/07/09 This blog post covers the workstation tweaks I use to work faster during the Linux Foundation Kubernetes exams: macOS settings that avoid keyboard and proctoring ..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Workstation Setup for Kubernetes Exams (CKA, CKAD &amp; CKS) &#8212; Carlos Neto&#39;s Blog</title>
@@ -408,39 +408,38 @@
 <hr class="docutils" />
 <section id="workstation-setup-for-kubernetes-exams-cka-ckad-cks">
 <h1>Workstation Setup for Kubernetes Exams (CKA, CKAD &amp; CKS)<a class="headerlink" href="#workstation-setup-for-kubernetes-exams-cka-ckad-cks" title="Link to this heading">#</a></h1>
-<p>This blog post walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell aliases, and other tweaks that help reduce friction and save valuable time.</p>
-<p>Time management is one of the most critical factors for passing the Linux Foundation Kubernetes certification exams. The CKA, CKAD, and CKS are hands-on exams conducted on remote Ubuntu instances running the XFCE desktop environment, where network latency and the remote desktop experience can slow you down. Check out the following tips to optimize your setup.</p>
+<p>This blog post covers the workstation tweaks I use to work faster during the Linux Foundation Kubernetes exams: macOS settings that avoid keyboard and proctoring problems, Bash history search by prefix, a minimal Vim configuration, kubectl aliases, and how to copy all of it to each question node.</p>
+<p>Time management is one of the most important factors for passing these exams. The CKA, CKAD, and CKS are hands-on exams that run on remote Ubuntu instances with the XFCE desktop, where network latency and the remote desktop slow you down. Every keystroke you save adds up.</p>
 <section id="configure-the-u-s-keyboard-layout-macbooks">
 <h2>Configure the U.S. Keyboard Layout (MacBooks)<a class="headerlink" href="#configure-the-u-s-keyboard-layout-macbooks" title="Link to this heading">#</a></h2>
-<p>If you’re taking the exam on a MacBook, make sure your keyboard layout is set to <code class="docutils literal notranslate"><span class="pre">U.S.</span></code>. Otherwise, the remote Linux environment may not recognize certain characters correctly, especially <code class="docutils literal notranslate"><span class="pre">~</span></code> and <code class="docutils literal notranslate"><span class="pre">`</span></code>. This is a common issue with layouts such as <code class="docutils literal notranslate"><span class="pre">U.S.</span> <span class="pre">International</span> <span class="pre">-</span> <span class="pre">PC</span></code> and <code class="docutils literal notranslate"><span class="pre">Brazilian</span> <span class="pre">–</span> <span class="pre">ABNT2</span></code>.</p>
-<p>Before the exam, perform the following steps:</p>
+<p>If you take the exam on a MacBook, set your keyboard layout to <code class="docutils literal notranslate"><span class="pre">U.S.</span></code>. Otherwise, the remote Linux environment may not recognize some characters correctly, especially <code class="docutils literal notranslate"><span class="pre">~</span></code> and <code class="docutils literal notranslate"><span class="pre">`</span></code>. This is a common problem with layouts such as <code class="docutils literal notranslate"><span class="pre">U.S.</span> <span class="pre">International</span> <span class="pre">-</span> <span class="pre">PC</span></code> and <code class="docutils literal notranslate"><span class="pre">Brazilian</span> <span class="pre">ABNT2</span></code>.</p>
+<p>Before the exam:</p>
 <ol class="arabic simple">
 <li><p>Open <em><strong>System Settings » Keyboard » Input Sources</strong></em>.</p></li>
-<li><p>Add <code class="docutils literal notranslate"><span class="pre">U.S.</span></code> input source.</p></li>
-<li><p>Remove any other input sources so only <code class="docutils literal notranslate"><span class="pre">U.S.</span></code> remains.</p></li>
+<li><p>Add the <code class="docutils literal notranslate"><span class="pre">U.S.</span></code> input source.</p></li>
+<li><p>Remove all other input sources, so only <code class="docutils literal notranslate"><span class="pre">U.S.</span></code> remains.</p></li>
 </ol>
-<p>This helps prevent unexpected keyboard mapping issues during the exam.</p>
 </section>
 <section id="disable-mission-control-shortcuts-macbooks">
 <h2>Disable Mission Control Shortcuts (MacBooks)<a class="headerlink" href="#disable-mission-control-shortcuts-macbooks" title="Link to this heading">#</a></h2>
-<p>By default, pressing <strong>CTRL + ←→</strong> switches between macOS Spaces. During the exam, this can be interpreted by the proctor as leaving the exam environment, potentially triggering a warning or even interrupting your session.</p>
-<p>Before the exam, perform the following steps:</p>
+<p>By default, <strong>CTRL + ←→</strong> switches between macOS Spaces. During the exam, the proctor can see that as leaving the exam environment, which may trigger a warning or even interrupt your session.</p>
+<p>Before the exam:</p>
 <ol class="arabic simple">
 <li><p>Open <em><strong>System Settings » Keyboard » Keyboard Shortcuts</strong></em>.</p></li>
 <li><p>Select <em><strong>Mission Control</strong></em>.</p></li>
-<li><p>Disable all shortcuts under <em><strong>Mission Control</strong></em>.</p></li>
+<li><p>Disable every shortcut under <em><strong>Mission Control</strong></em>.</p></li>
 </ol>
-<p>This helps prevent accidental desktop switching and reduces the risk of unnecessary proctor alerts or exam suspension on suspicion of consulting unauthorized material.</p>
+<p>That prevents accidental desktop switches and the risk of a proctor alert or a suspension on suspicion of consulting unauthorized material.</p>
 </section>
-<section id="disable-window-tiling-apps-macbook">
-<h2>Disable Window Tiling Apps (MacBook)<a class="headerlink" href="#disable-window-tiling-apps-macbook" title="Link to this heading">#</a></h2>
-<p>If you use window tiling apps such as <a class="reference external" href="https://rectangleapp.com/">Rectangle</a> or <a class="reference external" href="https://magnet.crowdcafe.com/">Magnet</a>, it’s strongly recommended to disable/close them before the exam. Their keyboard shortcuts can conflict with the exam workstation, causing unexpected behavior when using shortcuts such as <strong>⌘ + ↑↓←→</strong>.</p>
+<section id="disable-window-tiling-apps-macbooks">
+<h2>Disable Window Tiling Apps (MacBooks)<a class="headerlink" href="#disable-window-tiling-apps-macbooks" title="Link to this heading">#</a></h2>
+<p>If you use a window tiling app such as <a class="reference external" href="https://rectangleapp.com/">Rectangle</a> or <a class="reference external" href="https://magnet.crowdcafe.com/">Magnet</a>, close it before the exam. Its keyboard shortcuts can conflict with the exam workstation and cause unexpected behavior with shortcuts such as <strong>⌘ + ↑↓←→</strong>.</p>
 </section>
 <section id="history-search-by-prefix">
 <h2>History Search by Prefix<a class="headerlink" href="#history-search-by-prefix" title="Link to this heading">#</a></h2>
-<p><strong>My most valuable tip!</strong></p>
-<p>The exam environment uses <strong>Bash</strong> as the default shell. Behind the scenes, Bash relies on the <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html">GNU Readline</a> library, which provides command-line editing, key bindings, and history navigation. For example, the interactive reverse search that appears when you press <strong>CTRL + R</strong> is implemented by <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html">GNU Readline</a>.</p>
-<p>One of Readline’s most useful features is history search by prefix, that is disabled by default. The <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029">history-search-backward</a> and <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dforward-_0028_0029">history-search-forward</a> functions search your command history using the text that already exists before the cursor, instead of simply moving to the previous or next command.</p>
+<p><strong>This is my most valuable tip.</strong></p>
+<p>The exam environment uses <strong>Bash</strong>, and Bash relies on the <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html">GNU Readline</a> library for command-line editing, key bindings, and history navigation. For example, the reverse search on <strong>CTRL + R</strong> comes from Readline. I explain how Readline works in more depth in <a class="reference internal" href="../2026-10-18-gnu-readline-foundation/"><span class="std std-doc">GNU Readline: The Magic Behind Terminal Autocomplete</span></a>.</p>
+<p><strong>History search by prefix</strong> is a Readline feature, disabled by default, that searches your history using the text already typed before the cursor. The <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029">history-search-backward</a> and <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dforward-_0028_0029">history-search-forward</a> functions implement it, instead of simply moving to the previous or next command.</p>
 <p>For example, imagine your command history contains:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>pods
 kubectl<span class="w"> </span>get<span class="w"> </span>nodes
@@ -452,31 +451,31 @@ helm<span class="w"> </span>list
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>g
 </pre></div>
 </div>
-<p>and press <strong>↑</strong>, <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029">history-search-backward</a> cycles only through commands that begin with <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">g</span></code>:</p>
+<p>and press <strong>↑</strong>, <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> cycles only through commands that start with <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">g</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
 kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </pre></div>
 </div>
-<p>Commands such as <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">describe</span> <span class="pre">pod</span> <span class="pre">nginx</span></code> or <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">list</span></code> are skipped because they do not match the typed prefix.</p>
-<p>This is much faster than the default <strong>↑</strong> behavior, which walks through every command in your history, and often more convenient than repeatedly using <strong>CTRL + R</strong> during the exam.</p>
-<p>To enable this behavior, create the <code class="docutils literal notranslate"><span class="pre">~/.inputrc</span></code> file and add the following configuration:</p>
+<p><code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">describe</span> <span class="pre">pod</span> <span class="pre">nginx</span></code> and <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">list</span></code> are skipped because they don’t match the prefix. That’s much faster than the default <strong>↑</strong>, which walks through every command, and often more convenient than pressing <strong>CTRL + R</strong> repeatedly.</p>
+<p>To enable it, create <code class="docutils literal notranslate"><span class="pre">~/.inputrc</span></code> with this configuration:</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">~/.inputrc</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">"\e[A"</span>:<span class="w"> </span>history-search-backward<span class="w">   </span><span class="c1"># ↑ (previous matching command)</span>
-<span class="s2">"\e[B"</span>:<span class="w"> </span>history-search-forward<span class="w">    </span><span class="c1"># ↓ (next matching command)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ↑ (previous matching command)</span>
+<span class="s2">"\e[A"</span>:<span class="w"> </span>history-search-backward
+<span class="c1"># ↓ (next matching command)</span>
+<span class="s2">"\e[B"</span>:<span class="w"> </span>history-search-forward
 </pre></div>
 </div>
 </div>
-<p>The file is automatically loaded whenever a new Bash session starts. If you modify it during an existing session, reload it with:</p>
+<p>Bash reads this file when a new session starts. To load changes in the current session, run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">bind</span><span class="w"> </span>-f<span class="w"> </span>~/.inputrc
 </pre></div>
 </div>
 </section>
 <section id="setting-up-vim">
 <h2>Setting Up Vim<a class="headerlink" href="#setting-up-vim" title="Link to this heading">#</a></h2>
-<p>The exam workstation includes <a class="reference external" href="https://vscodium.com/">VSCodium</a>. However, every exam task requires you to connect to a remote node via SSH, and VSCodium is not available on those remote machines. In addition, the exam workstation often has high latency, making mouse operation unreliable, this is where Vim shines.</p>
-<p>The following settings provide a much better editing experience for Kubernetes YAML manifests.</p>
-<p>Create the <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> file and add the following configuration:</p>
+<p>The exam workstation includes <a class="reference external" href="https://vscodium.com/">VSCodium</a>, but every task requires you to connect to a remote node over SSH, and VSCodium isn’t available there. The workstation also often has high latency, which makes the mouse unreliable. This is where Vim shines.</p>
+<p>These settings make editing Kubernetes YAML manifests much easier. Create <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> with:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">~/.vimrc</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="k">nu</span>        <span class="c">" Show line numbers</span>
@@ -491,19 +490,19 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </pre></div>
 </div>
 </div>
-<p>Avoid using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> due to the exam workstation’s high connection latency. Also, the clipboard settings with <code class="docutils literal notranslate"><span class="pre">clipboard+=unnamedplus,autoselect</span></code> does not work on the exam workstations.</p>
+<p>Avoid <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code>, because of the latency. Also, clipboard settings such as <code class="docutils literal notranslate"><span class="pre">clipboard+=unnamedplus,autoselect</span></code> don’t work on the exam workstations.</p>
 <blockquote>
-<div><p><em>I have created a blog post <a class="reference internal" href="../2026-07-15-vim-kubernetes-exams/"><span class="std std-doc">Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)</span></a> with editing techniques I use most frequently during exams.</em></p>
+<div><p><em>I wrote a separate post, <a class="reference internal" href="../2026-07-15-vim-kubernetes-exams/"><span class="std std-doc">Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)</span></a>, with the editing techniques I use most during the exams.</em></p>
 </div></blockquote>
 </section>
 <section id="kubectl-aliases-and-shortcuts">
-<h2>Kubectl Aliases and Shortcuts<a class="headerlink" href="#kubectl-aliases-and-shortcuts" title="Link to this heading">#</a></h2>
-<p>Each remote exam node already contains a preconfigured <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file with several useful settings. A handy trick is to copy it to main workstation, append your own aliases, and then copy it back to the question nodes.</p>
-<p>First, copy the <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> from question node:</p>
+<h2>kubectl Aliases and Shortcuts<a class="headerlink" href="#kubectl-aliases-and-shortcuts" title="Link to this heading">#</a></h2>
+<p>Each remote question node already has a <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> with useful settings. A handy trick is to copy it to the main workstation, append your own aliases, and copy it back to the question nodes.</p>
+<p>First, copy <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> from a question node:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>cks1234:~/.bashrc<span class="w"> </span>~/.bashrc
 </pre></div>
 </div>
-<p>Append the following aliases to the end of the file:</p>
+<p>Then append these aliases to the end of the file:</p>
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text">~/.bashrc</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">### omitted the .bashrc copied from question node</span>
@@ -522,27 +521,72 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </div>
 </div>
 <blockquote>
-<div><p><em><strong>INFO:</strong> The <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">x</span></code> is useful shorthand for generating YAML in imperative kubectl commands such as <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">run</span> <span class="pre">nginx</span> <span class="pre">--image</span> <span class="pre">nginx:latest</span> <span class="pre">$x</span> <span class="pre">&gt;</span> <span class="pre">nginx.yaml</span></code></em></p>
+<div><p><em><strong>INFO:</strong> <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">x</span></code> is a shorthand to generate YAML from imperative kubectl commands, such as <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">run</span> <span class="pre">nginx</span> <span class="pre">--image</span> <span class="pre">nginx:latest</span> <span class="pre">$x</span> <span class="pre">&gt;</span> <span class="pre">nginx.yaml</span></code>.</em></p>
 </div></blockquote>
+<p>I use the same style of aliases every day through the oh-my-zsh kubectl plugin, as I describe in <a class="reference internal" href="../../2024/2024-02-08-starship-zsh/"><span class="std std-doc">ZSH + Starship</span></a>.</p>
 </section>
-<section id="copy-settings-to-exam-question-node">
-<h2>Copy Settings to Exam Question Node<a class="headerlink" href="#copy-settings-to-exam-question-node" title="Link to this heading">#</a></h2>
-<p>All exam tasks are required to be performed on the remote question node via SSH. A convenient workflow is to create your configuration files once on the main instance and then copy them to the question node before starting the task.</p>
+<section id="copy-the-settings-to-each-question-node">
+<h2>Copy the Settings to Each Question Node<a class="headerlink" href="#copy-the-settings-to-each-question-node" title="Link to this heading">#</a></h2>
+<p>Every task must be done on a remote question node over SSH. Create your configuration files once on the main workstation, then copy them to the question node before you start each task:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>~/.inputrc<span class="w"> </span>~/.vimrc<span class="w"> </span>~/.bashrc<span class="w"> </span>cks1234:~/
 ssh<span class="w"> </span>cks1234
 </pre></div>
 </div>
 </section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>On a MacBook, use only the <code class="docutils literal notranslate"><span class="pre">U.S.</span></code> keyboard layout, disable Mission Control shortcuts, and close window tiling apps before the exam.</p></li>
+<li><p>Bind <strong>↑</strong> and <strong>↓</strong> to <code class="docutils literal notranslate"><span class="pre">history-search-backward</span></code> and <code class="docutils literal notranslate"><span class="pre">history-search-forward</span></code> in <code class="docutils literal notranslate"><span class="pre">~/.inputrc</span></code> to search history by prefix.</p></li>
+<li><p>Use Vim on the question nodes, with a small <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> for YAML: line numbers, auto-indent, and two-space tabs.</p></li>
+<li><p>Don’t enable <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> or clipboard settings. They don’t help on the exam workstation.</p></li>
+<li><p>Copy the question node’s <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code>, append your kubectl aliases and <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">x=&quot;--dry-run=client</span> <span class="pre">-oyaml&quot;</span></code>, and copy everything back with <code class="docutils literal notranslate"><span class="pre">scp</span></code> before each task.</p></li>
+</ul>
+</section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029">https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029</a></p></li>
-<li><p><a class="reference external" href="https://vimdoc.sourceforge.net/htmldoc/options.html#'cursorcolumn'">https://vimdoc.sourceforge.net/htmldoc/options.html#’cursorcolumn’</a></p></li>
-<li><p><a class="reference external" href="https://vim.rtorr.com/">https://vim.rtorr.com/</a></p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/reference/kubectl/quick-reference/">https://kubernetes.io/docs/reference/kubectl/quick-reference/</a></p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em-">https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em-</a></p></li>
+<li><p><a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029">GNU Readline: history-search-backward (Readline manual)</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/reference/kubectl/quick-reference/">kubectl quick reference (Kubernetes)</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em-">kubectl commands (Kubernetes)</a></p></li>
+<li><p><a class="reference external" href="https://vimdoc.sourceforge.net/htmldoc/options.html#'cursorcolumn'">Options: cursorcolumn (Vim documentation)</a></p></li>
+<li><p><a class="reference external" href="https://vim.rtorr.com/">Vim cheat sheet (vim.rtorr.com)</a></p></li>
 </ul>
-</section>
+<p><em>I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)",
+      "description": "The workstation tweaks I use to save time in the CKA, CKAD, and CKS exams: macOS keyboard and shortcut settings, Bash history search by prefix, a minimal vimrc, kubectl aliases, and how to copy them to each question node.",
+      "datePublished": "2026-07-09",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-07-09-workstation-setup-kubernetes-exams/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-07-09-workstation-setup-kubernetes-exams/",
+      "keywords": ["CKA", "CKAD", "CKS", "Kubernetes certification", "Bash", "Vim", "kubectl aliases"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->

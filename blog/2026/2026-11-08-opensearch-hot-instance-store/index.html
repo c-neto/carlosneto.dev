@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Why local NVMe Instance Store beats EBS for an OpenSearch hot tier, why shard replicas make losing a node survivable, and six Kubernetes and Karpenter guardrails that reduce the risk of data loss." name="description" />
 <meta property="og:title" content="OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-11-08-opensearch-hot-instance-store/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/11/08 This blog post covers running the OpenSearch Hot Data Tier on EC2 Instance Store (local NVMe) instead of EBS: why it performs better for this workload, and how to..." />
+<meta property="og:description" content="Why local NVMe Instance Store beats EBS for an OpenSearch hot tier, why shard replicas make losing a node survivable, and six Kubernetes and Karpenter guardrails that reduce the risk of data loss." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-08-opensearch-hot-instance-store_954c0345.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/08 This blog post covers running the OpenSearch Hot Data Tier on EC2 Instance Store (local NVMe) instead of EBS: why it performs better for this workload, and how to..." />
-<meta name="description" content="Blog Post Publish Date: 2026/11/08 This blog post covers running the OpenSearch Hot Data Tier on EC2 Instance Store (local NVMe) instead of EBS: why it performs better for this workload, and how to..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-08-opensearch-hot-instance-store_54a5dda7.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/08 This blog post covers running the OpenSearch hot data tier on EC2 Instance Store (local NVMe) instead of EBS. It explains why local disks perform better for this ..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage &#8212; Carlos Neto&#39;s Blog</title>
@@ -408,12 +408,12 @@
 <hr class="docutils" />
 <section id="opensearch-ec2-instance-store-a-disruptive-approach-to-hot-tier-storage">
 <h1>OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage<a class="headerlink" href="#opensearch-ec2-instance-store-a-disruptive-approach-to-hot-tier-storage" title="Link to this heading">#</a></h1>
-<p>This blog post covers running the OpenSearch Hot Data Tier on EC2 Instance Store (local NVMe) instead of EBS: why it performs better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
+<p>This blog post covers running the OpenSearch hot data tier on EC2 Instance Store (local NVMe) instead of EBS. It explains why local disks perform better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
 <section id="instance-store-less-durability-more-performance">
 <h2>Instance Store: Less Durability, More Performance<a class="headerlink" href="#instance-store-less-durability-more-performance" title="Link to this heading">#</a></h2>
 <p>I’ve been managing OpenSearch clusters on <a class="reference external" href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">EKS</a> for over five years, handling ingestion rates of around 70K~100K documents per second. During this time, I’ve worked on improving indexing throughput, reducing query latency, and optimizing infrastructure costs. One of the most important changes was introducing hot, warm, and cold storage tiers to handle different data access patterns more efficiently. As the clusters grew, however, the hot tier became a performance bottleneck.</p>
 <p>I experimented with different EC2 instance families and increased CPU and memory, but the metrics consistently pointed to storage I/O as the limiting factor. This led me to test <a class="reference external" href="https://aws.amazon.com/ec2/instance-types/storage-optimized">Storage Optimized EC2 instances</a> with local NVMe Instance Store for the hot data nodes. The results were very good: the local disks gave us the performance we needed and reduced storage costs compared with EBS.</p>
-<p>There is an important trade-off, though. Instance Store disks are tied to the physical EC2 host. If an instance is stopped, terminated, or hits a host failure, its local data is permanently lost. That makes Instance Store less durable, but it does not make it unsuitable for OpenSearch. The key is understanding how <a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards">shard replication</a> works (I covered the basics in <a class="reference internal" href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/"><span class="std std-doc">OpenSearch Concepts - Index and Shards</span></a>) and designing the infrastructure so that losing a node never means losing the only copy of its data.</p>
+<p>There is an important trade-off, though. Instance Store disks are tied to the physical EC2 host. If an instance is stopped, terminated, or hits a host failure, its local data is permanently lost. That makes Instance Store less durable, but it does not make it unsuitable for OpenSearch. The key is understanding how <a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards">shard replication</a> works (I covered the basics in <a class="reference internal" href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/"><span class="std std-doc">OpenSearch Concepts: Index and Shards</span></a>) and designing the infrastructure so that losing a node never means losing the only copy of its data.</p>
 <p>For more on performance, see these public benchmarks and case studies:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/performance">Tuning Your Cluster for Indexing Speed (by OpenSearch)</a>: Official OpenSearch guidance on indexing performance, including recommendations for SSD-backed Instance Store and storage configuration.</p></li>
@@ -423,7 +423,7 @@
 </section>
 <section id="ec2-instance-store-vs-ebs">
 <h2>EC2 Instance Store vs. EBS<a class="headerlink" href="#ec2-instance-store-vs-ebs" title="Link to this heading">#</a></h2>
-<p>The difference comes down to where the disk is. An EBS volume is a network-attached block device that exists independently of any EC2 instance, so every I/O makes a network round trip. Instance Store is an NVMe SSD attached to the host’s PCIe bus, with no network in the path.</p>
+<p>The difference comes down to where the disk is. An EBS volume is a network-attached block device that exists independently of any EC2 instance, so every I/O makes a network round trip. <strong>EC2 Instance Store</strong> is an NVMe SSD attached to the host’s PCIe bus, with no network in the path.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p></p></th>
@@ -593,12 +593,12 @@
 </pre></div>
 </div>
 </div>
-<p>When a node needs to be updated, adjust the budget to allow a controlled replacement, one node at a time.</p>
+<p>When a node needs to be updated, adjust the budget to allow a controlled replacement, one node at a time. To replace or resize the whole hot tier, drain the shards off the old nodes first, as I describe in <a class="reference internal" href="../2026-11-10-opensearch-scale-down/"><span class="std std-doc">Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data</span></a>.</p>
 <p>Each of these mechanisms covers a different kind of disruption. The readiness probe and the StatefulSet rolling update control the order of pod replacements during an update. The PDB limits voluntary evictions, such as Karpenter draining a node, but not StatefulSet-initiated replacements. The <code class="docutils literal notranslate"><span class="pre">do-not-disrupt</span></code> annotation and the NodePool budget stop Karpenter from replacing nodes on its own. None of them protects against unexpected infrastructure failures, such as an EC2 instance interruption.</p>
 </section>
 </section>
-<section id="takeaways">
-<h2>Takeaways<a class="headerlink" href="#takeaways" title="Link to this heading">#</a></h2>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Neither Instance Store nor EBS is better in general. EBS is durable and flexible; Instance Store trades durability for lower latency.</p></li>
 <li><p>For an OpenSearch hot tier that serves queries on indices larger than RAM, the small random reads favor local NVMe.</p></li>
@@ -606,6 +606,57 @@
 <li><p>Kubernetes and Karpenter guardrails (StatefulSet rolling updates, a green-cluster readiness probe, PDBs, anti-affinity, and disruption budgets) control planned replacements. Replication is what protects against unplanned ones.</p></li>
 </ul>
 </section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards">Replica shards (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/performance">Tuning for indexing speed (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-health">Cluster health API (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-awareness">Cluster awareness (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/index-templates">Index templates (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://aws.amazon.com/ec2/instance-types/storage-optimized">Storage optimized instances (AWS)</a></p></li>
+<li><p><a class="reference external" href="https://docs.aws.amazon.com/ebs/latest/userguide/general-purpose.html">General Purpose SSD volumes (Amazon EBS)</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/">StatefulSets (Kubernetes)</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/tasks/run-application/configure-pdb">Configure a PodDisruptionBudget (Kubernetes)</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints">Topology spread constraints (Kubernetes)</a></p></li>
+<li><p><a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/">Disruption (Karpenter)</a></p></li>
+<li><p><a class="reference external" href="https://karpenter.sh/docs/concepts/nodepools">NodePools (Karpenter)</a></p></li>
+</ul>
+<p><em>I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage",
+      "description": "Why local NVMe Instance Store beats EBS for an OpenSearch hot tier, why shard replicas make losing a node survivable, and six Kubernetes and Karpenter guardrails that reduce the risk of data loss.",
+      "datePublished": "2026-11-08",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-11-08-opensearch-hot-instance-store/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-08-opensearch-hot-instance-store/",
+      "keywords": ["OpenSearch", "EC2 Instance Store", "NVMe", "EBS", "Kubernetes", "Karpenter"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->

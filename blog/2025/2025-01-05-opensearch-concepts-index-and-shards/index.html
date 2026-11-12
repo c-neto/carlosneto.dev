@@ -7,19 +7,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="OpenSearch Concepts - Index and Shards" />
+<meta content="What OpenSearch indices, primary shards, and replica shards are, how shard counts affect write throughput and fault tolerance, and the API calls I use to troubleshoot indices and shards." name="description" />
+<meta property="og:title" content="OpenSearch Concepts: Index and Shards" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2025/2025-01-05-opensearch-concepts-index-and-shards/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2025/01/05 OpenSearch is a powerful platform, but having a solid understanding of its basic concepts is essential for a seamless experience with the stack. In this blog post..." />
+<meta property="og:description" content="What OpenSearch indices, primary shards, and replica shards are, how shard counts affect write throughput and fault tolerance, and the API calls I use to troubleshoot indices and shards." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-01-05-opensearch-concepts-index-and-shards_40cd3552.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2025/01/05 OpenSearch is a powerful platform, but having a solid understanding of its basic concepts is essential for a seamless experience with the stack. In this blog post..." />
-<meta name="description" content="Blog Post Publish Date: 2025/01/05 OpenSearch is a powerful platform, but having a solid understanding of its basic concepts is essential for a seamless experience with the stack. In this blog post..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-01-05-opensearch-concepts-index-and-shards_91f720f9.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2025/01/05 This blog post explains two of the most basic concepts in OpenSearch administration: indices and shards. It covers what primary and replica shards are, how their ..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>OpenSearch Concepts - Index and Shards &#8212; Carlos Neto&#39;s Blog</title>
+    <title>OpenSearch Concepts: Index and Shards &#8212; Carlos Neto&#39;s Blog</title>
   
   
   
@@ -407,71 +407,95 @@
 <p><em><strong>Blog Post Publish Date:</strong> 2025/01/05</em></p>
 <hr class="docutils" />
 <section id="opensearch-concepts-index-and-shards">
-<h1>OpenSearch Concepts - Index and Shards<a class="headerlink" href="#opensearch-concepts-index-and-shards" title="Link to this heading">#</a></h1>
-<p>OpenSearch is a powerful platform, but having a solid understanding of its basic concepts is essential for a seamless experience with the stack. In this blog post, we’ll cover one of the most fundamental aspects of OpenSearch administration: <strong>Indices and Shards</strong>.</p>
-<p>This blog post provides a high-level explanation of these concepts and includes useful commands for retrieving information about indices and shards helpful during troubleshooting.</p>
+<h1>OpenSearch Concepts: Index and Shards<a class="headerlink" href="#opensearch-concepts-index-and-shards" title="Link to this heading">#</a></h1>
+<p>This blog post explains two of the most basic concepts in OpenSearch administration: indices and shards. It covers what primary and replica shards are, how their counts affect performance and fault tolerance, and the API calls I use most to inspect indices and shards while troubleshooting.</p>
 <section id="understanding-indices-and-shards">
 <h2>Understanding Indices and Shards<a class="headerlink" href="#understanding-indices-and-shards" title="Link to this heading">#</a></h2>
-<p>An <strong>index</strong> is a logical namespace that organizes a collection of documents along with their associated characteristics, such as field types, life cycle policies, and storage layer state. These documents are stored on disk within logical partitions called <strong>shards</strong>. Shards can be classified as <strong>primary</strong> or <strong>replica</strong>:</p>
+<p>An <strong>index</strong> is a logical namespace for a collection of documents and their characteristics, such as field types, lifecycle policies, and storage tier. OpenSearch stores those documents on disk in partitions called shards.</p>
+<p>A <strong>shard</strong> is one partition of an index, and each shard is a full Lucene index. As the <a class="reference external" href="https://docs.opensearch.org/latest/getting-started/intro/">OpenSearch introduction</a> describes, shards come in two kinds:</p>
 <ul class="simple">
-<li><p><strong>Primary shards</strong> handle write operations and can also serve read requests when needed;</p></li>
-<li><p><strong>Replica shards</strong> are exact copies of primary shards, designed to ensure fault tolerance and improve query performance by handling read operations.</p></li>
+<li><p><strong>Primary shards</strong> receive every write and can also serve reads.</p></li>
+<li><p><strong>Replica shards</strong> are copies of the primaries. They provide fault tolerance and serve reads, which spreads the query load.</p></li>
 </ul>
-<p>An index can consist of one or more shards distributed across multiple nodes. This distributed nature enables OpenSearch to form clusters, allowing indices to span across different machines for improved scalability and reliability.</p>
-<p>Increasing the number of primary shards improves throughput and indexing performance by distributing data across multiple partitions. While increasing the number of replica shards enhances fault tolerance and boosts query performance by providing additional nodes to handle read operations.</p>
-<p>The number of primary shards can only be defined during the creation of an index. Carefully consider the number of shards needed to meet your current requirements, factoring in query demands and, most importantly, write performance. Replica shards, however, can be adjusted on demand.</p>
+<p>An index can have one or more shards spread across several nodes. That distribution is what lets an OpenSearch cluster scale an index beyond one machine and survive the loss of a node.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Primary shards</p></th>
+<th class="head"><p>Replica shards</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Purpose</p></td>
+<td><p>Hold the data and receive every write</p></td>
+<td><p>Copies of the primaries for fault tolerance and reads</p></td>
+</tr>
+<tr class="row-odd"><td><p>More of them means</p></td>
+<td><p>More parallel indexing, until shards get too small</p></td>
+<td><p>More read capacity and more copies to survive node failures</p></td>
+</tr>
+<tr class="row-even"><td><p>Can change after creation?</p></td>
+<td><p>Only with split, shrink, or reindex</p></td>
+<td><p>Yes, at any time</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>More primary shards spread writes across more partitions and nodes, which raises indexing throughput. More replicas add fault tolerance and more nodes that can answer queries.</p>
+<p>The number of primary shards is set when the index is created. Changing it later means creating a new index with the <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/index-apis/split/">split</a> or <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/index-apis/shrink-index/">shrink</a> APIs, or reindexing. Choose it carefully, based on your query load and, above all, your write load. Replicas can be changed at any time.</p>
+<p>More shards are not always better, though. Every shard costs heap, file handles, and cluster state, so many small shards hurt more than they help. I wrote about one way to avoid that in <a class="reference internal" href="../../2026/2026-11-11-opensearch-alias-filtered-by-field/"><span class="std std-doc">Avoiding Over-Sharding in OpenSearch with Filtered Aliases</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>A primary shard and its corresponding replica cannot reside on the same node within a cluster, ensuring fault tolerance in case of node failure.</p>
+<p>A primary shard and its replica are never allocated to the same node. If that node fails, the other copy is still available.</p>
 </div>
 </section>
-<section id="useful-commands-for-managing-indices-and-shards-using-the-opensearch-api">
-<h2>Useful Commands for Managing Indices and Shards Using the OpenSearch API<a class="headerlink" href="#useful-commands-for-managing-indices-and-shards-using-the-opensearch-api" title="Link to this heading">#</a></h2>
-<p>The following commands are especially useful for troubleshooting and monitoring the status of indices and shards. They can be executed in <em>OpenSearch Dashboards » Dev Tools</em> or via an HTTP client like <em>cURL</em> or <em>Postman</em>.</p>
+<section id="useful-api-calls-for-indices-and-shards">
+<h2>Useful API Calls for Indices and Shards<a class="headerlink" href="#useful-api-calls-for-indices-and-shards" title="Link to this heading">#</a></h2>
+<p>These calls help with troubleshooting and monitoring indices and shards. You can run them in <em>OpenSearch Dashboards » Dev Tools</em> or with an HTTP client such as <em>cURL</em> or <em>Postman</em>.</p>
 <ul class="simple">
-<li><p>List all indices, sorted by name:</p></li>
+<li><p>List all indices, sorted by name (<a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cat/cat-indices/">CAT indices</a>):</p></li>
 </ul>
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _cat/indices?v&amp;s=index
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>List the shards composing a specific index:</p></li>
+<li><p>List the shards of a specific index:</p></li>
 </ul>
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET &lt;INDEX-NAME&gt;/_search_shards
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Get index metadata (e.g., number of shards, replicas, creation time):</p></li>
+<li><p>Get the index settings, for example the number of shards, replicas, and creation time:</p></li>
 </ul>
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET &lt;INDEX-NAME&gt;/_settings
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Retrieve field types defined in the index mapping:</p></li>
+<li><p>Get the field types defined in the index mapping:</p></li>
 </ul>
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET &lt;INDEX-NAME&gt;/_mapping
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>List the ISM Policy attached to an index during creation:</p></li>
+<li><p>Show the ISM policy attached to an index (<a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/ism/api/">ISM explain API</a>):</p></li>
 </ul>
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _plugins/ism/explain/&lt;INDEX-NAME&gt;?show_policy=true
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>List shards not currently allocated to any node (status: <em>UNASSIGNED</em>):</p></li>
+<li><p>List shards that are not allocated to any node (status <em>UNASSIGNED</em>) and why (<a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cat/cat-shards/">CAT shards</a>):</p></li>
 </ul>
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _cat/shards?v&amp;h=index,shard,prirep,state,unassigned.reason&amp;s=state
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Check shard allocation across cluster nodes:</p></li>
+<li><p>Check how shards and disk are distributed across nodes (<a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cat/cat-allocation/">CAT allocation</a>):</p></li>
 </ul>
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _cat/allocation?v
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Monitor shard recovery or relocation progress:</p></li>
+<li><p>Follow shard recovery or relocation progress (<a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cat/cat-recovery/">CAT recovery</a>):</p></li>
 </ul>
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _cat/recovery/&lt;INDEX-NAME&gt;?v&amp;s=stage:desc
 </pre></div>
@@ -488,8 +512,66 @@
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _cat/indices?v&amp;h=index,store.size&amp;s=store.size:desc
 </pre></div>
 </div>
-<p>With these commands you can efficiently get useful information about your OpenSearch clusters and streamline troubleshooting processes. If you have any questions or need further insights into OpenSearch, feel free to leave a comment below!</p>
+<p>These calls answer most of my day-to-day questions about a cluster. When the allocation output shows nodes with very different disk usage, <a class="reference internal" href="../../2026/2026-11-04-opensearch-watermark/"><span class="std std-doc">OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks</span></a> explains why. When you need to remove nodes, <a class="reference internal" href="../../2026/2026-11-10-opensearch-scale-down/"><span class="std std-doc">Scaling Down and Resizing OpenSearch Data Nodes</span></a> shows how to move their shards safely first.</p>
 </section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>An index is a logical collection of documents. Shards are the partitions that store it, and each shard is a Lucene index.</p></li>
+<li><p>Primary shards receive every write. Replica shards are copies that add fault tolerance and serve reads.</p></li>
+<li><p>The number of primary shards is fixed at creation. Changing it requires split, shrink, or reindex. Replicas can change at any time.</p></li>
+<li><p>More primaries raise write throughput, but too many small shards waste heap and cluster state.</p></li>
+<li><p>A primary and its replica are never placed on the same node.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_cat/indices</span></code>, <code class="docutils literal notranslate"><span class="pre">_cat/shards</span></code>, <code class="docutils literal notranslate"><span class="pre">_cat/allocation</span></code>, and <code class="docutils literal notranslate"><span class="pre">_cat/recovery</span></code> cover most troubleshooting questions about indices and shards.</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/getting-started/intro/">Introduction to OpenSearch (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/index-apis/split/">Split index (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/index-apis/shrink-index/">Shrink index (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cat/cat-indices/">CAT indices (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cat/cat-shards/">CAT shards (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cat/cat-allocation/">CAT allocation (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cat/cat-recovery/">CAT recovery (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/ism/api/">ISM API (OpenSearch)</a></p></li>
+</ul>
+<p><em>I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "OpenSearch Concepts: Index and Shards",
+      "description": "What OpenSearch indices, primary shards, and replica shards are, how shard counts affect write throughput and fault tolerance, and the API calls I use to troubleshoot indices and shards.",
+      "datePublished": "2025-01-05",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2025/2025-01-05-opensearch-concepts-index-and-shards/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2025/2025-01-05-opensearch-concepts-index-and-shards/",
+      "keywords": ["OpenSearch", "index", "shards", "primary shard", "replica shard"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "OpenSearch Concepts: Index and Shards"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->
@@ -527,7 +609,7 @@
   <span class="ablog__next">
      
     <a href="../2025-02-16-logstash-db-enrichment/">
-      <span>Logstash DB Enrichment - Tips and Traps!</span>
+      <span>Logstash DB Enrichment: Tips and Traps</span>
       
       <i class="fa fa-arrow-circle-right"></i>
       

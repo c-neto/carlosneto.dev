@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="How to turn Zsh functions into keyboard shortcuts with zle -N and bindkey, what BUFFER, LBUFFER, RBUFFER, and CURSOR expose to a widget, and a widget that reruns the current command every two seconds, aliases included." name="description" />
 <meta property="og:title" content="Hacking Your Zsh Terminal with Custom Widgets" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-10-26-zsh-widgets/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/10/28 This blog post explains how to create custom Zsh widgets by registering shell functions to keyboard shortcuts powered by the Zsh Line Editor (ZLE). Understand the..." />
+<meta property="og:description" content="How to turn Zsh functions into keyboard shortcuts with zle -N and bindkey, what BUFFER, LBUFFER, RBUFFER, and CURSOR expose to a widget, and a widget that reruns the current command every two seconds, aliases included." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-10-26-zsh-widgets_8bcfa551.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/28 This blog post explains how to create custom Zsh widgets by registering shell functions to keyboard shortcuts powered by the Zsh Line Editor (ZLE). Understand the..." />
-<meta name="description" content="Blog Post Publish Date: 2026/10/28 This blog post explains how to create custom Zsh widgets by registering shell functions to keyboard shortcuts powered by the Zsh Line Editor (ZLE). Understand the..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-10-26-zsh-widgets_c22bff7d.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/28 This blog post explains how to create custom Zsh widgets: shell functions bound to keyboard shortcuts through the Zsh Line Editor (ZLE). It’s the Zsh version of H..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Hacking Your Zsh Terminal with Custom Widgets &#8212; Carlos Neto&#39;s Blog</title>
@@ -408,11 +408,19 @@
 <hr class="docutils" />
 <section id="hacking-your-zsh-terminal-with-custom-widgets">
 <h1>Hacking Your Zsh Terminal with Custom Widgets<a class="headerlink" href="#hacking-your-zsh-terminal-with-custom-widgets" title="Link to this heading">#</a></h1>
-<p>This blog post explains how to create custom Zsh widgets by registering shell functions to keyboard shortcuts powered by the Zsh Line Editor (ZLE).</p>
+<p>This blog post explains how to create custom Zsh widgets: shell functions bound to keyboard shortcuts through the Zsh Line Editor (ZLE). It’s the Zsh version of <a class="reference internal" href="../2026-10-25-gnu-readline-widgets/"><span class="std std-doc">Hacking Your Bash Terminal with Custom Widgets</span></a>, and it ends with the same widget that reruns the current command every two seconds.</p>
 <section id="understand-the-basics">
 <h2>Understand the Basics<a class="headerlink" href="#understand-the-basics" title="Link to this heading">#</a></h2>
-<p>The idea is simple: you create a Zsh function and register it to a custom keyboard shortcut using the <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-zle"><code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-N</span></code></a> and <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Builtins-1"><code class="docutils literal notranslate"><span class="pre">bindkey</span></code></a> commands. There are some special ZLE parameters that are made available to Zsh functions when they are called as widgets. The four main variables in this case are <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-BUFFER">BUFFER</a> that is the entire contents of the command line, <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-CURSOR">CURSOR</a> that is the cursor position, represented as an integer offset into <code class="docutils literal notranslate"><span class="pre">BUFFER</span></code>, along with <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-LBUFFER">LBUFFER</a> and <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-RBUFFER">RBUFFER</a>.</p>
-<p>To understand these variables in practice, let’s create a function called <code class="docutils literal notranslate"><span class="pre">debug-hook-variables</span></code> and bind it to the <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> shortcut. This function will print the values of the variables:</p>
+<p><strong>ZLE</strong> (Zsh Line Editor) is the part of Zsh that handles command-line editing, the Zsh counterpart of GNU Readline in Bash. A <strong>ZLE widget</strong> is a function that ZLE runs when you press its key. You write a Zsh function, register it as a widget with <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-zle"><code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-N</span></code></a>, and bind it to a key with <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Builtins-1"><code class="docutils literal notranslate"><span class="pre">bindkey</span></code></a>.</p>
+<p>While a widget runs, ZLE gives it <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#User_002dDefined-Widgets">special parameters</a>. The four main ones are:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-BUFFER">BUFFER</a>: the whole content of the command line.</p></li>
+<li><p><a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-CURSOR">CURSOR</a>: the cursor position, as an offset into <code class="docutils literal notranslate"><span class="pre">BUFFER</span></code>.</p></li>
+<li><p><a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-LBUFFER">LBUFFER</a>: the part of the line left of the cursor.</p></li>
+<li><p><a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-RBUFFER">RBUFFER</a>: the part of the line right of the cursor.</p></li>
+</ul>
+<p>Unlike Bash, Zsh gives you <code class="docutils literal notranslate"><span class="pre">LBUFFER</span></code> and <code class="docutils literal notranslate"><span class="pre">RBUFFER</span></code> directly, so inserting text at the cursor is as simple as <code class="docutils literal notranslate"><span class="pre">LBUFFER+=&quot;text&quot;</span></code>.</p>
+<p>To see them in practice, create a function called <code class="docutils literal notranslate"><span class="pre">debug-hook-variables</span></code> that prints all four, register it, and bind it to <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>:</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span class="c1"># zsh function for debugging reserved variables</span>
 <span class="k">function</span><span class="w"> </span>debug-hook-variables<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">  </span><span class="nb">echo</span><span class="w"> </span>
@@ -435,7 +443,7 @@ bindkey<span class="w"> </span><span class="s1">'^X'</span><span class="w"> </sp
 bindkey<span class="w"> </span>-L
 </pre></div>
 </div>
-<p>Now, type anything at your prompt and press <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>. In this example, with your cursor positioned after <code class="docutils literal notranslate"><span class="pre">definitely</span></code> and pressed <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>, the output will be like:</p>
+<p>Now type something at the prompt and press <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>. For example, with the cursor right after <code class="docutils literal notranslate"><span class="pre">definitely</span></code>, the output is:</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>definitely<span class="p">|</span><span class="w"> </span>maybe<span class="w">  </span><span class="c1"># press `Ctrl+x`</span>
 
 &gt;&gt;&gt;<span class="w"> </span>BUFFER:<span class="w">   </span>definitely<span class="w"> </span>maybe
@@ -444,10 +452,14 @@ bindkey<span class="w"> </span>-L
 &gt;&gt;&gt;<span class="w"> </span>CURSOR:<span class="w">   </span><span class="m">10</span>
 </pre></div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">RBUFFER</span></code> starts with the space after <code class="docutils literal notranslate"><span class="pre">definitely</span></code>, and <code class="docutils literal notranslate"><span class="pre">CURSOR</span></code> is 10 because <code class="docutils literal notranslate"><span class="pre">definitely</span></code> has 10 characters.</p>
+<blockquote>
+<div><p><em>In the default emacs keymap, <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> is also the prefix of several built-in bindings, such as <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span> <span class="pre">Ctrl+e</span></code> in many setups. Binding <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> alone replaces that prefix. If you use those bindings, choose another key.</em></p>
+</div></blockquote>
 </section>
 <section id="practical-example-repeated-command-execution">
 <h2>Practical Example: Repeated Command Execution<a class="headerlink" href="#practical-example-repeated-command-execution" title="Link to this heading">#</a></h2>
-<p>Now, let’s implement an alternative to the <a class="reference external" href="https://man7.org/linux/man-pages/man1/watch.1.html">$ watch</a> command that can behave unexpectedly when executing aliases such as <code class="docutils literal notranslate"><span class="pre">kgp</span></code> (more details in this <a class="reference external" href="https://stackoverflow.com/questions/54814543/bash-how-to-use-an-alias-command-in-combination-with-watch">Stack Overflow thread</a>). The goal of this widget is to execute a command repeatedly every two seconds when you press <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>, while supporting aliases.</p>
+<p>Now a useful widget: an alternative to <a class="reference external" href="https://man7.org/linux/man-pages/man1/watch.1.html"><code class="docutils literal notranslate"><span class="pre">watch</span></code></a>. <code class="docutils literal notranslate"><span class="pre">watch</span></code> runs its command in a new <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">-c</span></code>, so your aliases, such as <code class="docutils literal notranslate"><span class="pre">kgp</span></code>, aren’t available (see this <a class="reference external" href="https://stackoverflow.com/questions/54814543/bash-how-to-use-an-alias-command-in-combination-with-watch">Stack Overflow thread</a>). This widget runs whatever is on the command line every two seconds when you press <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>, in your current shell, so aliases work.</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span>repeat-command-widget<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">  </span><span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">    </span>clear
@@ -460,16 +472,16 @@ zle<span class="w"> </span>-N<span class="w"> </span>repeat-command-widget
 bindkey<span class="w"> </span><span class="s1">'^X'</span><span class="w"> </span>repeat-command-widget
 </pre></div>
 </div>
-<p>You can test the widget by typing the following command and pressing <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>:</p>
+<p>To test it, type a command and press <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>:</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>kgp<span class="w">     </span>
 <span class="c1">### press `Ctrl+x`</span>
 <span class="c1">### stop execution by `Ctrl+c`</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">kgp</span></code> command is executed in a loop every two seconds until you press <code class="docutils literal notranslate"><span class="pre">Ctrl+c</span></code>, just like <code class="docutils literal notranslate"><span class="pre">watch</span> <span class="pre">&quot;kubectl</span> <span class="pre">get</span> <span class="pre">pods&quot;</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">kgp</span></code> runs every two seconds until you press <code class="docutils literal notranslate"><span class="pre">Ctrl+c</span></code>, just like <code class="docutils literal notranslate"><span class="pre">watch</span> <span class="pre">&quot;kubectl</span> <span class="pre">get</span> <span class="pre">pods&quot;</span></code>.</p>
 <section id="how-to-register-the-widget">
 <h3>How to Register the Widget<a class="headerlink" href="#how-to-register-the-widget" title="Link to this heading">#</a></h3>
-<p>Built-in ZLE widgets can be configured using standard <code class="docutils literal notranslate"><span class="pre">bindkey</span></code> bindings. For custom Zsh widgets, we need to register the function, declare it via <code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-N</span></code>, and bind its keyboard shortcut in the <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> file.</p>
+<p>Built-in ZLE widgets only need a <code class="docutils literal notranslate"><span class="pre">bindkey</span></code> line. A custom widget also needs its function and the <code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-N</span></code> registration, so put all three in <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>:</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span class="c1"># ~/.zshrc</span>
 
 <span class="c1"># define the function</span>
@@ -488,16 +500,65 @@ zle<span class="w"> </span>-N<span class="w"> </span>repeat-command-widget
 bindkey<span class="w"> </span><span class="s1">'^X'</span><span class="w"> </span>repeat-command-widget
 </pre></div>
 </div>
-<p>The custom <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> shortcut will be available in new Zsh sessions.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> shortcut is then available in every new Zsh session.</p>
 </section>
 </section>
-<section id="links">
-<h2>Links<a class="headerlink" href="#links" title="Link to this heading">#</a></h2>
+<section id="where-to-go-from-here">
+<h2>Where to Go From Here<a class="headerlink" href="#where-to-go-from-here" title="Link to this heading">#</a></h2>
+<p>Widgets turn any repetitive edit or command into one key press. Many Zsh plugins are widgets too: <a class="reference internal" href="../../2024/2024-04-21-fzf/"><span class="std std-doc">fzf</span></a> binds its history, file, and directory search as ZLE widgets, and zsh-autosuggestions, which I use in my <a class="reference internal" href="../../2024/2024-02-08-starship-zsh/"><span class="std std-doc">ZSH + Starship setup</span></a>, works by wrapping the built-in ones.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Zsh Line Editor built-ins: <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Builtins-1">https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Builtins-1</a></p></li>
-<li><p>Zsh parameters: <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Parameters-used-by-the-Line-Editor">https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Parameters-used-by-the-Line-Editor</a></p></li>
+<li><p>ZLE is the Zsh line editor. A widget is a function that ZLE runs when you press its key.</p></li>
+<li><p>Register a function as a widget with <code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-N</span> <span class="pre">name</span></code>, then bind it with <code class="docutils literal notranslate"><span class="pre">bindkey</span> <span class="pre">'^X'</span> <span class="pre">name</span></code>. Check it with <code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-al</span></code> and <code class="docutils literal notranslate"><span class="pre">bindkey</span> <span class="pre">-L</span></code>.</p></li>
+<li><p>Inside a widget, <code class="docutils literal notranslate"><span class="pre">BUFFER</span></code> holds the command line, <code class="docutils literal notranslate"><span class="pre">CURSOR</span></code> the cursor offset, and <code class="docutils literal notranslate"><span class="pre">LBUFFER</span></code> and <code class="docutils literal notranslate"><span class="pre">RBUFFER</span></code> the text left and right of the cursor.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">watch</span></code> runs its command in a new shell, so aliases fail. A widget that <code class="docutils literal notranslate"><span class="pre">eval</span></code>s <code class="docutils literal notranslate"><span class="pre">$BUFFER</span></code> in a loop runs in your shell, so they work.</p></li>
+<li><p>Put the function, <code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-N</span></code>, and <code class="docutils literal notranslate"><span class="pre">bindkey</span></code> in <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>.</p></li>
 </ul>
 </section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Builtins-1">Zsh Line Editor: zle and bindkey builtins (Zsh manual)</a></p></li>
+<li><p><a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#User_002dDefined-Widgets">Zsh Line Editor: user-defined widgets and their parameters (Zsh manual)</a></p></li>
+<li><p><a class="reference external" href="https://man7.org/linux/man-pages/man1/watch.1.html">watch (Linux man pages)</a></p></li>
+</ul>
+<p><em>I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Hacking Your Zsh Terminal with Custom Widgets",
+      "description": "How to turn Zsh functions into keyboard shortcuts with zle -N and bindkey, what BUFFER, LBUFFER, RBUFFER, and CURSOR expose to a widget, and a widget that reruns the current command every two seconds, aliases included.",
+      "datePublished": "2026-10-28",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-10-26-zsh-widgets/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-10-26-zsh-widgets/",
+      "keywords": ["Zsh", "ZLE", "zle -N", "bindkey", "terminal widgets"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Hacking Your Zsh Terminal with Custom Widgets"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->
@@ -535,7 +596,7 @@ bindkey<span class="w"> </span><span class="s1">'^X'</span><span class="w"> </sp
   <span class="ablog__next">
      
     <a href="../2026-10-29-otel-foundation/">
-      <span>OpenTelemetry: A Framework to Decoupling Your Observability</span>
+      <span>OpenTelemetry: A Framework for Decoupling Your Observability</span>
       
       <i class="fa fa-arrow-circle-right"></i>
       

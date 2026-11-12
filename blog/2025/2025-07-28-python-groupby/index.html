@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="How to group Python objects by several attributes with itertools.groupby and operator.attrgetter instead of a dictionary of lists, and why the input must be sorted by the same key first." name="description" />
 <meta property="og:title" content="groupby + attrgetter: The Pythonic Way to Group Objects" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2025/2025-07-28-python-groupby/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2025/07/28 This blog post explores an approach to group objects by mulitple attribute name powered by capabilities of the built-in modules itertools.groupby and operator.att..." />
+<meta property="og:description" content="How to group Python objects by several attributes with itertools.groupby and operator.attrgetter instead of a dictionary of lists, and why the input must be sorted by the same key first." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-07-28-python-groupby_1964156b.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2025/07/28 This blog post explores an approach to group objects by mulitple attribute name powered by capabilities of the built-in modules itertools.groupby and operator.att..." />
-<meta name="description" content="Blog Post Publish Date: 2025/07/28 This blog post explores an approach to group objects by mulitple attribute name powered by capabilities of the built-in modules itertools.groupby and operator.att..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-07-28-python-groupby_31e1c717.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2025/07/28 This blog post shows how to group objects by several attributes. It uses two standard library tools, itertools.groupby and operator.attrgetter, instead of buildin..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>groupby + attrgetter: The Pythonic Way to Group Objects &#8212; Carlos Neto&#39;s Blog</title>
@@ -408,8 +408,10 @@
 <hr class="docutils" />
 <section id="groupby-attrgetter-the-pythonic-way-to-group-objects">
 <h1>groupby + attrgetter: The Pythonic Way to Group Objects<a class="headerlink" href="#groupby-attrgetter-the-pythonic-way-to-group-objects" title="Link to this heading">#</a></h1>
-<p>This blog post explores an approach to group objects by mulitple attribute name powered by capabilities of the built-in modules <a class="reference external" href="https://docs.python.org/3/library/itertools.html#itertools.groupby">itertools.groupby</a> and <a class="reference external" href="https://docs.python.org/3/library/operator.html#operator.attrgetter">operator.attrgetter</a> module.</p>
-<p>To illustrate this scenario, let’s create a <code class="docutils literal notranslate"><span class="pre">Band</span></code> class, and a <code class="docutils literal notranslate"><span class="pre">bands</span></code> variable with a list of the instances. The objective is create groups by attributes <code class="docutils literal notranslate"><span class="pre">category</span></code>, <code class="docutils literal notranslate"><span class="pre">genre</span></code>, <code class="docutils literal notranslate"><span class="pre">country</span></code> and print the <code class="docutils literal notranslate"><span class="pre">name</span></code>.</p>
+<p>This blog post shows how to group objects by several attributes. It uses two standard library tools, <a class="reference external" href="https://docs.python.org/3/library/itertools.html#itertools.groupby">itertools.groupby</a> and <a class="reference external" href="https://docs.python.org/3/library/operator.html#operator.attrgetter">operator.attrgetter</a>, instead of building a dictionary of lists by hand. It also covers the one detail that trips most people up: <code class="docutils literal notranslate"><span class="pre">groupby</span></code> only groups items that are next to each other.</p>
+<section id="the-example-data">
+<h2>The Example Data<a class="headerlink" href="#the-example-data" title="Link to this heading">#</a></h2>
+<p>To illustrate, here is a <code class="docutils literal notranslate"><span class="pre">Band</span></code> dataclass and a <code class="docutils literal notranslate"><span class="pre">bands</span></code> list. The goal is to group the bands by <code class="docutils literal notranslate"><span class="pre">category</span></code>, <code class="docutils literal notranslate"><span class="pre">genre</span></code>, and <code class="docutils literal notranslate"><span class="pre">country</span></code>, and print the names in each group.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 
 <span class="nd">@dataclass</span>
@@ -455,11 +457,14 @@
 <span class="p">]</span>
 </pre></div>
 </div>
-<p>The most common approach is to create a temporary dictionary where the key is a tuple of the attributes you want to group by, and the value is a list of objects that share those attributes:</p>
+</section>
+<section id="the-usual-approach-a-dictionary-of-lists">
+<h2>The Usual Approach: A Dictionary of Lists<a class="headerlink" href="#the-usual-approach-a-dictionary-of-lists" title="Link to this heading">#</a></h2>
+<p>The most common approach is a temporary dictionary whose key is a tuple of the grouping attributes and whose value is the list of objects that share them:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bands_groupby_genre_country</span> <span class="o">=</span> <span class="p">{}</span>
 
 <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">bands</span><span class="p">:</span>
-    <span class="n">group_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">band</span><span class="o">.</span><span class="n">genre</span><span class="p">,</span> <span class="n">band</span><span class="o">.</span><span class="n">country</span><span class="p">,</span> <span class="n">band</span><span class="o">.</span><span class="n">category</span><span class="p">)</span>
+    <span class="n">group_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">band</span><span class="o">.</span><span class="n">category</span><span class="p">,</span> <span class="n">band</span><span class="o">.</span><span class="n">genre</span><span class="p">,</span> <span class="n">band</span><span class="o">.</span><span class="n">country</span><span class="p">)</span>
     <span class="n">bands_groupby_genre_country</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">group_key</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">band</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">genre</span><span class="p">,</span> <span class="n">country</span><span class="p">),</span> <span class="n">band_group</span> <span class="ow">in</span> <span class="n">bands_groupby_genre_country</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -468,8 +473,11 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"- </span><span class="si">{</span><span class="n">band</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This approach works, but the code readability can cause confusion. Therefore, I present a more pythonic way to perform this operation using <a class="reference external" href="https://docs.python.org/3/library/itertools.html#itertools.groupby">groupby</a> and <a class="reference external" href="https://docs.python.org/3/library/operator.html#operator.attrgetter">attrgetter</a>.</p>
-<p>The <a class="reference external" href="https://docs.python.org/3/library/itertools.groupby">groupby</a> function takes an iterable as its first positional argument and has an optional named argument <code class="docutils literal notranslate"><span class="pre">key</span></code>. The <code class="docutils literal notranslate"><span class="pre">key</span></code> works exactly the same way as in <a class="reference external" href="https://docs.python.org/3/howto/sorting.html#key-functions">sorted</a>, accepting a function that is called to determine the grouping. In the example below, the function is created using a <a class="reference external" href="https://docs.python.org/2/tutorial/controlflow.html">lambda</a>, where the groups are formed based on the <code class="docutils literal notranslate"><span class="pre">category</span></code>, <code class="docutils literal notranslate"><span class="pre">genre</span></code>, and <code class="docutils literal notranslate"><span class="pre">country</span></code> attributes.</p>
+<p>It works, but the intent is buried in the bookkeeping: create the dictionary, build the key, append to the list, then loop again to read it.</p>
+</section>
+<section id="groupby-with-a-lambda">
+<h2>groupby With a Lambda<a class="headerlink" href="#groupby-with-a-lambda" title="Link to this heading">#</a></h2>
+<p><strong><code class="docutils literal notranslate"><span class="pre">itertools.groupby</span></code></strong> is a standard library function that walks an iterable and yields one <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">group)</span></code> pair for each run of consecutive items with the same key. It takes the iterable as its first argument and an optional <code class="docutils literal notranslate"><span class="pre">key</span></code> function. The <code class="docutils literal notranslate"><span class="pre">key</span></code> works exactly like the one in <a class="reference external" href="https://docs.python.org/3/howto/sorting.html#key-functions">sorted</a>: it is called for each item to compute the value to group by. In this example, a <a class="reference external" href="https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions">lambda</a> returns the <code class="docutils literal notranslate"><span class="pre">category</span></code>, <code class="docutils literal notranslate"><span class="pre">genre</span></code>, and <code class="docutils literal notranslate"><span class="pre">country</span></code> of each band:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">groupby</span>
 
 <span class="n">attribute_group</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">category</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">genre</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">country</span><span class="p">)</span>
@@ -480,7 +488,11 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">band</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This approach offers better readability. However, by using the <a class="reference external" href="https://docs.python.org/3/library/operator.html#operator.attrgetter">attrgetter</a> function, we can eliminate the <a class="reference external" href="https://docs.python.org/2/tutorial/controlflow.html">lambda</a> and make the code more self-explanatory. The <a class="reference external" href="https://docs.python.org/3/library/operator.html#operator.attrgetter">attrgetter</a> returns a callable object that fetches the specified attribute from its operand. If more than one attribute is requested, it returns a tuple of attributes. For practical purposes, this solution works the same way as the <a class="reference external" href="https://docs.python.org/2/tutorial/controlflow.html">lambda</a>, but the code is clearer and easier to understand.</p>
+<p>This already reads better: the loop says what it groups by and what it does with each group.</p>
+</section>
+<section id="groupby-with-attrgetter">
+<h2>groupby With attrgetter<a class="headerlink" href="#groupby-with-attrgetter" title="Link to this heading">#</a></h2>
+<p><strong><code class="docutils literal notranslate"><span class="pre">operator.attrgetter</span></code></strong> returns a callable that reads the given attribute from its argument. With several attribute names, it returns a tuple of their values. For this purpose it does the same job as the lambda, but the code says what it does without the extra syntax:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">attrgetter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">groupby</span>
 
@@ -492,7 +504,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">band</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The script execution output will be:</p>
+<p>The output is:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">category</span><span class="o">=</span><span class="s1">'Rock'</span><span class="p">,</span> <span class="n">genre</span><span class="o">=</span><span class="s1">'Rock'</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="s1">'UK'</span><span class="p">:</span>
 <span class="go">- The Beatles</span>
 <span class="go">- Queen</span>
@@ -546,13 +558,85 @@
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">category</span><span class="o">=</span><span class="s1">'Rock'</span><span class="p">,</span> <span class="n">genre</span><span class="o">=</span><span class="s1">'Rock'</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="s1">'Ireland'</span><span class="p">:</span>
 <span class="go">- U2</span>
-<span class="go">- Thin Lizzy</span>
 </pre></div>
 </div>
-<p>For the full working example, visit the <a class="reference external" href="https://github.com/c-neto/my-code-playground/blob/main/blog-code-examples/2025-07-28-groupby/python-groupby-example.py">GitHub repository</a>. You can also run the code directly in your terminal:</p>
+</section>
+<section id="sort-before-you-group">
+<h2>Sort Before You Group<a class="headerlink" href="#sort-before-you-group" title="Link to this heading">#</a></h2>
+<p>There is one catch. As the <a class="reference external" href="https://docs.python.org/3/library/itertools.html#itertools.groupby">itertools documentation</a> says, <code class="docutils literal notranslate"><span class="pre">groupby</span></code> starts a new group every time the key changes. It only groups items that are next to each other. The <code class="docutils literal notranslate"><span class="pre">bands</span></code> list above is already ordered by group, which is why the output looks right. For example, if two UK rock bands were separated by a grunge band, they would end up in two different groups with the same key.</p>
+<p>The dictionary approach doesn’t have this problem, because it looks up the key for every item. For <code class="docutils literal notranslate"><span class="pre">groupby</span></code>, sort the data by the same key first:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">attrgetter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">groupby</span>
+
+<span class="n">attribute_group</span> <span class="o">=</span> <span class="n">attrgetter</span><span class="p">(</span><span class="s2">"category"</span><span class="p">,</span> <span class="s2">"genre"</span><span class="p">,</span> <span class="s2">"country"</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">genre</span><span class="p">,</span> <span class="n">country</span><span class="p">),</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groupby</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">bands</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">attribute_group</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">attribute_group</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"&gt;&gt;&gt; </span><span class="si">{</span><span class="n">category</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">genre</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">country</span><span class="si">=}</span><span class="s2">:"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">band</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Reusing the same <code class="docutils literal notranslate"><span class="pre">attrgetter</span></code> for <code class="docutils literal notranslate"><span class="pre">sorted</span></code> and <code class="docutils literal notranslate"><span class="pre">groupby</span></code> keeps the two keys identical. Sorting changes the order of the groups, so the output is in alphabetical order of category, genre, and country.</p>
+<p>For the full working example, see the <a class="reference external" href="https://github.com/c-neto/my-code-playground/blob/main/blog-code-examples/2025-07-28-groupby/python-groupby-example.py">GitHub repository</a>. You can also run it directly in your terminal:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>https://raw.githubusercontent.com/c-neto/my-code-playground/refs/heads/main/blog-code-examples/2025-07-28-groupby/python-groupby-example.py<span class="w"> </span><span class="p">|</span><span class="w"> </span>python<span class="w"> </span>-
 </pre></div>
 </div>
+<p>If you like small standard library tricks like this, <a class="reference internal" href="../../2024/2024-07-21-dynaconf/"><span class="std std-doc">Dynaconf</span></a> covers the other side of Python services I write often: configuration. And for instrumenting a Python application, see <a class="reference internal" href="../../2026/2026-10-29-otel-foundation/"><span class="std std-doc">OpenTelemetry: A Framework to Decoupling Your Observability</span></a>.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>A dictionary of lists works for grouping, but the intent gets lost in the bookkeeping.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">itertools.groupby(iterable,</span> <span class="pre">key=...)</span></code> yields one <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">group)</span></code> pair per run of consecutive items with the same key.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">operator.attrgetter(&quot;a&quot;,</span> <span class="pre">&quot;b&quot;,</span> <span class="pre">&quot;c&quot;)</span></code> builds the grouping key as a tuple, with no lambda.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">groupby</span></code> only groups adjacent items, so sort with the same key first: <code class="docutils literal notranslate"><span class="pre">groupby(sorted(items,</span> <span class="pre">key=k),</span> <span class="pre">key=k)</span></code>.</p></li>
+<li><p>Both functions are in the standard library, so there is nothing to install.</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/itertools.html#itertools.groupby">itertools.groupby (Python documentation)</a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/operator.html#operator.attrgetter">operator.attrgetter (Python documentation)</a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/howto/sorting.html#key-functions">Key functions (Python Sorting HOW TO)</a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions">Lambda expressions (Python tutorial)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/c-neto/my-code-playground/blob/main/blog-code-examples/2025-07-28-groupby/python-groupby-example.py">Full example for this post (GitHub)</a></p></li>
+</ul>
+<p><em>I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "groupby + attrgetter: The Pythonic Way to Group Objects",
+      "description": "How to group Python objects by several attributes with itertools.groupby and operator.attrgetter instead of a dictionary of lists, and why the input must be sorted by the same key first.",
+      "datePublished": "2025-07-28",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2025/2025-07-28-python-groupby/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2025/2025-07-28-python-groupby/",
+      "keywords": ["Python", "itertools.groupby", "operator.attrgetter", "grouping"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "groupby + attrgetter: The Pythonic Way to Group Objects"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->

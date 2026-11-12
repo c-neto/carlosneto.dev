@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="A plain-language explanation of cloud computing: what it is, the problem it solved, when on-premises infrastructure still makes sense, and the costs that vendor pitches tend to skip." name="description" />
 <meta property="og:title" content="What is the Cloud and why does everyone keep talking about it?" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2023/2023-10-21-cloud-concepts/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2023/10/21 If you’ve ever heard someone say “it’s on the cloud” and weren’t quite sure what that meant, this post is for you. I decided to write this after watching it happe..." />
+<meta property="og:description" content="A plain-language explanation of cloud computing: what it is, the problem it solved, when on-premises infrastructure still makes sense, and the costs that vendor pitches tend to skip." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2023_2023-10-21-cloud-concepts_138b74e4.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2023/10/21 If you’ve ever heard someone say “it’s on the cloud” and weren’t quite sure what that meant, this post is for you. I decided to write this after watching it happe..." />
-<meta name="description" content="Blog Post Publish Date: 2023/10/21 If you’ve ever heard someone say “it’s on the cloud” and weren’t quite sure what that meant, this post is for you. I decided to write this after watching it happe..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2023_2023-10-21-cloud-concepts_c163e039.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2023/10/21 This blog post explains what the Cloud is without technical jargon: the problem it solved, why it changed how software is built, when running your own servers sti..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>What is the Cloud and why does everyone keep talking about it? &#8212; Carlos Neto&#39;s Blog</title>
@@ -408,48 +408,25 @@
 <hr class="docutils" />
 <section id="what-is-the-cloud-and-why-does-everyone-keep-talking-about-it">
 <h1>What is the Cloud and why does everyone keep talking about it?<a class="headerlink" href="#what-is-the-cloud-and-why-does-everyone-keep-talking-about-it" title="Link to this heading">#</a></h1>
-<p>If you’ve ever heard someone say “it’s on the cloud” and weren’t quite sure what that meant, this post is for you.</p>
-<p>I decided to write this after watching it happen one too many times: a cloud vendor would walk into a meeting, give a slick pitch, and my bosses would walk out convinced that the Cloud was a magic solution that would fix every single problem we had. Spoiler: it isn’t. The Cloud is a powerful tool, but it’s <strong>not a silver bullet</strong>, and in some cases it can even be the worse choice, especially financially.</p>
-<p>So let’s start from the beginning, no technical jargon, and by the end you’ll understand what the Cloud actually is, what it’s good for, and when it might not be worth it.</p>
+<p>This blog post explains what the Cloud is without technical jargon: the problem it solved, why it changed how software is built, when running your own servers still makes sense, and the costs that sales pitches tend to leave out. If you’ve ever heard someone say “it’s on the cloud” and weren’t quite sure what that meant, this post is for you.</p>
+<p>I decided to write it after watching the same scene one too many times. A cloud vendor would walk into a meeting, give a slick pitch, and my bosses would walk out convinced that the Cloud would fix every problem we had. It won’t. The Cloud is a powerful tool, but it’s <strong>not a silver bullet</strong>, and in some cases it’s the worse choice, especially financially.</p>
 <section id="the-problem-the-cloud-solved">
 <h2>The problem the Cloud solved<a class="headerlink" href="#the-problem-the-cloud-solved" title="Link to this heading">#</a></h2>
-<p>Imagine you want to launch an online store. Not too long ago, to make that work, you would need to buy a powerful computer to act as a server, find somewhere with a stable power supply to keep it running 24/7, hire someone to fix it when it broke, and hope it could handle the load when too many people visited at once.</p>
-<p>All of that was expensive, time-consuming, and risky. If the server went down, so did your store.</p>
-<p>Now imagine that instead of buying that computer, you simply <strong>rented</strong> it. And only paid for the time you actually used it. And if you needed more capacity during a big sale, you scaled up with a click, then scaled back down when it was over.</p>
-<p><strong>That’s the Cloud.</strong></p>
+<p>Imagine you want to launch an online store. Not long ago, you would need to buy a powerful computer to act as a server and find a place with stable power to keep it running 24/7. You would also hire someone to fix it when it broke, and hope it could handle the load when too many people visited at once.</p>
+<p>All of that was expensive, slow, and risky. If the server went down, so did your store.</p>
+<p>Now imagine that instead of buying that computer, you <strong>rent</strong> it and pay only for the time you use it. If you need more capacity during a big sale, you scale up with a click, then scale back down when it’s over. That’s the Cloud.</p>
 </section>
 <section id="cloud-renting-computers-over-the-internet">
 <h2>Cloud = renting computers over the internet<a class="headerlink" href="#cloud-renting-computers-over-the-internet" title="Link to this heading">#</a></h2>
-<p>The “cloud” is nothing more than massive data centers spread around the world, packed with servers and infrastructure, owned by companies like Amazon (AWS), Google (GCP), and Microsoft (Azure).</p>
-<p>These companies offer all of that as a service. You access it over the internet, use what you need, and pay for what you consume, similar to how you pay your electricity bill.</p>
-<p>This means a small startup can use the same infrastructure as a giant corporation, without investing millions in hardware upfront.</p>
+<p><strong>Cloud computing</strong> is the on-demand rental of computing resources (servers, storage, databases, networks) over the internet. The <a class="reference external" href="https://csrc.nist.gov/pubs/sp/800/145/final">NIST definition</a>, the one most people in the industry refer to, describes it as on-demand, self-service access to a shared pool of resources that can be provisioned and released quickly.</p>
+<p>Behind the word “cloud” there are massive data centers spread around the world, packed with servers and owned by companies such as Amazon (<a class="reference external" href="https://aws.amazon.com/what-is-cloud-computing/">AWS</a>), Google (<a class="reference external" href="https://cloud.google.com/learn/what-is-cloud-computing">GCP</a>), and Microsoft (<a class="reference external" href="https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-cloud-computing">Azure</a>). You access them over the internet, use what you need, and pay for what you consume, much like your electricity bill.</p>
+<p><strong>Pay-as-you-go</strong> is the pricing model behind that comparison: you are billed for the capacity you actually used, by the hour, second, or request, instead of paying for hardware upfront. That means a small startup can use the same infrastructure as a giant corporation without investing millions in hardware first.</p>
 </section>
-<section id="why-does-it-matter">
-<h2>Why does it matter?<a class="headerlink" href="#why-does-it-matter" title="Link to this heading">#</a></h2>
-<p>Before the Cloud, only large companies could afford robust infrastructure. Today, anyone with a credit card can have a server running anywhere in the world in a matter of minutes.</p>
-<p>That changed everything. New products reach the market much faster. You don’t need to buy expensive hardware just to test an idea. If your product takes off, the infrastructure grows with it. And Cloud providers have entire teams dedicated to keeping things up and running, so you don’t have to.</p>
-</section>
-<section id="a-real-world-example">
-<h2>A real-world example<a class="headerlink" href="#a-real-world-example" title="Link to this heading">#</a></h2>
-<p>Think about watching a movie on Netflix, listening to music on Spotify, or backing up your photos on Google Photos.</p>
-<p>All of that runs on the Cloud. None of those companies have a server sitting in your house, your data lives in data centers, and you access it over the internet.</p>
-</section>
-<section id="what-about-companies-that-don-t-use-the-cloud">
-<h2>What about companies that don’t use the Cloud?<a class="headerlink" href="#what-about-companies-that-don-t-use-the-cloud" title="Link to this heading">#</a></h2>
-<p>Some companies still maintain their own physical servers, either in a rented data center or on their own premises. This is called <strong>on-premise infrastructure</strong> (or “on-prem”).</p>
-<p>That’s not necessarily wrong. In some cases, it actually makes more sense, especially when there are strict regulatory requirements about where data can be stored, or when usage is so predictable and constant that buying is cheaper than renting.</p>
-<p>The Cloud isn’t the answer to everything. But it’s a great fit for anyone who needs flexibility, agility, and scale.</p>
-</section>
-<section id="the-part-the-vendors-won-t-tell-you">
-<h2>The part the vendors won’t tell you<a class="headerlink" href="#the-part-the-vendors-won-t-tell-you" title="Link to this heading">#</a></h2>
-<p>Here’s the thing those sales pitches tend to skip: the Cloud can get expensive, sometimes a lot more expensive than running your own hardware.</p>
-<p>Renting is great when your usage goes up and down, or when you’re still figuring things out. But if your workload is steady and predictable, running 24/7 at the same capacity, you end up paying a premium month after month for flexibility you’re not actually using. At that scale, buying your own servers and paying them off over a few years can be far cheaper.</p>
-<p>The “pay only for what you use” promise cuts both ways. If your team doesn’t actively manage and optimize what’s running, those bills creep up fast, forgotten resources, oversized machines, and data transfer costs that nobody noticed until the invoice arrived.</p>
-<p>The Cloud also isn’t automatically more secure, nor is migrating to it free. Moving an existing system requires real expertise, and doing it badly can cost you more than staying put.</p>
-<p>None of this means the Cloud is bad. It means it’s a <strong>tool, not a cure-all</strong>. The right question is never “should we move to the Cloud because it fixes everything?”, it’s “what problem are we actually trying to solve, and is the Cloud the best way to solve it?”</p>
-</section>
-<section id="tl-dr">
-<h2>TL;DR<a class="headerlink" href="#tl-dr" title="Link to this heading">#</a></h2>
+<section id="why-it-matters">
+<h2>Why it matters<a class="headerlink" href="#why-it-matters" title="Link to this heading">#</a></h2>
+<p>Before the Cloud, only large companies could afford robust infrastructure. Today, anyone with a credit card can have a server running anywhere in the world in a few minutes.</p>
+<p>That changed how products are built. New products reach the market much faster, because you don’t need to buy hardware just to test an idea. If the product takes off, the infrastructure grows with it, and the provider has entire teams keeping the data centers running.</p>
+<p>You already use the Cloud every day. For example, watching a movie on Netflix, listening to music on Spotify, or backing up your photos on Google Photos all run on it. None of those companies keeps a server in your house. Your data lives in their data centers, and you reach it over the internet.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Before the Cloud</p></th>
@@ -464,21 +441,85 @@
 <td><p>Minutes</p></td>
 </tr>
 <tr class="row-even"><td><p>Pay even when idle</p></td>
-<td><p>Pay only for what you use</p></td>
+<td><p>Pay for what you use</p></td>
 </tr>
 <tr class="row-odd"><td><p>Large team to maintain hardware</p></td>
 <td><p>Focus on the product</p></td>
 </tr>
-<tr class="row-even"><td><p>Risk of downtime if hardware fails</p></td>
-<td><p>High availability</p></td>
+<tr class="row-even"><td><p>Downtime if your only server fails</p></td>
+<td><p>Capacity spread across data centers</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<hr class="docutils" />
-<p>The Cloud isn’t magic, it’s computing infrastructure offered as a service. It fundamentally changed how software is built and delivered, making it possible for small teams to build products that reach millions of people. But it’s a tool, not a silver bullet, and no vendor pitch changes that.</p>
-<p>At its core, the problem it solves is simple: <strong>take the worry about computers off your plate, so you can focus on what actually matters.</strong> Just make sure that, before you move, you know what problem you’re solving, and that the Cloud is genuinely the best (and most affordable) way to solve it.</p>
 </section>
+<section id="companies-that-don-t-use-the-cloud">
+<h2>Companies that don’t use the Cloud<a class="headerlink" href="#companies-that-don-t-use-the-cloud" title="Link to this heading">#</a></h2>
+<p><strong>On-premises infrastructure</strong> (or “on-prem”) is the alternative: a company keeps its own physical servers, either in a rented data center or in its own building.</p>
+<p>That’s not necessarily wrong. Sometimes it makes more sense, such as when strict regulations control where data can be stored, or when usage is so predictable and constant that buying is cheaper than renting. The Cloud fits best when you need flexibility and the ability to scale quickly.</p>
+</section>
+<section id="the-part-the-vendors-won-t-tell-you">
+<h2>The part the vendors won’t tell you<a class="headerlink" href="#the-part-the-vendors-won-t-tell-you" title="Link to this heading">#</a></h2>
+<p>The sales pitches tend to skip one fact: the Cloud can get expensive, sometimes much more expensive than running your own hardware.</p>
+<p>Renting is great when usage goes up and down, or when you’re still figuring things out. But if your workload is steady and runs 24/7 at the same capacity, you pay a premium every month for flexibility you aren’t using. At that point, buying your own servers and paying them off over a few years can be far cheaper.</p>
+<p>“Pay only for what you use” cuts both ways. If nobody actively manages what’s running, the bills creep up: forgotten resources, oversized machines, and data transfer costs that nobody noticed until the invoice arrived. Even inside one provider, an infrastructure choice can change the bill a lot. I wrote about one of those trade-offs in <a class="reference internal" href="../../2026/2026-11-08-opensearch-hot-instance-store/"><span class="std std-doc">running OpenSearch on EC2 Instance Store</span></a> instead of EBS.</p>
+<p>The Cloud also isn’t automatically more secure, and migrating to it isn’t free. Moving an existing system takes real expertise, and doing it badly can cost more than staying put.</p>
+<p>None of this makes the Cloud bad. It’s a tool, not a cure-all. Don’t ask whether the Cloud will fix everything. Ask what problem you are trying to solve, and whether the Cloud is the best and most affordable way to solve it.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The Cloud is computing infrastructure offered as a service: you rent servers, storage, and networks over the internet instead of buying them.</p></li>
+<li><p>AWS, Google Cloud, and Azure run the data centers. You pay for what you consume, much like electricity.</p></li>
+<li><p>It lowered the cost of starting something new, which is why small teams can now build products that reach millions of people.</p></li>
+<li><p>On-premises infrastructure still makes sense for strict data regulations or steady, predictable workloads.</p></li>
+<li><p>Steady 24/7 workloads can cost more in the Cloud than on hardware you own, and unmanaged resources make bills grow quickly.</p></li>
+<li><p>Before you move, know what problem you’re solving and check that the Cloud is the best and most affordable way to solve it.</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://csrc.nist.gov/pubs/sp/800/145/final">The NIST Definition of Cloud Computing (NIST SP 800-145)</a></p></li>
+<li><p><a class="reference external" href="https://aws.amazon.com/what-is-cloud-computing/">What is cloud computing? (AWS)</a></p></li>
+<li><p><a class="reference external" href="https://cloud.google.com/learn/what-is-cloud-computing">What is cloud computing? (Google Cloud)</a></p></li>
+<li><p><a class="reference external" href="https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-cloud-computing">What is cloud computing? (Microsoft Azure)</a></p></li>
+</ul>
+<p><em>I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "What is the Cloud and why does everyone keep talking about it?",
+      "description": "A plain-language explanation of cloud computing: what it is, the problem it solved, when on-premises infrastructure still makes sense, and the costs that vendor pitches tend to skip.",
+      "datePublished": "2023-10-21",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2023/2023-10-21-cloud-concepts/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2023/2023-10-21-cloud-concepts/",
+      "keywords": ["cloud computing", "AWS", "Google Cloud", "Azure", "on-premises"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "What is the Cloud and why does everyone keep talking about it?"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->
@@ -509,7 +550,7 @@
   <span class="ablog__next">
      
     <a href="../2023-11-02-logstash-modular-pipelines/">
-      <span>Logstash Modular Pipelines: An Elegant Structure for Code Reusability and Duplication Avoiding</span>
+      <span>Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication</span>
       
       <i class="fa fa-arrow-circle-right"></i>
       

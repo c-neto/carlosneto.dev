@@ -639,7 +639,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -669,7 +680,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/08</em></p>
-<p>This blog post covers running the OpenSearch Hot Data Tier on EC2 Instance Store (local NVMe) instead of EBS: why it performs better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
+<p>This blog post covers running the OpenSearch hot data tier on EC2 Instance Store (local NVMe) instead of EBS. It explains why local disks perform better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -691,7 +702,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -719,7 +741,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/04</em></p>
-<p>This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage in clusters with many small indices, and how disk watermarks help address that. I’ll also discuss other allocation mechanisms and a limitation in the watermark design: it’s a cluster-wide setting, even in clusters with different storage tiers.</p>
+<p>This blog post explains how OpenSearch distributes shards across data nodes. It covers how the default allocator works, why it can leave disk usage uneven in clusters with many small indices, and how disk watermarks correct that. It also covers other allocation mechanisms and a limitation I run into often: watermarks are one cluster-wide setting, even in clusters with different storage tiers.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -795,7 +817,7 @@
   
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
-      <a href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/">OpenSearch Concepts - Index and Shards</a>
+      <a href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/">OpenSearch Concepts: Index and Shards</a>
     </h2>
     <ul class="ablog-archive">
       <li>
@@ -806,7 +828,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -834,7 +867,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/01/05</em></p>
-<p>OpenSearch is a powerful platform, but having a solid understanding of its basic concepts is essential for a seamless experience with the stack. In this blog post, we’ll cover one of the most fundamental aspects of OpenSearch administration: <strong>Indices and Shards</strong>.</p>
+<p>This blog post explains two of the most basic concepts in OpenSearch administration: indices and shards. It covers what primary and replica shards are, how their counts affect performance and fault tolerance, and the API calls I use most to inspect indices and shards while troubleshooting.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -856,7 +889,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -886,7 +930,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2024/06/08</em></p>
-<p>This blog post outlines an optimize log ingestion in OpenSearch using Logstash. It will address a common issue related to shipping logs to scalable OpenSearch clusters and provide an effective solution to enhance resource utilization.</p>
+<p>This blog post covers a common problem when Logstash ships logs to an OpenSearch cluster with autoscaling ingest nodes behind a load balancer: one node takes all the traffic while the others sit idle. It shows how the output plugin’s sniffing options fix that by discovering the nodes from the OpenSearch API.</p>
 </p>
 
     <p class="ablog-post-expand">

@@ -7,19 +7,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="OpenTelemetry: A Framework to Decoupling Your Observability" />
+<meta content="What OpenTelemetry actually is, why separating the API from the SDK prevents vendor lock-in, and a Python example that records the same metrics and sends them to Prometheus or Datadog by changing only the SDK setup." name="description" />
+<meta property="og:title" content="OpenTelemetry: A Framework for Decoupling Your Observability" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-10-29-otel-foundation/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/10/29 This blog post explains the foundation of OpenTelemetry and walks through a practical example of instrumenting a Python application. It demonstrates OpenTelemetry..." />
+<meta property="og:description" content="What OpenTelemetry actually is, why separating the API from the SDK prevents vendor lock-in, and a Python example that records the same metrics and sends them to Prometheus or Datadog by changing only the SDK setup." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-10-29-otel-foundation_c7d00c75.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/29 This blog post explains the foundation of OpenTelemetry and walks through a practical example of instrumenting a Python application. It demonstrates OpenTelemetry..." />
-<meta name="description" content="Blog Post Publish Date: 2026/10/29 This blog post explains the foundation of OpenTelemetry and walks through a practical example of instrumenting a Python application. It demonstrates OpenTelemetry..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-10-29-otel-foundation_c27cf0c0.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/29 This blog post explains what OpenTelemetry is and why its separation between API and SDK matters. It then walks through a Python application that records metrics ..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>OpenTelemetry: A Framework to Decoupling Your Observability &#8212; Carlos Neto&#39;s Blog</title>
+    <title>OpenTelemetry: A Framework for Decoupling Your Observability &#8212; Carlos Neto&#39;s Blog</title>
   
   
   
@@ -406,25 +406,31 @@
 </div>
 <p><em><strong>Blog Post Publish Date:</strong> 2026/10/29</em></p>
 <hr class="docutils" />
-<section id="opentelemetry-a-framework-to-decoupling-your-observability">
-<h1>OpenTelemetry: A Framework to Decoupling Your Observability<a class="headerlink" href="#opentelemetry-a-framework-to-decoupling-your-observability" title="Link to this heading">#</a></h1>
-<p>This blog post explains the foundation of OpenTelemetry and walks through a practical example of instrumenting a Python application. It demonstrates OpenTelemetry’s single API definition paired with multiple SDK implementations for Prometheus and Datadog.</p>
-<section id="demystifying-opentelemetry">
-<h2>Demystifying OpenTelemetry<a class="headerlink" href="#demystifying-opentelemetry" title="Link to this heading">#</a></h2>
-<p>While studying OpenTelemetry, I struggled to understand what it actually was, what problem it was designed to solve, and how it related to tools like Prometheus. I decided to write this blog post to share that learning experience and walk through the reasoning that helped me understand what OpenTelemetry is and where it fits in the observability ecosystem.</p>
-<p>The official definition of OpenTelemetry is: <em>“An open-source, vendor-neutral observability framework designed to standardize how software generates, collects, and exports telemetry data.”</em> As accurate as this definition is, I found it rather abstract. I kept asking myself: <em>How do I actually use this framework? Do I install it in my application? Do I run it as a service? Is it something like Prometheus?</em></p>
-<p>The answer is that OpenTelemetry is neither just a library you add to your code nor a standalone service like Prometheus or Logstash. OpenTelemetry encompassing API specifications, instrumentation SDKs, and data collection infrastructure (the OpenTelemetry Collector). OpenTelemetry defines the universal standard, while tools like Prometheus or Fluent Bit are simply execution backends, interchangeable mechanisms used to store, query, or transport the data your framework generates.</p>
-<p>OpenTelemetry is complex and involves instrumenting your application to generate telemetry data (traces, metrics, and logs), configuring components to collect that data, and choosing where to store and analyze it. However, this complexity is paid to provide a robust observability features, especially in modern distributed systems and microservice architectures.</p>
-<p>Naturally, questions arise: <em>Which library should you use? Which collector should you run? Which database should store your telemetry?</em> This is where OpenTelemetry really shines: <strong>the strict separation between definitions and implementations.</strong> You can choose the tools that best fit your infrastructure without coupling your application to a specific vendor or backend.</p>
-<p>When instrumenting your application, you write code against the OpenTelemetry API (the specification). Your application does not need to know where the telemetry data is going. If you decide to replace your collection agent or backend later, you do not need to rewrite application code. You simply update the SDK configuration or the destination defined in the OpenTelemetry Collector. This approach ensures vendor neutrality and prevents vendor lock-in.</p>
+<section id="opentelemetry-a-framework-for-decoupling-your-observability">
+<h1>OpenTelemetry: A Framework for Decoupling Your Observability<a class="headerlink" href="#opentelemetry-a-framework-for-decoupling-your-observability" title="Link to this heading">#</a></h1>
+<p>This blog post explains what OpenTelemetry is and why its separation between API and SDK matters. It then walks through a Python application that records metrics once, through the OpenTelemetry API, and sends them to either Prometheus or Datadog by changing only the SDK configuration.</p>
+<section id="what-opentelemetry-actually-is">
+<h2>What OpenTelemetry Actually Is<a class="headerlink" href="#what-opentelemetry-actually-is" title="Link to this heading">#</a></h2>
+<p>When I started studying OpenTelemetry, I struggled to understand what it was, what problem it solved, and how it related to tools such as Prometheus. This post walks through the reasoning that finally made it click for me.</p>
+<p>The <a class="reference external" href="https://opentelemetry.io/docs/what-is-opentelemetry/">official definition</a> says that <strong>OpenTelemetry</strong> is <em>“an open-source, vendor-neutral observability framework”</em> for generating, collecting, and exporting telemetry data. It’s accurate, but I found it abstract. I kept asking: <em>How do I actually use it? Do I install it in my application? Do I run it as a service? Is it something like Prometheus?</em></p>
+<p>The answer is that OpenTelemetry is neither just a library nor a standalone service like Prometheus or Logstash. It’s a set of pieces:</p>
+<ul class="simple">
+<li><p><strong>API specifications</strong>: the interfaces your code calls to create spans, metrics, and logs.</p></li>
+<li><p><strong>SDKs</strong>: the implementations of those APIs for each language, which process and export the data.</p></li>
+<li><p><strong>The OpenTelemetry Collector</strong>: an optional service that receives, processes, and forwards telemetry.</p></li>
+</ul>
+<p>OpenTelemetry defines the standard. Tools such as Prometheus, Datadog, or Fluent Bit are backends and transports: interchangeable places to store, query, or move the data your application produces.</p>
+<p>OpenTelemetry is complex. You instrument the application to produce traces, metrics, and logs, configure how that data is collected, and choose where to store and analyze it. That complexity pays for itself in modern distributed systems and microservice architectures, where you need the same telemetry from many services in many languages.</p>
+<p>Then the obvious questions come up: <em>Which library should I use? Which collector should I run? Which database should store the data?</em> This is where OpenTelemetry shines: <strong>it strictly separates definitions from implementations.</strong> You pick the tools that fit your infrastructure without coupling the application to a vendor.</p>
+<p>Your code calls the OpenTelemetry API, and it doesn’t need to know where the telemetry goes. If you replace the collection agent or the backend later, you don’t rewrite application code. You change the SDK configuration, or the destination in the Collector. That is what makes OpenTelemetry vendor-neutral and prevents vendor lock-in.</p>
 </section>
-<section id="application-instrumentation-example-metrics-exposing">
-<h2>Application Instrumentation Example (metrics exposing)<a class="headerlink" href="#application-instrumentation-example-metrics-exposing" title="Link to this heading">#</a></h2>
-<p>Imagine we have a simple payment application. We want to measure the total number of processed payments, and how long each payment takes to process. To demonstrate OpenTelemetry’s vendor-neutral metric implementation, we will define a metric API once and set up two different backend SDK implementations: Prometheus and Datadog.</p>
-<p>The key takeaway is that we aren’t writing code specific to Prometheus or Datadog inside our business logic. We instrument the Python application using the OpenTelemetry API. If we decide to switch from Prometheus to Datadog, we don’t touch the application domain code. We only update the SDK configuration parameters (such as the exporter endpoint, credentials, or protocol) to send metrics to Datadog.</p>
+<section id="instrumenting-a-python-application">
+<h2>Instrumenting a Python Application<a class="headerlink" href="#instrumenting-a-python-application" title="Link to this heading">#</a></h2>
+<p>Imagine a simple payment application. We want to measure how many payments it processes and how long each one takes. To show the vendor-neutral design, the example defines the metrics once with the API and sets up two different SDK configurations: one for Prometheus and one for Datadog.</p>
+<p>The point is that the business logic contains no Prometheus or Datadog code. Switching from Prometheus to Datadog means changing only the SDK setup, such as the exporter, endpoint, credentials, or protocol.</p>
 <section id="the-metric-api">
 <h3>The Metric API<a class="headerlink" href="#the-metric-api" title="Link to this heading">#</a></h3>
-<p>Let’s start with <code class="docutils literal notranslate"><span class="pre">app.py</span></code>. This file contains the application instrumentation. Notice that it imports only the OpenTelemetry API. It does not import SDK classes, exporters, or backend-specific libraries.</p>
+<p><code class="docutils literal notranslate"><span class="pre">app.py</span></code> holds the instrumentation. Notice that it imports only the OpenTelemetry API, with no SDK classes, exporters, or backend libraries:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">perf_counter</span>
@@ -472,19 +478,18 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Payment processed: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Let’s break down what happens here:</p>
+<p>Here is what happens:</p>
 <ol class="arabic simple">
-<li><p>We call <code class="docutils literal notranslate"><span class="pre">metrics.get_meter()</span></code> to obtain a <code class="docutils literal notranslate"><span class="pre">Meter</span></code>. The <code class="docutils literal notranslate"><span class="pre">Meter</span></code> is responsible for creating instruments such as Counters and Histograms.</p></li>
-<li><p>We create two instruments: <strong>Counter:</strong> Records cumulative values, such as the total number of processed payments; and <strong>Histogram:</strong> Records distributions of values, such as payment processing durations.</p></li>
-<li><p>We use these instruments to record measurements whenever a payment is processed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">metrics.get_meter()</span></code> returns a <strong>meter</strong>, the object that creates instruments such as counters and histograms.</p></li>
+<li><p>The code creates two instruments. A <strong>counter</strong> records a value that only goes up, such as the total number of processed payments. A <strong>histogram</strong> records a distribution of values, such as payment durations.</p></li>
+<li><p>Each processed payment records one measurement in each instrument, with a <code class="docutils literal notranslate"><span class="pre">status</span></code> attribute.</p></li>
 </ol>
-<p>The crucial detail is that this code only interacts with the OpenTelemetry API. It does not know or care how metrics are collected, processed, or exported, nor whether they end up in Prometheus, Datadog, or another observability backend.</p>
-<p>That is the power of this architectural separation.</p>
+<p>This code only talks to the OpenTelemetry API. It doesn’t know how the metrics are collected, processed, or exported, or whether they end up in Prometheus, Datadog, or another backend. Until an SDK is registered, the API calls simply do nothing, which also makes the code safe to run without any telemetry setup.</p>
 </section>
-<section id="the-sdk-implementation-prometheus-or-datadog">
-<h3>The SDK Implementation: Prometheus or Datadog<a class="headerlink" href="#the-sdk-implementation-prometheus-or-datadog" title="Link to this heading">#</a></h3>
-<p>Now let’s look at <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code>. This file configures the OpenTelemetry SDK. Unlike <code class="docutils literal notranslate"><span class="pre">app.py</span></code>, it imports SDK classes and defines how telemetry data will be collected and exported. Let’s compare two different backend configurations: Prometheus and Datadog.</p>
-<p><strong>Prometheus:</strong> First, let’s configure the SDK to expose metrics in Prometheus format. Configure <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code>:</p>
+<section id="the-sdk-setup-prometheus-or-datadog">
+<h3>The SDK Setup: Prometheus or Datadog<a class="headerlink" href="#the-sdk-setup-prometheus-or-datadog" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code> configures the OpenTelemetry SDK. Unlike <code class="docutils literal notranslate"><span class="pre">app.py</span></code>, it imports SDK classes and decides how the data is collected and exported. Here are two versions of it.</p>
+<p><strong>Prometheus:</strong> this <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code> exposes the metrics in the Prometheus format:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">prometheus_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">start_http_server</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">metrics</span>
@@ -509,12 +514,8 @@
 <span class="n">metrics</span><span class="o">.</span><span class="n">set_meter_provider</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>In this setup, <code class="docutils literal notranslate"><span class="pre">PrometheusMetricReader</span></code> exposes an HTTP endpoint containing the application’s metrics. Prometheus periodically scrapes this endpoint to collect data.</p>
-<p>The endpoint is available at: <code class="docutils literal notranslate"><span class="pre">http://localhost:9464/metrics</span></code></p>
-<hr class="docutils" />
-<p><strong>Datadog:</strong> Now suppose we want to send those exact same metrics to Datadog instead.</p>
-<p>We do not modify <code class="docutils literal notranslate"><span class="pre">app.py</span></code> at all. We only update the SDK setup in <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code>. For this example, we’ll use the OpenTelemetry Protocol (OTLP) exporter to push metrics to a Datadog Agent.</p>
-<p>Configure <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code>:</p>
+<p>The <a class="reference external" href="https://opentelemetry-python.readthedocs.io/en/latest/exporter/prometheus/prometheus.html">Prometheus exporter</a> serves the metrics at <code class="docutils literal notranslate"><span class="pre">http://localhost:9464/metrics</span></code>, and Prometheus scrapes that endpoint periodically. In the Prometheus format, the counter appears as <code class="docutils literal notranslate"><span class="pre">payments_processed_total</span></code>, following the Prometheus naming convention for counters.</p>
+<p><strong>Datadog:</strong> now suppose the same metrics must go to Datadog. <code class="docutils literal notranslate"><span class="pre">app.py</span></code> doesn’t change at all. Only <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code> does. This version uses the <a class="reference external" href="https://opentelemetry-python.readthedocs.io/en/latest/exporter/otlp/otlp.html">OTLP exporter</a> to push the metrics to a Datadog Agent:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">metrics</span>
 
 <span class="c1"># it is SDK library</span>
@@ -546,21 +547,85 @@
 
 </pre></div>
 </div>
-<p>Here, <code class="docutils literal notranslate"><span class="pre">OTLPMetricExporter</span></code> sends telemetry using OpenTelemetry Protocol (OTLP). The Datadog Agent receives these OTLP metrics and forwards them to Datadog.</p>
-<p>Unlike the pull-based Prometheus integration, this approach uses a push-based model where the application periodically pushes metrics out to the collector agent.</p>
+<p><strong>OTLP</strong> (OpenTelemetry Protocol) is the native protocol for sending telemetry between OpenTelemetry components. The Datadog Agent can receive OTLP on port 4317 once its <a class="reference external" href="https://docs.datadoghq.com/opentelemetry/">OTLP ingestion</a> is enabled, and it forwards the metrics to Datadog.</p>
+<p>The two setups also use different models. Prometheus pulls: it scrapes the application’s endpoint. The OTLP exporter pushes: the <code class="docutils literal notranslate"><span class="pre">PeriodicExportingMetricReader</span></code> sends the metrics to the agent at a fixed interval.</p>
 </section>
+<section id="wiring-it-together">
+<h3>Wiring It Together<a class="headerlink" href="#wiring-it-together" title="Link to this heading">#</a></h3>
+<p>The application imports <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code> once at startup to register the SDK, then runs the business logic:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># main.py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">telemetry</span>  <span class="c1"># registers the SDK (Prometheus or Datadog)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app</span><span class="w"> </span><span class="kn">import</span> <span class="n">process_payment</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">process_payment</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Switching backends means switching the <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code> file, or its configuration. <code class="docutils literal notranslate"><span class="pre">app.py</span></code> stays the same.</p>
+</section>
+</section>
+<section id="why-the-separation-matters">
+<h2>Why the Separation Matters<a class="headerlink" href="#why-the-separation-matters" title="Link to this heading">#</a></h2>
+<p>The API/SDK split is the idea that made OpenTelemetry click for me. The application declares what it measures, and the platform decides where the data goes. That lets the application team instrument the code without waiting on backend decisions, and lets the platform team change backends without touching every service.</p>
+<p>It also forces you to emit metrics as metrics, instead of logging lines and counting them later in the log store. I explain why that matters in <a class="reference internal" href="../2026-11-03-stop-extracting-metrics-from-opensearch-logs/"><span class="std std-doc">Stop Extracting Metrics from OpenSearch Logs</span></a>. And if you’re collecting the logs side of the picture on Kubernetes, see <a class="reference internal" href="../../2025/2025-06-22-kubernetes-logs-simplified/"><span class="std std-doc">Kubernetes Logs Simplified</span></a>.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>OpenTelemetry is a standard, not a backend: API specifications, language SDKs, and an optional Collector.</p></li>
+<li><p>Application code calls only the API. The SDK, configured separately, decides how telemetry is processed and where it goes.</p></li>
+<li><p>Changing from Prometheus to Datadog changes only the SDK setup (<code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code>), not the instrumented code (<code class="docutils literal notranslate"><span class="pre">app.py</span></code>).</p></li>
+<li><p>A meter creates instruments. A counter records totals that only go up, and a histogram records distributions such as durations.</p></li>
+<li><p>The Prometheus exporter exposes an endpoint for Prometheus to scrape (pull). The OTLP exporter sends metrics to an agent or Collector (push).</p></li>
+<li><p>Without a registered SDK, API calls do nothing, so instrumented code runs safely with no telemetry setup.</p></li>
+</ul>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>OpenTelemetry Documentation: <a class="reference external" href="https://opentelemetry.io/docs/">https://opentelemetry.io/docs/</a></p></li>
-<li><p>OpenTelemetry Python Documentation: <a class="reference external" href="https://opentelemetry-python.readthedocs.io/">https://opentelemetry-python.readthedocs.io/</a></p></li>
-<li><p>OpenTelemetry Python SDK: <a class="reference external" href="https://opentelemetry-python.readthedocs.io/en/latest/sdk/metrics.html">https://opentelemetry-python.readthedocs.io/en/latest/sdk/metrics.html</a></p></li>
-<li><p>OpenTelemetry Python Prometheus Exporter: <a class="reference external" href="https://opentelemetry-python.readthedocs.io/en/latest/exporter/prometheus/prometheus.html">https://opentelemetry-python.readthedocs.io/en/latest/exporter/prometheus/prometheus.html</a></p></li>
-<li><p>OpenTelemetry OTLP Exporter: <a class="reference external" href="https://opentelemetry-python.readthedocs.io/en/latest/exporter/otlp/otlp.html">https://opentelemetry-python.readthedocs.io/en/latest/exporter/otlp/otlp.html</a></p></li>
-<li><p>Datadog OTLP Ingestion: <a class="reference external" href="https://docs.datadoghq.com/opentelemetry/">https://docs.datadoghq.com/opentelemetry/</a></p></li>
+<li><p><a class="reference external" href="https://opentelemetry.io/docs/what-is-opentelemetry/">What is OpenTelemetry? (OpenTelemetry)</a></p></li>
+<li><p><a class="reference external" href="https://opentelemetry.io/docs/">OpenTelemetry documentation (OpenTelemetry)</a></p></li>
+<li><p><a class="reference external" href="https://opentelemetry-python.readthedocs.io/">OpenTelemetry Python documentation (Read the Docs)</a></p></li>
+<li><p><a class="reference external" href="https://opentelemetry-python.readthedocs.io/en/latest/sdk/metrics.html">Metrics SDK (OpenTelemetry Python)</a></p></li>
+<li><p><a class="reference external" href="https://opentelemetry-python.readthedocs.io/en/latest/exporter/prometheus/prometheus.html">Prometheus exporter (OpenTelemetry Python)</a></p></li>
+<li><p><a class="reference external" href="https://opentelemetry-python.readthedocs.io/en/latest/exporter/otlp/otlp.html">OTLP exporter (OpenTelemetry Python)</a></p></li>
+<li><p><a class="reference external" href="https://docs.datadoghq.com/opentelemetry/">OpenTelemetry in Datadog (Datadog)</a></p></li>
 </ul>
-</section>
+<p><em>I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "OpenTelemetry: A Framework for Decoupling Your Observability",
+      "description": "What OpenTelemetry actually is, why separating the API from the SDK prevents vendor lock-in, and a Python example that records the same metrics and sends them to Prometheus or Datadog by changing only the SDK setup.",
+      "datePublished": "2026-10-29",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-10-29-otel-foundation/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-10-29-otel-foundation/",
+      "keywords": ["OpenTelemetry", "observability", "Python", "Prometheus", "Datadog", "OTLP"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "OpenTelemetry: A Framework for Decoupling Your Observability"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->

@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Why fzf replaced Ctrl+R, find, and command | grep in my terminal, and how to set up its Zsh widgets for history, files, and directories with fd, bat, and tree previews." name="description" />
 <meta property="og:title" content="fzf: Life is Too Short for Pipe Grep" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2024/2024-04-21-fzf/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2024/04/28 This blog post outlines the advantages of the fzf(Fuzzy Finder CLI) and explains how to configure its Zsh widgets. Searching in the Terminal - Tedious Task: Searc..." />
+<meta property="og:description" content="Why fzf replaced Ctrl+R, find, and command | grep in my terminal, and how to set up its Zsh widgets for history, files, and directories with fd, bat, and tree previews." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2024_2024-04-21-fzf_ee678ddd.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2024/04/28 This blog post outlines the advantages of the fzf(Fuzzy Finder CLI) and explains how to configure its Zsh widgets. Searching in the Terminal - Tedious Task: Searc..." />
-<meta name="description" content="Blog Post Publish Date: 2024/04/28 This blog post outlines the advantages of the fzf(Fuzzy Finder CLI) and explains how to configure its Zsh widgets. Searching in the Terminal - Tedious Task: Searc..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2024_2024-04-21-fzf_851e5db0.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2024/04/28 This blog post explains why fzf, a command-line fuzzy finder, replaced Ctrl+ R, find, and command | grep in my terminal. It also shows how to configure its Zsh wi..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>fzf: Life is Too Short for Pipe Grep &#8212; Carlos Neto&#39;s Blog</title>
@@ -408,34 +408,33 @@
 <hr class="docutils" />
 <section id="fzf-life-is-too-short-for-pipe-grep">
 <h1>fzf: Life is Too Short for Pipe Grep<a class="headerlink" href="#fzf-life-is-too-short-for-pipe-grep" title="Link to this heading">#</a></h1>
-<p>This blog post outlines the advantages of the <a class="reference external" href="https://github.com/junegunn/fzf">fzf</a> (Fuzzy Finder CLI) and explains how to configure its <a class="reference external" href="https://www.zsh.org/">Zsh</a> widgets.</p>
-<section id="searching-in-the-terminal-tedious-task">
-<h2>Searching in the Terminal - Tedious Task<a class="headerlink" href="#searching-in-the-terminal-tedious-task" title="Link to this heading">#</a></h2>
-<p>Searching for items in the terminal is a trivial activity, but can be a boring and tedious task. I will list three cases to exemplify it: searching command history; files and directories; and command output.</p>
-<p>Usually, users press the arrow up/down to recall last commands executed. The most used shells implemented an interactive search tool called by <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code> shortcut. In Zsh, it is implemented as <em>reverse-i-search</em>, which works well, but you need to press the shortcut again to see the next results. This behavior can be a problem if you need to recall commands executed multiple times with different arguments.</p>
-<p>When it is necessary to find some file or directory, the most common method adopted is to use <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">find</span></code>. It works well when you know exactly the item that you need to find, but not so good when you only know some partials of the path.</p>
-<p>Lastly, I can mention searching elements in command outputs. The most adopted method for this case is to use matching expressions within a command output using <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">command</span> <span class="pre">|</span> <span class="pre">grep</span></code>. When the same problem of finding files and directories previously described is true for this. Depending on the case, it is necessary to execute grep multiple times until you find the elements that you need.</p>
-<p>This tedious task prompted me to research better alternatives for interactive searching.</p>
+<p>This blog post explains why <a class="reference external" href="https://github.com/junegunn/fzf">fzf</a>, a command-line fuzzy finder, replaced <code class="docutils literal notranslate"><span class="pre">Ctrl</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code>, <code class="docutils literal notranslate"><span class="pre">find</span></code>, and <code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">|</span> <span class="pre">grep</span></code> in my terminal. It also shows how to configure its <a class="reference external" href="https://www.zsh.org/">Zsh</a> widgets for searching history, files, and directories, with live previews.</p>
+<section id="searching-in-the-terminal-is-tedious">
+<h2>Searching in the Terminal Is Tedious<a class="headerlink" href="#searching-in-the-terminal-is-tedious" title="Link to this heading">#</a></h2>
+<p>Searching in the terminal is something you do all the time, and it gets boring fast. Three cases show the problem: searching command history, searching files and directories, and searching command output.</p>
+<p>To recall a command, most people press the up and down arrows. Most shells also have an interactive search on <code class="docutils literal notranslate"><span class="pre">Ctrl</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code>. In Zsh it’s <em>reverse-i-search</em>. It works, but you have to press the shortcut again to see each older match, which is painful when you ran the same command many times with different arguments.</p>
+<p>To find a file or directory, the usual tool is <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">find</span></code>. It works well when you know exactly what you’re looking for, but not when you only remember part of the path.</p>
+<p>To find something in a command’s output, the usual method is <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">command</span> <span class="pre">|</span> <span class="pre">grep</span></code>. It has the same problem as <code class="docutils literal notranslate"><span class="pre">find</span></code>: depending on the case, you run <code class="docutils literal notranslate"><span class="pre">grep</span></code> several times until you find what you need.</p>
+<p>That routine pushed me to look for a better way to search interactively.</p>
 </section>
-<section id="fuzzy-finders-the-solution">
-<h2>Fuzzy Finders - The Solution<a class="headerlink" href="#fuzzy-finders-the-solution" title="Link to this heading">#</a></h2>
-<p>After a few days of research, I found an amazing project that solves my problems: <a class="reference external" href="https://github.com/junegunn/fzf">fzf — command-line fuzzy finder</a>. It is a cross-platform Fuzzy Finder command-line written in Go. But, what is Fuzzy Finder?</p>
-<p>Fuzzy Finder is a search tool category for providing a quickly and flexibly way to find files, directories, or other elements, even when they don’t remember the precise names. It employs fuzzy matching to find results based on partial words, erratic characters, or typographical errors.</p>
-<p><a class="reference external" href="https://github.com/junegunn/fzf">fzf</a> filters the list of items as you type. This makes your searching much more efficient, avoiding <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">command</span> <span class="pre">|</span> <span class="pre">grep</span></code> execution. It can receive output of the other commands for interative searching, for instance you can execute <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kgp</span> <span class="pre">-A</span> <span class="pre">|</span> <span class="pre">fzf</span></code> to find pods in a Kubernetes cluster. In addition, it has some predefined shells widgets to search files, directories, and search history commands.</p>
-<p>The next section will explain how to configure these widgets in Zsh.</p>
+<section id="fuzzy-finders-are-the-solution">
+<h2>Fuzzy Finders Are the Solution<a class="headerlink" href="#fuzzy-finders-are-the-solution" title="Link to this heading">#</a></h2>
+<p>After a few days of research, I found <a class="reference external" href="https://github.com/junegunn/fzf">fzf</a>, a cross-platform fuzzy finder written in Go.</p>
+<p>A <strong>fuzzy finder</strong> is a search tool that finds files, directories, or any other items even when you don’t remember their exact names. It uses fuzzy matching, so partial words, characters out of order, and typos still find the right result.</p>
+<p>fzf filters a list as you type, so you don’t need <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">command</span> <span class="pre">|</span> <span class="pre">grep</span></code> anymore. It reads the output of any command for interactive searching. For example, <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kgp</span> <span class="pre">-A</span> <span class="pre">|</span> <span class="pre">fzf</span></code> searches pods across a Kubernetes cluster (<code class="docutils literal notranslate"><span class="pre">kgp</span></code> is the <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">pods</span></code> alias from the <a class="reference internal" href="../2024-02-08-starship-zsh/"><span class="std std-doc">kubectl plugin I use in Zsh</span></a>). fzf also ships shell widgets that search files, directories, and command history.</p>
 <blockquote>
-<div><p><i class="fa-solid fa-circle-info"></i> There are widgets available for Fish, Bash, Zsh. You can check the available implementations in <a class="reference external" href="https://github.com/junegunn/fzf/tree/master/shell">github.com/junegunn/fzf/shell</a></p>
+<div><p><i class="fa-solid fa-circle-info"></i> fzf has widgets for Fish, Bash, and Zsh. You can see them in <a class="reference external" href="https://github.com/junegunn/fzf/tree/master/shell">github.com/junegunn/fzf/shell</a>.</p>
 </div></blockquote>
 </section>
 <section id="how-to-configure-fzf-widgets-in-zsh">
 <h2>How to Configure fzf Widgets in Zsh<a class="headerlink" href="#how-to-configure-fzf-widgets-in-zsh" title="Link to this heading">#</a></h2>
-<p>The first step is to install fzf. There are some distinct ways to install it described in <a class="reference external" href="https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation">fzf — installation section</a>. Depending on the package manager on your workstation, the version available can be older. Thus, I will download and install the latest version available in GitHub Releases section.</p>
+<p>First, install fzf. The <a class="reference external" href="https://github.com/junegunn/fzf/tree/master?tab=readme-ov-file#installation">installation section</a> lists several options. Package managers can ship an old version, so I download the latest release from GitHub:</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>setopt<span class="w"> </span>INTERACTIVE_COMMENTS
 
-<span class="c1"># download the latest version (in a moment of the blog publish date, the latest version is 0.50.0)</span>
-curl<span class="w"> </span>-L<span class="w"> </span>https://github.com/junegunn/fzf/releases/latest/download/fzf-0.50.0-linux_amd64.tar.gz<span class="w"> </span>&gt;<span class="w"> </span>fzf-0.50.0-linux_amd64.tar.gz
+<span class="c1"># download the release (at the publish date of this post, the latest version was 0.50.0)</span>
+curl<span class="w"> </span>-L<span class="w"> </span>https://github.com/junegunn/fzf/releases/download/0.50.0/fzf-0.50.0-linux_amd64.tar.gz<span class="w"> </span>&gt;<span class="w"> </span>fzf-0.50.0-linux_amd64.tar.gz
 
-<span class="c1"># uncompress the donwloaded file to access the fzf binary</span>
+<span class="c1"># uncompress the downloaded file to access the fzf binary</span>
 tar<span class="w"> </span>-xzvf<span class="w"> </span>fzf-0.50.0-linux_amd64.tar.gz
 
 <span class="c1"># check fzf binary execution</span>
@@ -445,7 +444,7 @@ tar<span class="w"> </span>-xzvf<span class="w"> </span>fzf-0.50.0-linux_amd64.t
 mv<span class="w"> </span>fzf<span class="w"> </span>/usr/local/bin/
 </pre></div>
 </div>
-<p>The fzf use the command <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">find</span></code> behind the scenes as engine to search directories and files. You can change it. In this example, I will install and configure the <a class="reference external" href="https://github.com/sharkdp/fd">fd-find</a>, a fast and user-friendly alternative to <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">find</span></code>.</p>
+<p>By default, fzf uses <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">find</span></code> to list files and directories. You can change that. I use <a class="reference external" href="https://github.com/sharkdp/fd">fd</a>, a faster and friendlier alternative to <code class="docutils literal notranslate"><span class="pre">find</span></code>:</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span class="c1"># In Linux workstation with dnf package manager</span>
 dnf<span class="w"> </span>install<span class="w"> </span>fd-find
 
@@ -453,7 +452,7 @@ dnf<span class="w"> </span>install<span class="w"> </span>fd-find
 brew<span class="w"> </span>install<span class="w"> </span>fd
 </pre></div>
 </div>
-<p>For file content preview, I will install and configure <a class="reference external" href="https://github.com/sharkdp/bat">bat</a>, a <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cat</span></code> clone with syntax highlighting.</p>
+<p>For file previews, I use <a class="reference external" href="https://github.com/sharkdp/bat">bat</a>, a <code class="docutils literal notranslate"><span class="pre">cat</span></code> clone with syntax highlighting:</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span class="c1"># In Linux workstation with dnf package manager</span>
 dnf<span class="w"> </span>install<span class="w"> </span>bat
 
@@ -461,7 +460,7 @@ dnf<span class="w"> </span>install<span class="w"> </span>bat
 brew<span class="w"> </span>install<span class="w"> </span>bat
 </pre></div>
 </div>
-<p>For directory and sub directories preview, I will install and configure <a class="reference external" href="https://www.cyberciti.biz/faq/linux-show-directory-structure-command-line/">tree</a>, a utility which recursively displays the contents of directories in a tree-like format.</p>
+<p>For directory previews, I use <a class="reference external" href="https://www.cyberciti.biz/faq/linux-show-directory-structure-command-line/">tree</a>, which prints the contents of a directory recursively as a tree:</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span class="c1"># In Linux workstation with dnf package manager</span>
 dnf<span class="w"> </span>install<span class="w"> </span>tree
 
@@ -469,12 +468,12 @@ dnf<span class="w"> </span>install<span class="w"> </span>tree
 brew<span class="w"> </span>install<span class="w"> </span>tree
 </pre></div>
 </div>
-<p>Now, it is necessary load the Shell widgets. For this, you can get the widget setup source-code given the shell name as argument (<code class="docutils literal notranslate"><span class="pre">--zsh</span></code>, <code class="docutils literal notranslate"><span class="pre">--fish</span></code>, <code class="docutils literal notranslate"><span class="pre">--bash</span></code>). In this case, I will setup the widgets for Zsh.</p>
+<p>Now load the widgets. Since version 0.48.0, <code class="docutils literal notranslate"><span class="pre">fzf</span></code> prints the setup code for a shell when you pass its name (<code class="docutils literal notranslate"><span class="pre">--zsh</span></code>, <code class="docutils literal notranslate"><span class="pre">--fish</span></code>, or <code class="docutils literal notranslate"><span class="pre">--bash</span></code>):</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set up fzf key bindings and fuzzy completion (only available in 0.48.0 or later)</span>
 <span class="nb">eval</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>fzf<span class="w"> </span>--zsh<span class="k">)</span><span class="s2">"</span>
 </pre></div>
 </div>
-<p>Run the following command to check the keybindings are correctly loaded.</p>
+<p>Check that the key bindings were loaded:</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span>bindkey<span class="w"> </span>-a<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>fzf
 
 <span class="c1"># output expected:</span>
@@ -484,7 +483,7 @@ brew<span class="w"> </span>install<span class="w"> </span>tree
 <span class="c1"># "^[c" fzf-cd-widget      # ALT  + C: search directories</span>
 </pre></div>
 </div>
-<p>You can customize the widgets fzf parameters through environment variables described in <a class="reference external" href="https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases">fzf — environment variables</a>. Each widget has its own environments variables you can customize based on your needs. Take a look at following code block for an example of the how to parametrize fzf widgets.</p>
+<p>Each widget reads its own <a class="reference external" href="https://github.com/junegunn/fzf?tab=readme-ov-file#environment-variables--aliases">environment variables</a>, so you can tune it to your needs. This is how I configure them:</p>
 <div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span class="c1"># fzf parameters used in all widgets - configure layout and wrapped the preview results (useful in large command rendering)</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">FZF_DEFAULT_OPTS</span><span class="o">=</span><span class="s2">"--height 100% --layout reverse --preview-window=wrap"</span>
 
@@ -504,50 +503,93 @@ brew<span class="w"> </span>install<span class="w"> </span>tree
 <span class="nb">export</span><span class="w"> </span><span class="nv">FZF_CTRL_T_OPTS</span><span class="o">=</span><span class="s2">"--preview '[ -d {} ] &amp;&amp; tree -C {} || bat --color=always --style=numbers {}'"</span>
 </pre></div>
 </div>
-<p>The next section will present widgets executions preview.</p>
 <blockquote>
-<div><p>You can check my <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> file content in the following link. It contains my personal fzf parametrization:
-<a class="github reference external" href="https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc">c-neto/ansible-configure-fedora</a></p>
+<div><p>My full fzf configuration is in my <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>: <a class="github reference external" href="https://github.com/c-neto/ansible-configure-fedora/blob/main/files/dotfiles/.zshrc">c-neto/ansible-configure-fedora</a></p>
 </div></blockquote>
 </section>
 <section id="results">
 <h2>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><em>fzf-history-widget</em> executed by <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code>.</p></li>
+<li><p><em>fzf-history-widget</em>, on <code class="docutils literal notranslate"><span class="pre">Ctrl</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code>:</p></li>
 </ul>
-<p><img alt="fzf-history-widget execution print" src="../../../_images/results-1.png" /></p>
+<p><img alt="fzf history widget listing past commands that match the typed text, with the selected command in a preview window" src="../../../_images/results-1.png" /></p>
 <ul class="simple">
-<li><p><em>fzf-cd-widget</em> executed by <code class="docutils literal notranslate"><span class="pre">ALT</span></code> + <code class="docutils literal notranslate"><span class="pre">C</span></code>.</p></li>
+<li><p><em>fzf-cd-widget</em>, on <code class="docutils literal notranslate"><span class="pre">Alt</span></code> + <code class="docutils literal notranslate"><span class="pre">C</span></code>:</p></li>
 </ul>
-<p><img alt="fzf-cd-widget execution print" src="../../../_images/results-2.png" /></p>
+<p><img alt="fzf directory widget listing directories found by fd, with a tree preview of the selected directory" src="../../../_images/results-2.png" /></p>
 <ul class="simple">
-<li><p><em>fzf-file-widget</em> executed by <code class="docutils literal notranslate"><span class="pre">CTRL</span></code> + <code class="docutils literal notranslate"><span class="pre">T</span></code>.</p></li>
+<li><p><em>fzf-file-widget</em>, on <code class="docutils literal notranslate"><span class="pre">Ctrl</span></code> + <code class="docutils literal notranslate"><span class="pre">T</span></code>:</p></li>
 </ul>
-<p><img alt="fzf-file-widget execution print" src="../../../_images/results-3.png" /></p>
+<p><img alt="fzf file widget listing files found by fd, with a bat preview of the selected file" src="../../../_images/results-3.png" /></p>
 <ul class="simple">
-<li><p>Searching pods in Kubernetes Cluster with <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kgp</span> <span class="pre">-A</span> <span class="pre">|</span> <span class="pre">fzf</span></code> execution.</p></li>
+<li><p>Searching pods in a Kubernetes cluster with <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kgp</span> <span class="pre">-A</span> <span class="pre">|</span> <span class="pre">fzf</span></code>:</p></li>
 </ul>
-<p><img alt="find pods with fzf print" src="../../../_images/results-4.png" /></p>
+<p><img alt="fzf filtering the output of kubectl get pods across all namespaces as you type" src="../../../_images/results-4.png" /></p>
 </section>
-<section id="conclusion-author-opinion">
-<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
-<p>My research for improvements in searching history commands has yielded results that exceed my expectations. fzf opened my mind to understand what is Fuzzy Finder and it purpose. It not limited to be command history searching only, it is a tool that you can search anything. It is really nice!</p>
-<p>Certainly, I think it is a much better alternative to command history search widget default in Zsh, Bash, and Fish (<em>which already has a good history search widget</em>).</p>
-<p>The interactive searching are blazingly fast and customization expanding the possibilities based on your needs. The productivity which fzf provides is really awesome! In a fact, that its justifies more than <strong>59K stars</strong> in your GitHub repo.</p>
-<p>I approve and recommend!</p>
+<section id="why-i-recommend-fzf">
+<h2>Why I Recommend fzf<a class="headerlink" href="#why-i-recommend-fzf" title="Link to this heading">#</a></h2>
+<p>My search for a better command history search gave me much more than I expected. fzf taught me what a fuzzy finder is and what it’s for. It isn’t limited to history: you can pipe anything into it and search it interactively.</p>
+<p>I think it’s a much better choice than the default history search in Zsh and Bash. Fish already has a good one, but fzf still adds file and directory search with previews. The search is very fast, and the environment variables let you shape every widget to the way you work. It had more than 59K stars on GitHub when I wrote this post, and I think it earns them. I approve and recommend it!</p>
+<p>fzf widgets are regular Zsh widgets bound to keys. If you want to understand how that works, or write your own, I explain it in <a class="reference internal" href="../../2026/2026-10-26-zsh-widgets/"><span class="std std-doc">Hacking Your Zsh Terminal with Custom Widgets</span></a>.</p>
 </section>
-<section id="links">
-<h2>Links<a class="headerlink" href="#links" title="Link to this heading">#</a></h2>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">bat</span></code> reference: <a class="github reference external" href="https://github.com/sharkdp/bat">sharkdp/bat</a></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">fd</span></code> reference: <a class="github reference external" href="https://github.com/sharkdp/fd">sharkdp/fd</a></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">fzf</span></code> reference: <a class="github reference external" href="https://github.com/junegunn/fzf/">junegunn/fzf</a></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">tree</span></code> reference: <a class="reference external" href="https://www.cyberciti.biz/faq/linux-show-directory-structure-command-line/">https://www.cyberciti.biz/faq/linux-show-directory-structure-command-line/</a></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">zsh</span></code> reference: <a class="reference external" href="https://www.zsh.org/">https://www.zsh.org/</a></p></li>
-<li><p>My custom fzf configuration in <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>: <a class="github reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc">c-neto/ansible-configure-fedora</a></p></li>
-<li><p><em><strong>extra</strong>: <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">skim</span></code>, a fzf implemented in rust: <a class="github reference external" href="https://github.com/lotabout/skim">lotabout/skim</a></em></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code>, <code class="docutils literal notranslate"><span class="pre">find</span></code>, and <code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">|</span> <span class="pre">grep</span></code> all force you to know exactly what you’re looking for, or to repeat the search many times.</p></li>
+<li><p>A fuzzy finder matches partial words, characters out of order, and typos, and filters the list as you type.</p></li>
+<li><p>fzf reads any command’s output, so <code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">|</span> <span class="pre">fzf</span></code> replaces most <code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">|</span> <span class="pre">grep</span></code> searches.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eval</span> <span class="pre">&quot;$(fzf</span> <span class="pre">--zsh)&quot;</span></code> (fzf 0.48.0 or later) loads three widgets: <code class="docutils literal notranslate"><span class="pre">Ctrl</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code> for history, <code class="docutils literal notranslate"><span class="pre">Ctrl</span></code> + <code class="docutils literal notranslate"><span class="pre">T</span></code> for files, and <code class="docutils literal notranslate"><span class="pre">Alt</span></code> + <code class="docutils literal notranslate"><span class="pre">C</span></code> for directories.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">fd</span></code> as the search engine and <code class="docutils literal notranslate"><span class="pre">bat</span></code> and <code class="docutils literal notranslate"><span class="pre">tree</span></code> for previews, configured through the <code class="docutils literal notranslate"><span class="pre">FZF_*</span></code> environment variables.</p></li>
 </ul>
 </section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/junegunn/fzf/">fzf (GitHub)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/junegunn/fzf/tree/master/shell">fzf shell integrations (GitHub)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/sharkdp/fd">fd (GitHub)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/sharkdp/bat">bat (GitHub)</a></p></li>
+<li><p><a class="reference external" href="https://www.cyberciti.biz/faq/linux-show-directory-structure-command-line/">tree command (nixCraft)</a></p></li>
+<li><p><a class="reference external" href="https://www.zsh.org/">Zsh (zsh.org)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc">My fzf configuration in <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code> (GitHub)</a></p></li>
+<li><p>Extra: <a class="reference external" href="https://github.com/lotabout/skim">skim, a fuzzy finder written in Rust (GitHub)</a></p></li>
+</ul>
+<p><em>I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "fzf: Life is Too Short for Pipe Grep",
+      "description": "Why fzf replaced Ctrl+R, find, and command | grep in my terminal, and how to set up its Zsh widgets for history, files, and directories with fd, bat, and tree previews.",
+      "datePublished": "2024-04-21",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2024/2024-04-21-fzf/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2024/2024-04-21-fzf/",
+      "image": "https://carlosneto.dev/_static/2024/2024-04-21/results-1.png",
+      "keywords": ["fzf", "fuzzy finder", "Zsh", "terminal", "fd", "bat"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "fzf: Life is Too Short for Pipe Grep"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->

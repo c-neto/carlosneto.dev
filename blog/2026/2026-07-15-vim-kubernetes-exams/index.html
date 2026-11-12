@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="The minimal vimrc and the small set of Vim commands I use to edit Kubernetes YAML fast in the CKA, CKAD, and CKS exams: indentation, block comments, search and replace, line ranges, and shell filters." name="description" />
 <meta property="og:title" content="Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/07/15 This post focuses on the minimal Vim configuration and editing techniques I use during Kubernetes certification exams from the Linux Foundation. The goal is not t..." />
+<meta property="og:description" content="The minimal vimrc and the small set of Vim commands I use to edit Kubernetes YAML fast in the CKA, CKAD, and CKS exams: indentation, block comments, search and replace, line ranges, and shell filters." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-07-15-vim-kubernetes-exams_8dee2e06.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/07/15 This post focuses on the minimal Vim configuration and editing techniques I use during Kubernetes certification exams from the Linux Foundation. The goal is not t..." />
-<meta name="description" content="Blog Post Publish Date: 2026/07/15 This post focuses on the minimal Vim configuration and editing techniques I use during Kubernetes certification exams from the Linux Foundation. The goal is not t..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-07-15-vim-kubernetes-exams_17fff7de.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/07/15 This blog post covers the minimal Vim configuration and the editing techniques I use in the Linux Foundation Kubernetes certification exams. You don’t need to mas..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS) &#8212; Carlos Neto&#39;s Blog</title>
@@ -408,15 +408,15 @@
 <hr class="docutils" />
 <section id="vim-for-kubernetes-certification-exams-cka-ckad-cks">
 <h1>Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)<a class="headerlink" href="#vim-for-kubernetes-certification-exams-cka-ckad-cks" title="Link to this heading">#</a></h1>
-<p>This post focuses on the minimal Vim configuration and editing techniques I use during Kubernetes certification exams from the Linux Foundation. The goal is not to master Vim, but to learn a small set of commands that can improve your editing speed during the exam.</p>
+<p>This blog post covers the minimal Vim configuration and the editing techniques I use in the Linux Foundation Kubernetes certification exams. You don’t need to master Vim. A small set of commands is enough to edit YAML manifests much faster under exam conditions.</p>
 <section id="vim-less-mouse-more-efficiency">
 <h2>Vim: Less Mouse, More Efficiency<a class="headerlink" href="#vim-less-mouse-more-efficiency" title="Link to this heading">#</a></h2>
-<p>The exam workstation includes <em><a class="reference external" href="https://vscodium.com/">VSCodium</a></em> (<em>the free and open-source binaries of VS Code</em>), but it’s not a practical choice during the exam. While <em>VSCodium</em> is available on the workstation, all exam tasks are performed on remote nodes via the terminal over SSH, where it is unavailable. In addition, the connection to the exam workstation often has noticeable latency, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you’ll be able to edit files. This is where Vim shines.</p>
-<p>You don’t need to become a Vim expert to pass the exam. This guide covers everything you need to efficiently edit Kubernetes YAML manifests under exam conditions. Focus on building muscle memory by practicing these commands in the simulation labs.</p>
+<p>The exam workstation includes <em><a class="reference external" href="https://vscodium.com/">VSCodium</a></em> (<em>the free and open-source binaries of VS Code</em>), but it isn’t practical during the exam. Every task is done on a remote node over SSH, where VSCodium isn’t available. The connection to the workstation also often has noticeable latency, which makes the mouse slow and unreliable. The less you rely on the mouse, the faster you edit. This is where Vim shines.</p>
+<p><strong>Vim</strong> is a modal text editor: you switch between modes, such as Normal mode for moving and editing with short commands and Insert mode for typing text. That is what makes it fast without a mouse. Practice the commands below in the simulation labs, such as Killer Shell, until they become muscle memory.</p>
 </section>
 <section id="vim-configuration">
 <h2>Vim Configuration<a class="headerlink" href="#vim-configuration" title="Link to this heading">#</a></h2>
-<p>This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation helps prevent invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.</p>
+<p>This configuration is intentionally minimal and tuned for Kubernetes YAML. Two-space indentation prevents invalid YAML, line numbers make it easy to jump to a line, syntax highlighting helps reading, and the cursor column highlight shows the indentation level.</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">~/.vimrc</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="k">nu</span>        <span class="c">" Show line numbers</span>
@@ -441,7 +441,7 @@
 </section>
 <section id="essential-editing-commands">
 <h2>Essential Editing Commands<a class="headerlink" href="#essential-editing-commands" title="Link to this heading">#</a></h2>
-<p>These are the commands you’ll use most often. They let you navigate, copy, delete, replace, and repeat edits without relying on the mouse.</p>
+<p>These are the commands you’ll use most. They copy, delete, replace, and repeat edits without the mouse. <code class="docutils literal notranslate"><span class="pre">Ctrl+y</span></code> works in Insert mode; the others run from Normal mode:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>o<span class="w">           </span><span class="c1"># Open a new line below</span>
 Shift+o<span class="w">     </span><span class="c1"># Open a new line above</span>
 i<span class="w">           </span><span class="c1"># Enter Insert mode</span>
@@ -474,7 +474,7 @@ Ctrl+v<span class="w">      </span><span class="c1"># Enter Visual Block mode (f
 </section>
 <section id="cursor-movement">
 <h2>Cursor Movement<a class="headerlink" href="#cursor-movement" title="Link to this heading">#</a></h2>
-<p>As mentioned previously, I strongly recommend <strong>not</strong> using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:</p>
+<p>I strongly recommend <strong>not</strong> using <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code> in the exam. The remote exam workstations have higher latency than the Killer Shell simulator, so mouse interactions in Vim are slow and unreliable. Use the mouse only to scroll, and navigate with these commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/greeting<span class="w">   </span><span class="c1"># Search for "greeting"</span>
 /foo/bar<span class="w">    </span><span class="c1"># Search for "foo/bar"</span>
 n<span class="w">           </span><span class="c1"># Jump to the next match</span>
@@ -490,7 +490,7 @@ B<span class="w">           </span><span class="c1"># Jump to the previous word<
 </section>
 <section id="yaml-indentation">
 <h2>YAML Indentation<a class="headerlink" href="#yaml-indentation" title="Link to this heading">#</a></h2>
-<p>Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to indent entire YAML blocks to the right or left while preserving their structure.</p>
+<p>Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim indents whole YAML blocks to the right or left while keeping their structure.</p>
 <p>To increase the indentation:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Shift+v<span class="w">   </span><span class="c1"># 1. Select lines in Visual Line mode (↑↓)</span>
 &gt;<span class="w">         </span><span class="c1"># 2. Shift indentation to the right</span>
@@ -508,7 +508,7 @@ ESC<span class="w">     </span><span class="c1"># 3. Apply the change</span>
 </section>
 <section id="commenting-multiple-lines">
 <h2>Commenting Multiple Lines<a class="headerlink" href="#commenting-multiple-lines" title="Link to this heading">#</a></h2>
-<p>Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.</p>
+<p><strong>Visual Block mode</strong> selects a rectangle of text across several lines, so you can insert the same text on all of them at once. It’s the quickest way to comment or uncomment a YAML block.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Ctrl+v<span class="w">    </span><span class="c1"># 1. Select columns across lines in Visual Block mode (↑↓)</span>
 Shift+i<span class="w">   </span><span class="c1"># 2. Enter Insert mode</span>
 <span class="c1">#         # 3. Type the comment character</span>
@@ -519,13 +519,13 @@ ESC<span class="w">       </span><span class="c1"># 4. Apply the change to all s
 </section>
 <section id="search-and-replace">
 <h2>Search and Replace<a class="headerlink" href="#search-and-replace" title="Link to this heading">#</a></h2>
-<p>When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.</p>
+<p>When you rename resources, labels, namespaces, image names, or environment variables, replacing every occurrence by hand is slow and error-prone.</p>
 <p>To replace every occurrence of a string:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%s/foo/bar/g<span class="w">                   </span><span class="c1"># Replace "foo" with "bar"</span>
 :%s#/kubernets/#/kubernetes/#g<span class="w">  </span><span class="c1"># Replace "/kubernets/" with "/kubernetes/"</span>
 </pre></div>
 </div>
-<p>Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:</p>
+<p>Sometimes you want to replace one occurrence at a time instead. Use this workflow:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*<span class="w">         </span><span class="c1"># Search for the word under the cursor (or use "/greeting")</span>
 cW<span class="w">        </span><span class="c1"># Replace the current occurrence</span>
 foobar<span class="w">    </span><span class="c1"># Type the replacement text</span>
@@ -541,11 +541,10 @@ Shift+n<span class="w">   </span><span class="c1"># Go back to the previous matc
 </section>
 <section id="working-with-yaml-blocks">
 <h2>Working with YAML Blocks<a class="headerlink" href="#working-with-yaml-blocks" title="Link to this heading">#</a></h2>
-<p>Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.</p>
+<p>Many operations work directly on a range of line numbers, without Visual mode. That’s especially useful to move, copy, delete, or reindent large YAML blocks.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%&lt;<span class="w">         </span><span class="c1"># Unindent all lines</span>
 :10,15&gt;<span class="w">     </span><span class="c1"># Indent lines 10-15</span>
 :10,15&lt;<span class="w">     </span><span class="c1"># Unindent lines 10-15</span>
-:30,50x<span class="w">     </span><span class="c1"># Delete lines 30-50</span>
 :30,50t70<span class="w">   </span><span class="c1"># Copy lines 30-50 and paste below line 70</span>
 :30,50m70<span class="w">   </span><span class="c1"># Cut lines 30-50 and paste below line 70</span>
 :30,50d<span class="w">     </span><span class="c1"># Cut lines 30-50</span>
@@ -556,7 +555,7 @@ Shift+n<span class="w">   </span><span class="c1"># Go back to the previous matc
 </section>
 <section id="working-with-numbers">
 <h2>Working with Numbers<a class="headerlink" href="#working-with-numbers" title="Link to this heading">#</a></h2>
-<p>Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement them directly.</p>
+<p>Kubernetes manifests are full of numbers such as replica counts, ports, resource requests and limits, and probe timings. Instead of deleting and retyping them, Vim can increment or decrement them in place.</p>
 <p>Place the cursor before or on a number, then use <code class="docutils literal notranslate"><span class="pre">Ctrl+a</span></code> to increment it or <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> to decrement it. You can also provide a count to change the value by a larger amount:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">50</span><span class="w"> </span>»<span class="w"> </span>Ctrl+a<span class="w">     </span><span class="c1"># Increment the next number by 50</span>
 <span class="m">40</span><span class="w"> </span>»<span class="w"> </span>Ctrl+x<span class="w">     </span><span class="c1"># Decrement the next number by 40</span>
@@ -574,7 +573,7 @@ Shift+n<span class="w">   </span><span class="c1"># Go back to the previous matc
 </section>
 <section id="running-shell-commands-in-vim">
 <h2>Running Shell Commands in Vim<a class="headerlink" href="#running-shell-commands-in-vim" title="Link to this heading">#</a></h2>
-<p>You can leverage operating system CLI tools to process and edit file content directly inside Vim. For example, you can execute <a class="reference external" href="https://github.com/mikefarah/yq">yq</a> on the current buffer to check for syntax errors and format the file:</p>
+<p>Vim can pipe the file, or part of it, through any command-line tool and replace it with the output. For example, run <a class="reference external" href="https://github.com/mikefarah/yq">yq</a> on the whole buffer to catch syntax errors and format the file:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:%!yq
 </pre></div>
 </div>
@@ -587,17 +586,73 @@ Shift+n<span class="w">   </span><span class="c1"># Go back to the previous matc
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:!kubectl<span class="w"> </span>get<span class="w"> </span>pods,ns<span class="w"> </span>--show-labels<span class="w"> </span>-n<span class="w"> </span>foobar
 </pre></div>
 </div>
-<p>Another useful trick is saving protected files without opening them with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">vim</span></code>. This is particularly handy when you forget to open a file with elevated privileges and have already made several changes. Instead of reopening the file with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">vim</span></code> and repeating your edits, you can write the current buffer using:</p>
+<p>Another useful trick is saving a protected file you opened without <code class="docutils literal notranslate"><span class="pre">sudo</span></code>. When you’ve already made several changes, you don’t need to reopen it with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">vim</span></code> and repeat them. Write the buffer through <code class="docutils literal notranslate"><span class="pre">sudo</span></code> instead:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>:w<span class="w"> </span>!sudo<span class="w"> </span>tee<span class="w"> </span>%
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">:w</span></code> normally saves the buffer to a file. When followed by <code class="docutils literal notranslate"><span class="pre">!</span></code>, it sends the buffer’s content to an external command’s standard input (STDIN) instead of writing to the file directly.</p>
+<p><code class="docutils literal notranslate"><span class="pre">:w</span></code> normally writes the buffer to a file. Followed by <code class="docutils literal notranslate"><span class="pre">!</span></code>, it sends the buffer’s content to a command’s standard input instead. Here, <code class="docutils literal notranslate"><span class="pre">tee</span></code> runs as root and writes it to <code class="docutils literal notranslate"><span class="pre">%</span></code>, the current file name.</p>
 </section>
 <section id="learn-more">
 <h2>Learn More<a class="headerlink" href="#learn-more" title="Link to this heading">#</a></h2>
-<p>Take a look at the complete Vim cheatsheet at <a class="reference external" href="https://vim.rtorr.com/">https://vim.rtorr.com/</a> to learn more Vim commands and tricks.</p>
-<p>For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post <a class="reference internal" href="../2026-07-09-workstation-setup-kubernetes-exams/"><span class="std std-doc">Workstation Setup for Kubernetes Exams (CKA, CKAD &amp; CKS)</span></a>.</p>
+<p>The <a class="reference external" href="https://vim.rtorr.com/">Vim cheat sheet</a> has many more commands, and the official <a class="reference external" href="https://vimhelp.org/">Vim documentation</a> covers each one in detail. To practice in exam conditions, use the simulator sessions that come with your exam registration.</p>
+<p>For the rest of my exam workstation setup, including Bash aliases and history search by prefix, see <a class="reference internal" href="../2026-07-09-workstation-setup-kubernetes-exams/"><span class="std std-doc">Workstation Setup for Kubernetes Exams (CKA, CKAD &amp; CKS)</span></a>. History search by prefix comes from GNU Readline, which I explain in <a class="reference internal" href="../2026-10-18-gnu-readline-foundation/"><span class="std std-doc">GNU Readline: The Magic Behind Terminal Autocomplete</span></a>.</p>
 </section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Use Vim on the question nodes: VSCodium isn’t available there, and latency makes the mouse unreliable.</p></li>
+<li><p>Keep <code class="docutils literal notranslate"><span class="pre">~/.vimrc</span></code> minimal for YAML: line numbers, auto-indent, two-space tabs, and a cursor column highlight. Copy it to each node with <code class="docutils literal notranslate"><span class="pre">scp</span></code>.</p></li>
+<li><p>Indent blocks with <code class="docutils literal notranslate"><span class="pre">Shift+v</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, and repeat with <code class="docutils literal notranslate"><span class="pre">.</span></code>. Use <code class="docutils literal notranslate"><span class="pre">gv</span></code> to reselect the last selection.</p></li>
+<li><p>Comment several lines with <code class="docutils literal notranslate"><span class="pre">Ctrl+v</span></code>, <code class="docutils literal notranslate"><span class="pre">Shift+i</span></code>, <code class="docutils literal notranslate"><span class="pre">#</span></code>, then <code class="docutils literal notranslate"><span class="pre">ESC</span></code>.</p></li>
+<li><p>Replace globally with <code class="docutils literal notranslate"><span class="pre">:%s/old/new/g</span></code>, or one match at a time with <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">cW</span></code>, <code class="docutils literal notranslate"><span class="pre">n</span></code>, and <code class="docutils literal notranslate"><span class="pre">.</span></code>.</p></li>
+<li><p>Use line ranges such as <code class="docutils literal notranslate"><span class="pre">:30,50d</span></code>, <code class="docutils literal notranslate"><span class="pre">:30,50t70</span></code>, and <code class="docutils literal notranslate"><span class="pre">:30,50m70</span></code> to delete, copy, and move YAML blocks.</p></li>
+<li><p>Change numbers with <code class="docutils literal notranslate"><span class="pre">Ctrl+a</span></code> and <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>, filter text through tools with <code class="docutils literal notranslate"><span class="pre">:%!yq</span></code>, and save a protected file with <code class="docutils literal notranslate"><span class="pre">:w</span> <span class="pre">!sudo</span> <span class="pre">tee</span> <span class="pre">%</span></code>.</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://vim.rtorr.com/">Vim cheat sheet (vim.rtorr.com)</a></p></li>
+<li><p><a class="reference external" href="https://vimhelp.org/">Vim help files (vimhelp.org)</a></p></li>
+<li><p><a class="reference external" href="https://vimdoc.sourceforge.net/htmldoc/options.html#'cursorcolumn'">Options: cursorcolumn (Vim documentation)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/mikefarah/yq">yq (GitHub)</a></p></li>
+<li><p><a class="reference external" href="https://man7.org/linux/man-pages/man1/sort.1.html">sort (Linux man pages)</a></p></li>
+</ul>
+<p><em>I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)",
+      "description": "The minimal vimrc and the small set of Vim commands I use to edit Kubernetes YAML fast in the CKA, CKAD, and CKS exams: indentation, block comments, search and replace, line ranges, and shell filters.",
+      "datePublished": "2026-07-15",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/",
+      "keywords": ["Vim", "CKA", "CKAD", "CKS", "Kubernetes YAML", "vimrc"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->

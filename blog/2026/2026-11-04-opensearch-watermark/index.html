@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="How the OpenSearch default allocator balances shards by count instead of size, why that skews disk usage in clusters with many small indices, how disk watermarks correct it, and why one watermark setting for all tiers hurts." name="description" />
 <meta property="og:title" content="OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-11-04-opensearch-watermark/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/11/04 This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage..." />
+<meta property="og:description" content="How the OpenSearch default allocator balances shards by count instead of size, why that skews disk usage in clusters with many small indices, how disk watermarks correct it, and why one watermark setting for all tiers hurts." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-04-opensearch-watermark_eb5bc264.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/04 This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage..." />
-<meta name="description" content="Blog Post Publish Date: 2026/11/04 This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-04-opensearch-watermark_4fb2a23f.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/04 This blog post explains how OpenSearch distributes shards across data nodes. It covers how the default allocator works, why it can leave disk usage uneven in clus..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks &#8212; Carlos Neto&#39;s Blog</title>
@@ -408,40 +408,40 @@
 <hr class="docutils" />
 <section id="opensearch-shard-allocation-balanced-by-count-rebalanced-by-watermarks">
 <h1>OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks<a class="headerlink" href="#opensearch-shard-allocation-balanced-by-count-rebalanced-by-watermarks" title="Link to this heading">#</a></h1>
-<p>This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage in clusters with many small indices, and how disk watermarks help address that. I’ll also discuss other allocation mechanisms and a limitation in the watermark design: it’s a cluster-wide setting, even in clusters with different storage tiers.</p>
+<p>This blog post explains how OpenSearch distributes shards across data nodes. It covers how the default allocator works, why it can leave disk usage uneven in clusters with many small indices, and how disk watermarks correct that. It also covers other allocation mechanisms and a limitation I run into often: watermarks are one cluster-wide setting, even in clusters with different storage tiers.</p>
 <section id="why-shard-balance-matters">
 <h2>Why Shard Balance Matters<a class="headerlink" href="#why-shard-balance-matters" title="Link to this heading">#</a></h2>
-<p>Data nodes need enough free disk space to accommodate new shards as indices are created and existing data grows. This is especially relevant in OpenSearch because Lucene shards allow an index to be split across multiple nodes. Each shard handles part of the data, allowing indexing and search operations to run across the cluster.</p>
-<p>For this design to work well, data nodes need available capacity for new shard allocations. If most of the free space is concentrated on a few nodes, the cluster may struggle to allocate new shards even when there is plenty of storage available elsewhere.</p>
-<p>When shard allocation fails, the cluster can enter a yellow or red state, affecting data availability. In a red state, at least one primary shard is unavailable, which can result in data loss if no recoverable copy exists. Understanding shard allocation is therefore important for protecting cluster availability. The <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/_cluster/allocation/explain</span></code></a> endpoint is useful for investigating why a shard was allocated to a particular node or why an allocation or rebalance was rejected.</p>
+<p><strong>Shard allocation</strong> is the process that decides which data node holds each shard. An index is split into <a class="reference internal" href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/"><span class="std std-doc">shards</span></a>, each one a Lucene index that holds part of the data, so indexing and search run in parallel across the cluster. That only works if data nodes have free disk space for new shards as indices are created and existing data grows.</p>
+<p>If most of the free space is concentrated on a few nodes, the cluster can struggle to allocate new shards, even when there is plenty of storage in total.</p>
+<p>When allocation fails, the cluster goes yellow or red. In a red state, at least one primary shard is unavailable, which can mean data loss if no recoverable copy exists. The <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/"><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/_cluster/allocation/explain</span></code></a> endpoint shows why a shard was allocated to a node, or why an allocation or rebalance was rejected.</p>
 </section>
 <section id="how-opensearch-balances-shards-across-data-nodes">
 <h2>How OpenSearch Balances Shards Across Data Nodes<a class="headerlink" href="#how-opensearch-balances-shards-across-data-nodes" title="Link to this heading">#</a></h2>
 <p>OpenSearch’s default shard allocator, <a class="reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/allocator/BalancedShardsAllocator.java"><code class="docutils literal notranslate"><span class="pre">BalancedShardsAllocator.java</span></code></a>, uses a weighted balancing model. It considers both the total number of shards per node and how shards from each index are distributed across the nodes. The default weights are controlled by <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/"><code class="docutils literal notranslate"><span class="pre">cluster.routing.allocation.balance.shard</span></code></a> and <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/"><code class="docutils literal notranslate"><span class="pre">cluster.routing.allocation.balance.index</span></code></a>. Their default values are <code class="docutils literal notranslate"><span class="pre">0.45</span></code> and <code class="docutils literal notranslate"><span class="pre">0.55</span></code>, respectively.</p>
-<p>Shard size, however, is not a direct factor in this balancing model. As a result, two nodes can have a similar number of shards while consuming very different amounts of disk space. This can lead to unexpected results in production, especially in clusters with many small, granular indices. A node might hold dozens of tiny shards and use very little disk space, while another holds only a few large shards and is almost full. The shard distribution may look balanced, but disk usage tells a different story.</p>
-<p>The allocation process also considers other constraints that influence shard placement. These include disk availability, allocation filters, awareness across availability zones or racks, and limits on the number of shards per node. These mechanisms can prevent an allocation even when it would improve shard balance. For an overview of the available allocation deciders and their roles, see the <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/#common-allocators">Common Allocators</a> section in the OpenSearch documentation.</p>
+<p>Shard size is not a factor in this balancing model. As a result, two nodes can have a similar number of shards while consuming very different amounts of disk space. That leads to surprises in production, especially in clusters with many small, granular indices. A node might hold dozens of tiny shards and use very little disk space, while another holds only a few large shards and is almost full. The shard distribution may look balanced, but disk usage tells a different story.</p>
+<p>Allocation also respects other constraints, called <strong>allocation deciders</strong>: disk availability, allocation filters, awareness across availability zones or racks, and limits on shards per node. A decider can block an allocation even when it would improve the balance. The <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/#common-allocators">common allocators</a> section of the documentation lists them.</p>
 </section>
 <section id="shard-allocation-mechanisms">
 <h2>Shard Allocation Mechanisms<a class="headerlink" href="#shard-allocation-mechanisms" title="Link to this heading">#</a></h2>
-<p>The default allocator is not the only mechanism that influences shard placement. OpenSearch provides additional allocation settings and APIs, although they do not all replace the default balancing strategy.</p>
-<hr class="docutils" />
-<p><strong>Load-Aware Allocation</strong>: Limits shard concentration when cluster capacity is reduced, such as when data nodes fail.</p>
+<p>The default allocator isn’t the only thing that influences shard placement. OpenSearch has other settings and APIs, although none of them replaces the default balancing strategy.</p>
+<section id="load-aware-allocation">
+<h3>Load-Aware Allocation<a class="headerlink" href="#load-aware-allocation" title="Link to this heading">#</a></h3>
+<p><strong>Load-aware allocation</strong> limits how many shards can pile up on each node when the cluster loses capacity, for example when data nodes fail.</p>
 <p>For example, consider a cluster with 10 data nodes and 100 shards, initially holding 10 shards per node. If 5 nodes fail, the remaining 5 nodes need to accommodate the 50 shards from the failed nodes. OpenSearch could redistribute all 50 shards across the surviving nodes, leaving each with around 20 shards: its original 10 shards plus 10 redistributed from the failed nodes.</p>
-<p>Having each node handle twice as many shards as originally planned could become a problem, depending on the cluster’s resources and workload. This is where Load-Aware Allocation comes in. It limits how many shards each node can hold based on the average shard count per node across the originally provisioned cluster capacity. This helps prevent the surviving nodes from becoming overloaded with shards after a failure.</p>
+<p>Twice as many shards per node as planned can be a problem, depending on the node resources and workload. Load-aware allocation caps the shards per node based on the average shard count across the originally provisioned capacity, so the surviving nodes don’t get overloaded after a failure.</p>
 <p>The following configuration sets the provisioned capacity to 10 nodes and defines how much shard concentration is allowed:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/</span>
-
-<span class="nt">cluster.routing.allocation.load_awareness.provisioned_capacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">cluster.routing.allocation.load_awareness.provisioned_capacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
 <span class="nt">cluster.routing.allocation.load_awareness.skew_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
 <span class="nt">cluster.routing.allocation.load_awareness.flat_skew</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
 <span class="nt">cluster.routing.allocation.load_awareness.allow_unassigned_primaries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </pre></div>
 </div>
 <p>Here, <code class="docutils literal notranslate"><span class="pre">provisioned_capacity</span></code> remains <code class="docutils literal notranslate"><span class="pre">10</span></code>, even after the failure, because it represents the intended cluster capacity. <code class="docutils literal notranslate"><span class="pre">skew_factor</span></code> allows 50% more shards than the original average of 10, while <code class="docutils literal notranslate"><span class="pre">flat_skew</span></code> adds 2 extra shards, bringing the limit to 17 per node.</p>
-<p>With only 5 nodes available, each can hold up to 17 shards under this limit, allowing a total of 85 shards to be allocated from initial 100 shards. The remaining 15 shards stay unassigned until additional capacity becomes available. <code class="docutils literal notranslate"><span class="pre">allow_unassigned_primaries</span></code> controls whether primary shards can remain unassigned when the load-awareness limit prevents their allocation.</p>
-<hr class="docutils" />
-<p><strong>Manual Shard Allocation</strong>: Force manually shard allocation to specific Data node.</p>
-<p>The Cluster Reroute API, <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/_cluster/reroute</span></code></a>, allows administrators to manually move shards between nodes, among other operations. For example, imagine that <code class="docutils literal notranslate"><span class="pre">node1</span></code> is running low on disk space while <code class="docutils literal notranslate"><span class="pre">node2</span></code> has plenty of free capacity. You can simulate moving shard <code class="docutils literal notranslate"><span class="pre">0</span></code> of the <code class="docutils literal notranslate"><span class="pre">logs-2026.11</span></code> index from <code class="docutils literal notranslate"><span class="pre">node1</span></code> to <code class="docutils literal notranslate"><span class="pre">node2</span></code> with the following request:</p>
+<p>With only 5 nodes available, each can hold up to 17 shards, so 85 of the 100 shards can be allocated. The remaining 15 shards stay unassigned until additional capacity becomes available. <code class="docutils literal notranslate"><span class="pre">allow_unassigned_primaries</span></code> controls whether primary shards can remain unassigned when the load-awareness limit prevents their allocation.</p>
+</section>
+<section id="manual-shard-allocation">
+<h3>Manual Shard Allocation<a class="headerlink" href="#manual-shard-allocation" title="Link to this heading">#</a></h3>
+<p>The Cluster Reroute API, <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/"><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/_cluster/reroute</span></code></a>, lets you move shards between nodes by hand, among other operations. For example, if <code class="docutils literal notranslate"><span class="pre">node1</span></code> is running low on disk and <code class="docutils literal notranslate"><span class="pre">node2</span></code> has plenty of free space, this request moves shard <code class="docutils literal notranslate"><span class="pre">0</span></code> of the <code class="docutils literal notranslate"><span class="pre">logs-2026.11</span></code> index from <code class="docutils literal notranslate"><span class="pre">node1</span></code> to <code class="docutils literal notranslate"><span class="pre">node2</span></code>. Add <code class="docutils literal notranslate"><span class="pre">?dry_run=true</span></code> to simulate it first:</p>
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>POST /_cluster/reroute
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">"commands"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -457,42 +457,87 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Shard movement is still subject to allocation deciders. For example, OpenSearch can reject the operation if the destination node does not have enough disk space or violates another allocation constraint. This API is useful for operational tasks or specific rebalancing scenarios, but it does not change the default allocation strategy or provide automatic size-based balancing.</p>
+<p>The move still goes through the allocation deciders, so OpenSearch rejects it if the destination doesn’t have enough disk or breaks another constraint. The API is useful for one-off operations, but it doesn’t change the default strategy or add automatic size-based balancing. To move every shard off a node, an allocation exclusion is a better tool, as I show in <a class="reference internal" href="../2026-11-10-opensearch-scale-down/"><span class="std std-doc">Scaling Down and Resizing OpenSearch Data Nodes</span></a>.</p>
+</section>
 </section>
 <section id="balancing-by-size-disk-watermarks">
 <h2>Balancing by Size: Disk Watermarks<a class="headerlink" href="#balancing-by-size-disk-watermarks" title="Link to this heading">#</a></h2>
-<p>OpenSearch uses three disk watermarks to control shard allocation based on disk usage: <code class="docutils literal notranslate"><span class="pre">low</span></code>, <code class="docutils literal notranslate"><span class="pre">high</span></code>, and <code class="docutils literal notranslate"><span class="pre">flood_stage</span></code>. Each one defines a threshold that triggers a different action. Watermarks accept percentage-based values or absolute disk space values. Percentages are calculated relative to each node’s total disk capacity. For example, consider a node with 1 TB of storage and the following configuration:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/</span>
-
-<span class="nt">cluster.routing.allocation.disk.watermark.low</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">85%</span>
+<p><strong>Disk watermarks</strong> are thresholds of disk usage that change how OpenSearch allocates shards. There are three, <code class="docutils literal notranslate"><span class="pre">low</span></code>, <code class="docutils literal notranslate"><span class="pre">high</span></code>, and <code class="docutils literal notranslate"><span class="pre">flood_stage</span></code>, and each triggers a different action. They accept a percentage of each node’s disk or an absolute amount of free space. For example, consider a node with 1 TB of storage and this <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">configuration</a>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">cluster.routing.allocation.disk.watermark.low</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">85%</span>
 <span class="nt">cluster.routing.allocation.disk.watermark.high</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">90%</span>
 <span class="nt">cluster.routing.allocation.disk.watermark.flood_stage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">95%</span>
 </pre></div>
 </div>
 <p>When disk usage reaches 85%, the <code class="docutils literal notranslate"><span class="pre">low</span></code> watermark prevents OpenSearch from allocating new shards to that node, except for primary shards of newly created indices. At 90%, the <code class="docutils literal notranslate"><span class="pre">high</span></code> watermark triggers shard relocation attempts to nodes with more available disk space. If usage reaches 95%, the <code class="docutils literal notranslate"><span class="pre">flood_stage</span></code> watermark applies a read-only block to indices with shards on that node to prevent the disk from running out of space.</p>
-<p>It’s important to understand that shard allocation and disk watermarks are complementary mechanisms. The default allocator continues to balance shards based on shard counts and index distribution, while the disk threshold decider adds disk usage constraints to allocation decisions.</p>
-<p>Disk usage is not a continuous balancing weight in the default allocator. Instead, the <code class="docutils literal notranslate"><span class="pre">low</span></code> watermark prevents new shard allocations to nodes that have reached the configured threshold, while the <code class="docutils literal notranslate"><span class="pre">high</span></code> watermark triggers attempts to relocate shards away from nodes with high disk usage. In other words, disk usage starts influencing shard placement through these allocation actions when nodes reach the configured watermark thresholds. Both mechanisms work together to keep shard distribution balanced while protecting disk capacity.</p>
+<p>Shard balancing and disk watermarks complement each other. The default allocator keeps balancing by shard count and index distribution, while the disk threshold decider adds disk usage limits to its decisions.</p>
+<p>Disk usage is not a continuous weight in the default allocator. It only starts to influence placement when a node crosses a watermark: <code class="docutils literal notranslate"><span class="pre">low</span></code> stops new shards from landing there, and <code class="docutils literal notranslate"><span class="pre">high</span></code> starts moving shards away. Together, the two mechanisms keep shards balanced while protecting disk capacity.</p>
 </section>
 <section id="watermark-limitation-one-setting-for-all-storage-tiers">
 <h2>Watermark Limitation: One Setting For All Storage Tiers<a class="headerlink" href="#watermark-limitation-one-setting-for-all-storage-tiers" title="Link to this heading">#</a></h2>
-<p>There is one limitation in the watermark design that I find particularly frustrating: <strong>watermarks are global cluster settings</strong>. You configure them once, and the same thresholds apply to every node, regardless of its storage tier. This becomes a problem in tiered clusters with hot, warm, and searchable nodes. Each tier has a different storage profile and a different cost per gigabyte. For example, a watermark that works well for warm nodes, where you want to use disk capacity efficiently before relocating shards, might be too aggressive for hot nodes. Hot nodes need more free space to handle indexing and query workloads. Yet OpenSearch gives you no way to configure different watermark thresholds for each tier.</p>
-<p>Another scenario worth considering is OpenSearch Dashboards <a class="reference external" href="https://docs.opensearch.org/latest/security/multi-tenancy/multi-tenancy-config/">multi-tenancy</a>. When <a class="reference external" href="https://docs.opensearch.org/latest/security/multi-tenancy/multi-tenancy-config/">multi-tenancy</a> is enabled, each user has a private tenant with a dedicated index to store saved objects, such as visualizations, dashboards, and index patterns. Custom tenants also have their own indexes, while the global tenant is shared among users. In environments with many Dashboards users, this can result in a large number of small, granular indexes. Although each index may consume very little disk space, its shards still contribute to the total shard count considered by the default allocation strategy. This can make shard distribution less representative of actual disk usage, reinforcing the need to understand how shard count balancing and disk watermarks complement each other.</p>
+<p>There is one limitation in the watermark design that I find particularly frustrating: <strong>watermarks are global cluster settings</strong>. You configure them once, and the same thresholds apply to every node, regardless of its storage tier. That’s a problem in tiered clusters with hot, warm, and searchable nodes, such as the <a class="reference internal" href="../2026-11-08-opensearch-hot-instance-store/"><span class="std std-doc">hot tier on EC2 Instance Store</span></a> I run. Each tier has a different storage profile and a different cost per gigabyte. For example, a watermark that works well for warm nodes, where you want to use disk capacity efficiently before relocating shards, might be too aggressive for hot nodes. Hot nodes need more free space to handle indexing and query workloads. Yet OpenSearch gives you no way to configure different watermark thresholds for each tier.</p>
+<p>Another scenario worth considering is OpenSearch Dashboards <a class="reference external" href="https://docs.opensearch.org/latest/security/multi-tenancy/multi-tenancy-config/">multi-tenancy</a>. When <a class="reference external" href="https://docs.opensearch.org/latest/security/multi-tenancy/multi-tenancy-config/">multi-tenancy</a> is enabled, each user has a private tenant with a dedicated index to store saved objects, such as visualizations, dashboards, and index patterns. Custom tenants also have their own indexes, while the global tenant is shared among users. In environments with many Dashboards users, this can result in a large number of small, granular indexes. Although each index may consume very little disk space, its shards still contribute to the total shard count considered by the default allocation strategy. That makes the shard distribution even less representative of real disk usage. The same happens when you create one small index per environment, which is why I <a class="reference internal" href="../2026-11-11-opensearch-alias-filtered-by-field/"><span class="std std-doc">replace per-environment indexes with filtered aliases</span></a>.</p>
 <p>I’d like to see per-tier watermark configuration in OpenSearch. Until that happens, we’re stuck with a single set of thresholds for the entire cluster. Keep this in mind when designing tiered clusters, because whatever values you choose will be a compromise across all storage tiers.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The default allocator balances by shard count and index distribution (<code class="docutils literal notranslate"><span class="pre">balance.shard</span></code> 0.45, <code class="docutils literal notranslate"><span class="pre">balance.index</span></code> 0.55). Shard size is not a factor.</p></li>
+<li><p>With many small indices, nodes can have similar shard counts and very different disk usage.</p></li>
+<li><p>Disk watermarks add size awareness: <code class="docutils literal notranslate"><span class="pre">low</span></code> stops new shards on a node, <code class="docutils literal notranslate"><span class="pre">high</span></code> moves shards away, and <code class="docutils literal notranslate"><span class="pre">flood_stage</span></code> puts a read-only block on indices with shards on the node.</p></li>
+<li><p>Load-aware allocation caps shards per node after a capacity loss, based on the provisioned capacity, <code class="docutils literal notranslate"><span class="pre">skew_factor</span></code>, and <code class="docutils literal notranslate"><span class="pre">flat_skew</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/_cluster/reroute</span></code> moves individual shards, but it still goes through the allocation deciders.</p></li>
+<li><p>Watermarks are global, so tiered clusters must use one compromise threshold for every tier.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/_cluster/allocation/explain</span></code> shows why a shard was or wasn’t allocated.</p></li>
+</ul>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>BalancedShardsAllocator.java: <a class="github reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/allocator/BalancedShardsAllocator.java">opensearch-project/OpenSearch</a></p></li>
-<li><p>NodeLoadAwareAllocationDecider.java: <a class="github reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java">opensearch-project/OpenSearch</a></p></li>
-<li><p>OpenSearch Cluster Management Settings: <a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/</a></p></li>
-<li><p>Cluster Settings API: <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/">https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/</a></p></li>
-<li><p>Cluster Allocation Explain API: <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/">https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/</a></p></li>
-<li><p>Shard Allocation Filtering: <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/index-apis/shard-allocation/">https://docs.opensearch.org/latest/api-reference/index-apis/shard-allocation/</a></p></li>
-<li><p>Cluster Reroute API: <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/">https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/</a></p></li>
-<li><p>OpenSearch Dashboards Multi-tenancy: <a class="reference external" href="https://docs.opensearch.org/latest/security/multi-tenancy/tenant-index/">https://docs.opensearch.org/latest/security/multi-tenancy/tenant-index/</a></p></li>
-<li><p>ShardsAllocator Interface: <a class="github reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/allocator/ShardsAllocator.java">opensearch-project/OpenSearch</a></p></li>
+<li><p><a class="reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/allocator/BalancedShardsAllocator.java">BalancedShardsAllocator.java (OpenSearch source)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/decider/NodeLoadAwareAllocationDecider.java">NodeLoadAwareAllocationDecider.java (OpenSearch source)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/opensearch-project/OpenSearch/blob/main/server/src/main/java/org/opensearch/cluster/routing/allocation/allocator/ShardsAllocator.java">ShardsAllocator interface (OpenSearch source)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/cluster-settings/">Cluster settings (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-settings/">Cluster Settings API (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-allocation/">Cluster Allocation Explain API (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-reroute/">Cluster Reroute API (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/api-reference/index-apis/shard-allocation/">Shard allocation filtering (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/latest/security/multi-tenancy/tenant-index/">Dashboards multi-tenancy: tenant indexes (OpenSearch)</a></p></li>
 </ul>
-</section>
+<p><em>I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks",
+      "description": "How the OpenSearch default allocator balances shards by count instead of size, why that skews disk usage in clusters with many small indices, how disk watermarks correct it, and why one watermark setting for all tiers hurts.",
+      "datePublished": "2026-11-04",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-11-04-opensearch-watermark/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-04-opensearch-watermark/",
+      "keywords": ["OpenSearch", "shard allocation", "disk watermarks", "load-aware allocation", "cluster reroute"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->

@@ -733,7 +733,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -763,7 +774,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/08</em></p>
-<p>This blog post covers running the OpenSearch Hot Data Tier on EC2 Instance Store (local NVMe) instead of EBS: why it performs better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
+<p>This blog post covers running the OpenSearch hot data tier on EC2 Instance Store (local NVMe) instead of EBS. It explains why local disks perform better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -785,7 +796,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -813,7 +835,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/04</em></p>
-<p>This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage in clusters with many small indices, and how disk watermarks help address that. I’ll also discuss other allocation mechanisms and a limitation in the watermark design: it’s a cluster-wide setting, even in clusters with different storage tiers.</p>
+<p>This blog post explains how OpenSearch distributes shards across data nodes. It covers how the default allocator works, why it can leave disk usage uneven in clusters with many small indices, and how disk watermarks correct that. It also covers other allocation mechanisms and a limitation I run into often: watermarks are one cluster-wide setting, even in clusters with different storage tiers.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -889,7 +911,7 @@
   
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
-      <a href="2026/2026-10-29-otel-foundation/">OpenTelemetry: A Framework to Decoupling Your Observability</a>
+      <a href="2026/2026-10-29-otel-foundation/">OpenTelemetry: A Framework for Decoupling Your Observability</a>
     </h2>
     <ul class="ablog-archive">
       <li>
@@ -900,7 +922,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -926,7 +959,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/10/29</em></p>
-<p>This blog post explains the foundation of OpenTelemetry and walks through a practical example of instrumenting a Python application. It demonstrates OpenTelemetry’s single API definition paired with multiple SDK implementations for Prometheus and Datadog.</p>
+<p>This blog post explains what OpenTelemetry is and why its separation between API and SDK matters. It then walks through a Python application that records metrics once, through the OpenTelemetry API, and sends them to either Prometheus or Datadog by changing only the SDK configuration.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -948,7 +981,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -976,7 +1020,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/10/28</em></p>
-<p>This blog post explains how to create custom Zsh widgets by registering shell functions to keyboard shortcuts powered by the Zsh Line Editor (ZLE).</p>
+<p>This blog post explains how to create custom Zsh widgets: shell functions bound to keyboard shortcuts through the Zsh Line Editor (ZLE). It’s the Zsh version of <a class="reference internal" href="2026/2026-10-25-gnu-readline-widgets/"><span class="std std-doc">Hacking Your Bash Terminal with Custom Widgets</span></a>, and it ends with the same widget that reruns the current command every two seconds.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -998,7 +1042,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1028,7 +1083,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/10/25</em></p>
-<p>This blog post is an extension of <a class="reference internal" href="2026/2026-10-18-gnu-readline-foundation/"><span class="std std-doc">GNU Readline: The Magic Behind Terminal Autocomplete</span></a>. Here, I explain how to create custom Bash widgets by registering Bash functions to keyboard shortcuts powered by the GNU Readline library.</p>
+<p>This blog post explains how to create custom Bash widgets: Bash functions bound to keyboard shortcuts through the GNU Readline library. It continues <a class="reference internal" href="2026/2026-10-18-gnu-readline-foundation/"><span class="std std-doc">GNU Readline: The Magic Behind Terminal Autocomplete</span></a>, and ends with a widget that reruns the current command every two seconds.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1050,7 +1105,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1080,7 +1146,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/10/18</em></p>
-<p>This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. I will also show the one configuration I reach for the most: making the Up and Down arrows search your command history by prefix. It is a small change that saved me a lot of keystrokes.</p>
+<p>This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. It also shows the configuration I reach for the most: making the Up and Down arrows search your command history by prefix. It’s a small change that saved me a lot of keystrokes.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1102,7 +1168,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1132,7 +1209,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/07/15</em></p>
-<p>This post focuses on the minimal Vim configuration and editing techniques I use during Kubernetes certification exams from the Linux Foundation. The goal is not to master Vim, but to learn a small set of commands that can improve your editing speed during the exam.</p>
+<p>This blog post covers the minimal Vim configuration and the editing techniques I use in the Linux Foundation Kubernetes certification exams. You don’t need to master Vim. A small set of commands is enough to edit YAML manifests much faster under exam conditions.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1154,7 +1231,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1184,7 +1272,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/07/09</em></p>
-<p>This blog post walks through the workstation optimizations I use to work more efficiently during the exam, including Vim configuration, Bash keybindings, shell aliases, and other tweaks that help reduce friction and save valuable time.</p>
+<p>This blog post covers the workstation tweaks I use to work faster during the Linux Foundation Kubernetes exams: macOS settings that avoid keyboard and proctoring problems, Bash history search by prefix, a minimal Vim configuration, kubectl aliases, and how to copy all of it to each question node.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1206,7 +1294,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1232,7 +1331,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/02/25</em></p>
-<p>Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother development experience. It is common to face issues when you create a template that tries to access a parameter defined in the <code class="docutils literal notranslate"><span class="pre">.Values</span></code> files, and for any reason, whether a syntax error or typo, the <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">helm</span> <span class="pre">template</span></code> command fails, and the stack trace shows confusing messages that don’t point to the root cause. This blog post provides an alternative approach to inspect the Helm Chart context with JSON, helping you understand how to access chart properties for use in your templates.</p>
+<p>This blog post shows a simple way to debug Helm charts: dump the entire chart context as JSON and look at exactly what your templates can access. It helps most when <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">helm</span> <span class="pre">template</span></code> fails with a message that doesn’t point to the real problem, such as a typo in a <code class="docutils literal notranslate"><span class="pre">.Values</span></code> path.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1254,7 +1353,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1280,7 +1390,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/07/28</em></p>
-<p>This blog post explores an approach to group objects by mulitple attribute name powered by capabilities of the built-in modules <a class="reference external" href="https://docs.python.org/3/library/itertools.html#itertools.groupby">itertools.groupby</a> and <a class="reference external" href="https://docs.python.org/3/library/operator.html#operator.attrgetter">operator.attrgetter</a> module.</p>
+<p>This blog post shows how to group objects by several attributes. It uses two standard library tools, <a class="reference external" href="https://docs.python.org/3/library/itertools.html#itertools.groupby">itertools.groupby</a> and <a class="reference external" href="https://docs.python.org/3/library/operator.html#operator.attrgetter">operator.attrgetter</a>, instead of building a dictionary of lists by hand. It also covers the one detail that trips most people up: <code class="docutils literal notranslate"><span class="pre">groupby</span></code> only groups items that are next to each other.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1302,7 +1412,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1332,7 +1453,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/06/22</em></p>
-<p>Have you ever wondered how <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex, but understanding it is key to troubleshooting and monitoring. This blog post outlines how Kubernetes organizes logs, how to send them to external systems, and tips to manage log growth effectively.</p>
+<p>This blog post explains where Kubernetes stores container logs and how <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> and log shippers read them. It also covers the CRI log line format, how log rotation works, and how to ship pod logs to an external system with a DaemonSet. Kubernetes logging can look complex, but knowing these details makes troubleshooting much easier.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1354,7 +1475,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1382,7 +1514,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/06/19</em></p>
-<p>This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to create SHA-256 hashes for effective deduplication without relying on external scripts or plugins.</p>
+<p>This blog post explains why Fluent Bit can deliver the same log more than once, and why deduplication needs a unique ID derived from the log content. It then shows how to generate a SHA-256 hash of each log line with only native Fluent Bit features, without external scripts or plugins.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1393,7 +1525,7 @@
   
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
-      <a href="2025/2025-02-25-helm-best-practices/">Helm Charts: Development Practices from a Programmer’s Perspective</a>
+      <a href="2025/2025-02-25-helm-best-practices/">Helm Charts: Development Practices from a Programmer's Perspective</a>
     </h2>
     <ul class="ablog-archive">
       <li>
@@ -1404,7 +1536,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1430,7 +1573,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/02/25</em></p>
-<p>In the last quarter of 2024, I delved deep into the world of Helm Charts and encountered several challenges. Initially, creating a new Helm Chart seemed to introduce complexity, and I didn’t see significant advantages over using Kustomize. However, after spending days reflecting, reading more about Helm, and examining existing projects, I gained insights that helped me view Helm as an ally rather than an unnecessarily complex tool. So, I compiled the main insights in this blog post to present Helm chart development tips from a programmer’s perspective.</p>
+<p>This blog post applies programming principles to Helm chart development. It covers when Helm’s complexity pays for itself, how it removes duplicated manifests (DRY), why over-templating hurts (YAGNI), and how library charts keep patterns reusable.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1441,7 +1584,7 @@
   
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
-      <a href="2025/2025-02-16-logstash-db-enrichment/">Logstash DB Enrichment - Tips and Traps!</a>
+      <a href="2025/2025-02-16-logstash-db-enrichment/">Logstash DB Enrichment: Tips and Traps</a>
     </h2>
     <ul class="ablog-archive">
       <li>
@@ -1452,7 +1595,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1480,7 +1634,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/02/16</em></p>
-<p>In this blog post, I share my experiences with Logstash log enrichment using a database. I’ll cover some hidden behaviors and the importance of configuring the JDBC connection string parameters to avoid mysterious problems that are hard to replicate and not clearly documented. These tips come from real-world scenarios and aren’t always obvious in the official documentation. I hope they help you save hours of troubleshooting and searching through forums.</p>
+<p>This blog post covers the lessons from enriching logs in Logstash with data from a PostgreSQL database. It explains hidden behaviors of the <code class="docutils literal notranslate"><span class="pre">jdbc_streaming</span></code> filter that can stop log ingestion, and the JDBC connection string parameters that prevent them. These problems are hard to reproduce and not clearly documented, so I hope these tips save you hours of troubleshooting and forum searching.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1491,7 +1645,7 @@
   
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
-      <a href="2025/2025-01-05-opensearch-concepts-index-and-shards/">OpenSearch Concepts - Index and Shards</a>
+      <a href="2025/2025-01-05-opensearch-concepts-index-and-shards/">OpenSearch Concepts: Index and Shards</a>
     </h2>
     <ul class="ablog-archive">
       <li>
@@ -1502,7 +1656,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1530,7 +1695,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/01/05</em></p>
-<p>OpenSearch is a powerful platform, but having a solid understanding of its basic concepts is essential for a seamless experience with the stack. In this blog post, we’ll cover one of the most fundamental aspects of OpenSearch administration: <strong>Indices and Shards</strong>.</p>
+<p>This blog post explains two of the most basic concepts in OpenSearch administration: indices and shards. It covers what primary and replica shards are, how their counts affect performance and fault tolerance, and the API calls I use most to inspect indices and shards while troubleshooting.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1552,7 +1717,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1580,7 +1756,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2024/07/21</em></p>
-<p>This blog post outlines a brief overview of best practices for application configuration, explains the main features of Dynaconf, and provides a hands-on example of how to extend it to retrieve parameters from AWS Parameter Store.</p>
+<p>This blog post gives a short overview of good practices for application configuration, explains the main features of <a class="reference external" href="https://github.com/dynaconf/dynaconf">Dynaconf</a>, and walks through a hands-on example that extends it to read parameters from AWS Systems Manager Parameter Store.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1602,7 +1778,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1632,7 +1819,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2024/06/08</em></p>
-<p>This blog post outlines an optimize log ingestion in OpenSearch using Logstash. It will address a common issue related to shipping logs to scalable OpenSearch clusters and provide an effective solution to enhance resource utilization.</p>
+<p>This blog post covers a common problem when Logstash ships logs to an OpenSearch cluster with autoscaling ingest nodes behind a load balancer: one node takes all the traffic while the others sit idle. It shows how the output plugin’s sniffing options fix that by discovering the nodes from the OpenSearch API.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1654,7 +1841,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1684,7 +1882,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2024/04/28</em></p>
-<p>This blog post outlines the advantages of the <a class="reference external" href="https://github.com/junegunn/fzf">fzf</a> (Fuzzy Finder CLI) and explains how to configure its <a class="reference external" href="https://www.zsh.org/">Zsh</a> widgets.</p>
+<p>This blog post explains why <a class="reference external" href="https://github.com/junegunn/fzf">fzf</a>, a command-line fuzzy finder, replaced <code class="docutils literal notranslate"><span class="pre">Ctrl</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code>, <code class="docutils literal notranslate"><span class="pre">find</span></code>, and <code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">|</span> <span class="pre">grep</span></code> in my terminal. It also shows how to configure its <a class="reference external" href="https://www.zsh.org/">Zsh</a> widgets for searching history, files, and directories, with live previews.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1706,7 +1904,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1736,7 +1945,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2024/02/08</em></p>
-<p>This blog post covers my prompt customization experience, favorite <a class="reference external" href="https://www.zsh.org/">ZSH</a> Plugins, <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">ZSH options</a>, and <a class="reference external" href="https://starship.rs/">Starship</a> configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.</p>
+<p>This blog post covers how I ended up with <a class="reference external" href="https://www.zsh.org/">ZSH</a> and <a class="reference external" href="https://starship.rs/">Starship</a> as my terminal setup. It walks through the shells I tried along the way, my favorite ZSH plugins and <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">ZSH options</a>, my minimal Starship configuration, and a step-by-step guide to reproduce it from scratch.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1747,7 +1956,7 @@
   
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
-      <a href="2023/2023-11-19-systemd-override-parameters/">Properties Overriding: A Smart Way to Customize Systemd Unit Properties</a>
+      <a href="2023/2023-11-19-systemd-override-parameters/">Systemd Drop-in Overrides: Customize Unit Properties Without Editing the Unit File</a>
     </h2>
     <ul class="ablog-archive">
       <li>
@@ -1758,7 +1967,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1784,7 +2004,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/11/19</em></p>
-<p>This blog post covers an smart alternative to customize systemd unit process parameters.</p>
+<p>This blog post covers a cleaner way to customize a systemd service. Instead of editing the unit file, you put your changes in an <code class="docutils literal notranslate"><span class="pre">override.conf</span></code> drop-in file that systemd merges on top of the original. It explains why direct edits cause problems, how overrides work, and walks through a hands-on example.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1795,7 +2015,7 @@
   
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
-      <a href="2023/2023-11-02-logstash-modular-pipelines/">Logstash Modular Pipelines: An Elegant Structure for Code Reusability and Duplication Avoiding</a>
+      <a href="2023/2023-11-02-logstash-modular-pipelines/">Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication</a>
     </h2>
     <ul class="ablog-archive">
       <li>
@@ -1806,7 +2026,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1834,7 +2065,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/11/12</em></p>
-<p>This blog post explores a Logstash pipelines structure to mitigate code duplicated and presents an elegant method for reusing code section across multiple pipelines.</p>
+<p>This blog post covers a Logstash pipeline structure that removes duplicated code. Each <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> lives in its own file, and every application’s pipeline is composed from those modules with a glob pattern and an environment variable. It includes an example configuration, a Docker Compose lab to try it, and my opinion on when the structure is worth it.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1856,7 +2087,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1886,7 +2128,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/10/21</em></p>
-<p>If you’ve ever heard someone say “it’s on the cloud” and weren’t quite sure what that meant, this post is for you.</p>
+<p>This blog post explains what the Cloud is without technical jargon: the problem it solved, why it changed how software is built, when running your own servers still makes sense, and the costs that sales pitches tend to leave out. If you’ve ever heard someone say “it’s on the cloud” and weren’t quite sure what that meant, this post is for you.</p>
 </p>
 
     <p class="ablog-post-expand">

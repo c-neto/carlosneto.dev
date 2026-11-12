@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Why Fluent Bit can deliver the same log more than once, why deduplication needs an ID derived from the log content, and how to build a SHA-256 log ID with only native Fluent Bit processors." name="description" />
 <meta property="og:title" content="Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2025/06/19 This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to..." />
+<meta property="og:description" content="Why Fluent Bit can deliver the same log more than once, why deduplication needs an ID derived from the log content, and how to build a SHA-256 log ID with only native Fluent Bit processors." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-06-19-fluentbit-log-dedup_b786bde8.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2025/06/19 This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to..." />
-<meta name="description" content="Blog Post Publish Date: 2025/06/19 This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-06-19-fluentbit-log-dedup_b058ac34.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2025/06/19 This blog post explains why Fluent Bit can deliver the same log more than once, and why deduplication needs a unique ID derived from the log content. It then show..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication &#8212; Carlos Neto&#39;s Blog</title>
@@ -408,22 +408,23 @@
 <hr class="docutils" />
 <section id="fluent-bit-generating-log-ids-with-sha-256-hashes-for-log-deduplication">
 <h1>Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication<a class="headerlink" href="#fluent-bit-generating-log-ids-with-sha-256-hashes-for-log-deduplication" title="Link to this heading">#</a></h1>
-<p>This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to create SHA-256 hashes for effective deduplication without relying on external scripts or plugins.</p>
-<section id="why-do-duplicate-logs-occur-in-fluent-bit">
-<h2>Why Do Duplicate Logs Occur in Fluent Bit?<a class="headerlink" href="#why-do-duplicate-logs-occur-in-fluent-bit" title="Link to this heading">#</a></h2>
-<p>I encountered issues with duplicated logs being indexed in OpenSearch by Fluent Bit. After some research, I concluded that currently, Fluent Bit, when using the <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/inputs/tail">Tail</a> input, offers features designed for the <strong>At Least Once</strong> delivery strategy. This means that a message may be delivered one or more times, potentially causing duplication. It does not support <strong>Exactly Once</strong> or <strong>At Most Once</strong> strategies, where a message is delivered only once or at most once, respectively.</p>
-<p>There are several variables that can contribute to this behavior. For example, when using the <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/inputs/tail">Tail</a> input plugin, even if you use an SQL database with <code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">On</span></code> parameter, you may still experience duplicate logs. This is because the database only persists the file reading offset, not the delivery status for each configured <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs">Output</a>.</p>
-<p>I plan to write a separate blog post with more details about how Fluent Bit manages log delivery state (<em>chunk, buffering, SQL Lite, Storage Type</em>). For now, it’s important to understand that in certain scenarios such as output unavailability and Fluent Bit restarts—duplication can occur. This is expected behavior and not necessarily a problem, especially when multiple <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs">Output</a> configurations are used.</p>
+<p>This blog post explains why Fluent Bit can deliver the same log more than once, and why deduplication needs a unique ID derived from the log content. It then shows how to generate a SHA-256 hash of each log line with only native Fluent Bit features, without external scripts or plugins.</p>
+<section id="why-fluent-bit-delivers-duplicate-logs">
+<h2>Why Fluent Bit Delivers Duplicate Logs<a class="headerlink" href="#why-fluent-bit-delivers-duplicate-logs" title="Link to this heading">#</a></h2>
+<p>I ran into duplicated logs indexed in OpenSearch by Fluent Bit. After some research, I concluded that with the <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/inputs/tail">Tail</a> input, Fluent Bit follows an <strong>at-least-once</strong> delivery strategy: a message is delivered one or more times, so duplicates can happen. It does not offer <strong>exactly-once</strong> delivery (each message delivered once) or <strong>at-most-once</strong> delivery (each message delivered once or not at all).</p>
+<p>Several things contribute to this. For example, the Tail input can store its state in a database with <code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">On</span></code>, and you can still get duplicates. The database only stores the read offset of each file, not whether each <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs">output</a> received the record.</p>
+<p>I plan to write a separate post about how Fluent Bit tracks delivery state (chunks, buffering, SQLite, storage type). For now, the important part is that duplicates can occur in situations such as an unavailable output or a Fluent Bit restart. That is expected behavior, not necessarily a bug, especially with several outputs configured.</p>
 </section>
-<section id="the-importance-of-unique-log-ids">
-<h2>The Importance of Unique Log IDs<a class="headerlink" href="#the-importance-of-unique-log-ids" title="Link to this heading">#</a></h2>
-<p>If the delivery strategy is <strong>At Least Once</strong>, generating a unique ID is a hard requirement to avoid duplication at the <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs">Output</a> destination. This unique ID should be created based on the log line content. If you are using Logstash and OpenSearch in your log analytics stack, you can generate IDs using the <a class="reference external" href="https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint">Logstash Fingerprint filter plugin</a> or the <a class="reference external" href="https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/">OpenSearch Fingerprint Ingest Pipeline Processor</a>, both of which create hashes based on specified log field values. Unfortunately, Fluent Bit does not have a specific native filter plugin to create unique IDs. You can use a Lua script or bash script callback for it, but in both cases, the complexity increases and you become dependent on external crypto libraries. However, don’t worry, I will show you a workaround to generate a hash from the log line content using only Fluent Bit’s native features.</p>
-<p>If you are using Fluent Bit to send logs directly to OpenSearch, you can use the <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs/opensearch">OpenSearch Output Plugin</a> with the <code class="docutils literal notranslate"><span class="pre">Generate_ID</span> <span class="pre">On</span></code> parameter enabled to generate a unique ID for logs. However, <strong>note that the ID generated by this option will be different even if the one ore more log line content is the same</strong>. The <code class="docutils literal notranslate"><span class="pre">Generate_ID</span> <span class="pre">On</span></code> option generates an ID within Fluent Bit only; it does not create a unique ID based on the log content. To avoid duplicate logs, generate a hash-based ID derived from the log content itself.</p>
+<section id="why-you-need-a-unique-log-id">
+<h2>Why You Need a Unique Log ID<a class="headerlink" href="#why-you-need-a-unique-log-id" title="Link to this heading">#</a></h2>
+<p>With at-least-once delivery, a unique ID is a hard requirement to avoid duplicates at the destination. The ID must be derived from the log content, so the same line always gets the same ID. The destination can then overwrite the duplicate instead of storing a second copy.</p>
+<p>If your stack has Logstash or OpenSearch ingest pipelines, the <a class="reference external" href="https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint">Logstash fingerprint filter</a> and the <a class="reference external" href="https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/">OpenSearch fingerprint processor</a> both hash selected fields for this. Fluent Bit has no filter dedicated to it. You could use a Lua or shell script callback, but that adds complexity and depends on external crypto libraries. The next section shows a workaround that uses only native Fluent Bit features.</p>
+<p>If Fluent Bit sends logs directly to OpenSearch, the <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs/opensearch">OpenSearch output</a> has a <code class="docutils literal notranslate"><span class="pre">Generate_ID</span> <span class="pre">On</span></code> option. <strong>The ID it generates is not derived from the log line alone</strong>, so the same line read twice, for example after a restart, can get a different ID and still be stored twice. To deduplicate, generate the ID from the log content yourself.</p>
 </section>
-<section id="generating-sha-256-hashes-for-log-deduplication">
-<h2>Generating SHA-256 Hashes for Log Deduplication<a class="headerlink" href="#generating-sha-256-hashes-for-log-deduplication" title="Link to this heading">#</a></h2>
-<p>I reviewed the available Fluent Bit filter plugins and did not find any that generate hash values based on a log key. However, I discovered a <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier">Processor Content Modifier Action</a> called <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example">hash</a>. This action takes a log event key as an argument and replaces its value with a SHA-256 hash. While this feature is primarily intended for masking sensitive data such as passwords and PII, it can also be used to generate unique identifiers for log events.</p>
-<p>The <strong>key insight</strong> is to copy the log line content to a new key and hash this new field, keeping the original log line content intact and using the hashed field as the log ID. Check example:</p>
+<section id="generating-sha-256-hashes-with-native-processors">
+<h2>Generating SHA-256 Hashes with Native Processors<a class="headerlink" href="#generating-sha-256-hashes-with-native-processors" title="Link to this heading">#</a></h2>
+<p>I reviewed the Fluent Bit filters and found none that hash a field. Then I found the <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier">content modifier processor</a> and its <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example"><code class="docutils literal notranslate"><span class="pre">hash</span></code></a> action. A <strong>processor</strong> is a step attached directly to an input or output in the YAML configuration. The <code class="docutils literal notranslate"><span class="pre">hash</span></code> action takes a record key and replaces its value with its SHA-256 hash. It’s meant for masking sensitive data such as passwords and PII, but it also works for building log IDs.</p>
+<p>The <strong>key idea</strong> is to copy the log line to a new key and hash that copy. The original log line stays intact, and the hashed field becomes the log ID. For example:</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/fluent-bit.yaml">/fluent-bit/fluent-bit.yaml</a></span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># The `pipeline.inputs.processors` feature is only available when using the `yaml` configuration format.  </span>
@@ -472,7 +473,7 @@
 </pre></div>
 </div>
 </div>
-<p>The output is like:</p>
+<p>The output looks like this. The same line always gets the same <code class="docutils literal notranslate"><span class="pre">_id</span></code>:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="mf">1750366003.411804</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log"</span><span class="p">,</span>
@@ -495,7 +496,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>The <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example">hash</a> action takes the binary value of the log line, applies the SHA-256 algorithm, and outputs the result as a hexadecimal string. Below is a Python script that performs the same hashing process as Fluent Bit.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">hash</span></code> action takes the bytes of the log line, applies SHA-256, and writes the result as a hexadecimal string. This Python snippet produces the same hash as Fluent Bit:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
 
 <span class="n">log_line_in_string</span> <span class="o">=</span> <span class="s2">"2025-06-19T17:02:35.123456789Z stdout F This is a Foobar application log sample running in kubernetes persisted on /var/log/containers/*.log"</span>
@@ -507,22 +508,73 @@
 <span class="o">&gt;&gt;&gt;</span> <span class="s2">"19a93f55808eb5478c65813c028045f1b354abe12790eb8aee0dd825697aa93e"</span>
 </pre></div>
 </div>
-<p>Now, you can use the <code class="docutils literal notranslate"><span class="pre">_id</span></code> as log unique ID field!</p>
+</section>
+<section id="using-the-hash-as-the-document-id">
+<h2>Using the Hash as the Document ID<a class="headerlink" href="#using-the-hash-as-the-document-id" title="Link to this heading">#</a></h2>
+<p>Identical log lines always produce the same hash, so the destination can detect the duplicate. Because the raw container log line includes a nanosecond timestamp, two different events almost never share the same content.</p>
+<p>To use the hash as the document ID in OpenSearch, point the OpenSearch output’s <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs/opensearch"><code class="docutils literal notranslate"><span class="pre">Id_Key</span></code></a> option at the hashed field. A retried or re-read log then overwrites the existing document instead of creating a new one. OpenSearch treats <code class="docutils literal notranslate"><span class="pre">_id</span></code> as a metadata field and rejects it inside the document body, so in a real pipeline give the hashed field another name, such as <code class="docutils literal notranslate"><span class="pre">log_id</span></code>, and set <code class="docutils literal notranslate"><span class="pre">Id_Key</span> <span class="pre">log_id</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You can find a complete, working example of this configuration in my Docker Compose lab repository: <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/">github.com/c-neto/my-devops-labs/blog/2025-06-19/docker-compose.yml</a></p>
+<p>A complete, working example of this configuration is in my Docker Compose lab: <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/">github.com/c-neto/my-devops-labs/blog/2025-06-19</a></p>
 </div>
+<p>The Tail input in these examples reads the container log files that Kubernetes writes under <code class="docutils literal notranslate"><span class="pre">/var/log/containers/</span></code>. I explain how those files are created and rotated in <a class="reference internal" href="../2025-06-22-kubernetes-logs-simplified/"><span class="std std-doc">Kubernetes Logs Simplified</span></a>. Processors can also turn logs into metrics during ingestion, as I show in <a class="reference internal" href="../../2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/"><span class="std std-doc">Stop Extracting Metrics from OpenSearch Logs</span></a>.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>With the Tail input, Fluent Bit delivers at least once, so duplicates are expected after output failures or restarts.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">On</span></code> stores file offsets, not per-output delivery status, so it doesn’t prevent duplicates.</p></li>
+<li><p>Deduplication needs an ID derived from the log content. <code class="docutils literal notranslate"><span class="pre">Generate_ID</span> <span class="pre">On</span></code> isn’t derived from the log line alone.</p></li>
+<li><p>Copy the log line to a new key with <code class="docutils literal notranslate"><span class="pre">modify</span></code>, then hash it with the <code class="docutils literal notranslate"><span class="pre">content_modifier</span></code> processor’s <code class="docutils literal notranslate"><span class="pre">hash</span></code> action to get a SHA-256 ID.</p></li>
+<li><p>Processors on inputs are only available in the YAML configuration format.</p></li>
+<li><p>Use the hashed field as the OpenSearch document ID with <code class="docutils literal notranslate"><span class="pre">Id_Key</span></code>, and don’t name it <code class="docutils literal notranslate"><span class="pre">_id</span></code>, because OpenSearch rejects that field in the document body.</p></li>
+</ul>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Docker-Compose Lab: <a class="github reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml">c-neto/my-devops-labs</a></p></li>
-<li><p>Logstash Fingerprint Filter Plugin: <a class="reference external" href="https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint">https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint</a></p></li>
-<li><p>OpenSearch Fingerprint Ingest Pipeline Processor: <a class="reference external" href="https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/">https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/</a></p></li>
-<li><p>Fluent Bit Processors Reference: <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier">https://docs.fluentbit.io/manual/pipeline/processors/content-modifier</a></p></li>
-<li><p>Fluent Bit Hash Example: <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example">https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example</a></p></li>
+<li><p><a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example">Content modifier processor: hash (Fluent Bit)</a></p></li>
+<li><p><a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/inputs/tail">Tail input (Fluent Bit)</a></p></li>
+<li><p><a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs/opensearch">OpenSearch output (Fluent Bit)</a></p></li>
+<li><p><a class="reference external" href="https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint">Fingerprint filter plugin (Logstash)</a></p></li>
+<li><p><a class="reference external" href="https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/">Fingerprint processor (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml">Docker Compose lab for this post (GitHub)</a></p></li>
 </ul>
-</section>
+<p><em>I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication",
+      "description": "Why Fluent Bit can deliver the same log more than once, why deduplication needs an ID derived from the log content, and how to build a SHA-256 log ID with only native Fluent Bit processors.",
+      "datePublished": "2025-06-19",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/",
+      "keywords": ["Fluent Bit", "log deduplication", "SHA-256", "OpenSearch", "at-least-once delivery"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->
@@ -552,7 +604,7 @@
       
       <i class="fa fa-arrow-circle-left"></i>
       
-      <span>Helm Charts: Development Practices from a Programmer’s Perspective</span>
+      <span>Helm Charts: Development Practices from a Programmer's Perspective</span>
     </a>
     
   </span>

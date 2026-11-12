@@ -2,6 +2,14 @@
 tags: kubernetes, certification, vim
 date: "2026-07-15"
 category: Kubernetes
+author: Carlos Neto
+title: "Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)"
+description: "The minimal vimrc and the small set of Vim commands I use to edit Kubernetes YAML fast in the CKA, CKAD, and CKS exams: indentation, block comments, search and replace, line ranges, and shell filters."
+myst:
+  html_meta:
+    description: "The minimal vimrc and the small set of Vim commands I use to edit Kubernetes YAML fast in the CKA, CKAD, and CKS exams: indentation, block comments, search and replace, line ranges, and shell filters."
+og:title: "Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)"
+og:description: "The minimal vimrc and the small set of Vim commands I use to edit Kubernetes YAML fast in the CKA, CKAD, and CKS exams: indentation, block comments, search and replace, line ranges, and shell filters."
 ---
 
 *__Blog Post Publish Date:__ 2026/07/15*
@@ -10,17 +18,17 @@ category: Kubernetes
 
 # Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)
 
-This post focuses on the minimal Vim configuration and editing techniques I use during Kubernetes certification exams from the Linux Foundation. The goal is not to master Vim, but to learn a small set of commands that can improve your editing speed during the exam.
+This blog post covers the minimal Vim configuration and the editing techniques I use in the Linux Foundation Kubernetes certification exams. You don't need to master Vim. A small set of commands is enough to edit YAML manifests much faster under exam conditions.
 
 ## Vim: Less Mouse, More Efficiency
 
-The exam workstation includes *[VSCodium](https://vscodium.com/)* (*the free and open-source binaries of VS Code*), but it's not a practical choice during the exam. While *VSCodium* is available on the workstation, all exam tasks are performed on remote nodes via the terminal over SSH, where it is unavailable. In addition, the connection to the exam workstation often has noticeable latency, making mouse operations slow and unreliable. The less you rely on the mouse, the faster you'll be able to edit files. This is where Vim shines.
+The exam workstation includes *[VSCodium](https://vscodium.com/)* (*the free and open-source binaries of VS Code*), but it isn't practical during the exam. Every task is done on a remote node over SSH, where VSCodium isn't available. The connection to the workstation also often has noticeable latency, which makes the mouse slow and unreliable. The less you rely on the mouse, the faster you edit. This is where Vim shines.
 
-You don't need to become a Vim expert to pass the exam. This guide covers everything you need to efficiently edit Kubernetes YAML manifests under exam conditions. Focus on building muscle memory by practicing these commands in the simulation labs.
+**Vim** is a modal text editor: you switch between modes, such as Normal mode for moving and editing with short commands and Insert mode for typing text. That is what makes it fast without a mouse. Practice the commands below in the simulation labs, such as Killer Shell, until they become muscle memory.
 
 ## Vim Configuration
 
-This configuration is intentionally minimal and optimized for editing Kubernetes YAML manifests. Two-space indentation helps prevent invalid YAML formatting, line numbers make it easier to jump to specific locations, syntax highlighting improves readability, and cursor highlighting helps you keep track of indentation levels.
+This configuration is intentionally minimal and tuned for Kubernetes YAML. Two-space indentation prevents invalid YAML, line numbers make it easy to jump to a line, syntax highlighting helps reading, and the cursor column highlight shows the indentation level.
 
 ```{code-block} vim
 :caption: ~/.vimrc
@@ -45,7 +53,7 @@ scp ~/.vimrc node01:~/.vimrc
 
 ## Essential Editing Commands
 
-These are the commands you'll use most often. They let you navigate, copy, delete, replace, and repeat edits without relying on the mouse.
+These are the commands you'll use most. They copy, delete, replace, and repeat edits without the mouse. `Ctrl+y` works in Insert mode; the others run from Normal mode:
 
 ```bash
 o           # Open a new line below
@@ -79,7 +87,7 @@ Ctrl+v      # Enter Visual Block mode (for commenting lines)
 
 ## Cursor Movement
 
-As mentioned previously, I strongly recommend **not** using `set mouse=a` during the exam. The remote exam workstations have higher latency than the Killer Shell simulation environment, making mouse interactions in Vim slow and unreliable. Use the mouse only for scrolling. For navigation, use the following commands:
+I strongly recommend **not** using `set mouse=a` in the exam. The remote exam workstations have higher latency than the Killer Shell simulator, so mouse interactions in Vim are slow and unreliable. Use the mouse only to scroll, and navigate with these commands:
 
 ```bash
 /greeting   # Search for "greeting"
@@ -96,7 +104,7 @@ B           # Jump to the previous word
 
 ## YAML Indentation
 
-Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim makes it easy to indent entire YAML blocks to the right or left while preserving their structure.
+Indentation mistakes are one of the most common causes of invalid Kubernetes manifests. Vim indents whole YAML blocks to the right or left while keeping their structure.
 
 To increase the indentation:
 
@@ -118,7 +126,7 @@ ESC     # 3. Apply the change
 
 ## Commenting Multiple Lines
 
-Visual Block mode allows you to insert the same text across multiple lines simultaneously. This is particularly useful for commenting or uncommenting YAML blocks.
+**Visual Block mode** selects a rectangle of text across several lines, so you can insert the same text on all of them at once. It's the quickest way to comment or uncomment a YAML block.
 
 ```bash
 Ctrl+v    # 1. Select columns across lines in Visual Block mode (↑↓)
@@ -131,7 +139,7 @@ The same technique can also be used to insert identical text across multiple lin
 
 ## Search and Replace
 
-When renaming resources, labels, namespaces, image names, or environment variables, replacing every occurrence manually is both slow and error-prone.
+When you rename resources, labels, namespaces, image names, or environment variables, replacing every occurrence by hand is slow and error-prone.
 
 To replace every occurrence of a string:
 
@@ -140,7 +148,7 @@ To replace every occurrence of a string:
 :%s#/kubernets/#/kubernetes/#g  # Replace "/kubernets/" with "/kubernetes/"
 ```
 
-Sometimes, however, you only want to replace one occurrence at a time. In that case, use the following workflow:
+Sometimes you want to replace one occurrence at a time instead. Use this workflow:
 
 ```bash
 *         # Search for the word under the cursor (or use "/greeting")
@@ -158,13 +166,12 @@ This approach lets you review each occurrence before replacing it, making it saf
 
 ## Working with YAML Blocks
 
-Many editing operations can be performed directly on a range of line numbers without entering Visual mode. This is especially useful when moving, copying, deleting, or reindenting large YAML blocks.
+Many operations work directly on a range of line numbers, without Visual mode. That's especially useful to move, copy, delete, or reindent large YAML blocks.
 
 ```bash
 :%<         # Unindent all lines
 :10,15>     # Indent lines 10-15
 :10,15<     # Unindent lines 10-15
-:30,50x     # Delete lines 30-50
 :30,50t70   # Copy lines 30-50 and paste below line 70
 :30,50m70   # Cut lines 30-50 and paste below line 70
 :30,50d     # Cut lines 30-50
@@ -174,7 +181,7 @@ Many editing operations can be performed directly on a range of line numbers wit
 
 ## Working with Numbers
 
-Kubernetes manifests frequently contain numeric values such as replica counts, ports, resource requests, limits, and probe timings. Instead of deleting and retyping numbers, Vim can increment or decrement them directly.
+Kubernetes manifests are full of numbers such as replica counts, ports, resource requests and limits, and probe timings. Instead of deleting and retyping them, Vim can increment or decrement them in place.
 
 Place the cursor before or on a number, then use `Ctrl+a` to increment it or `Ctrl+x` to decrement it. You can also provide a count to change the value by a larger amount:
 
@@ -199,7 +206,7 @@ Likewise, `10 » Ctrl+a` changes it from `3` to `13`.
 
 ## Running Shell Commands in Vim
 
-You can leverage operating system CLI tools to process and edit file content directly inside Vim. For example, you can execute [yq](https://github.com/mikefarah/yq) on the current buffer to check for syntax errors and format the file:
+Vim can pipe the file, or part of it, through any command-line tool and replace it with the output. For example, run [yq](https://github.com/mikefarah/yq) on the whole buffer to catch syntax errors and format the file:
 
 ```bash
 :%!yq
@@ -218,16 +225,74 @@ Vim can also execute commands without modifying the current buffer. This is usef
 :!kubectl get pods,ns --show-labels -n foobar
 ```
 
-Another useful trick is saving protected files without opening them with `sudo vim`. This is particularly handy when you forget to open a file with elevated privileges and have already made several changes. Instead of reopening the file with `sudo vim` and repeating your edits, you can write the current buffer using:
+Another useful trick is saving a protected file you opened without `sudo`. When you've already made several changes, you don't need to reopen it with `sudo vim` and repeat them. Write the buffer through `sudo` instead:
 
 ```bash
 :w !sudo tee %
 ```
 
-The `:w` normally saves the buffer to a file. When followed by `!`, it sends the buffer's content to an external command's standard input (STDIN) instead of writing to the file directly.
+`:w` normally writes the buffer to a file. Followed by `!`, it sends the buffer's content to a command's standard input instead. Here, `tee` runs as root and writes it to `%`, the current file name.
 
 ## Learn More
 
-Take a look at the complete Vim cheatsheet at <https://vim.rtorr.com/> to learn more Vim commands and tricks.
+The [Vim cheat sheet](https://vim.rtorr.com/) has many more commands, and the official [Vim documentation](https://vimhelp.org/) covers each one in detail. To practice in exam conditions, use the simulator sessions that come with your exam registration.
 
-For more tips on how I configure my Kubernetes exam workstation, including Bash aliases and search history shortcuts, take a look at my previous blog post [Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)](2026-07-09-workstation-setup-kubernetes-exams.md).
+For the rest of my exam workstation setup, including Bash aliases and history search by prefix, see [Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)](/blog/2026/2026-07-09-workstation-setup-kubernetes-exams.md). History search by prefix comes from GNU Readline, which I explain in [GNU Readline: The Magic Behind Terminal Autocomplete](/blog/2026/2026-10-18-gnu-readline-foundation.md).
+
+## Key Takeaways
+
+- Use Vim on the question nodes: VSCodium isn't available there, and latency makes the mouse unreliable.
+- Keep `~/.vimrc` minimal for YAML: line numbers, auto-indent, two-space tabs, and a cursor column highlight. Copy it to each node with `scp`.
+- Indent blocks with `Shift+v`, `>` or `<`, and repeat with `.`. Use `gv` to reselect the last selection.
+- Comment several lines with `Ctrl+v`, `Shift+i`, `#`, then `ESC`.
+- Replace globally with `:%s/old/new/g`, or one match at a time with `*`, `cW`, `n`, and `.`.
+- Use line ranges such as `:30,50d`, `:30,50t70`, and `:30,50m70` to delete, copy, and move YAML blocks.
+- Change numbers with `Ctrl+a` and `Ctrl+x`, filter text through tools with `:%!yq`, and save a protected file with `:w !sudo tee %`.
+
+## References
+
+- [Vim cheat sheet (vim.rtorr.com)](https://vim.rtorr.com/)
+- [Vim help files (vimhelp.org)](https://vimhelp.org/)
+- [Options: cursorcolumn (Vim documentation)](https://vimdoc.sourceforge.net/htmldoc/options.html#'cursorcolumn')
+- [yq (GitHub)](https://github.com/mikefarah/yq)
+- [sort (Linux man pages)](https://man7.org/linux/man-pages/man1/sort.1.html)
+
+*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+
+---
+
+```{raw} html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)",
+      "description": "The minimal vimrc and the small set of Vim commands I use to edit Kubernetes YAML fast in the CKA, CKAD, and CKS exams: indentation, block comments, search and replace, line ranges, and shell filters.",
+      "datePublished": "2026-07-15",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/",
+      "keywords": ["Vim", "CKA", "CKAD", "CKS", "Kubernetes YAML", "vimrc"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)"}
+      ]
+    }
+  ]
+}
+</script>
+```

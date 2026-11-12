@@ -7,19 +7,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Properties Overriding: A Smart Way to Customize Systemd Unit Properties" />
+<meta content="How to customize a systemd service with an override.conf drop-in instead of editing the unit file, how systemctl edit creates it, and a hands-on example that overrides an EnvironmentFile." name="description" />
+<meta property="og:title" content="Systemd Drop-in Overrides: Customize Unit Properties Without Editing the Unit File" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2023/2023-11-19-systemd-override-parameters/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2023/11/19 This blog post covers an smart alternative to customize systemd unit process parameters. This blog post delivers a explanation of the systemd override.conf file. ..." />
+<meta property="og:description" content="How to customize a systemd service with an override.conf drop-in instead of editing the unit file, how systemctl edit creates it, and a hands-on example that overrides an EnvironmentFile." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2023_2023-11-19-systemd-override-parameters_52ae9bd1.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2023/11/19 This blog post covers an smart alternative to customize systemd unit process parameters. This blog post delivers a explanation of the systemd override.conf file. ..." />
-<meta name="description" content="Blog Post Publish Date: 2023/11/19 This blog post covers an smart alternative to customize systemd unit process parameters. This blog post delivers a explanation of the systemd override.conf file. ..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2023_2023-11-19-systemd-override-parameters_2339e2ff.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2023/11/19 This blog post covers a cleaner way to customize a systemd service. Instead of editing the unit file, you put your changes in an override.conf drop-in file that s..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>Properties Overriding: A Smart Way to Customize Systemd Unit Properties &#8212; Carlos Neto&#39;s Blog</title>
+    <title>Systemd Drop-in Overrides: Customize Unit Properties Without Editing the Unit File &#8212; Carlos Neto&#39;s Blog</title>
   
   
   
@@ -406,34 +406,30 @@
 </div>
 <p><em><strong>Blog Post Publish Date:</strong> 2023/11/19</em></p>
 <hr class="docutils" />
-<section id="properties-overriding-a-smart-way-to-customize-systemd-unit-properties">
-<h1>Properties Overriding: A Smart Way to Customize Systemd Unit Properties<a class="headerlink" href="#properties-overriding-a-smart-way-to-customize-systemd-unit-properties" title="Link to this heading">#</a></h1>
-<p>This blog post covers an smart alternative to customize systemd unit process parameters.</p>
-<p>This blog post delivers a explanation of the systemd <code class="docutils literal notranslate"><span class="pre">override.conf</span></code> file. It elucidates the drawbacks of directly altering unit service configurations, introduces the overriding approach as a solution, presents a practical, hands-on example, and culminates with my perspective on the effectiveness of this structural methodology.</p>
-<section id="drawbacks-of-direct-unit-service-editing">
-<h2>Drawbacks of Direct Unit Service Editing<a class="headerlink" href="#drawbacks-of-direct-unit-service-editing" title="Link to this heading">#</a></h2>
-<p>At times, there’s a need to modify certain properties within a particular systemd unit service, such as adjusting the value of an environment variable to enhance debug levels for troubleshooting. Traditionally, this involves directly altering the unit service file. For instance, if you wish to modify properties of Docker, you’d edit <code class="docutils literal notranslate"><span class="pre">/etc/systemd/system/docker.service</span></code>, implement the changes, refresh systemd with <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">daemon-reload</span></code>, and then restart the Docker process using <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">docker</span></code>.</p>
-<p>While this approach functions adequately, it introduces certain behaviors that may pose issues depending on your use case.</p>
+<section id="systemd-drop-in-overrides-customize-unit-properties-without-editing-the-unit-file">
+<h1>Systemd Drop-in Overrides: Customize Unit Properties Without Editing the Unit File<a class="headerlink" href="#systemd-drop-in-overrides-customize-unit-properties-without-editing-the-unit-file" title="Link to this heading">#</a></h1>
+<p>This blog post covers a cleaner way to customize a systemd service. Instead of editing the unit file, you put your changes in an <code class="docutils literal notranslate"><span class="pre">override.conf</span></code> drop-in file that systemd merges on top of the original. It explains why direct edits cause problems, how overrides work, and walks through a hands-on example.</p>
+<section id="why-editing-the-unit-file-directly-causes-problems">
+<h2>Why Editing the Unit File Directly Causes Problems<a class="headerlink" href="#why-editing-the-unit-file-directly-causes-problems" title="Link to this heading">#</a></h2>
+<p>Sometimes you need to change a property of a systemd service, such as an environment variable that raises the debug level while you troubleshoot. The traditional way is to edit the unit file directly. For example, to change a Docker property, you edit <code class="docutils literal notranslate"><span class="pre">/etc/systemd/system/docker.service</span></code>, reload systemd with <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">daemon-reload</span></code>, and restart the service with <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">docker</span></code>.</p>
+<p>That works, but it causes a few problems:</p>
 <ul class="simple">
-<li><p>Modifying default unit services elevates the risk of configuring settings incorrectly.</p></li>
-<li><p>Custom changes can be challenging to discern if they lack proper comments.</p></li>
-<li><p>Unit service files might be overridden based on the installation method. For instance, the unit service could be replaced according to package update definitions of a package manager like <a class="reference external" href="https://rpm.org/">rpm</a> or <a class="reference external" href="https://wiki.debian.org/Apt">apt</a>.</p></li>
+<li><p>Editing the default unit file makes it easier to break the service with a wrong setting.</p></li>
+<li><p>Custom changes are hard to spot later if nobody commented them.</p></li>
+<li><p>A package update can replace the unit file and silently drop your changes. Package managers such as <a class="reference external" href="https://rpm.org/">rpm</a> or <a class="reference external" href="https://wiki.debian.org/Apt">apt</a> own those files.</p></li>
 </ul>
-<p>In the following section, I will elucidate an elegant workaround for these behaviors.</p>
 </section>
-<section id="the-solution-parameters-overriding">
-<h2>The Solution: Parameters Overriding<a class="headerlink" href="#the-solution-parameters-overriding" title="Link to this heading">#</a></h2>
-<p>A sophisticated approach to customizing unit service parameters involves overriding them.</p>
-<p>This method enables you to make changes to systemd unit properties while preserving the default file without any modifications. This is possible because the method reads custom properties from another file and merges them with the default properties.</p>
-<p>Override parameters are declared in the following file pattern:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">systemd</span><span class="o">/</span><span class="n">system</span><span class="o">/&lt;</span><span class="n">UNIT</span><span class="o">-</span><span class="n">SERVICE</span><span class="o">-</span><span class="n">NAME</span><span class="o">&gt;.</span><span class="n">service</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">override</span><span class="o">.</span><span class="n">conf</span>
+<section id="how-systemd-overrides-work">
+<h2>How Systemd Overrides Work<a class="headerlink" href="#how-systemd-overrides-work" title="Link to this heading">#</a></h2>
+<p>A <strong>drop-in file</strong> is a <code class="docutils literal notranslate"><span class="pre">.conf</span></code> file in a <code class="docutils literal notranslate"><span class="pre">&lt;unit&gt;.d/</span></code> directory that systemd reads after the unit file and merges on top of it. As the <a class="reference external" href="https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html">systemd.unit documentation</a> describes, this lets you change unit properties while the original file stays untouched.</p>
+<p>The convention for overrides is this path:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/etc/systemd/system/&lt;UNIT-SERVICE-NAME&gt;.service.d/override.conf
 </pre></div>
 </div>
 <blockquote>
 <div><p><em><code class="docutils literal notranslate"><span class="pre">&lt;UNIT-SERVICE-NAME&gt;</span></code> is a placeholder.</em></p>
 </div></blockquote>
-<p>All unit service properties defined in <code class="docutils literal notranslate"><span class="pre">override.conf</span></code> will take precedence over those defined in <code class="docutils literal notranslate"><span class="pre">&lt;UNIT-SERVICE-NAME&gt;.service</span></code>.</p>
-<p>Consider the following example, where both default and override unit properties are illustrated.</p>
+<p>Properties in <code class="docutils literal notranslate"><span class="pre">override.conf</span></code> take precedence over the ones in <code class="docutils literal notranslate"><span class="pre">&lt;UNIT-SERVICE-NAME&gt;.service</span></code>. There is one catch: settings that accept a list, such as <code class="docutils literal notranslate"><span class="pre">ExecStart=</span></code>, add to the original value instead of replacing it. To replace them, first assign an empty value to reset the list, then set the new one. The example below shows the default unit and the override side by side:</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
 <div class="sd-row docutils">
 <div class="sd-col sd-d-flex-row docutils">
@@ -444,15 +440,15 @@
 </ul>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">/etc/systemd/system/my-script.service</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="p">...</span>
-<span class="k">[Description]</span>
-<span class="c1"># collapsed parameters...</span>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">My script</span>
+<span class="c1">; collapsed parameters...</span>
 
 <span class="k">[Service]</span>
-<span class="n">ExecStart</span><span class="o">=</span><span class="err">my-script.sh --prod</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/local/bin/my-script.sh --prod</span>
 
 <span class="k">[Install]</span>
-<span class="c1"># collapsed parameters...</span>
+<span class="c1">; collapsed parameters...</span>
 </pre></div>
 </div>
 </div>
@@ -467,8 +463,9 @@
 </ul>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">/etc/systemd/system/my-script.service.d/override.conf</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[Service]</span>
-<span class="n">ExecStart</span><span class="o">=</span><span class="err">my-script.sh --dev</span>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Service]</span>
+<span class="na">ExecStart</span><span class="o">=</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/local/bin/my-script.sh --dev</span>
 </pre></div>
 </div>
 </div>
@@ -477,15 +474,12 @@
 </div>
 </div>
 </div>
-<p>When the <code class="docutils literal notranslate"><span class="pre">my-script.service</span></code> be executed, the <em>ExecStart</em> command will be <code class="docutils literal notranslate"><span class="pre">my-script.sh</span> <span class="pre">--dev</span></code> because it were declared in the <code class="docutils literal notranslate"><span class="pre">override.conf</span></code> that replace the <em>ExecStart</em> defined in the <code class="docutils literal notranslate"><span class="pre">my-script.service</span></code>.</p>
-<hr class="docutils" />
-<p>An efficient shortcut to execute this action is through the <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">edit</span> <span class="pre">&lt;UNIT-SERVICE-NAME&gt;</span></code> command.</p>
-<p>This command creates a directory and file at <code class="docutils literal notranslate"><span class="pre">/etc/systemd/system/&lt;UNIT-SERVICE-NAME&gt;.service.d/override.conf</span></code>, opens your text editor for making the necessary changes, and upon closing it, automatically executes <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">daemon-reload</span></code> behind the scenes. The only additional step is to execute <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">&lt;UNIT-SERVICE-NAME&gt;</span></code> when necessary to apply the changes.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">my-script.service</span></code> starts, it runs <code class="docutils literal notranslate"><span class="pre">my-script.sh</span> <span class="pre">--dev</span></code>. The empty <code class="docutils literal notranslate"><span class="pre">ExecStart=</span></code> in <code class="docutils literal notranslate"><span class="pre">override.conf</span></code> clears the command from the unit file, and the next line sets the new one.</p>
+<p>The <a class="reference external" href="https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"><code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">edit</span></code></a> command is the shortcut for all of this. <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">edit</span> <span class="pre">&lt;UNIT-SERVICE-NAME&gt;</span></code> creates <code class="docutils literal notranslate"><span class="pre">/etc/systemd/system/&lt;UNIT-SERVICE-NAME&gt;.service.d/override.conf</span></code>, opens your editor, and runs <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">daemon-reload</span></code> for you when you close it. The only step left is <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">&lt;UNIT-SERVICE-NAME&gt;</span></code> when the change needs a restart.</p>
 </section>
-<section id="hands-on">
-<h2>Hands-On<a class="headerlink" href="#hands-on" title="Link to this heading">#</a></h2>
-<p>Let’s get hands-on! This section will delve into a detailed example of the override method.</p>
-<p>We will create a systemd unit service named <code class="docutils literal notranslate"><span class="pre">my-script</span></code>. To achieve this, we need to create the following files:</p>
+<section id="hands-on-overriding-an-environmentfile">
+<h2>Hands-On: Overriding an EnvironmentFile<a class="headerlink" href="#hands-on-overriding-an-environmentfile" title="Link to this heading">#</a></h2>
+<p>This example creates a service called <code class="docutils literal notranslate"><span class="pre">my-script</span></code> and then overrides where it reads its environment variables from. It uses these files:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/tmp/my-script/env_custom.env<span class="w">           </span><span class="c1"># env vars source of the my-script process</span>
 /tmp/my-script/env_default.env<span class="w">          </span><span class="c1"># other env vars source of the my-script process</span>
 /tmp/my-script/my-script.sh<span class="w">             </span><span class="c1"># script that my-script process run</span>
@@ -493,13 +487,13 @@
 </pre></div>
 </div>
 <blockquote>
-<div><p><em><i class="fa-solid fa-link"></i> The files can be found on my GitHub: <i class="fa-brands fa-github"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-19/">c-neto/my-devops-labs/blog/2023-11-19</a></em></p>
+<div><p><em><i class="fa-solid fa-link"></i> The files are on my GitHub: <i class="fa-brands fa-github"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-19/">c-neto/my-devops-labs/blog/2023-11-19</a></em></p>
 </div></blockquote>
-<p>Initially, let’s create the working directory for the script.</p>
+<p>First, create the working directory for the script:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span>/tmp/my-script/
 </pre></div>
 </div>
-<p>Following that, we’ll generate the source code for the script.</p>
+<p>Then create the script itself. It prints two environment variables every second:</p>
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text">$ vim /tmp/my-script/my-script.sh</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
@@ -511,11 +505,11 @@
 </pre></div>
 </div>
 </div>
-<p>Assign the source code to the execution file parameter.</p>
+<p>Make it executable:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>/tmp/my-script/my-script.sh
 </pre></div>
 </div>
-<p>We will create two files that will serve as the source for environment variables in the <code class="docutils literal notranslate"><span class="pre">my-script</span></code> unit service.</p>
+<p>Next, create the two files that will provide environment variables to the service:</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
 <div class="sd-row docutils">
 <div class="sd-col sd-d-flex-row docutils">
@@ -545,26 +539,25 @@
 </div>
 </div>
 </div>
-<hr class="docutils" />
-<p>Next, we will create the systemd unit service file.</p>
+<p>Now create the unit file. <code class="docutils literal notranslate"><span class="pre">ExecStart=</span></code> uses the absolute path of the script, because systemd does not search <code class="docutils literal notranslate"><span class="pre">WorkingDirectory</span></code> for the executable.</p>
 <div class="literal-block-wrapper docutils container" id="id6">
 <div class="code-block-caption"><span class="caption-text">$ vim /etc/systemd/system/my-script.service</span><a class="headerlink" href="#id6" title="Link to this code">#</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>Service<span class="o">]</span>
-<span class="nv">WorkingDirectory</span><span class="o">=</span>/tmp/my-script/
-<span class="nv">ExecStart</span><span class="o">=</span>my-script.sh
-<span class="nv">EnvironmentFile</span><span class="o">=</span>/tmp/my-script/env_default.env
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Service]</span>
+<span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/tmp/my-script/</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/tmp/my-script/my-script.sh</span>
+<span class="na">EnvironmentFile</span><span class="o">=</span><span class="s">/tmp/my-script/env_default.env</span>
 
-<span class="o">[</span>Install<span class="o">]</span>
-<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
 </pre></div>
 </div>
 </div>
-<p>Now, let’s reload the systemd daemon so that <code class="docutils literal notranslate"><span class="pre">my-script</span></code> can be managed as a service by systemd, and then start it.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ systemctl daemon-reload
-$ systemctl start my-script
+<p>Reload systemd so it picks up the new unit, then start the service:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+$<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>my-script
 </pre></div>
 </div>
-<p>To inspect the log of <code class="docutils literal notranslate"><span class="pre">my-script</span></code>, you can verify the value of the <code class="docutils literal notranslate"><span class="pre">/tmp/my-script/env_default.env</span></code> file.</p>
+<p>The log shows the values from <code class="docutils literal notranslate"><span class="pre">env_default.env</span></code>:</p>
 <div class="literal-block-wrapper docutils container" id="id7">
 <div class="code-block-caption"><span class="caption-text">$ journalctl -u my-script -f</span><a class="headerlink" href="#id7" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Nov<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">16</span>:11:29<span class="w"> </span>fedora<span class="w"> </span>my-script.sh<span class="o">[</span><span class="m">33631</span><span class="o">]</span>:<span class="w"> </span>&gt;&gt;&gt;<span class="w"> </span>My<span class="w"> </span>Awesome<span class="w"> </span>Script<span class="w"> </span>-<span class="w"> </span>Irish<span class="w"> </span>Blood
@@ -572,19 +565,19 @@ Nov<span class="w"> </span><span class="m">19</span><span class="w"> </span><spa
 </pre></div>
 </div>
 </div>
-<p>Next, we will override the source file for environment variables.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mkdir /etc/systemd/system/my-script.service.d/
+<p>Now override the environment file. Create the drop-in directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span>/etc/systemd/system/my-script.service.d/
 </pre></div>
 </div>
-<p>We will override the <code class="docutils literal notranslate"><span class="pre">EnvironmentFile</span></code> parameter.</p>
+<p>Then add a second <code class="docutils literal notranslate"><span class="pre">EnvironmentFile</span></code> in <code class="docutils literal notranslate"><span class="pre">override.conf</span></code>:</p>
 <div class="literal-block-wrapper docutils container" id="id8">
 <div class="code-block-caption"><span class="caption-text">$ vim /etc/systemd/system/my-script.service.d/override.conf</span><a class="headerlink" href="#id8" title="Link to this code">#</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>Service<span class="o">]</span>
-<span class="nv">EnvironmentFile</span><span class="o">=</span>/tmp/my-script/env_custom.env
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Service]</span>
+<span class="na">EnvironmentFile</span><span class="o">=</span><span class="s">/tmp/my-script/env_custom.env</span>
 </pre></div>
 </div>
 </div>
-<p>This time, variables from the <code class="docutils literal notranslate"><span class="pre">env_custom.env</span></code> file will replace those present in the <code class="docutils literal notranslate"><span class="pre">env_default.env</span></code> file.</p>
+<p>After <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">daemon-reload</span></code> and <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">my-script</span></code>, the log changes:</p>
 <div class="literal-block-wrapper docutils container" id="id9">
 <div class="code-block-caption"><span class="caption-text">$ journalctl -u my-script -f</span><a class="headerlink" href="#id9" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Nov<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">16</span>:21:42<span class="w"> </span>fedora<span class="w"> </span>my-script.sh<span class="o">[</span><span class="m">58573</span><span class="o">]</span>:<span class="w"> </span>&gt;&gt;&gt;<span class="w"> </span>My<span class="w"> </span>Awesome<span class="w"> </span>Script<span class="w"> </span>-<span class="w"> </span>English<span class="w"> </span>Heart
@@ -592,20 +585,69 @@ Nov<span class="w"> </span><span class="m">19</span><span class="w"> </span><spa
 </pre></div>
 </div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">EnvironmentFile=</span></code> is a list setting, so the override adds <code class="docutils literal notranslate"><span class="pre">env_custom.env</span></code> after <code class="docutils literal notranslate"><span class="pre">env_default.env</span></code> instead of replacing it. Both files are read, and when the same variable appears in both, the <a class="reference external" href="https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html">later file wins</a>. That is why <code class="docutils literal notranslate"><span class="pre">APP_NAME</span></code> still comes from <code class="docutils literal notranslate"><span class="pre">env_default.env</span></code>, while <code class="docutils literal notranslate"><span class="pre">MY_CUSTOM_ENV_VAR</span></code> now comes from <code class="docutils literal notranslate"><span class="pre">env_custom.env</span></code>.</p>
 </section>
-<section id="conclusion-author-opinion">
-<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
-<p>In conclusion, leveraging systemd override parameters emerges as an invaluable tool in proactively addressing and preventing recurring issues. By preserving the integrity of the original unit service file while explicitly specifying custom parameters, this method significantly enhances troubleshooting capabilities. Another notable advantage lies in safeguarding against the loss of custom configurations that may be tied to the installation manager used to create a unit service (dnf, apt, brew).</p>
-<p>The seamless flexibility provided by the <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">edit</span></code> command empowers users to swiftly and efficiently modify process properties, ensuring an agile and responsive approach to system management. In essence, incorporating systemd override parameters not only fortifies system stability but also streamlines the process of adapting and optimizing configurations to meet evolving needs. As a dynamic solution in the realm of systemd, it stands as an essential practice for maintaining a resilient and adaptable system environment.</p>
+<section id="why-i-prefer-overrides">
+<h2>Why I Prefer Overrides<a class="headerlink" href="#why-i-prefer-overrides" title="Link to this heading">#</a></h2>
+<p>Overrides keep the original unit file intact and put every custom setting in one explicit place. When something breaks, <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">cat</span> <span class="pre">&lt;UNIT-SERVICE-NAME&gt;</span></code> shows the unit file and every drop-in, so you can see right away what was changed. They also survive package updates, because the package manager (dnf, apt, brew) only owns the original unit file, not your drop-in.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">edit</span></code> makes the whole process quick: one command to create the file, edit it, and reload systemd. For me, it is the default way to change any service I did not write myself. The kubelet is a good example: its log rotation flags can be set as a systemd <code class="docutils literal notranslate"><span class="pre">Environment=</span></code> property, as I show in <a class="reference internal" href="../../2025/2025-06-22-kubernetes-logs-simplified/"><span class="std std-doc">Kubernetes Logs Simplified</span></a>, and an override keeps that change out of the packaged unit file.</p>
 </section>
-<section id="links">
-<h2>Links<a class="headerlink" href="#links" title="Link to this heading">#</a></h2>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><a class="github reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-19/">c-neto/my-devops-labs</a></p></li>
-<li><p><a class="reference external" href="https://systemd.io/">https://systemd.io/</a></p></li>
-<li><p><a class="reference external" href="https://access.redhat.com/sites/default/files/attachments/12052018_systemd_6.pdf">https://access.redhat.com/sites/default/files/attachments/12052018_systemd_6.pdf</a></p></li>
+<li><p>Editing a unit file directly makes mistakes harder to spot, and a package update can overwrite your changes.</p></li>
+<li><p>A drop-in file at <code class="docutils literal notranslate"><span class="pre">/etc/systemd/system/&lt;unit&gt;.service.d/override.conf</span></code> is merged on top of the unit file, which stays untouched.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">edit</span> <span class="pre">&lt;unit&gt;</span></code> creates the drop-in, opens your editor, and reloads systemd.</p></li>
+<li><p>List settings such as <code class="docutils literal notranslate"><span class="pre">ExecStart=</span></code> and <code class="docutils literal notranslate"><span class="pre">EnvironmentFile=</span></code> are added to, not replaced. Assign an empty value first to reset them.</p></li>
+<li><p>With several <code class="docutils literal notranslate"><span class="pre">EnvironmentFile=</span></code> entries, a variable from a later file overrides the same variable from an earlier one.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">cat</span> <span class="pre">&lt;unit&gt;</span></code> shows the unit file and all its drop-ins together.</p></li>
 </ul>
 </section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html">systemd.unit: drop-in files (systemd)</a></p></li>
+<li><p><a class="reference external" href="https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html">systemd.exec: EnvironmentFile= (systemd)</a></p></li>
+<li><p><a class="reference external" href="https://www.freedesktop.org/software/systemd/man/latest/systemctl.html">systemctl: edit and cat commands (systemd)</a></p></li>
+<li><p><a class="reference external" href="https://systemd.io/">systemd project (systemd.io)</a></p></li>
+<li><p><a class="reference external" href="https://access.redhat.com/sites/default/files/attachments/12052018_systemd_6.pdf">systemd cheat sheet (Red Hat)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-19/">Lab files for this post (GitHub)</a></p></li>
+</ul>
+<p><em>I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Systemd Drop-in Overrides: Customize Unit Properties Without Editing the Unit File",
+      "description": "How to customize a systemd service with an override.conf drop-in instead of editing the unit file, how systemctl edit creates it, and a hands-on example that overrides an EnvironmentFile.",
+      "datePublished": "2023-11-19",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2023/2023-11-19-systemd-override-parameters/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2023/2023-11-19-systemd-override-parameters/",
+      "keywords": ["systemd", "override.conf", "systemctl edit", "drop-in", "Linux"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Systemd Drop-in Overrides: Customize Unit Properties Without Editing the Unit File"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->
@@ -635,7 +677,7 @@ Nov<span class="w"> </span><span class="m">19</span><span class="w"> </span><spa
       
       <i class="fa fa-arrow-circle-left"></i>
       
-      <span>Logstash Modular Pipelines: An Elegant Structure for Code Reusability and Duplication Avoiding</span>
+      <span>Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication</span>
     </a>
     
   </span>

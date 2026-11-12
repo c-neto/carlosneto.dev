@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Where Kubernetes stores container logs, how kubectl logs and log shippers read them, the CRI log line format, how the kubelet rotates log files, and how to ship pod logs with a Fluent Bit DaemonSet." name="description" />
 <meta property="og:title" content="Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2025/06/22 Have you ever wondered how$ kubectl logs retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex,..." />
+<meta property="og:description" content="Where Kubernetes stores container logs, how kubectl logs and log shippers read them, the CRI log line format, how the kubelet rotates log files, and how to ship pod logs with a Fluent Bit DaemonSet." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-06-22-kubernetes-logs-simplified_01e70403.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2025/06/22 Have you ever wondered how$ kubectl logs retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex,..." />
-<meta name="description" content="Blog Post Publish Date: 2025/06/22 Have you ever wondered how$ kubectl logs retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex,..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-06-22-kubernetes-logs-simplified_5072c822.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2025/06/22 This blog post explains where Kubernetes stores container logs and how$ kubectl logs and log shippers read them. It also covers the CRI log line format, how log r..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging &#8212; Carlos Neto&#39;s Blog</title>
@@ -408,28 +408,23 @@
 <hr class="docutils" />
 <section id="kubernetes-logs-simplified-everything-you-need-to-know-about-pod-logging">
 <h1>Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging<a class="headerlink" href="#kubernetes-logs-simplified-everything-you-need-to-know-about-pod-logging" title="Link to this heading">#</a></h1>
-<p>Have you ever wondered how <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex, but understanding it is key to troubleshooting and monitoring. This blog post outlines how Kubernetes organizes logs, how to send them to external systems, and tips to manage log growth effectively.</p>
-<section id="how-kubernetes-manages-and-stores-logs">
-<h2>How Kubernetes Manages and Stores Logs<a class="headerlink" href="#how-kubernetes-manages-and-stores-logs" title="Link to this heading">#</a></h2>
-<p>Kubernetes is essentially composed of containers, which are managed by container runtimes. These container runtimes must implement the <a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/">Container Runtime Interface (CRI)</a>, which defines how Kubernetes interacts with the containers. One of the specifications in the <a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/">CRI</a> is container log handling, which standardizes details such as log names, directory locations, and formats.</p>
-<ul class="simple">
-<li><p><em>CRI Logs Desing Proposal: <a class="github reference external" href="https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md">kubernetes/design-proposals-archive</a></em></p></li>
-<li><p><em>Kubernetes Logging Reference: <a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/logging/">https://kubernetes.io/docs/concepts/cluster-administration/logging/</a></em></p></li>
-</ul>
-<p>Each container in a pod writes its logs to a separate file. These logs capture everything the application outputs to <em>stdout</em> and <em>stderr</em> (see <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams">standard streams</a>). The log files are stored on the node where the pod is running at:</p>
+<p>This blog post explains where Kubernetes stores container logs and how <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> and log shippers read them. It also covers the CRI log line format, how log rotation works, and how to ship pod logs to an external system with a DaemonSet. Kubernetes logging can look complex, but knowing these details makes troubleshooting much easier.</p>
+<section id="how-kubernetes-stores-container-logs">
+<h2>How Kubernetes Stores Container Logs<a class="headerlink" href="#how-kubernetes-stores-container-logs" title="Link to this heading">#</a></h2>
+<p>Kubernetes runs containers through a container runtime, such as containerd or CRI-O. The <strong>Container Runtime Interface (CRI)</strong> is the API that the kubelet uses to talk to that runtime. As the <a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/">CRI documentation</a> describes, one part of it defines how container logs are handled: file names, directory locations, and line format. The <a class="reference external" href="https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md">CRI logging design proposal</a> and the <a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/logging/">Kubernetes logging architecture</a> page have the details.</p>
+<p>Each container in a pod writes its logs to its own file, with everything the application sends to <em>stdout</em> and <em>stderr</em> (the <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams">standard streams</a>). The files live on the node where the pod runs:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># pod container log file pattern</span>
-/var/log/pods/&lt;namespace&gt;_&lt;podname&gt;_&lt;uid&gt;/&lt;container_name&gt;/&lt;execution-id&gt;.log
+/var/log/pods/&lt;namespace&gt;_&lt;podname&gt;_&lt;uid&gt;/&lt;container_name&gt;/&lt;restart-count&gt;.log
 
 <span class="c1"># example</span>
 /var/log/pods/default_nginx-7f5c7d4f9b-abcde_12345/nginx-container/
-<span class="w">  </span>├──<span class="w"> </span><span class="m">0</span>.log<span class="w">   </span><span class="c1"># current container live running log</span>
-<span class="w">  </span>├──<span class="w"> </span><span class="m">1</span>.log<span class="w">   </span><span class="c1"># last container log that exited on failure or was restarted</span>
-<span class="w">  </span>├──<span class="w"> </span><span class="m">2</span>.log<span class="w">   </span><span class="c1"># second to last container log that exited on failure or was restarted</span>
+<span class="w">  </span>├──<span class="w"> </span><span class="m">0</span>.log<span class="w">   </span><span class="c1"># first run of the container</span>
+<span class="w">  </span>├──<span class="w"> </span><span class="m">1</span>.log<span class="w">   </span><span class="c1"># run after the first restart</span>
 <span class="w">  </span>└──<span class="w"> </span>...
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">0.log</span></code> file contains the current container’s live running logs. If the container crashes and restarts, Kubernetes renames <code class="docutils literal notranslate"><span class="pre">0.log</span></code> to <code class="docutils literal notranslate"><span class="pre">1.log</span></code> and creates a new <code class="docutils literal notranslate"><span class="pre">0.log</span></code> for the new run. This process continues with <code class="docutils literal notranslate"><span class="pre">2.log</span></code>, <code class="docutils literal notranslate"><span class="pre">3.log</span></code>, and so on. When you execute <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">logs</span> <span class="pre">--previous</span> <span class="pre">&lt;pod&gt;</span> <span class="pre">-c</span> <span class="pre">&lt;container&gt;</span></code>, the kubelet searches for logs in <code class="docutils literal notranslate"><span class="pre">1.log</span></code>, <code class="docutils literal notranslate"><span class="pre">2.log</span></code>, and subsequent files.</p>
-<p>To make log ingestion easier for third-party tools, the kubelet creates symbolic links to each container’s current log file (<code class="docutils literal notranslate"><span class="pre">0.log</span></code>) in the <code class="docutils literal notranslate"><span class="pre">/var/log/containers/</span></code> directory. Each symbolic link is named using the pod name, namespace, container name, and container ID, making it easy for log shippers to identify and process logs for each container.</p>
+<p>The file name is the container’s restart count. The first run writes <code class="docutils literal notranslate"><span class="pre">0.log</span></code>. If the container crashes or restarts, the new run writes <code class="docutils literal notranslate"><span class="pre">1.log</span></code>, then <code class="docutils literal notranslate"><span class="pre">2.log</span></code>, and so on, while the previous file stays on disk. The kubelet keeps the logs of the most recent terminated run, which is what <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span> <span class="pre">--previous</span> <span class="pre">&lt;pod&gt;</span> <span class="pre">-c</span> <span class="pre">&lt;container&gt;</span></code> reads.</p>
+<p>To make ingestion easier for third-party tools, the kubelet also creates a symbolic link to each container’s current log file in <code class="docutils literal notranslate"><span class="pre">/var/log/containers/</span></code>. The link name includes the pod name, namespace, container name, and container ID, so log shippers can identify each container:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># &gt;&gt;&gt; symbolic link log file name pattern</span>
 /var/log/containers/&lt;pod_name&gt;_&lt;namespace&gt;_&lt;container_name&gt;-&lt;container_id&gt;.log
 
@@ -440,12 +435,13 @@
 /var/log/pods/default_nginx-7f5c7d4f9b-abcde_12345/nginx-container/0.log
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> command always uses the absolute path of the log file and never the symbolic link path. The symbolic link is a mechanism that the kubelet uses to simplify log ingestion for third-party log shipping tools like <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a>, <a class="reference external" href="https://vector.dev/">Vector</a>, <a class="reference external" href="https://www.elastic.co/pt/beats/filebeat">Filebeat</a>, etc. It is important to understand that the files present in <code class="docutils literal notranslate"><span class="pre">/var/log/containers/</span></code> point to the current container execution log (<code class="docutils literal notranslate"><span class="pre">0.log</span></code>) and do not concatenate the files <code class="docutils literal notranslate"><span class="pre">0.log</span></code>, <code class="docutils literal notranslate"><span class="pre">1.log</span></code>, <code class="docutils literal notranslate"><span class="pre">2.log</span></code>, and so on. When a container crashes and a new <code class="docutils literal notranslate"><span class="pre">0.log</span></code> is created, the symbolic link points to the new <code class="docutils literal notranslate"><span class="pre">0.log</span></code> file, so the content is overwritten. The log shipping tool should be prepared to handle this behavior. Fluent Bit, for example, uses inode tracking of the symlinked log file. When the file that the symlink points to is rotated, the inode of the file changes as well, and Fluent Bit understands that it is a new log file and needs to read the log content from the start, even though the file name remains the same. For more details, see <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/inputs/tail#keep_state">the Fluent Bit Input Plugin reference</a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> doesn’t use these links. They exist for log shippers such as <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a>, <a class="reference external" href="https://vector.dev/">Vector</a>, and <a class="reference external" href="https://www.elastic.co/beats/filebeat">Filebeat</a>. A link always points to the log file of the current run and doesn’t concatenate older runs. The container ID is part of the link name, so a restarted container gets a new link that points to its new log file. The same happens when the kubelet rotates a file: the path stays the same, but it’s a new file.</p>
+<p>Log shippers must handle that. Fluent Bit, for example, tracks the inode of each file it reads. When a rotated file has the same name but a new inode, Fluent Bit treats it as a new file and reads it from the start. See <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/inputs/tail#keep_state">the Tail input reference</a> for the details.</p>
 </section>
-<section id="understanding-kubernetes-log-format">
-<h2>Understanding Kubernetes Log Format<a class="headerlink" href="#understanding-kubernetes-log-format" title="Link to this heading">#</a></h2>
-<p>The log file content is saved in a specific pattern defined by the CRI. This log line format is:</p>
-<div class="highlight-log notranslate"><div class="highlight"><pre><span></span># &gt;&gt;&gt; log line pattern
+<section id="the-kubernetes-log-line-format">
+<h2>The Kubernetes Log Line Format<a class="headerlink" href="#the-kubernetes-log-line-format" title="Link to this heading">#</a></h2>
+<p>The CRI defines the format of each line in the log file:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># &gt;&gt;&gt; log line pattern
 &lt;timestamp&gt; &lt;stream&gt; &lt;flags&gt; &lt;message&gt;
 
 # &gt;&gt;&gt; log line examples
@@ -454,60 +450,46 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li><p><strong>timestamp</strong>: The date and time when the log line was written, formatted according to <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc3339">RFC3339</a> with nanosecond precision.</p></li>
-<li><p><strong>stream</strong>: Specifies whether the log line was written to <code class="docutils literal notranslate"><span class="pre">stdout</span></code> or <code class="docutils literal notranslate"><span class="pre">stderr</span></code>.</p></li>
-<li><p><strong>flags</strong>: <code class="docutils literal notranslate"><span class="pre">F</span></code> indicates a completed log line, delimited by <code class="docutils literal notranslate"><span class="pre">\n</span></code>, while <code class="docutils literal notranslate"><span class="pre">P</span></code> indicates a partial log line. More details will be explained below.</p></li>
-<li><p><strong>log message</strong>: The container’s log message in its raw format.</p></li>
+<li><p><strong>timestamp</strong>: when the line was written, in <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc3339">RFC 3339</a> format with nanosecond precision.</p></li>
+<li><p><strong>stream</strong>: <code class="docutils literal notranslate"><span class="pre">stdout</span></code> or <code class="docutils literal notranslate"><span class="pre">stderr</span></code>.</p></li>
+<li><p><strong>flags</strong>: <code class="docutils literal notranslate"><span class="pre">F</span></code> for a full line, <code class="docutils literal notranslate"><span class="pre">P</span></code> for a partial line.</p></li>
+<li><p><strong>message</strong>: the raw log message from the container.</p></li>
 </ul>
-<p>About <strong>flags</strong>: The <code class="docutils literal notranslate"><span class="pre">F</span></code> flag indicates a complete log line (ending with <code class="docutils literal notranslate"><span class="pre">\n</span></code>). The <code class="docutils literal notranslate"><span class="pre">P</span></code> flag signifies that the application has not finished writing the line yet, so the runtime is writing it in parts. When logs are retrieved using <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">logs</span></code>, the tool merges these parts together before displaying them to the user.</p>
-<p>To understand this better, check the following Python application code:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/python</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">"part 1 - "</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"part 2 - "</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"part 3 - "</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"log line completed!"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<p>The <code class="docutils literal notranslate"><span class="pre">P</span></code> flag appears when a single line is longer than the runtime’s maximum log line size, 16 KiB by default in containerd (<code class="docutils literal notranslate"><span class="pre">max_container_log_line_size</span></code>). The runtime splits the line into chunks: each chunk except the last is written with <code class="docutils literal notranslate"><span class="pre">P</span></code>, and the last one with <code class="docutils literal notranslate"><span class="pre">F</span></code>. For example, an application that prints one 40 KB line produces three entries:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>2025-06-21T22:15:10.123456789Z stdout P &lt;first 16 KiB of the line&gt;
+2025-06-21T22:15:10.123456790Z stdout P &lt;next 16 KiB of the line&gt;
+2025-06-21T22:15:10.123456791Z stdout F &lt;rest of the line&gt;
 </pre></div>
 </div>
-<p>The logs are saved in the following format:</p>
-<div class="highlight-log notranslate"><div class="highlight"><pre><span></span>2025-06-21T22:15:10.123456789Z stdout P part 1 - 
-2025-06-21T22:15:10.123456790Z stdout P part 2 - 
-2025-06-21T22:15:10.123456791Z stdout P part 3 - 
-2025-06-21T22:15:10.123456792Z stdout F log line completed!
-</pre></div>
-</div>
-<p>When a pod log is retrieved using <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code>, the output will concatenate partial logs:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>python-app
-
-part<span class="w"> </span><span class="m">1</span><span class="w"> </span>-<span class="w"> </span>part<span class="w"> </span><span class="m">2</span><span class="w"> </span>-<span class="w"> </span>part<span class="w"> </span><span class="m">3</span><span class="w"> </span>-<span class="w"> </span>log<span class="w"> </span>line<span class="w"> </span>completed!
-</pre></div>
-</div>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> joins the partial chunks before showing them, so you see one line. Log shippers have to do the same. Fluent Bit, for example, does it with its built-in CRI multiline parser.</p>
 </section>
 <section id="managing-log-growth-with-log-rotation">
 <h2>Managing Log Growth with Log Rotation<a class="headerlink" href="#managing-log-growth-with-log-rotation" title="Link to this heading">#</a></h2>
-<p>Logs can grow uncontrollably, causing disk overflow, which can impact observability in your cluster and degrade application performance. Even if the application generates a low volume of logs, it is a best practice and highly recommended to enforce limits and implement log rotation routines. The best approach to control log size limits is to define the values using container runtime parameters. It is not recommended to use third-party tools like <a class="reference external" href="https://github.com/logrotate/logrotate">logrotate</a> for this task, because file operations such as renaming, truncating, and closing file descriptors can corrupt Kubernetes’ log management state. Additionally, the container runtime’s log management architecture may change in future Kubernetes versions, requiring updates to third-party tools to align with the new behavior.</p>
-<p>Thus, the configuration defines the Container Runtime’s log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.</p>
+<p>Logs can grow until they fill the node’s disk, which hurts observability in the cluster and the performance of the applications on that node. Even if an application logs very little, enforce size limits and rotation.</p>
+<p><strong>Log rotation</strong> for container logs is done by the kubelet. According to the <a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/logging/#log-rotation">log rotation</a> documentation, the kubelet rotates each container log file when it reaches <code class="docutils literal notranslate"><span class="pre">containerLogMaxSize</span></code> (10Mi by default) and keeps at most <code class="docutils literal notranslate"><span class="pre">containerLogMaxFiles</span></code> files (5 by default). Configure these limits in the kubelet instead of using a third-party tool such as <a class="reference external" href="https://github.com/logrotate/logrotate">logrotate</a>. Renaming, truncating, or closing files behind the kubelet’s back can corrupt its log management, and the log layout may change in future Kubernetes versions.</p>
+<p>You set the limits in the <a class="reference external" href="https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/">kubelet configuration file</a>:</p>
 <div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/containerd/containerd/blob/main/docs/man/containerd-config.toml.5.md">/etc/containerd/config.toml</a></span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[plugins.</span><span class="s2">"io.containerd.grpc.v1.cri"</span><span class="k">.containerd.runtimes.runc.options]</span>
-<span class="w">  </span><span class="n">LogSizeMax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">104857600</span><span class="w">  </span><span class="c1"># set log file size limit to 100MB</span>
-<span class="w">  </span><span class="n">LogFileMax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w">          </span><span class="c1"># set limit 5 log files</span>
+<div class="code-block-caption"><span class="caption-text">/var/lib/kubelet/config.yaml (excerpt)</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubelet.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KubeletConfiguration</span>
+<span class="nt">containerLogMaxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Mi</span>
+<span class="nt">containerLogMaxFiles</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 </pre></div>
 </div>
 </div>
-<p>Also, you can introduce this parameters via environment variables to kubelet service. Below as example using systemd, to define the log rotate parameters for kubelet process to inject log rotate parameters to containerd.</p>
+<p>Or with the equivalent kubelet flags, for example through the kubelet’s systemd unit:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/kubernetes/release/blob/cd53840/cmd/krel/templates/latest/kubelet/kubelet.service">/etc/systemd/system/kubelet.service</a></span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">Environment</span><span class="o">=</span><span class="s">"KUBELET_EXTRA_ARGS=--container-log-max-size=100Mi --container-log-max-files=5"</span>
 </pre></div>
 </div>
 </div>
+<p>If you change the kubelet unit, put the change in a drop-in file instead of editing the unit itself, as I explain in <a class="reference internal" href="../../2023/2023-11-19-systemd-override-parameters/"><span class="std std-doc">Systemd Drop-in Overrides</span></a>.</p>
 </section>
-<section id="strategy-to-ingest-kubernetes-logs-to-external-thirdy-party-system">
-<h2>Strategy to Ingest Kubernetes Logs to External Thirdy Party System<a class="headerlink" href="#strategy-to-ingest-kubernetes-logs-to-external-thirdy-party-system" title="Link to this heading">#</a></h2>
-<p>For better observability and log search capabilities, it is highly recommended to ingest Kubernetes workload logs into a dedicated log analytics system such as <a class="reference external" href="https://opensearch.org/">OpenSearch</a>, <a class="reference external" href="https://www.elastic.co/elasticsearch">Elasticsearch</a>, <a class="reference external" href="https://grafana.com/oss/loki/">Grafana Loki</a>, <a class="reference external" href="https://www.splunk.com/">Splunk</a>, or <a class="reference external" href="https://www.datadoghq.com/">Datadog</a>. Within the Kubernetes cluster, specialized tools are optimized for reading, processing, and shipping logs to external systems, such as <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a>, <a class="reference external" href="https://www.elastic.co/beats/filebeat">Filebeat</a>, and <a class="reference external" href="https://vector.dev/">Vector</a>.</p>
-<p>Regardless of which log shipping tool you choose, the deployment pattern remains the same. The log ingestion tool is deployed as a <a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/">DaemonSet</a>, which schedules one pod per node in the cluster. The <a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/">DaemonSet</a> is configured with a <a class="reference external" href="https://kubernetes.io/docs/concepts/storage/volumes/#hostpath">hostPath</a> volume mount, allowing the pod to access files stored on the node’s disk. This enables the log ingestion tool to read log files for all pod containers scheduled on the node at <code class="docutils literal notranslate"><span class="pre">/var/log/containers/*.log</span></code>.</p>
-<p>Below is an example <a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/">DaemonSet</a> configuration for deploying <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a>:</p>
+<section id="shipping-kubernetes-logs-to-an-external-system">
+<h2>Shipping Kubernetes Logs to an External System<a class="headerlink" href="#shipping-kubernetes-logs-to-an-external-system" title="Link to this heading">#</a></h2>
+<p>For search and long-term analysis, ship workload logs to a log analytics system such as <a class="reference external" href="https://opensearch.org/">OpenSearch</a>, <a class="reference external" href="https://www.elastic.co/elasticsearch">Elasticsearch</a>, <a class="reference external" href="https://grafana.com/oss/loki/">Grafana Loki</a>, <a class="reference external" href="https://www.splunk.com/">Splunk</a>, or <a class="reference external" href="https://www.datadoghq.com/">Datadog</a>. Inside the cluster, tools such as <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a>, <a class="reference external" href="https://www.elastic.co/beats/filebeat">Filebeat</a>, and <a class="reference external" href="https://vector.dev/">Vector</a> read, process, and send the logs.</p>
+<p>Whatever shipper you choose, the deployment pattern is the same. A <strong>DaemonSet</strong> is a Kubernetes workload that runs one pod on every node, and the <a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/">DaemonSet</a> for the shipper mounts the node’s <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> directory with a <a class="reference external" href="https://kubernetes.io/docs/concepts/storage/volumes/#hostpath">hostPath</a> volume. The shipper reads <code class="docutils literal notranslate"><span class="pre">/var/log/containers/*.log</span></code>, and because those links point into <code class="docutils literal notranslate"><span class="pre">/var/log/pods/</span></code>, the mount must include both directories. Mounting <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> covers them. For example, a Fluent Bit DaemonSet:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DaemonSet</span>
 <span class="nt">metadata</span><span class="p">:</span>
@@ -539,40 +521,83 @@ part<span class="w"> </span><span class="m">1</span><span class="w"> </span>-<sp
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config</span>
 <span class="w">              </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/bitnami/fluent-bit/conf/fluent-bit.conf</span>
 <span class="w">              </span><span class="nt">subPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fluent-bit.conf</span>
-<span class="w">            </span><span class="c1"># &gt;&gt;&gt; THIS LINE MOUNTS THE NODE'S POD CONTAINERS DIRECTORY INSIDE THE CONTAINER.</span>
+<span class="w">            </span><span class="c1"># &gt;&gt;&gt; MOUNTS THE NODE'S LOG DIRECTORY (BOTH /var/log/containers AND /var/log/pods)</span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">varlog</span>
-<span class="w">              </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/log/containers</span>
+<span class="w">              </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/log</span>
+<span class="w">              </span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">      </span><span class="nt">volumes</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config</span>
 <span class="w">          </span><span class="nt">configMap</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fluent-bit-config</span>
-<span class="w">        </span><span class="c1"># &gt;&gt;&gt; THIS LINE ALLOWS THE FLUENT BIT POD TO ACCESS LOG FILES OF PODS SCHEDULED ON THE NODE. </span>
+<span class="w">        </span><span class="c1"># &gt;&gt;&gt; ALLOWS THE FLUENT BIT POD TO READ THE LOG FILES OF PODS SCHEDULED ON THE NODE</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">varlog</span>
 <span class="w">          </span><span class="nt">hostPath</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/log/containers</span>
+<span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/log</span>
 <span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Directory</span>
 </pre></div>
 </div>
-<p>Many log collection tools can add extra information to your logs, like pod labels and annotations. To do this, the log collector needs permission to talk to the Kubernetes API. This is usually done by giving the tool a <a class="reference external" href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">ClusterRole</a> with the right permissions and linking it to the service account the tool uses. For example, you can look at <a class="reference external" href="https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/clusterrole.yaml">this Fluent Bit ClusterRole</a> to see how it works. With these permissions, the tool can get metadata from Kubernetes and add it to each log before sending it to your log system. Setting up metadata enrichment with <a class="reference external" href="https://docs.fluentbit.io/manual">Fluent Bit</a> will be explained in a future post.</p>
+<p>Many log shippers can also add metadata such as pod labels and annotations to each log. For that, the shipper needs permission to read from the Kubernetes API, usually through a <a class="reference external" href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">ClusterRole</a> bound to its service account. <a class="reference external" href="https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/clusterrole.yaml">This Fluent Bit ClusterRole</a> is an example. I’ll cover metadata enrichment with Fluent Bit in a future post.</p>
+<p>Once the logs are flowing, two problems usually come next. Fluent Bit can deliver a log more than once, which I address in <a class="reference internal" href="../2025-06-19-fluentbit-log-dedup/"><span class="std std-doc">Generating Log IDs with SHA-256 Hashes</span></a>. And teams start counting log lines to build dashboards, which I argue against in <a class="reference internal" href="../../2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/"><span class="std std-doc">Stop Extracting Metrics from OpenSearch Logs</span></a>.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The container runtime writes each container’s stdout and stderr to <code class="docutils literal notranslate"><span class="pre">/var/log/pods/&lt;namespace&gt;_&lt;pod&gt;_&lt;uid&gt;/&lt;container&gt;/&lt;restart-count&gt;.log</span></code> on the node.</p></li>
+<li><p>Each restart writes a new file. <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">logs</span> <span class="pre">--previous</span></code> reads the log of the previous run.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/var/log/containers/</span></code> holds symbolic links to the current log file of each container, for log shippers.</p></li>
+<li><p>Each line follows the CRI format <code class="docutils literal notranslate"><span class="pre">&lt;timestamp&gt;</span> <span class="pre">&lt;stream&gt;</span> <span class="pre">&lt;flags&gt;</span> <span class="pre">&lt;message&gt;</span></code>. <code class="docutils literal notranslate"><span class="pre">P</span></code> marks a chunk of a line longer than the runtime’s limit, and <code class="docutils literal notranslate"><span class="pre">F</span></code> marks the end.</p></li>
+<li><p>The kubelet rotates container logs with <code class="docutils literal notranslate"><span class="pre">containerLogMaxSize</span></code> and <code class="docutils literal notranslate"><span class="pre">containerLogMaxFiles</span></code>. Don’t use logrotate on these files.</p></li>
+<li><p>Ship logs with a DaemonSet that mounts the node’s <code class="docutils literal notranslate"><span class="pre">/var/log</span></code>, not only <code class="docutils literal notranslate"><span class="pre">/var/log/containers</span></code>, because the links point into <code class="docutils literal notranslate"><span class="pre">/var/log/pods</span></code>.</p></li>
+</ul>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="http://kubernetes.io/docs/user-guide/kubectl/kubectl_logs/">http://kubernetes.io/docs/user-guide/kubectl/kubectl_logs/</a></p></li>
-<li><p><a class="github reference external" href="https://github.com/containerd/containerd/blob/main/docs/man/containerd-config.toml.5.md">containerd/containerd</a></p></li>
-<li><p><a class="github reference external" href="https://github.com/kubernetes/release/blob/cd53840/cmd/krel/templates/latest/kubelet/kubelet.service">kubernetes/release</a></p></li>
-<li><p><a class="reference external" href="https://docs.docker.com/engine/admin/logging/overview/">https://docs.docker.com/engine/admin/logging/overview/</a></p></li>
-<li><p><a class="github reference external" href="https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md">kubernetes/design-proposals-archive</a></p></li>
-<li><p><a class="github reference external" href="https://github.com/kubernetes/kubernetes/issues/17183">kubernetes/kubernetes#17183</a></p></li>
-<li><p><a class="github reference external" href="https://github.com/kubernetes/kubernetes/issues/24677">kubernetes/kubernetes#24677</a></p></li>
-<li><p><a class="github reference external" href="https://github.com/kubernetes/kubernetes/issues/30709">kubernetes/kubernetes#30709</a></p></li>
-<li><p><a class="github reference external" href="https://github.com/kubernetes/kubernetes/issues/31459">kubernetes/kubernetes#31459</a></p></li>
-<li><p><a class="github reference external" href="https://github.com/kubernetes/kubernetes/pull/13010">kubernetes/kubernetes#13010</a></p></li>
-<li><p><a class="github reference external" href="https://github.com/kubernetes/kubernetes/pull/33111">kubernetes/kubernetes#33111</a></p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/logging/">https://kubernetes.io/docs/concepts/cluster-administration/logging/</a></p></li>
-<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams">https://en.wikipedia.org/wiki/Standard_streams</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/cluster-administration/logging/">Logging architecture (Kubernetes)</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/architecture/cri/">Container Runtime Interface (Kubernetes)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md">CRI logging design proposal (Kubernetes)</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/">Kubelet configuration (Kubernetes)</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/">DaemonSet (Kubernetes)</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/">kubectl logs (Kubernetes)</a></p></li>
+<li><p><a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/inputs/tail">Tail input (Fluent Bit)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/containerd/containerd/blob/main/docs/man/containerd-config.toml.5.md">containerd configuration (containerd)</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams">Standard streams (Wikipedia)</a></p></li>
 </ul>
-</section>
+<p><em>I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging",
+      "description": "Where Kubernetes stores container logs, how kubectl logs and log shippers read them, the CRI log line format, how the kubelet rotates log files, and how to ship pod logs with a Fluent Bit DaemonSet.",
+      "datePublished": "2025-06-22",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified/",
+      "keywords": ["Kubernetes", "pod logs", "kubectl logs", "CRI", "log rotation", "Fluent Bit"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->

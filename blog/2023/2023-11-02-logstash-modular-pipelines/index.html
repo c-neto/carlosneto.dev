@@ -7,19 +7,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Logstash Modular Pipelines: An Elegant Structure for Code Reusability and Duplication Avoiding" />
+<meta content="How to split Logstash pipelines into input, filter, and output modules and compose them per application with glob patterns and environment variables, so pipelines stop duplicating code." name="description" />
+<meta property="og:title" content="Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2023/2023-11-02-logstash-modular-pipelines/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2023/11/12 This blog post explores a Logstash pipelines structure to mitigate code duplicated and presents an elegant method for reusing code section across multiple pipelin..." />
+<meta property="og:description" content="How to split Logstash pipelines into input, filter, and output modules and compose them per application with glob patterns and environment variables, so pipelines stop duplicating code." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2023_2023-11-02-logstash-modular-pipelines_d9a94504.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2023/11/12 This blog post explores a Logstash pipelines structure to mitigate code duplicated and presents an elegant method for reusing code section across multiple pipelin..." />
-<meta name="description" content="Blog Post Publish Date: 2023/11/12 This blog post explores a Logstash pipelines structure to mitigate code duplicated and presents an elegant method for reusing code section across multiple pipelin..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2023_2023-11-02-logstash-modular-pipelines_e152c4fa.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2023/11/12 This blog post covers a Logstash pipeline structure that removes duplicated code. Each input, filter, and output lives in its own file, and every application’s pi..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>Logstash Modular Pipelines: An Elegant Structure for Code Reusability and Duplication Avoiding &#8212; Carlos Neto&#39;s Blog</title>
+    <title>Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication &#8212; Carlos Neto&#39;s Blog</title>
   
   
   
@@ -406,39 +406,36 @@
 </div>
 <p><em><strong>Blog Post Publish Date:</strong> 2023/11/12</em></p>
 <hr class="docutils" />
-<section id="logstash-modular-pipelines-an-elegant-structure-for-code-reusability-and-duplication-avoiding">
-<h1>Logstash Modular Pipelines: An Elegant Structure for Code Reusability and Duplication Avoiding<a class="headerlink" href="#logstash-modular-pipelines-an-elegant-structure-for-code-reusability-and-duplication-avoiding" title="Link to this heading">#</a></h1>
-<p>This blog post explores a Logstash pipelines structure to mitigate code duplicated and presents an elegant method for reusing code section across multiple pipelines.</p>
-<p>The post provides a clear explanation of the Logstash configuration structure, outlining the problem addressed by modular pipelines. It includes an example configuration and a Docker-compose lab for hands-on testing and exploration of the possibilities. Finally, the post concludes with my opinion on the effectiveness of this structure.</p>
-<section id="a-little-about-logstash-and-pipelines-structure">
-<h2>A Little About Logstash and Pipelines Structure<a class="headerlink" href="#a-little-about-logstash-and-pipelines-structure" title="Link to this heading">#</a></h2>
-<p>The Logstash is an amazing tool for crafting robust log pipelines. Several plugins empower the ingestion, process, enrich, and output integration with external stacks. The pipelines are created using Logstash Configuration DSL (<em>Domain-Specific Language</em>), a high-level configuration language designed to be efficient and flexible, and focused on Log Pipeline needs.</p>
-<p>The Logstash pipeline configuration is composed of three main sections:</p>
+<section id="logstash-modular-pipelines-reusing-inputs-filters-and-outputs-without-duplication">
+<h1>Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication<a class="headerlink" href="#logstash-modular-pipelines-reusing-inputs-filters-and-outputs-without-duplication" title="Link to this heading">#</a></h1>
+<p>This blog post covers a Logstash pipeline structure that removes duplicated code. Each <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> lives in its own file, and every application’s pipeline is composed from those modules with a glob pattern and an environment variable. It includes an example configuration, a Docker Compose lab to try it, and my opinion on when the structure is worth it.</p>
+<section id="how-a-logstash-pipeline-is-structured">
+<h2>How a Logstash Pipeline Is Structured<a class="headerlink" href="#how-a-logstash-pipeline-is-structured" title="Link to this heading">#</a></h2>
+<p>Logstash is a great tool for building log pipelines. Its plugins cover ingestion, processing, enrichment, and delivery to other systems. A <strong>Logstash pipeline</strong> is a configuration written in the Logstash configuration DSL (<em>Domain-Specific Language</em>), a high-level language designed for log processing.</p>
+<p>According to the <a class="reference external" href="https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure">configuration file structure</a> documentation, a pipeline has three main sections:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">input</span></code>: Define the log ingestion source.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">filter</span></code>: Define the process, parser, and enrich routines.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">output</span></code>: Define the forward routines with external stacks.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input</span></code>: where the logs come from.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filter</span></code>: how they are parsed, processed, and enriched.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output</span></code>: where the processed logs are sent.</p></li>
 </ul>
-<blockquote>
-<div><p><em><i class="fa-solid fa-link"></i> More Details: <a class="reference external" href="https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure">Logstash - Configuration File Structure</a></em></p>
-</div></blockquote>
 </section>
-<section id="the-problem-scaling-up-pipelines-growing-code-duplication">
-<h2>The Problem: Scaling Up Pipelines == Growing Code Duplication<a class="headerlink" href="#the-problem-scaling-up-pipelines-growing-code-duplication" title="Link to this heading">#</a></h2>
-<p>As the number of log pipelines increases, so does the complexity and tendency for code duplication. For straightforward application observability needs, having pipelines with <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> configured together in the same file might suffice. However, in complex scenarios involving large applications, such as distributed applications deployed on Kubernetes, various challenges emerge. Among these challenges, one of the most significant is avoiding code duplication.</p>
-<p>When dealing with multiple applications requiring distinct logic for log processing, one approach is to create a single pipeline with logical conditions determining the specific processing statements based on fields such as Tags, which identify the module generating the event. While this method is advantageous in avoiding duplication of <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code> configurations, it has drawbacks. It introduces overhead in the <code class="docutils literal notranslate"><span class="pre">filter</span></code> section and complicates troubleshooting in the Logstash API metrics for identifying application process issues.</p>
-<p>Alternatively, another approach is to establish separate pipelines, each with its own dedicated configuration files for individual applications. While this resolves the <code class="docutils literal notranslate"><span class="pre">filter</span></code> overhead issue, it comes at the cost of duplicating both <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code> configurations.</p>
+<section id="the-problem-more-pipelines-more-duplicated-code">
+<h2>The Problem: More Pipelines, More Duplicated Code<a class="headerlink" href="#the-problem-more-pipelines-more-duplicated-code" title="Link to this heading">#</a></h2>
+<p>As the number of pipelines grows, so does the duplicated code. For simple needs, one file with <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> together is enough. With large applications, such as distributed services on Kubernetes, avoiding duplication becomes one of the main challenges.</p>
+<p>When several applications need different processing logic, there are two common approaches, and both have a cost:</p>
+<ul class="simple">
+<li><p><strong>One shared pipeline with conditionals</strong>. The <code class="docutils literal notranslate"><span class="pre">filter</span></code> section checks a field such as a tag to decide which logic to apply. This avoids duplicating <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code>, but it adds overhead to the <code class="docutils literal notranslate"><span class="pre">filter</span></code> section and makes it harder to find which application has a problem in the Logstash API metrics.</p></li>
+<li><p><strong>One pipeline per application</strong>. Each application gets its own configuration file. This removes the <code class="docutils literal notranslate"><span class="pre">filter</span></code> overhead, but every pipeline repeats the same <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code> configuration.</p></li>
+</ul>
 </section>
-<section id="the-solution-modularize-the-pipeline">
-<h2>The Solution: Modularize the Pipeline<a class="headerlink" href="#the-solution-modularize-the-pipeline" title="Link to this heading">#</a></h2>
-<p>A good way to solve the problem mentioned before is <strong>modularize the Logstash Pipelines sections <em>(input, filter, output)</em> in isolated files, and load them in dedicated Pipelines based on their needs</strong>.</p>
-<p>For this, it is necessary to create separate files with only one Pipeline section definition (<em>input, filter, output</em>), create dedicated pipelines for each Application, and configure them using <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html">
-Glob Pattern Support</a> and <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html">Environment Variable</a> notation.</p>
-<p>The following sub topic will explain with more details about how to do it.</p>
+<section id="the-solution-modular-pipelines">
+<h2>The Solution: Modular Pipelines<a class="headerlink" href="#the-solution-modular-pipelines" title="Link to this heading">#</a></h2>
+<p>The structure I use takes the good part of both approaches: <strong>split the pipeline sections (<code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, <code class="docutils literal notranslate"><span class="pre">output</span></code>) into separate files, and load only the ones each application needs into its own dedicated pipeline</strong>.</p>
+<p>Two Logstash features make this possible. <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html">Glob pattern support</a> lets <code class="docutils literal notranslate"><span class="pre">path.config</span></code> load several files at once, and <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html">environment variables</a> let you choose those files outside the configuration.</p>
 </section>
 <section id="configuration-example">
 <h2>Configuration Example<a class="headerlink" href="#configuration-example" title="Link to this heading">#</a></h2>
-<p>First step, is to create the modules, that is, the code of the <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> in separate files, each one focused on their specifics and atomic needs.</p>
+<p>The first step is to create the modules: each <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> goes in its own file, focused on one job.</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">$ tree /usr/share/logstash/pipeline/</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>├──<span class="w"> </span>filter-app-a.cfg<span class="w">        </span><span class="c1"># filter of the application-a logic parser</span>
@@ -450,7 +447,7 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 </pre></div>
 </div>
 </div>
-<p>Next, for each application, configure them with <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html">Environment Variable</a> Logstash notation:</p>
+<p>Next, define one pipeline per application, with <code class="docutils literal notranslate"><span class="pre">path.config</span></code> pointing to an environment variable:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">$ cat /usr/share/logstash/config/pipeline.yml</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pipeline.id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">application-a-pipeline</span>
@@ -461,7 +458,7 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 </pre></div>
 </div>
 </div>
-<p>Finally, configure the composition of the pipeline with <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html">Glob Pattern Support</a> notation. Consider the following example:</p>
+<p>Finally, set each variable to a glob pattern that lists the modules for that pipeline:</p>
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text">$ env</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">LOGSTASH_PIPELINE_APPLICATION_A</span><span class="o">=</span><span class="s2">"{input-http,input-rabbitmq,filter-app-a,output-opensearch,output-http}"</span>
@@ -469,43 +466,80 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
 </pre></div>
 </div>
 </div>
+<p>With these values, <code class="docutils literal notranslate"><span class="pre">application-a-pipeline</span></code> receives logs from HTTP and RabbitMQ, parses them with <code class="docutils literal notranslate"><span class="pre">filter-app-a.cfg</span></code>, and sends them to both OpenSearch and an HTTP server. <code class="docutils literal notranslate"><span class="pre">application-b-pipeline</span></code> receives logs only from HTTP, parses them with <code class="docutils literal notranslate"><span class="pre">filter-app-b.cfg</span></code>, and sends them only to OpenSearch.</p>
+</section>
+<section id="advantages-of-the-modular-structure">
+<h2>Advantages of the Modular Structure<a class="headerlink" href="#advantages-of-the-modular-structure" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>LOGSTASH_PIPELINE_APPLICATION_A</strong>: Composes the Logstash pipeline <code class="docutils literal notranslate"><span class="pre">application-a-pipeline</span></code> to receive logs from HTTP and RabbitMQ, processed them with parse logic defined in the <code class="docutils literal notranslate"><span class="pre">filter-app-a.cfg</span></code> and forwarded to OpenSearch and HTTP server.</p></li>
-<li><p><strong>LOGSTASH_PIPELINE_APPLICATION_B</strong>: Composes the Logstash pipeline <code class="docutils literal notranslate"><span class="pre">application-b-pipeline</span></code> to receive logs from HTTP, process them with the logic defined in the <code class="docutils literal notranslate"><span class="pre">filter-app-b.cfg</span></code> and forwarded to OpenSearch only.</p></li>
+<li><p><strong>No duplicated code</strong>. The same module can be used by many pipelines, for example one <code class="docutils literal notranslate"><span class="pre">input</span></code> and one <code class="docutils literal notranslate"><span class="pre">output</span></code> shared by all of them.</p></li>
+<li><p><strong>Flexible composition</strong>. A pipeline can load several modules of the same type, such as two outputs and three inputs.</p></li>
+<li><p><strong>Simpler filters</strong>. Each <code class="docutils literal notranslate"><span class="pre">filter</span></code> file holds only one application’s parsing logic, with no conditionals on tags to decide which logic to run.</p></li>
+<li><p><strong>Easier troubleshooting</strong>. Each application keeps its own pipeline, so the Logstash metrics API still shows which one is slow or failing.</p></li>
+<li><p><strong>Easier tests</strong>. Because inputs and outputs are chosen by an environment variable, you can test a <code class="docutils literal notranslate"><span class="pre">filter</span></code> with a mock <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">stdout</span></code> as the <code class="docutils literal notranslate"><span class="pre">output</span></code>, and check that the logic works before deploying it.</p></li>
 </ul>
-<section id="main-advantages">
-<h3>Main Advantages:<a class="headerlink" href="#main-advantages" title="Link to this heading">#</a></h3>
-<p>This approach brings the following advantages:</p>
+<p>I created a Docker Compose lab to try this structure. You can find it on my GitHub: <i class="fa-brands fa-github"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/">c-neto/my-devops-labs/blog/2023-11-12</a>.</p>
+</section>
+<section id="when-the-modular-structure-is-worth-it">
+<h2>When the Modular Structure Is Worth It<a class="headerlink" href="#when-the-modular-structure-is-worth-it" title="Link to this heading">#</a></h2>
+<p>Logstash handles both small and large workloads, and this structure is one way, not the only way, to deal with pipelines that keep growing. With only a few applications, it can add complexity you don’t need.</p>
+<p>I have used this structure and seen a big improvement in maintainability, especially in testing: I can test my <code class="docutils literal notranslate"><span class="pre">filter</span></code> logic by changing a single environment variable. My main goal is always to make pipelines easier to maintain, but every context has its own challenges. I recommend this structure when pipeline maintenance is getting hard, duplicated code is growing, and the Logstash configuration has become error-prone.</p>
+<p>If you are sending these logs to OpenSearch, two related posts may help: <a class="reference internal" href="../../2024/2024-06-08-logstash-sniffing/"><span class="std std-doc">Logstash Sniffing</span></a> for spreading ingestion across a scalable cluster, and <a class="reference internal" href="../../2025/2025-02-16-logstash-db-enrichment/"><span class="std std-doc">Logstash DB Enrichment</span></a> for adding database data to events inside a <code class="docutils literal notranslate"><span class="pre">filter</span></code>.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>Avoid Code Duplication</strong>: Allows to use modules across multiple pipelines (for example, configure the same <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code> module for all pipelines).</p></li>
-<li><p><strong>Reusable Code</strong>: Allows a simple configurable way to use more than one module of the same type in specific pipelines (for example, two <code class="docutils literal notranslate"><span class="pre">output</span></code>, and three <code class="docutils literal notranslate"><span class="pre">input</span></code> in one specific pipeline).</p></li>
-<li><p><strong>Decrease Complexity</strong>: The <code class="docutils literal notranslate"><span class="pre">filter</span></code> code is composed of only the application parser logic, avoiding conditional logical based on source event tags to identify how the logic need to be used.</p></li>
-<li><p><strong>Troubleshooting</strong>: Preserve the traceable of the pipelines in the logstash metric API.</p></li>
-<li><p><strong>Tests</strong>: Make it easier to test <code class="docutils literal notranslate"><span class="pre">filter</span></code> code because the <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code> modules is simple to change (environment variables), allowing a configuration of the <em>mock</em> log source as <code class="docutils literal notranslate"><span class="pre">input</span></code> and <em>stdout</em> as a <code class="docutils literal notranslate"><span class="pre">output</span></code> to check if the logic is working as expected.</p></li>
+<li><p>A Logstash pipeline has three sections: <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code>.</p></li>
+<li><p>One shared pipeline with conditionals overloads the <code class="docutils literal notranslate"><span class="pre">filter</span></code> section. One file per application duplicates <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code>.</p></li>
+<li><p>Split each section into its own file, and compose each application’s pipeline from those modules.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path.config</span></code> with an environment variable and a glob pattern such as <code class="docutils literal notranslate"><span class="pre">{input-http,filter-app-a,output-opensearch}</span></code> selects the modules per pipeline.</p></li>
+<li><p>Separate pipelines keep the Logstash metrics API useful for troubleshooting each application.</p></li>
+<li><p>Swapping inputs and outputs through an environment variable makes it easy to test <code class="docutils literal notranslate"><span class="pre">filter</span></code> logic with mock data and <code class="docutils literal notranslate"><span class="pre">stdout</span></code>.</p></li>
+<li><p>With only a few applications, a single simple pipeline may be enough.</p></li>
 </ul>
-</section>
-<section id="docker-compose-lab">
-<h3>Docker Compose Lab<a class="headerlink" href="#docker-compose-lab" title="Link to this heading">#</a></h3>
-<p>I created a docker-compose lab to test and explore the possibilities of the content presented in this post.</p>
-<p>Check in my GitHub: <i class="fa-brands fa-github"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/">c-neto/my-devops-lab/blog/2023-11-12/docker-compose.yaml</a>.</p>
-</section>
-</section>
-<section id="conclusion-author-opinion">
-<h2>Conclusion (Author Opinion)<a class="headerlink" href="#conclusion-author-opinion" title="Link to this heading">#</a></h2>
-<p>Logstash is a versatile tool for log processing, providing well-configured solutions for both small and large workloads to meet Observability needs. While the Logstash Module structure offers a straightforward approach to mitigate recurring issues in pipeline creation, it is not the exclusive remedy for this challenge.</p>
-<p>Understanding Observability requirements is essential for effectively harnessing the tool’s features. Occasionally, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.</p>
-<p>I have implemented this structure and witnessed significant improvements in maintainability, particularly in the <strong>Tests</strong> advantages mentioned, where I can easily test my <code class="docutils literal notranslate"><span class="pre">filter</span></code> logics with a simple a environment variable value changing.</p>
-<p>I genuinely appreciate this structure because my primary goal is to simplify and make it easier the maintainability, but it’s important to recognize that <strong>every case is unique, and each context presents its own complexity and challenges</strong>. Therefore, I recommend adopting this structure when the maintenance of pipelines becomes complex, code duplication is on the rise, and the configuration of Logstash becomes prone to errors, ultimately rendering it difficult to maintain.</p>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure">https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure</a></p></li>
-<li><p><a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html">https://www.elastic.co/guide/en/logstash/current/glob-support.html</a></p></li>
-<li><p><a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html">https://www.elastic.co/guide/en/logstash/current/environment-variables.html</a></p></li>
-<li><p><a class="github reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/">c-neto/my-devops-labs</a></p></li>
+<li><p><a class="reference external" href="https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure">Structure of a pipeline (Logstash)</a></p></li>
+<li><p><a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/glob-support.html">Glob pattern support (Logstash)</a></p></li>
+<li><p><a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html">Using environment variables (Logstash)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/">Docker Compose lab for this post (GitHub)</a></p></li>
 </ul>
-</section>
+<p><em>I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication",
+      "description": "How to split Logstash pipelines into input, filter, and output modules and compose them per application with glob patterns and environment variables, so pipelines stop duplicating code.",
+      "datePublished": "2023-11-12",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2023/2023-11-02-logstash-modular-pipelines/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2023/2023-11-02-logstash-modular-pipelines/",
+      "keywords": ["Logstash", "log pipelines", "pipelines.yml", "observability"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->
@@ -543,7 +577,7 @@ Glob Pattern Support</a> and <a class="reference external" href="https://www.ela
   <span class="ablog__next">
      
     <a href="../2023-11-19-systemd-override-parameters/">
-      <span>Properties Overriding: A Smart Way to Customize Systemd Unit Properties</span>
+      <span>Systemd Drop-in Overrides: Customize Unit Properties Without Editing the Unit File</span>
       
       <i class="fa fa-arrow-circle-right"></i>
       

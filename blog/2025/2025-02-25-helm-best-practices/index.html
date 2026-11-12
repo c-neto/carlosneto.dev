@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Helm Charts: Development Practices from a Programmer’s Perspective" />
+<meta content="How programming principles such as Simple Made Easy, DRY, YAGNI, and reusable libraries apply to Helm chart development, and when the complexity of Helm pays for itself." name="description" />
+<meta property="og:title" content="Helm Charts: Development Practices from a Programmer's Perspective" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2025/2025-02-25-helm-best-practices/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2025/02/25 In the last quarter of 2024, I delved deep into the world of Helm Charts and encountered several challenges. Initially, creating a new Helm Chart seemed to introd..." />
+<meta property="og:description" content="How programming principles such as Simple Made Easy, DRY, YAGNI, and reusable libraries apply to Helm chart development, and when the complexity of Helm pays for itself." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-02-25-helm-best-practices_77408160.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2025/02/25 In the last quarter of 2024, I delved deep into the world of Helm Charts and encountered several challenges. Initially, creating a new Helm Chart seemed to introd..." />
-<meta name="description" content="Blog Post Publish Date: 2025/02/25 In the last quarter of 2024, I delved deep into the world of Helm Charts and encountered several challenges. Initially, creating a new Helm Chart seemed to introd..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2025_2025-02-25-helm-best-practices_cbaba1c9.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2025/02/25 This blog post applies programming principles to Helm chart development. It covers when Helm’s complexity pays for itself, how it removes duplicated manifests (DR..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Helm Charts: Development Practices from a Programmer’s Perspective &#8212; Carlos Neto&#39;s Blog</title>
@@ -406,80 +406,168 @@
 </div>
 <p><em><strong>Blog Post Publish Date:</strong> 2025/02/25</em></p>
 <hr class="docutils" />
-<section id="helm-charts-development-practices-from-a-programmers-perspective">
-<h1>Helm Charts: Development Practices from a Programmer’s Perspective<a class="headerlink" href="#helm-charts-development-practices-from-a-programmers-perspective" title="Link to this heading">#</a></h1>
-<p>In the last quarter of 2024, I delved deep into the world of Helm Charts and encountered several challenges. Initially, creating a new Helm Chart seemed to introduce complexity, and I didn’t see significant advantages over using Kustomize. However, after spending days reflecting, reading more about Helm, and examining existing projects, I gained insights that helped me view Helm as an ally rather than an unnecessarily complex tool. So, I compiled the main insights in this blog post to present Helm chart development tips from a programmer’s perspective.</p>
-<section id="why-helm-charts-are-a-powerful-tool-for-iac">
-<h2>Why Helm Charts Are a Powerful Tool for IaC<a class="headerlink" href="#why-helm-charts-are-a-powerful-tool-for-iac" title="Link to this heading">#</a></h2>
-<p>Before discussing best practices for Helm chart development, it is important to understand why Helm Charts are a powerful tool for Infrastructure as Code (IaC). Helm Charts enable the adoption of IaC by providing a robust templating engine for rendering Kubernetes manifests (powered by Go Templates). They allow the creation of reusable components, abstracting Kubernetes workloads, and offering a high-level parameterization interface.</p>
-<p>One of Helm’s key advantages is its ability to distribute charts as artifacts, similar to programming language packages or system distributions like RPM and DEB. This allows the creation of new charts that use existing ones as dependencies, which increases agility in developing new solutions based on proven components.</p>
-<p>Helm simplifies Kubernetes workload management, streamlining configuration, deployment, and updates. It also supports storing charts as OCI artifacts in registries like AWS Elastic Container Registry (ECR) or as tarball files, ensuring reproducible and seamless deployments. CI/CD tools like Spinnaker and ArgoCD natively support Helm for deployment automation.</p>
-<p>Helm Charts are particularly effective for creating reusable, deployable infrastructure components, especially when managing multiple clusters with environment-specific configurations. This approach reduces manifest duplication in Git repositories, improving maintainability and operational efficiency.</p>
+<section id="helm-charts-development-practices-from-a-programmer-s-perspective">
+<h1>Helm Charts: Development Practices from a Programmer’s Perspective<a class="headerlink" href="#helm-charts-development-practices-from-a-programmer-s-perspective" title="Link to this heading">#</a></h1>
+<p>This blog post applies programming principles to Helm chart development. It covers when Helm’s complexity pays for itself, how it removes duplicated manifests (DRY), why over-templating hurts (YAGNI), and how library charts keep patterns reusable.</p>
+<p>In the last quarter of 2024, I went deep into Helm charts and hit several challenges. At first, creating a new chart felt like added complexity, and I didn’t see a clear advantage over Kustomize. After days of reading about Helm, studying existing projects, and thinking it through, I started to see Helm as an ally instead of an overcomplicated tool. These are the main lessons.</p>
+<section id="why-helm-charts-are-a-good-tool-for-iac">
+<h2>Why Helm Charts Are a Good Tool for IaC<a class="headerlink" href="#why-helm-charts-are-a-good-tool-for-iac" title="Link to this heading">#</a></h2>
+<p><strong>Helm</strong> is a package manager for Kubernetes, and a <strong>Helm chart</strong> is a package of templated Kubernetes manifests plus the default values that fill them. Helm renders the templates with Go templates, so a chart can abstract a workload behind a small set of parameters. That makes it a strong tool for Infrastructure as Code (IaC).</p>
+<p>One of Helm’s main advantages is that charts are distributed as versioned artifacts, much like programming language packages or RPM and DEB packages. A chart can declare other charts as dependencies, so new solutions can be built on top of proven components.</p>
+<p>Charts can be stored as OCI artifacts in registries such as AWS Elastic Container Registry (ECR), or as tarball files, which makes deployments reproducible. CD tools such as Spinnaker and Argo CD deploy Helm charts natively.</p>
+<p>Helm is most useful for reusable infrastructure components deployed to several clusters with environment-specific configuration. It reduces duplicated manifests in Git and makes them easier to maintain.</p>
 </section>
-<section id="simple-made-easy-is-helm-chart-overengineering">
-<h2>Simple Made Easy - Is Helm Chart Overengineering?<a class="headerlink" href="#simple-made-easy-is-helm-chart-overengineering" title="Link to this heading">#</a></h2>
+<section id="simple-made-easy-is-helm-overengineering">
+<h2>Simple Made Easy: Is Helm Overengineering?<a class="headerlink" href="#simple-made-easy-is-helm-overengineering" title="Link to this heading">#</a></h2>
 <blockquote>
 <div><p>“<em>Complexity has to pay for itself. It has to buy you something.</em>”<br />
-— Simple Made Easy (Rich Hickey, 2011)</p>
+Rich Hickey, <em>Simple Made Easy</em> (2011)</p>
 </div></blockquote>
-<p>When I first started working with Helm Charts, my initial thought was: “<em>Oh my God, this is so complex, am I just introducing unnecessary complexity?</em>” However, like any new tool, Helm has a learning curve that takes time to overcome. The key to embracing Helm lies in understanding the problem it solves. If you think Helm is complex, try maintaining multiple nearly identical Kubernetes manifests, where the only differences are a few parameters per cluster it’s a recipe for chaos.</p>
-<p>In reality, Helm Charts are overengineering only if you’re solving a problem you don’t have. The complexity introduced by Helm justifies itself when it eliminates a bigger problem such as duplicated code across multiple environments. If you’re managing workloads across several clusters, the complexity of Helm is not an overhead but a necessary trade-off to improve maintainability.</p>
-<p>I’ll explore this concept further in the next section.</p>
+<p>My first reaction to Helm was: “<em>Oh my God, this is so complex. Am I just adding complexity?</em>” Like any new tool, Helm has a learning curve. The way past it is to understand the problem Helm solves. If you think Helm is complex, try maintaining several nearly identical Kubernetes manifests that differ by a few parameters per cluster. That is a recipe for chaos.</p>
+<p>Helm is overengineering only if it solves a problem you don’t have. Its complexity pays for itself when it removes a bigger problem, such as the same manifests duplicated across environments. When you manage workloads across several clusters, Helm isn’t overhead, it’s the trade-off that keeps them maintainable.</p>
 </section>
-<section id="dry-eliminating-redundancy-in-kubernetes-manifests-with-helm">
-<h2>DRY - Eliminating Redundancy in Kubernetes Manifests with Helm<a class="headerlink" href="#dry-eliminating-redundancy-in-kubernetes-manifests-with-helm" title="Link to this heading">#</a></h2>
+<section id="dry-removing-duplicated-kubernetes-manifests">
+<h2>DRY: Removing Duplicated Kubernetes Manifests<a class="headerlink" href="#dry-removing-duplicated-kubernetes-manifests" title="Link to this heading">#</a></h2>
 <blockquote>
 <div><p>“<em>DRY (Don’t Repeat Yourself) is about the duplication of knowledge, of intent. It’s about expressing the same thing in two different places, possibly in two totally different ways.</em>”<br />
-— The Pragmatic Programmer (Andrew Hunt &amp; David Thomas, 1999)</p>
+Andrew Hunt and David Thomas, <em>The Pragmatic Programmer</em></p>
 </div></blockquote>
-<p>To illustrate the DRY (Don’t Repeat Yourself) principle, let’s consider a common scenario in IT corporations: maintaining isolated environments for different stages of development. Typically, companies have a development environment used internally for testing, a staging environment for validation, and a production environment serving real users.</p>
-<p>If you work in this type of setup, you likely manage workloads across multiple Kubernetes clusters, running the same applications with slight variations, such as Ingress settings, resource allocations, and environment-specific variables. A straightforward approach to handling these differences is to create separate Kubernetes manifest files for each environment, maintaining the same structure but modifying specific values. While this method works, it introduces a significant drawback: <strong>code duplication</strong>.</p>
-<p>When managing duplicated manifests, you increase the risk of errors and inconsistencies. This approach may seem manageable with one or two environments, but as the number of environments grows (e.g., 3 or more), it quickly becomes unscalable and difficult to maintain. For instance, applying a patch to one environment requires updating several separate files, increasing operational overhead.</p>
-<p>This is where Helm Charts excel. Instead of maintaining multiple duplicate manifests, Helm enables template-driven configuration. The base structure of your Kubernetes manifests resides within the Helm Chart, while environment-specific values are dynamically injected through Go Templates.</p>
-<p>Helm achieves this through the <code class="docutils literal notranslate"><span class="pre">Values.yaml</span></code> file, where each environment has its own configuration file defining runtime parameters. Instead of maintaining duplicated YAML files, you have a single chart that dynamically renders manifests based on input values. This approach ensures consistency, maintainability, and scalability.</p>
-<p>As you can see, templatizing Kubernetes manifests is another way Helm follows the DRY principle. By reducing redundancy, Helm minimizes errors and simplifies the management of multiple environments, making Kubernetes deployments more efficient and maintainable.</p>
+<p>Most companies keep separate environments for each stage of development: a development environment for internal testing, a staging environment for validation, and a production environment for real users.</p>
+<p>In that setup, you usually run the same applications on several Kubernetes clusters with small differences, such as Ingress settings, resource requests, and environment variables. The simplest approach is one set of manifests per environment, with the same structure and different values. It works, but it creates <strong>duplicated code</strong>.</p>
+<p>Duplicated manifests increase the risk of errors and drift. With one or two environments, it’s manageable. With three or more, it stops scaling: a single fix has to be applied to several files.</p>
+<p>Helm avoids that with templates. The structure of the manifests lives in the chart, and each environment has its own values file with only the parameters that change. For example:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">templates/deployment.yaml (excerpt)</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">.Values.replicaCount</span><span class="w"> </span><span class="p p-Indicator">}}</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app</span>
+<span class="w">          </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">{{</span><span class="nv">- toYaml .Values.resources | nindent 12</span><span class="w"> </span><span class="p p-Indicator">}}</span>
+</pre></div>
+</div>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">values-dev.yaml</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">replicaCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100m</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">values-prod.yaml</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">replicaCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">"1"</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>my-app<span class="w"> </span>./my-app<span class="w"> </span>-f<span class="w"> </span>values-prod.yaml
+</pre></div>
+</div>
+<p>One chart renders the manifests for every environment from its values file. That keeps environments consistent, makes fixes a one-place change, and reduces errors.</p>
 </section>
-<section id="yagni-avoid-overengineering-in-helm-templates">
-<h2>YAGNI - Avoid Overengineering in Helm Templates<a class="headerlink" href="#yagni-avoid-overengineering-in-helm-templates" title="Link to this heading">#</a></h2>
+<section id="yagni-avoid-over-templating">
+<h2>YAGNI: Avoid Over-Templating<a class="headerlink" href="#yagni-avoid-over-templating" title="Link to this heading">#</a></h2>
 <blockquote>
-<div><p><em>“Always implement things when you actually need them, never when you just foresee that you will need them.</em>”<br />
-— Ron Jeffries about XP principle: <em>“You ain’t gonna need it (YAGNI).”</em></p>
+<div><p><em>“Always implement things when you actually need them, never when you just foresee that you need them.”</em><br />
+Ron Jeffries, on the XP principle <em>“You aren’t gonna need it” (YAGNI)</em></p>
 </div></blockquote>
-<p>Templates should only be created when they represent a well-defined and reproducible structure. A common mistake when designing Helm Charts is over-templatization, introducing excessive parameterization that makes templates overly flexible but harder to maintain.</p>
-<p>If you find yourself defining numerous template functions to handle many variations in your <code class="docutils literal notranslate"><span class="pre">Values.yaml</span></code>, it’s likely a sign that your template lacks a clear structure. Instead of simplifying deployment, you’re introducing unnecessary complexity that can lead to confusion, harder debugging, and increased maintenance effort.</p>
-<p>Even worse than not having a template is maintaining template functions that will never be used. Every extra function, conditional statement, or parameter adds cognitive overhead. When a team inherits a Helm Chart filled with unused or rarely used logic, they are forced to understand and maintain complexity that provides no real value.</p>
-<p>This follows the YAGNI (You Ain’t Gonna Need It) principle, a fundamental concept in software development that warns against building features or abstractions that are not immediately necessary. Instead of preparing for hypothetical future scenarios, focus on solving real, present problems efficiently.</p>
+<p><strong>YAGNI</strong> (You Aren’t Gonna Need It) is the principle that you should not build features or abstractions before you actually need them. In Helm, it means creating templates only for structures that are well defined and actually repeated. A common mistake is over-templating: so many parameters that the chart is flexible on paper but hard to maintain.</p>
+<p>If you’re writing many template functions to handle every possible variation in <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code>, the template probably lacks a clear structure. Instead of simplifying deployments, it adds complexity that makes debugging and maintenance harder.</p>
+<p>Worse than having no template is maintaining template functions that are never used. Every extra function, conditional, or parameter adds cognitive load. A team that inherits a chart full of unused logic has to understand and maintain complexity that adds nothing. Solve the problems you have now, not hypothetical future ones.</p>
 </section>
-<section id="library-charts-ensuring-reusable-patterns">
-<h2>Library Charts - Ensuring Reusable Patterns<a class="headerlink" href="#library-charts-ensuring-reusable-patterns" title="Link to this heading">#</a></h2>
-<blockquote>
-<div><p><em>“The design of reusable libraries should provide clear and simple interfaces, allowing users to interact with them without needing to understand their internal details.”</em>
-— Design Patterns: Elements of Reusable Object-Oriented Software (<em>paraphrased from the sections on encapsulation and reusability</em>)</p>
-</div></blockquote>
-<p>There are two types of Helm Charts: <strong>Application</strong> and <strong>Library</strong>. Application charts are complete solutions, specifically designed for deployment. They define all the necessary Kubernetes resources required to deploy an application. On the other hand, <strong>Library</strong> charts contain reusable resources such as templates and functions, which are shared across other charts but are not directly deployed. These library charts act as an abstraction layer, providing common components that can be reused in multiple contexts.</p>
-<p>A prime example of a well-designed library chart is the Bitnami Common Chart, which consists of reusable functions and patterns that ensure consistency across all Bitnami charts. These patterns are adopted across the entire Bitnami Charts repository, making it easier to maintain and extend their Kubernetes applications. You can find more about the Bitnami Common Library Chart here, and an example of how the common chart is used in practice within Bitnami Fluentbit can be seen here:</p>
+<section id="library-charts-reusable-patterns">
+<h2>Library Charts: Reusable Patterns<a class="headerlink" href="#library-charts-reusable-patterns" title="Link to this heading">#</a></h2>
+<p>Helm has two <a class="reference external" href="https://helm.sh/docs/topics/library_charts/">chart types</a>: <strong>application</strong> and <strong>library</strong>. An application chart is a complete package that you deploy, with all the Kubernetes resources an application needs. A library chart holds reusable templates and functions that other charts use, and it is never deployed on its own. It works as an abstraction layer for components that many charts share.</p>
+<p>A good example is the Bitnami Common library chart. Its functions and patterns are used across the whole Bitnami charts repository, which keeps their charts consistent and easier to maintain:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/bitnami/charts/tree/main/bitnami/common">Bitnami Common Library Chart</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/configmap.yaml#L11">Bitnami Fluentbit Example of Common Chart Usage</a>.</p></li>
+<li><p><a class="reference external" href="https://github.com/bitnami/charts/tree/main/bitnami/common">Bitnami Common library chart</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/configmap.yaml#L11">How the Bitnami Fluent Bit chart uses it</a></p></li>
 </ul>
 </section>
-<section id="conclusion">
-<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
-<p>Incorporating best practices from programming concepts such as DRY, YAGNI, and modular design can significantly improve Helm chart development. By focusing on maintainability, scalability, and reducing unnecessary complexity, you can leverage Helm to create more efficient, reusable Kubernetes components. Helm is not just a tool for templating Kubernetes manifests; it’s a framework for thinking about infrastructure in a modular, reusable way—something that every developer can appreciate.</p>
-<p>These practices allow teams to scale their Kubernetes deployments more efficiently while minimizing overhead and ensuring that the system is easier to maintain in the long run.</p>
+<section id="helm-as-a-way-to-think-about-infrastructure">
+<h2>Helm as a Way to Think About Infrastructure<a class="headerlink" href="#helm-as-a-way-to-think-about-infrastructure" title="Link to this heading">#</a></h2>
+<p>Programming principles such as DRY, YAGNI, and modular design make Helm charts much better. Helm is more than a templating tool for Kubernetes manifests: it’s a way to think about infrastructure as modular, reusable components, something any developer can appreciate. Applied with care, these practices let teams scale their deployments with less overhead and keep them easy to maintain.</p>
+<p>When a chart grows, debugging what the templates receive becomes the hard part. I wrote about a trick for that in <a class="reference internal" href="../../2026/2026-02-25-helm-tips-inspect-context/"><span class="std std-doc">Helm Tips: Inspect Your Chart Context with JSON</span></a>. I also use Helm to template Logstash pipelines, as I describe in <a class="reference internal" href="../2025-02-16-logstash-db-enrichment/"><span class="std std-doc">Logstash DB Enrichment</span></a>.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Helm renders Kubernetes manifests from Go templates and values, and distributes charts as versioned packages, including OCI artifacts.</p></li>
+<li><p>Helm’s complexity pays for itself when it removes a bigger problem, such as near-identical manifests across several clusters.</p></li>
+<li><p>Keep one chart and one values file per environment instead of one copy of every manifest per environment.</p></li>
+<li><p>Don’t over-template. Parameterize only what really changes, and remove functions and options nobody uses.</p></li>
+<li><p>Use library charts, such as Bitnami Common, to share templates and functions across charts.</p></li>
+</ul>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Anti-pattern">Anti-patterns - Wikipedia</a></p></li>
-<li><p><a class="reference external" href="https://helm.sh/docs/chart_best_practices/">Helm Chart Best Practices</a></p></li>
-<li><p><a class="reference external" href="https://martinfowler.com/bliki/Yagni.html">Martin Fowler on YAGNI</a></p></li>
-<li><p><a class="reference external" href="https://12factor.net/">The 12-Factor App</a></p></li>
-<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">Don’t Repeat Yourself (DRY) - Wikipedia</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bitnami/charts/tree/main/bitnami/common">Bitnami Common Library Chart</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/configmap.yaml#L11">Bitnami Fluentbit Example of Common Chart Usage</a>.</p></li>
+<li><p><a class="reference external" href="https://helm.sh/docs/chart_best_practices/">Chart best practices (Helm)</a></p></li>
+<li><p><a class="reference external" href="https://helm.sh/docs/topics/library_charts/">Library charts (Helm)</a></p></li>
+<li><p><a class="reference external" href="https://martinfowler.com/bliki/Yagni.html">Yagni (Martin Fowler)</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">Don’t repeat yourself (Wikipedia)</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Anti-pattern">Anti-pattern (Wikipedia)</a></p></li>
+<li><p><a class="reference external" href="https://12factor.net/">The Twelve-Factor App (12factor.net)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bitnami/charts/tree/main/bitnami/common">Bitnami Common library chart (GitHub)</a></p></li>
 </ul>
-</section>
+<p><em>I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Helm Charts: Development Practices from a Programmer's Perspective",
+      "description": "How programming principles such as Simple Made Easy, DRY, YAGNI, and reusable libraries apply to Helm chart development, and when the complexity of Helm pays for itself.",
+      "datePublished": "2025-02-25",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2025/2025-02-25-helm-best-practices/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2025/2025-02-25-helm-best-practices/",
+      "keywords": ["Helm", "Kubernetes", "DRY", "YAGNI", "library charts"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Helm Charts: Development Practices from a Programmer's Perspective"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->
@@ -509,7 +597,7 @@
       
       <i class="fa fa-arrow-circle-left"></i>
       
-      <span>Logstash DB Enrichment - Tips and Traps!</span>
+      <span>Logstash DB Enrichment: Tips and Traps</span>
     </a>
     
   </span>

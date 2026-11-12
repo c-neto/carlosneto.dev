@@ -516,6 +516,130 @@
   
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
+      <a href="../../2026/2026-11-08-opensearch-hot-instance-store/">OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>08 November 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/observability/">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/opensearch/">opensearch</a>
+        
+    <a href="../../tag/aws/">aws</a>
+        
+    <a href="../../tag/kubernetes/">kubernetes</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/08</em></p>
+<p>This blog post covers running the OpenSearch hot data tier on EC2 Instance Store (local NVMe) instead of EBS. It explains why local disks perform better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-11-08-opensearch-hot-instance-store/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-11-04-opensearch-watermark/">OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>04 November 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/observability/">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/opensearch/">opensearch</a>
+        
+    <a href="../../tag/sharding/">sharding</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/04</em></p>
+<p>This blog post explains how OpenSearch distributes shards across data nodes. It covers how the default allocator works, why it can leave disk usage uneven in clusters with many small indices, and how disk watermarks correct that. It also covers other allocation mechanisms and a limitation I run into often: watermarks are one cluster-wide setting, even in clusters with different storage tiers.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-11-04-opensearch-watermark/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
       <a href="../../2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/">Stop Extracting Metrics from OpenSearch Logs</a>
     </h2>
     <ul class="ablog-archive">
@@ -575,6 +699,1234 @@
 
     <p class="ablog-post-expand">
       <a href="../../2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-10-29-otel-foundation/">OpenTelemetry: A Framework for Decoupling Your Observability</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>29 October 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/observability/">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tag"></i>
+      
+    </span>
+     
+    <a href="../../tag/opentelemetry/">opentelemetry</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/10/29</em></p>
+<p>This blog post explains what OpenTelemetry is and why its separation between API and SDK matters. It then walks through a Python application that records metrics once, through the OpenTelemetry API, and sends them to either Prometheus or Datadog by changing only the SDK configuration.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-10-29-otel-foundation/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-10-26-zsh-widgets/">Hacking Your Zsh Terminal with Custom Widgets</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>28 October 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/linux/">Linux</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/zsh/">zsh</a>
+        
+    <a href="../../tag/terminal/">terminal</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/10/28</em></p>
+<p>This blog post explains how to create custom Zsh widgets: shell functions bound to keyboard shortcuts through the Zsh Line Editor (ZLE). It’s the Zsh version of <a class="reference internal" href="../../2026/2026-10-25-gnu-readline-widgets/"><span class="std std-doc">Hacking Your Bash Terminal with Custom Widgets</span></a>, and it ends with the same widget that reruns the current command every two seconds.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-10-26-zsh-widgets/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-10-25-gnu-readline-widgets/">Hacking Your Bash Terminal with Custom Widgets</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>25 October 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/linux/">Linux</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/bash/">bash</a>
+        
+    <a href="../../tag/readline/">readline</a>
+        
+    <a href="../../tag/terminal/">terminal</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/10/25</em></p>
+<p>This blog post explains how to create custom Bash widgets: Bash functions bound to keyboard shortcuts through the GNU Readline library. It continues <a class="reference internal" href="../../2026/2026-10-18-gnu-readline-foundation/"><span class="std std-doc">GNU Readline: The Magic Behind Terminal Autocomplete</span></a>, and ends with a widget that reruns the current command every two seconds.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-10-25-gnu-readline-widgets/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-10-18-gnu-readline-foundation/">GNU Readline: The Magic Behind Terminal Autocomplete</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>18 October 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/linux/">Linux</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/bash/">bash</a>
+        
+    <a href="../../tag/readline/">readline</a>
+        
+    <a href="../../tag/terminal/">terminal</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/10/18</em></p>
+<p>This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. It also shows the configuration I reach for the most: making the Up and Down arrows search your command history by prefix. It’s a small change that saved me a lot of keystrokes.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-10-18-gnu-readline-foundation/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-07-15-vim-kubernetes-exams/">Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>15 July 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/kubernetes/">Kubernetes</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/kubernetes/">kubernetes</a>
+        
+    <a href="../../tag/certification/">certification</a>
+        
+    <a href="../../tag/vim/">vim</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/07/15</em></p>
+<p>This blog post covers the minimal Vim configuration and the editing techniques I use in the Linux Foundation Kubernetes certification exams. You don’t need to master Vim. A small set of commands is enough to edit YAML manifests much faster under exam conditions.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-07-15-vim-kubernetes-exams/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-07-09-workstation-setup-kubernetes-exams/">Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>09 July 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/kubernetes/">Kubernetes</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/kubernetes/">kubernetes</a>
+        
+    <a href="../../tag/certification/">certification</a>
+        
+    <a href="../../tag/terminal/">terminal</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/07/09</em></p>
+<p>This blog post covers the workstation tweaks I use to work faster during the Linux Foundation Kubernetes exams: macOS settings that avoid keyboard and proctoring problems, Bash history search by prefix, a minimal Vim configuration, kubectl aliases, and how to copy all of it to each question node.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-07-09-workstation-setup-kubernetes-exams/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-02-25-helm-tips-inspect-context/">Helm Tips: Inspect Your Chart Context with JSON</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>25 February 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/kubernetes/">Kubernetes</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tag"></i>
+      
+    </span>
+     
+    <a href="../../tag/helm/">helm</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/02/25</em></p>
+<p>This blog post shows a simple way to debug Helm charts: dump the entire chart context as JSON and look at exactly what your templates can access. It helps most when <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">helm</span> <span class="pre">template</span></code> fails with a message that doesn’t point to the real problem, such as a typo in a <code class="docutils literal notranslate"><span class="pre">.Values</span></code> path.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-02-25-helm-tips-inspect-context/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2025/2025-07-28-python-groupby/">groupby + attrgetter: The Pythonic Way to Group Objects</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>28 July 2025</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/python/">Python</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tag"></i>
+      
+    </span>
+     
+    <a href="../../tag/python/">python</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/07/28</em></p>
+<p>This blog post shows how to group objects by several attributes. It uses two standard library tools, <a class="reference external" href="https://docs.python.org/3/library/itertools.html#itertools.groupby">itertools.groupby</a> and <a class="reference external" href="https://docs.python.org/3/library/operator.html#operator.attrgetter">operator.attrgetter</a>, instead of building a dictionary of lists by hand. It also covers the one detail that trips most people up: <code class="docutils literal notranslate"><span class="pre">groupby</span></code> only groups items that are next to each other.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2025/2025-07-28-python-groupby/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2025/2025-06-22-kubernetes-logs-simplified/">Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>22 June 2025</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/observability/">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/kubernetes/">kubernetes</a>
+        
+    <a href="../../tag/fluent-bit/">fluent-bit</a>
+        
+    <a href="../../tag/logs/">logs</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/06/22</em></p>
+<p>This blog post explains where Kubernetes stores container logs and how <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> and log shippers read them. It also covers the CRI log line format, how log rotation works, and how to ship pod logs to an external system with a DaemonSet. Kubernetes logging can look complex, but knowing these details makes troubleshooting much easier.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2025/2025-06-22-kubernetes-logs-simplified/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2025/2025-06-19-fluentbit-log-dedup/">Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>19 June 2025</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/observability/">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/fluent-bit/">fluent-bit</a>
+        
+    <a href="../../tag/logs/">logs</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/06/19</em></p>
+<p>This blog post explains why Fluent Bit can deliver the same log more than once, and why deduplication needs a unique ID derived from the log content. It then shows how to generate a SHA-256 hash of each log line with only native Fluent Bit features, without external scripts or plugins.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2025/2025-06-19-fluentbit-log-dedup/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2025/2025-02-25-helm-best-practices/">Helm Charts: Development Practices from a Programmer's Perspective</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>25 February 2025</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/kubernetes/">Kubernetes</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tag"></i>
+      
+    </span>
+     
+    <a href="../../tag/helm/">helm</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/02/25</em></p>
+<p>This blog post applies programming principles to Helm chart development. It covers when Helm’s complexity pays for itself, how it removes duplicated manifests (DRY), why over-templating hurts (YAGNI), and how library charts keep patterns reusable.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2025/2025-02-25-helm-best-practices/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2025/2025-02-16-logstash-db-enrichment/">Logstash DB Enrichment: Tips and Traps</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>16 February 2025</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/observability/">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/logstash/">logstash</a>
+        
+    <a href="../../tag/logs/">logs</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/02/16</em></p>
+<p>This blog post covers the lessons from enriching logs in Logstash with data from a PostgreSQL database. It explains hidden behaviors of the <code class="docutils literal notranslate"><span class="pre">jdbc_streaming</span></code> filter that can stop log ingestion, and the JDBC connection string parameters that prevent them. These problems are hard to reproduce and not clearly documented, so I hope these tips save you hours of troubleshooting and forum searching.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2025/2025-02-16-logstash-db-enrichment/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/">OpenSearch Concepts: Index and Shards</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>05 January 2025</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/observability/">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/opensearch/">opensearch</a>
+        
+    <a href="../../tag/sharding/">sharding</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/01/05</em></p>
+<p>This blog post explains two of the most basic concepts in OpenSearch administration: indices and shards. It covers what primary and replica shards are, how their counts affect performance and fault tolerance, and the API calls I use most to inspect indices and shards while troubleshooting.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2024/2024-07-21-dynaconf/">Dynaconf: The Python Config Silver Bullet!</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>21 July 2024</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/python/">Python</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/python/">python</a>
+        
+    <a href="../../tag/dynaconf/">dynaconf</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2024/07/21</em></p>
+<p>This blog post gives a short overview of good practices for application configuration, explains the main features of <a class="reference external" href="https://github.com/dynaconf/dynaconf">Dynaconf</a>, and walks through a hands-on example that extends it to read parameters from AWS Systems Manager Parameter Store.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2024/2024-07-21-dynaconf/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2024/2024-06-08-logstash-sniffing/">Logstash Sniffing: Improving Log Ingestion in OpenSearch Scalable Clusters</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>08 June 2024</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/observability/">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/logstash/">logstash</a>
+        
+    <a href="../../tag/opensearch/">opensearch</a>
+        
+    <a href="../../tag/logs/">logs</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2024/06/08</em></p>
+<p>This blog post covers a common problem when Logstash ships logs to an OpenSearch cluster with autoscaling ingest nodes behind a load balancer: one node takes all the traffic while the others sit idle. It shows how the output plugin’s sniffing options fix that by discovering the nodes from the OpenSearch API.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2024/2024-06-08-logstash-sniffing/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2024/2024-04-21-fzf/">fzf: Life is Too Short for Pipe Grep</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>21 April 2024</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/linux/">Linux</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/fzf/">fzf</a>
+        
+    <a href="../../tag/zsh/">zsh</a>
+        
+    <a href="../../tag/terminal/">terminal</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2024/04/28</em></p>
+<p>This blog post explains why <a class="reference external" href="https://github.com/junegunn/fzf">fzf</a>, a command-line fuzzy finder, replaced <code class="docutils literal notranslate"><span class="pre">Ctrl</span></code> + <code class="docutils literal notranslate"><span class="pre">R</span></code>, <code class="docutils literal notranslate"><span class="pre">find</span></code>, and <code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">|</span> <span class="pre">grep</span></code> in my terminal. It also shows how to configure its <a class="reference external" href="https://www.zsh.org/">Zsh</a> widgets for searching history, files, and directories, with live previews.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2024/2024-04-21-fzf/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2024/2024-02-08-starship-zsh/">ZSH + Starship: A Productivity Masterpiece</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>08 February 2024</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/linux/">Linux</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/zsh/">zsh</a>
+        
+    <a href="../../tag/starship/">starship</a>
+        
+    <a href="../../tag/terminal/">terminal</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2024/02/08</em></p>
+<p>This blog post covers how I ended up with <a class="reference external" href="https://www.zsh.org/">ZSH</a> and <a class="reference external" href="https://starship.rs/">Starship</a> as my terminal setup. It walks through the shells I tried along the way, my favorite ZSH plugins and <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">ZSH options</a>, my minimal Starship configuration, and a step-by-step guide to reproduce it from scratch.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2024/2024-02-08-starship-zsh/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2023/2023-11-19-systemd-override-parameters/">Systemd Drop-in Overrides: Customize Unit Properties Without Editing the Unit File</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>19 November 2023</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/linux/">Linux</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tag"></i>
+      
+    </span>
+     
+    <a href="../../tag/systemd/">systemd</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/11/19</em></p>
+<p>This blog post covers a cleaner way to customize a systemd service. Instead of editing the unit file, you put your changes in an <code class="docutils literal notranslate"><span class="pre">override.conf</span></code> drop-in file that systemd merges on top of the original. It explains why direct edits cause problems, how overrides work, and walks through a hands-on example.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2023/2023-11-19-systemd-override-parameters/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2023/2023-11-02-logstash-modular-pipelines/">Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>12 November 2023</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/observability/">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/logstash/">logstash</a>
+        
+    <a href="../../tag/logs/">logs</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/11/12</em></p>
+<p>This blog post covers a Logstash pipeline structure that removes duplicated code. Each <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> lives in its own file, and every application’s pipeline is composed from those modules with a glob pattern and an environment variable. It includes an example configuration, a Docker Compose lab to try it, and my opinion on when the structure is worth it.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2023/2023-11-02-logstash-modular-pipelines/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2023/2023-10-21-cloud-concepts/">What is the Cloud and why does everyone keep talking about it?</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>21 October 2023</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="#">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/cloud/">Cloud</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="../../tag/aws/">aws</a>
+        
+    <a href="../../tag/gcp/">gcp</a>
+        
+    <a href="../../tag/azure/">azure</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/10/21</em></p>
+<p>This blog post explains what the Cloud is without technical jargon: the problem it solved, why it changed how software is built, when running your own servers still makes sense, and the costs that sales pitches tend to leave out. If you’ve ever heard someone say “it’s on the cloud” and weren’t quite sure what that meant, this post is for you.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2023/2023-10-21-cloud-concepts/"><em>Read more ...</em></a>
     </p>
     <hr />
   </div>

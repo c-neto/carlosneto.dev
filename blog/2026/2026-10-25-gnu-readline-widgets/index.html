@@ -7,16 +7,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="How to turn Bash functions into keyboard shortcuts with bind -x, what READLINE_LINE and READLINE_POINT expose to them, and a widget that reruns the current command every two seconds, aliases included." name="description" />
 <meta property="og:title" content="Hacking Your Bash Terminal with Custom Widgets" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-10-25-gnu-readline-widgets/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Blog Post Publish Date: 2026/10/25 This blog post is an extension of GNU Readline: The Magic Behind Terminal Autocomplete. Here, I explain how to create custom Bash widgets by registering Bash func..." />
+<meta property="og:description" content="How to turn Bash functions into keyboard shortcuts with bind -x, what READLINE_LINE and READLINE_POINT expose to them, and a widget that reruns the current command every two seconds, aliases included." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-10-25-gnu-readline-widgets_2508411a.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/25 This blog post is an extension of GNU Readline: The Magic Behind Terminal Autocomplete. Here, I explain how to create custom Bash widgets by registering Bash func..." />
-<meta name="description" content="Blog Post Publish Date: 2026/10/25 This blog post is an extension of GNU Readline: The Magic Behind Terminal Autocomplete. Here, I explain how to create custom Bash widgets by registering Bash func..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-10-25-gnu-readline-widgets_60748595.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/25 This blog post explains how to create custom Bash widgets: Bash functions bound to keyboard shortcuts through the GNU Readline library. It continues GNU Readline:..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Hacking Your Bash Terminal with Custom Widgets &#8212; Carlos Neto&#39;s Blog</title>
@@ -408,11 +408,17 @@
 <hr class="docutils" />
 <section id="hacking-your-bash-terminal-with-custom-widgets">
 <h1>Hacking Your Bash Terminal with Custom Widgets<a class="headerlink" href="#hacking-your-bash-terminal-with-custom-widgets" title="Link to this heading">#</a></h1>
-<p>This blog post is an extension of <a class="reference internal" href="../2026-10-18-gnu-readline-foundation/"><span class="std std-doc">GNU Readline: The Magic Behind Terminal Autocomplete</span></a>. Here, I explain how to create custom Bash widgets by registering Bash functions to keyboard shortcuts powered by the GNU Readline library.</p>
+<p>This blog post explains how to create custom Bash widgets: Bash functions bound to keyboard shortcuts through the GNU Readline library. It continues <a class="reference internal" href="../2026-10-18-gnu-readline-foundation/"><span class="std std-doc">GNU Readline: The Magic Behind Terminal Autocomplete</span></a>, and ends with a widget that reruns the current command every two seconds.</p>
 <section id="understand-the-basics">
 <h2>Understand the Basics<a class="headerlink" href="#understand-the-basics" title="Link to this heading">#</a></h2>
-<p>The idea is simple: you create a Bash function and register it to a custom keyboard shortcut using the <a class="reference external" href="https://ss64.com/bash/bind.html">bind</a> command. There are some <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#Bash-Variables-1">Bash Reserved Variables</a> that are made available to Bash functions when they are called using the <code class="docutils literal notranslate"><span class="pre">bind</span> <span class="pre">-x</span></code> command. The two main variables in this case are <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fLINE">READLINE_LINE</a> that is the entire contents of the command line, and <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fPOINT">READLINE_POINT</a> that is the cursor position, represented as an integer offset into <code class="docutils literal notranslate"><span class="pre">READLINE_LINE</span></code>.</p>
-<p>To understand these variables in practice, let’s create a function called <code class="docutils literal notranslate"><span class="pre">debug-hook-variables</span></code> and bind it to the <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> shortcut. This function will print the values of the two variables:</p>
+<p>A <strong>widget</strong> is a function bound to a key that runs while you are editing the command line. In Bash, you write a function and bind it to a shortcut with <code class="docutils literal notranslate"><span class="pre">bind</span> <span class="pre">-x</span></code>, documented with the other <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html">Bash builtins</a>.</p>
+<p>When Bash runs a function through <code class="docutils literal notranslate"><span class="pre">bind</span> <span class="pre">-x</span></code>, it sets some <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html">Bash variables</a> for it. The two that matter most are:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fLINE">READLINE_LINE</a>: the whole content of the command line.</p></li>
+<li><p><a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fPOINT">READLINE_POINT</a>: the cursor position, as an offset into <code class="docutils literal notranslate"><span class="pre">READLINE_LINE</span></code>.</p></li>
+</ul>
+<p>The function can read them, and if it changes them, Bash updates the command line when the function returns.</p>
+<p>To see them in practice, create a function called <code class="docutils literal notranslate"><span class="pre">debug-hook-variables</span></code> that prints both, and bind it to <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">### bash function for debugging reserved variables</span>
 debug-hook-variables<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"&gt;&gt;&gt; READLINE_LINE: </span><span class="nv">$READLINE_LINE</span><span class="s2">"</span>
@@ -423,18 +429,21 @@ debug-hook-variables<span class="o">()</span><span class="w"> </span><span class
 <span class="nb">bind</span><span class="w"> </span>-x<span class="w"> </span><span class="s1">'"\C-x": debug-hook-variables'</span><span class="w">  </span>
 </pre></div>
 </div>
-<p>Now, type anything at your prompt and press <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>. In this example, with your cursor positioned after <code class="docutils literal notranslate"><span class="pre">definitely</span></code> and pressed <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>, the output will be like:</p>
+<p>Now type something at the prompt and press <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>. For example, with the cursor right after <code class="docutils literal notranslate"><span class="pre">definitely</span></code>, the output is:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>definitely<span class="p">|</span><span class="w"> </span>maybe<span class="w">  </span><span class="c1"># press `Ctrl+x`</span>
 
 &gt;&gt;&gt;<span class="w"> </span>READLINE_LINE:<span class="w"> </span>definitely<span class="w"> </span>maybe
-&gt;&gt;&gt;<span class="w"> </span>READLINE_POINT:<span class="w"> </span><span class="m">11</span>
+&gt;&gt;&gt;<span class="w"> </span>READLINE_POINT:<span class="w"> </span><span class="m">10</span>
 </pre></div>
 </div>
-<p>There are other variables, such as <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT">READLINE_ARGUMENT</a> and <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK">READLINE_MARK</a>, that are also made available to Bash functions. However, their usage is less straightforward and is typically relevant to more advanced use cases.</p>
+<p><code class="docutils literal notranslate"><span class="pre">definitely</span></code> has 10 characters, so the cursor is at offset 10. Bash also sets <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT">READLINE_ARGUMENT</a> and <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK">READLINE_MARK</a>, but they’re only needed in more advanced widgets.</p>
+<blockquote>
+<div><p><em><code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> is also the prefix of several default Readline bindings, such as <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span> <span class="pre">Ctrl+e</span></code> to edit the command in your editor. Binding <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> alone replaces that prefix in the current session. If you use those bindings, choose another key.</em></p>
+</div></blockquote>
 </section>
 <section id="practical-example-repeated-command-execution">
 <h2>Practical Example: Repeated Command Execution<a class="headerlink" href="#practical-example-repeated-command-execution" title="Link to this heading">#</a></h2>
-<p>Now, let’s implement an alternative to the <a class="reference external" href="https://man7.org/linux/man-pages/man1/watch.1.html">$ watch</a> command that can behave unexpectedly when executing aliases such as <code class="docutils literal notranslate"><span class="pre">kgp</span></code> (more details in this <a class="reference external" href="https://stackoverflow.com/questions/54814543/bash-how-to-use-an-alias-command-in-combination-with-watch">Stack Overflow thread</a>). The goal of this widget is to execute a command repeatedly every two seconds when you press <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>, while supporting aliases.</p>
+<p>Now a useful widget: an alternative to <a class="reference external" href="https://man7.org/linux/man-pages/man1/watch.1.html"><code class="docutils literal notranslate"><span class="pre">watch</span></code></a>. <code class="docutils literal notranslate"><span class="pre">watch</span></code> runs its command in a new <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">-c</span></code>, so your aliases, such as <code class="docutils literal notranslate"><span class="pre">kgp</span></code>, aren’t available (see this <a class="reference external" href="https://stackoverflow.com/questions/54814543/bash-how-to-use-an-alias-command-in-combination-with-watch">Stack Overflow thread</a>). This widget runs whatever is on the command line every two seconds when you press <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>, in your current shell, so aliases work:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>repeat-command-widget<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">  </span><span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">    </span>clear
@@ -446,16 +455,16 @@ debug-hook-variables<span class="o">()</span><span class="w"> </span><span class
 <span class="nb">bind</span><span class="w"> </span>-x<span class="w"> </span><span class="s1">'"\C-x": repeat-command-widget'</span>
 </pre></div>
 </div>
-<p>You can test the widget by typing the following command and pressing <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>:</p>
+<p>To test it, type a command and press <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kgp<span class="w">     </span>
 <span class="c1">### press `Ctrl+x`</span>
 <span class="c1">### stop execution by `Ctrl+c`</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">kgp</span></code> command is executed in a loop every two seconds until you press <code class="docutils literal notranslate"><span class="pre">Ctrl+c</span></code>, just like <code class="docutils literal notranslate"><span class="pre">watch</span> <span class="pre">&quot;kubectl</span> <span class="pre">get</span> <span class="pre">pods&quot;</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">kgp</span></code> runs every two seconds until you press <code class="docutils literal notranslate"><span class="pre">Ctrl+c</span></code>, just like <code class="docutils literal notranslate"><span class="pre">watch</span> <span class="pre">&quot;kubectl</span> <span class="pre">get</span> <span class="pre">pods&quot;</span></code>.</p>
 <section id="how-to-register-the-widget">
 <h3>How to Register the Widget<a class="headerlink" href="#how-to-register-the-widget" title="Link to this heading">#</a></h3>
-<p>Built-in Readline widgets can be configured in the <code class="docutils literal notranslate"><span class="pre">~/.inputrc</span></code> file. For custom Bash widgets, we need to register the function and its keyboard shortcut in the <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file.</p>
+<p>Bindings to built-in Readline functions go in <code class="docutils literal notranslate"><span class="pre">~/.inputrc</span></code>. A custom Bash widget is shell code, so the function and its <code class="docutils literal notranslate"><span class="pre">bind</span> <span class="pre">-x</span></code> go in <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ~/.bashrc</span>
 
 repeat-command-widget<span class="o">()</span><span class="w"> </span><span class="o">{</span>
@@ -469,17 +478,66 @@ repeat-command-widget<span class="o">()</span><span class="w"> </span><span clas
 <span class="nb">bind</span><span class="w"> </span>-x<span class="w"> </span><span class="s1">'"\C-x": repeat-command-widget'</span>
 </pre></div>
 </div>
-<p>The custom <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> shortcut will be available in new Bash sessions.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> shortcut is then available in every new Bash session.</p>
 </section>
 </section>
-<section id="links">
-<h2>Links<a class="headerlink" href="#links" title="Link to this heading">#</a></h2>
+<section id="where-to-go-from-here">
+<h2>Where to Go From Here<a class="headerlink" href="#where-to-go-from-here" title="Link to this heading">#</a></h2>
+<p>Widgets let you turn any repetitive edit or command into a single key press. Zsh has the same idea with its own line editor, ZLE, and I show the Zsh version of this widget in <a class="reference internal" href="../2026-10-26-zsh-widgets/"><span class="std std-doc">Hacking Your Zsh Terminal with Custom Widgets</span></a>. If you’d rather use ready-made widgets, <a class="reference internal" href="../../2024/2024-04-21-fzf/"><span class="std std-doc">fzf</span></a> ships widgets for history, file, and directory search.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>GNU Readline foundation: <a class="reference external" href="https://carlosneto.dev/blog/2026/2026-10-18-gnu-readline-foundation">https://carlosneto.dev/blog/2026/2026-10-18-gnu-readline-foundation</a></p></li>
-<li><p>Bash <code class="docutils literal notranslate"><span class="pre">bind</span></code> builtin: <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html">https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html</a></p></li>
-<li><p>Bash variables (<code class="docutils literal notranslate"><span class="pre">READLINE_LINE</span></code>, <code class="docutils literal notranslate"><span class="pre">READLINE_POINT</span></code>): <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html">https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bind</span> <span class="pre">-x</span> <span class="pre">'&quot;KEY&quot;:</span> <span class="pre">function'</span></code> runs a Bash function when you press <code class="docutils literal notranslate"><span class="pre">KEY</span></code>.</p></li>
+<li><p>Inside the function, <code class="docutils literal notranslate"><span class="pre">READLINE_LINE</span></code> holds the command line and <code class="docutils literal notranslate"><span class="pre">READLINE_POINT</span></code> the cursor offset. Changing them changes the command line.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">watch</span></code> runs its command in a new shell, so your aliases don’t work there. A widget that <code class="docutils literal notranslate"><span class="pre">eval</span></code>s <code class="docutils literal notranslate"><span class="pre">READLINE_LINE</span></code> in a loop runs in your shell, so they do.</p></li>
+<li><p>Built-in Readline bindings go in <code class="docutils literal notranslate"><span class="pre">~/.inputrc</span></code>. Custom widgets are shell code, so they go in <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl+x</span></code> is a prefix for default Readline bindings. Binding it alone replaces them.</p></li>
 </ul>
 </section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html">Bash builtins: bind (GNU Bash manual)</a></p></li>
+<li><p><a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html">Bash variables: READLINE_LINE and READLINE_POINT (GNU Bash manual)</a></p></li>
+<li><p><a class="reference external" href="https://ss64.com/bash/bind.html">bind (SS64)</a></p></li>
+<li><p><a class="reference external" href="https://man7.org/linux/man-pages/man1/watch.1.html">watch (Linux man pages)</a></p></li>
+</ul>
+<p><em>I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Hacking Your Bash Terminal with Custom Widgets",
+      "description": "How to turn Bash functions into keyboard shortcuts with bind -x, what READLINE_LINE and READLINE_POINT expose to them, and a widget that reruns the current command every two seconds, aliases included.",
+      "datePublished": "2026-10-25",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-10-25-gnu-readline-widgets/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-10-25-gnu-readline-widgets/",
+      "keywords": ["Bash", "GNU Readline", "bind -x", "READLINE_LINE", "terminal widgets"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Hacking Your Bash Terminal with Custom Widgets"}
+      ]
+    }
+  ]
+}
+</script></section>
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->

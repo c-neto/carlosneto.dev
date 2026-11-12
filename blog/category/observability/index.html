@@ -560,7 +560,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -590,7 +601,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/08</em></p>
-<p>This blog post covers running the OpenSearch Hot Data Tier on EC2 Instance Store (local NVMe) instead of EBS: why it performs better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
+<p>This blog post covers running the OpenSearch hot data tier on EC2 Instance Store (local NVMe) instead of EBS. It explains why local disks perform better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -612,7 +623,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -640,7 +662,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/04</em></p>
-<p>This post looks at how OpenSearch distributes shards across data nodes. I’ll cover how the default allocation strategy works, why it can lead to uneven disk usage in clusters with many small indices, and how disk watermarks help address that. I’ll also discuss other allocation mechanisms and a limitation in the watermark design: it’s a cluster-wide setting, even in clusters with different storage tiers.</p>
+<p>This blog post explains how OpenSearch distributes shards across data nodes. It covers how the default allocator works, why it can leave disk usage uneven in clusters with many small indices, and how disk watermarks correct that. It also covers other allocation mechanisms and a limitation I run into often: watermarks are one cluster-wide setting, even in clusters with different storage tiers.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -716,7 +738,7 @@
   
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
-      <a href="../../2026/2026-10-29-otel-foundation/">OpenTelemetry: A Framework to Decoupling Your Observability</a>
+      <a href="../../2026/2026-10-29-otel-foundation/">OpenTelemetry: A Framework for Decoupling Your Observability</a>
     </h2>
     <ul class="ablog-archive">
       <li>
@@ -727,7 +749,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -753,7 +786,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/10/29</em></p>
-<p>This blog post explains the foundation of OpenTelemetry and walks through a practical example of instrumenting a Python application. It demonstrates OpenTelemetry’s single API definition paired with multiple SDK implementations for Prometheus and Datadog.</p>
+<p>This blog post explains what OpenTelemetry is and why its separation between API and SDK matters. It then walks through a Python application that records metrics once, through the OpenTelemetry API, and sends them to either Prometheus or Datadog by changing only the SDK configuration.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -775,7 +808,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -805,7 +849,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/06/22</em></p>
-<p>Have you ever wondered how <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex, but understanding it is key to troubleshooting and monitoring. This blog post outlines how Kubernetes organizes logs, how to send them to external systems, and tips to manage log growth effectively.</p>
+<p>This blog post explains where Kubernetes stores container logs and how <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> and log shippers read them. It also covers the CRI log line format, how log rotation works, and how to ship pod logs to an external system with a DaemonSet. Kubernetes logging can look complex, but knowing these details makes troubleshooting much easier.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -827,7 +871,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -855,7 +910,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/06/19</em></p>
-<p>This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to create SHA-256 hashes for effective deduplication without relying on external scripts or plugins.</p>
+<p>This blog post explains why Fluent Bit can deliver the same log more than once, and why deduplication needs a unique ID derived from the log content. It then shows how to generate a SHA-256 hash of each log line with only native Fluent Bit features, without external scripts or plugins.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -866,7 +921,7 @@
   
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
-      <a href="../../2025/2025-02-16-logstash-db-enrichment/">Logstash DB Enrichment - Tips and Traps!</a>
+      <a href="../../2025/2025-02-16-logstash-db-enrichment/">Logstash DB Enrichment: Tips and Traps</a>
     </h2>
     <ul class="ablog-archive">
       <li>
@@ -877,7 +932,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -905,7 +971,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/02/16</em></p>
-<p>In this blog post, I share my experiences with Logstash log enrichment using a database. I’ll cover some hidden behaviors and the importance of configuring the JDBC connection string parameters to avoid mysterious problems that are hard to replicate and not clearly documented. These tips come from real-world scenarios and aren’t always obvious in the official documentation. I hope they help you save hours of troubleshooting and searching through forums.</p>
+<p>This blog post covers the lessons from enriching logs in Logstash with data from a PostgreSQL database. It explains hidden behaviors of the <code class="docutils literal notranslate"><span class="pre">jdbc_streaming</span></code> filter that can stop log ingestion, and the JDBC connection string parameters that prevent them. These problems are hard to reproduce and not clearly documented, so I hope these tips save you hours of troubleshooting and forum searching.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -916,7 +982,7 @@
   
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
-      <a href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/">OpenSearch Concepts - Index and Shards</a>
+      <a href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/">OpenSearch Concepts: Index and Shards</a>
     </h2>
     <ul class="ablog-archive">
       <li>
@@ -927,7 +993,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -955,7 +1032,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/01/05</em></p>
-<p>OpenSearch is a powerful platform, but having a solid understanding of its basic concepts is essential for a seamless experience with the stack. In this blog post, we’ll cover one of the most fundamental aspects of OpenSearch administration: <strong>Indices and Shards</strong>.</p>
+<p>This blog post explains two of the most basic concepts in OpenSearch administration: indices and shards. It covers what primary and replica shards are, how their counts affect performance and fault tolerance, and the API calls I use most to inspect indices and shards while troubleshooting.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -977,7 +1054,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1007,7 +1095,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2024/06/08</em></p>
-<p>This blog post outlines an optimize log ingestion in OpenSearch using Logstash. It will address a common issue related to shipping logs to scalable OpenSearch clusters and provide an effective solution to enhance resource utilization.</p>
+<p>This blog post covers a common problem when Logstash ships logs to an OpenSearch cluster with autoscaling ingest nodes behind a load balancer: one node takes all the traffic while the others sit idle. It shows how the output plugin’s sniffing options fix that by discovering the nodes from the OpenSearch API.</p>
 </p>
 
     <p class="ablog-post-expand">
@@ -1018,7 +1106,7 @@
   
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
-      <a href="../../2023/2023-11-02-logstash-modular-pipelines/">Logstash Modular Pipelines: An Elegant Structure for Code Reusability and Duplication Avoiding</a>
+      <a href="../../2023/2023-11-02-logstash-modular-pipelines/">Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication</a>
     </h2>
     <ul class="ablog-archive">
       <li>
@@ -1029,7 +1117,18 @@
         
       </li>
       <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
       
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
   <li id="ablog-sidebar-item category ablog__category">
     <span>
       
@@ -1057,7 +1156,7 @@
 </div>
     </ul>
     <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/11/12</em></p>
-<p>This blog post explores a Logstash pipelines structure to mitigate code duplicated and presents an elegant method for reusing code section across multiple pipelines.</p>
+<p>This blog post covers a Logstash pipeline structure that removes duplicated code. Each <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> lives in its own file, and every application’s pipeline is composed from those modules with a glob pattern and an environment variable. It includes an example configuration, a Docker Compose lab to try it, and my opinion on when the structure is worth it.</p>
 </p>
 
     <p class="ablog-post-expand">
