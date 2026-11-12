@@ -2,23 +2,11 @@
 
 Guidance for AI agents working in this repository.
 
-## Skills
-
-This project ships skills in `.agents/skills/`. Use them for the tasks below.
-
-- **blog-writer**: Use for any work on blog posts. Drafting a new post, completing a draft, or refactoring an existing post for frontmatter, structure, headings, code blocks, callouts, voice, and tone. It holds the author's voice guide and all writing conventions.
-- **humanizer**: Use to remove AI tells from prose. Always run it as the final step before publishing any post, with a voice sample. The `blog-writer` skill calls it at the end of its workflow.
-- **bash-conventions**: Bash and shell scripting conventions. Use when writing, reviewing, or refactoring bash/sh scripts.
-- **python-conventions**: Python coding conventions and best practices. Use when writing, reviewing, or refactoring Python scripts.
-- **helm-chart-conventions**: Helm chart structural, formatting, and naming conventions. Use when authoring or reviewing Helm charts.
-
-When a task matches a skill, load that skill and follow it. The skills are the source of truth for how to do the work; this file only points to them.
-
 ## Repository Structure
 
 ```bash
 .
-├── .agents/skills/         # Agent skills (blog-writer, humanizer)
+├── .claude/skills/         # Claude Code skills (blog-creator)
 ├── .github/                # GitHub Actions workflows and CI config
 ├── _static/                # Static assets: images, custom.css, per-year post images (_static/<year>/)
 ├── _templates/             # Sphinx HTML templates (layout.html, hello.html)
@@ -44,7 +32,7 @@ When a task matches a skill, load that skill and follow it. The skills are the s
 - **`hidden/`**: Drafts in progress. Not published. Move a post to `blog/<YEAR>/` when it is ready.
 - **`_static/`**: All static assets. Post images go in `_static/<year>/`. Site-wide styles are in `custom.css`.
 - **`_templates/`**: Sphinx HTML layout overrides.
-- **`.agents/skills/`**: The agent skills described above.
+- **`.claude/skills/`**: The project skills described above. `humanizer` is installed per user in `~/.claude/skills/`.
 
 ## Build
 
