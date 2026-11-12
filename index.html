@@ -470,7 +470,7 @@
 <section id="recent-blog-posts">
 <h2>Recent blog posts<a class="headerlink" href="#recent-blog-posts" title="Link to this heading">#</a></h2>
 <ul class="postlist-style-none postlist">
-<li class="ablog-post"><p class="ablog-post-title"><a class="reference internal" href="blog/2026/2026-11-12-opensearch-hot-warm-cold/">Hands-On OpenSearch Storage Tiering: A Log Analytics Implementation</a></p>
+<li class="ablog-post"><p class="ablog-post-title"><a class="reference internal" href="blog/2026/2026-11-12-opensearch-hot-warm-cold/">OpenSearch Storage Tiering for Log Analytics: A Hands-On Guide</a></p>
 <p class="ablog-post-excerpt"><em><strong>Blog Post Publish Date:</strong> 2026/11/12</em></p>
 <p class="ablog-post-excerpt">This blog post is a hands-on implementation of storage tiering in OpenSearch, using a log analytics scenario based on my experience. In the example, log indexes move through three tiers: hot nodes on local NVMe for the first 3 days, warm nodes on EBS until 90 days, and S3 snapshots that come back as searchable snapshots only when someone needs old data. You will configure the node attributes, index template, and Index State Management (ISM) policy that automate the flow, and see how I run the searchable tier on short-lived Kubernetes nodes and which costs and failures I ran into.</p>
 </li>

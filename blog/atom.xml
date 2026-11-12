@@ -2,21 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-12T23:38:56.890649+00:00</updated>
+  <updated>2026-11-12T23:41:42.630405+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering</subtitle>
   <entry>
     <id>https://carlosneto.dev/blog/2026/2026-11-12-opensearch-hot-warm-cold/</id>
-    <title>Hands-On OpenSearch Storage Tiering: A Log Analytics Implementation</title>
+    <title>OpenSearch Storage Tiering for Log Analytics: A Hands-On Guide</title>
     <updated>2026-11-12T00:00:00+00:00</updated>
     <author>
       <name>Carlos Neto</name>
     </author>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/11/12&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;section id="hands-on-opensearch-storage-tiering-a-log-analytics-implementation"&gt;
+&lt;section id="opensearch-storage-tiering-for-log-analytics-a-hands-on-guide"&gt;
 
 &lt;p&gt;This blog post is a hands-on implementation of storage tiering in OpenSearch, using a log analytics scenario based on my experience. In the example, log indexes move through three tiers: hot nodes on local NVMe for the first 3 days, warm nodes on EBS until 90 days, and S3 snapshots that come back as searchable snapshots only when someone needs old data. You will configure the node attributes, index template, and Index State Management (ISM) policy that automate the flow, and see how I run the searchable tier on short-lived Kubernetes nodes and which costs and failures I ran into.&lt;/p&gt;
 &lt;section id="why-i-split-the-cluster-into-tiers"&gt;
@@ -320,7 +320,7 @@ GET _plugins/_ism/explain/my-logs-000001
   "@graph": [
     {
       "@type": "BlogPosting",
-      "headline": "Hands-On OpenSearch Storage Tiering: A Log Analytics Implementation",
+      "headline": "OpenSearch Storage Tiering for Log Analytics: A Hands-On Guide",
       "description": "A hands-on implementation of OpenSearch storage tiering for log analytics, based on my experience: node attributes, an index template, and an ISM policy that move indexes from NVMe to EBS to S3.",
       "datePublished": "2026-11-12",
       "inLanguage": "en",
@@ -342,7 +342,7 @@ GET _plugins/_ism/explain/my-logs-000001
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
         {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
-        {"@type": "ListItem", "position": 3, "name": "Hands-On OpenSearch Storage Tiering: A Log Analytics Implementation"}
+        {"@type": "ListItem", "position": 3, "name": "OpenSearch Storage Tiering for Log Analytics: A Hands-On Guide"}
       ]
     }
   ]

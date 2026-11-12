@@ -3,12 +3,12 @@ tags: opensearch, aws, logs
 date: "2026-11-12"
 category: Observability
 author: Carlos Neto
-title: "Hands-On OpenSearch Storage Tiering: A Log Analytics Implementation"
+title: "OpenSearch Storage Tiering for Log Analytics: A Hands-On Guide"
 description: "A hands-on implementation of OpenSearch storage tiering for log analytics, based on my experience: node attributes, an index template, and an ISM policy that move indexes from NVMe to EBS to S3."
 myst:
   html_meta:
     description: "A hands-on implementation of OpenSearch storage tiering for log analytics, based on my experience: node attributes, an index template, and an ISM policy that move indexes from NVMe to EBS to S3."
-og:title: "Hands-On OpenSearch Storage Tiering: A Log Analytics Implementation"
+og:title: "OpenSearch Storage Tiering for Log Analytics: A Hands-On Guide"
 og:description: "A hands-on implementation of OpenSearch storage tiering for log analytics, based on my experience: node attributes, an index template, and an ISM policy that move indexes from NVMe to EBS to S3."
 ---
 
@@ -16,7 +16,7 @@ og:description: "A hands-on implementation of OpenSearch storage tiering for log
 
 ---
 
-# Hands-On OpenSearch Storage Tiering: A Log Analytics Implementation
+# OpenSearch Storage Tiering for Log Analytics: A Hands-On Guide
 
 This blog post is a hands-on implementation of storage tiering in OpenSearch, using a log analytics scenario based on my experience. In the example, log indexes move through three tiers: hot nodes on local NVMe for the first 3 days, warm nodes on EBS until 90 days, and S3 snapshots that come back as searchable snapshots only when someone needs old data. You will configure the node attributes, index template, and Index State Management (ISM) policy that automate the flow, and see how I run the searchable tier on short-lived Kubernetes nodes and which costs and failures I ran into.
 
@@ -329,7 +329,7 @@ When the access pattern does justify it, as it did for me, tiering works well. N
   "@graph": [
     {
       "@type": "BlogPosting",
-      "headline": "Hands-On OpenSearch Storage Tiering: A Log Analytics Implementation",
+      "headline": "OpenSearch Storage Tiering for Log Analytics: A Hands-On Guide",
       "description": "A hands-on implementation of OpenSearch storage tiering for log analytics, based on my experience: node attributes, an index template, and an ISM policy that move indexes from NVMe to EBS to S3.",
       "datePublished": "2026-11-12",
       "inLanguage": "en",
@@ -351,7 +351,7 @@ When the access pattern does justify it, as it did for me, tiering works well. N
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
         {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
-        {"@type": "ListItem", "position": 3, "name": "Hands-On OpenSearch Storage Tiering: A Log Analytics Implementation"}
+        {"@type": "ListItem", "position": 3, "name": "OpenSearch Storage Tiering for Log Analytics: A Hands-On Guide"}
       ]
     }
   ]
