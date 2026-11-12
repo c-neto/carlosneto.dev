@@ -88,7 +88,9 @@ None of this makes the Cloud bad. It's a tool, not a cure-all. Don't ask whether
 - [What is cloud computing? (Google Cloud)](https://cloud.google.com/learn/what-is-cloud-computing)
 - [What is cloud computing? (Microsoft Azure)](https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-cloud-computing)
 
-*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

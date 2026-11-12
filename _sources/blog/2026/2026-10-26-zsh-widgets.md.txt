@@ -143,7 +143,9 @@ Widgets turn any repetitive edit or command into one key press. Many Zsh plugins
 - [Zsh Line Editor: user-defined widgets and their parameters (Zsh manual)](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#User_002dDefined-Widgets)
 - [watch (Linux man pages)](https://man7.org/linux/man-pages/man1/watch.1.html)
 
-*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

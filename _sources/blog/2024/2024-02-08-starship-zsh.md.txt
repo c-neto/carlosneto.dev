@@ -223,7 +223,9 @@ Fish still gets an honorable mention: its default configuration inspired most of
 - [Shell Command Language (POSIX)](http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)
 - My dotfiles: [`.zshrc`](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc) and [`starship.toml`](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml)
 
-*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

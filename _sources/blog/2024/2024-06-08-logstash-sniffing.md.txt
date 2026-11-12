@@ -74,7 +74,9 @@ For more on how OpenSearch places the data once it arrives, see [OpenSearch Conc
 - [Creating a cluster: node types (OpenSearch)](https://opensearch.org/docs/2.14/tuning-your-cluster/)
 - [Nodes Info API (OpenSearch)](https://opensearch.org/docs/latest/api-reference/nodes-apis/nodes-info/)
 
-*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

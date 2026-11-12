@@ -222,7 +222,9 @@ Each of these mechanisms covers a different kind of disruption. The readiness pr
 - [Disruption (Karpenter)](https://karpenter.sh/docs/concepts/disruption/)
 - [NodePools (Karpenter)](https://karpenter.sh/docs/concepts/nodepools)
 
-*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

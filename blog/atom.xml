@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-12T01:35:50.814401+00:00</updated>
+  <updated>2026-11-12T21:09:14.741112+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -172,7 +172,10 @@ my-app-logs-prod
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/ism/policies/"&gt;ISM policies (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/security/access-control/document-level-security/"&gt;Document-level security (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -536,7 +539,10 @@ GET _cluster/health
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cat/cat-shards/"&gt;CAT shards (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"&gt;StatefulSets (Kubernetes)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -806,7 +812,10 @@ GET _cluster/health
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/"&gt;Disruption (Karpenter)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://karpenter.sh/docs/concepts/nodepools"&gt;NodePools (Karpenter)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -956,7 +965,10 @@ GET _cluster/health
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/index-apis/shard-allocation/"&gt;Shard allocation filtering (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/security/multi-tenancy/tenant-index/"&gt;Dashboards multi-tenancy: tenant indexes (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -1264,7 +1276,10 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/parsers/logfmt"&gt;Logfmt parser (Fluent Bit)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/outputs/prometheus-exporter"&gt;Prometheus exporter output (Fluent Bit)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -1334,24 +1349,25 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
 &lt;section id="what-opentelemetry-is"&gt;
 &lt;h2&gt;What OpenTelemetry Is&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;OpenTelemetry&lt;/strong&gt; is an open standard, with official tools, for producing and moving telemetry data: metrics, traces, and logs. People often call it OTel. It covers everything between your code and the backend, but not the backend itself. Storage and dashboards stay with whatever tool you choose.&lt;/p&gt;
-&lt;img alt="Diagram of OpenTelemetry's pieces: the application code calls the OTel API, the OTel SDK sends data over OTLP to the OTel Collector, which exports it to backends such as Prometheus, Datadog, Jaeger, and OpenSearch, which are not part of OpenTelemetry" src="https://carlosneto.dev/_images/opentelemetry-pieces.svg" /&gt;
+&lt;img alt="Diagram of OpenTelemetry's pieces: the application code calls the OTel API, the OTel SDK sends data over OTLP to an optional OTel Collector, which exports it to backends such as Prometheus, Datadog, Jaeger, and OpenSearch, which are not part of OpenTelemetry" src="https://carlosneto.dev/_images/opentelemetry-pieces.svg" /&gt;
 &lt;p&gt;In plain terms, it has three parts:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;In your application&lt;/strong&gt;: an API that your code calls to say &lt;em&gt;what&lt;/em&gt; to measure, and an SDK that decides &lt;em&gt;how&lt;/em&gt; to process and send it. Your code depends only on the API, so it never mentions a vendor.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;On the wire&lt;/strong&gt;: &lt;strong&gt;OTLP&lt;/strong&gt; is the OpenTelemetry Protocol, one standard format for all telemetry, which most observability vendors accept.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;In your infrastructure&lt;/strong&gt;: the &lt;strong&gt;Collector&lt;/strong&gt; is a service that receives the data and forwards it to one or more backends. Changing backends means changing its configuration, not your services.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;In your infrastructure, optionally&lt;/strong&gt;: the &lt;strong&gt;Collector&lt;/strong&gt; is a service that receives the data and forwards it to one or more backends.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;The Collector is not required. The SDK can send OTLP straight to any backend that accepts it, and changing that backend means changing the SDK’s exporter configuration, usually an environment variable, not your code. The Collector earns its place when you want one place, outside your services, to decide where the data goes and what happens to it on the way.&lt;/p&gt;
 &lt;p&gt;A comparison that helps developers: JDBC in Java, or the DB-API in Python. Your code talks to one standard interface, and the database behind it can be swapped. OpenTelemetry does the same for telemetry.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="where-opentelemetry-shines-microservices"&gt;
 &lt;h2&gt;Where OpenTelemetry Shines: Microservices&lt;/h2&gt;
 &lt;p&gt;OpenTelemetry pays off most in microservice architectures, where many services, written in different languages by different teams, work together on the same request.&lt;/p&gt;
 &lt;p&gt;A payment request might cross an API in Python, a fraud check in Java, and a gateway in Go. With OpenTelemetry, all of them instrument the same way, use the same attribute names, and pass the same request context to each other, so one trace follows the request across every service. When something fails, you can go from a latency spike on a dashboard to the exact request and the service that slowed it down, because metrics, traces, and logs can share that context: logs emitted through OpenTelemetry carry the trace ID, and metrics can point to sample traces.&lt;/p&gt;
-&lt;p&gt;The Collector also becomes the one place to apply rules for every service: remove sensitive data, drop noisy telemetry to control cost, add Kubernetes metadata, or send the same data to two backends during a migration.&lt;/p&gt;
+&lt;p&gt;That’s also where the Collector pays off, as the one place to apply rules for every service: remove sensitive data, drop noisy telemetry to control cost, add Kubernetes metadata, or send the same data to two backends during a migration.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="the-cost-opentelemetry-is-not-simple"&gt;
 &lt;h2&gt;The Cost: OpenTelemetry Is Not Simple&lt;/h2&gt;
-&lt;p&gt;All of that comes with complexity. There are new concepts to learn (API, SDK, exporters, resources, context propagation), SDKs to configure in every service, and a Collector to deploy, scale, and monitor. The specification is large, and some parts are newer than others in some languages. It also takes agreement between teams: instrumentation only pays off when every service follows the same conventions.&lt;/p&gt;
+&lt;p&gt;All of that comes with complexity. There are new concepts to learn (API, SDK, exporters, resources, context propagation), SDKs to configure in every service, and, once you adopt it, a Collector to deploy, scale, and monitor. The specification is large, and some parts are newer than others in some languages. It also takes agreement between teams: instrumentation only pays off when every service follows the same conventions.&lt;/p&gt;
 &lt;p&gt;For a large system, that cost is small next to what you gain. For a small one, it can be more machinery than the problem needs.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="when-you-don-t-need-opentelemetry"&gt;
@@ -1362,15 +1378,15 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
 &lt;section id="my-take"&gt;
 &lt;h2&gt;My Take&lt;/h2&gt;
 &lt;p&gt;OpenTelemetry isn’t something to adopt everywhere by default. It’s the right tool when you have many business services, several teams, and a real need to follow requests across them or to keep your options open on vendors. In that scenario, the separation it brings is what I value most: the application team says what to measure, and the platform team decides where the data goes, without either waiting on the other.&lt;/p&gt;
-&lt;p&gt;If you want to see it in code, &lt;a class="reference internal" href="#/blog/2026/2026-11-12-otel-python-instrumentation.md"&gt;&lt;span class="xref myst"&gt;Instrumenting a Python Application with OpenTelemetry&lt;/span&gt;&lt;/a&gt; builds a small service step by step and switches it from Prometheus to Datadog without touching the application. And whatever you choose, emit metrics as metrics instead of counting log lines later, as I explain in &lt;a class="reference internal" href="2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/"&gt;&lt;span class="std std-doc"&gt;Stop Extracting Metrics from OpenSearch Logs&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="key-takeaways"&gt;
 &lt;h2&gt;Key Takeaways&lt;/h2&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;p&gt;OpenTelemetry is an open standard plus tools for producing and moving telemetry. It is not a backend.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Your code depends only on its API, data travels over OTLP, and the Collector decides where it goes, so changing vendors doesn’t mean changing code.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Your code depends only on its API and data travels over OTLP, so changing vendors means changing configuration, not code.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The Collector is optional. The SDK can export straight to a backend; add the Collector when you need central routing and processing.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;It shines in microservices: many services, languages, and teams sharing one way to instrument and one trace per request.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;It adds real complexity: new concepts, SDK configuration in every service, and a Collector to operate.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;It adds real complexity: new concepts, SDK configuration in every service, and possibly a Collector to operate.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;For small, simple systems, a Prometheus client and a Prometheus server are enough.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Use it for your own business services. For off-the-shelf software such as Logstash or PostgreSQL, scrape the metrics they already expose with Prometheus.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -1385,7 +1401,15 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://prometheus.io/docs/instrumenting/exporters/"&gt;Instrumentation and exporters (Prometheus)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.cncf.io/projects/opentelemetry/"&gt;OpenTelemetry project page (CNCF)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;aside class="system-message"&gt;
+&lt;p class="system-message-title"&gt;System Message: ERROR/3 (&lt;span class="docutils literal"&gt;/home/runner/work/carlosneto.dev/carlosneto.dev/blog/2026/2026-10-29-otel-foundation.md&lt;/span&gt;, line 95)&lt;/p&gt;
+&lt;p&gt;At least one body element must separate transitions; adjacent transitions are not allowed.&lt;/p&gt;
+&lt;/aside&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -1556,7 +1580,10 @@ bindkey&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'^X'&lt;/span&
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#User_002dDefined-Widgets"&gt;Zsh Line Editor: user-defined widgets and their parameters (Zsh manual)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://man7.org/linux/man-pages/man1/watch.1.html"&gt;watch (Linux man pages)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -1705,7 +1732,10 @@ repeat-command-widget&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://ss64.com/bash/bind.html"&gt;bind (SS64)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://man7.org/linux/man-pages/man1/watch.1.html"&gt;watch (Linux man pages)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -1847,7 +1877,10 @@ kubectl
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dforward-_0028_0029"&gt;history-search-forward (Readline manual)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://ss64.com/bash/bind.html"&gt;bind (SS64)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -2112,7 +2145,10 @@ Shift+n&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Go back to
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/mikefarah/yq"&gt;yq (GitHub)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://man7.org/linux/man-pages/man1/sort.1.html"&gt;sort (Linux man pages)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -2311,7 +2347,10 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://vimdoc.sourceforge.net/htmldoc/options.html#'cursorcolumn'"&gt;Options: cursorcolumn (Vim documentation)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://vim.rtorr.com/"&gt;Vim cheat sheet (vim.rtorr.com)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -2638,7 +2677,10 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml"&gt;YAML extension for VS Code (Red Hat)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.jetbrains.com/help/idea/helm.html"&gt;Helm plugin (JetBrains)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -2885,7 +2927,10 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions"&gt;Lambda expressions (Python tutorial)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/c-neto/my-code-playground/blob/main/blog-code-examples/2025-07-28-groupby/python-groupby-example.py"&gt;Full example for this post (GitHub)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -3093,7 +3138,10 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/containerd/containerd/blob/main/docs/man/containerd-config.toml.5.md"&gt;containerd configuration (containerd)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Standard_streams"&gt;Standard streams (Wikipedia)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -3280,7 +3328,10 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/"&gt;Fingerprint processor (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml"&gt;Docker Compose lab for this post (GitHub)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -3459,7 +3510,10 @@ Ron Jeffries, on the XP principle &lt;em&gt;“You aren’t gonna need it” (YA
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://12factor.net/"&gt;The Twelve-Factor App (12factor.net)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/bitnami/charts/tree/main/bitnami/common"&gt;Bitnami Common library chart (GitHub)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -3651,7 +3705,10 @@ Ron Jeffries, on the XP principle &lt;em&gt;“You aren’t gonna need it” (YA
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/jeremyevans/sequel/blob/master/doc/opening_databases.rdoc#label-postgres"&gt;Opening databases: PostgreSQL options (Sequel)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment"&gt;Docker Compose lab for this post (GitHub)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -3834,7 +3891,10 @@ Ron Jeffries, on the XP principle &lt;em&gt;“You aren’t gonna need it” (YA
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cat/cat-recovery/"&gt;CAT recovery (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/ism/api/"&gt;ISM API (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -4225,7 +4285,10 @@ aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;pu
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/localstack/localstack"&gt;LocalStack (GitHub)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/c-neto/my-code-playground/tree/main/blog-code-examples/2024-07-21-dynaconf-loaders"&gt;Code for this post (GitHub)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -4331,7 +4394,10 @@ aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;pu
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opensearch.org/docs/2.14/tuning-your-cluster/"&gt;Creating a cluster: node types (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opensearch.org/docs/latest/api-reference/nodes-apis/nodes-info/"&gt;Nodes Info API (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -4532,7 +4598,10 @@ brew&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc"&gt;My fzf configuration in &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~/.zshrc&lt;/span&gt;&lt;/code&gt; (GitHub)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Extra: &lt;a class="reference external" href="https://github.com/lotabout/skim"&gt;skim, a fuzzy finder written in Rust (GitHub)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -4798,7 +4867,10 @@ $&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clon
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html"&gt;Shell Command Language (POSIX)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;My dotfiles: &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.zshrc&lt;/span&gt;&lt;/code&gt;&lt;/a&gt; and &lt;a class="reference external" href="https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;starship.toml&lt;/span&gt;&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -5059,7 +5131,10 @@ Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://access.redhat.com/sites/default/files/attachments/12052018_systemd_6.pdf"&gt;systemd cheat sheet (Red Hat)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-19/"&gt;Lab files for this post (GitHub)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -5209,7 +5284,10 @@ Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/environment-variables.html"&gt;Using environment variables (Logstash)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/"&gt;Docker Compose lab for this post (GitHub)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {
@@ -5340,7 +5418,10 @@ Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://cloud.google.com/learn/what-is-cloud-computing"&gt;What is cloud computing? (Google Cloud)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-cloud-computing"&gt;What is cloud computing? (Microsoft Azure)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;hr class="docutils" /&gt;
 &lt;script type="application/ld+json"&gt;
 {

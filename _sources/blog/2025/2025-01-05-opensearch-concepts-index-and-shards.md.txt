@@ -133,7 +133,9 @@ These calls answer most of my day-to-day questions about a cluster. When the all
 - [CAT recovery (OpenSearch)](https://docs.opensearch.org/latest/api-reference/cat/cat-recovery/)
 - [ISM API (OpenSearch)](https://docs.opensearch.org/latest/im-plugin/ism/api/)
 
-*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

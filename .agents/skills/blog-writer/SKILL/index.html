@@ -840,14 +840,26 @@ og:title: "&lt;Same text as title&gt;"
 <li><p><code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">Key</span> <span class="pre">Takeaways</span></code>: short bullets with the main points. This replaces a separate conclusion section. Fold the author’s opinion into the body or the last section.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">References</span></code>: titled links in the form <code class="docutils literal notranslate"><span class="pre">[Page</span> <span class="pre">title</span> <span class="pre">(Project)](url)</span></code>, mostly official documentation.</p></li>
 <li><p>The author footer. Posts about OpenSearch, Logstash, Fluent Bit, or log pipelines use:</p>
-<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="ge">*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*</span>
-</pre></div>
-</div>
-<p>Every other post uses:</p>
-<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="ge">*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*</span>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </li>
+</ol>
+<hr class="docutils" />
+<blockquote>
+<div><p><em>I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+Every other post uses:
+
+```markdown
+
+---
+
+&gt; *I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+</pre></div>
+</div>
+<ol class="arabic" start="4">
 <li><p>A <code class="docutils literal notranslate"><span class="pre">---</span></code> rule, then the JSON-LD block. <code class="docutils literal notranslate"><span class="pre">headline</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, and <code class="docutils literal notranslate"><span class="pre">datePublished</span></code> must match the frontmatter. The slug in <code class="docutils literal notranslate"><span class="pre">url</span></code> and <code class="docutils literal notranslate"><span class="pre">mainEntityOfPage</span></code> is the filename without <code class="docutils literal notranslate"><span class="pre">.md</span></code>. Add <code class="docutils literal notranslate"><span class="pre">&quot;image&quot;</span></code> only when the post has a diagram in <code class="docutils literal notranslate"><span class="pre">_static/&lt;year&gt;/&lt;date&gt;/</span></code>, using its absolute URL.</p>
 <div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>```{raw} html
 &lt;script type="application/ld+json"&gt;
