@@ -220,7 +220,9 @@ Overrides keep the original unit file intact and put every custom setting in one
 - [systemd cheat sheet (Red Hat)](https://access.redhat.com/sites/default/files/attachments/12052018_systemd_6.pdf)
 - [Lab files for this post (GitHub)](https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-19/)
 
-*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

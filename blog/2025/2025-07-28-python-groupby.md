@@ -224,7 +224,9 @@ If you like small standard library tricks like this, [Dynaconf](/blog/2024/2024-
 - [Lambda expressions (Python tutorial)](https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions)
 - [Full example for this post (GitHub)](https://github.com/c-neto/my-code-playground/blob/main/blog-code-examples/2025-07-28-groupby/python-groupby-example.py)
 
-*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

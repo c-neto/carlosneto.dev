@@ -19,7 +19,5 @@ Setup the local web server to run a hot reload enironment:
 ```
 $ make live
 ```
-
 ---
-
 > _Inspired in [choldgraf/choldgraf.github.io](https://github.com/choldgraf/choldgraf.github.io) created by [@choldgraf](https://github.com/choldgraf)!_

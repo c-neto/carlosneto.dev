@@ -157,7 +157,9 @@ The common case is the same log type coming from several environments with simil
 - [ISM policies (OpenSearch)](https://docs.opensearch.org/latest/im-plugin/ism/policies/)
 - [Document-level security (OpenSearch)](https://docs.opensearch.org/latest/security/access-control/document-level-security/)
 
-*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

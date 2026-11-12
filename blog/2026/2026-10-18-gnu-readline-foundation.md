@@ -119,7 +119,9 @@ Readline can also save you time in the CNCF exams. [Workstation Setup for Kubern
 - [history-search-forward (Readline manual)](https://tiswww.case.edu/php/chet/readline/rluserman.html#index-history_002dsearch_002dforward-_0028_0029)
 - [bind (SS64)](https://ss64.com/bash/bind.html)
 
-*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 
