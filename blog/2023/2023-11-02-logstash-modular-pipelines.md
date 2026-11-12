@@ -2,50 +2,52 @@
 tags: logstash, logs
 date: "2023-11-12"
 category: Observability
+author: Carlos Neto
+title: "Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication"
+description: "How to split Logstash pipelines into input, filter, and output modules and compose them per application with glob patterns and environment variables, so pipelines stop duplicating code."
+myst:
+  html_meta:
+    description: "How to split Logstash pipelines into input, filter, and output modules and compose them per application with glob patterns and environment variables, so pipelines stop duplicating code."
+og:title: "Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication"
+og:description: "How to split Logstash pipelines into input, filter, and output modules and compose them per application with glob patterns and environment variables, so pipelines stop duplicating code."
 ---
 
 *__Blog Post Publish Date:__ 2023/11/12*
 
 ---
 
-# Logstash Modular Pipelines: An Elegant Structure for Code Reusability and Duplication Avoiding
+# Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication
 
-This blog post explores a Logstash pipelines structure to mitigate code duplicated and presents an elegant method for reusing code section across multiple pipelines.
+This blog post covers a Logstash pipeline structure that removes duplicated code. Each `input`, `filter`, and `output` lives in its own file, and every application's pipeline is composed from those modules with a glob pattern and an environment variable. It includes an example configuration, a Docker Compose lab to try it, and my opinion on when the structure is worth it.
 
-The post provides a clear explanation of the Logstash configuration structure, outlining the problem addressed by modular pipelines. It includes an example configuration and a Docker-compose lab for hands-on testing and exploration of the possibilities. Finally, the post concludes with my opinion on the effectiveness of this structure.
+## How a Logstash Pipeline Is Structured
 
-## A Little About Logstash and Pipelines Structure
+Logstash is a great tool for building log pipelines. Its plugins cover ingestion, processing, enrichment, and delivery to other systems. A **Logstash pipeline** is a configuration written in the Logstash configuration DSL (_Domain-Specific Language_), a high-level language designed for log processing.
 
-The Logstash is an amazing tool for crafting robust log pipelines. Several plugins empower the ingestion, process, enrich, and output integration with external stacks. The pipelines are created using Logstash Configuration DSL (_Domain-Specific Language_), a high-level configuration language designed to be efficient and flexible, and focused on Log Pipeline needs.
+According to the [configuration file structure](https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure) documentation, a pipeline has three main sections:
 
-The Logstash pipeline configuration is composed of three main sections:
+- `input`: where the logs come from.
+- `filter`: how they are parsed, processed, and enriched.
+- `output`: where the processed logs are sent.
 
-- `input`: Define the log ingestion source.
-- `filter`: Define the process, parser, and enrich routines.
-- `output`: Define the forward routines with external stacks.
+## The Problem: More Pipelines, More Duplicated Code
 
-> _<i class="fa-solid fa-link"></i> More Details: [Logstash - Configuration File Structure](https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure)_
+As the number of pipelines grows, so does the duplicated code. For simple needs, one file with `input`, `filter`, and `output` together is enough. With large applications, such as distributed services on Kubernetes, avoiding duplication becomes one of the main challenges.
 
-## The Problem: Scaling Up Pipelines == Growing Code Duplication
+When several applications need different processing logic, there are two common approaches, and both have a cost:
 
-As the number of log pipelines increases, so does the complexity and tendency for code duplication. For straightforward application observability needs, having pipelines with `input`, `filter`, and `output` configured together in the same file might suffice. However, in complex scenarios involving large applications, such as distributed applications deployed on Kubernetes, various challenges emerge. Among these challenges, one of the most significant is avoiding code duplication.
+- __One shared pipeline with conditionals__. The `filter` section checks a field such as a tag to decide which logic to apply. This avoids duplicating `input` and `output`, but it adds overhead to the `filter` section and makes it harder to find which application has a problem in the Logstash API metrics.
+- __One pipeline per application__. Each application gets its own configuration file. This removes the `filter` overhead, but every pipeline repeats the same `input` and `output` configuration.
 
-When dealing with multiple applications requiring distinct logic for log processing, one approach is to create a single pipeline with logical conditions determining the specific processing statements based on fields such as Tags, which identify the module generating the event. While this method is advantageous in avoiding duplication of `input` and `output` configurations, it has drawbacks. It introduces overhead in the `filter` section and complicates troubleshooting in the Logstash API metrics for identifying application process issues.
+## The Solution: Modular Pipelines
 
-Alternatively, another approach is to establish separate pipelines, each with its own dedicated configuration files for individual applications. While this resolves the `filter` overhead issue, it comes at the cost of duplicating both `input` and `output` configurations.
+The structure I use takes the good part of both approaches: __split the pipeline sections (`input`, `filter`, `output`) into separate files, and load only the ones each application needs into its own dedicated pipeline__.
 
-## The Solution: Modularize the Pipeline
-
-A good way to solve the problem mentioned before is __modularize the Logstash Pipelines sections _(input, filter, output)_ in isolated files, and load them in dedicated Pipelines based on their needs__.
-
-For this, it is necessary to create separate files with only one Pipeline section definition (_input, filter, output_), create dedicated pipelines for each Application, and configure them using [
-Glob Pattern Support](https://www.elastic.co/guide/en/logstash/current/glob-support.html) and [Environment Variable](https://www.elastic.co/guide/en/logstash/current/environment-variables.html) notation.
-
-The following sub topic will explain with more details about how to do it.
+Two Logstash features make this possible. [Glob pattern support](https://www.elastic.co/guide/en/logstash/current/glob-support.html) lets `path.config` load several files at once, and [environment variables](https://www.elastic.co/guide/en/logstash/current/environment-variables.html) let you choose those files outside the configuration.
 
 ## Configuration Example
 
-First step, is to create the modules, that is, the code of the `input`, `filter`, and `output` in separate files, each one focused on their specifics and atomic needs.
+The first step is to create the modules: each `input`, `filter`, and `output` goes in its own file, focused on one job.
 
 ```{code-block} bash
 :caption: $ tree /usr/share/logstash/pipeline/
@@ -58,7 +60,7 @@ First step, is to create the modules, that is, the code of the `input`, `filter`
 └── output-http.cfg         # output to forward logs processed to http server
 ```
 
-Next, for each application, configure them with [Environment Variable](https://www.elastic.co/guide/en/logstash/current/environment-variables.html) Logstash notation:
+Next, define one pipeline per application, with `path.config` pointing to an environment variable:
 
 ```{code-block} yaml
 :caption: $ cat /usr/share/logstash/config/pipeline.yml
@@ -70,7 +72,7 @@ Next, for each application, configure them with [Environment Variable](https://w
   path.config: "/usr/share/logstash/pipeline/${LOGSTASH_PIPELINE_APPLICATION_B}.cfg"
 ```
 
-Finally, configure the composition of the pipeline with [Glob Pattern Support](https://www.elastic.co/guide/en/logstash/current/glob-support.html) notation. Consider the following example:
+Finally, set each variable to a glob pattern that lists the modules for that pipeline:
 
 ```{code-block} bash
 :caption: $ env
@@ -79,39 +81,79 @@ LOGSTASH_PIPELINE_APPLICATION_A="{input-http,input-rabbitmq,filter-app-a,output-
 LOGSTASH_PIPELINE_APPLICATION_B="{input-http,filter-app-b,output-opensearch}"
 ```
 
-- __LOGSTASH_PIPELINE_APPLICATION_A__: Composes the Logstash pipeline `application-a-pipeline` to receive logs from HTTP and RabbitMQ, processed them with parse logic defined in the `filter-app-a.cfg` and forwarded to OpenSearch and HTTP server.
+With these values, `application-a-pipeline` receives logs from HTTP and RabbitMQ, parses them with `filter-app-a.cfg`, and sends them to both OpenSearch and an HTTP server. `application-b-pipeline` receives logs only from HTTP, parses them with `filter-app-b.cfg`, and sends them only to OpenSearch.
 
-- __LOGSTASH_PIPELINE_APPLICATION_B__: Composes the Logstash pipeline `application-b-pipeline` to receive logs from HTTP, process them with the logic defined in the `filter-app-b.cfg` and forwarded to OpenSearch only.
+## Advantages of the Modular Structure
 
-### Main Advantages:
+- __No duplicated code__. The same module can be used by many pipelines, for example one `input` and one `output` shared by all of them.
+- __Flexible composition__. A pipeline can load several modules of the same type, such as two outputs and three inputs.
+- __Simpler filters__. Each `filter` file holds only one application's parsing logic, with no conditionals on tags to decide which logic to run.
+- __Easier troubleshooting__. Each application keeps its own pipeline, so the Logstash metrics API still shows which one is slow or failing.
+- __Easier tests__. Because inputs and outputs are chosen by an environment variable, you can test a `filter` with a mock `input` and `stdout` as the `output`, and check that the logic works before deploying it.
 
-This approach brings the following advantages:
+I created a Docker Compose lab to try this structure. You can find it on my GitHub: <i class="fa-brands fa-github"></i> [c-neto/my-devops-labs/blog/2023-11-12](https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/).
 
-- __Avoid Code Duplication__: Allows to use modules across multiple pipelines (for example, configure the same `input` and `output` module for all pipelines).
-- __Reusable Code__: Allows a simple configurable way to use more than one module of the same type in specific pipelines (for example, two `output`, and three `input` in one specific pipeline).
-- __Decrease Complexity__: The `filter` code is composed of only the application parser logic, avoiding conditional logical based on source event tags to identify how the logic need to be used.
-- __Troubleshooting__: Preserve the traceable of the pipelines in the logstash metric API.
-- __Tests__: Make it easier to test `filter` code because the `input` and `output` modules is simple to change (environment variables), allowing a configuration of the _mock_ log source as `input` and _stdout_ as a `output` to check if the logic is working as expected.
+## When the Modular Structure Is Worth It
 
-### Docker Compose Lab
+Logstash handles both small and large workloads, and this structure is one way, not the only way, to deal with pipelines that keep growing. With only a few applications, it can add complexity you don't need.
 
-I created a docker-compose lab to test and explore the possibilities of the content presented in this post.
+I have used this structure and seen a big improvement in maintainability, especially in testing: I can test my `filter` logic by changing a single environment variable. My main goal is always to make pipelines easier to maintain, but every context has its own challenges. I recommend this structure when pipeline maintenance is getting hard, duplicated code is growing, and the Logstash configuration has become error-prone.
 
-Check in my GitHub: <i class="fa-brands fa-github"></i> [c-neto/my-devops-lab/blog/2023-11-12/docker-compose.yaml](https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/).
+If you are sending these logs to OpenSearch, two related posts may help: [Logstash Sniffing](/blog/2024/2024-06-08-logstash-sniffing.md) for spreading ingestion across a scalable cluster, and [Logstash DB Enrichment](/blog/2025/2025-02-16-logstash-db-enrichment.md) for adding database data to events inside a `filter`.
 
-## Conclusion (Author Opinion)
+## Key Takeaways
 
-Logstash is a versatile tool for log processing, providing well-configured solutions for both small and large workloads to meet Observability needs. While the Logstash Module structure offers a straightforward approach to mitigate recurring issues in pipeline creation, it is not the exclusive remedy for this challenge.
-
-Understanding Observability requirements is essential for effectively harnessing the tool's features. Occasionally, the Logstash Module Structure may introduce unnecessary complexity, especially in scenarios involving a limited number of applications.
-
-I have implemented this structure and witnessed significant improvements in maintainability, particularly in the __Tests__ advantages mentioned, where I can easily test my `filter` logics with a simple a environment variable value changing.
-
-I genuinely appreciate this structure because my primary goal is to simplify and make it easier the maintainability, but it’s important to recognize that __every case is unique, and each context presents its own complexity and challenges__. Therefore, I recommend adopting this structure when the maintenance of pipelines becomes complex, code duplication is on the rise, and the configuration of Logstash becomes prone to errors, ultimately rendering it difficult to maintain.
+- A Logstash pipeline has three sections: `input`, `filter`, and `output`.
+- One shared pipeline with conditionals overloads the `filter` section. One file per application duplicates `input` and `output`.
+- Split each section into its own file, and compose each application's pipeline from those modules.
+- `path.config` with an environment variable and a glob pattern such as `{input-http,filter-app-a,output-opensearch}` selects the modules per pipeline.
+- Separate pipelines keep the Logstash metrics API useful for troubleshooting each application.
+- Swapping inputs and outputs through an environment variable makes it easy to test `filter` logic with mock data and `stdout`.
+- With only a few applications, a single simple pipeline may be enough.
 
 ## References
 
-- <https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure>
-- <https://www.elastic.co/guide/en/logstash/current/glob-support.html>
-- <https://www.elastic.co/guide/en/logstash/current/environment-variables.html>
-- <https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/>
+- [Structure of a pipeline (Logstash)](https://www.elastic.co/guide/en/logstash/8.11/configuration-file-structure.html#configuration-file-structure)
+- [Glob pattern support (Logstash)](https://www.elastic.co/guide/en/logstash/current/glob-support.html)
+- [Using environment variables (Logstash)](https://www.elastic.co/guide/en/logstash/current/environment-variables.html)
+- [Docker Compose lab for this post (GitHub)](https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/)
+
+*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+
+---
+
+```{raw} html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication",
+      "description": "How to split Logstash pipelines into input, filter, and output modules and compose them per application with glob patterns and environment variables, so pipelines stop duplicating code.",
+      "datePublished": "2023-11-12",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2023/2023-11-02-logstash-modular-pipelines/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2023/2023-11-02-logstash-modular-pipelines/",
+      "keywords": ["Logstash", "log pipelines", "pipelines.yml", "observability"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs Without Duplication"}
+      ]
+    }
+  ]
+}
+</script>
+```

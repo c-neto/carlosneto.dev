@@ -2,6 +2,14 @@
 tags: python
 date: "2025-07-28"
 category: Python
+author: Carlos Neto
+title: "groupby + attrgetter: The Pythonic Way to Group Objects"
+description: "How to group Python objects by several attributes with itertools.groupby and operator.attrgetter instead of a dictionary of lists, and why the input must be sorted by the same key first."
+myst:
+  html_meta:
+    description: "How to group Python objects by several attributes with itertools.groupby and operator.attrgetter instead of a dictionary of lists, and why the input must be sorted by the same key first."
+og:title: "groupby + attrgetter: The Pythonic Way to Group Objects"
+og:description: "How to group Python objects by several attributes with itertools.groupby and operator.attrgetter instead of a dictionary of lists, and why the input must be sorted by the same key first."
 ---
 
 *__Blog Post Publish Date:__ 2025/07/28*
@@ -10,9 +18,11 @@ category: Python
 
 # groupby + attrgetter: The Pythonic Way to Group Objects
 
-This blog post explores an approach to group objects by mulitple attribute name powered by capabilities of the built-in modules [itertools.groupby](https://docs.python.org/3/library/itertools.html#itertools.groupby) and [operator.attrgetter](https://docs.python.org/3/library/operator.html#operator.attrgetter) module.
+This blog post shows how to group objects by several attributes. It uses two standard library tools, [itertools.groupby](https://docs.python.org/3/library/itertools.html#itertools.groupby) and [operator.attrgetter](https://docs.python.org/3/library/operator.html#operator.attrgetter), instead of building a dictionary of lists by hand. It also covers the one detail that trips most people up: `groupby` only groups items that are next to each other.
 
-To illustrate this scenario, let's create a `Band` class, and a `bands` variable with a list of the instances. The objective is create groups by attributes `category`, `genre`, `country` and print the `name`.
+## The Example Data
+
+To illustrate, here is a `Band` dataclass and a `bands` list. The goal is to group the bands by `category`, `genre`, and `country`, and print the names in each group.
 
 ```python
 from dataclasses import dataclass
@@ -60,13 +70,15 @@ bands = [
 ]
 ```
 
-The most common approach is to create a temporary dictionary where the key is a tuple of the attributes you want to group by, and the value is a list of objects that share those attributes:
+## The Usual Approach: A Dictionary of Lists
+
+The most common approach is a temporary dictionary whose key is a tuple of the grouping attributes and whose value is the list of objects that share them:
 
 ```python
 bands_groupby_genre_country = {}
 
 for band in bands:
-    group_key = (band.genre, band.country, band.category)
+    group_key = (band.category, band.genre, band.country)
     bands_groupby_genre_country.setdefault(group_key, []).append(band)
 
 for (category, genre, country), band_group in bands_groupby_genre_country.items():
@@ -75,9 +87,11 @@ for (category, genre, country), band_group in bands_groupby_genre_country.items(
         print(f"- {band.name}")
 ```
 
-This approach works, but the code readability can cause confusion. Therefore, I present a more pythonic way to perform this operation using [groupby](https://docs.python.org/3/library/itertools.html#itertools.groupby) and [attrgetter](https://docs.python.org/3/library/operator.html#operator.attrgetter).
+It works, but the intent is buried in the bookkeeping: create the dictionary, build the key, append to the list, then loop again to read it.
 
-The [groupby](https://docs.python.org/3/library/itertools.groupby) function takes an iterable as its first positional argument and has an optional named argument `key`. The `key` works exactly the same way as in [sorted](https://docs.python.org/3/howto/sorting.html#key-functions), accepting a function that is called to determine the grouping. In the example below, the function is created using a [lambda](https://docs.python.org/2/tutorial/controlflow.html), where the groups are formed based on the `category`, `genre`, and `country` attributes.
+## groupby With a Lambda
+
+**`itertools.groupby`** is a standard library function that walks an iterable and yields one `(key, group)` pair for each run of consecutive items with the same key. It takes the iterable as its first argument and an optional `key` function. The `key` works exactly like the one in [sorted](https://docs.python.org/3/howto/sorting.html#key-functions): it is called for each item to compute the value to group by. In this example, a [lambda](https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions) returns the `category`, `genre`, and `country` of each band:
 
 ```python
 from itertools import groupby
@@ -90,7 +104,11 @@ for (category, genre, country), group in groupby(bands, key=attribute_group):
         print(f"  - {band.name}")
 ```
 
-This approach offers better readability. However, by using the [attrgetter](https://docs.python.org/3/library/operator.html#operator.attrgetter) function, we can eliminate the [lambda](https://docs.python.org/2/tutorial/controlflow.html) and make the code more self-explanatory. The [attrgetter](https://docs.python.org/3/library/operator.html#operator.attrgetter) returns a callable object that fetches the specified attribute from its operand. If more than one attribute is requested, it returns a tuple of attributes. For practical purposes, this solution works the same way as the [lambda](https://docs.python.org/2/tutorial/controlflow.html), but the code is clearer and easier to understand.
+This already reads better: the loop says what it groups by and what it does with each group.
+
+## groupby With attrgetter
+
+**`operator.attrgetter`** returns a callable that reads the given attribute from its argument. With several attribute names, it returns a tuple of their values. For this purpose it does the same job as the lambda, but the code says what it does without the extra syntax:
 
 ```python
 from operator import attrgetter
@@ -104,7 +122,7 @@ for (category, genre, country), group in groupby(bands, key=attribute_group):
         print(f"  - {band.name}")
 ```
 
-The script execution output will be:
+The output is:
 
 ```
 >>> category='Rock', genre='Rock', country='UK':
@@ -160,11 +178,88 @@ The script execution output will be:
 
 >>> category='Rock', genre='Rock', country='Ireland':
 - U2
-- Thin Lizzy
 ```
 
-For the full working example, visit the [GitHub repository](https://github.com/c-neto/my-code-playground/blob/main/blog-code-examples/2025-07-28-groupby/python-groupby-example.py). You can also run the code directly in your terminal:
+## Sort Before You Group
+
+There is one catch. As the [itertools documentation](https://docs.python.org/3/library/itertools.html#itertools.groupby) says, `groupby` starts a new group every time the key changes. It only groups items that are next to each other. The `bands` list above is already ordered by group, which is why the output looks right. For example, if two UK rock bands were separated by a grunge band, they would end up in two different groups with the same key.
+
+The dictionary approach doesn't have this problem, because it looks up the key for every item. For `groupby`, sort the data by the same key first:
+
+```python
+from operator import attrgetter
+from itertools import groupby
+
+attribute_group = attrgetter("category", "genre", "country")
+
+for (category, genre, country), group in groupby(sorted(bands, key=attribute_group), key=attribute_group):
+    print(f">>> {category=}, {genre=}, {country=}:")
+    for band in group:
+        print(f"  - {band.name}")
+```
+
+Reusing the same `attrgetter` for `sorted` and `groupby` keeps the two keys identical. Sorting changes the order of the groups, so the output is in alphabetical order of category, genre, and country.
+
+For the full working example, see the [GitHub repository](https://github.com/c-neto/my-code-playground/blob/main/blog-code-examples/2025-07-28-groupby/python-groupby-example.py). You can also run it directly in your terminal:
 
 ```sh
 curl -s https://raw.githubusercontent.com/c-neto/my-code-playground/refs/heads/main/blog-code-examples/2025-07-28-groupby/python-groupby-example.py | python -
+```
+
+If you like small standard library tricks like this, [Dynaconf](/blog/2024/2024-07-21-dynaconf.md) covers the other side of Python services I write often: configuration. And for instrumenting a Python application, see [OpenTelemetry: A Framework to Decoupling Your Observability](/blog/2026/2026-10-29-otel-foundation.md).
+
+## Key Takeaways
+
+- A dictionary of lists works for grouping, but the intent gets lost in the bookkeeping.
+- `itertools.groupby(iterable, key=...)` yields one `(key, group)` pair per run of consecutive items with the same key.
+- `operator.attrgetter("a", "b", "c")` builds the grouping key as a tuple, with no lambda.
+- `groupby` only groups adjacent items, so sort with the same key first: `groupby(sorted(items, key=k), key=k)`.
+- Both functions are in the standard library, so there is nothing to install.
+
+## References
+
+- [itertools.groupby (Python documentation)](https://docs.python.org/3/library/itertools.html#itertools.groupby)
+- [operator.attrgetter (Python documentation)](https://docs.python.org/3/library/operator.html#operator.attrgetter)
+- [Key functions (Python Sorting HOW TO)](https://docs.python.org/3/howto/sorting.html#key-functions)
+- [Lambda expressions (Python tutorial)](https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions)
+- [Full example for this post (GitHub)](https://github.com/c-neto/my-code-playground/blob/main/blog-code-examples/2025-07-28-groupby/python-groupby-example.py)
+
+*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+
+---
+
+```{raw} html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "groupby + attrgetter: The Pythonic Way to Group Objects",
+      "description": "How to group Python objects by several attributes with itertools.groupby and operator.attrgetter instead of a dictionary of lists, and why the input must be sorted by the same key first.",
+      "datePublished": "2025-07-28",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2025/2025-07-28-python-groupby/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2025/2025-07-28-python-groupby/",
+      "keywords": ["Python", "itertools.groupby", "operator.attrgetter", "grouping"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "groupby + attrgetter: The Pythonic Way to Group Objects"}
+      ]
+    }
+  ]
+}
+</script>
 ```

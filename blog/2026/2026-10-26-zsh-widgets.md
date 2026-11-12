@@ -2,6 +2,14 @@
 tags: zsh, terminal
 date: "2026-10-28"
 category: Linux
+author: Carlos Neto
+title: "Hacking Your Zsh Terminal with Custom Widgets"
+description: "How to turn Zsh functions into keyboard shortcuts with zle -N and bindkey, what BUFFER, LBUFFER, RBUFFER, and CURSOR expose to a widget, and a widget that reruns the current command every two seconds, aliases included."
+myst:
+  html_meta:
+    description: "How to turn Zsh functions into keyboard shortcuts with zle -N and bindkey, what BUFFER, LBUFFER, RBUFFER, and CURSOR expose to a widget, and a widget that reruns the current command every two seconds, aliases included."
+og:title: "Hacking Your Zsh Terminal with Custom Widgets"
+og:description: "How to turn Zsh functions into keyboard shortcuts with zle -N and bindkey, what BUFFER, LBUFFER, RBUFFER, and CURSOR expose to a widget, and a widget that reruns the current command every two seconds, aliases included."
 ---
 
 *__Blog Post Publish Date:__ 2026/10/28*
@@ -10,13 +18,22 @@ category: Linux
 
 # Hacking Your Zsh Terminal with Custom Widgets
 
-This blog post explains how to create custom Zsh widgets by registering shell functions to keyboard shortcuts powered by the Zsh Line Editor (ZLE).
+This blog post explains how to create custom Zsh widgets: shell functions bound to keyboard shortcuts through the Zsh Line Editor (ZLE). It's the Zsh version of [Hacking Your Bash Terminal with Custom Widgets](/blog/2026/2026-10-25-gnu-readline-widgets.md), and it ends with the same widget that reruns the current command every two seconds.
 
 ## Understand the Basics
 
-The idea is simple: you create a Zsh function and register it to a custom keyboard shortcut using the [`zle -N`](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-zle) and [`bindkey`](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Builtins-1) commands. There are some special ZLE parameters that are made available to Zsh functions when they are called as widgets. The four main variables in this case are [BUFFER](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-BUFFER) that is the entire contents of the command line, [CURSOR](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-CURSOR) that is the cursor position, represented as an integer offset into `BUFFER`, along with [LBUFFER](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-LBUFFER) and [RBUFFER](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-RBUFFER).
+**ZLE** (Zsh Line Editor) is the part of Zsh that handles command-line editing, the Zsh counterpart of GNU Readline in Bash. A **ZLE widget** is a function that ZLE runs when you press its key. You write a Zsh function, register it as a widget with [`zle -N`](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-zle), and bind it to a key with [`bindkey`](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Builtins-1).
 
-To understand these variables in practice, let's create a function called `debug-hook-variables` and bind it to the `Ctrl+x` shortcut. This function will print the values of the variables:
+While a widget runs, ZLE gives it [special parameters](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#User_002dDefined-Widgets). The four main ones are:
+
+- [BUFFER](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-BUFFER): the whole content of the command line.
+- [CURSOR](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-CURSOR): the cursor position, as an offset into `BUFFER`.
+- [LBUFFER](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-LBUFFER): the part of the line left of the cursor.
+- [RBUFFER](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-RBUFFER): the part of the line right of the cursor.
+
+Unlike Bash, Zsh gives you `LBUFFER` and `RBUFFER` directly, so inserting text at the cursor is as simple as `LBUFFER+="text"`.
+
+To see them in practice, create a function called `debug-hook-variables` that prints all four, register it, and bind it to `Ctrl+x`:
 
 ```zsh
 # zsh function for debugging reserved variables
@@ -41,7 +58,7 @@ bindkey '^X' debug-hook-variables
 bindkey -L
 ```
 
-Now, type anything at your prompt and press `Ctrl+x`. In this example, with your cursor positioned after `definitely` and pressed `Ctrl+x`, the output will be like:
+Now type something at the prompt and press `Ctrl+x`. For example, with the cursor right after `definitely`, the output is:
 
 ```zsh
 $ definitely| maybe  # press `Ctrl+x`
@@ -52,9 +69,13 @@ $ definitely| maybe  # press `Ctrl+x`
 >>> CURSOR:   10
 ```
 
+`RBUFFER` starts with the space after `definitely`, and `CURSOR` is 10 because `definitely` has 10 characters.
+
+> _In the default emacs keymap, `Ctrl+x` is also the prefix of several built-in bindings, such as `Ctrl+x Ctrl+e` in many setups. Binding `Ctrl+x` alone replaces that prefix. If you use those bindings, choose another key._
+
 ## Practical Example: Repeated Command Execution
 
-Now, let's implement an alternative to the [$ watch](https://man7.org/linux/man-pages/man1/watch.1.html) command that can behave unexpectedly when executing aliases such as `kgp` (more details in this [Stack Overflow thread](https://stackoverflow.com/questions/54814543/bash-how-to-use-an-alias-command-in-combination-with-watch)). The goal of this widget is to execute a command repeatedly every two seconds when you press `Ctrl+x`, while supporting aliases.
+Now a useful widget: an alternative to [`watch`](https://man7.org/linux/man-pages/man1/watch.1.html). `watch` runs its command in a new `sh -c`, so your aliases, such as `kgp`, aren't available (see this [Stack Overflow thread](https://stackoverflow.com/questions/54814543/bash-how-to-use-an-alias-command-in-combination-with-watch)). This widget runs whatever is on the command line every two seconds when you press `Ctrl+x`, in your current shell, so aliases work.
 
 ```zsh
 function repeat-command-widget() {
@@ -69,7 +90,7 @@ zle -N repeat-command-widget
 bindkey '^X' repeat-command-widget
 ```
 
-You can test the widget by typing the following command and pressing `Ctrl+x`:
+To test it, type a command and press `Ctrl+x`:
 
 ```zsh
 kgp     
@@ -77,11 +98,11 @@ kgp
 ### stop execution by `Ctrl+c`
 ```
 
-The `kgp` command is executed in a loop every two seconds until you press `Ctrl+c`, just like `watch "kubectl get pods"`.
+`kgp` runs every two seconds until you press `Ctrl+c`, just like `watch "kubectl get pods"`.
 
 ### How to Register the Widget
 
-Built-in ZLE widgets can be configured using standard `bindkey` bindings. For custom Zsh widgets, we need to register the function, declare it via `zle -N`, and bind its keyboard shortcut in the `~/.zshrc` file.
+Built-in ZLE widgets only need a `bindkey` line. A custom widget also needs its function and the `zle -N` registration, so put all three in `~/.zshrc`:
 
 ```zsh
 # ~/.zshrc
@@ -102,9 +123,62 @@ zle -N repeat-command-widget
 bindkey '^X' repeat-command-widget
 ```
 
-The custom `Ctrl+x` shortcut will be available in new Zsh sessions.
+The `Ctrl+x` shortcut is then available in every new Zsh session.
 
-## Links
+## Where to Go From Here
 
-- Zsh Line Editor built-ins: <https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Builtins-1>
-- Zsh parameters: <https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Parameters-used-by-the-Line-Editor>
+Widgets turn any repetitive edit or command into one key press. Many Zsh plugins are widgets too: [fzf](/blog/2024/2024-04-21-fzf.md) binds its history, file, and directory search as ZLE widgets, and zsh-autosuggestions, which I use in my [ZSH + Starship setup](/blog/2024/2024-02-08-starship-zsh.md), works by wrapping the built-in ones.
+
+## Key Takeaways
+
+- ZLE is the Zsh line editor. A widget is a function that ZLE runs when you press its key.
+- Register a function as a widget with `zle -N name`, then bind it with `bindkey '^X' name`. Check it with `zle -al` and `bindkey -L`.
+- Inside a widget, `BUFFER` holds the command line, `CURSOR` the cursor offset, and `LBUFFER` and `RBUFFER` the text left and right of the cursor.
+- `watch` runs its command in a new shell, so aliases fail. A widget that `eval`s `$BUFFER` in a loop runs in your shell, so they work.
+- Put the function, `zle -N`, and `bindkey` in `~/.zshrc`.
+
+## References
+
+- [Zsh Line Editor: zle and bindkey builtins (Zsh manual)](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Builtins-1)
+- [Zsh Line Editor: user-defined widgets and their parameters (Zsh manual)](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#User_002dDefined-Widgets)
+- [watch (Linux man pages)](https://man7.org/linux/man-pages/man1/watch.1.html)
+
+*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+
+---
+
+```{raw} html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Hacking Your Zsh Terminal with Custom Widgets",
+      "description": "How to turn Zsh functions into keyboard shortcuts with zle -N and bindkey, what BUFFER, LBUFFER, RBUFFER, and CURSOR expose to a widget, and a widget that reruns the current command every two seconds, aliases included.",
+      "datePublished": "2026-10-28",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-10-26-zsh-widgets/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-10-26-zsh-widgets/",
+      "keywords": ["Zsh", "ZLE", "zle -N", "bindkey", "terminal widgets"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Hacking Your Zsh Terminal with Custom Widgets"}
+      ]
+    }
+  ]
+}
+</script>
+```

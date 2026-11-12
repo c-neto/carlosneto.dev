@@ -2,6 +2,14 @@
 tags: bash, readline, terminal
 date: "2026-10-25"
 category: Linux
+author: Carlos Neto
+title: "Hacking Your Bash Terminal with Custom Widgets"
+description: "How to turn Bash functions into keyboard shortcuts with bind -x, what READLINE_LINE and READLINE_POINT expose to them, and a widget that reruns the current command every two seconds, aliases included."
+myst:
+  html_meta:
+    description: "How to turn Bash functions into keyboard shortcuts with bind -x, what READLINE_LINE and READLINE_POINT expose to them, and a widget that reruns the current command every two seconds, aliases included."
+og:title: "Hacking Your Bash Terminal with Custom Widgets"
+og:description: "How to turn Bash functions into keyboard shortcuts with bind -x, what READLINE_LINE and READLINE_POINT expose to them, and a widget that reruns the current command every two seconds, aliases included."
 ---
 
 *__Blog Post Publish Date:__ 2026/10/25*
@@ -10,14 +18,21 @@ category: Linux
 
 # Hacking Your Bash Terminal with Custom Widgets
 
-This blog post is an extension of [GNU Readline: The Magic Behind Terminal Autocomplete](./2026-10-18-gnu-readline-foundation.md). Here, I explain how to create custom Bash widgets by registering Bash functions to keyboard shortcuts powered by the GNU Readline library.
+This blog post explains how to create custom Bash widgets: Bash functions bound to keyboard shortcuts through the GNU Readline library. It continues [GNU Readline: The Magic Behind Terminal Autocomplete](/blog/2026/2026-10-18-gnu-readline-foundation.md), and ends with a widget that reruns the current command every two seconds.
 
 ## Understand the Basics
 
-The idea is simple: you create a Bash function and register it to a custom keyboard shortcut using the [bind](https://ss64.com/bash/bind.html) command. There are some [Bash Reserved Variables](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#Bash-Variables-1) that are made available to Bash functions when they are called using the `bind -x` command. The two main variables in this case are [READLINE_LINE](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fLINE) that is the entire contents of the command line, and [READLINE_POINT](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fPOINT) that is the cursor position, represented as an integer offset into `READLINE_LINE`. 
+A **widget** is a function bound to a key that runs while you are editing the command line. In Bash, you write a function and bind it to a shortcut with `bind -x`, documented with the other [Bash builtins](https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html).
+
+When Bash runs a function through `bind -x`, it sets some [Bash variables](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html) for it. The two that matter most are:
+
+- [READLINE_LINE](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fLINE): the whole content of the command line.
+- [READLINE_POINT](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fPOINT): the cursor position, as an offset into `READLINE_LINE`.
+
+The function can read them, and if it changes them, Bash updates the command line when the function returns.
 
 
-To understand these variables in practice, let's create a function called `debug-hook-variables` and bind it to the `Ctrl+x` shortcut. This function will print the values of the two variables:
+To see them in practice, create a function called `debug-hook-variables` that prints both, and bind it to `Ctrl+x`:
 
 ```bash
 ### bash function for debugging reserved variables
@@ -30,20 +45,22 @@ debug-hook-variables() {
 bind -x '"\C-x": debug-hook-variables'  
 ```
 
-Now, type anything at your prompt and press `Ctrl+x`. In this example, with your cursor positioned after `definitely` and pressed `Ctrl+x`, the output will be like:
+Now type something at the prompt and press `Ctrl+x`. For example, with the cursor right after `definitely`, the output is:
 
 ```bash
 $ definitely| maybe  # press `Ctrl+x`
 
 >>> READLINE_LINE: definitely maybe
->>> READLINE_POINT: 11
+>>> READLINE_POINT: 10
 ```
 
-There are other variables, such as [READLINE_ARGUMENT](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT) and [READLINE_MARK](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK), that are also made available to Bash functions. However, their usage is less straightforward and is typically relevant to more advanced use cases.
+`definitely` has 10 characters, so the cursor is at offset 10. Bash also sets [READLINE_ARGUMENT](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fARGUMENT) and [READLINE_MARK](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-READLINE_005fMARK), but they're only needed in more advanced widgets.
+
+> _`Ctrl+x` is also the prefix of several default Readline bindings, such as `Ctrl+x Ctrl+e` to edit the command in your editor. Binding `Ctrl+x` alone replaces that prefix in the current session. If you use those bindings, choose another key._
 
 ## Practical Example: Repeated Command Execution
 
-Now, let's implement an alternative to the [$ watch](https://man7.org/linux/man-pages/man1/watch.1.html) command that can behave unexpectedly when executing aliases such as `kgp` (more details in this [Stack Overflow thread](https://stackoverflow.com/questions/54814543/bash-how-to-use-an-alias-command-in-combination-with-watch)). The goal of this widget is to execute a command repeatedly every two seconds when you press `Ctrl+x`, while supporting aliases.
+Now a useful widget: an alternative to [`watch`](https://man7.org/linux/man-pages/man1/watch.1.html). `watch` runs its command in a new `sh -c`, so your aliases, such as `kgp`, aren't available (see this [Stack Overflow thread](https://stackoverflow.com/questions/54814543/bash-how-to-use-an-alias-command-in-combination-with-watch)). This widget runs whatever is on the command line every two seconds when you press `Ctrl+x`, in your current shell, so aliases work:
 
 ```bash
 repeat-command-widget() {
@@ -57,7 +74,7 @@ repeat-command-widget() {
 bind -x '"\C-x": repeat-command-widget'
 ```
 
-You can test the widget by typing the following command and pressing `Ctrl+x`:
+To test it, type a command and press `Ctrl+x`:
 
 ```bash
 kgp     
@@ -65,11 +82,11 @@ kgp
 ### stop execution by `Ctrl+c`
 ```
 
-The `kgp` command is executed in a loop every two seconds until you press `Ctrl+c`, just like `watch "kubectl get pods"`.
+`kgp` runs every two seconds until you press `Ctrl+c`, just like `watch "kubectl get pods"`.
 
 ### How to Register the Widget
 
-Built-in Readline widgets can be configured in the `~/.inputrc` file. For custom Bash widgets, we need to register the function and its keyboard shortcut in the `~/.bashrc` file.
+Bindings to built-in Readline functions go in `~/.inputrc`. A custom Bash widget is shell code, so the function and its `bind -x` go in `~/.bashrc`:
 
 ```bash
 # ~/.bashrc
@@ -85,10 +102,63 @@ repeat-command-widget() {
 bind -x '"\C-x": repeat-command-widget'
 ```
 
-The custom `Ctrl+x` shortcut will be available in new Bash sessions.
+The `Ctrl+x` shortcut is then available in every new Bash session.
 
-## Links
+## Where to Go From Here
 
-- GNU Readline foundation: [https://carlosneto.dev/blog/2026/2026-10-18-gnu-readline-foundation](https://carlosneto.dev/blog/2026/2026-10-18-gnu-readline-foundation)
-- Bash `bind` builtin: [https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html](https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html)
-- Bash variables (`READLINE_LINE`, `READLINE_POINT`): [https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html)
+Widgets let you turn any repetitive edit or command into a single key press. Zsh has the same idea with its own line editor, ZLE, and I show the Zsh version of this widget in [Hacking Your Zsh Terminal with Custom Widgets](/blog/2026/2026-10-26-zsh-widgets.md). If you'd rather use ready-made widgets, [fzf](/blog/2024/2024-04-21-fzf.md) ships widgets for history, file, and directory search.
+
+## Key Takeaways
+
+- `bind -x '"KEY": function'` runs a Bash function when you press `KEY`.
+- Inside the function, `READLINE_LINE` holds the command line and `READLINE_POINT` the cursor offset. Changing them changes the command line.
+- `watch` runs its command in a new shell, so your aliases don't work there. A widget that `eval`s `READLINE_LINE` in a loop runs in your shell, so they do.
+- Built-in Readline bindings go in `~/.inputrc`. Custom widgets are shell code, so they go in `~/.bashrc`.
+- `Ctrl+x` is a prefix for default Readline bindings. Binding it alone replaces them.
+
+## References
+
+- [Bash builtins: bind (GNU Bash manual)](https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html)
+- [Bash variables: READLINE_LINE and READLINE_POINT (GNU Bash manual)](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html)
+- [bind (SS64)](https://ss64.com/bash/bind.html)
+- [watch (Linux man pages)](https://man7.org/linux/man-pages/man1/watch.1.html)
+
+*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+
+---
+
+```{raw} html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Hacking Your Bash Terminal with Custom Widgets",
+      "description": "How to turn Bash functions into keyboard shortcuts with bind -x, what READLINE_LINE and READLINE_POINT expose to them, and a widget that reruns the current command every two seconds, aliases included.",
+      "datePublished": "2026-10-25",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-10-25-gnu-readline-widgets/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-10-25-gnu-readline-widgets/",
+      "keywords": ["Bash", "GNU Readline", "bind -x", "READLINE_LINE", "terminal widgets"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Hacking Your Bash Terminal with Custom Widgets"}
+      ]
+    }
+  ]
+}
+</script>
+```

@@ -424,10 +424,16 @@ Close every post in this order. Use `blog/2026/2026-11-10-opensearch-scale-down.
 
 1. `## Key Takeaways`: short bullets with the main points. This replaces a separate conclusion section. Fold the author's opinion into the body or the last section.
 2. `## References`: titled links in the form `[Page title (Project)](url)`, mostly official documentation.
-3. The author footer:
+3. The author footer. Posts about OpenSearch, Logstash, Fluent Bit, or log pipelines use:
 
    ```markdown
    *I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+   ```
+
+   Every other post uses:
+
+   ```markdown
+   *I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
    ```
 
 4. A `---` rule, then the JSON-LD block. `headline`, `description`, and `datePublished` must match the frontmatter. The slug in `url` and `mainEntityOfPage` is the filename without `.md`. Add `"image"` only when the post has a diagram in `_static/<year>/<date>/`, using its absolute URL.

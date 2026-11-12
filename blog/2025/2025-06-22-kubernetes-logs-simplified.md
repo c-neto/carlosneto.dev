@@ -2,6 +2,14 @@
 tags: kubernetes, fluent-bit, logs
 date: "2025-06-22"
 category: Observability
+author: Carlos Neto
+title: "Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging"
+description: "Where Kubernetes stores container logs, how kubectl logs and log shippers read them, the CRI log line format, how the kubelet rotates log files, and how to ship pod logs with a Fluent Bit DaemonSet."
+myst:
+  html_meta:
+    description: "Where Kubernetes stores container logs, how kubectl logs and log shippers read them, the CRI log line format, how the kubelet rotates log files, and how to ship pod logs with a Fluent Bit DaemonSet."
+og:title: "Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging"
+og:description: "Where Kubernetes stores container logs, how kubectl logs and log shippers read them, the CRI log line format, how the kubelet rotates log files, and how to ship pod logs with a Fluent Bit DaemonSet."
 ---
 
 *__Blog Post Publish Date:__ 2025/06/22*
@@ -10,32 +18,28 @@ category: Observability
 
 # Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging
 
-Have you ever wondered how `$ kubectl logs` retrieves logs, where they are stored, and how to access both current and past logs? Kubernetes logging can seem complex, but understanding it is key to troubleshooting and monitoring. This blog post outlines how Kubernetes organizes logs, how to send them to external systems, and tips to manage log growth effectively.
+This blog post explains where Kubernetes stores container logs and how `$ kubectl logs` and log shippers read them. It also covers the CRI log line format, how log rotation works, and how to ship pod logs to an external system with a DaemonSet. Kubernetes logging can look complex, but knowing these details makes troubleshooting much easier.
 
-## How Kubernetes Manages and Stores Logs
+## How Kubernetes Stores Container Logs
 
-Kubernetes is essentially composed of containers, which are managed by container runtimes. These container runtimes must implement the [Container Runtime Interface (CRI)](https://kubernetes.io/docs/concepts/architecture/cri/), which defines how Kubernetes interacts with the containers. One of the specifications in the [CRI](https://kubernetes.io/docs/concepts/architecture/cri/) is container log handling, which standardizes details such as log names, directory locations, and formats.
+Kubernetes runs containers through a container runtime, such as containerd or CRI-O. The **Container Runtime Interface (CRI)** is the API that the kubelet uses to talk to that runtime. As the [CRI documentation](https://kubernetes.io/docs/concepts/architecture/cri/) describes, one part of it defines how container logs are handled: file names, directory locations, and line format. The [CRI logging design proposal](https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md) and the [Kubernetes logging architecture](https://kubernetes.io/docs/concepts/cluster-administration/logging/) page have the details.
 
-- _CRI Logs Desing Proposal: <https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md>_
-- _Kubernetes Logging Reference: <https://kubernetes.io/docs/concepts/cluster-administration/logging/>_
-
-Each container in a pod writes its logs to a separate file. These logs capture everything the application outputs to _stdout_ and _stderr_ (see [standard streams](https://en.wikipedia.org/wiki/Standard_streams)). The log files are stored on the node where the pod is running at:
+Each container in a pod writes its logs to its own file, with everything the application sends to _stdout_ and _stderr_ (the [standard streams](https://en.wikipedia.org/wiki/Standard_streams)). The files live on the node where the pod runs:
 
 ```bash
 # pod container log file pattern
-/var/log/pods/<namespace>_<podname>_<uid>/<container_name>/<execution-id>.log
+/var/log/pods/<namespace>_<podname>_<uid>/<container_name>/<restart-count>.log
 
 # example
 /var/log/pods/default_nginx-7f5c7d4f9b-abcde_12345/nginx-container/
-  ├── 0.log   # current container live running log
-  ├── 1.log   # last container log that exited on failure or was restarted
-  ├── 2.log   # second to last container log that exited on failure or was restarted
+  ├── 0.log   # first run of the container
+  ├── 1.log   # run after the first restart
   └── ...
 ```
 
-The `0.log` file contains the current container's live running logs. If the container crashes and restarts, Kubernetes renames `0.log` to `1.log` and creates a new `0.log` for the new run. This process continues with `2.log`, `3.log`, and so on. When you execute `kubectl logs --previous <pod> -c <container>`, the kubelet searches for logs in `1.log`, `2.log`, and subsequent files.
+The file name is the container's restart count. The first run writes `0.log`. If the container crashes or restarts, the new run writes `1.log`, then `2.log`, and so on, while the previous file stays on disk. The kubelet keeps the logs of the most recent terminated run, which is what `$ kubectl logs --previous <pod> -c <container>` reads.
 
-To make log ingestion easier for third-party tools, the kubelet creates symbolic links to each container's current log file (`0.log`) in the `/var/log/containers/` directory. Each symbolic link is named using the pod name, namespace, container name, and container ID, making it easy for log shippers to identify and process logs for each container.
+To make ingestion easier for third-party tools, the kubelet also creates a symbolic link to each container's current log file in `/var/log/containers/`. The link name includes the pod name, namespace, container name, and container ID, so log shippers can identify each container:
 
 ```bash
 # >>> symbolic link log file name pattern
@@ -48,13 +52,15 @@ To make log ingestion easier for third-party tools, the kubelet creates symbolic
 /var/log/pods/default_nginx-7f5c7d4f9b-abcde_12345/nginx-container/0.log
 ```
 
-The `$ kubectl logs` command always uses the absolute path of the log file and never the symbolic link path. The symbolic link is a mechanism that the kubelet uses to simplify log ingestion for third-party log shipping tools like [Fluent Bit](https://docs.fluentbit.io/manual), [Vector](https://vector.dev/), [Filebeat](https://www.elastic.co/pt/beats/filebeat), etc. It is important to understand that the files present in `/var/log/containers/` point to the current container execution log (`0.log`) and do not concatenate the files `0.log`, `1.log`, `2.log`, and so on. When a container crashes and a new `0.log` is created, the symbolic link points to the new `0.log` file, so the content is overwritten. The log shipping tool should be prepared to handle this behavior. Fluent Bit, for example, uses inode tracking of the symlinked log file. When the file that the symlink points to is rotated, the inode of the file changes as well, and Fluent Bit understands that it is a new log file and needs to read the log content from the start, even though the file name remains the same. For more details, see [the Fluent Bit Input Plugin reference](https://docs.fluentbit.io/manual/pipeline/inputs/tail#keep_state).
+`$ kubectl logs` doesn't use these links. They exist for log shippers such as [Fluent Bit](https://docs.fluentbit.io/manual), [Vector](https://vector.dev/), and [Filebeat](https://www.elastic.co/beats/filebeat). A link always points to the log file of the current run and doesn't concatenate older runs. The container ID is part of the link name, so a restarted container gets a new link that points to its new log file. The same happens when the kubelet rotates a file: the path stays the same, but it's a new file.
 
-## Understanding Kubernetes Log Format
+Log shippers must handle that. Fluent Bit, for example, tracks the inode of each file it reads. When a rotated file has the same name but a new inode, Fluent Bit treats it as a new file and reads it from the start. See [the Tail input reference](https://docs.fluentbit.io/manual/pipeline/inputs/tail#keep_state) for the details.
 
-The log file content is saved in a specific pattern defined by the CRI. This log line format is:
+## The Kubernetes Log Line Format
 
-```log
+The CRI defines the format of each line in the log file:
+
+```text
 # >>> log line pattern
 <timestamp> <stream> <flags> <message>
 
@@ -63,56 +69,39 @@ The log file content is saved in a specific pattern defined by the CRI. This log
 2023-10-06T00:17:09.669794202Z stdout P Another log pt 1
 ```
 
-- __timestamp__: The date and time when the log line was written, formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339) with nanosecond precision.
-- __stream__: Specifies whether the log line was written to `stdout` or `stderr`.
-- __flags__: `F` indicates a completed log line, delimited by `\n`, while `P` indicates a partial log line. More details will be explained below.
-- __log message__: The container's log message in its raw format.
+- __timestamp__: when the line was written, in [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339) format with nanosecond precision.
+- __stream__: `stdout` or `stderr`.
+- __flags__: `F` for a full line, `P` for a partial line.
+- __message__: the raw log message from the container.
 
-About __flags__: The `F` flag indicates a complete log line (ending with `\n`). The `P` flag signifies that the application has not finished writing the line yet, so the runtime is writing it in parts. When logs are retrieved using `kubectl logs`, the tool merges these parts together before displaying them to the user.
+The `P` flag appears when a single line is longer than the runtime's maximum log line size, 16 KiB by default in containerd (`max_container_log_line_size`). The runtime splits the line into chunks: each chunk except the last is written with `P`, and the last one with `F`. For example, an application that prints one 40 KB line produces three entries:
 
-To understand this better, check the following Python application code:
-
-```python
-#!/bin/python
-
-print("part 1 - ", end="")
-print("part 2 - ", end="")
-print("part 3 - ", end="")
-print("log line completed!", end="\n")
+```text
+2025-06-21T22:15:10.123456789Z stdout P <first 16 KiB of the line>
+2025-06-21T22:15:10.123456790Z stdout P <next 16 KiB of the line>
+2025-06-21T22:15:10.123456791Z stdout F <rest of the line>
 ```
 
-The logs are saved in the following format:
-
-```log
-2025-06-21T22:15:10.123456789Z stdout P part 1 - 
-2025-06-21T22:15:10.123456790Z stdout P part 2 - 
-2025-06-21T22:15:10.123456791Z stdout P part 3 - 
-2025-06-21T22:15:10.123456792Z stdout F log line completed!
-```
-
-When a pod log is retrieved using `$ kubectl logs`, the output will concatenate partial logs:
-
-```bash
-$ kubectl logs -f python-app
-
-part 1 - part 2 - part 3 - log line completed!
-```
+`$ kubectl logs` joins the partial chunks before showing them, so you see one line. Log shippers have to do the same. Fluent Bit, for example, does it with its built-in CRI multiline parser.
 
 ## Managing Log Growth with Log Rotation
 
-Logs can grow uncontrollably, causing disk overflow, which can impact observability in your cluster and degrade application performance. Even if the application generates a low volume of logs, it is a best practice and highly recommended to enforce limits and implement log rotation routines. The best approach to control log size limits is to define the values using container runtime parameters. It is not recommended to use third-party tools like [logrotate](https://github.com/logrotate/logrotate) for this task, because file operations such as renaming, truncating, and closing file descriptors can corrupt Kubernetes' log management state. Additionally, the container runtime's log management architecture may change in future Kubernetes versions, requiring updates to third-party tools to align with the new behavior.
+Logs can grow until they fill the node's disk, which hurts observability in the cluster and the performance of the applications on that node. Even if an application logs very little, enforce size limits and rotation.
 
-Thus, the configuration defines the Container Runtime's log rotation process. The example below demonstrates how to configure containerd to manage the log rotation routine.
+**Log rotation** for container logs is done by the kubelet. According to the [log rotation](https://kubernetes.io/docs/concepts/cluster-administration/logging/#log-rotation) documentation, the kubelet rotates each container log file when it reaches `containerLogMaxSize` (10Mi by default) and keeps at most `containerLogMaxFiles` files (5 by default). Configure these limits in the kubelet instead of using a third-party tool such as [logrotate](https://github.com/logrotate/logrotate). Renaming, truncating, or closing files behind the kubelet's back can corrupt its log management, and the log layout may change in future Kubernetes versions.
 
-```{code-block} toml
-:caption: [/etc/containerd/config.toml](https://github.com/containerd/containerd/blob/main/docs/man/containerd-config.toml.5.md)
+You set the limits in the [kubelet configuration file](https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/):
 
-[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
-  LogSizeMax = 104857600  # set log file size limit to 100MB
-  LogFileMax = 5          # set limit 5 log files
+```{code-block} yaml
+:caption: /var/lib/kubelet/config.yaml (excerpt)
+
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+containerLogMaxSize: 100Mi
+containerLogMaxFiles: 5
 ```
 
-Also, you can introduce this parameters via environment variables to kubelet service. Below as example using systemd, to define the log rotate parameters for kubelet process to inject log rotate parameters to containerd.
+Or with the equivalent kubelet flags, for example through the kubelet's systemd unit:
 
 ```{code-block} ini
 :caption: [/etc/systemd/system/kubelet.service](https://github.com/kubernetes/release/blob/cd53840/cmd/krel/templates/latest/kubelet/kubelet.service)
@@ -120,12 +109,13 @@ Also, you can introduce this parameters via environment variables to kubelet ser
 Environment="KUBELET_EXTRA_ARGS=--container-log-max-size=100Mi --container-log-max-files=5"
 ```
 
-## Strategy to Ingest Kubernetes Logs to External Thirdy Party System
-For better observability and log search capabilities, it is highly recommended to ingest Kubernetes workload logs into a dedicated log analytics system such as [OpenSearch](https://opensearch.org/), [Elasticsearch](https://www.elastic.co/elasticsearch), [Grafana Loki](https://grafana.com/oss/loki/), [Splunk](https://www.splunk.com/), or [Datadog](https://www.datadoghq.com/). Within the Kubernetes cluster, specialized tools are optimized for reading, processing, and shipping logs to external systems, such as [Fluent Bit](https://docs.fluentbit.io/manual), [Filebeat](https://www.elastic.co/beats/filebeat), and [Vector](https://vector.dev/).
+If you change the kubelet unit, put the change in a drop-in file instead of editing the unit itself, as I explain in [Systemd Drop-in Overrides](/blog/2023/2023-11-19-systemd-override-parameters.md).
 
-Regardless of which log shipping tool you choose, the deployment pattern remains the same. The log ingestion tool is deployed as a [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/), which schedules one pod per node in the cluster. The [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) is configured with a [hostPath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath) volume mount, allowing the pod to access files stored on the node’s disk. This enables the log ingestion tool to read log files for all pod containers scheduled on the node at `/var/log/containers/*.log`.
+## Shipping Kubernetes Logs to an External System
 
-Below is an example [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) configuration for deploying [Fluent Bit](https://docs.fluentbit.io/manual):
+For search and long-term analysis, ship workload logs to a log analytics system such as [OpenSearch](https://opensearch.org/), [Elasticsearch](https://www.elastic.co/elasticsearch), [Grafana Loki](https://grafana.com/oss/loki/), [Splunk](https://www.splunk.com/), or [Datadog](https://www.datadoghq.com/). Inside the cluster, tools such as [Fluent Bit](https://docs.fluentbit.io/manual), [Filebeat](https://www.elastic.co/beats/filebeat), and [Vector](https://vector.dev/) read, process, and send the logs.
+
+Whatever shipper you choose, the deployment pattern is the same. A **DaemonSet** is a Kubernetes workload that runs one pod on every node, and the [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) for the shipper mounts the node's `/var/log` directory with a [hostPath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath) volume. The shipper reads `/var/log/containers/*.log`, and because those links point into `/var/log/pods/`, the mount must include both directories. Mounting `/var/log` covers them. For example, a Fluent Bit DaemonSet:
 
 ```yaml
 apiVersion: apps/v1
@@ -159,34 +149,82 @@ spec:
             - name: config
               mountPath: /opt/bitnami/fluent-bit/conf/fluent-bit.conf
               subPath: fluent-bit.conf
-            # >>> THIS LINE MOUNTS THE NODE'S POD CONTAINERS DIRECTORY INSIDE THE CONTAINER.
+            # >>> MOUNTS THE NODE'S LOG DIRECTORY (BOTH /var/log/containers AND /var/log/pods)
             - name: varlog
-              mountPath: /var/log/containers
+              mountPath: /var/log
+              readOnly: true
       volumes:
         - name: config
           configMap:
             name: fluent-bit-config
-        # >>> THIS LINE ALLOWS THE FLUENT BIT POD TO ACCESS LOG FILES OF PODS SCHEDULED ON THE NODE. 
+        # >>> ALLOWS THE FLUENT BIT POD TO READ THE LOG FILES OF PODS SCHEDULED ON THE NODE
         - name: varlog
           hostPath:
-            path: /var/log/containers
+            path: /var/log
             type: Directory
 ```
 
-Many log collection tools can add extra information to your logs, like pod labels and annotations. To do this, the log collector needs permission to talk to the Kubernetes API. This is usually done by giving the tool a [ClusterRole](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) with the right permissions and linking it to the service account the tool uses. For example, you can look at [this Fluent Bit ClusterRole](https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/clusterrole.yaml) to see how it works. With these permissions, the tool can get metadata from Kubernetes and add it to each log before sending it to your log system. Setting up metadata enrichment with [Fluent Bit](https://docs.fluentbit.io/manual) will be explained in a future post.
+Many log shippers can also add metadata such as pod labels and annotations to each log. For that, the shipper needs permission to read from the Kubernetes API, usually through a [ClusterRole](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) bound to its service account. [This Fluent Bit ClusterRole](https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/clusterrole.yaml) is an example. I'll cover metadata enrichment with Fluent Bit in a future post.
+
+Once the logs are flowing, two problems usually come next. Fluent Bit can deliver a log more than once, which I address in [Generating Log IDs with SHA-256 Hashes](/blog/2025/2025-06-19-fluentbit-log-dedup.md). And teams start counting log lines to build dashboards, which I argue against in [Stop Extracting Metrics from OpenSearch Logs](/blog/2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs.md).
+
+## Key Takeaways
+
+- The container runtime writes each container's stdout and stderr to `/var/log/pods/<namespace>_<pod>_<uid>/<container>/<restart-count>.log` on the node.
+- Each restart writes a new file. `kubectl logs --previous` reads the log of the previous run.
+- `/var/log/containers/` holds symbolic links to the current log file of each container, for log shippers.
+- Each line follows the CRI format `<timestamp> <stream> <flags> <message>`. `P` marks a chunk of a line longer than the runtime's limit, and `F` marks the end.
+- The kubelet rotates container logs with `containerLogMaxSize` and `containerLogMaxFiles`. Don't use logrotate on these files.
+- Ship logs with a DaemonSet that mounts the node's `/var/log`, not only `/var/log/containers`, because the links point into `/var/log/pods`.
 
 ## References
 
-- <http://kubernetes.io/docs/user-guide/kubectl/kubectl_logs/>
-- <https://github.com/containerd/containerd/blob/main/docs/man/containerd-config.toml.5.md>
-- <https://github.com/kubernetes/release/blob/cd53840/cmd/krel/templates/latest/kubelet/kubelet.service>
-- <https://docs.docker.com/engine/admin/logging/overview/>
-- <https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md>
-- <https://github.com/kubernetes/kubernetes/issues/17183>
-- <https://github.com/kubernetes/kubernetes/issues/24677>
-- <https://github.com/kubernetes/kubernetes/issues/30709>
-- <https://github.com/kubernetes/kubernetes/issues/31459>
-- <https://github.com/kubernetes/kubernetes/pull/13010>
-- <https://github.com/kubernetes/kubernetes/pull/33111>
-- <https://kubernetes.io/docs/concepts/cluster-administration/logging/>
-- <https://en.wikipedia.org/wiki/Standard_streams>
+- [Logging architecture (Kubernetes)](https://kubernetes.io/docs/concepts/cluster-administration/logging/)
+- [Container Runtime Interface (Kubernetes)](https://kubernetes.io/docs/concepts/architecture/cri/)
+- [CRI logging design proposal (Kubernetes)](https://github.com/kubernetes/design-proposals-archive/blob/main/node/kubelet-cri-logging.md)
+- [Kubelet configuration (Kubernetes)](https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/)
+- [DaemonSet (Kubernetes)](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)
+- [kubectl logs (Kubernetes)](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/)
+- [Tail input (Fluent Bit)](https://docs.fluentbit.io/manual/pipeline/inputs/tail)
+- [containerd configuration (containerd)](https://github.com/containerd/containerd/blob/main/docs/man/containerd-config.toml.5.md)
+- [Standard streams (Wikipedia)](https://en.wikipedia.org/wiki/Standard_streams)
+
+*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+
+---
+
+```{raw} html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging",
+      "description": "Where Kubernetes stores container logs, how kubectl logs and log shippers read them, the CRI log line format, how the kubelet rotates log files, and how to ship pod logs with a Fluent Bit DaemonSet.",
+      "datePublished": "2025-06-22",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified/",
+      "keywords": ["Kubernetes", "pod logs", "kubectl logs", "CRI", "log rotation", "Fluent Bit"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Kubernetes Logs Simplified: Everything You Need to Know About Pod Logging"}
+      ]
+    }
+  ]
+}
+</script>
+```
