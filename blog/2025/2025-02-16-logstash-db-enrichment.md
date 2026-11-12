@@ -177,7 +177,9 @@ Don't forget to check out the lab: <i class="fab fa-github fa-fade"></i> [github
 - [Opening databases: PostgreSQL options (Sequel)](https://github.com/jeremyevans/sequel/blob/master/doc/opening_databases.rdoc#label-postgres)
 - [Docker Compose lab for this post (GitHub)](https://github.com/c-neto/my-devops-labs/tree/main/logstash/db-enrichment)
 
-*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

@@ -189,7 +189,9 @@ Once the logs are flowing, two problems usually come next. Fluent Bit can delive
 - [containerd configuration (containerd)](https://github.com/containerd/containerd/blob/main/docs/man/containerd-config.toml.5.md)
 - [Standard streams (Wikipedia)](https://en.wikipedia.org/wiki/Standard_streams)
 
-*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

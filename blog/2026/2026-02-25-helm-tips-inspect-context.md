@@ -305,7 +305,9 @@ If you're designing a chart from scratch, [Helm Charts: Development Practices fr
 - [YAML extension for VS Code (Red Hat)](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
 - [Helm plugin (JetBrains)](https://www.jetbrains.com/help/idea/helm.html)
 
-*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

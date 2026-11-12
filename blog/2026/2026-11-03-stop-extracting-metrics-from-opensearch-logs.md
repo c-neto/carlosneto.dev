@@ -236,7 +236,9 @@ Part of getting there is organizational. Good observability is a partnership bet
 - [Logfmt parser (Fluent Bit)](https://docs.fluentbit.io/manual/data-pipeline/parsers/logfmt)
 - [Prometheus exporter output (Fluent Bit)](https://docs.fluentbit.io/manual/data-pipeline/outputs/prometheus-exporter)
 
-*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

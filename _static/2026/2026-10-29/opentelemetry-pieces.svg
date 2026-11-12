@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 340" width="960" height="340" role="img" aria-labelledby="t d">
   <title id="t">The pieces of OpenTelemetry, from the application to the backends</title>
-  <desc id="d">Inside the application, your code calls the OpenTelemetry API and the OpenTelemetry SDK, with instrumentation libraries, processes and exports the data. The SDK sends it over the OTLP protocol to the OpenTelemetry Collector, which receives, processes, and exports it. The Collector sends the data to backends such as Prometheus, Datadog, Jaeger, and OpenSearch, which are not part of OpenTelemetry.</desc>
+  <desc id="d">Inside the application, your code calls the OpenTelemetry API and the OpenTelemetry SDK, with instrumentation libraries, processes and exports the data. The SDK sends it over the OTLP protocol, usually to the optional OpenTelemetry Collector, which receives, processes, and exports it. The Collector sends the data to backends such as Prometheus, Datadog, Jaeger, and OpenSearch, which are not part of OpenTelemetry.</desc>
   <defs>
     <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3b82f6"/></marker>
     <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
@@ -34,7 +34,7 @@
 
     <!-- collector -->
     <rect x="390" y="60" width="240" height="245" rx="12" fill="none" stroke="#3b82f6" stroke-width="2"/>
-    <text x="510" y="84" text-anchor="middle" font-weight="700" fill="#3b82f6">OTel Collector</text>
+    <text x="510" y="84" text-anchor="middle" font-weight="700" fill="#3b82f6">OTel Collector <tspan font-weight="400" font-size="12" fill="#64748b">(optional)</tspan></text>
     <g fill="none" stroke="#3b82f6" stroke-width="1.5">
       <rect x="410" y="98" width="200" height="44" rx="8"/>
       <rect x="410" y="160" width="200" height="44" rx="8"/>

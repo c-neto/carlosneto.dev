@@ -129,7 +129,9 @@ I'd like to see per-tier watermark configuration in OpenSearch. Until that happe
 - [Shard allocation filtering (OpenSearch)](https://docs.opensearch.org/latest/api-reference/index-apis/shard-allocation/)
 - [Dashboards multi-tenancy: tenant indexes (OpenSearch)](https://docs.opensearch.org/latest/security/multi-tenancy/tenant-index/)
 
-*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

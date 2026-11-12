@@ -143,7 +143,9 @@ When a chart grows, debugging what the templates receive becomes the hard part. 
 - [The Twelve-Factor App (12factor.net)](https://12factor.net/)
 - [Bitnami Common library chart (GitHub)](https://github.com/bitnami/charts/tree/main/bitnami/common)
 
-*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

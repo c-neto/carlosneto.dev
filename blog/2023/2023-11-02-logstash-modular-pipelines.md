@@ -118,7 +118,9 @@ If you are sending these logs to OpenSearch, two related posts may help: [Logsta
 - [Using environment variables (Logstash)](https://www.elastic.co/guide/en/logstash/current/environment-variables.html)
 - [Docker Compose lab for this post (GitHub)](https://github.com/c-neto/my-devops-labs/tree/main/blog/2023-11-12/)
 
-*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

@@ -152,9 +152,7 @@ The right approach depends on the operation and on whether the disk survives the
 |---|---|---|
 | Remove nodes (scale down) | Pattern 1: drain, then remove | Pattern 1: drain, then remove |
 | Change the instance type (resize) | Rolling replacement that reattaches the volume, or Pattern 2 | Pattern 2: Blue/Green |
-
 ---
-
 <img src="/_static/2026/2026-11-10/opensearch-scale-down-patterns.svg" alt="Diagram of the two OpenSearch patterns: draining and scaling down a StatefulSet, and migrating shards from a blue node set to a green node set" loading="lazy" width="960" height="300" style="max-width: 100%; height: auto;">
 
 ## Pattern 1: Scale Down by Draining
@@ -351,7 +349,9 @@ PUT /_cluster/settings
 - [CAT shards (OpenSearch)](https://docs.opensearch.org/latest/api-reference/cat/cat-shards/)
 - [StatefulSets (Kubernetes)](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/)
 
-*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

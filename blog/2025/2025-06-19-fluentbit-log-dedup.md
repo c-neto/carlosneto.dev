@@ -160,7 +160,9 @@ The Tail input in these examples reads the container log files that Kubernetes w
 - [Fingerprint processor (OpenSearch)](https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/)
 - [Docker Compose lab for this post (GitHub)](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml)
 
-*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

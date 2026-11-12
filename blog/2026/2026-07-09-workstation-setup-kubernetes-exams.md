@@ -176,7 +176,9 @@ ssh cks1234
 - [Options: cursorcolumn (Vim documentation)](https://vimdoc.sourceforge.net/htmldoc/options.html#'cursorcolumn')
 - [Vim cheat sheet (vim.rtorr.com)](https://vim.rtorr.com/)
 
-*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+---
+
+> *I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 

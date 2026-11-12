@@ -36,13 +36,15 @@ Imagine fifty services instrumented with the Datadog library, and the company de
 
 **OpenTelemetry** is an open standard, with official tools, for producing and moving telemetry data: metrics, traces, and logs. People often call it OTel. It covers everything between your code and the backend, but not the backend itself. Storage and dashboards stay with whatever tool you choose.
 
-<img src="/_static/2026/2026-10-29/opentelemetry-pieces.svg" alt="Diagram of OpenTelemetry's pieces: the application code calls the OTel API, the OTel SDK sends data over OTLP to the OTel Collector, which exports it to backends such as Prometheus, Datadog, Jaeger, and OpenSearch, which are not part of OpenTelemetry" loading="lazy">
+<img src="/_static/2026/2026-10-29/opentelemetry-pieces.svg" alt="Diagram of OpenTelemetry's pieces: the application code calls the OTel API, the OTel SDK sends data over OTLP to an optional OTel Collector, which exports it to backends such as Prometheus, Datadog, Jaeger, and OpenSearch, which are not part of OpenTelemetry" loading="lazy">
 
 In plain terms, it has three parts:
 
 - **In your application**: an API that your code calls to say _what_ to measure, and an SDK that decides _how_ to process and send it. Your code depends only on the API, so it never mentions a vendor.
 - **On the wire**: **OTLP** is the OpenTelemetry Protocol, one standard format for all telemetry, which most observability vendors accept.
-- **In your infrastructure**: the **Collector** is a service that receives the data and forwards it to one or more backends. Changing backends means changing its configuration, not your services.
+- **In your infrastructure, optionally**: the **Collector** is a service that receives the data and forwards it to one or more backends.
+
+The Collector is not required. The SDK can send OTLP straight to any backend that accepts it, and changing that backend means changing the SDK's exporter configuration, usually an environment variable, not your code. The Collector earns its place when you want one place, outside your services, to decide where the data goes and what happens to it on the way.
 
 A comparison that helps developers: JDBC in Java, or the DB-API in Python. Your code talks to one standard interface, and the database behind it can be swapped. OpenTelemetry does the same for telemetry.
 
@@ -52,11 +54,11 @@ OpenTelemetry pays off most in microservice architectures, where many services, 
 
 A payment request might cross an API in Python, a fraud check in Java, and a gateway in Go. With OpenTelemetry, all of them instrument the same way, use the same attribute names, and pass the same request context to each other, so one trace follows the request across every service. When something fails, you can go from a latency spike on a dashboard to the exact request and the service that slowed it down, because metrics, traces, and logs can share that context: logs emitted through OpenTelemetry carry the trace ID, and metrics can point to sample traces.
 
-The Collector also becomes the one place to apply rules for every service: remove sensitive data, drop noisy telemetry to control cost, add Kubernetes metadata, or send the same data to two backends during a migration.
+That's also where the Collector pays off, as the one place to apply rules for every service: remove sensitive data, drop noisy telemetry to control cost, add Kubernetes metadata, or send the same data to two backends during a migration.
 
 ## The Cost: OpenTelemetry Is Not Simple
 
-All of that comes with complexity. There are new concepts to learn (API, SDK, exporters, resources, context propagation), SDKs to configure in every service, and a Collector to deploy, scale, and monitor. The specification is large, and some parts are newer than others in some languages. It also takes agreement between teams: instrumentation only pays off when every service follows the same conventions.
+All of that comes with complexity. There are new concepts to learn (API, SDK, exporters, resources, context propagation), SDKs to configure in every service, and, once you adopt it, a Collector to deploy, scale, and monitor. The specification is large, and some parts are newer than others in some languages. It also takes agreement between teams: instrumentation only pays off when every service follows the same conventions.
 
 For a large system, that cost is small next to what you gain. For a small one, it can be more machinery than the problem needs.
 
@@ -70,14 +72,13 @@ For a large system, that cost is small next to what you gain. For a small one, i
 
 OpenTelemetry isn't something to adopt everywhere by default. It's the right tool when you have many business services, several teams, and a real need to follow requests across them or to keep your options open on vendors. In that scenario, the separation it brings is what I value most: the application team says what to measure, and the platform team decides where the data goes, without either waiting on the other.
 
-If you want to see it in code, [Instrumenting a Python Application with OpenTelemetry](/blog/2026/2026-11-12-otel-python-instrumentation.md) builds a small service step by step and switches it from Prometheus to Datadog without touching the application. And whatever you choose, emit metrics as metrics instead of counting log lines later, as I explain in [Stop Extracting Metrics from OpenSearch Logs](/blog/2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs.md).
-
 ## Key Takeaways
 
 - OpenTelemetry is an open standard plus tools for producing and moving telemetry. It is not a backend.
-- Your code depends only on its API, data travels over OTLP, and the Collector decides where it goes, so changing vendors doesn't mean changing code.
+- Your code depends only on its API and data travels over OTLP, so changing vendors means changing configuration, not code.
+- The Collector is optional. The SDK can export straight to a backend; add the Collector when you need central routing and processing.
 - It shines in microservices: many services, languages, and teams sharing one way to instrument and one trace per request.
-- It adds real complexity: new concepts, SDK configuration in every service, and a Collector to operate.
+- It adds real complexity: new concepts, SDK configuration in every service, and possibly a Collector to operate.
 - For small, simple systems, a Prometheus client and a Prometheus server are enough.
 - Use it for your own business services. For off-the-shelf software such as Logstash or PostgreSQL, scrape the metrics they already expose with Prometheus.
 
@@ -89,8 +90,11 @@ If you want to see it in code, [Instrumenting a Python Application with OpenTele
 - [Context propagation (OpenTelemetry)](https://opentelemetry.io/docs/concepts/context-propagation/)
 - [Instrumentation and exporters (Prometheus)](https://prometheus.io/docs/instrumenting/exporters/)
 - [OpenTelemetry project page (CNCF)](https://www.cncf.io/projects/opentelemetry/)
+---
+> 
+---
 
-*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+> *I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 
