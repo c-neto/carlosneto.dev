@@ -2,6 +2,14 @@
 tags: helm
 date: "2026-02-25"
 category: Kubernetes
+author: Carlos Neto
+title: "Helm Tips: Inspect Your Chart Context with JSON"
+description: "Helm has no real debugger, so dump the whole chart context (Values, Chart, Release, Capabilities, Files) as JSON with toPrettyJson and helm template to see exactly what your templates can access."
+myst:
+  html_meta:
+    description: "Helm has no real debugger, so dump the whole chart context (Values, Chart, Release, Capabilities, Files) as JSON with toPrettyJson and helm template to see exactly what your templates can access."
+og:title: "Helm Tips: Inspect Your Chart Context with JSON"
+og:description: "Helm has no real debugger, so dump the whole chart context (Values, Chart, Release, Capabilities, Files) as JSON with toPrettyJson and helm template to see exactly what your templates can access."
 ---
 
 *__Blog Post Publish Date:__ 2026/02/25*
@@ -10,41 +18,46 @@ category: Kubernetes
 
 # Helm Tips: Inspect Your Chart Context with JSON
 
-Debugging Helm charts can be frustrating when starting out, especially if you come from programming languages with debuggers and IDE auto-completion that provide a smoother development experience. It is common to face issues when you create a template that tries to access a parameter defined in the `.Values` files, and for any reason, whether a syntax error or typo, the `$ helm template` command fails, and the stack trace shows confusing messages that don't point to the root cause. This blog post provides an alternative approach to inspect the Helm Chart context with JSON, helping you understand how to access chart properties for use in your templates.
+This blog post shows a simple way to debug Helm charts: dump the entire chart context as JSON and look at exactly what your templates can access. It helps most when `$ helm template` fails with a message that doesn't point to the real problem, such as a typo in a `.Values` path.
+
+Debugging Helm charts is frustrating at first, especially if you come from programming languages with debuggers and IDE auto-completion. A template that reads a wrong `.Values` key, because of a typo or a wrong nesting level, often fails with an error far from the root cause.
 
 ## Are There IDEs for Helm Charts?
 
-Unfortunately, there is no definitive IDE specifically for Helm. There are plugins for VSCode and JetBrains IDEA that provide some tooling for auto-completion, but they don't come close to the code experience available with popular programming languages like Python and Java. I use VSCode's [Kubernetes (by Microsoft)](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools) + [YAML (by Red Hat)](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml), which helps avoid typos in `.Values` usage and checks available Go template functions. However, there are limitations, some variables are omitted in auto-complete, which diminishes the experience. I tried the [JetBrains Helm Plugin](https://www.jetbrains.com/help/idea/helm.html), but it doesn't work as simply as the _.gif_ present in the Plugin page shows. Additionally, the Kubernetes plugin is not available in IntelliJ IDEA without an Ultimate subscription.
+Unfortunately, there is no IDE built for Helm. VS Code and JetBrains IDEA have plugins with some auto-completion, but nothing close to what you get with languages such as Python and Java.
 
-## Debug the Right Way!
+I use VS Code with [Kubernetes (by Microsoft)](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools) and [YAML (by Red Hat)](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml). They help avoid typos in `.Values` and show the available Go template functions, but some variables are missing from auto-completion. I also tried the [JetBrains Helm plugin](https://www.jetbrains.com/help/idea/helm.html), but it didn't work as smoothly as the animation on its page suggests, and the Kubernetes plugin requires an IntelliJ IDEA Ultimate subscription.
 
-As an alternative to lacks a robust auto-completion, you can dump the entire Helm Chart context in JSON format to understand the Values references, Chart and Subchart metadata, and available static files.
+## Dump the Chart Context as JSON
 
-Let's get started. First, create a Helm Chart called `foobar`.
+Since the tooling falls short, I use another approach: render the whole Helm chart context as JSON. The **chart context** is the root object (`.`) that every template receives. It holds `.Values`, the chart and subchart metadata, release information, cluster capabilities, and the chart's files.
+
+First, create a chart called `foobar` and enter its directory:
 
 ```bash
 helm create foobar
+cd foobar
 ```
 
-Now, create a template named `debug.yaml`:
+Then create a template named `debug.yaml`:
 
 ```bash
 vim templates/debug.yaml
 ```
 
-The `debug.yaml` file should contain:
+With this content. [`toPrettyJson`](https://helm.sh/docs/chart_template_guide/function_list/#toprettyjson) is a template function that converts any object to indented JSON:
 
 ```yaml
 {{ . | toPrettyJson }}
 ```
 
-Now, render only the `debug.yaml` template:
+Now render only that template. [`helm template`](https://helm.sh/docs/helm/helm_template/) with `-s` (`--show-only`) renders a single file, `tail -n +3` drops the `---` separator and the `# Source:` comment that Helm adds, and `jq` formats the result:
 
 ```bash
 helm template -s templates/debug.yaml . | tail -n +3 | jq
 ```
 
-The output shows the Helm Chart context with all variables available in your templates.
+The output is the full context, with every variable your templates can use. The [built-in objects](https://helm.sh/docs/chart_template_guide/builtin_objects/) page documents each one:
 
 ```json
 {
@@ -250,4 +263,84 @@ The output shows the Helm Chart context with all variables available in your tem
     "volumes": []
   }
 }
+```
+
+A few things stand out in this output. For example, `Capabilities.APIVersions` lists the APIs you can check with `.Capabilities.APIVersions.Has`, `Chart` shows the metadata from `Chart.yaml` with Go-style capitalized names, and `Files` holds the content of every non-template file in the chart, base64-encoded in this dump.
+
+## Inspect Only What You Need
+
+The full context is long. To focus on one part, pipe only that object to `toPrettyJson`. For example, to see the merged values after applying a values file:
+
+```yaml
+{{ .Values | toPrettyJson }}
+```
+
+```bash
+helm template -s templates/debug.yaml . -f values-prod.yaml | tail -n +3 | jq
+```
+
+This is the fastest way I know to check what a chart actually receives after values files, `--set` flags, and subchart values are merged.
+
+## Remove the Debug Template When You Are Done
+
+`debug.yaml` is a regular template, so `helm install` and `helm upgrade` would render it too, and its JSON is not a valid Kubernetes manifest. Delete it after debugging, or keep it out of the release with a condition such as `{{- if .Values.debug }}`.
+
+If you're designing a chart from scratch, [Helm Charts: Development Practices from a Programmer's Perspective](/blog/2025/2025-02-25-helm-best-practices.md) covers how I decide what to template and what not to. I also template Logstash pipelines with Helm, as I show in [Logstash DB Enrichment](/blog/2025/2025-02-16-logstash-db-enrichment.md).
+
+## Key Takeaways
+
+- Helm has no real debugger, and IDE plugins only partly auto-complete chart variables.
+- `{{ . | toPrettyJson }}` in a template renders the whole chart context as JSON.
+- `helm template -s templates/debug.yaml . | tail -n +3 | jq` renders only that template and formats the output.
+- The context has `Values`, `Chart`, `Release`, `Capabilities`, `Files`, `Subcharts`, and `Template`.
+- Dump `.Values` alone to check the final merged values after values files and `--set`.
+- Delete the debug template, or guard it with a condition, before installing the chart.
+
+## References
+
+- [Built-in objects (Helm)](https://helm.sh/docs/chart_template_guide/builtin_objects/)
+- [Template function list: toPrettyJson (Helm)](https://helm.sh/docs/chart_template_guide/function_list/#toprettyjson)
+- [helm template (Helm)](https://helm.sh/docs/helm/helm_template/)
+- [Kubernetes extension for VS Code (Microsoft)](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools)
+- [YAML extension for VS Code (Red Hat)](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
+- [Helm plugin (JetBrains)](https://www.jetbrains.com/help/idea/helm.html)
+
+*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+
+---
+
+```{raw} html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Helm Tips: Inspect Your Chart Context with JSON",
+      "description": "Helm has no real debugger, so dump the whole chart context (Values, Chart, Release, Capabilities, Files) as JSON with toPrettyJson and helm template to see exactly what your templates can access.",
+      "datePublished": "2026-02-25",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-02-25-helm-tips-inspect-context/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-02-25-helm-tips-inspect-context/",
+      "keywords": ["Helm", "Helm template", "toPrettyJson", "debugging", "Kubernetes"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Helm Tips: Inspect Your Chart Context with JSON"}
+      ]
+    }
+  ]
+}
+</script>
 ```

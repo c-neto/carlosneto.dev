@@ -2,6 +2,14 @@
 tags: fluent-bit, logs
 date: "2025-06-19"
 category: Observability
+author: Carlos Neto
+title: "Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication"
+description: "Why Fluent Bit can deliver the same log more than once, why deduplication needs an ID derived from the log content, and how to build a SHA-256 log ID with only native Fluent Bit processors."
+myst:
+  html_meta:
+    description: "Why Fluent Bit can deliver the same log more than once, why deduplication needs an ID derived from the log content, and how to build a SHA-256 log ID with only native Fluent Bit processors."
+og:title: "Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication"
+og:description: "Why Fluent Bit can deliver the same log more than once, why deduplication needs an ID derived from the log content, and how to build a SHA-256 log ID with only native Fluent Bit processors."
 ---
 
 *__Blog Post Publish Date:__ 2025/06/19*
@@ -10,27 +18,29 @@ category: Observability
 
 # Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication
 
-This post explores the root causes of log duplication, the necessity of generating unique log identifiers, and how to leverage Fluent Bit’s native capabilities to create SHA-256 hashes for effective deduplication without relying on external scripts or plugins.
+This blog post explains why Fluent Bit can deliver the same log more than once, and why deduplication needs a unique ID derived from the log content. It then shows how to generate a SHA-256 hash of each log line with only native Fluent Bit features, without external scripts or plugins.
 
-## Why Do Duplicate Logs Occur in Fluent Bit?
+## Why Fluent Bit Delivers Duplicate Logs
 
-I encountered issues with duplicated logs being indexed in OpenSearch by Fluent Bit. After some research, I concluded that currently, Fluent Bit, when using the [Tail](https://docs.fluentbit.io/manual/pipeline/inputs/tail) input, offers features designed for the __At Least Once__ delivery strategy. This means that a message may be delivered one or more times, potentially causing duplication. It does not support __Exactly Once__ or __At Most Once__ strategies, where a message is delivered only once or at most once, respectively.
+I ran into duplicated logs indexed in OpenSearch by Fluent Bit. After some research, I concluded that with the [Tail](https://docs.fluentbit.io/manual/pipeline/inputs/tail) input, Fluent Bit follows an **at-least-once** delivery strategy: a message is delivered one or more times, so duplicates can happen. It does not offer **exactly-once** delivery (each message delivered once) or **at-most-once** delivery (each message delivered once or not at all).
 
-There are several variables that can contribute to this behavior. For example, when using the [Tail](https://docs.fluentbit.io/manual/pipeline/inputs/tail) input plugin, even if you use an SQL database with `DB On` parameter, you may still experience duplicate logs. This is because the database only persists the file reading offset, not the delivery status for each configured [Output](https://docs.fluentbit.io/manual/pipeline/outputs). 
+Several things contribute to this. For example, the Tail input can store its state in a database with `DB On`, and you can still get duplicates. The database only stores the read offset of each file, not whether each [output](https://docs.fluentbit.io/manual/pipeline/outputs) received the record.
 
-I plan to write a separate blog post with more details about how Fluent Bit manages log delivery state (_chunk, buffering, SQL Lite, Storage Type_). For now, it's important to understand that in certain scenarios such as output unavailability and Fluent Bit restarts—duplication can occur. This is expected behavior and not necessarily a problem, especially when multiple [Output](https://docs.fluentbit.io/manual/pipeline/outputs) configurations are used.
+I plan to write a separate post about how Fluent Bit tracks delivery state (chunks, buffering, SQLite, storage type). For now, the important part is that duplicates can occur in situations such as an unavailable output or a Fluent Bit restart. That is expected behavior, not necessarily a bug, especially with several outputs configured.
 
-## The Importance of Unique Log IDs
+## Why You Need a Unique Log ID
 
-If the delivery strategy is __At Least Once__, generating a unique ID is a hard requirement to avoid duplication at the [Output](https://docs.fluentbit.io/manual/pipeline/outputs) destination. This unique ID should be created based on the log line content. If you are using Logstash and OpenSearch in your log analytics stack, you can generate IDs using the [Logstash Fingerprint filter plugin](https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint) or the [OpenSearch Fingerprint Ingest Pipeline Processor](https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/), both of which create hashes based on specified log field values. Unfortunately, Fluent Bit does not have a specific native filter plugin to create unique IDs. You can use a Lua script or bash script callback for it, but in both cases, the complexity increases and you become dependent on external crypto libraries. However, don't worry, I will show you a workaround to generate a hash from the log line content using only Fluent Bit's native features.
+With at-least-once delivery, a unique ID is a hard requirement to avoid duplicates at the destination. The ID must be derived from the log content, so the same line always gets the same ID. The destination can then overwrite the duplicate instead of storing a second copy.
 
-If you are using Fluent Bit to send logs directly to OpenSearch, you can use the [OpenSearch Output Plugin](https://docs.fluentbit.io/manual/pipeline/outputs/opensearch) with the `Generate_ID On` parameter enabled to generate a unique ID for logs. However, __note that the ID generated by this option will be different even if the one ore more log line content is the same__. The `Generate_ID On` option generates an ID within Fluent Bit only; it does not create a unique ID based on the log content. To avoid duplicate logs, generate a hash-based ID derived from the log content itself.
+If your stack has Logstash or OpenSearch ingest pipelines, the [Logstash fingerprint filter](https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint) and the [OpenSearch fingerprint processor](https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/) both hash selected fields for this. Fluent Bit has no filter dedicated to it. You could use a Lua or shell script callback, but that adds complexity and depends on external crypto libraries. The next section shows a workaround that uses only native Fluent Bit features.
 
-## Generating SHA-256 Hashes for Log Deduplication
+If Fluent Bit sends logs directly to OpenSearch, the [OpenSearch output](https://docs.fluentbit.io/manual/pipeline/outputs/opensearch) has a `Generate_ID On` option. __The ID it generates is not derived from the log line alone__, so the same line read twice, for example after a restart, can get a different ID and still be stored twice. To deduplicate, generate the ID from the log content yourself.
 
-I reviewed the available Fluent Bit filter plugins and did not find any that generate hash values based on a log key. However, I discovered a [Processor Content Modifier Action](https://docs.fluentbit.io/manual/pipeline/processors/content-modifier) called [hash](https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example). This action takes a log event key as an argument and replaces its value with a SHA-256 hash. While this feature is primarily intended for masking sensitive data such as passwords and PII, it can also be used to generate unique identifiers for log events. 
+## Generating SHA-256 Hashes with Native Processors
 
-The __key insight__ is to copy the log line content to a new key and hash this new field, keeping the original log line content intact and using the hashed field as the log ID. Check example:
+I reviewed the Fluent Bit filters and found none that hash a field. Then I found the [content modifier processor](https://docs.fluentbit.io/manual/pipeline/processors/content-modifier) and its [`hash`](https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example) action. A **processor** is a step attached directly to an input or output in the YAML configuration. The `hash` action takes a record key and replaces its value with its SHA-256 hash. It's meant for masking sensitive data such as passwords and PII, but it also works for building log IDs.
+
+The __key idea__ is to copy the log line to a new key and hash that copy. The original log line stays intact, and the hashed field becomes the log ID. For example:
 
 ```{code-block} yaml
 :caption: [/fluent-bit/fluent-bit.yaml](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/fluent-bit.yaml)
@@ -81,7 +91,7 @@ pipeline:
 
 ```
 
-The output is like:
+The output looks like this. The same line always gets the same `_id`:
 
 ```json
 {
@@ -106,7 +116,7 @@ The output is like:
 }
 ```
 
-The [hash](https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example) action takes the binary value of the log line, applies the SHA-256 algorithm, and outputs the result as a hexadecimal string. Below is a Python script that performs the same hashing process as Fluent Bit.
+The `hash` action takes the bytes of the log line, applies SHA-256, and writes the result as a hexadecimal string. This Python snippet produces the same hash as Fluent Bit:
 
 ```python
 import hashlib
@@ -120,16 +130,72 @@ print(log_line_in_sha256_hexa_decimal)
 >>> "19a93f55808eb5478c65813c028045f1b354abe12790eb8aee0dd825697aa93e"
 ```
 
-Now, you can use the `_id` as log unique ID field!
+## Using the Hash as the Document ID
+
+Identical log lines always produce the same hash, so the destination can detect the duplicate. Because the raw container log line includes a nanosecond timestamp, two different events almost never share the same content.
+
+To use the hash as the document ID in OpenSearch, point the OpenSearch output's [`Id_Key`](https://docs.fluentbit.io/manual/pipeline/outputs/opensearch) option at the hashed field. A retried or re-read log then overwrites the existing document instead of creating a new one. OpenSearch treats `_id` as a metadata field and rejects it inside the document body, so in a real pipeline give the hashed field another name, such as `log_id`, and set `Id_Key log_id`.
 
 :::{note}
-You can find a complete, working example of this configuration in my Docker Compose lab repository: <i class="fab fa-github"></i> [github.com/c-neto/my-devops-labs/blog/2025-06-19/docker-compose.yml](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/)
+A complete, working example of this configuration is in my Docker Compose lab: <i class="fab fa-github"></i> [github.com/c-neto/my-devops-labs/blog/2025-06-19](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/)
 :::
+
+The Tail input in these examples reads the container log files that Kubernetes writes under `/var/log/containers/`. I explain how those files are created and rotated in [Kubernetes Logs Simplified](/blog/2025/2025-06-22-kubernetes-logs-simplified.md). Processors can also turn logs into metrics during ingestion, as I show in [Stop Extracting Metrics from OpenSearch Logs](/blog/2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs.md).
+
+## Key Takeaways
+
+- With the Tail input, Fluent Bit delivers at least once, so duplicates are expected after output failures or restarts.
+- `DB On` stores file offsets, not per-output delivery status, so it doesn't prevent duplicates.
+- Deduplication needs an ID derived from the log content. `Generate_ID On` isn't derived from the log line alone.
+- Copy the log line to a new key with `modify`, then hash it with the `content_modifier` processor's `hash` action to get a SHA-256 ID.
+- Processors on inputs are only available in the YAML configuration format.
+- Use the hashed field as the OpenSearch document ID with `Id_Key`, and don't name it `_id`, because OpenSearch rejects that field in the document body.
 
 ## References
 
-- Docker-Compose Lab: <https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml>
-- Logstash Fingerprint Filter Plugin: <https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint>
-- OpenSearch Fingerprint Ingest Pipeline Processor: <https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/>
-- Fluent Bit Processors Reference: <https://docs.fluentbit.io/manual/pipeline/processors/content-modifier>
-- Fluent Bit Hash Example: <https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example>
+- [Content modifier processor: hash (Fluent Bit)](https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example)
+- [Tail input (Fluent Bit)](https://docs.fluentbit.io/manual/pipeline/inputs/tail)
+- [OpenSearch output (Fluent Bit)](https://docs.fluentbit.io/manual/pipeline/outputs/opensearch)
+- [Fingerprint filter plugin (Logstash)](https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint)
+- [Fingerprint processor (OpenSearch)](https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/)
+- [Docker Compose lab for this post (GitHub)](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml)
+
+*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+
+---
+
+```{raw} html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication",
+      "description": "Why Fluent Bit can deliver the same log more than once, why deduplication needs an ID derived from the log content, and how to build a SHA-256 log ID with only native Fluent Bit processors.",
+      "datePublished": "2025-06-19",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/",
+      "keywords": ["Fluent Bit", "log deduplication", "SHA-256", "OpenSearch", "at-least-once delivery"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplication"}
+      ]
+    }
+  ]
+}
+</script>
+```

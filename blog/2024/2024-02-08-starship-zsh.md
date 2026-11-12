@@ -2,6 +2,14 @@
 tags: zsh, starship, terminal
 date: "2024-02-08"
 category: Linux
+author: Carlos Neto
+title: "ZSH + Starship: A Productivity Masterpiece"
+description: "My path from Bash through xonsh, oh-my-zsh, and Fish to ZSH with Starship: the plugins and setopt options I rely on, my minimal Starship prompt, and a step-by-step guide to reproduce the setup."
+myst:
+  html_meta:
+    description: "My path from Bash through xonsh, oh-my-zsh, and Fish to ZSH with Starship: the plugins and setopt options I rely on, my minimal Starship prompt, and a step-by-step guide to reproduce the setup."
+og:title: "ZSH + Starship: A Productivity Masterpiece"
+og:description: "My path from Bash through xonsh, oh-my-zsh, and Fish to ZSH with Starship: the plugins and setopt options I rely on, my minimal Starship prompt, and a step-by-step guide to reproduce the setup."
 ---
 
 *__Blog Post Publish Date:__ 2024/02/08*
@@ -10,61 +18,53 @@ category: Linux
 
 # ZSH + Starship: A Productivity Masterpiece
 
-This blog post covers my prompt customization experience, favorite [ZSH](https://www.zsh.org/) Plugins, [ZSH options](https://zsh.sourceforge.io/Doc/Release/Options.html), and [Starship](https://starship.rs/) configuration. Finally, I introduce a simple guide to configure my custom theme from scratch.
+This blog post covers how I ended up with [ZSH](https://www.zsh.org/) and [Starship](https://starship.rs/) as my terminal setup. It walks through the shells I tried along the way, my favorite ZSH plugins and [ZSH options](https://zsh.sourceforge.io/Doc/Release/Options.html), my minimal Starship configuration, and a step-by-step guide to reproduce it from scratch.
 
-## My Prompts Customization Experiences
+## The Shells I Tried
 
-Productivity is a topic that I definitely like. For long time, I used the raw Terminal over Bash, It is force me to memorize the commands, but the productivity is not so good. I felt that I need to improve my Terminal setup to focus in productivity.
+Productivity is a topic I really enjoy. For a long time, I used a plain Bash terminal. It forced me to memorize commands, but it did not make me productive, so I decided to improve my setup.
 
 ### __xonsh__: Python + Bash Advantages (_and Disadvantages_)
 
-Due to my expertise in Python, I have been testing [xonsh](https://xon.sh/) for approximately six months. The xonsh is a superset of Python that includes additional shell primitives familiar to Bash users. The combination of Bash and Python enhances productivity by blending the simplicity of Python syntax with the versatility of Bash. However, debugging can be challenging (_imagine a list comprehension in Python syntax combined with dictionaries and environment variables in Bash syntax_).
+Because I work a lot with Python, I used [xonsh](https://xon.sh/) for about six months. **xonsh** is a superset of Python with extra shell primitives that Bash users already know. Mixing Python syntax with Bash commands is productive, but debugging can get hard. Imagine a Python list comprehension combined with dictionaries and Bash environment variables in the same line.
 
-### __zsh__: Extensible and Product Ready (_If Customized_)
+### __zsh__: Extensible and Production-Ready (_If Customized_)
 
-I needed come back the real world again, then I gave a chance for ZSH, a advanced and highly customizable command-line interface with enhanced productivity features and a large Plugins. It greatly appealed to me, mainly when I tested the [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt) a _"minimalistic, powerful and extremely customizable ZSH prompt"_, and the [oh-my-zsh](https://ohmyz.sh/) framework that provides a simple way to manage Plugins and Themes. I believed I had reached a stable terminal configuration with a good balance between productivity and simplicity, but in the MacOs workstation, the input and startup delay of the commands got on my nerves.
+I wanted to come back to a more conventional shell, so I gave ZSH a chance. **ZSH** is a highly customizable shell with a large plugin ecosystem. It won me over, especially with [Spaceship](https://github.com/spaceship-prompt/spaceship-prompt), a _"minimalistic, powerful and extremely customizable ZSH prompt"_, and [oh-my-zsh](https://ohmyz.sh/), a framework that manages plugins and themes. I thought I had found a stable balance between productivity and simplicity, but on my macOS workstation, the input and startup delay got on my nerves.
 
-I searched improvements tips in the Blog Posts and Youtube videos, but the result don't satisfied myself. Then, I opted to install the Plugins manually avoiding the _oh-my-zsh_, and I tested the [Starship](https://starship.rs/) (in my words: "_a Spaceship alternative, in Rust, blazing-fast, with many stars in the GitHub_").
+I searched blog posts and YouTube videos for tips, but nothing fixed it. So I installed the plugins manually, without oh-my-zsh, and tried [Starship](https://starship.rs/). In my words, Starship is "_a Spaceship alternative, written in Rust, blazing fast, with many stars on GitHub_".
 
-The results were astonishing. I didn't have to put in any effort to transition my theme configuration from Spaceship to Starship, and the performance is exactly as I expected.
+The results were great. Moving my theme from Spaceship to Starship took almost no effort, and the performance was exactly what I wanted.
 
-### __fish__: Ready to Use (_But non-POSIX Compliant_)
+### __fish__: Ready to Use (_But Not POSIX-Compliant_)
 
-In the past few days, I tried out [Fish](https://fishshell.com/), described as "_a smart and user-friendly command line shell_". I was impressed by its performance and the built-in features in the default setup. _Starship_ also supports _Fish_, earning some positive points from me. I noticed better performance compared to ZSH, and the default configuration already includes features like dynamic syntax checking with color indicators, dynamic autocompletion based on the history file, and menu selection for command options and arguments. It's simple and __Ready to Use__.
+More recently, I tried [Fish](https://fishshell.com/), described as "_a smart and user-friendly command line shell_". Its performance and default features impressed me, and Starship supports it too. Out of the box, Fish already has syntax checking with color indicators, autosuggestions based on history, and a selection menu for command options and arguments. It's simple and ready to use.
 
-However, there's a drawback: Fish is not compliant with the [POSIX sh definition](http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html). For instance, declaring variables using `$ FOOBAR=123` won't work, instead, you should use the correct syntax like `$ set FOOBAR 123`. This lack of compliance with POSIX is a downside for me, as it rules out the possibility of using _Fish_ in my daily work. Nevertheless, if ZSH is not an option, I'd still be willing to use Fish without any issues.
+The drawback is that Fish does not follow the [POSIX sh definition](http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html). For example, `$ FOOBAR=123` does not declare a variable. You have to write `$ set FOOBAR 123` instead. That rules Fish out of my daily work, but if ZSH were not an option, I would happily use it.
 
-## My ZSH Favorite Plugins
+## My Favorite ZSH Plugins
 
-There are numerous plugins available for ZSH. Typically, these plugins are installed and managed by [oh-my-zsh](https://ohmyz.sh/), but you can install them directly, once these plugins are essentially script files with a predefined set of functions and routines.
+ZSH has a huge number of plugins. They are usually installed and managed by [oh-my-zsh](https://ohmyz.sh/), but you can install them directly, because a plugin is just a script file with a set of functions. These are the ones I can't work without.
 
-I will present in the following sub-topics, my indispensable ZSH Plugins.
+### __zsh-autosuggestions__: Remembers Commands for You
 
-### __zsh-autosuggestions__: Dynamic Assistant to Remember Commands
+This is my favorite plugin, no doubt. It copies a Fish feature: as you type, it suggests a completion based on your history.
 
-No doubt, it is my favorite plugin. This plugin emulates the behavior of the _Fish_ shell, suggesting command completions dynamically based on history.
-
-![](/_static/2024/2024-02-08/image-1.png)
+![zsh-autosuggestions suggesting the rest of a command from shell history in gray text](/_static/2024/2024-02-08/image-1.png)
 
 > <i class="fa-solid fa-link"></i> More Details: <https://github.com/zsh-users/zsh-autosuggestions>
 
----
-
 ### __zsh-syntax-highlighting__: Valid Commands by Color
 
-Another Plugin which emulate the _Fish_ shell. When a command is correctly typed, the color turns green. Otherwise, it changes to red. This feature is handy for detecting typos in a dynamic way
+Another plugin inspired by Fish. When a command is typed correctly, it turns green. Otherwise, it turns red, so you catch typos before pressing Enter.
 
-![](/_static/2024/2024-02-08/image-2.png)
+![zsh-syntax-highlighting showing a valid command in green and a mistyped command in red](/_static/2024/2024-02-08/image-2.png)
 
 > <i class="fa-solid fa-link"></i> More Details: <https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/>
 
----
+### __kubectl__: The `k` Alias for kubectl
 
-### __kubectl__: k alias for kubectl
-
-This plugin adds completion for the Kubernetes, as well as some aliases for common kubectl commands.
-
-For example:
+This plugin adds Kubernetes completion and short aliases for common `kubectl` commands. For example:
 
 ```{code-block} bash
 # shortcut for: kubectl get pods
@@ -79,49 +79,45 @@ $ k get cj
 
 > <i class="fa-solid fa-link"></i> More Details: <i class="fab fa-github"></i> [ohmyzsh/ohmyzsh/plugins/kubectl](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl)
 
----
+I use the same kind of aliases when I study for the Kubernetes certifications. My [workstation setup for the CKA, CKAD, and CKS exams](/blog/2026/2026-07-09-workstation-setup-kubernetes-exams.md) covers the ones that save the most time.
 
 ## My Starship Configuration
 
-The simplicity is elegance. I customized my Starship prompt with only attributes of the tools important for me.
+Simplicity is elegance. My Starship prompt shows only the information I care about:
 
-- [aws](https://starship.rs/config/#aws): Only the profile name of the my AWS session;
-- [git](https://starship.rs/config/#git-branch): Only the Branch, no more info;
-- [python](https://starship.rs/config/#python): The current activated virtualenv;
-- [kubernetes](https://starship.rs/config/#kubernetes): The Kubernetes context name. Based on the name, I applied the different styles to explicit the study, tests, and production workloads.
+- [aws](https://starship.rs/config/#aws): only the profile name of my AWS session.
+- [git](https://starship.rs/config/#git-branch): only the branch, nothing else.
+- [python](https://starship.rs/config/#python): the active virtualenv.
+- [kubernetes](https://starship.rs/config/#kubernetes): the Kubernetes context name. I style it differently depending on the name, so study, test, and production clusters are easy to tell apart.
 
-> Check my `~/.config/starship.toml` entire content: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml)
+> My full `~/.config/starship.toml`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml)
 
-## My favorite ZSH options (_setopt_)
+## My Favorite ZSH Options (_setopt_)
 
-Some usually features (like comments, history file) from other shells like _Bash_ or _Fish_ must be explicit enabled in ZSH. These features are enabled by `$ setopt` command in `~/.zshrc`.
+Some features that Bash or Fish have by default, such as comments in the prompt or sharing history, must be enabled explicitly in ZSH. You enable them with `setopt` in `~/.zshrc`. Running `$ set -o` lists every option and whether it's on, and the [ZSH Options Reference](https://zsh.sourceforge.io/Doc/Release/Options.html) describes each one.
 
-You can get all options available in the `$ zle -al` command execution or in the following [ZSH Options Reference](https://zsh.sourceforge.io/Doc/Release/Options.html).
+These are the options I enable:
 
-Check the _ZSH Options_ I have enabled:
+- `INTERACTIVE_COMMENTS`: allows `#` comments in the interactive shell.
+- `APPEND_HISTORY`: appends new entries to the history file instead of overwriting it.
+- `INC_APPEND_HISTORY`: writes each command to the history file as soon as it runs.
+- `HIST_IGNORE_DUPS`: does not record a command that repeats the previous one, which also makes zsh-autosuggestions faster.
+- `HIST_IGNORE_SPACE`: does not record commands that start with a space.
 
-- `INTERACTIVE_COMMENTS`: Enable comments "#" expressions in the prompt shell;
-- `APPEND_HISTORY`: Append new history entries to the history file;
-- `INC_APPEND_HISTORY`: Save each command to the history file as soon as it is executed;
-- `HIST_IGNORE_DUPS`: Ignore recording duplicate consecutive commands in the history (improve the performance of the _zsh-autosuggestions_);
-- `HIST_IGNORE_SPACE`: Ignore commands that start with a space in the history;
+> My full `~/.zshrc`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
 
-> Check my `~/.zshrc` entire content: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
+## How to Set Up My ZSH + Starship From Scratch
 
-## How to Setup My ZSH + Starship From Scratch
+All my dotfiles are on GitHub: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/)
 
-You can check my dotfiles in my GitHub: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/)
-
----
-
-- __1__ _optional_: Save a backup of your current dotfiles (`~/.zshrc` and `~/.zsh_history`):
+- __1__ _optional_: Back up your current dotfiles (`~/.zshrc` and `~/.zsh_history`):
 
 ```{code-block} bash
 $ cp "$HOME/.zshrc" "$HOME/.zshrc.backup"
 $ cp "$HOME/.zsh_history" "$HOME/.zsh_history.backup"
 ```
 
-- __2__: Install the [ZSH](https://www.zsh.org/) with your package manager.
+- __2__: Install [ZSH](https://www.zsh.org/) with your package manager.
 
 ::::{grid}
 
@@ -141,7 +137,7 @@ $ brew install zsh
 
 ::::
 
-- __3__: Install the [Starship](https://starship.rs/):
+- __3__: Install [Starship](https://starship.rs/):
 
 ```{code-block} bash
 $ curl -sS https://starship.rs/install.sh | sh
@@ -149,10 +145,9 @@ $ curl -sS https://starship.rs/install.sh | sh
 
 > <i class="fa-solid fa-circle-info"></i> __About Nerd Fonts__:
 >
-> The `~/.config/starship.toml` file (which will be downloaded in step __5__) does not necessitate [Nerd Fonts](https://www.nerdfonts.com/). However, if you encounter issues with emoji rendering, consider the installation.
+> The `~/.config/starship.toml` file from step __5__ does not need [Nerd Fonts](https://www.nerdfonts.com/). If emojis don't render correctly, installing one may help.
 
-
-- __4__: Create a directory in your home to save the ZSH plugins and the Starship configuration:
+- __4__: Create the directories for the ZSH plugins and the Starship configuration:
 
 ```{code-block} bash
 $ mkdir "$HOME/.config/"
@@ -186,40 +181,85 @@ $ curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/f
 
 > <i class="fa-solid fa-circle-info"></i> __Key Binding Tip__
 >
-> You can customize the `bindkey` values according to your preferences. To find the code for your keys, run `$ cat -v` and press the desired key; the code will be displayed in your shell. This way, you can modify the functions like `forward-word`, `backward-word` based on key code displayed.
+> You can change the `bindkey` values to your preference. To find the code for a key, run `$ cat -v` and press the key: its code appears in the shell. Then map functions such as `forward-word` and `backward-word` to that code.
 >
-> More details about _bindkey_ options (_Standard Widgets_): <https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets>
+> More details about the bindkey standard widgets: <https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets>
 
-- __8__: Restart your terminal, the results will be like this:
+- __8__: Restart your terminal. The result looks like this:
 
-![](/_static/2024/2024-02-08/image-3.png)
+![Final terminal with the Starship prompt: the Kubernetes context changes icon and color as it is renamed from kind to homolog to prod, and a mistyped command is highlighted in red](/_static/2024/2024-02-08/image-3.png)
 
-## Conclusion (Author Opinion)
+## Why I Settled on ZSH + Starship
 
-Productivity is a dynamic goal, and tools must fit your current needs and continually may be changed to enhance processes based on demands.
+Productivity is a moving target. Tools should fit what you need now, and it's fine to change them when your work changes.
 
-Currently, for my DevOps routine, the combination of ZSH and Starship proves to be a balanced cross-platform approach, offering a blend of performance, productivity, and extendability.
+For my DevOps routine today, ZSH with Starship is a balanced, cross-platform choice with good performance, productivity, and room to extend. If you want to go further, ZSH also lets you write your own key bindings, which I cover in [Hacking Your Zsh Terminal with Custom Widgets](/blog/2026/2026-10-26-zsh-widgets.md), and [fzf](/blog/2024/2024-04-21-fzf.md) turns history and file search into an interactive menu.
 
-Ultimately, I reserve an honorable mention for _Fish_ which your default configuration is a source of inspiration for the plugins I use in ZSH.
+Fish still gets an honorable mention: its default configuration inspired most of the plugins I use in ZSH.
 
-## Links
+## Key Takeaways
 
-- My dotfiles:
-    - `~/.zshrc`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
-    - `~/.config/starship.toml`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml)
-- ZSH Reference:
-    - <https://www.zsh.org/>
-    - <https://zsh.sourceforge.io/Doc/Release/Options.html>
-    - <https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets>
-- ZSH Plugins:
-    - <https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl>
-    - <https://github.com/zsh-users/zsh-autosuggestions>
-    - <https://github.com/zsh-users/zsh-syntax-highlighting>
-- Starship:
-    - <https://starship.rs/>
-    - <https://github.com/starship/starship>
-- Other links:
-    - <https://xon.sh/>
-    - <https://ohmyz.sh/>
-    - <https://github.com/spaceship-prompt/spaceship-prompt>
-    - [POSIX sh definition](http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)
+- xonsh mixes Python and Bash productively, but debugging mixed syntax gets hard.
+- oh-my-zsh is convenient, but on my macOS machine it made startup and input noticeably slow. Installing plugins manually fixed that.
+- Starship is a fast, Rust-based prompt that replaced Spaceship with almost no configuration changes.
+- Fish is excellent out of the box, but it is not POSIX-compliant, which rules it out for my daily work.
+- zsh-autosuggestions, zsh-syntax-highlighting, and the kubectl plugin bring Fish-like features and Kubernetes aliases to ZSH.
+- Enable `INTERACTIVE_COMMENTS` and the history options with `setopt` in `~/.zshrc`.
+- Keep the prompt minimal: show only the context you check all the time, such as git branch, AWS profile, virtualenv, and Kubernetes context.
+
+## References
+
+- [ZSH (zsh.org)](https://www.zsh.org/)
+- [Options (ZSH manual)](https://zsh.sourceforge.io/Doc/Release/Options.html)
+- [Zle widgets (ZSH manual)](https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets)
+- [Starship (starship.rs)](https://starship.rs/)
+- [Starship source (GitHub)](https://github.com/starship/starship)
+- [zsh-autosuggestions (GitHub)](https://github.com/zsh-users/zsh-autosuggestions)
+- [zsh-syntax-highlighting (GitHub)](https://github.com/zsh-users/zsh-syntax-highlighting)
+- [kubectl plugin (oh-my-zsh)](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl)
+- [xonsh (xon.sh)](https://xon.sh/)
+- [oh-my-zsh (ohmyz.sh)](https://ohmyz.sh/)
+- [Spaceship prompt (GitHub)](https://github.com/spaceship-prompt/spaceship-prompt)
+- [Shell Command Language (POSIX)](http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)
+- My dotfiles: [`.zshrc`](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc) and [`starship.toml`](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml)
+
+*I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
+
+---
+
+```{raw} html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "ZSH + Starship: A Productivity Masterpiece",
+      "description": "My path from Bash through xonsh, oh-my-zsh, and Fish to ZSH with Starship: the plugins and setopt options I rely on, my minimal Starship prompt, and a step-by-step guide to reproduce the setup.",
+      "datePublished": "2024-02-08",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2024/2024-02-08-starship-zsh/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2024/2024-02-08-starship-zsh/",
+      "image": "https://carlosneto.dev/_static/2024/2024-02-08/image-3.png",
+      "keywords": ["ZSH", "Starship", "terminal", "zsh plugins", "dotfiles"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "ZSH + Starship: A Productivity Masterpiece"}
+      ]
+    }
+  ]
+}
+</script>
+```
