@@ -753,14 +753,143 @@
 </ul>
 <p>Format: <code class="docutils literal notranslate"><span class="pre">tags:</span> <span class="pre">opensearch,</span> <span class="pre">sharding,</span> <span class="pre">logs</span></code> (a comma-separated string).</p>
 </section>
-<section id="other-fields">
-<h3>Other fields<a class="headerlink" href="#other-fields" title="Link to this heading">#</a></h3>
+<section id="frontmatter-template">
+<h3>Frontmatter template<a class="headerlink" href="#frontmatter-template" title="Link to this heading">#</a></h3>
+<p>Every post starts with this frontmatter, then the publish date line and the H1. Fill in every field, and keep the field order:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>---
+tags: opensearch, sharding, logs
+date: "YYYY-MM-DD"
+category: Observability
+author: Carlos Neto
+title: "&lt;Post title, identical to the H1&gt;"
+description: "&lt;One or two sentences summarizing the post&gt;"
+myst:
+  html_meta:
+    description: "&lt;Same text as description&gt;"
+og:title: "&lt;Same text as title&gt;"
+<span class="gu">og:description: "&lt;Same text as description&gt;"</span>
+<span class="gu">---</span>
+
+<span class="ge">*__Blog Post Publish Date:__ YYYY/MM/DD*</span>
+
+---
+
+<span class="gh"># &lt;Post title, identical to the title field&gt;</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Rule</p></th>
+<th class="head"><p>Used by</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tags</span></code></p></td>
+<td><p>Follow the tag rules above. Comma-separated string.</p></td>
+<td><p>ABlog tag pages</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">date</span></code></p></td>
+<td><p>Quoted <code class="docutils literal notranslate"><span class="pre">&quot;YYYY-MM-DD&quot;</span></code>, matching the filename prefix and the “Blog Post Publish Date” line (<code class="docutils literal notranslate"><span class="pre">YYYY/MM/DD</span></code>).</p></td>
+<td><p>ABlog ordering and the RSS feed</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">category</span></code></p></td>
+<td><p>One value from the category table above.</p></td>
+<td><p>ABlog category pages</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">author</span></code></p></td>
+<td><p>Always <code class="docutils literal notranslate"><span class="pre">Carlos</span> <span class="pre">Neto</span></code>.</p></td>
+<td><p>ABlog author archive</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">title</span></code></p></td>
+<td><p>Identical to the H1.</p></td>
+<td><p>Page metadata</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">description</span></code></p></td>
+<td><p>A specific summary of what the post covers, about 150 to 200 characters. No generic openings.</p></td>
+<td><p>Search snippets</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">myst.html_meta.description</span></code></p></td>
+<td><p>Same text as <code class="docutils literal notranslate"><span class="pre">description</span></code>.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;meta</span> <span class="pre">name=&quot;description&quot;&gt;</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">og:title</span></code></p></td>
+<td><p>Same text as <code class="docutils literal notranslate"><span class="pre">title</span></code>.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sphinxext-opengraph</span></code> social cards</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">og:description</span></code></p></td>
+<td><p>Same text as <code class="docutils literal notranslate"><span class="pre">description</span></code>.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sphinxext-opengraph</span></code> social cards</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Rules:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">date</span></code> must be quoted (<code class="docutils literal notranslate"><span class="pre">date:</span> <span class="pre">&quot;YYYY-MM-DD&quot;</span></code>) and match the visible “Blog Post Publish Date” line.</p></li>
-<li><p>New posts also set <code class="docutils literal notranslate"><span class="pre">author</span></code>, <code class="docutils literal notranslate"><span class="pre">title</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, <code class="docutils literal notranslate"><span class="pre">myst.html_meta.description</span></code>, <code class="docutils literal notranslate"><span class="pre">og:title</span></code>, and <code class="docutils literal notranslate"><span class="pre">og:description</span></code>. Use <code class="docutils literal notranslate"><span class="pre">blog/2026/2026-11-10-opensearch-scale-down.md</span></code> as the model.</p></li>
-<li><p>Quote any value that contains <code class="docutils literal notranslate"><span class="pre">:</span> </code> (for example, a title with a colon). Without quotes, MyST drops the whole frontmatter and logs only a “Malformed YAML” warning.</p></li>
-<li><p>Never set an <code class="docutils literal notranslate"><span class="pre">image</span></code> key. ABlog reads it as the number of images in the excerpt.</p></li>
+<li><p>Keep <code class="docutils literal notranslate"><span class="pre">title</span></code>, <code class="docutils literal notranslate"><span class="pre">og:title</span></code>, and the H1 identical. Keep <code class="docutils literal notranslate"><span class="pre">description</span></code>, <code class="docutils literal notranslate"><span class="pre">myst.html_meta.description</span></code>, and <code class="docutils literal notranslate"><span class="pre">og:description</span></code> identical. When you change one, change all of them, and also the matching values in the JSON-LD block below.</p></li>
+<li><p>Quote any value that contains <code class="docutils literal notranslate"><span class="pre">:</span> </code>, such as a title with a colon. Without quotes, MyST drops the whole frontmatter and logs only a “Malformed YAML” warning. Quoting every string value is the safest default.</p></li>
+<li><p>Never set an <code class="docutils literal notranslate"><span class="pre">image</span></code> key. ABlog reads it as the number of images in the excerpt, and a path breaks the build.</p></li>
+<li><p>Do not add keys that nothing on the site uses, such as <code class="docutils literal notranslate"><span class="pre">slug</span></code> or <code class="docutils literal notranslate"><span class="pre">canonical</span></code>.</p></li>
 <li><p>When you rename or remove a category or tag that was already published, add a redirect to <code class="docutils literal notranslate"><span class="pre">rediraffe_redirects</span></code> in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>.</p></li>
+</ul>
+</section>
+<section id="end-of-the-post">
+<h3>End of the post<a class="headerlink" href="#end-of-the-post" title="Link to this heading">#</a></h3>
+<p>Close every post in this order. Use <code class="docutils literal notranslate"><span class="pre">blog/2026/2026-11-10-opensearch-scale-down.md</span></code> as the reference.</p>
+<ol class="arabic">
+<li><p><code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">Key</span> <span class="pre">Takeaways</span></code>: short bullets with the main points. This replaces a separate conclusion section. Fold the author’s opinion into the body or the last section.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">References</span></code>: titled links in the form <code class="docutils literal notranslate"><span class="pre">[Page</span> <span class="pre">title</span> <span class="pre">(Project)](url)</span></code>, mostly official documentation.</p></li>
+<li><p>The author footer:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="ge">*I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*</span>
+</pre></div>
+</div>
+</li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">---</span></code> rule, then the JSON-LD block. <code class="docutils literal notranslate"><span class="pre">headline</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, and <code class="docutils literal notranslate"><span class="pre">datePublished</span></code> must match the frontmatter. The slug in <code class="docutils literal notranslate"><span class="pre">url</span></code> and <code class="docutils literal notranslate"><span class="pre">mainEntityOfPage</span></code> is the filename without <code class="docutils literal notranslate"><span class="pre">.md</span></code>. Add <code class="docutils literal notranslate"><span class="pre">&quot;image&quot;</span></code> only when the post has a diagram in <code class="docutils literal notranslate"><span class="pre">_static/&lt;year&gt;/&lt;date&gt;/</span></code>, using its absolute URL.</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>```{raw} html
+&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "&lt;title&gt;",
+      "description": "&lt;description&gt;",
+      "datePublished": "YYYY-MM-DD",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/&lt;YEAR&gt;/&lt;filename-without-.md&gt;/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/&lt;YEAR&gt;/&lt;filename-without-.md&gt;/",
+      "keywords": ["&lt;Main technology&gt;", "&lt;Topic&gt;", "&lt;Topic&gt;"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "&lt;title&gt;"}
+      ]
+    }
+  ]
+}
+&lt;/script&gt;
+```
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="code-blocks">
+<h3>Code blocks<a class="headerlink" href="#code-blocks" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">```opensearch</span></code> for every OpenSearch API call (request line plus optional JSON body). Write the request line inside the block, not in a <code class="docutils literal notranslate"><span class="pre">:caption:</span></code>. The lexer lives in <code class="docutils literal notranslate"><span class="pre">scripts/opensearch_lexer/</span></code>.</p></li>
+<li><p>Use only lexer names that Pygments knows. For log lines and Prometheus exposition output, use <code class="docutils literal notranslate"><span class="pre">```text</span></code>. For PromQL, use <code class="docutils literal notranslate"><span class="pre">```promql</span></code>.</p></li>
 </ul>
 </section>
 </section>
