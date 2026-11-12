@@ -2,11 +2,361 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-12T21:09:14.741112+00:00</updated>
+  <updated>2026-11-12T23:38:56.890649+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering</subtitle>
+  <entry>
+    <id>https://carlosneto.dev/blog/2026/2026-11-12-opensearch-hot-warm-cold/</id>
+    <title>Hands-On OpenSearch Storage Tiering: A Log Analytics Implementation</title>
+    <updated>2026-11-12T00:00:00+00:00</updated>
+    <author>
+      <name>Carlos Neto</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/11/12&lt;/em&gt;&lt;/p&gt;
+&lt;hr class="docutils" /&gt;
+&lt;section id="hands-on-opensearch-storage-tiering-a-log-analytics-implementation"&gt;
+
+&lt;p&gt;This blog post is a hands-on implementation of storage tiering in OpenSearch, using a log analytics scenario based on my experience. In the example, log indexes move through three tiers: hot nodes on local NVMe for the first 3 days, warm nodes on EBS until 90 days, and S3 snapshots that come back as searchable snapshots only when someone needs old data. You will configure the node attributes, index template, and Index State Management (ISM) policy that automate the flow, and see how I run the searchable tier on short-lived Kubernetes nodes and which costs and failures I ran into.&lt;/p&gt;
+&lt;section id="why-i-split-the-cluster-into-tiers"&gt;
+&lt;h2&gt;Why I Split the Cluster Into Tiers&lt;/h2&gt;
+&lt;p&gt;I built the tiering for two reasons: cost and performance. Logs have an inconvenient access pattern. The newest data is queried all the time, the oldest is almost never touched, and you still have to keep it. My hot tier runs on EC2 Instance Store (local NVMe), the approach I described in &lt;a class="reference internal" href="2026/2026-11-08-opensearch-hot-instance-store/"&gt;&lt;span class="std std-doc"&gt;OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier Storage&lt;/span&gt;&lt;/a&gt;. Local NVMe gave the best performance for data up to 3 days old. After that, queries become rare enough that cheaper EBS disks on warm nodes handle them well.&lt;/p&gt;
+&lt;p&gt;Long-term retention was harder, because for years OpenSearch had no good answer for it. I wanted searchable snapshots before the feature existed, and in the meantime I kept an in-house solution of Python and shell scripts that duplicated every log into OpenSearch and into S3 as a raw long-term copy. It was horrible to maintain. Even then, I took snapshots of every index, betting on the &lt;a class="reference external" href="https://github.com/opensearch-project/OpenSearch/issues/2900"&gt;Searchable Remote Index RFC&lt;/a&gt; that was open in the project.&lt;/p&gt;
+&lt;p&gt;Searchable snapshots shipped as experimental in OpenSearch 2.4 and became &lt;a class="reference external" href="https://opensearch.org/blog/searchable-snapshots/"&gt;generally available in 2.7&lt;/a&gt;, in May 2023. I was possibly one of the first to run them in production, and that is where I learned how they work in practice. Some of what I learned was missing from the documentation, so I contributed it: &lt;a class="reference external" href="https://github.com/opensearch-project/documentation-website/pull/4597"&gt;PR #4597&lt;/a&gt; documented the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;search&lt;/span&gt;&lt;/code&gt; node role on the cluster setup page and fixed the searchable snapshot example, and &lt;a class="reference external" href="https://github.com/opensearch-project/documentation-website/pull/12892"&gt;PR #12892&lt;/a&gt; documented that &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node.search.cache.size&lt;/span&gt;&lt;/code&gt; accepts a percentage.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="tiers-are-node-attributes-you-define"&gt;
+&lt;h2&gt;Tiers Are Node Attributes You Define&lt;/h2&gt;
+&lt;p&gt;Apart from the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt; node role used by searchable snapshots, OpenSearch does not know what a hot or warm tier is. Hot, warm, and cold are a naming convention for a setup with three storage layers. Whoever runs the cluster decides how many layers it has, what hardware each one uses, and what to call them. Two layers is a valid design, and so is five.&lt;/p&gt;
+&lt;p&gt;Tiering in OpenSearch rests on node attributes. Each data node carries a custom attribute that you choose, such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node.attr.temp:&lt;/span&gt; &lt;span class="pre"&gt;hot&lt;/span&gt;&lt;/code&gt;, and each index carries an allocation filter that requires a value of that attribute. OpenSearch places the index’s shards only on nodes whose attribute matches the filter. To move an index to another tier, you change the filter, and OpenSearch relocates the shards to the nodes that match. The index template and the ISM policy in the rest of this post exist to set that filter and change it at the right time.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="three-tiers-for-log-analytics"&gt;
+&lt;h2&gt;Three Tiers for Log Analytics&lt;/h2&gt;
+&lt;div class="pst-scrollable-table-container"&gt;&lt;table class="table"&gt;
+&lt;thead&gt;
+&lt;tr class="row-odd"&gt;&lt;th class="head"&gt;&lt;p&gt;Tier&lt;/p&gt;&lt;/th&gt;
+&lt;th class="head"&gt;&lt;p&gt;Hardware profile&lt;/p&gt;&lt;/th&gt;
+&lt;th class="head"&gt;&lt;p&gt;Role&lt;/p&gt;&lt;/th&gt;
+&lt;th class="head"&gt;&lt;p&gt;Typical retention for log analytics&lt;/p&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Hot&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Local NVMe (Instance Store), high CPU, limited capacity&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Active indexing and near-real-time search&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;First 3 days&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;Warm&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Large network-attached disk (EBS), lower CPU&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Long-term retention, slower queries&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Up to 90 days&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;Searchable (cold)&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;On-demand nodes backed by object storage (S3)&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Rarely queried data, restored on demand&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;As long as the snapshot is kept&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;The table describes a common OpenSearch scenario, log analytics, which is the one I have experience with. The retention values are an example from that scenario, not a rule. In any setup the hot tier should hold a much shorter window than the other tiers, and the exact values depend on how your data is queried.&lt;/p&gt;
+&lt;p&gt;Data flows in one direction. Fresh logs land on hot nodes, roll over and move to warm nodes after a few days, get snapshotted to S3, and are eventually deleted from the cluster. The snapshot stays in S3, and when someone needs that data again it comes back as a searchable snapshot, pulled into compute only while it is being queried.&lt;/p&gt;
+&lt;img alt="Diagram of log analytics storage tiering in OpenSearch: indexes stay on hot nodes with local NVMe and node.attr.temp hot for days 0 to 3, ISM rolls them over at 3 days or 50 GB and changes the allocation to temp warm so they move to warm EBS nodes with one replica until day 90, ISM snapshots each index to an S3 repository and deletes it from the cluster at day 90, and the snapshot is restored on demand with storage_type remote_snapshot onto searchable snapshot nodes with the warm role on a Karpenter NodePool" src="https://carlosneto.dev/_images/opensearch-hot-warm-cold.svg" /&gt;
+&lt;/section&gt;
+&lt;section id="prerequisites-label-your-nodes"&gt;
+&lt;h2&gt;Prerequisites: Label Your Nodes&lt;/h2&gt;
+&lt;p&gt;From here on, the post builds the log analytics example step by step, with indexes named &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-logs-*&lt;/span&gt;&lt;/code&gt;. Tag each data node with a custom attribute, conventionally &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;temp&lt;/span&gt;&lt;/code&gt;, so OpenSearch knows which nodes are hot and which are warm. Set it in each node’s &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;opensearch.yml&lt;/span&gt;&lt;/code&gt;, or through the environment if you run in containers:&lt;/p&gt;
+&lt;div class="highlight-yml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# On every hot data node&lt;/span&gt;
+&lt;span class="nt"&gt;node.attr.temp&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;hot&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight-yml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# On every warm data node&lt;/span&gt;
+&lt;span class="nt"&gt;node.attr.temp&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;warm&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The attribute name is arbitrary. What matters is that it is consistent across the cluster, because OpenSearch uses it later to pin shards to a tier. Shard allocation awareness in Step 1 needs a second attribute with the node’s availability zone, for example &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node.attr.zone:&lt;/span&gt; &lt;span class="pre"&gt;us-east-1a&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For the searchable tier, you need at least one node with the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt; node role. That role is what hosts searchable snapshots. A &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt; node reserves part of its disk as a cache for the snapshot data it reads from S3, sized by &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node.search.cache.size&lt;/span&gt;&lt;/code&gt;. The value is a byte size such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;50gb&lt;/span&gt;&lt;/code&gt; or a percentage of the disk such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;10%&lt;/span&gt;&lt;/code&gt;. On a node that has only the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt; role, it defaults to 80% of the available storage, according to the &lt;a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/snapshots/searchable_snapshot/"&gt;searchable snapshots documentation&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight-yml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# On every searchable snapshot node&lt;/span&gt;
+&lt;span class="nt"&gt;node.roles&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;warm&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+&lt;span class="c1"&gt;# Optional on a dedicated node, where the default is 80% of the disk&lt;/span&gt;
+&lt;span class="nt"&gt;node.search.cache.size&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;80%&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; &lt;strong&gt;About the naming overlap:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt; node role is the OpenSearch feature behind searchable snapshots. In OpenSearch 2.x it was called &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;search&lt;/span&gt;&lt;/code&gt;, and the rename was a &lt;a class="reference external" href="https://docs.opensearch.org/3.0/breaking-changes/"&gt;breaking change in 3.0&lt;/a&gt;: the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;search&lt;/span&gt;&lt;/code&gt; role now means something else (nodes for search-only shards), so update node roles before upgrading. None of this is related to the custom &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node.attr.temp:&lt;/span&gt; &lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt; attribute used for the EBS warm tier. In most deployments these are separate node groups.&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;/section&gt;
+&lt;section id="step-1-set-up-shard-allocation-awareness"&gt;
+&lt;h2&gt;Step 1: Set Up Shard Allocation Awareness&lt;/h2&gt;
+&lt;p&gt;Before moving data around, make sure a shard’s copies are spread across availability zones. This is independent of tiering, but you do not want a primary and its replica in the same zone. Once every node has &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node.attr.zone&lt;/span&gt;&lt;/code&gt; set, tell OpenSearch to use it:&lt;/p&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT _cluster/settings
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"persistent"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"cluster.routing.allocation.awareness.attributes"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"zone"&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;With this in place, OpenSearch places the copies of each shard in different zones, so losing one zone does not lose data, as long as the index has at least one replica.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="step-2-pin-new-indexes-to-the-hot-tier"&gt;
+&lt;h2&gt;Step 2: Pin New Indexes to the Hot Tier&lt;/h2&gt;
+&lt;p&gt;Every new index should land on hot nodes. A &lt;strong&gt;shard allocation filter&lt;/strong&gt; is an index setting that restricts which nodes can hold the index’s shards, based on node attributes. You don’t set it per index by hand. You put it in an index template, so every index matching the pattern inherits it:&lt;/p&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT _index_template/my-logs-template
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"index_patterns"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"my-logs-*"&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"template"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"settings"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"index.routing.allocation.require.temp"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"hot"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"plugins.index_state_management.rollover_alias"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"my-logs"&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;require&lt;/span&gt;&lt;/code&gt; filter means shards can only be placed on nodes whose &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;temp&lt;/span&gt;&lt;/code&gt; attribute equals &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;hot&lt;/span&gt;&lt;/code&gt;. It is one of several allocation deciders that OpenSearch checks before placing a shard, alongside disk watermarks, which I covered in &lt;a class="reference internal" href="2026/2026-11-04-opensearch-watermark/"&gt;&lt;span class="std std-doc"&gt;OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks&lt;/span&gt;&lt;/a&gt;. That post also explains why global watermarks are a problem in a tiered cluster like this one. The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;rollover_alias&lt;/span&gt;&lt;/code&gt; setting tells ISM which alias to roll over, which Step 6 uses.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="step-3-understand-the-ism-state-machine"&gt;
+&lt;h2&gt;Step 3: Understand the ISM State Machine&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Index State Management (ISM)&lt;/strong&gt; is the OpenSearch plugin that automates operations on indexes as they age, and it is the engine behind automatic tiering. An ISM policy is a small state machine with three building blocks:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;State&lt;/strong&gt;: a status the index can be in, such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;hot&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt;, or &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;delete&lt;/span&gt;&lt;/code&gt;. An index is in exactly one state at a time.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Action&lt;/strong&gt;: an operation that runs when the index enters a state, such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;rollover&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;snapshot&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;replica_count&lt;/span&gt;&lt;/code&gt;, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;allocation&lt;/span&gt;&lt;/code&gt;, or &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;delete&lt;/span&gt;&lt;/code&gt;. Actions run in the order you declare them.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Transition&lt;/strong&gt;: the condition that moves the index to the next state, for example reaching a minimum age.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Once a policy is attached, ISM runs a background job for each managed index, every 5 minutes by default (&lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/ism/settings/"&gt;ISM settings&lt;/a&gt;). The job runs the current state’s actions, evaluates the transition conditions, and moves the index forward when they are met.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="step-4-register-the-s3-snapshot-repository"&gt;
+&lt;h2&gt;Step 4: Register the S3 Snapshot Repository&lt;/h2&gt;
+&lt;p&gt;Before an index is deleted from the cluster, the policy copies it to S3 with a snapshot, so the repository has to exist before the policy runs. Register it once:&lt;/p&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT _snapshot/logs-s3-repository
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"type"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"s3"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"settings"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"bucket"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"my-opensearch-snapshots"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"base_path"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"logs"&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="step-5-write-the-tiering-policy"&gt;
+&lt;h2&gt;Step 5: Write the Tiering Policy&lt;/h2&gt;
+&lt;p&gt;Here is the complete hot to warm to delete policy, with the snapshot to S3 in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt; state:&lt;/p&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT _plugins/_ism/policies/logs_tiering_policy
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"policy"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"description"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"Hot -&amp;gt; Warm -&amp;gt; Delete lifecycle for time-series logs"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"default_state"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"hot"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"states"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"hot"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"actions"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;"rollover"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;"min_index_age"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"3d"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;"min_primary_shard_size"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"50gb"&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"transitions"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;"state_name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"warm"&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"warm"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"actions"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;"replica_count"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;"number_of_replicas"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;"allocation"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;"require"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;"temp"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"warm"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;"snapshot"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;"repository"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"logs-s3-repository"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;"snapshot"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"{{ctx.index}}"&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"transitions"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;"state_name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"delete"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;"conditions"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="nt"&gt;"min_index_age"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"90d"&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"delete"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;"actions"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;"delete"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{}&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"ism_template"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"index_patterns"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"my-logs-*"&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"priority"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;In the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;hot&lt;/span&gt;&lt;/code&gt; state, the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;rollover&lt;/span&gt;&lt;/code&gt; action creates a new write index once the current one is 3 days old or its primary shard reaches 50 GB, whichever comes first. The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;hot&lt;/span&gt;&lt;/code&gt; transition has no condition, so right after the rollover the old index moves to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt; state, three actions run in order. &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;replica_count&lt;/span&gt;&lt;/code&gt; sets the replicas to 1, because older data needs less redundancy headroom and the saved disk adds up. Then &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;allocation&lt;/span&gt;&lt;/code&gt; with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;require:&lt;/span&gt; &lt;span class="pre"&gt;{&lt;/span&gt; &lt;span class="pre"&gt;temp:&lt;/span&gt; &lt;span class="pre"&gt;warm&lt;/span&gt; &lt;span class="pre"&gt;}&lt;/span&gt;&lt;/code&gt; replaces the hot filter from the template, and OpenSearch relocates the shards to the warm (EBS) nodes. Last, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;snapshot&lt;/span&gt;&lt;/code&gt; copies the index to the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;logs-s3-repository&lt;/span&gt;&lt;/code&gt; repository. The index stays on the warm nodes until it is 90 days old, then the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;delete&lt;/span&gt;&lt;/code&gt; state removes it from the cluster. The snapshot in S3 is not touched, and Step 7 brings it back when needed.&lt;/p&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;ism_template&lt;/span&gt;&lt;/code&gt; block attaches the policy to every new index that matches &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-logs-*&lt;/span&gt;&lt;/code&gt;, so you never attach it by hand. It only applies to indexes created after the policy exists, which is why the policy comes before the first index.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="step-6-bootstrap-the-first-index-and-the-write-alias"&gt;
+&lt;h2&gt;Step 6: Bootstrap the First Index and the Write Alias&lt;/h2&gt;
+&lt;p&gt;The &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;rollover&lt;/span&gt;&lt;/code&gt; action needs a write alias that it can move from the current index to the next one. Create the first index with that alias:&lt;/p&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PUT my-logs-000001
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"aliases"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"my-logs"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;"is_write_index"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The index inherits the hot allocation filter and the rollover alias from the template, and the ISM policy from the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;ism_template&lt;/span&gt;&lt;/code&gt;. From now on, your application writes to the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-logs&lt;/span&gt;&lt;/code&gt; alias, never to a specific index. When the rollover fires, OpenSearch creates &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-logs-000002&lt;/span&gt;&lt;/code&gt;, moves the write alias to it, and ISM starts moving the old index to warm.&lt;/p&gt;
+&lt;p&gt;Confirm that the shards landed on hot nodes and that the policy is attached:&lt;/p&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET _cat/shards/my-logs-000001?v
+GET _plugins/_ism/explain/my-logs-000001
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;section id="step-7-restore-old-data-as-a-searchable-snapshot"&gt;
+&lt;h2&gt;Step 7: Restore Old Data as a Searchable Snapshot&lt;/h2&gt;
+&lt;p&gt;The policy deletes each index from the cluster at 90 days, but its snapshot stays in S3. Often you must keep old data longer, for compliance or for the occasional investigation, without paying for warm nodes to hold it. A &lt;strong&gt;searchable snapshot&lt;/strong&gt; is an index restored from a snapshot repository while its data stays in remote storage, such as S3. Compute is attached only when someone queries it.&lt;/p&gt;
+&lt;p&gt;ISM appends a timestamp to the snapshot name, so the snapshot for &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-logs-000001&lt;/span&gt;&lt;/code&gt; is named something like &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;my-logs-000001-2026.11.15-14:05:12.345&lt;/span&gt;&lt;/code&gt;. List the repository to find the exact name before restoring:&lt;/p&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GET _cat/snapshots/logs-s3-repository?v
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;After the index is deleted from the cluster, you can bring it back on demand as a searchable snapshot:&lt;/p&gt;
+&lt;div class="highlight-opensearch notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;POST _snapshot/logs-s3-repository/&amp;lt;snapshot-name&amp;gt;/_restore
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"storage_type"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"remote_snapshot"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"indices"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"my-logs-000001"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;"index_settings"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;"index.number_of_replicas"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;storage_type:&lt;/span&gt; &lt;span class="pre"&gt;remote_snapshot&lt;/span&gt;&lt;/code&gt; is the difference from a normal restore. Instead of downloading the whole index to local disk, OpenSearch loads the index into the cluster while S3 remains the authoritative copy of the data, and it downloads and caches segments locally as queries need them. This requires at least one node with the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt; role from the prerequisites.&lt;/p&gt;
+&lt;p&gt;I restore searchable snapshots with zero replicas. The snapshot was taken in the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt; state with 1 replica, and without &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;index_settings&lt;/span&gt;&lt;/code&gt; the restored index keeps that value. A replica would only duplicate a cache, because the data is already safe in S3. The trade-off is availability: if the node holding the shard goes down, the index is unavailable and the cluster turns red until the node comes back. When it rejoins, OpenSearch allocates the shard again from the snapshot in S3. For an index that someone queries during an occasional investigation, I accept that.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="how-i-run-the-searchable-tier-on-kubernetes"&gt;
+&lt;h2&gt;How I Run the Searchable Tier on Kubernetes&lt;/h2&gt;
+&lt;p&gt;I don’t keep &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt;-role nodes running all the time. When a process needed logs that had already been rotated to S3, I created a Karpenter NodePool only for searchable snapshots, brought up an OpenSearch node with the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt; role on it, restored the snapshots, and removed the NodePool once the work was done. I paid for that compute only while someone was looking at old data.&lt;/p&gt;
+&lt;p&gt;That node used Instance Store, not EBS. The local disk on a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt; node only holds the cache of data read from S3, and S3 is what guarantees durability. Paying for EBS durability on a disk that only holds a cache made no sense to me. If the node disappears, the cache goes with it, and the data is still in S3.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="test-searchable-snapshots-on-every-upgrade"&gt;
+&lt;h2&gt;Test Searchable Snapshots on Every Upgrade&lt;/h2&gt;
+&lt;p&gt;The worst problem I had with this setup came from an OpenSearch upgrade. After one version bump, the restore behavior of searchable snapshots changed and restores started failing with errors. It turned out to be a bug in that version, and a later release fixed it.&lt;/p&gt;
+&lt;p&gt;Searchable snapshots are the tier you touch least, which makes them easy to forget in an upgrade checklist. If they matter to you, add a test to every OpenSearch upgrade: restore a known snapshot with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;storage_type:&lt;/span&gt; &lt;span class="pre"&gt;remote_snapshot&lt;/span&gt;&lt;/code&gt; and run a query against it before you call the upgrade done.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="operational-tips"&gt;
+&lt;h2&gt;Operational Tips&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Watch the transitions.&lt;/strong&gt; &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;_plugins/_ism/explain/&amp;lt;index&amp;gt;&lt;/span&gt;&lt;/code&gt; shows the state of each managed index and why it has not transitioned yet.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Monitor shard movement.&lt;/strong&gt; While indexes move from hot to warm, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;GET&lt;/span&gt; &lt;span class="pre"&gt;_cat/shards?v&amp;amp;s=state&lt;/span&gt;&lt;/code&gt; shows &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;RELOCATING&lt;/span&gt;&lt;/code&gt; shards. Large migrations consume I/O and network, so schedule big retention changes off-peak. The same relocation mechanics apply when you remove nodes, as in &lt;a class="reference internal" href="2026/2026-11-10-opensearch-scale-down/"&gt;&lt;span class="std std-doc"&gt;Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Size rollover by shard size, not only by age.&lt;/strong&gt; A 50 GB primary shard cap keeps shards in a healthy range through traffic spikes. Keep the age condition too, so quiet indexes still roll over.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Keep at least one replica on hot.&lt;/strong&gt; The hot tier is where you can least afford data loss, especially on ephemeral local NVMe. If replicas are new to you, start with &lt;a class="reference internal" href="2025/2025-01-05-opensearch-concepts-index-and-shards/"&gt;&lt;span class="std std-doc"&gt;OpenSearch Concepts: Index and Shards&lt;/span&gt;&lt;/a&gt;. Drop to zero replicas only on tiers where you can restore from a snapshot.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;ISM pauses on red.&lt;/strong&gt; ISM does not run jobs while the cluster health is red. If transitions seem stuck, check cluster health first.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;section id="what-i-would-do-differently"&gt;
+&lt;h2&gt;What I Would Do Differently&lt;/h2&gt;
+&lt;p&gt;If I built this again, I would start by trying to simplify as much as possible and asking whether I really need several storage layers. Each tier adds complexity, and each one consumes CPU, memory, and above all network. Every index that moves from hot to warm is copied across the network, replicas are copied again, and snapshots are uploaded to S3. On AWS that traffic shows up on the bill. In my experience, replication and data migration between tiers can increase AWS costs considerably, enough that a three-tier design is worth justifying with your own access patterns before you build it.&lt;/p&gt;
+&lt;p&gt;When the access pattern does justify it, as it did for me, tiering works well. New data stays fast on NVMe, older data gets cheap on EBS, and the oldest data costs only S3 storage until someone needs it. The searchable tier also replaced the in-house scripts I used to maintain with a restore call.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="key-takeaways"&gt;
+&lt;h2&gt;Key Takeaways&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;Hot, warm, and cold are a convention. The cluster admin defines how many storage layers exist, and each layer is a value of a custom node attribute (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node.attr.temp&lt;/span&gt;&lt;/code&gt;) that shard allocation filters require.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;An index template pins new indexes to hot nodes and sets the rollover alias. The ISM policy moves them to warm by replacing that filter.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Create the ISM policy before the first index, because &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;ism_template&lt;/span&gt;&lt;/code&gt; only attaches to indexes created after it.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The ISM &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;snapshot&lt;/span&gt;&lt;/code&gt; action copies each index to S3 before deletion, and appends a timestamp to the snapshot name.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Restoring with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;storage_type:&lt;/span&gt; &lt;span class="pre"&gt;remote_snapshot&lt;/span&gt;&lt;/code&gt; keeps the data in S3 and needs nodes with the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;warm&lt;/span&gt;&lt;/code&gt; role (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;search&lt;/span&gt;&lt;/code&gt; in OpenSearch 2.x). Their cache size is set with &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;node.search.cache.size&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Searchable snapshot nodes can be short-lived and run on Instance Store, because their disk only holds a cache and S3 holds the data.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Test a searchable snapshot restore on every OpenSearch upgrade. A version bug once broke my restores after an upgrade.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Each tier costs CPU, memory, and network. On AWS, replication and migration between tiers can raise the bill considerably, so justify every layer.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+&lt;section id="references"&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/ism/index/"&gt;Index State Management (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/ism/policies/"&gt;ISM policies (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/ism/settings/"&gt;ISM settings (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/index-apis/index-templates/"&gt;Index templates (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/snapshots/snapshot-restore/"&gt;Take and restore snapshots (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/snapshots/searchable_snapshot/"&gt;Searchable snapshots (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/3.0/breaking-changes/"&gt;Breaking changes in 3.0 (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-awareness/"&gt;Cluster routing and awareness (OpenSearch)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opensearch.org/blog/searchable-snapshots/"&gt;Searchable snapshots are generally available in OpenSearch 2.7 (OpenSearch blog)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/opensearch-project/OpenSearch/issues/2900"&gt;RFC: Searchable Remote Index (OpenSearch GitHub)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr class="docutils" /&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on &lt;a class="reference internal" href="../"&gt;&lt;span class="std std-doc"&gt;my home page&lt;/span&gt;&lt;/a&gt;. If you have questions or a different approach, contact me on &lt;a class="reference external" href="https://www.linkedin.com/in/c-neto/"&gt;LinkedIn&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
+&lt;hr class="docutils" /&gt;
+&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Hands-On OpenSearch Storage Tiering: A Log Analytics Implementation",
+      "description": "A hands-on implementation of OpenSearch storage tiering for log analytics, based on my experience: node attributes, an index template, and an ISM policy that move indexes from NVMe to EBS to S3.",
+      "datePublished": "2026-11-12",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-11-12-opensearch-hot-warm-cold/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-12-opensearch-hot-warm-cold/",
+      "image": "https://carlosneto.dev/_static/2026/2026-11-12/opensearch-hot-warm-cold.svg",
+      "keywords": ["OpenSearch", "data tiering", "Index State Management", "searchable snapshots", "hot-warm architecture"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Hands-On OpenSearch Storage Tiering: A Log Analytics Implementation"}
+      ]
+    }
+  ]
+}
+&lt;/script&gt;&lt;/section&gt;
+&lt;/section&gt;
+</content>
+    <link href="https://carlosneto.dev/blog/2026/2026-11-12-opensearch-hot-warm-cold/"/>
+    <summary>Blog Post Publish Date: 2026/11/12This blog post is a hands-on implementation of storage tiering in OpenSearch, using a log analytics scenario based on my experience. In the example, log indexes move through three tiers: hot nodes on local NVMe for the first 3 days, warm nodes on EBS until 90 days, and S3 snapshots that come back as searchable snapshots only when someone needs old data. You will configure the node attributes, index template, and Index State Management (ISM) policy that automate the flow, and see how I run the searchable tier on short-lived Kubernetes nodes and which costs and failures I ran into.</summary>
+    <category term="aws" label="aws"/>
+    <category term="logs" label="logs"/>
+    <category term="opensearch" label="opensearch"/>
+    <published>2026-11-12T00:00:00+00:00</published>
+  </entry>
   <entry>
     <id>https://carlosneto.dev/blog/2026/2026-11-11-opensearch-alias-filtered-by-field/</id>
     <title>Avoiding Over-Sharding in OpenSearch with Filtered Aliases per Environment</title>

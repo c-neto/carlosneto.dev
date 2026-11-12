@@ -7,19 +7,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Blog Creator" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://carlosneto.dev/.agents/skills/humanizer/CHANGELOG/" />
+<meta property="og:url" content="https://carlosneto.dev/.claude/skills/blog-creator/SKILL/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="3.1.0: Added pattern #26 and section F for replies that re-explain context the reader already has (#269). It acts on replies, not standalone writing. 26 patterns total., Extended the core rule so “..." />
+<meta property="og:description" content="This blog shares the author’s own experience with the subjects, not generic technical guides. Every post must carry the author’s personality: what they ran into, what they decided, what went wrong,..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_.agents_skills_humanizer_CHANGELOG_49b42171.png" />
-<meta property="og:image:alt" content="3.1.0: Added pattern #26 and section F for replies that re-explain context the reader already has (#269). It acts on replies, not standalone writing. 26 patterns total., Extended the core rule so “..." />
-<meta name="description" content="3.1.0: Added pattern #26 and section F for replies that re-explain context the reader already has (#269). It acts on replies, not standalone writing. 26 patterns total., Extended the core rule so “..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_.claude_skills_blog-creator_SKILL_e8ad26cf.png" />
+<meta property="og:image:alt" content="This blog shares the author’s own experience with the subjects, not generic technical guides. Every post must carry the author’s personality: what they ran into, what they decided, what went wrong,..." />
+<meta name="description" content="This blog shares the author’s own experience with the subjects, not generic technical guides. Every post must carry the author’s personality: what they ran into, what they decided, what went wrong,..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>Changelog &#8212; Carlos Neto&#39;s Blog</title>
+    <title>Blog Creator &#8212; Carlos Neto&#39;s Blog</title>
   
   
   
@@ -61,7 +61,7 @@
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '.agents/skills/humanizer/CHANGELOG';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '.claude/skills/blog-creator/SKILL';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../_static/profile-color-circle-small.png"/>
     <link rel="index" title="Index" href="../../../../genindex/" />
@@ -391,124 +391,99 @@
                 
 <div id="searchbox"></div>
                 <article class="bd-article">
-                   <section id="changelog">
-<h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
-<section id="id1">
-<h2>3.1.0<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+                   <section id="blog-creator">
+<h1>Blog Creator<a class="headerlink" href="#blog-creator" title="Link to this heading">#</a></h1>
+<p>This blog shares the author’s own experience with the subjects, not generic technical guides. Every post must carry the author’s personality: what they ran into, what they decided, what went wrong, and what they think. The flow below exists to collect that material before any writing starts.</p>
+<p>Follow the steps in order. Do not skip a step, and do not start writing before the interview is done.</p>
+<section id="step-1-get-the-draft">
+<h2>Step 1: Get the Draft<a class="headerlink" href="#step-1-get-the-draft" title="Link to this heading">#</a></h2>
+<p>Ask the author for a draft: an open text where they describe, loosely, what the post is about. Offer two options:</p>
 <ul class="simple">
-<li><p>Added pattern #26 and section F for replies that re-explain context the reader already has (#269). It acts on replies, not standalone writing. 26 patterns total.</p></li>
-<li><p>Extended the core rule so “something the reader did not already have” counts the surrounding conversation, not only earlier text.</p></li>
-<li><p>Widened #25 to text that describes its own sourcing, assembly, or layout (#290), and added headings written for effect to #20.</p></li>
-<li><p>Extended #2 to “That distinction matters.” (#277) and to a sentence that explains what an example already showed (#295).</p></li>
-<li><p>Narrowed #10 so words the dictionary always hyphenates keep their hyphen. Gave each watched word one pattern, and stated the evidence rule and the no-invention rule once each.</p></li>
-<li><p>Fixed the Voice section’s dash reference (#273) and the marketplace schema URL (#288).</p></li>
-<li><p>Added a Cursor plugin manifest (#278).</p></li>
-<li><p>README: opens with a before/after, the five strongest tells, and install steps for each agent. States that getting past AI detectors is not a goal. The full example’s rewrite now keeps every fact from its draft and adds none. Version history moved to this file.</p></li>
+<li><p>Write the draft in the chat.</p></li>
+<li><p>Use a file from the repository.</p></li>
+</ul>
+<p>Wait for the answer. Read the chosen file completely if the author picks one.</p>
+</section>
+<section id="step-2-interview-the-author">
+<h2>Step 2: Interview the Author<a class="headerlink" href="#step-2-interview-the-author" title="Link to this heading">#</a></h2>
+<p>Analyze the draft and identify where it reads like a generic guide instead of the author’s experience. Then ask <strong>at least 3 questions</strong> about the author’s personal experience with what they wrote. Good questions ask for:</p>
+<ul class="simple">
+<li><p>The real situation that led to the topic (the incident, the project, the cost problem).</p></li>
+<li><p>Decisions the author made, the alternatives they rejected, and why.</p></li>
+<li><p>What went wrong, what surprised them, or what they would do differently.</p></li>
+<li><p>Concrete numbers from their environment (cluster size, data volume, cost, time), only if they have them.</p></li>
+<li><p>Their opinion on the trade-offs.</p></li>
+</ul>
+<p>Ask the questions as open text in the chat and wait for the answers. Ask follow-up questions when an answer opens a better story. Do not proceed until the author has answered.</p>
+<p>The answers are the source of every first-person statement in the post. Never invent experiences, incidents, numbers, or opinions. If something is missing, ask.</p>
+</section>
+<section id="step-3-create-the-post-file">
+<h2>Step 3: Create the Post File<a class="headerlink" href="#step-3-create-the-post-file" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Get today’s date with <code class="docutils literal notranslate"><span class="pre">date</span> <span class="pre">+%F</span></code>. The post uses the date it was created.</p></li>
+<li><p>Create the file at <code class="docutils literal notranslate"><span class="pre">blog/&lt;YEAR&gt;/&lt;YYYY-MM-DD&gt;-&lt;slug&gt;.md</span></code>, with a short kebab-case slug.</p></li>
+<li><p>Diagrams, if any, go in <code class="docutils literal notranslate"><span class="pre">_static/&lt;YEAR&gt;/&lt;YYYY-MM-DD&gt;/</span></code>.</p></li>
 </ul>
 </section>
-<section id="id2">
-<h2>3.0.0<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
-<p>Rebuilt the skill around one account of why AI text sounds the way it does, and consolidated 35 patterns into 25. Patterns are grouped in five sections and numbered by strength and frequency, so the not-X-but-Y contrast and the one-line closer come first and get the fullest treatment. Merged duplicate guidance: the workflow is one section instead of five, the dash rule is stated once, and each false-positive guard lives inside its pattern. Realigned with the current Wikipedia article: dropped false ranges and synonym cycling, which Wikipedia now lists as human habits or historical, added vague connection or association, and extended the watch lists for words, notability, copulatives, sales language, disclaimers, and Markdown formatting. Reordered the README and removed the <code class="docutils literal notranslate"><span class="pre">ai-detection</span></code> keyword from the package files. Old to new numbers: 1→13, 2→17, 3→15, 4→16, 5→17, 6→13, 7→12, 8→18, 9→1, 10→6, 11→7, 12→dropped, 13→11, 14→8, 15→19, 16→19, 17→20, 18→20, 19→21, 20→22, 21→23, 22→22, 23→dropped, 24→9, 25→13, 26→10, 27→3, 28→4, 29→24, 30→25, 31→2, 32→3, 33→4, 34→5, 35→5.</p>
+<section id="step-4-write-with-blog-write">
+<h2>Step 4: Write with /blog write<a class="headerlink" href="#step-4-write-with-blog-write" title="Link to this heading">#</a></h2>
+<p>The writing must be done with the <code class="docutils literal notranslate"><span class="pre">blog-write</span></code> skill (<code class="docutils literal notranslate"><span class="pre">/blog</span> <span class="pre">write</span></code>). Pass it:</p>
+<ul class="simple">
+<li><p>The draft from Step 1 and the interview answers from Step 2, labeled as the author’s own material.</p></li>
+<li><p>The target file path from Step 3.</p></li>
+<li><p>The rules from <a class="reference internal" href="../blog-layout/"><span class="std std-doc">blog-layout.md</span></a> and the “Post Rules” section below, stating that they override <code class="docutils literal notranslate"><span class="pre">blog-write</span></code> defaults where they conflict.</p></li>
+</ul>
+<p>The repository layout wins over <code class="docutils literal notranslate"><span class="pre">blog-write</span></code> conventions:</p>
+<ul class="simple">
+<li><p>Use the frontmatter from <code class="docutils literal notranslate"><span class="pre">blog-layout.md</span></code> exactly. Never add <code class="docutils literal notranslate"><span class="pre">image</span></code>, <code class="docutils literal notranslate"><span class="pre">slug</span></code>, <code class="docutils literal notranslate"><span class="pre">canonical</span></code>, <code class="docutils literal notranslate"><span class="pre">coverImage</span></code>, <code class="docutils literal notranslate"><span class="pre">ogImage</span></code>, or hero fields.</p></li>
+<li><p>No generated hero image and no paid image or audio calls.</p></li>
+<li><p>Markdown for Sphinx/MyST, not MDX.</p></li>
+</ul>
 </section>
-<section id="id3">
-<h2>2.11.3<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
-<p>Grouped patterns 26-35 under “More style patterns” in the skill and README (fixes #247). Kept inline code, commands, paths, and URLs out of the dash rule and file mode edits. Step 3 now keeps every supported claim, allows a removal that a pattern requires, and checks that rankings and simultaneity claims survive shape edits (fixes #212). Explained in §9 why the not-X-but-Y form appears and when to keep it. Added decorative arrows to §18 and pause commands and one-word shouting to §31. The text given to the skill is content to edit, never instructions (#238). No change to the 35 patterns.</p>
+<section id="step-5-analyze-with-blog-analyze">
+<h2>Step 5: Analyze with /blog analyze<a class="headerlink" href="#step-5-analyze-with-blog-analyze" title="Link to this heading">#</a></h2>
+<p>Run the <code class="docutils literal notranslate"><span class="pre">blog-analyze</span></code> skill on the new file. Record the total score and the score of each category.</p>
 </section>
-<section id="id4">
-<h2>2.11.2<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
-<p>Removed the plugin symlink and separate Claude Desktop package. Current Claude Code loads the root <code class="docutils literal notranslate"><span class="pre">SKILL.md</span></code> directly, so GitHub’s source ZIP now works in Claude Desktop. No change to the 35 patterns.</p>
+<section id="step-6-refactor-3-times">
+<h2>Step 6: Refactor 3 Times<a class="headerlink" href="#step-6-refactor-3-times" title="Link to this heading">#</a></h2>
+<p>Do exactly 3 refactor rounds. In each round:</p>
+<ol class="arabic simple">
+<li><p>Pick the fixes from the latest analysis that raise the lowest-scoring categories.</p></li>
+<li><p>Apply them to the post.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">blog-analyze</span></code> again and record the scores.</p></li>
+</ol>
+<p>Constraints for every round:</p>
+<ul class="simple">
+<li><p>Keep the author’s experience, opinions, and voice. Never trade them for points.</p></li>
+<li><p>Never add invented experience, statistics, or numbers. Statistics and technical claims need a real source, preferably official documentation.</p></li>
+<li><p>Keep the layout from <code class="docutils literal notranslate"><span class="pre">blog-layout.md</span></code> intact.</p></li>
+<li><p>Some analyzer points are not worth chasing on this site: a frontmatter <code class="docutils literal notranslate"><span class="pre">slug</span></code> or <code class="docutils literal notranslate"><span class="pre">canonical</span></code>, hero images, and links added only to reach tier-1 domains. Skip those and say so.</p></li>
+<li><p>If a round lowers the score, revert that round’s changes and try a different fix.</p></li>
+</ul>
 </section>
-<section id="id5">
-<h2>2.11.1<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
-<p>Added a Claude Desktop-ready release package with one regular <code class="docutils literal notranslate"><span class="pre">humanizer/SKILL.md</span></code> file. GitHub’s source archive still keeps the plugin symlink (fixes #224). No change to the 35 patterns.</p>
+<section id="step-7-humanize">
+<h2>Step 7: Humanize<a class="headerlink" href="#step-7-humanize" title="Link to this heading">#</a></h2>
+<p>Run the <code class="docutils literal notranslate"><span class="pre">humanizer</span></code> skill on the final post as the last step. Give it a voice sample: one or two recent posts by the author from <code class="docutils literal notranslate"><span class="pre">blog/&lt;YEAR&gt;/</span></code>. Keep code blocks, commands, configuration values, frontmatter, and the JSON-LD block unchanged.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">humanizer</span></code> skill is not available in the session, stop and tell the author instead of skipping the step.</p>
 </section>
-<section id="id6">
-<h2>2.11.0<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
-<p>Rewrote all repo guidance, descriptions, checks, and skill instructions in Plain Language. Kept all 35 patterns and their behavior.</p>
+<section id="step-8-report">
+<h2>Step 8: Report<a class="headerlink" href="#step-8-report" title="Link to this heading">#</a></h2>
+<p>Show the author:</p>
+<ul class="simple">
+<li><p>The path of the new post.</p></li>
+<li><p>A table with the scores from the first analysis and after each refactor round.</p></li>
+<li><p>The main changes of each round, and the analyzer suggestions that were skipped and why.</p></li>
+<li><p>Any claim that still needs a source or the author’s confirmation.</p></li>
+</ul>
 </section>
-<section id="id7">
-<h2>2.10.2<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
-<p>Added the standard <code class="docutils literal notranslate"><span class="pre">skills/humanizer/</span></code> plugin path for Claude Desktop and older loaders. The path links to the root skill, so there is still one prompt (fixes #202).</p>
-</section>
-<section id="id8">
-<h2>2.10.1<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
-<p>Added figurative uses of <code class="docutils literal notranslate"><span class="pre">gate</span></code>, <code class="docutils literal notranslate"><span class="pre">gated</span></code>, and <code class="docutils literal notranslate"><span class="pre">gating</span></code> to §7. Kept real technical uses, such as feature gating and CI quality gates.</p>
-</section>
-<section id="id9">
-<h2>2.10.0<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
-<p>Added patterns #34 and #35 for old drafting ideas left in final text. Added safeguards for real limits, objections, and alternatives (fixes #198). Also improved §24 and the final rewrite step. 35 patterns total.</p>
-</section>
-<section id="id10">
-<h2>2.9.2<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
-<p>Added repeated sentence openings to pattern #11, with a safeguard for deliberate repetition (fixes #206). Expanded §28 to cover casual announcements. 33 patterns total.</p>
-</section>
-<section id="id11">
-<h2>2.9.1<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
-<p>Improved installation and package checks. Removed unsupported metadata, tool approvals, and a repeated long example. 33 patterns total.</p>
-</section>
-<section id="id12">
-<h2>2.9.0<a class="headerlink" href="#id12" title="Link to this heading">#</a></h2>
-<p>Added the rule against invented facts and updated every example to follow it (fixes #187). Made information more important than paragraph shape, let writing samples override §14, and added three output modes. 33 patterns total.</p>
-</section>
-<section id="id13">
-<h2>2.8.3<a class="headerlink" href="#id13" title="Link to this heading">#</a></h2>
-<p>Moved the version to <code class="docutils literal notranslate"><span class="pre">metadata.version</span></code> for Agent Skills compatibility. 33 patterns total.</p>
-</section>
-<section id="id14">
-<h2>2.8.2<a class="headerlink" href="#id14" title="Link to this heading">#</a></h2>
-<p>Replaced the main example with a first-person Lisbon story that keeps the original topic, view, and detail. 33 patterns total.</p>
-</section>
-<section id="id15">
-<h2>2.8.1<a class="headerlink" href="#id15" title="Link to this heading">#</a></h2>
-<p>Added cross-agent installation, Claude plugin files, and a safeguard for quoted text. 33 patterns total.</p>
-</section>
-<section id="id16">
-<h2>2.8.0<a class="headerlink" href="#id16" title="Link to this heading">#</a></h2>
-<p>Added patterns #31-33 and expanded pattern #20 to catch chatbot offers. 33 patterns total.</p>
-</section>
-<section id="id17">
-<h2>2.7.0<a class="headerlink" href="#id17" title="Link to this heading">#</a></h2>
-<p>Added pattern #30, strengthened the dash rule, and expanded pattern #21 to cover unsupported guesses. 30 patterns total.</p>
-</section>
-<section id="id18">
-<h2>2.6.0<a class="headerlink" href="#id18" title="Link to this heading">#</a></h2>
-<p>Combined repeated workflow text, limited personality guidance to the right content, removed model guesses, and shortened the main example. 29 patterns total.</p>
-</section>
-<section id="id19">
-<h2>2.5.1<a class="headerlink" href="#id19" title="Link to this heading">#</a></h2>
-<p>Added passive voice and missing subjects. 29 patterns total.</p>
-</section>
-<section id="id20">
-<h2>2.5.0<a class="headerlink" href="#id20" title="Link to this heading">#</a></h2>
-<p>Added deeper-truth claims, announcements, repeated headings, and clipped negative endings. Tightened the dash rule and corrected the frontmatter. 28 patterns total.</p>
-</section>
-<section id="id21">
-<h2>2.4.0<a class="headerlink" href="#id21" title="Link to this heading">#</a></h2>
-<p>Added writing-sample matching.</p>
-</section>
-<section id="id22">
-<h2>2.3.0<a class="headerlink" href="#id22" title="Link to this heading">#</a></h2>
-<p>Added hyphenated word pairs.</p>
-</section>
-<section id="id23">
-<h2>2.2.0<a class="headerlink" href="#id23" title="Link to this heading">#</a></h2>
-<p>Added a draft check and second rewrite.</p>
-</section>
-<section id="id24">
-<h2>2.1.1<a class="headerlink" href="#id24" title="Link to this heading">#</a></h2>
-<p>Corrected the curly-quote example.</p>
-</section>
-<section id="id25">
-<h2>2.1.0<a class="headerlink" href="#id25" title="Link to this heading">#</a></h2>
-<p>Added before/after examples for all 24 patterns.</p>
-</section>
-<section id="id26">
-<h2>2.0.0<a class="headerlink" href="#id26" title="Link to this heading">#</a></h2>
-<p>Rewrote the skill from the Wikipedia source.</p>
-</section>
-<section id="id27">
-<h2>1.0.0<a class="headerlink" href="#id27" title="Link to this heading">#</a></h2>
-<p>First release.</p>
+<section id="post-rules">
+<h2>Post Rules<a class="headerlink" href="#post-rules" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The first paragraph is a summary of the post. It is used as a preview in search results and social media. Make it concise, clear, and specific. Avoid generic statements that do not convey the post’s content.</p></li>
+<li><p>Write in first person where the author’s experience is involved. The post should read as someone who did this work, not as documentation.</p></li>
+<li><p>The last section before References is <code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">Key</span> <span class="pre">Takeaways</span></code>, with bullet points summarizing the main points, not a generic conclusion.</p></li>
+<li><p>Read <a class="reference internal" href="../blog-layout/"><span class="std std-doc">blog-layout.md</span></a> for the frontmatter template, the end-of-post order, the author footer, the JSON-LD block, and the code block rules. They are required for every post.</p></li>
+</ul>
 </section>
 </section>
 

@@ -363,7 +363,7 @@
   <h3><a href="../">Tags</a></h3>
   <ul class="ablog-cloud">
      
-    <li class="ablog-cloud ablog-cloud-1">
+    <li class="ablog-cloud ablog-cloud-2">
       <a href="../aws/">aws</a>
     </li>
       
@@ -435,7 +435,7 @@
       <a href="../readline/">readline</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-3">
+    <li class="ablog-cloud ablog-cloud-2">
       <a href="../sharding/">sharding</a>
     </li>
       
@@ -447,7 +447,7 @@
       <a href="../systemd/">systemd</a>
     </li>
       
-    <li class="ablog-cloud ablog-cloud-4">
+    <li class="ablog-cloud ablog-cloud-3">
       <a href="../terminal/">terminal</a>
     </li>
       
@@ -500,6 +500,69 @@
     </span>
   </h1>
    
+  <div class="section ablog-post">
+    <h2 class="ablog-post-title">
+      <a href="../../2026/2026-11-12-opensearch-hot-warm-cold/">Hands-On OpenSearch Storage Tiering: A Log Analytics Implementation</a>
+    </h2>
+    <ul class="ablog-archive">
+      <li>
+         
+        <i class="fa fa-calendar"></i>
+        
+        <span>12 November 2026</span>
+        
+      </li>
+      <div class="ablog-sidebar-item ablog__postcard2">
+   
+  <li id="ablog-sidebar-item author ablog__author">
+    <span>
+      
+      <i class="fa-fw fa fa-user"></i>
+      
+    </span>
+     
+    <a href="../../author/carlos-neto/">Carlos Neto</a>
+      
+  </li>
+     
+  <li id="ablog-sidebar-item category ablog__category">
+    <span>
+      
+      <i class="fa-fw fa fa-folder-open"></i>
+      
+    </span>
+     
+    <a href="../../category/observability/">Observability</a>
+      
+  </li>
+   
+  <li id="ablog-sidebar-item tags ablog__tags">
+    <span>
+       
+      <i class="fa-fw fa fa-tags"></i>
+       
+    </span>
+     
+    <a href="#">opensearch</a>
+        
+    <a href="../aws/">aws</a>
+        
+    <a href="../logs/">logs</a>
+      
+  </li>
+   
+</div>
+    </ul>
+    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/12</em></p>
+<p>This blog post is a hands-on implementation of storage tiering in OpenSearch, using a log analytics scenario based on my experience. In the example, log indexes move through three tiers: hot nodes on local NVMe for the first 3 days, warm nodes on EBS until 90 days, and S3 snapshots that come back as searchable snapshots only when someone needs old data. You will configure the node attributes, index template, and Index State Management (ISM) policy that automate the flow, and see how I run the searchable tier on short-lived Kubernetes nodes and which costs and failures I ran into.</p>
+</p>
+
+    <p class="ablog-post-expand">
+      <a href="../../2026/2026-11-12-opensearch-hot-warm-cold/"><em>Read more ...</em></a>
+    </p>
+    <hr />
+  </div>
+  
   <div class="section ablog-post">
     <h2 class="ablog-post-title">
       <a href="../../2026/2026-11-11-opensearch-alias-filtered-by-field/">Avoiding Over-Sharding in OpenSearch with Filtered Aliases per Environment</a>

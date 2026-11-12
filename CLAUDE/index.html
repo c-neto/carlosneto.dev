@@ -11,12 +11,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/CLAUDE/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="Guidance for AI agents working in this repository. Skills: This project ships skills in.agents/skills/. Use them for the tasks below. blog-writer: Use for any work on blog posts. Drafting a new pos..." />
+<meta property="og:description" content="Guidance for AI agents working in this repository. Repository Structure: Key directories: blog/: The published posts. Each post lives under its year folder with a YYYY-MM-DD date prefix in the file..." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_CLAUDE_f0ab9cf8.png" />
-<meta property="og:image:alt" content="Guidance for AI agents working in this repository. Skills: This project ships skills in.agents/skills/. Use them for the tasks below. blog-writer: Use for any work on blog posts. Drafting a new pos..." />
-<meta name="description" content="Guidance for AI agents working in this repository. Skills: This project ships skills in.agents/skills/. Use them for the tasks below. blog-writer: Use for any work on blog posts. Drafting a new pos..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_CLAUDE_1959f357.png" />
+<meta property="og:image:alt" content="Guidance for AI agents working in this repository. Repository Structure: Key directories: blog/: The published posts. Each post lives under its year folder with a YYYY-MM-DD date prefix in the file..." />
+<meta name="description" content="Guidance for AI agents working in this repository. Repository Structure: Key directories: blog/: The published posts. Each post lives under its year folder with a YYYY-MM-DD date prefix in the file..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>CLAUDE.md &#8212; Carlos Neto&#39;s Blog</title>
@@ -394,22 +394,10 @@
                    <section id="claude-md">
 <h1>CLAUDE.md<a class="headerlink" href="#claude-md" title="Link to this heading">#</a></h1>
 <p>Guidance for AI agents working in this repository.</p>
-<section id="skills">
-<h2>Skills<a class="headerlink" href="#skills" title="Link to this heading">#</a></h2>
-<p>This project ships skills in <code class="docutils literal notranslate"><span class="pre">.agents/skills/</span></code>. Use them for the tasks below.</p>
-<ul class="simple">
-<li><p><strong>blog-writer</strong>: Use for any work on blog posts. Drafting a new post, completing a draft, or refactoring an existing post for frontmatter, structure, headings, code blocks, callouts, voice, and tone. It holds the author’s voice guide and all writing conventions.</p></li>
-<li><p><strong>humanizer</strong>: Use to remove AI tells from prose. Always run it as the final step before publishing any post, with a voice sample. The <code class="docutils literal notranslate"><span class="pre">blog-writer</span></code> skill calls it at the end of its workflow.</p></li>
-<li><p><strong>bash-conventions</strong>: Bash and shell scripting conventions. Use when writing, reviewing, or refactoring bash/sh scripts.</p></li>
-<li><p><strong>python-conventions</strong>: Python coding conventions and best practices. Use when writing, reviewing, or refactoring Python scripts.</p></li>
-<li><p><strong>helm-chart-conventions</strong>: Helm chart structural, formatting, and naming conventions. Use when authoring or reviewing Helm charts.</p></li>
-</ul>
-<p>When a task matches a skill, load that skill and follow it. The skills are the source of truth for how to do the work; this file only points to them.</p>
-</section>
 <section id="repository-structure">
 <h2>Repository Structure<a class="headerlink" href="#repository-structure" title="Link to this heading">#</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.
-├──<span class="w"> </span>.agents/skills/<span class="w">         </span><span class="c1"># Agent skills (blog-writer, humanizer)</span>
+├──<span class="w"> </span>.claude/skills/<span class="w">         </span><span class="c1"># Claude Code skills (blog-creator)</span>
 ├──<span class="w"> </span>.github/<span class="w">                </span><span class="c1"># GitHub Actions workflows and CI config</span>
 ├──<span class="w"> </span>_static/<span class="w">                </span><span class="c1"># Static assets: images, custom.css, per-year post images (_static/&lt;year&gt;/)</span>
 ├──<span class="w"> </span>_templates/<span class="w">             </span><span class="c1"># Sphinx HTML templates (layout.html, hello.html)</span>
@@ -436,7 +424,7 @@
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">hidden/</span></code></strong>: Drafts in progress. Not published. Move a post to <code class="docutils literal notranslate"><span class="pre">blog/&lt;YEAR&gt;/</span></code> when it is ready.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">_static/</span></code></strong>: All static assets. Post images go in <code class="docutils literal notranslate"><span class="pre">_static/&lt;year&gt;/</span></code>. Site-wide styles are in <code class="docutils literal notranslate"><span class="pre">custom.css</span></code>.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">_templates/</span></code></strong>: Sphinx HTML layout overrides.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">.agents/skills/</span></code></strong>: The agent skills described above.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">.claude/skills/</span></code></strong>: The project skills described above. <code class="docutils literal notranslate"><span class="pre">humanizer</span></code> is installed per user in <code class="docutils literal notranslate"><span class="pre">~/.claude/skills/</span></code>.</p></li>
 </ul>
 </section>
 </section>
