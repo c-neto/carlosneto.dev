@@ -1,26 +1,24 @@
 name: deploy-website
 
-# Rebuild and publish the site when a post changes
 on:
   push:
     branches:
       - main
     paths:
       - blog/**
-  workflow_dispatch:
+  workflow_dispatch: {}
 
-# Cancel an older run when a newer commit triggers this workflow
+permissions:
+  contents: write
+  packages: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build-site:
+  deploy-site:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
-    # Prebuilt image with the Sphinx dependencies (see Dockerfile)
     container:
       image: ghcr.io/${{ github.repository }}-builder:latest
       credentials:
@@ -30,27 +28,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build the site
-        run: sphinx-build -b dirhtml . _build/dirhtml
+        run: make dirhtml
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: site
-          path: _build/dirhtml
-
-  # Publishing runs on the host runner, so the image doesn't need git
-  publish:
-    needs: build-site
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: site
-          path: site
-
-      - uses: peaceiris/actions-gh-pages@v4
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
+          publish_dir: ./_build/dirhtml
           cname: carlosneto.dev
