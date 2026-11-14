@@ -70,6 +70,7 @@ html_theme_options = {
     ],
     "secondary_sidebar_items": [],
     "article_header_start": [],
+    "footer_center": ["analytics-button"],
 }
 
 html_favicon = "_static/profile-color-circle-small.png"
