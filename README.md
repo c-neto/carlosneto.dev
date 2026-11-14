@@ -22,7 +22,7 @@ make live
 
 ## Analytics (GoatCounter)
 
-The [/analytics](https://carlosneto.dev/analytics/) page shows public stats for the site: visitors, countries, top posts, referrers, browsers, systems and screen sizes. The data comes from [GoatCounter](https://www.goatcounter.com), which uses no cookies and does not store IPs.
+The [/analytics](https://carlosneto.dev/analytics/) page shows public stats for the blog posts: readers, countries, top posts, referrers, browsers, systems and screen sizes. GoatCounter counts every page, but the export keeps only post URLs (`/blog/<year>/<date>-<slug>/`, see `POST_PATH` in `scripts/goatcounter_export.py`), so the home, listing, tag and category pages are left out. The data comes from [GoatCounter](https://www.goatcounter.com), which uses no cookies and does not store IPs.
 
 ### How it works
 
