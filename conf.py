@@ -16,11 +16,10 @@ copyright = "2023, Carlos Neto"
 author = "Carlos Neto"
 
 extensions = [
-    "myst_nb",
+    "myst_parser",
     "ablog",
     "sphinx_design",
     "sphinx_copybutton",
-    "sphinx_examples",
     "sphinxext.opengraph",
     "sphinxext.rediraffe",
 ]
@@ -151,7 +150,7 @@ post_redirect_refresh = 1
 post_auto_image = 0
 post_auto_excerpt = 2
 
-# -- MyST and MyST-NB ---------------------------------------------------
+# -- MyST ---------------------------------------------------
 
 # MyST
 myst_enable_extensions = [
@@ -165,8 +164,6 @@ html_context = {
    "default_mode": "light"
 }
 
-
-nb_execution_mode = "off"
 
 
 def setup(app):
