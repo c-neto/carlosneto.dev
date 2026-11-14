@@ -4,7 +4,7 @@
 
 # Analytics
 
-Who reads this site, from where, and what they read. The numbers come from [GoatCounter](https://www.goatcounter.com), which uses no cookies and stores no personal data, so everything below is aggregated. The page refreshes once a day.
+> _Powered by [GoatCounter](https://www.goatcounter.com), an open-source alternative to Google Analytics and Matomo. *No cookies are stored, and no personal data is required!*_
 
 <link rel="stylesheet" href="/_static/analytics.css">
 
