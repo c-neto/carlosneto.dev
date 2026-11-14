@@ -1,4 +1,5 @@
 ---
+orphan: true
 :description: Public, cookie-free statistics for the blog posts on carlosneto.dev - readers, countries, top posts and where readers come from.
 ---
 
