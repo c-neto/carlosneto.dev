@@ -4,6 +4,8 @@
 
 # Analytics
 
+> *Metrics collection starts on November 14, 2026.*
+
 <link rel="stylesheet" href="/_static/analytics.css">
 
 <div id="gc-analytics" data-src="/_static/analytics.json">
