@@ -1,0 +1,50 @@
+name: 📊 Update Analytics
+
+# Refreshes the data behind the /analytics page without rebuilding the site:
+# exports GoatCounter stats to analytics.json and commits only that file to gh-pages.
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "17 * * * *" # hourly, off the top of the hour when GitHub is busiest
+
+permissions:
+  contents: write
+
+# Shared with deploy.yml so the two never push to gh-pages at the same time.
+concurrency:
+  group: gh-pages-publish
+  cancel-in-progress: false
+
+jobs:
+  update-analytics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts/goatcounter_export.py
+          sparse-checkout-cone-mode: false
+
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Export analytics
+        env:
+          GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+          GOATCOUNTER_OUT: gh-pages/_static/analytics.json
+        run: python3 scripts/goatcounter_export.py
+
+      - name: Commit to gh-pages
+        working-directory: gh-pages
+        run: |
+          if git diff --quiet -- _static/analytics.json && \
+             ! git ls-files --others --exclude-standard | grep -q .; then
+            echo "No analytics changes to publish."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _static/analytics.json
+          git commit -m "Update analytics data"
+          git push origin HEAD:gh-pages

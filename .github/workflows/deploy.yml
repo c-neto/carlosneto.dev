@@ -2,9 +2,6 @@ name: 🚀 Deploy Website
 
 on:
   workflow_dispatch: {}
-  # Daily rebuild so the /analytics page gets fresh GoatCounter numbers.
-  schedule:
-    - cron: "0 6 * * *"
   push:
     branches:
       - main
@@ -13,7 +10,6 @@ on:
       - analytics.md
       - _templates/**
       - _static/analytics.*
-      - scripts/goatcounter_export.py
 
 permissions:
   contents: write
@@ -26,6 +22,10 @@ concurrency:
 jobs:
   deploy-site:
     runs-on: ubuntu-latest
+    # Shared with analytics.yml so the two never push to gh-pages at the same time.
+    concurrency:
+      group: gh-pages-publish
+      cancel-in-progress: false
     container:
       image: ghcr.io/${{ github.repository }}-builder:latest
       credentials:
@@ -34,10 +34,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Export analytics
-        env:
-          GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
-        run: python3 scripts/goatcounter_export.py
+      # The publish step below replaces everything on gh-pages, so carry over the
+      # analytics.json that analytics.yml keeps there. Missing file is fine.
+      - name: Keep published analytics data
+        run: |
+          python3 - <<'EOF'
+          import urllib.request
+          url = "https://raw.githubusercontent.com/${{ github.repository }}/gh-pages/_static/analytics.json"
+          try:
+              data = urllib.request.urlopen(url, timeout=30).read()
+              open("_static/analytics.json", "wb").write(data)
+              print(f"Kept analytics.json ({len(data)} bytes)")
+          except Exception as err:
+              print(f"::notice::No published analytics.json to keep: {err}")
+          EOF
 
       - name: Build the site
         run: make dirhtml
