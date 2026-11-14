@@ -1,0 +1,1 @@
+- sem metricas, vc soh tem uma opiniao. Edwards Deming - contar do caso do opensearch lento, q na vdd era o opensearch-dashboards que nao tava conseguindo ler logs grandes.
