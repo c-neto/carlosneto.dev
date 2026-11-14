@@ -3,6 +3,9 @@
 .vscode
 
 _build/
+
+# Generated in CI by scripts/goatcounter_export.py
+_static/analytics.json
 venv
 
 
