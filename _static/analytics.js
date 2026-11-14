@@ -225,7 +225,15 @@
       renderList(key, r[key], r.total);
     }
     const updated = new Date(data.generated_at);
-    $(".gc-updated").textContent = `Updated ${updated.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}. Percentages in tooltips are shares of all visitors in the range.`;
+    const updatedEl = $(".gc-updated");
+    const goatCounter = document.createElement("a");
+    goatCounter.href = "https://www.goatcounter.com/";
+    goatCounter.textContent = "GoatCounter";
+    updatedEl.replaceChildren(
+      document.createTextNode(`Updated ${updated.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}. Powered by `),
+      goatCounter,
+      document.createTextNode(", an open-source alternative to Google Analytics and Matomo. No cookies are stored, and no personal data is required."),
+    );
   }
 
   // ---------- wiring ----------
