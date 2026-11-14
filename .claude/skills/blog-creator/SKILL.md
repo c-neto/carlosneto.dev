@@ -44,7 +44,6 @@ The writing must be done with the `blog-write` skill (`/blog write`). Pass it:
 
 - The draft from Step 1 and the interview answers from Step 2, labeled as the author's own material.
 - The target file path from Step 3.
-- The rules from [blog-layout.md](./blog-layout.md) and the "Post Rules" section below, stating that they override `blog-write` defaults where they conflict.
 
 The repository layout wins over `blog-write` conventions:
 
@@ -69,6 +68,7 @@ Constraints for every round:
 - Keep the author's experience, opinions, and voice. Never trade them for points.
 - Never add invented experience, statistics, or numbers. Statistics and technical claims need a real source, preferably official documentation.
 - Keep the layout from `blog-layout.md` intact.
+- Follow [written-directives.md](./written-directives.md). When an analyzer fix conflicts with a directive (for example, adding subsections or lists that break the explanatory prose), the directive wins.
 - Some analyzer points are not worth chasing on this site: a frontmatter `slug` or `canonical`, hero images, and links added only to reach tier-1 domains. Skip those and say so.
 - If a round lowers the score, revert that round's changes and try a different fix.
 

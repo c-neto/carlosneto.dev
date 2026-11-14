@@ -2,6 +2,7 @@ name: 🐳 Build Sphinx Builder Container Image
 
 # Rebuild the site build image when its definition changes
 on:
+  workflow_dispatch: {}
   push:
     branches:
       - main
@@ -9,9 +10,7 @@ on:
       - Dockerfile
       - requirements.txt
       - .github/workflows/docker-image.yml
-  workflow_dispatch:
 
-# Cancel an older run when a newer commit triggers this workflow
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
