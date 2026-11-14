@@ -11,7 +11,7 @@ Guidance for AI agents working in this repository.
 ├── _static/                # Static assets: images, custom.css, per-year post images (_static/<year>/)
 ├── _templates/             # Sphinx HTML templates (layout.html, hello.html)
 ├── blog/                   # Published posts, organized by year: blog/<YEAR>/<YYYY-MM-DD>-<slug>.md
-├── hidden/                 # Draft posts not ready to publish
+├── draft/                  # Draft posts not ready to publish
 ├── scripts/                # Helper scripts (social_media/)
 ├── blog.md                 # Blog index page
 ├── index.md                # Site landing page
@@ -29,7 +29,7 @@ Guidance for AI agents working in this repository.
 ### Key directories
 
 - **`blog/`**: The published posts. Each post lives under its year folder with a `YYYY-MM-DD` date prefix in the filename. This is where finished posts go.
-- **`hidden/`**: Drafts in progress. Not published. Move a post to `blog/<YEAR>/` when it is ready.
+- **`draft/`**: Drafts in progress. Not published. Move a post to `blog/<YEAR>/` when it is ready.
 - **`_static/`**: All static assets. Post images go in `_static/<year>/`. Site-wide styles are in `custom.css`.
 - **`_templates/`**: Sphinx HTML layout overrides.
 - **`.claude/skills/`**: The project skills described above. `humanizer` is installed per user in `~/.claude/skills/`.
