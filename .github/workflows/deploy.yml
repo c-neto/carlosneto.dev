@@ -2,11 +2,18 @@ name: 🚀 Deploy Website
 
 on:
   workflow_dispatch: {}
+  # Daily rebuild so the /analytics page gets fresh GoatCounter numbers.
+  schedule:
+    - cron: "0 6 * * *"
   push:
     branches:
       - main
     paths:
       - blog/**
+      - analytics.md
+      - _templates/**
+      - _static/analytics.*
+      - scripts/goatcounter_export.py
 
 permissions:
   contents: write
@@ -26,6 +33,11 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Export analytics
+        env:
+          GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+        run: python3 scripts/goatcounter_export.py
 
       - name: Build the site
         run: make dirhtml

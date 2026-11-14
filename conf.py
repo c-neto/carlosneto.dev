@@ -83,6 +83,7 @@ html_sidebars = {
     "contribution-list": [
         "hello.html"
     ],
+    "analytics": [],
     "blog": [
         "ablog/categories.html",
         "ablog/tagcloud.html",
