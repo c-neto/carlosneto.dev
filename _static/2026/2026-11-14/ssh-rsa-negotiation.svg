@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 320" width="960" height="320" role="img" aria-labelledby="t d">
+  <title id="t">RSA signature algorithm negotiation between a modern OpenSSH client and a legacy SFTP server</title>
+  <desc id="d">Default case: an OpenSSH 8.8 or later client offers the RSA key only with rsa-sha2-512 and rsa-sha2-256, the legacy server accepts only ssh-rsa, there is no common algorithm, and the result is Permission denied (publickey). With PubkeyAcceptedAlgorithms=+ssh-rsa, the client also offers ssh-rsa, both sides agree on it, and the connection succeeds.</desc>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#16a34a"/></marker>
+  </defs>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="14">
+    <text x="20" y="30" font-size="16" font-weight="700" fill="#dc2626">Default: OpenSSH 8.8+ client</text>
+    <g fill="none" stroke="#dc2626" stroke-width="2">
+      <rect x="20" y="44" width="260" height="96" rx="10"/>
+      <rect x="680" y="44" width="260" height="96" rx="10"/>
+      <line x1="284" y1="92" x2="676" y2="92" marker-end="url(#ar)" stroke-dasharray="6 5"/>
+    </g>
+    <text x="36" y="70" font-weight="700" fill="#dc2626">Client offers (RSA key)</text>
+    <text x="36" y="96" fill="#64748b" font-family="ui-monospace, Menlo, monospace">rsa-sha2-512</text>
+    <text x="36" y="120" fill="#64748b" font-family="ui-monospace, Menlo, monospace">rsa-sha2-256</text>
+    <text x="696" y="70" font-weight="700" fill="#dc2626">Legacy server accepts</text>
+    <text x="696" y="96" fill="#64748b" font-family="ui-monospace, Menlo, monospace">ssh-rsa</text>
+    <text x="480" y="78" text-anchor="middle" fill="#dc2626">no common algorithm</text>
+    <text x="480" y="118" text-anchor="middle" font-weight="700" fill="#dc2626" font-family="ui-monospace, Menlo, monospace">Permission denied (publickey)</text>
+
+    <text x="20" y="190" font-size="16" font-weight="700" fill="#16a34a">With -o PubkeyAcceptedAlgorithms=+ssh-rsa</text>
+    <g fill="none" stroke="#16a34a" stroke-width="2">
+      <rect x="20" y="204" width="260" height="104" rx="10"/>
+      <rect x="680" y="204" width="260" height="104" rx="10"/>
+      <line x1="284" y1="256" x2="676" y2="256" marker-end="url(#ag)"/>
+    </g>
+    <text x="36" y="230" font-weight="700" fill="#16a34a">Client offers (RSA key)</text>
+    <text x="36" y="254" fill="#64748b" font-family="ui-monospace, Menlo, monospace">rsa-sha2-512</text>
+    <text x="36" y="274" fill="#64748b" font-family="ui-monospace, Menlo, monospace">rsa-sha2-256</text>
+    <text x="36" y="294" fill="#16a34a" font-weight="700" font-family="ui-monospace, Menlo, monospace">ssh-rsa (appended by +)</text>
+    <text x="696" y="230" font-weight="700" fill="#16a34a">Legacy server accepts</text>
+    <text x="696" y="254" fill="#64748b" font-family="ui-monospace, Menlo, monospace">ssh-rsa</text>
+    <text x="480" y="242" text-anchor="middle" fill="#16a34a">both agree on ssh-rsa</text>
+    <text x="480" y="282" text-anchor="middle" font-weight="700" fill="#16a34a" font-family="ui-monospace, Menlo, monospace">Connected to sftp.foobar.com.</text>
+  </g>
+</svg>

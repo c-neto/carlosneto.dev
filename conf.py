@@ -3,6 +3,7 @@ import sys
 sys.path.append("scripts")
 sys.path.append(".")
 
+import os
 from pathlib import Path
 from social_media import add_social_media_js, SocialPost
 from tldr_ai import add_tldr_ai
@@ -35,6 +36,11 @@ exclude_patterns = [
     "README.md",
     "**/.ipynb_checkpoints/*",
 ]
+
+# Drafts are never built, so they never reach the site, its search index or _sources.
+# Preview them locally with: SPHINX_DRAFTS=1 make live
+if not os.environ.get("SPHINX_DRAFTS"):
+    exclude_patterns.append("draft/**")
 
 # -- HTML output -------------------------------------------------
 
