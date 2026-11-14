@@ -1,5 +1,5 @@
 ---
-:description: Public, cookie-free statistics for carlosneto.dev - visitors, countries, top posts and where readers come from.
+:description: Public, cookie-free statistics for the blog posts on carlosneto.dev - readers, countries, top posts and where readers come from.
 ---
 
 # Analytics
@@ -14,12 +14,12 @@
 <p class="gc-status" role="status">Loading stats…</p>
 <div class="gc-body" hidden>
 <div class="gc-tiles">
-<div class="gc-tile"><span class="gc-tile-label">Visitors</span><span class="gc-tile-value" data-tile="total"></span></div>
+<div class="gc-tile"><span class="gc-tile-label">Post readers</span><span class="gc-tile-value" data-tile="total"></span></div>
 <div class="gc-tile"><span class="gc-tile-label">Daily average</span><span class="gc-tile-value" data-tile="avg"></span></div>
 <div class="gc-tile"><span class="gc-tile-label">Busiest day</span><span class="gc-tile-value" data-tile="peak"></span><span class="gc-tile-note" data-tile="peak-day"></span></div>
 </div>
 <section class="gc-card gc-card-wide">
-<h2 class="gc-card-title">Visitors per day</h2>
+<h2 class="gc-card-title">Post readers per day</h2>
 <div class="gc-chart" data-chart="daily"></div>
 </section>
 <div class="gc-grid">
