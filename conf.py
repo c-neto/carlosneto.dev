@@ -63,6 +63,12 @@ html_theme_options = {
             "icon": "fa-brands fa-linkedin",
         },
         {
+            "name": "Analytics",
+            "url": "/analytics/",
+            "icon": "fa-solid fa-chart-simple",
+            "attributes": {"target": "_self"},
+        },
+        {
             "name": "Blog RSS feed",
             "url": "https://carlosneto.dev/blog/atom.xml",
             "icon": "fa-solid fa-rss",
@@ -70,7 +76,8 @@ html_theme_options = {
     ],
     "secondary_sidebar_items": [],
     "article_header_start": [],
-    "footer_center": ["analytics-button"],
+    "footer_start": ["copyright"],
+    "footer_end": ["sphinx-version"],
 }
 
 html_favicon = "_static/profile-color-circle-small.png"
