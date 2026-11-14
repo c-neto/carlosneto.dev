@@ -55,7 +55,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
-.gc-updated { color: var(--gc-muted); font-size: 0.8rem; margin-top: 1rem; }
+.gc-updated { color: var(--gc-muted); font-size: 0.8rem; font-style: italic; margin-top: 1rem; }
 
 @media (max-width: 720px) {
   .gc-grid { grid-template-columns: minmax(0, 1fr); }
