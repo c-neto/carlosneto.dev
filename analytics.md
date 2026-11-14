@@ -4,8 +4,6 @@
 
 # Analytics
 
-> _Powered by [GoatCounter](https://www.goatcounter.com), an open-source alternative to Google Analytics and Matomo. *No cookies are stored, and no personal data is required!*_
-
 <link rel="stylesheet" href="/_static/analytics.css">
 
 <div id="gc-analytics" data-src="/_static/analytics.json">

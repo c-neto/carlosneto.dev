@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Export GoatCounter stats to ``_static/analytics.json`` for the public /analytics page.
 
-Runs in CI before the Sphinx build. Needs the ``GOATCOUNTER_TOKEN`` env var
-(an API key with "read statistics" permission). Without it, or when the API
-fails, the script only warns: the site still deploys and the page shows its
-"no data yet" state.
+Runs hourly in CI (.github/workflows/analytics.yml), which commits the JSON
+straight to the gh-pages branch without rebuilding the site. Needs the
+``GOATCOUNTER_TOKEN`` env var (an API key with "read statistics" permission).
+Without it, or when the API fails, the script only warns and writes nothing,
+so the last published JSON stays online.
 
 Only aggregated data is exported: totals, pages, countries, referrers,
 browsers, systems and screen sizes. GoatCounter stores no IPs or cookies.
@@ -21,7 +22,11 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 SITE = os.environ.get("GOATCOUNTER_SITE", "https://c-neto.goatcounter.com")
-OUT = Path(__file__).resolve().parent.parent / "_static" / "analytics.json"
+# GOATCOUNTER_OUT lets CI write straight into a gh-pages checkout.
+OUT = Path(
+    os.environ.get("GOATCOUNTER_OUT")
+    or Path(__file__).resolve().parent.parent / "_static" / "analytics.json"
+)
 RANGES = {"30d": 30, "365d": 365}
 LIMIT = 10
 STAT_PAGES = {
@@ -106,6 +111,7 @@ def main() -> int:
         return 0
 
     payload = {"generated_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"), "ranges": ranges}
+    OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, separators=(",", ":")), encoding="utf-8")
     print(f"Wrote {OUT} ({ranges['30d']['total']} visitors in the last 30 days)")
     return 0
