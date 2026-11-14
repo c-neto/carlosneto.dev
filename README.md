@@ -26,14 +26,33 @@ The [/analytics](https://carlosneto.dev/analytics/) page shows public stats for 
 
 ### How it works
 
+```mermaid
+flowchart LR
+    visitor["Visitor's browser"] -- "count.js: path, title,<br/>referrer, screen size" --> gc[("c-neto.goatcounter.com")]
+
+    subgraph actions["analytics.yml (hourly)"]
+        export["scripts/goatcounter_export.py<br/>keeps blog posts only"]
+    end
+
+    gc -- "API + GOATCOUNTER_TOKEN" --> export
+    export -- "git commit<br/>_static/analytics.json" --> pages[("gh-pages branch")]
+    deploy["deploy.yml (on push)"] -- "rebuilds the site,<br/>keeps analytics.json" --> pages
+    pages --> site["carlosneto.dev/analytics<br/>_static/analytics.js"]
+    site -- "fetch analytics.json" --> reader["Page reader"]
 ```
-visitor's browser ──(count.js)──▶ c-neto.goatcounter.com      collects each visit
-                                          │
-analytics.yml (hourly) ──(API + token)───┘
-   scripts/goatcounter_export.py ──▶ analytics.json           aggregated stats
-   git commit ──▶ gh-pages ──▶ carlosneto.dev/_static/analytics.json
-                                          │
-/analytics page (_static/analytics.js) ◀──┘                  renders charts and lists
+
+```mermaid
+sequenceDiagram
+    participant GH as analytics.yml
+    participant API as GoatCounter API
+    participant P as gh-pages
+
+    GH->>API: GET stats/hits (paged with exclude_paths)
+    API-->>GH: every path with visits
+    Note over GH: keep only /blog/YEAR/DATE-SLUG/ (POST_PATH)
+    GH->>API: GET stats/total + locations, toprefs,<br/>browsers, systems, sizes (include_paths = post IDs)
+    API-->>GH: post-only stats
+    GH->>P: commit _static/analytics.json (only if changed)
 ```
 
 1. **Collection.** `_templates/layout.html` loads GoatCounter's `count.js` on every page. On each page view it sends the path, title, referrer and screen size to `c-neto.goatcounter.com`. GoatCounter derives the country and browser from the request, then discards the IP. Visits from `localhost` are ignored, so `make live` does not count.
