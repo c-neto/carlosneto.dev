@@ -89,6 +89,7 @@ Show the author:
 
 ## Post Rules
 
+- Write every post, and all content created for the site, in English, regardless of the language the author uses in the chat or in the draft.
 - The first paragraph is a summary of the post. It is used as a preview in search results and social media. Make it concise, clear, and specific. Avoid generic statements that do not convey the post's content.
 - Write in first person where the author's experience is involved. The post should read as someone who did this work, not as documentation.
 - The last section before References is `## Key Takeaways`, with bullet points summarizing the main points, not a generic conclusion.
