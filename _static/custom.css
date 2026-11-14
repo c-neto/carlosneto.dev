@@ -183,21 +183,3 @@ ol, ul {
   text-align: left !important;
 }
 
-/* Footer button linking to the /analytics page (kept out of the navbar) */
-.footer-analytics-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.8rem;
-  border: 1px solid var(--pst-color-border);
-  border-radius: 999px;
-  font-size: 0.85rem;
-  color: var(--pst-color-text-muted);
-  text-decoration: none;
-}
-
-.footer-analytics-btn:hover {
-  color: var(--pst-color-primary);
-  border-color: var(--pst-color-primary);
-  text-decoration: none;
-}
