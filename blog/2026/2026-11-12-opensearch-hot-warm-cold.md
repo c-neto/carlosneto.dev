@@ -358,4 +358,3 @@ When the access pattern does justify it, as it did for me, tiering works well. N
 }
 </script>
 ```
-
