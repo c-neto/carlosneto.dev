@@ -1,16 +1,9 @@
-ablog
-docutils
-ipython
-matplotlib
-myst_nb
-MyST-Parser
-pydata-sphinx-theme
-rich
-sphinx
-sphinx-autobuild
-sphinx-copybutton
-sphinx-design
-sphinx-examples
-sphinxcontrib-bibtex
-sphinxext-opengraph
-sphinxext-rediraffe
+ablog                # Blog engine: posts, archives, tags, categories and the Atom feed
+matplotlib           # Renders the OpenGraph social preview cards (ogp_social_cards)
+MyST-Parser          # Markdown (MyST) source files
+pydata-sphinx-theme  # Site theme (html_theme)
+sphinx               # Static site generator
+sphinx-copybutton    # Copy button on code blocks
+sphinx-design        # grid and card directives used on the home page and in some posts
+sphinxext-opengraph  # OpenGraph meta tags for link previews
+sphinxext-rediraffe  # Redirects for renamed tag and category pages

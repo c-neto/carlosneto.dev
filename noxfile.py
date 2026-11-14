@@ -8,7 +8,7 @@ nox.options.reuse_existing_virtualenvs = True
 @nox.session
 def docs(session):
     session.install("-r", "requirements.txt")
-    session.install("-r", "execute-requirements.txt")
+    session.install("-r", "requirements-dev.txt")
     if "live" in session.posargs:
         session.run(
             *split(
@@ -25,5 +25,5 @@ def docs(session):
 @nox.session
 def lab(session):
     session.install("-r", "requirements.txt")
-    session.install("-r", "execute-requirements.txt")
+    session.install("-r", "requirements-dev.txt")
     session.run(*split("jupyter lab ."))

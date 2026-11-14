@@ -1,34 +1,25 @@
-# Minimal makefile for Sphinx documentation
-#
-
-# You can set these variables from the command line, and also
-# from the environment for the first two.
 SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = .
 BUILDDIR      = _build
+# Virtualenv with the dependencies; the Docker image sets VENV=/venv
+VENV          ?= venv
 
-# Put it first so that "make" without argument is like "make help".
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 setup:
-	python3 -m venv venv
-	venv/bin/pip3 install -r requirements.txt
-	venv/bin/pip3 install -r execute-requirements.txt
-
-skills:
-	npx skills add blader/humanizer
+	python3 -m venv $(VENV)
+	$(VENV)/bin/pip3 install -r requirements.txt
+	$(VENV)/bin/pip3 install -r requirements-dev.txt
 
 live:
-	./venv/bin/sphinx-autobuild --ignore _build -b dirhtml  . _build/dirhtml/
+	$(VENV)/bin/sphinx-autobuild --ignore _build -b dirhtml . _build/dirhtml/
 
 build:
-	./venv/bin/sphinx-build . _build/dirhtml/
+	$(VENV)/bin/sphinx-build -b dirhtml . _build/dirhtml/
 
 .PHONY: help Makefile
 
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
