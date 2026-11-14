@@ -143,4 +143,3 @@ Close every post in this order. Use `blog/2026/2026-11-10-opensearch-scale-down.
 
 - Use ` ```opensearch ` for every OpenSearch API call (request line plus optional JSON body). Write the request line inside the block, not in a `:caption:`. The lexer lives in `scripts/opensearch_lexer/`.
 - Use only lexer names that Pygments knows. For log lines and Prometheus exposition output, use ` ```text `. For PromQL, use ` ```promql `.
-
