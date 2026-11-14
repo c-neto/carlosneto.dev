@@ -60,5 +60,4 @@ It' is my space to share my experiences and open source contributions. You can t
 :hidden:
 blog
 contribution-list
-analytics
 ```
