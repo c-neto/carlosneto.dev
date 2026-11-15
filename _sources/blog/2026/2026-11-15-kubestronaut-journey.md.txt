@@ -30,6 +30,8 @@ The title also comes with some perks. According to the [Kubestronaut Program pag
 
 Knowing a subject is different from mastering it. Knowing means you understand which tools exist to solve a problem. Mastering means you have the practical experience to pick the solution closest to ideal for a given context, and that only comes with time and real work. A certification says you know Kubernetes. It doesn't say you master it.
 
+So I disagree with the idea that these certifications are only for people who already master Kubernetes. They suit people who are learning it even better. If I knew nothing about Kubernetes today, I would study for the certifications instead of watching random YouTube videos. The curriculum makes the learning curve more organized and much less tortuous.
+
 From what I've seen and talked about with colleagues, the market uses these certifications mostly to speed up interviews and to strengthen your position when negotiating a contract. They signal that you know the Kubernetes basics. Before you start, ask yourself honestly why you want one and what you'll do with it, because the certificate alone won't change your life. What you learn on the way is worth more than the badge.
 
 People often tell me the exams are expensive, and they are, especially if you don't earn in US Dollars. Still, the fee is the cheap part. The hours of study and the mental energy they drain cost much more.
@@ -75,8 +77,6 @@ I took them in a poorly planned order: CKA, KCNA, KCSA, CKAD, and then CKS. Ther
 A junior DevOps engineer gets a solid foundation going from the KCNA to the CKAD and then the CKA. If you're a mid-level or senior DevOps engineer and want only one, take the CKA. I don't recommend taking only the CKAD. The CKA covers everything in the CKAD, so preparing for the CKA also prepares you to pass the CKAD with little extra study, and taking the CKAD later becomes easy if you want it. If you're in SecOps, start with the KCSA, then the CKA (unfortunately, because of the CKS prerequisite), then the CKS. And for the Kubestronaut title, go from the easiest to the hardest: KCNA, KCSA, CKAD, CKA, and CKS.
 
 Also check the current requirements before planning the full path. The Linux Foundation [announced](https://training.linuxfoundation.org/resources/kubestronaut-program/) that starting February 15, 2027, the Certified Kubernetes Network Engineer (CKNE) will also be required for Kubestronaut status. Because it's a new exam, I would leave it for last. That gives the community time to share feedback about it, and gives course creators time to publish courses and practice exams.
-
-I also disagree with the idea that these certifications are only for people who already master Kubernetes. They suit people who are learning it even better. If I knew nothing about Kubernetes today, I would study for the certifications instead of watching random YouTube videos. The curriculum makes the learning curve much less tortuous.
 
 ## Prices, Bundles, and Promotions
 
