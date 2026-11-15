@@ -38,6 +38,8 @@ People often tell me the exams are expensive, and they are, especially if you do
 
 The five exams fall into two groups. KCNA and KCSA are multiple-choice exams, and you can't consult anything. CKA, CKAD, and CKS are hands-on: you solve tasks in a terminal on a remote Linux desktop, with access to a list of official documentation sites.
 
+All five exams can be taken remotely on [PSI Bridge](https://www.psiexams.com/test-owners/test-delivery/online-proctoring/), under constant monitoring through your webcam. Before the exam starts, a check-in step asks a live scan of your desk and the whole room. If you've taken an online AWS certification exam, the experience is similar. I took all five in English, and the conversation with the proctor was in English too. It happens through a text chat and is basic, with requests like "show the ceiling" or "show the area under your keyboard". The [Linux Foundation Candidate Handbook](https://docs.linuxfoundation.org/tc-docs/certification/lf-handbook2/taking-the-exam) has the details.
+
 | Exam | Format | Duration | Documentation allowed |
 | --- | --- | --- | --- |
 | [KCNA](https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/) | Multiple choice | 90 minutes | None |
