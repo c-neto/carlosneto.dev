@@ -1,7 +1,8 @@
 {%- extends "pydata_sphinx_theme/layout.html" %}
 
 {%- block extrahead %}
-  {{ super() }}
+  {#- pydata's extrahead repeats the viewport tag the Sphinx base layout already emits. #}
+  {{ super() | replace('<meta name="viewport" content="width=device-width, initial-scale=1"/>', '') }}
   {#- GoatCounter: cookie-free page view counter. Feeds the public /analytics page. #}
   <script data-goatcounter="https://c-neto.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>

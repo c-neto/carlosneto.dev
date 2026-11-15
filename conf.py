@@ -4,6 +4,7 @@ sys.path.append("scripts")
 sys.path.append(".")
 
 import os
+import re
 from pathlib import Path
 from social_media import add_social_media_js, SocialPost
 from tldr_ai import add_tldr_ai
@@ -175,7 +176,16 @@ html_context = {
 
 
 
+def drop_docutils_viewport(app, pagename, templatename, context, doctree):
+    """The Sphinx base layout already emits a viewport tag, and docutils'
+    HTML5 writer adds a second one to ``metatags``. Drop the docutils copy."""
+    metatags = context.get("metatags")
+    if metatags:
+        context["metatags"] = re.sub(r'<meta name="viewport"[^>]*>\n?', "", metatags)
+
+
 def setup(app):
+    app.connect("html-page-context", drop_docutils_viewport)
     app.add_directive("socialpost", SocialPost)
     app.add_lexer("opensearch", OpenSearchLexer)
     app.connect("html-page-context", add_social_media_js)
