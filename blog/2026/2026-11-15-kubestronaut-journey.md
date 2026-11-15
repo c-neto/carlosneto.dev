@@ -32,19 +32,19 @@ So I disagree with the idea that these certifications are only for people who al
 
 ## What to Expect From Each Exam
 
-All five exams are taken remotely on [PSI Bridge](https://www.psiexams.com/test-owners/test-delivery/online-proctoring/), with webcam monitoring and a room scan at check-in, and include one free retake. KCNA and KCSA are multiple choice, with no references allowed, and the result arrives by email right away. CKA, CKAD, and CKS are hands-on tasks in a terminal on a remote Linux desktop, with access to the official docs, and the result takes up to 24 hours. They also include two [Killer Shell](https://killer.sh/) simulator sessions, which match the exam closely but run faster, so expect a slower terminal on exam day. For more details about the proctoring, see [Candidate Handbook](https://docs.linuxfoundation.org/tc-docs/certification/lf-handbook2/taking-the-exam).
+All five exams are taken remotely on [PSI Bridge](https://www.psiexams.com/test-owners/test-delivery/online-proctoring/), with webcam monitoring and a room scan at check-in, and include one free retake. KCNA and KCSA have 60 multiple-choice questions, with no references allowed, and the result arrives by email right away. CKA, CKAD, and CKS have 15 to 20 hands-on tasks in a terminal on a remote Linux desktop, with access to the official docs, and the result takes up to 24 hours. They also include two [Killer Shell](https://killer.sh/) simulator sessions, which match the exam closely but run faster, so expect a slower terminal on exam day. For more details about the proctoring, see the [Candidate Handbook](https://docs.linuxfoundation.org/tc-docs/certification/lf-handbook2/taking-the-exam).
 
 Because the hands-on exams let you open the official documentation, don't try to memorize everything. Learn to do the tasks using the docs as a guide, and remember where each piece of information lives.
 
 Here is what each exam covers:
 
-| Exam | Format | Duration | Passing score | Doc Allowed |
+| Exam | Format | Duration | Apr. Score | OpenBook |
 | --- | --- | --- | --- | --- |
 | [KCNA](https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/) | Multiple choice | 90 minutes | 75% | No |
 | [KCSA](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa/) | Multiple choice | 90 minutes | 75% | No |
-| [CKAD](https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/) | 15 to 20 hands-on tasks | 2 hours | 66% | Yes |
-| [CKA](https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/) | 15 to 20 hands-on tasks | 2 hours | 66% | Yes |
-| [CKS](https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/) | 15 to 20 hands-on tasks | 2 hours | 67% | Yes |
+| [CKAD](https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/) | hands-on | 2 hours | 66% | Yes |
+| [CKA](https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/) | hands-on | 2 hours | 66% | Yes |
+| [CKS](https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/) | hands-on | 2 hours | 67% | Yes |
 
 **KCNA (_Kubernetes and Cloud Native Associate_):** is for people starting with Kubernetes. It asks conceptual questions like "what is a Pod?", "what is a container?", "which component decides on which node a Pod runs?", or "what is the difference between a Deployment and a StatefulSet?". If you already work with Kubernetes, even at a junior level, you'll pass it with your eyes closed.
 
