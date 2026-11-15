@@ -3,12 +3,12 @@ tags: kubernetes, certification
 date: "2026-11-15"
 category: Kubernetes
 author: Carlos Neto
-title: "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)"
+title: "Kubestronaut: My Honest Journey (Including Procrastination and Retake)"
 description: "How I became a Kubestronaut: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
 myst:
   html_meta:
     description: "How I became a Kubestronaut: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
-og:title: "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)"
+og:title: "Kubestronaut: My Honest Journey (Including Procrastination and Retake)"
 og:description: "How I became a Kubestronaut: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
 ---
 
@@ -16,7 +16,7 @@ og:description: "How I became a Kubestronaut: a year of procrastination, six foc
 
 ---
 
-# Kubestronaut: My Honest Journey (Including Procrastination and a Retake)
+# Kubestronaut: My Honest Journey (Including Procrastination and Retake)
 
 This post is an honest account of how I passed the five CNCF Kubernetes certifications (CKA, KCNA, KCSA, CKAD, and CKS) and became a Kubestronaut. I share how I overcame a year of procrastination and why I failed the CKS even though I was prepared for it. I also cover the study routine and methods that worked for me, what each exam asks for, and the order I recommend for your professional profile.
 
@@ -40,8 +40,8 @@ Here is what each exam covers:
 
 | Exam | Format | Duration | Pass Score | OpenBook |
 | --- | --- | --- | --- | --- |
-| [KCNA](https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/) | Multiple choice | 90 minutes | 75% | No |
-| [KCSA](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa/) | Multiple choice | 90 minutes | 75% | No |
+| [KCNA](https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/) | multiple choice | 90 minutes | 75% | No |
+| [KCSA](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa/) | multiple choice | 90 minutes | 75% | No |
 | [CKAD](https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/) | hands-on | 2 hours | 66% | Yes |
 | [CKA](https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/) | hands-on | 2 hours | 66% | Yes |
 | [CKS](https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/) | hands-on | 2 hours | 67% | Yes |
@@ -170,7 +170,7 @@ I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateu
   "@graph": [
     {
       "@type": "BlogPosting",
-      "headline": "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)",
+      "headline": "Kubestronaut: My Honest Journey (Including Procrastination and Retake)",
       "description": "How I became a Kubestronaut: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend.",
       "datePublished": "2026-11-15",
       "inLanguage": "en",
@@ -192,7 +192,7 @@ I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateu
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
         {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
-        {"@type": "ListItem", "position": 3, "name": "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)"}
+        {"@type": "ListItem", "position": 3, "name": "Kubestronaut: My Honest Journey (Including Procrastination and Retake)"}
       ]
     }
   ]
