@@ -1,0 +1,706 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="How I earned the Kubestronaut title as a senior DevOps engineer: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend." name="description" />
+<meta property="og:title" content="Kubestronaut: My Honest Journey (Including Procrastination and a Retake)" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-11-14-kubestronaut-journey/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="How I earned the Kubestronaut title as a senior DevOps engineer: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-14-kubestronaut-journey_70b7685e.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/14 In 2026 I earned the Kubestronaut title by passing the five CNCF Kubernetes certifications: CKA, KCNA, KCSA, CKAD, and CKS. This post covers what each exam asks f..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Kubestronaut: My Honest Journey (Including Procrastination and a Retake) &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=cf61e508" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2026/2026-11-14-kubestronaut-journey';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../../genindex/" />
+    <link rel="search" title="Search" href="../../../search/" /> 
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  <script data-goatcounter="https://c-neto.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script> 
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="/analytics/" title="Analytics" class="nav-link pst-navbar-icon" rel="noopener" target="_self" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-chart-simple fa-lg" aria-hidden="true"></i><span class="visually-hidden">Analytics</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="/analytics/" title="Analytics" class="nav-link pst-navbar-icon" rel="noopener" target="_self" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-chart-simple fa-lg" aria-hidden="true"></i><span class="visually-hidden">Analytics</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <div class="blog-post">
+<div class="aor-tldr">
+  <img class="aor-tldr__marvin" src="../../../_static/marvin.jpg" alt="">
+  <span class="aor-tldr__copy">
+    <strong>AI TL;DR</strong>
+    <span>Too lazy to read? Summarize this post with:</span>
+  </span>
+  <span class="aor-tldr__buttons">
+    <a class="aor-tldr__btn" href="https://chatgpt.com/?q=Please+open+this+URL+with+web+search+and+read+the+full+article%3A+https%3A%2F%2Fcarlosneto.dev%2Fblog%2F2026%2F2026-11-14-kubestronaut-journey%2F%0A%0AAfter+reading+the+real+content+of+that+article%2C+do+the+following%3A%0A1%29+Summarize+the+5+most+important+points+and+the+conclusion.%0A2%29+After+the+summary%2C+tell+the+reader+what+key+details%2C+data+and+insights+they+are+missing+by+not+reading+the+full+article.+Be+specific+enough+to+make+them+curious.%0A3%29+Remind+them+they+can+keep+asking+follow-up+questions+about+this+article+right+here+in+this+chat.%0A4%29+Suggest+one+good+follow-up+question+they+could+ask+as+a+starter.%0A%0ABe+concise%2C+use+few+words.+It+is+a+summary.+%0A%0AWrite+your+entire+answer+in+my+native+language.+Detect+it+from+the+language+I+use+to+talk+to+you%2C+and+if+it+is+not+clear%2C+ask+me+which+language+I+prefer+before+summarizing." target="_blank" rel="noopener"><svg class="aor-tldr__logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071.006l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071-.006l4.83 2.787a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/></svg><span>ChatGPT</span></a>
+    <a class="aor-tldr__btn" href="https://claude.ai/new?q=Please+open+this+URL+with+web+search+and+read+the+full+article%3A+https%3A%2F%2Fcarlosneto.dev%2Fblog%2F2026%2F2026-11-14-kubestronaut-journey%2F%0A%0AAfter+reading+the+real+content+of+that+article%2C+do+the+following%3A%0A1%29+Summarize+the+5+most+important+points+and+the+conclusion.%0A2%29+After+the+summary%2C+tell+the+reader+what+key+details%2C+data+and+insights+they+are+missing+by+not+reading+the+full+article.+Be+specific+enough+to+make+them+curious.%0A3%29+Remind+them+they+can+keep+asking+follow-up+questions+about+this+article+right+here+in+this+chat.%0A4%29+Suggest+one+good+follow-up+question+they+could+ask+as+a+starter.%0A%0ABe+concise%2C+use+few+words.+It+is+a+summary.+%0A%0AWrite+your+entire+answer+in+my+native+language.+Detect+it+from+the+language+I+use+to+talk+to+you%2C+and+if+it+is+not+clear%2C+ask+me+which+language+I+prefer+before+summarizing." target="_blank" rel="noopener"><svg class="aor-tldr__logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.157-1.005.654-.72.878.06.225.061.89.683 1.9 1.47 2.48 1.826.364.303.145-.103.018-.072-.163-.274-1.354-2.446-1.446-2.49-.643-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.455.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.983-1.306 1.651-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.542-.28 1.84-.315.831.388.091.395-.328.807-1.967.486-2.307.462-3.436.813-.042.03.049.061 1.548.146.662.036h1.62l3.018.225.79.522.473.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.003 1.81 2.507 2.33.127.578-.32.455-.34-.049-2.204-1.657-.85-.746-1.925-1.62h-.127v.17l.443.649 2.343 3.521.122 1.08-.17.353-.607.213-.668-.122-1.372-1.925-1.415-2.167-1.14-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.631-.012-.042-.14.018-1.433 1.967-2.18 2.945-1.725 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312z"/></svg><span>Claude</span></a>
+    <a class="aor-tldr__btn" href="https://grok.com/?q=Please+open+this+URL+with+web+search+and+read+the+full+article%3A+https%3A%2F%2Fcarlosneto.dev%2Fblog%2F2026%2F2026-11-14-kubestronaut-journey%2F%0A%0AAfter+reading+the+real+content+of+that+article%2C+do+the+following%3A%0A1%29+Summarize+the+5+most+important+points+and+the+conclusion.%0A2%29+After+the+summary%2C+tell+the+reader+what+key+details%2C+data+and+insights+they+are+missing+by+not+reading+the+full+article.+Be+specific+enough+to+make+them+curious.%0A3%29+Remind+them+they+can+keep+asking+follow-up+questions+about+this+article+right+here+in+this+chat.%0A4%29+Suggest+one+good+follow-up+question+they+could+ask+as+a+starter.%0A%0ABe+concise%2C+use+few+words.+It+is+a+summary.+%0A%0AWrite+your+entire+answer+in+my+native+language.+Detect+it+from+the+language+I+use+to+talk+to+you%2C+and+if+it+is+not+clear%2C+ask+me+which+language+I+prefer+before+summarizing." target="_blank" rel="noopener"><svg class="aor-tldr__logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M9.27 15.29l7.978-5.897c.391-.29.95-.177 1.137.272.98 2.369.542 5.215-1.41 7.169-1.951 1.954-4.667 2.382-7.149 1.406l-2.711 1.257c3.889 2.661 8.611 2.003 11.562-.953 2.341-2.344 3.066-5.539 2.388-8.42l.006.007c-.983-4.232.242-5.924 2.75-9.383.06-.082.12-.164.179-.248l-3.301 3.305v-.01L9.267 15.292M7.623 16.723c-2.792-2.666-2.31-6.825.058-9.195 1.751-1.754 4.584-2.465 7.17-1.414l2.705-1.25a7.808 7.808 0 00-1.364-.834c-3.004-1.416-6.724-.898-9.195 1.576-2.372 2.375-3.059 5.956-1.598 9.017 1.09 2.289-.885 5.323-2.368 7.17.922-.414 2.276-1.111 3.335-2.263.667-.726.667-.726 1.257-2.607z"/></svg><span>Grok</span></a>
+  </span>
+</div>
+<p><em><strong>Blog Post Publish Date:</strong> 2026/11/14</em></p>
+<hr class="docutils" />
+<section id="kubestronaut-my-honest-journey-including-procrastination-and-a-retake">
+<h1>Kubestronaut: My Honest Journey (Including Procrastination and a Retake)<a class="headerlink" href="#kubestronaut-my-honest-journey-including-procrastination-and-a-retake" title="Link to this heading">#</a></h1>
+<p>In 2026 I earned the <a class="reference external" href="https://www.credly.com/badges/d5a820cc-d6b5-4d0f-96e2-2e1d4713ac99">Kubestronaut title</a> by passing the five CNCF Kubernetes certifications: CKA, KCNA, KCSA, CKAD, and CKS. This post covers what each exam asks for and the order I would recommend. It also covers the study routine that finally worked after a year of procrastination, and how I failed the CKS by one percentage point.</p>
+<blockquote>
+<div><p><em><strong>DISCLAIMER:</strong> Everything in this post comes from my own experience, in my context and my life. Don’t take it as an absolute recommendation. I’m not trying to say what is “right”, only to share what I went through. What worked for me might not work for you.</em></p>
+</div></blockquote>
+<section id="why-i-wanted-the-certifications">
+<h2>Why I Wanted the Certifications<a class="headerlink" href="#why-i-wanted-the-certifications" title="Link to this heading">#</a></h2>
+<p>I started the Kubestronaut path as a senior DevOps engineer, after more than five years of working with Kubernetes every day. The title didn’t change much in my career. At my level, market experience still counts more than a certificate. What I wanted was a reason to study the parts of Kubernetes I never touched at work, and the exam curriculum gave me a study roadmap for them.</p>
+<p>The title also comes with some perks. According to the <a class="reference external" href="https://training.linuxfoundation.org/resources/kubestronaut-program/">Kubestronaut Program page</a>, a Kubestronaut gets an exclusive jacket, a Credly badge, and access to a private Slack channel and mailing list. Every year, you also get five 50%-off certification coupons, which you can use yourself or share, and 20% off three CNCF events, such as KubeCon or KubeDays.</p>
+<p>Knowing a subject is different from mastering it. Knowing means you understand which tools exist to solve a problem. Mastering means you have the practical experience to pick the solution closest to ideal for a given context, and that only comes with time and real work. A certification says you know Kubernetes. It doesn’t say you master it.</p>
+<p>From what I’ve seen and talked about with colleagues, the market uses these certifications mostly to speed up interviews and to strengthen your position when negotiating a contract. They signal that you know the Kubernetes basics. Before you start, ask yourself honestly why you want one and what you’ll do with it, because the certificate alone won’t change your life. What you learn on the way is worth more than the badge.</p>
+<p>People often tell me the exams are expensive, and they are, especially if you don’t earn in dollars. Still, the fee is the cheap part. The hours of study and the mental energy they drain cost much more.</p>
+</section>
+<section id="what-each-exam-covers">
+<h2>What Each Exam Covers<a class="headerlink" href="#what-each-exam-covers" title="Link to this heading">#</a></h2>
+<p>The five exams fall into two groups. KCNA and KCSA are multiple-choice exams, and you can’t consult anything. CKA, CKAD, and CKS are hands-on: you solve tasks in a terminal on a remote Linux desktop, with access to a list of official documentation sites.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Exam</p></th>
+<th class="head"><p>Format</p></th>
+<th class="head"><p>Duration</p></th>
+<th class="head"><p>Documentation allowed</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/">KCNA</a></p></td>
+<td><p>Multiple choice</p></td>
+<td><p>90 minutes</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa/">KCSA</a></p></td>
+<td><p>Multiple choice</p></td>
+<td><p>90 minutes</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/">CKAD</a></p></td>
+<td><p>15 to 20 hands-on tasks</p></td>
+<td><p>2 hours</p></td>
+<td><p>kubernetes.io, Helm</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/">CKA</a></p></td>
+<td><p>15 to 20 hands-on tasks</p></td>
+<td><p>2 hours</p></td>
+<td><p>kubernetes.io, Helm, Gateway API</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/">CKS</a></p></td>
+<td><p>15 to 20 hands-on tasks</p></td>
+<td><p>2 hours</p></td>
+<td><p>kubernetes.io, Falco, etcd, Cilium, Istio, and others</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The format and duration come from each exam page, the <a class="reference external" href="https://docs.linuxfoundation.org/tc-docs/certification/tips-cka-and-ckad">CKA and CKAD tips</a>, and the <a class="reference external" href="https://docs.linuxfoundation.org/tc-docs/certification/important-instructions-cks">CKS instructions</a>. The documentation list comes from the <a class="reference external" href="https://docs.linuxfoundation.org/tc-docs/certification/certification-resources-allowed">Resources Allowed page</a>. The passing score is 66% for the CKA and CKAD and 67% for the CKS, according to the <a class="reference external" href="https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks">Linux Foundation FAQ</a>.</p>
+<p><strong>KCNA (Kubernetes and Cloud Native Associate)</strong> is for people starting with Kubernetes. It asks questions like “what is a Pod?” and “what is a container?”. If you already work with Kubernetes, even at a junior level, you’ll pass it with your eyes closed.</p>
+<p><strong>KCSA (Kubernetes and Cloud Native Security Associate)</strong> follows the same idea, but with security concepts. For a SecOps engineer it’s easy. For me it wasn’t, and I don’t think a mid-level or senior DevOps engineer should underestimate it. It asks things my SecOps colleagues know by heart, such as what an SBOM is or which Trivy flag does a specific thing. Gaps like this one are why I wanted the Kubestronaut path in the first place.</p>
+<p><strong>CKAD (Certified Kubernetes Application Developer)</strong> is where it gets interesting, and it’s the simplest of the hands-on exams. It covers using a cluster: scaling a Deployment, rolling back, reading logs, analyzing errors. The name is misleading. You don’t need to program anything, at most a trivial Bash script that prints something. Python, Go, or Java knowledge is useless here. “Application Developer” describes someone who gets a working cluster and needs to deploy an application to it, not someone who writes Kubernetes Operators or controllers.</p>
+<p><strong>CKA (Certified Kubernetes Administrator)</strong> is denser. It covers everything in the CKAD plus cluster provisioning and operation: configuring the kubelet, diagnosing a node that can’t join the cluster, reading systemd logs, and upgrading a cluster.</p>
+<p><strong>CKS (Certified Kubernetes Security Specialist)</strong> is the exam I have the most reservations about. It isn’t hard, but it covers the most topics and tools, none of them very deep. Besides Kubernetes security itself, such as NetworkPolicies, Roles, and ClusterRoles, it asks you to use security tools to verify image signatures, check container image dependencies, and run Docker without root. My reservation is the prerequisite: you must pass the CKA before taking the CKS. In my exam, one task was to upgrade the cluster. What does that have to do with security? I think this makes the path harder for people who want a security track, and the KCSA would be a more sensible prerequisite.</p>
+<p>Because the hands-on exams let you open the official documentation, don’t try to memorize everything. Learn to do the tasks using the docs as a guide, and remember where each piece of information lives. Not every tool is on the list, though: Trivy, for example, isn’t, so practice its flags before the CKS.</p>
+</section>
+<section id="the-order-i-took-them-and-the-one-i-recommend">
+<h2>The Order I Took Them, and the One I Recommend<a class="headerlink" href="#the-order-i-took-them-and-the-one-i-recommend" title="Link to this heading">#</a></h2>
+<p>I took them in a poorly planned order: CKA, KCNA, KCSA, CKAD, and then CKS. There was no logic behind it, and that is one of the reasons I wrote this post. If I were starting again, I’d pick a path based on my role:</p>
+<a class="reference internal image-reference" href="../../../_images/kubestronaut-exam-paths.svg"><img alt="Diagram of the Kubernetes certification order I recommend for junior DevOps, senior DevOps, SecOps, and Kubestronaut candidates" src="../../../_images/kubestronaut-exam-paths.svg" style="width: 960px; height: 330px;" />
+</a>
+<p>A junior DevOps engineer gets a solid foundation going from the KCNA to the CKAD and then the CKA. If you’re a mid-level or senior DevOps engineer and want only one, take the CKA. If you’re in SecOps, start with the KCSA, then the CKA (unfortunately, because of the CKS prerequisite), then the CKS. And for the Kubestronaut title, go from the easiest to the hardest: KCNA, KCSA, CKAD, CKA, and CKS.</p>
+<p>If you’re not sure which certification to take, don’t buy the Kubestronaut bundle first. Buy one exam. That’s what I did. Buying the bundle up front creates a bigger commitment than you need.</p>
+<p>Also check the current requirements before planning the full path. The Linux Foundation <a class="reference external" href="https://training.linuxfoundation.org/resources/kubestronaut-program/">announced</a> that starting February 15, 2027, the Certified Kubernetes Network Engineer (CKNE) will also be required for Kubestronaut status.</p>
+<p>I also disagree with the idea that these certifications are only for people who already master Kubernetes. They suit people who are learning it even better. If I knew nothing about Kubernetes today, I would study for the certifications instead of watching random YouTube videos. The curriculum makes the learning curve much less tortuous.</p>
+</section>
+<section id="a-year-of-procrastination-then-six-months-of-focus">
+<h2>A Year of Procrastination, Then Six Months of Focus<a class="headerlink" href="#a-year-of-procrastination-then-six-months-of-focus" title="Link to this heading">#</a></h2>
+<p>Before the six months in which I passed everything, I procrastinated for a whole year. I would start studying, stop, come back weeks later, and remember nothing. Every restart, I had forgotten the imperative kubectl commands and had to learn them again.</p>
+<p>What changed was the gym. I have trouble with focus, and starting a regular exercise routine trained the discipline I then used to study. I only managed to finish the certifications because I started going to the gym at the same time. Running, walking, or any regular sport should work the same way.</p>
+<p>The routine that worked for me was one hour a day. Not two, not three. A five-hour rush on Sunday doesn’t make you learn. I kept one day a week, usually Sunday, without studying. And I stopped negotiating with myself: “I won’t study today, but tomorrow I’ll do two hours” is the beginning of failure.</p>
+<p>Two more habits helped. I didn’t keep checking the course progress bar, because that only triggered anxiety. And I stopped telling people I was studying for a certification. Our brain is dumb: when we announce that we’re doing something, it feels like we already did it. There’s research behind this. In four experiments published in Psychological Science, Peter Gollwitzer and colleagues found that when other people took notice of an identity-related intention, such as studying law to become a lawyer, participants acted on it less than those whose intention was ignored. Being noticed gave them a premature sense of already having that identity (<a class="reference external" href="https://doi.org/10.1111/j.1467-9280.2009.02336.x">Gollwitzer et al., 2009</a>). Finish the exam first, then show it off.</p>
+<p>Finally, I used a single study source: the <a class="reference external" href="https://kodekloud.com/">KodeKloud</a> courses. That choice surprised me, because I’ve always struggled with video courses. I lose focus quickly, so I’ve always studied from physical books, on paper, away from notifications and from the quick glances at email, WhatsApp, and Instagram that feed you cheap dopamine. Even with that resistance, I loved KodeKloud. I’m not paid to say this, but they are the best courses I’ve ever taken: a video lesson, then a lab prepared only to practice what the lesson covered, with no distractions. Every lesson also has a full text transcript and translated subtitles. Every topic in the course is worth studying, especially the ones that aren’t on the exam, such as TLS.</p>
+</section>
+<section id="how-i-prepared-for-the-hands-on-exams">
+<h2>How I Prepared for the Hands-On Exams<a class="headerlink" href="#how-i-prepared-for-the-hands-on-exams" title="Link to this heading">#</a></h2>
+<p>Don’t overestimate yourself. If you’re an experienced DevOps engineer who knows Kubernetes well and thinks you’ll pass easily, be careful. In the exam there’s no Google, no AI, and no IDE you’re used to. Maybe you don’t need to study Kubernetes, but you definitely need to study for the exam. Knowing how to do everything isn’t enough. You need to do everything fast, in Vim, in a laggy remote terminal, with the clock in your head. The exam has no trick questions. It’s well designed and reasonably difficult, but it requires solid preparation, and you can’t pass it after studying for a weekend.</p>
+<p>The labs mattered more than the videos. For the final preparation, I redid all the KodeKloud mock exams until I got everything right, no matter how many times it took. Then I did the two <a class="reference external" href="https://killer.sh/">Killer Shell</a> simulator sessions until I got them right too. Each session is only available for a limited time after you activate it, so I reserved a weekend for each one. The simulator looks a lot like the real exam environment.</p>
+<p>I also used <a class="reference external" href="https://github.com/sailor-sh/CK-X">CK-X</a>, an open source project that runs a Killer Shell-like simulator locally with Docker Compose, for free. It helped me a lot. Practice questions are never too many, so I also used the <a class="reference external" href="https://devsecops.puziol.com.br/kubernetes/cks/exam/">CKS exam guide</a> and <a class="reference external" href="https://devsecops.puziol.com.br/category/cks-quest%C3%B5es-resolvidas/">solved CKS questions</a> by David Puziol.</p>
+<p>One thing I would skip: a home lab. I bought a mini PC on AliExpress, installed Proxmox, and built base images for my cluster. I spent more time fighting Proxmox and networking than practicing Kubernetes, while the course labs were ready to use.</p>
+<p>Drill the imperative kubectl commands until they’re automatic, because they generate resources and YAML much faster than writing manifests by hand. Learn Vim too. You only need it to edit YAML, but you need to do that well, and I wrote <a class="reference internal" href="../2026-07-15-vim-kubernetes-exams/"><span class="std std-doc">Vim for Kubernetes Certification Exams</span></a> about the techniques I used. Finally, prepare your workstation. Keyboard layouts and shortcuts can break you, especially on a MacBook with a Brazilian layout, where a dead key can stop you from typing <code class="docutils literal notranslate"><span class="pre">~</span></code> in <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">~/Documents</span></code>. My checklist is in <a class="reference internal" href="../2026-07-09-workstation-setup-kubernetes-exams/"><span class="std std-doc">Workstation Setup for Kubernetes Exams</span></a>.</p>
+</section>
+<section id="failing-the-cks-by-one-point">
+<h2>Failing the CKS by One Point<a class="headerlink" href="#failing-the-cks-by-one-point" title="Link to this heading">#</a></h2>
+<p>The CKS passing score is <a class="reference external" href="https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks">67%</a>. On my first attempt, I scored 66%.</p>
+<p>During the exam, I got stuck on a task to configure Docker to expose the runtime over TCP instead of the Unix socket. I knew how to do the rest of the exam, but I didn’t know that one at first, and I kept insisting on it. When I noticed the time, I had about 10 tasks left and less than 60 minutes. If a task is on a topic you don’t master, skip it and come back later.</p>
+<p>But perfectionism wasn’t the only cause. For every exam, I keep a rule: the day before, I don’t touch the computer, stay fully offline, and don’t study. A hands-on exam needs a rested mind. For the first CKS attempt, I broke that rule. I spent about eight hours on Sunday redoing every lab, and on Monday at 8 AM I was tired and making simple mistakes.</p>
+<p>On the second attempt I followed my rule and passed with 81%. My suggestion is to schedule the exam for Monday morning, with Sunday free: sleep a lot, go to the mall, have an ice cream. On a Monday morning, your mind isn’t yet filled with work problems.</p>
+<p>If you fail, you’re not a failure. You get the chance to prepare more and end up knowing more than someone who passed by luck. Failing would be giving up or going back to procrastinating.</p>
+</section>
+<section id="was-it-worth-it">
+<h2>Was It Worth It?<a class="headerlink" href="#was-it-worth-it" title="Link to this heading">#</a></h2>
+<p>I really enjoyed the Kubestronaut journey. It cost me a lot of energy and some sacrifices in my personal life, but it was an enriching experience. Besides learning topics I don’t use at work, it made me a more resilient person. Some topics are fun and some are very boring, and you have to accept both. If you’re still thinking about it, buy the exam and do it.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>A certification shows that you know Kubernetes, not that you master it. Mastery comes from time and real work.</p></li>
+<li><p>The main cost is your study time and mental energy, not the exam fee. Know why you want the certification before you start.</p></li>
+<li><p>Buy one exam first, not the bundle, and choose the order by your role. I took them in an unplanned order: CKA, KCNA, KCSA, CKAD, CKS.</p></li>
+<li><p>One hour a day with one day off worked for me after a year of start-and-stop procrastination. Regular exercise gave me the focus to keep it.</p></li>
+<li><p>Use one study source, prioritize labs over videos, and practice under exam conditions: imperative kubectl, Vim, and the official docs.</p></li>
+<li><p>Skip the home lab. I lost more time on Proxmox and networking than on Kubernetes.</p></li>
+<li><p>Rest the day before the exam. I failed the CKS with 66% after an eight-hour study rush the day before, and passed with 81% when I rested.</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://training.linuxfoundation.org/resources/kubestronaut-program/">Kubestronaut Program (Linux Foundation)</a></p></li>
+<li><p><a class="reference external" href="https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks">Frequently Asked Questions: CKA, CKAD, and CKS (Linux Foundation)</a></p></li>
+<li><p><a class="reference external" href="https://docs.linuxfoundation.org/tc-docs/certification/tips-cka-and-ckad">Important Tips: CKA and CKAD (Linux Foundation)</a></p></li>
+<li><p><a class="reference external" href="https://docs.linuxfoundation.org/tc-docs/certification/important-instructions-cks">Important Instructions: CKS (Linux Foundation)</a></p></li>
+<li><p><a class="reference external" href="https://docs.linuxfoundation.org/tc-docs/certification/certification-resources-allowed">Certification Resources Allowed (Linux Foundation)</a></p></li>
+<li><p><a class="reference external" href="https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/">Kubernetes and Cloud Native Associate (Linux Foundation)</a></p></li>
+<li><p><a class="reference external" href="https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa/">Kubernetes and Cloud Native Security Associate (Linux Foundation)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/sailor-sh/CK-X">CK-X Simulator (GitHub)</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1111/j.1467-9280.2009.02336.x">When Intentions Go Public: Does Social Reality Widen the Intention-Behavior Gap? (Psychological Science, 2009)</a></p></li>
+</ul>
+<hr class="docutils" />
+<blockquote>
+<div><p><em>I’m Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+</div></blockquote>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)",
+      "description": "How I earned the Kubestronaut title as a senior DevOps engineer: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend.",
+      "datePublished": "2026-11-14",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-11-14-kubestronaut-journey/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-14-kubestronaut-journey/",
+      "image": "https://carlosneto.dev/_static/2026/2026-11-14/kubestronaut-exam-paths.svg",
+      "keywords": ["Kubernetes", "Kubestronaut", "CKA", "CKAD", "CKS", "KCNA", "KCSA", "Kubernetes certification"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)"}
+      ]
+    }
+  ]
+}
+</script></section>
+</section>
+</div>
+<!-- Add a comment box underneath the page's content -->
+<script
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+<div class="section ablog__blog_comments">
+     
+<div class="section ablog__prev-next">
+  <span class="ablog__prev">
+     
+    <a href="../2026-11-12-opensearch-hot-warm-cold/">
+      
+      <i class="fa fa-arrow-circle-left"></i>
+      
+      <span>OpenSearch Storage Tiering for Log Analytics: A Hands-On Guide</span>
+    </a>
+    
+  </span>
+  <span class="ablog__spacer">&nbsp;</span>
+  <span class="ablog__next">
+    
+  </span>
+</div>
+  
+</div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
