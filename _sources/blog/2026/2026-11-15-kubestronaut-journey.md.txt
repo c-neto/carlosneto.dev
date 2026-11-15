@@ -32,19 +32,19 @@ So I disagree with the idea that these certifications are only for people who al
 
 ## What to Expect From Each Exam
 
-The five exams fall into two groups. KCNA and KCSA are multiple-choice exams where you can't consult anything, and the result arrives by email as soon as you finish. CKA, CKAD, and CKS are hands-on: you solve tasks in a terminal on a remote XFCE Linux desktop, with access to a list of official documentation sites, and the result takes up to 24 hours. Every exam includes one free retake. The hands-on ones also come with two sessions on the [Killer Shell](https://killer.sh/) simulator, which reproduces the exam closely, except that its connection is much faster than the real one, so expect a slower terminal on exam day.
+All five exams are taken remotely on [PSI Bridge](https://www.psiexams.com/test-owners/test-delivery/online-proctoring/), with webcam monitoring and a room scan at check-in, and include one free retake. KCNA and KCSA are multiple choice, with no references allowed, and the result arrives by email right away. CKA, CKAD, and CKS are hands-on tasks in a terminal on a remote Linux desktop, with access to the official docs, and the result takes up to 24 hours. They also include two [Killer Shell](https://killer.sh/) simulator sessions, which match the exam closely but run faster, so expect a slower terminal on exam day. For more details about the proctoring, see [Candidate Handbook](https://docs.linuxfoundation.org/tc-docs/certification/lf-handbook2/taking-the-exam).
 
-All five exams can be taken remotely on [PSI Bridge](https://www.psiexams.com/test-owners/test-delivery/online-proctoring/), under constant monitoring through your webcam. Before the exam starts, a check-in step asks for a live scan of your desk and the whole room. If you've taken an online AWS certification exam, the experience is similar. I took all five in English, and the conversation with the proctor was in English too. It happens through a text chat and is basic, with requests like "show the ceiling" or "show the area under your keyboard". The [Linux Foundation Candidate Handbook](https://docs.linuxfoundation.org/tc-docs/certification/lf-handbook2/taking-the-exam) has the details.
+Because the hands-on exams let you open the official documentation, don't try to memorize everything. Learn to do the tasks using the docs as a guide, and remember where each piece of information lives.
 
-| Exam | Format | Duration | Documentation allowed |
-| --- | --- | --- | --- |
-| [KCNA](https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/) | Multiple choice | 90 minutes | None |
-| [KCSA](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa/) | Multiple choice | 90 minutes | None |
-| [CKAD](https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/) | 15 to 20 hands-on tasks | 2 hours | kubernetes.io, Helm |
-| [CKA](https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/) | 15 to 20 hands-on tasks | 2 hours | kubernetes.io, Helm, Gateway API |
-| [CKS](https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/) | 15 to 20 hands-on tasks | 2 hours | kubernetes.io, Falco, etcd, Cilium, Istio, and others |
+Here is what each exam covers:
 
-The format and duration come from each exam page, the [CKA and CKAD tips](https://docs.linuxfoundation.org/tc-docs/certification/tips-cka-and-ckad), and the [CKS instructions](https://docs.linuxfoundation.org/tc-docs/certification/important-instructions-cks). The documentation list comes from the [Resources Allowed page](https://docs.linuxfoundation.org/tc-docs/certification/certification-resources-allowed). The passing score is 66% for the CKA and CKAD and 67% for the CKS, and these three certifications are valid for two years, according to the [Linux Foundation FAQ](https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks).
+| Exam | Format | Duration | Passing score | Doc Allowed |
+| --- | --- | --- | --- | --- |
+| [KCNA](https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/) | Multiple choice | 90 minutes | 75% | No |
+| [KCSA](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa/) | Multiple choice | 90 minutes | 75% | No |
+| [CKAD](https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/) | 15 to 20 hands-on tasks | 2 hours | 66% | Yes |
+| [CKA](https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/) | 15 to 20 hands-on tasks | 2 hours | 66% | Yes |
+| [CKS](https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/) | 15 to 20 hands-on tasks | 2 hours | 67% | Yes |
 
 **KCNA (_Kubernetes and Cloud Native Associate_):** is for people starting with Kubernetes. It asks conceptual questions like "what is a Pod?", "what is a container?", "which component decides on which node a Pod runs?", or "what is the difference between a Deployment and a StatefulSet?". If you already work with Kubernetes, even at a junior level, you'll pass it with your eyes closed.
 
@@ -52,23 +52,19 @@ The format and duration come from each exam page, the [CKA and CKAD tips](https:
 
 **CKAD (_Certified Kubernetes Application Developer_):** is where it gets interesting, and it's the simplest of the hands-on exams. It covers using a cluster: scaling a Deployment, rolling back, reading logs, analyzing errors. A typical task asks you to create a Deployment and expose it with a Service, add a liveness probe to a Pod, or mount a ConfigMap or a Secret into a container. Others ask you to schedule a CronJob, add a sidecar container, or install a chart with Helm. The name is misleading. You don't need to program anything, at most a trivial Bash script that prints something. Python, Go, or Java knowledge is useless here. "Application Developer" describes someone who gets a working cluster and needs to deploy an application to it, not someone who writes Kubernetes Operators or controllers.
 
-**CKA (_Certified Kubernetes Administrator_):** is denser. It covers everything in the CKAD plus cluster provisioning and operation: configuring the kubelet, diagnosing a node that can't join the cluster, reading systemd logs, and upgrading a cluster. You may also need to fix a broken control plane component, find out why a Pod is stuck in `Pending`, or give a user access to a namespace with a Role and a RoleBinding. Other tasks ask you to expose an application through the Gateway API or create a PersistentVolumeClaim from a StorageClass. Troubleshooting is the biggest part of the exam.
+**CKA (_Certified Kubernetes Administrator_):** covers everything in the CKAD plus cluster provisioning and operation: configuring the kubelet, diagnosing a node that can't join the cluster, reading systemd logs, and upgrading a cluster. You may also need to fix a broken control plane component, find out why a Pod is stuck in `Pending`, or give a user access to a namespace with a Role and a RoleBinding. Other tasks ask you to expose an application through the Gateway API or create a PersistentVolumeClaim from a StorageClass. Troubleshooting is the biggest part of the exam.
 
-**CKS (_Certified Kubernetes Security Specialist_):** is the exam I have the most reservations about. It isn't hard, but it covers the most topics and tools, none of them very deep. Besides Kubernetes security itself, such as NetworkPolicies, Roles, and ClusterRoles, it asks you to use security tools to verify image signatures, check container image dependencies, and run Docker without root. Other examples are writing a NetworkPolicy that denies all traffic by default, applying an AppArmor or seccomp profile to a Pod, or enforcing a Pod Security Standard in a namespace. You may also scan images for vulnerabilities, find a suspicious process with Falco, or enable audit logs on the API server.
+**CKS (_Certified Kubernetes Security Specialist_):** isn't hard, but it covers the most topics and tools, none of them very deep. Besides Kubernetes security itself, such as NetworkPolicies, Roles, and ClusterRoles, it asks you to use security tools to verify image signatures, check container image dependencies, and run Docker without root. Other examples are writing a NetworkPolicy that denies all traffic by default, applying an AppArmor or seccomp profile to a Pod, or enforcing a Pod Security Standard in a namespace. You may also scan images for vulnerabilities, find a suspicious process with Falco, or enable audit logs on the API server. My one complaint is the CKA prerequisite. One of my CKS tasks was a cluster upgrade, which felt more like CKA material than security. For a security track, the KCSA would make a better prerequisite.
 
-My reservation is the prerequisite: you must pass the CKA before taking the CKS. In my exam, one task was to upgrade the cluster. The curriculum lists it under cluster hardening, as a way to avoid known vulnerabilities, and I understand the reasoning. Still, upgrading a cluster felt much closer to the CKA than to a security exam. I think this overlap makes the path harder for people who want a security track, and the KCSA would be a more sensible prerequisite.
-
-These are only examples to give you an idea. The full list of topics for each exam is in the [CNCF curriculum repository](https://github.com/cncf/curriculum).
-
-Because the hands-on exams let you open the official documentation, don't try to memorize everything. Learn to do the tasks using the docs as a guide, and remember where each piece of information lives. Not every tool is on the list, though: Trivy, for example, isn't, so practice its flags before the CKS.
+> _From February 15, 2027, Kubestronaut will also require the [CKNE](https://training.linuxfoundation.org/resources/kubestronaut-program/), and two AI certifications, [KAIA and CKIE](https://www.cncf.io/announcements/2026/11/10/cncf-launches-certified-kubernetes-network-engineer-certification-ckne-to-advance-production-ready-networking-skills-for-ai-era/), are planned for 2027. I'd leave new exams for last._
 
 ## Kubestronaut Benefits and How to Keep the Title
 
 When you become a Kubestronaut, you get an exclusive jacket, a Credly badge, and access to a private Slack channel and mailing list. Your photo also goes on the [Kubestronaut page](https://www.cncf.io/training/kubestronaut/), which lists everyone who holds the title ([here is mine](https://www.cncf.io/training/kubestronaut/?_sf_s=carlos%20neto)). Every year, you also get five 50%-off certification coupons, which you can use yourself or share, and 20% off three [CNCF events](https://www.cncf.io/events/), such as [KubeCon](https://www.cncf.io/kubecon-cloudnativecon-events/) or [KubeDays](https://www.cncf.io/blog/2022/08/17/introducing-kubeday-event-series-kicking-off-with-kubeday-japan-this-december/). The full list is on the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/).
 
-The Kubestronaut title isn't permanent, though. Each certification is valid for two years, and according to the [Kubestronaut FAQ](https://www.cncf.io/training/kubestronaut/kubestronaut-faq/), all of them must be active at the same time. When the first one expires, you keep the title until the end of that year. If you don't renew by then, you lose the title and its benefits.
+The Kubestronaut title isn't permanent, though. Each certification is valid for two years, and according to the [Kubestronaut FAQ](https://www.cncf.io/training/kubestronaut/kubestronaut-faq/), all of them must be active at the same time. When the first one expires, you keep the title until the end of that year. If you don't renew by then, you lose the title and its benefits. From February 15, 2027, the [CKNE](https://training.linuxfoundation.org/resources/kubestronaut-program/) joins the list of required certifications.
 
-From what I've seen and talked about with colleagues, the market uses these certifications mostly to speed up interviews, to rank higher when tech recruiters search on LinkedIn, and to strengthen your position when negotiating a contract. They signal that you know the Kubernetes basics, and some companies go further and list them as a requirement in their job openings.
+From what I've seen and talked about with colleagues, the market uses these certifications mostly to speed up interviews. They also help you rank higher when tech recruiters search on LinkedIn and strengthen your position when negotiating a contract. They signal that you know the Kubernetes basics, and some companies go further and list them as a requirement in their job openings.
 
 ## Which Exam to Take First
 
@@ -77,8 +73,6 @@ I took the exams in a poorly planned order: CKA, KCNA, KCSA, CKAD, and then CKS.
 <img src="/_static/2026/2026-11-15/kubestronaut-exam-paths.svg" alt="Diagram of the Kubernetes certification order I recommend for junior DevOps, senior DevOps, SecOps, and Kubestronaut candidates" loading="lazy" width="960" height="330" style="max-width: 100%; height: auto;">
 
 A junior DevOps engineer gets a solid foundation going from the KCNA to the CKAD and then the CKA. If you're a mid-level or senior DevOps engineer and want only one, take the CKA. I don't recommend taking only the CKAD. The CKA covers everything in the CKAD, so preparing for the CKA also prepares you to pass the CKAD with little extra study, and taking the CKAD later becomes easy if you want it. If you're in SecOps, start with the KCSA, then the CKA (unfortunately, because of the CKS prerequisite), then the CKS. And for the Kubestronaut title, go from the easiest to the hardest: KCNA, KCSA, CKAD, CKA, and CKS.
-
-Also check the current requirements before planning the full path. The Linux Foundation [announced](https://training.linuxfoundation.org/resources/kubestronaut-program/) that starting February 15, 2027, the Certified Kubernetes Network Engineer (CKNE) will also be required for Kubestronaut status. Because it's a new exam, I would leave it for last. That gives the community time to share feedback about it, and gives course creators time to publish courses and practice exams.
 
 ## How to Pay Less for the Exams
 
@@ -152,12 +146,14 @@ I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateu
 
 - [Kubestronaut Program (Linux Foundation)](https://training.linuxfoundation.org/resources/kubestronaut-program/)
 - [Kubestronaut FAQ (CNCF)](https://www.cncf.io/training/kubestronaut/kubestronaut-faq/)
+- [Multiple Choice Exams: Frequently Asked Questions (Linux Foundation)](https://docs.linuxfoundation.org/tc-docs/certification/faq-mc)
 - [Frequently Asked Questions: CKA, CKAD, and CKS (Linux Foundation)](https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks)
 - [Important Tips: CKA and CKAD (Linux Foundation)](https://docs.linuxfoundation.org/tc-docs/certification/tips-cka-and-ckad)
 - [Important Instructions: CKS (Linux Foundation)](https://docs.linuxfoundation.org/tc-docs/certification/important-instructions-cks)
 - [Certification Resources Allowed (Linux Foundation)](https://docs.linuxfoundation.org/tc-docs/certification/certification-resources-allowed)
 - [Kubernetes and Cloud Native Associate (Linux Foundation)](https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/)
 - [Kubernetes and Cloud Native Security Associate (Linux Foundation)](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa/)
+- [CNCF Launches Certified Kubernetes Network Engineer (CKNE) (CNCF, 2026)](https://www.cncf.io/announcements/2026/11/10/cncf-launches-certified-kubernetes-network-engineer-certification-ckne-to-advance-production-ready-networking-skills-for-ai-era/)
 - [CK-X Simulator (GitHub)](https://github.com/sailor-sh/CK-X)
 - [When Intentions Go Public: Does Social Reality Widen the Intention-Behavior Gap? (Psychological Science, 2009)](https://doi.org/10.1111/j.1467-9280.2009.02336.x)
 
