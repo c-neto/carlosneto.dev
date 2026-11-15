@@ -38,7 +38,7 @@ Because the hands-on exams let you open the official documentation, don't try to
 
 Here is what each exam covers:
 
-| Exam | Format | Duration | Apr. Score | OpenBook |
+| Exam | Format | Duration | Pass Score | OpenBook |
 | --- | --- | --- | --- | --- |
 | [KCNA](https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/) | Multiple choice | 90 minutes | 75% | No |
 | [KCSA](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa/) | Multiple choice | 90 minutes | 75% | No |
