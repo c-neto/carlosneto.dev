@@ -98,7 +98,7 @@ Finally, I used a single study source: the [KodeKloud](https://kodekloud.com/) c
 
 KodeKloud also publishes its courses as text on [KodeKloud Notes](https://notes.kodekloud.com/), such as the [CKS course](https://notes.kodekloud.com/docs/Certified-Kubernetes-Security-Specialist-CKS/index#course-certified-kubernetes-security-specialist-cks). The best part is that the text version is free and doesn't require a subscription. I switched to it on the days I was tired of watching videos. Every topic in the course is worth studying, especially the ones that aren't on the exam, such as TLS.
 
-When a topic was hard for me to understand, I talked about it with ChatGPT in voice mode until it made sense. Saying the question out loud and going back to the part I still didn't get helped me understand concepts that were difficult for me. It also let me express my frustration with the topic, almost like venting.
+I also use AI to study, mainly on topics where I'm stuck. I talk them through with ChatGPT or Claude in voice mode until they stick. KodeKloud Notes has an open MCP server at [notes.kodekloud.com/mcp](https://notes.kodekloud.com/mcp) that lets any AI app search and read the course notes. I use it to keep answers within the course and to review topics in an open conversation, like "Ask me 10 questions about the System Hardening chapter of the CKS course."
 
 ## How I Prepared for the CKA, CKAD, and CKS
 
