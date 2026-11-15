@@ -5,7 +5,7 @@ orphan: true
 
 # Analytics
 
-> *Metrics collection starts on November 14, 2026.*
+> *Metric collection started on November 14, 2026.*
 
 <link rel="stylesheet" href="/_static/analytics.css">
 
