@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-15T17:04:13.480971+00:00</updated>
+  <updated>2026-11-15T18:00:43.464551+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -28,7 +28,7 @@
 &lt;/section&gt;
 &lt;section id="what-to-expect-from-each-exam"&gt;
 &lt;h2&gt;What to Expect From Each Exam&lt;/h2&gt;
-&lt;p&gt;All five exams are taken remotely on &lt;a class="reference external" href="https://www.psiexams.com/test-owners/test-delivery/online-proctoring/"&gt;PSI Bridge&lt;/a&gt;, with webcam monitoring and a room scan at check-in, and include one free retake. KCNA and KCSA are multiple choice, with no references allowed, and the result arrives by email right away. CKA, CKAD, and CKS are hands-on tasks in a terminal on a remote Linux desktop, with access to the official docs, and the result takes up to 24 hours. They also include two &lt;a class="reference external" href="https://killer.sh/"&gt;Killer Shell&lt;/a&gt; simulator sessions, which match the exam closely but run faster, so expect a slower terminal on exam day. For more details about the proctoring, see &lt;a class="reference external" href="https://docs.linuxfoundation.org/tc-docs/certification/lf-handbook2/taking-the-exam"&gt;Candidate Handbook&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;All five exams are taken remotely on &lt;a class="reference external" href="https://www.psiexams.com/test-owners/test-delivery/online-proctoring/"&gt;PSI Bridge&lt;/a&gt;, with webcam monitoring and a room scan at check-in, and include one free retake. KCNA and KCSA have 60 multiple-choice questions, with no references allowed, and the result arrives by email right away. CKA, CKAD, and CKS have 15 to 20 hands-on tasks in a terminal on a remote Linux desktop, with access to the official docs, and the result takes up to 24 hours. They also include two &lt;a class="reference external" href="https://killer.sh/"&gt;Killer Shell&lt;/a&gt; simulator sessions, which match the exam closely but run faster, so expect a slower terminal on exam day. For more details about the proctoring, see the &lt;a class="reference external" href="https://docs.linuxfoundation.org/tc-docs/certification/lf-handbook2/taking-the-exam"&gt;Candidate Handbook&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Because the hands-on exams let you open the official documentation, don’t try to memorize everything. Learn to do the tasks using the docs as a guide, and remember where each piece of information lives.&lt;/p&gt;
 &lt;p&gt;Here is what each exam covers:&lt;/p&gt;
 &lt;div class="pst-scrollable-table-container"&gt;&lt;table class="table"&gt;
@@ -36,8 +36,8 @@
 &lt;tr class="row-odd"&gt;&lt;th class="head"&gt;&lt;p&gt;Exam&lt;/p&gt;&lt;/th&gt;
 &lt;th class="head"&gt;&lt;p&gt;Format&lt;/p&gt;&lt;/th&gt;
 &lt;th class="head"&gt;&lt;p&gt;Duration&lt;/p&gt;&lt;/th&gt;
-&lt;th class="head"&gt;&lt;p&gt;Passing score&lt;/p&gt;&lt;/th&gt;
-&lt;th class="head"&gt;&lt;p&gt;Doc Allowed&lt;/p&gt;&lt;/th&gt;
+&lt;th class="head"&gt;&lt;p&gt;Apr. Score&lt;/p&gt;&lt;/th&gt;
+&lt;th class="head"&gt;&lt;p&gt;OpenBook&lt;/p&gt;&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
@@ -54,19 +54,19 @@
 &lt;td&gt;&lt;p&gt;No&lt;/p&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;&lt;a class="reference external" href="https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/"&gt;CKAD&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;15 to 20 hands-on tasks&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;hands-on&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;&lt;p&gt;2 hours&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;&lt;p&gt;66%&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;&lt;p&gt;Yes&lt;/p&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr class="row-odd"&gt;&lt;td&gt;&lt;p&gt;&lt;a class="reference external" href="https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/"&gt;CKA&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;15 to 20 hands-on tasks&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;hands-on&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;&lt;p&gt;2 hours&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;&lt;p&gt;66%&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;&lt;p&gt;Yes&lt;/p&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr class="row-even"&gt;&lt;td&gt;&lt;p&gt;&lt;a class="reference external" href="https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/"&gt;CKS&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;p&gt;15 to 20 hands-on tasks&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;hands-on&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;&lt;p&gt;2 hours&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;&lt;p&gt;67%&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;&lt;p&gt;Yes&lt;/p&gt;&lt;/td&gt;
