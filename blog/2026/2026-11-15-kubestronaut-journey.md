@@ -137,7 +137,7 @@ I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateu
 - Define the track, then buy its bundle on promotion.
 - Study one hour a day, with one day off. The gym helps with focus.
 - Use one study source: KodeKloud courses, with free text versions on KodeKloud Notes.
-- Prioritize hands-on practice: imperative kubectl, Vim, and the official docs.
+- Prioritize hands-on practice under exam conditions: imperative kubectl, Vim, and the official docs.
 - Skip the home lab. Spend your time on Kubernetes, not on Proxmox and virtualization.
 - Rest the day before the exam, and schedule it for Monday morning, before work.
 
