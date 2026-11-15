@@ -16,7 +16,7 @@ og:description: "How I earned the Kubestronaut title as a senior DevOps engineer
 
 ---
 
-# Kubestronaut: My Honest Journey (Including Procrastination and a Retake)
+# Kubestronaut: My Honest Journey (Including Procrastination and Retake)
 
 This post is an honest account of how I passed the five CNCF Kubernetes certifications (CKA, KCNA, KCSA, CKAD, and CKS) and became a Kubestronaut. I share how I overcame a year of procrastination, why I failed the CKS even though I was prepared for it, the study routine and methods that worked for me, what each exam asks for, and the order I recommend for your professional profile.
 
