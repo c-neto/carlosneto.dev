@@ -138,7 +138,7 @@ I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateu
 - Study one hour a day, with one day off. The gym helps with focus.
 - Use one study source: KodeKloud courses, with free text versions on KodeKloud Notes.
 - Prioritize hands-on practice under exam conditions: imperative kubectl, Vim, and the official docs.
-- Ready means 100% on both Killer Shell sessions, on autopilot, with 30 minutes to spare.
+- Ready to exam means 100% on both Killer Shell sessions with 30 minutes to spare.
 - Skip the home lab. Spend your time on Kubernetes, not on Proxmox and virtualization.
 - Rest the day before the exam, and schedule it for Monday morning, before work.
 
