@@ -22,15 +22,15 @@ This post is an honest account of how I passed the five CNCF Kubernetes certific
 
 __DISCLAIMER:__ Everything in this post comes from my own experience, in my context and my life. Don't take it as an absolute recommendation. I'm not trying to say what is "right", only to share what I went through. What worked for me might not work for you.
 
-## Why I Wanted the Certifications
+## Why I Went for the Kubestronaut Title
 
-I started the Kubestronaut path as a senior DevOps engineer, after more than five years of working with Kubernetes every day. The title didn't change much in my career. At my level, market experience still counts more than a certificate. What I wanted was a reason to study the parts of Kubernetes I never touched at work, and the exam curriculum gave me a study roadmap for them.
+When I started the Kubestronaut path, I had been working with Kubernetes every day for more than five years. Even with that experience, I still lacked knowledge in areas the certifications cover but that my work did not focus on. That was my main motivation, and the exam curriculum gave me a study roadmap to fill those gaps. Besides the learning, the certifications open doors to jobs that require them and can help with networking in the Cloud Native Community.
 
 It's important to keep in mind that knowing a subject is different from mastering it. Knowing means you understand which tools exist to solve a problem and how to use them. Mastering means you have the practical experience to pick the solution closest to ideal for a given context, and that only comes with time and real work. A certification says you know Kubernetes. It doesn't say you master it.
 
 So I disagree with the idea that these certifications are only for people who already master Kubernetes. They suit people who are learning it even better. If I knew nothing about Kubernetes today, I would study for the certifications instead of watching random YouTube videos. The curriculum makes the learning curve more organized and much less tortuous.
 
-## What Each Exam Covers
+## What to Expect From Each Exam
 
 The five exams fall into two groups. KCNA and KCSA are multiple-choice exams where you can't consult anything, and the result arrives by email as soon as you finish. CKA, CKAD, and CKS are hands-on: you solve tasks in a terminal on a remote XFCE Linux desktop, with access to a list of official documentation sites, and the result takes up to 24 hours. Every exam includes one free retake. The hands-on ones also come with two sessions on the [Killer Shell](https://killer.sh/) simulator, which reproduces the exam closely, except that its connection is much faster than the real one, so expect a slower terminal on exam day.
 
@@ -62,17 +62,17 @@ These are only examples to give you an idea. The full list of topics for each ex
 
 Because the hands-on exams let you open the official documentation, don't try to memorize everything. Learn to do the tasks using the docs as a guide, and remember where each piece of information lives. Not every tool is on the list, though: Trivy, for example, isn't, so practice its flags before the CKS.
 
-## What the Kubestronaut Title Gives You
+## Kubestronaut Benefits and How to Keep the Title
 
 When you become a Kubestronaut, you get an exclusive jacket, a Credly badge, and access to a private Slack channel and mailing list. Your photo also goes on the [Kubestronaut page](https://www.cncf.io/training/kubestronaut/), which lists everyone who holds the title ([here is mine](https://www.cncf.io/training/kubestronaut/?_sf_s=carlos%20neto)). Every year, you also get five 50%-off certification coupons, which you can use yourself or share, and 20% off three [CNCF events](https://www.cncf.io/events/), such as [KubeCon](https://www.cncf.io/kubecon-cloudnativecon-events/) or [KubeDays](https://www.cncf.io/blog/2022/08/17/introducing-kubeday-event-series-kicking-off-with-kubeday-japan-this-december/). The full list is on the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/).
 
 The Kubestronaut title isn't permanent, though. Each certification is valid for two years, and according to the [Kubestronaut FAQ](https://www.cncf.io/training/kubestronaut/kubestronaut-faq/), all of them must be active at the same time. When the first one expires, you keep the title until the end of that year. If you don't renew by then, you lose the title and its benefits.
 
-From what I've seen and talked about with colleagues, the market uses these certifications mostly to speed up interviews, to rank higher when tech recruiters search on LinkedIn, and to strengthen your position when negotiating a contract. They signal that you know the Kubernetes basics.
+From what I've seen and talked about with colleagues, the market uses these certifications mostly to speed up interviews, to rank higher when tech recruiters search on LinkedIn, and to strengthen your position when negotiating a contract. They signal that you know the Kubernetes basics, and some companies go further and list them as a requirement in their job openings.
 
-## The Order I Took Them, and the One I Recommend
+## Which Exam to Take First
 
-I took them in a poorly planned order: CKA, KCNA, KCSA, CKAD, and then CKS. There was no logic behind it, and that is one of the reasons I wrote this post. If I were starting again, I'd pick a path based on my role:
+I took the exams in a poorly planned order: CKA, KCNA, KCSA, CKAD, and then CKS. There was no logic behind it, and that is one of the reasons I wrote this post. If I were starting again, I'd pick a path based on my role:
 
 <img src="/_static/2026/2026-11-15/kubestronaut-exam-paths.svg" alt="Diagram of the Kubernetes certification order I recommend for junior DevOps, senior DevOps, SecOps, and Kubestronaut candidates" loading="lazy" width="960" height="330" style="max-width: 100%; height: auto;">
 
@@ -80,7 +80,7 @@ A junior DevOps engineer gets a solid foundation going from the KCNA to the CKAD
 
 Also check the current requirements before planning the full path. The Linux Foundation [announced](https://training.linuxfoundation.org/resources/kubestronaut-program/) that starting February 15, 2027, the Certified Kubernetes Network Engineer (CKNE) will also be required for Kubestronaut status. Because it's a new exam, I would leave it for last. That gives the community time to share feedback about it, and gives course creators time to publish courses and practice exams.
 
-## Prices, Bundles, and Promotions
+## How to Pay Less for the Exams
 
 The Linux Foundation charges the same dollar price everywhere, without purchasing power parity (PPP) pricing. Besides single exams, it sells bundles for specific tracks, such as the [Kubestronaut Bundle](https://training.linuxfoundation.org/certification/kubestronaut-bundle/) with every exam the title requires, and upgrade bundles for people who already hold the [CKA](https://training.linuxfoundation.org/certification/cka-to-kubestronaut-upgrade-bundle/) or the [CKAD](https://training.linuxfoundation.org/certification/ckad-to-kubestronaut-upgrade-bundle/). For a security track, there are the [KCSA + CKS](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa-certified-kubernetes-security-specialist-cks-exam-bundle/) and [CKA + CKS](https://training.linuxfoundation.org/certification/cka-cks-exam-bundle/) bundles. Smaller combinations include the [KCNA + CKA](https://training.linuxfoundation.org/training/kcna-cka-exam-bundle/) and the [CKA + CKAD + CKS](https://training.linuxfoundation.org/training/cka-ckad-cks-exam-bundle/). The bundles vary over time, so check the current offer on the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/) and the Linux Foundation store before buying.
 
@@ -90,7 +90,7 @@ So before buying anything, define the track of certifications you want. If it's 
 
 People often tell me the exams are expensive, and they are, especially if you don't earn in US dollars. Still, the fee is the cheap part. The hours of study and the mental energy they drain cost much more.
 
-## A Year of Procrastination, Then Six Months of Focus
+## From Procrastination to a Study Routine
 
 Before the six months in which I passed everything, I procrastinated for a whole year. I would start studying, stop, come back weeks later, and remember nothing. Every restart, I had forgotten the imperative kubectl commands and had to learn them again.
 
@@ -106,7 +106,7 @@ KodeKloud also publishes its courses as text on [KodeKloud Notes](https://notes.
 
 When a topic was hard for me to understand, I talked about it with ChatGPT in voice mode until it made sense. Saying the question out loud and going back to the part I still didn't get helped me understand concepts that were difficult for me. It also let me express my frustration with the topic, almost like venting.
 
-## How I Prepared for the Hands-On Exams
+## How I Prepared for the CKA, CKAD, and CKS
 
 Don't overestimate yourself. If you're an experienced DevOps engineer who knows Kubernetes well and thinks you'll pass easily, be careful. In the exam there's no Google, no AI, and no IDE you're used to. Maybe you don't need to study Kubernetes, but you definitely need to study for the exam. Knowing how to do everything isn't enough. You need to do everything fast, in Vim, in a laggy remote terminal, with the clock in your head. The exam has no trick questions. It's well designed and reasonably difficult, but it requires solid preparation, and you can't pass it after studying for a weekend.
 
