@@ -24,7 +24,7 @@ __DISCLAIMER:__ Everything in this post comes from my own experience, in my cont
 
 ## Why I Went for the Kubestronaut Title
 
-When I started the Kubestronaut path, I had been working with Kubernetes every day for more than five years. Even with that experience, I still lacked knowledge in areas the certifications cover but that my work did not focus on. That was my main motivation, and the exam curriculum gave me a study roadmap to fill those gaps. Besides the learning, the certifications open doors to jobs that require them and can help with networking in the Cloud Native Community.
+When I started the Kubestronaut path, I had been working with Kubernetes every day for more than five years. Even with that experience, I still lacked knowledge in areas the certifications cover. That was my main motivation, and the exam curriculum gave me a study roadmap to fill those gaps. Besides the learning, the certifications open doors to jobs that require them and can help with networking in the Cloud Native Community.
 
 It's important to keep in mind that knowing a subject is different from mastering it. Knowing means you understand which tools exist to solve a problem and how to use them. Mastering means you have the practical experience to pick the solution closest to ideal for a given context, and that only comes with time and real work. A certification says you know Kubernetes. It doesn't say you master it.
 
