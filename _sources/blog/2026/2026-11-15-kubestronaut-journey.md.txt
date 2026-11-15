@@ -62,9 +62,9 @@ Here is what each exam covers:
 
 When you become a Kubestronaut, you get an exclusive jacket, a Credly badge, and access to a private Slack channel and mailing list. Your photo also goes on the [Kubestronaut page](https://www.cncf.io/training/kubestronaut/), which lists everyone who holds the title ([here is mine](https://www.cncf.io/training/kubestronaut/?_sf_s=carlos%20neto)). Every year, you also get five 50%-off certification coupons, which you can use yourself or share, and 20% off three [CNCF events](https://www.cncf.io/events/), such as [KubeCon](https://www.cncf.io/kubecon-cloudnativecon-events/) or [KubeDays](https://www.cncf.io/blog/2022/08/17/introducing-kubeday-event-series-kicking-off-with-kubeday-japan-this-december/). The full list is on the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/).
 
-The Kubestronaut title isn't permanent, though. Each certification is valid for two years, and according to the [Kubestronaut FAQ](https://www.cncf.io/training/kubestronaut/kubestronaut-faq/), all of them must be active at the same time. When the first one expires, you keep the title until the end of that year. If you don't renew by then, you lose the title and its benefits. From February 15, 2027, the [CKNE](https://training.linuxfoundation.org/resources/kubestronaut-program/) joins the list of required certifications.
-
 From what I've seen and talked about with colleagues, the market uses these certifications mostly to speed up interviews. They also help you rank higher when tech recruiters search on LinkedIn and strengthen your position when negotiating a contract. They signal that you know the Kubernetes basics, and some companies go further and list them as a requirement in their job openings.
+
+The Kubestronaut title isn't permanent, though. Each certification is valid for two years, and according to the [Kubestronaut FAQ](https://www.cncf.io/training/kubestronaut/kubestronaut-faq/), all of them must be active at the same time. When the first one expires, you keep the title until the end of that year. If you don't renew by then, you lose the title and its benefits.
 
 ## Which Exam to Take First
 
