@@ -3,20 +3,20 @@ tags: kubernetes, certification
 date: "2026-11-15"
 category: Kubernetes
 author: Carlos Neto
-title: "Kubestronaut: My Honest Journey (Including Procrastination and Retake)"
-description: "How I earned the Kubestronaut title as a senior DevOps engineer: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
+title: "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)"
+description: "How I became a Kubestronaut: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
 myst:
   html_meta:
-    description: "How I earned the Kubestronaut title as a senior DevOps engineer: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
-og:title: "Kubestronaut: My Honest Journey (Including Procrastination and Retake)"
-og:description: "How I earned the Kubestronaut title as a senior DevOps engineer: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
+    description: "How I became a Kubestronaut: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
+og:title: "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)"
+og:description: "How I became a Kubestronaut: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
 ---
 
 *__Blog Post Publish Date:__ 2026/11/15*
 
 ---
 
-# Kubestronaut: My Honest Journey (Including Procrastination and Retake)
+# Kubestronaut: My Honest Journey (Including Procrastination and a Retake)
 
 This post is an honest account of how I passed the five CNCF Kubernetes certifications (CKA, KCNA, KCSA, CKAD, and CKS) and became a Kubestronaut. I share how I overcame a year of procrastination and why I failed the CKS even though I was prepared for it. I also cover the study routine and methods that worked for me, what each exam asks for, and the order I recommend for your professional profile.
 
@@ -26,23 +26,15 @@ __DISCLAIMER:__ Everything in this post comes from my own experience, in my cont
 
 I started the Kubestronaut path as a senior DevOps engineer, after more than five years of working with Kubernetes every day. The title didn't change much in my career. At my level, market experience still counts more than a certificate. What I wanted was a reason to study the parts of Kubernetes I never touched at work, and the exam curriculum gave me a study roadmap for them.
 
-When you become a Kubestronaut, you get an exclusive jacket, a Credly badge, and access to a private Slack channel and mailing list. Your photo also goes on the [Kubestronaut page](https://www.cncf.io/training/kubestronaut/), which lists everyone who holds the title ([here is mine](https://www.cncf.io/training/kubestronaut/?_sf_s=carlos%20neto)). Every year, you also get five 50%-off certification coupons, which you can use yourself or share, and 20% off three [CNCF events](https://www.cncf.io/events/), such as [KubeCon](https://www.cncf.io/kubecon-cloudnativecon-events/) or [KubeDays](https://www.cncf.io/blog/2022/08/17/introducing-kubeday-event-series-kicking-off-with-kubeday-japan-this-december/). The full list is on the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/).
-
-The Kubestronaut title isn't permanent, though. Each certification is valid for two years, and according to the [Kubestronaut FAQ](https://www.cncf.io/training/kubestronaut/kubestronaut-faq/), all of them must be active at the same time. When the first one expires, you keep the title until the end of that year. If you don't renew by then, you lose the title and its benefits.
-
-Knowing a subject is different from mastering it. Knowing means you understand which tools exist to solve a problem. Mastering means you have the practical experience to pick the solution closest to ideal for a given context, and that only comes with time and real work. A certification says you know Kubernetes. It doesn't say you master it.
+It's important to keep in mind that knowing a subject is different from mastering it. Knowing means you understand which tools exist to solve a problem and how to use them. Mastering means you have the practical experience to pick the solution closest to ideal for a given context, and that only comes with time and real work. A certification says you know Kubernetes. It doesn't say you master it.
 
 So I disagree with the idea that these certifications are only for people who already master Kubernetes. They suit people who are learning it even better. If I knew nothing about Kubernetes today, I would study for the certifications instead of watching random YouTube videos. The curriculum makes the learning curve more organized and much less tortuous.
-
-From what I've seen and talked about with colleagues, the market uses these certifications mostly to speed up interviews and to strengthen your position when negotiating a contract. They signal that you know the Kubernetes basics. Before you start, ask yourself honestly why you want one and what you'll do with it, because the certificate alone won't change your life. What you learn on the way is worth more than the badge.
-
-People often tell me the exams are expensive, and they are, especially if you don't earn in US Dollars. Still, the fee is the cheap part. The hours of study and the mental energy they drain cost much more.
 
 ## What Each Exam Covers
 
 The five exams fall into two groups. KCNA and KCSA are multiple-choice exams where you can't consult anything, and the result arrives by email as soon as you finish. CKA, CKAD, and CKS are hands-on: you solve tasks in a terminal on a remote XFCE Linux desktop, with access to a list of official documentation sites, and the result takes up to 24 hours. Every exam includes one free retake. The hands-on ones also come with two sessions on the [Killer Shell](https://killer.sh/) simulator, which reproduces the exam closely, except that its connection is much faster than the real one, so expect a slower terminal on exam day.
 
-All five exams can be taken remotely on [PSI Bridge](https://www.psiexams.com/test-owners/test-delivery/online-proctoring/), under constant monitoring through your webcam. Before the exam starts, a check-in step asks a live scan of your desk and the whole room. If you've taken an online AWS certification exam, the experience is similar. I took all five in English, and the conversation with the proctor was in English too. It happens through a text chat and is basic, with requests like "show the ceiling" or "show the area under your keyboard". The [Linux Foundation Candidate Handbook](https://docs.linuxfoundation.org/tc-docs/certification/lf-handbook2/taking-the-exam) has the details.
+All five exams can be taken remotely on [PSI Bridge](https://www.psiexams.com/test-owners/test-delivery/online-proctoring/), under constant monitoring through your webcam. Before the exam starts, a check-in step asks for a live scan of your desk and the whole room. If you've taken an online AWS certification exam, the experience is similar. I took all five in English, and the conversation with the proctor was in English too. It happens through a text chat and is basic, with requests like "show the ceiling" or "show the area under your keyboard". The [Linux Foundation Candidate Handbook](https://docs.linuxfoundation.org/tc-docs/certification/lf-handbook2/taking-the-exam) has the details.
 
 | Exam | Format | Duration | Documentation allowed |
 | --- | --- | --- | --- |
@@ -70,6 +62,14 @@ These are only examples to give you an idea. The full list of topics for each ex
 
 Because the hands-on exams let you open the official documentation, don't try to memorize everything. Learn to do the tasks using the docs as a guide, and remember where each piece of information lives. Not every tool is on the list, though: Trivy, for example, isn't, so practice its flags before the CKS.
 
+## What the Kubestronaut Title Gives You
+
+When you become a Kubestronaut, you get an exclusive jacket, a Credly badge, and access to a private Slack channel and mailing list. Your photo also goes on the [Kubestronaut page](https://www.cncf.io/training/kubestronaut/), which lists everyone who holds the title ([here is mine](https://www.cncf.io/training/kubestronaut/?_sf_s=carlos%20neto)). Every year, you also get five 50%-off certification coupons, which you can use yourself or share, and 20% off three [CNCF events](https://www.cncf.io/events/), such as [KubeCon](https://www.cncf.io/kubecon-cloudnativecon-events/) or [KubeDays](https://www.cncf.io/blog/2022/08/17/introducing-kubeday-event-series-kicking-off-with-kubeday-japan-this-december/). The full list is on the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/).
+
+The Kubestronaut title isn't permanent, though. Each certification is valid for two years, and according to the [Kubestronaut FAQ](https://www.cncf.io/training/kubestronaut/kubestronaut-faq/), all of them must be active at the same time. When the first one expires, you keep the title until the end of that year. If you don't renew by then, you lose the title and its benefits.
+
+From what I've seen and talked about with colleagues, the market uses these certifications mostly to speed up interviews, to rank higher when tech recruiters search on LinkedIn, and to strengthen your position when negotiating a contract. They signal that you know the Kubernetes basics.
+
 ## The Order I Took Them, and the One I Recommend
 
 I took them in a poorly planned order: CKA, KCNA, KCSA, CKAD, and then CKS. There was no logic behind it, and that is one of the reasons I wrote this post. If I were starting again, I'd pick a path based on my role:
@@ -82,11 +82,13 @@ Also check the current requirements before planning the full path. The Linux Fou
 
 ## Prices, Bundles, and Promotions
 
-The Linux Foundation sells the CNCF certifications in US dollars, without purchasing power parity (PPP) pricing. Besides single exams, it sells bundles for specific tracks, such as the [Kubestronaut Bundle](https://training.linuxfoundation.org/certification/kubestronaut-bundle/) with every exam the title requires, and upgrade bundles for people who already hold the [CKA](https://training.linuxfoundation.org/certification/cka-to-kubestronaut-upgrade-bundle/) or the [CKAD](https://training.linuxfoundation.org/certification/ckad-to-kubestronaut-upgrade-bundle/). For a security track, there are the [KCSA + CKS](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa-certified-kubernetes-security-specialist-cks-exam-bundle/) and [CKA + CKS](https://training.linuxfoundation.org/certification/cka-cks-exam-bundle/) bundles. Smaller combinations include the [KCNA + CKA](https://training.linuxfoundation.org/training/kcna-cka-exam-bundle/) and the [CKA + CKAD + CKS](https://training.linuxfoundation.org/training/cka-ckad-cks-exam-bundle/). The bundles vary over time, so check the current offer on the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/) and the Linux Foundation store before buying.
+The Linux Foundation charges the same dollar price everywhere, without purchasing power parity (PPP) pricing. Besides single exams, it sells bundles for specific tracks, such as the [Kubestronaut Bundle](https://training.linuxfoundation.org/certification/kubestronaut-bundle/) with every exam the title requires, and upgrade bundles for people who already hold the [CKA](https://training.linuxfoundation.org/certification/cka-to-kubestronaut-upgrade-bundle/) or the [CKAD](https://training.linuxfoundation.org/certification/ckad-to-kubestronaut-upgrade-bundle/). For a security track, there are the [KCSA + CKS](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa-certified-kubernetes-security-specialist-cks-exam-bundle/) and [CKA + CKS](https://training.linuxfoundation.org/certification/cka-cks-exam-bundle/) bundles. Smaller combinations include the [KCNA + CKA](https://training.linuxfoundation.org/training/kcna-cka-exam-bundle/) and the [CKA + CKAD + CKS](https://training.linuxfoundation.org/training/cka-ckad-cks-exam-bundle/). The bundles vary over time, so check the current offer on the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/) and the Linux Foundation store before buying.
 
 Don't pay the full price. Wait for a promotion. In my experience, October and November usually bring discounts of up to 50%. Bundles also tend to get a better discount than buying each exam separately.
 
 So before buying anything, define the track of certifications you want. If it's a full track, buy its bundle. If you want only one certification, buy that single exam. Buying a bundle without knowing what you want from the certifications puts an unnecessary weight on you.
+
+People often tell me the exams are expensive, and they are, especially if you don't earn in US dollars. Still, the fee is the cheap part. The hours of study and the mental energy they drain cost much more.
 
 ## A Year of Procrastination, Then Six Months of Focus
 
@@ -98,7 +100,9 @@ The routine that worked for me was one hour a day. Not two, not three. A five-ho
 
 Two more habits helped. I didn't keep checking the course progress bar, because that only triggered anxiety. And I stopped telling people I was studying for a certification. Our brain is dumb: when we announce that we're doing something, it feels like we already did it. There's research behind this. Peter Gollwitzer and colleagues ran four experiments on identity-related intentions, such as studying law to become a lawyer, and published them in Psychological Science. When other people took notice of the intention, participants acted on it less than those whose intention was ignored. Being noticed gave them a premature sense of already having that identity ([Gollwitzer et al., 2009](https://doi.org/10.1111/j.1467-9280.2009.02336.x)). Finish the exam first, then show it off.
 
-Finally, I used a single study source: the [KodeKloud](https://kodekloud.com/) courses. That choice surprised me, because I've always struggled with video courses. I lose focus quickly, so I've always studied from physical books, on paper, away from notifications and from the quick glances at email, WhatsApp, and Instagram that feed you cheap dopamine. Even with that resistance, I loved KodeKloud. I'm not paid to say this, but they are the best courses I've ever taken: a video lesson, then a lab prepared only to practice what the lesson covered, with no distractions. Every lesson also has a full text transcript and translated subtitles. KodeKloud also publishes its courses as text on [KodeKloud Notes](https://notes.kodekloud.com/), such as the [CKS course](https://notes.kodekloud.com/docs/Certified-Kubernetes-Security-Specialist-CKS/index#course-certified-kubernetes-security-specialist-cks). The best part is that the text version is free and doesn't require a subscription. I switched to it on the days I was tired of watching videos. Every topic in the course is worth studying, especially the ones that aren't on the exam, such as TLS.
+Finally, I used a single study source: the [KodeKloud](https://kodekloud.com/) courses. That choice surprised me, because I've always struggled with video courses. I lose focus quickly, so I've always studied from physical books, on paper, away from notifications and from the quick glances at email, WhatsApp, and Instagram that feed you cheap dopamine. Even with that resistance, I loved KodeKloud. I'm not paid to say this, but they are the best courses I've ever taken: a video lesson, then a lab prepared only to practice what the lesson covered, with no distractions. Every lesson also has a full text transcript and translated subtitles.
+
+KodeKloud also publishes its courses as text on [KodeKloud Notes](https://notes.kodekloud.com/), such as the [CKS course](https://notes.kodekloud.com/docs/Certified-Kubernetes-Security-Specialist-CKS/index#course-certified-kubernetes-security-specialist-cks). The best part is that the text version is free and doesn't require a subscription. I switched to it on the days I was tired of watching videos. Every topic in the course is worth studying, especially the ones that aren't on the exam, such as TLS.
 
 When a topic was hard for me to understand, I talked about it with ChatGPT in voice mode until it made sense. Saying the question out loud and going back to the part I still didn't get helped me understand concepts that were difficult for me. It also let me express my frustration with the topic, almost like venting.
 
@@ -140,7 +144,7 @@ I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateu
 - Study one hour a day, with one day off. The gym helps with focus.
 - Use one study source: KodeKloud courses, with free text versions on KodeKloud Notes.
 - Prioritize hands-on practice under exam conditions: imperative kubectl, Vim, and the official docs.
-- Ready to exam means 100% on both Killer Shell sessions with 30 minutes to spare.
+- Ready for the exam means 100% on both Killer Shell sessions with 30 minutes to spare.
 - Skip the home lab. Spend your time on Kubernetes, not on Proxmox and virtualization.
 - Rest the day before the exam, and schedule it for Monday morning, before work.
 
@@ -170,8 +174,8 @@ I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateu
   "@graph": [
     {
       "@type": "BlogPosting",
-      "headline": "Kubestronaut: My Honest Journey (Including Procrastination and Retake)",
-      "description": "How I earned the Kubestronaut title as a senior DevOps engineer: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend.",
+      "headline": "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)",
+      "description": "How I became a Kubestronaut: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend.",
       "datePublished": "2026-11-15",
       "inLanguage": "en",
       "url": "https://carlosneto.dev/blog/2026/2026-11-15-kubestronaut-journey/",
@@ -192,7 +196,7 @@ I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateu
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
         {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
-        {"@type": "ListItem", "position": 3, "name": "Kubestronaut: My Honest Journey (Including Procrastination and Retake)"}
+        {"@type": "ListItem", "position": 3, "name": "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)"}
       ]
     }
   ]
