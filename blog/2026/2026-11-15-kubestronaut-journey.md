@@ -32,7 +32,7 @@ Knowing a subject is different from mastering it. Knowing means you understand w
 
 From what I've seen and talked about with colleagues, the market uses these certifications mostly to speed up interviews and to strengthen your position when negotiating a contract. They signal that you know the Kubernetes basics. Before you start, ask yourself honestly why you want one and what you'll do with it, because the certificate alone won't change your life. What you learn on the way is worth more than the badge.
 
-People often tell me the exams are expensive, and they are, especially if you don't earn in dollars (like me). Still, the fee is the cheap part. The hours of study and the mental energy they drain cost much more. Later in this post, I share some tips on [paying less for the exams](#kubestronaut-prices).
+People often tell me the exams are expensive, and they are, especially if you don't earn in US Dollars. Still, the fee is the cheap part. The hours of study and the mental energy they drain cost much more.
 
 ## What Each Exam Covers
 
