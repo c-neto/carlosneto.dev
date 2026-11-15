@@ -3,12 +3,12 @@ tags: kubernetes, certification
 date: "2026-11-15"
 category: Kubernetes
 author: Carlos Neto
-title: "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)"
+title: "Kubestronaut: My Honest Journey (Including Procrastination and Retake)"
 description: "How I earned the Kubestronaut title as a senior DevOps engineer: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
 myst:
   html_meta:
     description: "How I earned the Kubestronaut title as a senior DevOps engineer: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
-og:title: "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)"
+og:title: "Kubestronaut: My Honest Journey (Including Procrastination and Retake)"
 og:description: "How I earned the Kubestronaut title as a senior DevOps engineer: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
 ---
 
@@ -153,7 +153,7 @@ I really enjoyed the Kubestronaut journey. It cost me a lot of energy and some s
   "@graph": [
     {
       "@type": "BlogPosting",
-      "headline": "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)",
+      "headline": "Kubestronaut: My Honest Journey (Including Procrastination and Retake)",
       "description": "How I earned the Kubestronaut title as a senior DevOps engineer: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend.",
       "datePublished": "2026-11-15",
       "inLanguage": "en",
@@ -175,7 +175,7 @@ I really enjoyed the Kubestronaut journey. It cost me a lot of energy and some s
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
         {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
-        {"@type": "ListItem", "position": 3, "name": "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)"}
+        {"@type": "ListItem", "position": 3, "name": "Kubestronaut: My Honest Journey (Including Procrastination and Retake)"}
       ]
     }
   ]
