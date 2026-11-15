@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 330" width="960" height="330" role="img" aria-labelledby="t d">
+  <title id="t">Kubernetes certification paths by role</title>
+  <desc id="d">Junior DevOps: KCNA, then CKAD, then CKA. Mid-level or senior DevOps who wants only one exam: CKA. SecOps: KCSA, then CKA, then CKS. Kubestronaut: KCNA, KCSA, CKAD, CKA, then CKS.</desc>
+  <defs>
+    <marker id="a0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3b82f6"/></marker>
+    <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#16a34a"/></marker>
+    <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/></marker>
+    <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#9333ea"/></marker>
+  </defs>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="14">
+    <text x="20" y="30" font-size="16" font-weight="700" fill="#64748b">The exam order I recommend by role</text>
+    <text x="20" y="75" font-weight="700" fill="#3b82f6">Junior DevOps</text>
+    <text x="20" y="93" fill="#64748b">solid foundation</text>
+    <g fill="none" stroke="#3b82f6" stroke-width="2">
+      <rect x="260" y="55" width="110" height="44" rx="10"/>
+      <rect x="400" y="55" width="110" height="44" rx="10"/>
+      <line x1="372" y1="77" x2="396" y2="77" marker-end="url(#a0)"/>
+      <rect x="540" y="55" width="110" height="44" rx="10"/>
+      <line x1="512" y1="77" x2="536" y2="77" marker-end="url(#a0)"/>
+    </g>
+    <g fill="#64748b" text-anchor="middle" font-weight="700">
+      <text x="315" y="82">KCNA</text>
+      <text x="455" y="82">CKAD</text>
+      <text x="595" y="82">CKA</text>
+    </g>
+    <text x="20" y="143" font-weight="700" fill="#16a34a">Mid-level or senior DevOps</text>
+    <text x="20" y="161" fill="#64748b">only one exam</text>
+    <g fill="none" stroke="#16a34a" stroke-width="2">
+      <rect x="260" y="123" width="110" height="44" rx="10"/>
+    </g>
+    <g fill="#64748b" text-anchor="middle" font-weight="700">
+      <text x="315" y="150">CKA</text>
+    </g>
+    <text x="20" y="211" font-weight="700" fill="#dc2626">SecOps</text>
+    <text x="20" y="229" fill="#64748b">security track</text>
+    <g fill="none" stroke="#dc2626" stroke-width="2">
+      <rect x="260" y="191" width="110" height="44" rx="10"/>
+      <rect x="400" y="191" width="110" height="44" rx="10"/>
+      <line x1="372" y1="213" x2="396" y2="213" marker-end="url(#a2)"/>
+      <rect x="540" y="191" width="110" height="44" rx="10"/>
+      <line x1="512" y1="213" x2="536" y2="213" marker-end="url(#a2)"/>
+    </g>
+    <g fill="#64748b" text-anchor="middle" font-weight="700">
+      <text x="315" y="218">KCSA</text>
+      <text x="455" y="218">CKA</text>
+      <text x="595" y="218">CKS</text>
+    </g>
+    <text x="20" y="279" font-weight="700" fill="#9333ea">Kubestronaut</text>
+    <text x="20" y="297" fill="#64748b">all five exams</text>
+    <g fill="none" stroke="#9333ea" stroke-width="2">
+      <rect x="260" y="259" width="110" height="44" rx="10"/>
+      <rect x="400" y="259" width="110" height="44" rx="10"/>
+      <line x1="372" y1="281" x2="396" y2="281" marker-end="url(#a3)"/>
+      <rect x="540" y="259" width="110" height="44" rx="10"/>
+      <line x1="512" y1="281" x2="536" y2="281" marker-end="url(#a3)"/>
+      <rect x="680" y="259" width="110" height="44" rx="10"/>
+      <line x1="652" y1="281" x2="676" y2="281" marker-end="url(#a3)"/>
+      <rect x="820" y="259" width="110" height="44" rx="10"/>
+      <line x1="792" y1="281" x2="816" y2="281" marker-end="url(#a3)"/>
+    </g>
+    <g fill="#64748b" text-anchor="middle" font-weight="700">
+      <text x="315" y="286">KCNA</text>
+      <text x="455" y="286">KCSA</text>
+      <text x="595" y="286">CKAD</text>
+      <text x="735" y="286">CKA</text>
+      <text x="875" y="286">CKS</text>
+    </g>
+  </g>
+</svg>
