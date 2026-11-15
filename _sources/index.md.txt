@@ -1,6 +1,8 @@
 # Hello, There!
 
-It' is my space to share my experiences and open source contributions. You can talk to me in LinkedIn, let's connect!
+I built this blog as a brain dump of my career. Here I write about the technical decisions I made, the solutions that changed how my teams worked, and my thinking on topics that usually come up in conversations with coworkers. I also share what I learned contributing to open source projects.
+
+What you'll find here is my experience and my point of view, the kind of thing you'd hear talking to me over coffee and won't get from asking an AI. To talk to me, send me a message on [LinkedIn](https://www.linkedin.com/in/c-neto/) or leave a comment in the comments section of any post.
 
 ::::{grid}
 
