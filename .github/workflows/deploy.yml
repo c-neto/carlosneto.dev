@@ -7,6 +7,8 @@ on:
       - main
     paths:
       - blog/**
+      - index.md
+      - contribution-list.md
       - analytics.md
       - _templates/**
       - _static/analytics.*
