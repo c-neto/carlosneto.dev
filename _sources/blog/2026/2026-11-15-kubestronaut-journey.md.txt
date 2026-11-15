@@ -32,7 +32,7 @@ Knowing a subject is different from mastering it. Knowing means you understand w
 
 From what I've seen and talked about with colleagues, the market uses these certifications mostly to speed up interviews and to strengthen your position when negotiating a contract. They signal that you know the Kubernetes basics. Before you start, ask yourself honestly why you want one and what you'll do with it, because the certificate alone won't change your life. What you learn on the way is worth more than the badge.
 
-People often tell me the exams are expensive, and they are, especially if you don't earn in dollars (like me). Still, the fee is the cheap part. The hours of study and the mental energy they drain cost much more.
+People often tell me the exams are expensive, and they are, especially if you don't earn in dollars (like me). Still, the fee is the cheap part. The hours of study and the mental energy they drain cost much more. Later in this post, I share some tips on [paying less for the exams](#kubestronaut-prices).
 
 ## What Each Exam Covers
 
@@ -70,13 +70,19 @@ I took them in a poorly planned order: CKA, KCNA, KCSA, CKAD, and then CKS. Ther
 
 <img src="/_static/2026/2026-11-15/kubestronaut-exam-paths.svg" alt="Diagram of the Kubernetes certification order I recommend for junior DevOps, senior DevOps, SecOps, and Kubestronaut candidates" loading="lazy" width="960" height="330" style="max-width: 100%; height: auto;">
 
-A junior DevOps engineer gets a solid foundation going from the KCNA to the CKAD and then the CKA. If you're a mid-level or senior DevOps engineer and want only one, take the CKA. If you're in SecOps, start with the KCSA, then the CKA (unfortunately, because of the CKS prerequisite), then the CKS. And for the Kubestronaut title, go from the easiest to the hardest: KCNA, KCSA, CKAD, CKA, and CKS.
-
-If you're not sure which certification to take, don't buy the Kubestronaut bundle first. Buy one exam. That's what I did. Buying the bundle up front creates a bigger commitment than you need.
+A junior DevOps engineer gets a solid foundation going from the KCNA to the CKAD and then the CKA. If you're a mid-level or senior DevOps engineer and want only one, take the CKA. I don't recommend taking only the CKAD. The CKA covers everything in the CKAD, so preparing for the CKA also prepares you to pass the CKAD with little extra study, and taking the CKAD later becomes easy if you want it. If you're in SecOps, start with the KCSA, then the CKA (unfortunately, because of the CKS prerequisite), then the CKS. And for the Kubestronaut title, go from the easiest to the hardest: KCNA, KCSA, CKAD, CKA, and CKS.
 
 Also check the current requirements before planning the full path. The Linux Foundation [announced](https://training.linuxfoundation.org/resources/kubestronaut-program/) that starting February 15, 2027, the Certified Kubernetes Network Engineer (CKNE) will also be required for Kubestronaut status. Because it's a new exam, I would leave it for last. That gives the community time to share feedback about it, and gives course creators time to publish courses and practice exams.
 
 I also disagree with the idea that these certifications are only for people who already master Kubernetes. They suit people who are learning it even better. If I knew nothing about Kubernetes today, I would study for the certifications instead of watching random YouTube videos. The curriculum makes the learning curve much less tortuous.
+
+## Prices, Bundles, and Promotions
+
+The Linux Foundation sells the CNCF certifications in US dollars, without purchasing power parity (PPP) pricing. Besides single exams, it sells bundles for specific tracks. The [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/) lists the Kubestronaut Bundle, with every exam the title requires, and upgrade bundles for people who already hold the CKA or the CKAD. It also lists bundles for the Golden Kubestronaut, a title that adds a long list of other CNCF certifications. Smaller combinations, such as the KCNA with the CKA, also show up in promotions.
+
+Don't pay the full price. Wait for a promotion. In my experience, October and November usually bring discounts of up to 50%. Bundles also tend to get a better discount than buying each exam separately.
+
+So before buying anything, define the track of certifications you want. If it's a full track, buy its bundle. If you want only one certification, buy that single exam. Buying a bundle without knowing what you want from the certifications puts an unnecessary weight on you.
 
 ## A Year of Procrastination, Then Six Months of Focus
 
@@ -88,7 +94,7 @@ The routine that worked for me was one hour a day. Not two, not three. A five-ho
 
 Two more habits helped. I didn't keep checking the course progress bar, because that only triggered anxiety. And I stopped telling people I was studying for a certification. Our brain is dumb: when we announce that we're doing something, it feels like we already did it. There's research behind this. Peter Gollwitzer and colleagues ran four experiments on identity-related intentions, such as studying law to become a lawyer, and published them in Psychological Science. When other people took notice of the intention, participants acted on it less than those whose intention was ignored. Being noticed gave them a premature sense of already having that identity ([Gollwitzer et al., 2009](https://doi.org/10.1111/j.1467-9280.2009.02336.x)). Finish the exam first, then show it off.
 
-Finally, I used a single study source: the [KodeKloud](https://kodekloud.com/) courses. That choice surprised me, because I've always struggled with video courses. I lose focus quickly, so I've always studied from physical books, on paper, away from notifications and from the quick glances at email, WhatsApp, and Instagram that feed you cheap dopamine. Even with that resistance, I loved KodeKloud. I'm not paid to say this, but they are the best courses I've ever taken: a video lesson, then a lab prepared only to practice what the lesson covered, with no distractions. Every lesson also has a full text transcript and translated subtitles. Every topic in the course is worth studying, especially the ones that aren't on the exam, such as TLS.
+Finally, I used a single study source: the [KodeKloud](https://kodekloud.com/) courses. That choice surprised me, because I've always struggled with video courses. I lose focus quickly, so I've always studied from physical books, on paper, away from notifications and from the quick glances at email, WhatsApp, and Instagram that feed you cheap dopamine. Even with that resistance, I loved KodeKloud. I'm not paid to say this, but they are the best courses I've ever taken: a video lesson, then a lab prepared only to practice what the lesson covered, with no distractions. Every lesson also has a full text transcript and translated subtitles. KodeKloud also publishes its courses as text on [KodeKloud Notes](https://notes.kodekloud.com/), such as the [CKS course](https://notes.kodekloud.com/docs/Certified-Kubernetes-Security-Specialist-CKS/index#course-certified-kubernetes-security-specialist-cks). The best part is that the text version is free and doesn't require a subscription. I switched to it on the days I was tired of watching videos. Every topic in the course is worth studying, especially the ones that aren't on the exam, such as TLS.
 
 When a topic was hard for me to understand, I talked about it with ChatGPT in voice mode until it made sense. Saying the question out loud and going back to the part I still didn't get helped me understand concepts that were difficult for me. It also let me express my frustration with the topic, almost like venting.
 
@@ -98,7 +104,7 @@ Don't overestimate yourself. If you're an experienced DevOps engineer who knows 
 
 The labs mattered more than the videos. For the final preparation, I redid all the KodeKloud mock exams until I got everything right, no matter how many times it took. Then I did the two [Killer Shell](https://killer.sh/) simulator sessions until I got them right too. Each session is only available for a limited time after you activate it, so I reserved a weekend for each one. The simulator looks a lot like the real exam environment.
 
-I also used [CK-X](https://github.com/sailor-sh/CK-X), an open source project that runs a Killer Shell-like simulator locally with Docker Compose, for free. It helped me a lot. Practice questions are never too many, so I also used the [CKS exam guide](https://devsecops.puziol.com.br/kubernetes/cks/exam/) and [solved CKS questions](https://devsecops.puziol.com.br/category/cks-quest%C3%B5es-resolvidas/) by David Puziol.
+I also used [CK-X](https://github.com/sailor-sh/CK-X), an open source project that runs a Killer Shell-like simulator locally with Docker Compose, for free. It helped me a lot. Practice questions are never too many, so I also used the [CKS exam guide](https://devsecops.puziol.com.br/kubernetes/cks/exam/) and [solved CKS questions by David Puziol](https://devsecops.puziol.com.br/category/cks-quest%C3%B5es-resolvidas/).
 
 One thing I would skip: a home lab. I bought a mini PC on AliExpress, installed Proxmox, and built base images for my cluster. I spent more time fighting Proxmox and networking than practicing Kubernetes, while the course labs were ready to use.
 
@@ -122,13 +128,14 @@ I really enjoyed the Kubestronaut journey. It cost me a lot of energy and some s
 
 ## Key Takeaways
 
-- A certification shows that you know Kubernetes, not that you master it. Mastery comes from time and real work.
-- The main cost is your study time and mental energy, not the exam fee. Know why you want the certification before you start.
-- Buy one exam first, not the bundle, and choose the order by your role. I took them in an unplanned order: CKA, KCNA, KCSA, CKAD, CKS.
-- One hour a day with one day off worked for me after a year of start-and-stop procrastination. Regular exercise gave me the focus to keep it.
-- Use one study source, prioritize labs over videos, and practice under exam conditions: imperative kubectl, Vim, and the official docs.
-- Skip the home lab. I lost more time on Proxmox and networking than on Kubernetes.
-- Rest the day before the exam. I failed the CKS with 66% after an eight-hour study rush the day before, and passed with 81% when I rested.
+- A certification proves knowledge, not mastery.
+- The real cost is study time and mental energy, not the fee.
+- Define the track, then buy its bundle on promotion.
+- Study one hour a day, with one day off. The gym helps with focus.
+- Use one study source: KodeKloud courses, with free text versions on KodeKloud Notes.
+- Prioritize hands-on practice: imperative kubectl, Vim, and the official docs.
+- Skip the home lab. Spend your time on Kubernetes, not on Proxmox and virtualization.
+- Rest the day before the exam, and schedule it for Monday morning, before work.
 
 ## References
 
