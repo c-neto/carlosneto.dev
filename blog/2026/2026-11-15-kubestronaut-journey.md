@@ -1,6 +1,6 @@
 ---
 tags: kubernetes, certification
-date: "2026-11-14"
+date: "2026-11-15"
 category: Kubernetes
 author: Carlos Neto
 title: "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)"
@@ -12,13 +12,15 @@ og:title: "Kubestronaut: My Honest Journey (Including Procrastination and a Reta
 og:description: "How I earned the Kubestronaut title as a senior DevOps engineer: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
 ---
 
-*__Blog Post Publish Date:__ 2026/11/14*
+*__Blog Post Publish Date:__ 2026/11/15*
 
 ---
 
 # Kubestronaut: My Honest Journey (Including Procrastination and a Retake)
 
-In 2026 I earned the [Kubestronaut title](https://www.credly.com/badges/d5a820cc-d6b5-4d0f-96e2-2e1d4713ac99) by passing the five CNCF Kubernetes certifications: CKA, KCNA, KCSA, CKAD, and CKS. This post covers what each exam asks for and the order I would recommend. It also covers the study routine that finally worked after a year of procrastination, and how I failed the CKS by one percentage point.
+I believe this may be one of my best blog posts. It's an honest account of how I became a Kubestronaut: how I overcame a year of procrastination and what made me fail the CKS even though I was fully prepared for it. I also share my study methods, what each exam requires, and the order I recommend depending on your professional profile.
+
+In 2026 I earned the [Kubestronaut title](https://www.credly.com/badges/d5a820cc-d6b5-4d0f-96e2-2e1d4713ac99) by passing the five CNCF Kubernetes certifications: CKA, KCNA, KCSA, CKAD, and CKS.
 
 __DISCLAIMER:__ Everything in this post comes from my own experience, in my context and my life. Don't take it as an absolute recommendation. I'm not trying to say what is "right", only to share what I went through. What worked for me might not work for you.
 
@@ -66,7 +68,7 @@ Because the hands-on exams let you open the official documentation, don't try to
 
 I took them in a poorly planned order: CKA, KCNA, KCSA, CKAD, and then CKS. There was no logic behind it, and that is one of the reasons I wrote this post. If I were starting again, I'd pick a path based on my role:
 
-<img src="/_static/2026/2026-11-14/kubestronaut-exam-paths.svg" alt="Diagram of the Kubernetes certification order I recommend for junior DevOps, senior DevOps, SecOps, and Kubestronaut candidates" loading="lazy" width="960" height="330" style="max-width: 100%; height: auto;">
+<img src="/_static/2026/2026-11-15/kubestronaut-exam-paths.svg" alt="Diagram of the Kubernetes certification order I recommend for junior DevOps, senior DevOps, SecOps, and Kubestronaut candidates" loading="lazy" width="960" height="330" style="max-width: 100%; height: auto;">
 
 A junior DevOps engineer gets a solid foundation going from the KCNA to the CKAD and then the CKA. If you're a mid-level or senior DevOps engineer and want only one, take the CKA. If you're in SecOps, start with the KCSA, then the CKA (unfortunately, because of the CKS prerequisite), then the CKS. And for the Kubestronaut title, go from the easiest to the hardest: KCNA, KCSA, CKAD, CKA, and CKS.
 
@@ -155,11 +157,11 @@ I really enjoyed the Kubestronaut journey. It cost me a lot of energy and some s
       "@type": "BlogPosting",
       "headline": "Kubestronaut: My Honest Journey (Including Procrastination and a Retake)",
       "description": "How I earned the Kubestronaut title as a senior DevOps engineer: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend.",
-      "datePublished": "2026-11-14",
+      "datePublished": "2026-11-15",
       "inLanguage": "en",
-      "url": "https://carlosneto.dev/blog/2026/2026-11-14-kubestronaut-journey/",
-      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-14-kubestronaut-journey/",
-      "image": "https://carlosneto.dev/_static/2026/2026-11-14/kubestronaut-exam-paths.svg",
+      "url": "https://carlosneto.dev/blog/2026/2026-11-15-kubestronaut-journey/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-15-kubestronaut-journey/",
+      "image": "https://carlosneto.dev/_static/2026/2026-11-15/kubestronaut-exam-paths.svg",
       "keywords": ["Kubernetes", "Kubestronaut", "CKA", "CKAD", "CKS", "KCNA", "KCSA", "Kubernetes certification"],
       "author": {"@id": "https://carlosneto.dev/#person"}
     },
