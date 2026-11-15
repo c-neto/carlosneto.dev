@@ -40,8 +40,8 @@ Here is what each exam covers:
 
 | Exam | Format | Duration | Pass Score | OpenBook |
 | --- | --- | --- | --- | --- |
-| [KCNA](https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/) | Multiple choice | 90 minutes | 75% | No |
-| [KCSA](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa/) | Multiple choice | 90 minutes | 75% | No |
+| [KCNA](https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/) | multiple choice | 90 minutes | 75% | No |
+| [KCSA](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa/) | multiple choice | 90 minutes | 75% | No |
 | [CKAD](https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/) | hands-on | 2 hours | 66% | Yes |
 | [CKA](https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/) | hands-on | 2 hours | 66% | Yes |
 | [CKS](https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/) | hands-on | 2 hours | 67% | Yes |
