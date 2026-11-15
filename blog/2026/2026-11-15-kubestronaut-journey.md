@@ -26,7 +26,9 @@ __DISCLAIMER:__ Everything in this post comes from my own experience, in my cont
 
 I started the Kubestronaut path as a senior DevOps engineer, after more than five years of working with Kubernetes every day. The title didn't change much in my career. At my level, market experience still counts more than a certificate. What I wanted was a reason to study the parts of Kubernetes I never touched at work, and the exam curriculum gave me a study roadmap for them.
 
-The title also comes with some perks. According to the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/), a Kubestronaut gets an exclusive jacket, a Credly badge, and access to a private Slack channel and mailing list. Every year, you also get five 50%-off certification coupons, which you can use yourself or share, and 20% off three [CNCF events](https://www.cncf.io/events/), such as [KubeCon](https://www.cncf.io/kubecon-cloudnativecon-events/) or [KubeDays](https://www.cncf.io/blog/2022/08/17/introducing-kubeday-event-series-kicking-off-with-kubeday-japan-this-december/).
+When you become a Kubestronaut, you get an exclusive jacket, a Credly badge, and access to a private Slack channel and mailing list. Your photo also goes on the [Kubestronaut page](https://www.cncf.io/training/kubestronaut/), which lists everyone who holds the title ([here is mine](https://www.cncf.io/training/kubestronaut/?_sf_s=carlos%20neto)). Every year, you also get five 50%-off certification coupons, which you can use yourself or share, and 20% off three [CNCF events](https://www.cncf.io/events/), such as [KubeCon](https://www.cncf.io/kubecon-cloudnativecon-events/) or [KubeDays](https://www.cncf.io/blog/2022/08/17/introducing-kubeday-event-series-kicking-off-with-kubeday-japan-this-december/). The full list is on the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/).
+
+The Kubestronaut title isn't permanent, though. Each certification is valid for two years, and according to the [Kubestronaut FAQ](https://www.cncf.io/training/kubestronaut/kubestronaut-faq/), all of them must be active at the same time. When the first one expires, you keep the title until the end of that year. If you don't renew by then, you lose the title and its benefits.
 
 Knowing a subject is different from mastering it. Knowing means you understand which tools exist to solve a problem. Mastering means you have the practical experience to pick the solution closest to ideal for a given context, and that only comes with time and real work. A certification says you know Kubernetes. It doesn't say you master it.
 
@@ -50,7 +52,7 @@ All five exams can be taken remotely on [PSI Bridge](https://www.psiexams.com/te
 | [CKA](https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/) | 15 to 20 hands-on tasks | 2 hours | kubernetes.io, Helm, Gateway API |
 | [CKS](https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/) | 15 to 20 hands-on tasks | 2 hours | kubernetes.io, Falco, etcd, Cilium, Istio, and others |
 
-The format and duration come from each exam page, the [CKA and CKAD tips](https://docs.linuxfoundation.org/tc-docs/certification/tips-cka-and-ckad), and the [CKS instructions](https://docs.linuxfoundation.org/tc-docs/certification/important-instructions-cks). The documentation list comes from the [Resources Allowed page](https://docs.linuxfoundation.org/tc-docs/certification/certification-resources-allowed). The passing score is 66% for the CKA and CKAD and 67% for the CKS, according to the [Linux Foundation FAQ](https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks).
+The format and duration come from each exam page, the [CKA and CKAD tips](https://docs.linuxfoundation.org/tc-docs/certification/tips-cka-and-ckad), and the [CKS instructions](https://docs.linuxfoundation.org/tc-docs/certification/important-instructions-cks). The documentation list comes from the [Resources Allowed page](https://docs.linuxfoundation.org/tc-docs/certification/certification-resources-allowed). The passing score is 66% for the CKA and CKAD and 67% for the CKS, and these three certifications are valid for two years, according to the [Linux Foundation FAQ](https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks).
 
 **KCNA (_Kubernetes and Cloud Native Associate_):** is for people starting with Kubernetes. It asks conceptual questions like "what is a Pod?", "what is a container?", "which component decides on which node a Pod runs?", or "what is the difference between a Deployment and a StatefulSet?". If you already work with Kubernetes, even at a junior level, you'll pass it with your eyes closed.
 
@@ -145,6 +147,7 @@ I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateu
 ## References
 
 - [Kubestronaut Program (Linux Foundation)](https://training.linuxfoundation.org/resources/kubestronaut-program/)
+- [Kubestronaut FAQ (CNCF)](https://www.cncf.io/training/kubestronaut/kubestronaut-faq/)
 - [Frequently Asked Questions: CKA, CKAD, and CKS (Linux Foundation)](https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks)
 - [Important Tips: CKA and CKAD (Linux Foundation)](https://docs.linuxfoundation.org/tc-docs/certification/tips-cka-and-ckad)
 - [Important Instructions: CKS (Linux Foundation)](https://docs.linuxfoundation.org/tc-docs/certification/important-instructions-cks)
