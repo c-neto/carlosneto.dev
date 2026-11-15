@@ -36,7 +36,7 @@ People often tell me the exams are expensive, and they are, especially if you do
 
 ## What Each Exam Covers
 
-The five exams fall into two groups. KCNA and KCSA are multiple-choice exams, and you can't consult anything. CKA, CKAD, and CKS are hands-on: you solve tasks in a terminal on a remote Linux desktop, with access to a list of official documentation sites.
+The five exams fall into two groups. KCNA and KCSA are multiple-choice exams where you can't consult anything, and the result arrives by email as soon as you finish. CKA, CKAD, and CKS are hands-on: you solve tasks in a terminal on a remote XFCE Linux desktop, with access to a list of official documentation sites, and the result takes up to 24 hours. Every exam includes one free retake. The hands-on ones also come with two sessions on the [Killer Shell](https://killer.sh/) simulator, which reproduces the exam closely, except that its connection is much faster than the real one, so expect a slower terminal on exam day.
 
 All five exams can be taken remotely on [PSI Bridge](https://www.psiexams.com/test-owners/test-delivery/online-proctoring/), under constant monitoring through your webcam. Before the exam starts, a check-in step asks a live scan of your desk and the whole room. If you've taken an online AWS certification exam, the experience is similar. I took all five in English, and the conversation with the proctor was in English too. It happens through a text chat and is basic, with requests like "show the ceiling" or "show the area under your keyboard". The [Linux Foundation Candidate Handbook](https://docs.linuxfoundation.org/tc-docs/certification/lf-handbook2/taking-the-exam) has the details.
 
@@ -104,7 +104,7 @@ When a topic was hard for me to understand, I talked about it with ChatGPT in vo
 
 Don't overestimate yourself. If you're an experienced DevOps engineer who knows Kubernetes well and thinks you'll pass easily, be careful. In the exam there's no Google, no AI, and no IDE you're used to. Maybe you don't need to study Kubernetes, but you definitely need to study for the exam. Knowing how to do everything isn't enough. You need to do everything fast, in Vim, in a laggy remote terminal, with the clock in your head. The exam has no trick questions. It's well designed and reasonably difficult, but it requires solid preparation, and you can't pass it after studying for a weekend.
 
-The labs mattered more than the videos. For the final preparation, I redid all the KodeKloud mock exams until I got everything right, no matter how many times it took. Then I did the two [Killer Shell](https://killer.sh/) simulator sessions until I got them right too. Each session is only available for a limited time after you activate it, so I reserved a weekend for each one. The simulator looks a lot like the real exam environment.
+The labs mattered more than just watching videos. For my final preparation, I redid all the KodeKloud mock exams until I got 100% right, no matter how many attempts it took. After that, I repeated the two Killer Shell sessions until I got them right, too. Because each session expires 36 hours after activation, I reserved a weekend for each one. The best sign that you are ready is scoring 100% on both Killer Shell sessions on autopilot, without stopping to think, with about 30 minutes left on the clock. If you get there, you will pass the exam.
 
 I also used [CK-X](https://github.com/sailor-sh/CK-X), an open source project that runs a Killer Shell-like simulator locally with Docker Compose, for free. It helped me a lot. Practice questions are never too many, so I also used the [CKS exam guide](https://devsecops.puziol.com.br/kubernetes/cks/exam/) and [solved CKS questions by David Puziol](https://devsecops.puziol.com.br/category/cks-quest%C3%B5es-resolvidas/).
 
@@ -138,6 +138,7 @@ I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateu
 - Study one hour a day, with one day off. The gym helps with focus.
 - Use one study source: KodeKloud courses, with free text versions on KodeKloud Notes.
 - Prioritize hands-on practice under exam conditions: imperative kubectl, Vim, and the official docs.
+- Ready means 100% on both Killer Shell sessions, on autopilot, with 30 minutes to spare.
 - Skip the home lab. Spend your time on Kubernetes, not on Proxmox and virtualization.
 - Rest the day before the exam, and schedule it for Monday morning, before work.
 
