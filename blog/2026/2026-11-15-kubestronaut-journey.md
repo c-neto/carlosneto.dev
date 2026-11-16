@@ -22,9 +22,9 @@ This post is an honest account of how I passed the five CNCF Kubernetes certific
 
 __DISCLAIMER:__ Everything in this post comes from my own experience, in my context and my life. Don't take it as an absolute recommendation. I'm not trying to say what is "right", only to share what I went through. What worked for me might not work for you.
 
-## Why I Went for the Kubestronaut Title
+## My Motivation for Kubestronaut
 
-When I started the Kubestronaut path, I had been working with Kubernetes every day for more than five years. Even with that experience, I still lacked knowledge in areas covered by the certifications but outside the scope of my work. That was my main motivation, and the exam curriculum gave me a study roadmap to fill those gaps. Besides helping me learn, the certifications can open doors to jobs that require them and help me network within the cloud native community.
+When I started the Kubestronaut path, I had been working with Kubernetes every day for more than five years. Even with that experience, I still lacked knowledge in areas covered by the certifications but outside the scope of my work. That was my main motivation, and the exam curriculum gave me a study roadmap to fill those gaps.
 
 It's important to keep in mind that knowing a subject is different from mastering it. Knowing means you understand which tools exist to solve a problem and how to use them. Mastering means you have the practical experience to pick the solution closest to ideal for a given context, and that only comes with time and real work. A certification says you know Kubernetes. It doesn't say you master it.
 
@@ -58,7 +58,7 @@ Here is what each exam covers:
 
 > _From February 15, 2027, Kubestronaut will also require the [CKNE](https://training.linuxfoundation.org/resources/kubestronaut-program/), and two AI certifications, [KAIA and CKIE](https://www.cncf.io/announcements/2026/11/10/cncf-launches-certified-kubernetes-network-engineer-certification-ckne-to-advance-production-ready-networking-skills-for-ai-era/), are planned for 2027. I'd leave new exams for last._
 
-## Kubestronaut Benefits and How to Keep the Title
+## Kubestronaut Benefits
 
 When you become a Kubestronaut, you get an exclusive jacket, a Credly badge, and access to a private Slack channel and mailing list. Your photo also goes on the [Kubestronaut page](https://www.cncf.io/training/kubestronaut/), which lists everyone who holds the title ([here is mine](https://www.cncf.io/training/kubestronaut/?_sf_s=carlos%20neto)). Every year, you also get five 50%-off certification coupons, which you can use yourself or share, and 20% off three [CNCF events](https://www.cncf.io/events/), such as [KubeCon](https://www.cncf.io/kubecon-cloudnativecon-events/) or [KubeDays](https://www.cncf.io/blog/2022/08/17/introducing-kubeday-event-series-kicking-off-with-kubeday-japan-this-december/). The full list is on the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/).
 
