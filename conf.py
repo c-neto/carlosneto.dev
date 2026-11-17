@@ -169,6 +169,9 @@ myst_enable_extensions = [
     "html_image",
 ]
 
+# Keep straight quotes (' and ") as written instead of curly ones
+smartquotes = False
+
 
 html_context = {
    "default_mode": "light"
