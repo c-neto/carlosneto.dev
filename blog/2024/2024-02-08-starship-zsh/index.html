@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=cf61e508" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=5801711d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -444,19 +444,19 @@
 </section>
 <section id="zsh-extensible-and-production-ready-if-customized">
 <h3><strong>zsh</strong>: Extensible and Production-Ready (<em>If Customized</em>)<a class="headerlink" href="#zsh-extensible-and-production-ready-if-customized" title="Link to this heading">#</a></h3>
-<p>I wanted to come back to a more conventional shell, so I gave ZSH a chance. <strong>ZSH</strong> is a highly customizable shell with a large plugin ecosystem. It won me over, especially with <a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a>, a <em>“minimalistic, powerful and extremely customizable ZSH prompt”</em>, and <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a>, a framework that manages plugins and themes. I thought I had found a stable balance between productivity and simplicity, but on my macOS workstation, the input and startup delay got on my nerves.</p>
-<p>I searched blog posts and YouTube videos for tips, but nothing fixed it. So I installed the plugins manually, without oh-my-zsh, and tried <a class="reference external" href="https://starship.rs/">Starship</a>. In my words, Starship is “<em>a Spaceship alternative, written in Rust, blazing fast, with many stars on GitHub</em>”.</p>
+<p>I wanted to come back to a more conventional shell, so I gave ZSH a chance. <strong>ZSH</strong> is a highly customizable shell with a large plugin ecosystem. It won me over, especially with <a class="reference external" href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship</a>, a <em>&quot;minimalistic, powerful and extremely customizable ZSH prompt&quot;</em>, and <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a>, a framework that manages plugins and themes. I thought I had found a stable balance between productivity and simplicity, but on my macOS workstation, the input and startup delay got on my nerves.</p>
+<p>I searched blog posts and YouTube videos for tips, but nothing fixed it. So I installed the plugins manually, without oh-my-zsh, and tried <a class="reference external" href="https://starship.rs/">Starship</a>. In my words, Starship is &quot;<em>a Spaceship alternative, written in Rust, blazing fast, with many stars on GitHub</em>&quot;.</p>
 <p>The results were great. Moving my theme from Spaceship to Starship took almost no effort, and the performance was exactly what I wanted.</p>
 </section>
 <section id="fish-ready-to-use-but-not-posix-compliant">
 <h3><strong>fish</strong>: Ready to Use (<em>But Not POSIX-Compliant</em>)<a class="headerlink" href="#fish-ready-to-use-but-not-posix-compliant" title="Link to this heading">#</a></h3>
-<p>More recently, I tried <a class="reference external" href="https://fishshell.com/">Fish</a>, described as “<em>a smart and user-friendly command line shell</em>”. Its performance and default features impressed me, and Starship supports it too. Out of the box, Fish already has syntax checking with color indicators, autosuggestions based on history, and a selection menu for command options and arguments. It’s simple and ready to use.</p>
+<p>More recently, I tried <a class="reference external" href="https://fishshell.com/">Fish</a>, described as &quot;<em>a smart and user-friendly command line shell</em>&quot;. Its performance and default features impressed me, and Starship supports it too. Out of the box, Fish already has syntax checking with color indicators, autosuggestions based on history, and a selection menu for command options and arguments. It's simple and ready to use.</p>
 <p>The drawback is that Fish does not follow the <a class="reference external" href="http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html">POSIX sh definition</a>. For example, <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">FOOBAR=123</span></code> does not declare a variable. You have to write <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">set</span> <span class="pre">FOOBAR</span> <span class="pre">123</span></code> instead. That rules Fish out of my daily work, but if ZSH were not an option, I would happily use it.</p>
 </section>
 </section>
 <section id="my-favorite-zsh-plugins">
 <h2>My Favorite ZSH Plugins<a class="headerlink" href="#my-favorite-zsh-plugins" title="Link to this heading">#</a></h2>
-<p>ZSH has a huge number of plugins. They are usually installed and managed by <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a>, but you can install them directly, because a plugin is just a script file with a set of functions. These are the ones I can’t work without.</p>
+<p>ZSH has a huge number of plugins. They are usually installed and managed by <a class="reference external" href="https://ohmyz.sh/">oh-my-zsh</a>, but you can install them directly, because a plugin is just a script file with a set of functions. These are the ones I can't work without.</p>
 <section id="zsh-autosuggestions-remembers-commands-for-you">
 <h3><strong>zsh-autosuggestions</strong>: Remembers Commands for You<a class="headerlink" href="#zsh-autosuggestions-remembers-commands-for-you" title="Link to this heading">#</a></h3>
 <p>This is my favorite plugin, no doubt. It copies a Fish feature: as you type, it suggests a completion based on your history.</p>
@@ -507,7 +507,7 @@ $<span class="w"> </span>k<span class="w"> </span>get<span class="w"> </span>cj
 </section>
 <section id="my-favorite-zsh-options-setopt">
 <h2>My Favorite ZSH Options (<em>setopt</em>)<a class="headerlink" href="#my-favorite-zsh-options-setopt" title="Link to this heading">#</a></h2>
-<p>Some features that Bash or Fish have by default, such as comments in the prompt or sharing history, must be enabled explicitly in ZSH. You enable them with <code class="docutils literal notranslate"><span class="pre">setopt</span></code> in <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>. Running <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">set</span> <span class="pre">-o</span></code> lists every option and whether it’s on, and the <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">ZSH Options Reference</a> describes each one.</p>
+<p>Some features that Bash or Fish have by default, such as comments in the prompt or sharing history, must be enabled explicitly in ZSH. You enable them with <code class="docutils literal notranslate"><span class="pre">setopt</span></code> in <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>. Running <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">set</span> <span class="pre">-o</span></code> lists every option and whether it's on, and the <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Options.html">ZSH Options Reference</a> describes each one.</p>
 <p>These are the options I enable:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">INTERACTIVE_COMMENTS</span></code>: allows <code class="docutils literal notranslate"><span class="pre">#</span></code> comments in the interactive shell.</p></li>
@@ -565,7 +565,7 @@ $<span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </s
 </div>
 <blockquote>
 <div><p><i class="fa-solid fa-circle-info"></i> <strong>About Nerd Fonts</strong>:</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">~/.config/starship.toml</span></code> file from step <strong>5</strong> does not need <a class="reference external" href="https://www.nerdfonts.com/">Nerd Fonts</a>. If emojis don’t render correctly, installing one may help.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">~/.config/starship.toml</span></code> file from step <strong>5</strong> does not need <a class="reference external" href="https://www.nerdfonts.com/">Nerd Fonts</a>. If emojis don't render correctly, installing one may help.</p>
 </div></blockquote>
 <ul class="simple">
 <li><p><strong>4</strong>: Create the directories for the ZSH plugins and the Starship configuration:</p></li>
@@ -611,7 +611,7 @@ $<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span
 </section>
 <section id="why-i-settled-on-zsh-starship">
 <h2>Why I Settled on ZSH + Starship<a class="headerlink" href="#why-i-settled-on-zsh-starship" title="Link to this heading">#</a></h2>
-<p>Productivity is a moving target. Tools should fit what you need now, and it’s fine to change them when your work changes.</p>
+<p>Productivity is a moving target. Tools should fit what you need now, and it's fine to change them when your work changes.</p>
 <p>For my DevOps routine today, ZSH with Starship is a balanced, cross-platform choice with good performance, productivity, and room to extend. If you want to go further, ZSH also lets you write your own key bindings, which I cover in <a class="reference internal" href="../../2026/2026-10-26-zsh-widgets/"><span class="std std-doc">Hacking Your Zsh Terminal with Custom Widgets</span></a>, and <a class="reference internal" href="../2024-04-21-fzf/"><span class="std std-doc">fzf</span></a> turns history and file search into an interactive menu.</p>
 <p>Fish still gets an honorable mention: its default configuration inspired most of the plugins I use in ZSH.</p>
 </section>
@@ -646,7 +646,7 @@ $<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span
 </ul>
 <hr class="docutils" />
 <blockquote>
-<div><p><em>I’m Carlos Neto, and this blog is a brain dump of my career experience. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a> or leave a comment below.</em></p>
+<div><p><em>I'm Carlos Neto, and this blog is a brain dump of my career experience. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a> or leave a comment below.</em></p>
 </div></blockquote>
 <hr class="docutils" />
 <script type="application/ld+json">

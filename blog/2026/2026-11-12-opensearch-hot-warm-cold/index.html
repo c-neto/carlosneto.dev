@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=cf61e508" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=5801711d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -444,7 +444,7 @@
 <section id="tiers-are-node-attributes-you-define">
 <h2>Tiers Are Node Attributes You Define<a class="headerlink" href="#tiers-are-node-attributes-you-define" title="Link to this heading">#</a></h2>
 <p>Apart from the <code class="docutils literal notranslate"><span class="pre">warm</span></code> node role used by searchable snapshots, OpenSearch does not know what a hot or warm tier is. Hot, warm, and cold are a naming convention for a setup with three storage layers. Whoever runs the cluster decides how many layers it has, what hardware each one uses, and what to call them. Two layers is a valid design, and so is five.</p>
-<p>Tiering in OpenSearch rests on node attributes. Each data node carries a custom attribute that you choose, such as <code class="docutils literal notranslate"><span class="pre">node.attr.temp:</span> <span class="pre">hot</span></code>, and each index carries an allocation filter that requires a value of that attribute. OpenSearch places the index’s shards only on nodes whose attribute matches the filter. To move an index to another tier, you change the filter, and OpenSearch relocates the shards to the nodes that match. The index template and the ISM policy in the rest of this post exist to set that filter and change it at the right time.</p>
+<p>Tiering in OpenSearch rests on node attributes. Each data node carries a custom attribute that you choose, such as <code class="docutils literal notranslate"><span class="pre">node.attr.temp:</span> <span class="pre">hot</span></code>, and each index carries an allocation filter that requires a value of that attribute. OpenSearch places the index's shards only on nodes whose attribute matches the filter. To move an index to another tier, you change the filter, and OpenSearch relocates the shards to the nodes that match. The index template and the ISM policy in the rest of this post exist to set that filter and change it at the right time.</p>
 </section>
 <section id="three-tiers-for-log-analytics">
 <h2>Three Tiers for Log Analytics<a class="headerlink" href="#three-tiers-for-log-analytics" title="Link to this heading">#</a></h2>
@@ -481,7 +481,7 @@
 </section>
 <section id="prerequisites-label-your-nodes">
 <h2>Prerequisites: Label Your Nodes<a class="headerlink" href="#prerequisites-label-your-nodes" title="Link to this heading">#</a></h2>
-<p>From here on, the post builds the log analytics example step by step, with indexes named <code class="docutils literal notranslate"><span class="pre">my-logs-*</span></code>. Tag each data node with a custom attribute, conventionally <code class="docutils literal notranslate"><span class="pre">temp</span></code>, so OpenSearch knows which nodes are hot and which are warm. Set it in each node’s <code class="docutils literal notranslate"><span class="pre">opensearch.yml</span></code>, or through the environment if you run in containers:</p>
+<p>From here on, the post builds the log analytics example step by step, with indexes named <code class="docutils literal notranslate"><span class="pre">my-logs-*</span></code>. Tag each data node with a custom attribute, conventionally <code class="docutils literal notranslate"><span class="pre">temp</span></code>, so OpenSearch knows which nodes are hot and which are warm. Set it in each node's <code class="docutils literal notranslate"><span class="pre">opensearch.yml</span></code>, or through the environment if you run in containers:</p>
 <div class="highlight-yml notranslate"><div class="highlight"><pre><span></span><span class="c1"># On every hot data node</span>
 <span class="nt">node.attr.temp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hot</span>
 </pre></div>
@@ -490,7 +490,7 @@
 <span class="nt">node.attr.temp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">warm</span>
 </pre></div>
 </div>
-<p>The attribute name is arbitrary. What matters is that it is consistent across the cluster, because OpenSearch uses it later to pin shards to a tier. Shard allocation awareness in Step 1 needs a second attribute with the node’s availability zone, for example <code class="docutils literal notranslate"><span class="pre">node.attr.zone:</span> <span class="pre">us-east-1a</span></code>.</p>
+<p>The attribute name is arbitrary. What matters is that it is consistent across the cluster, because OpenSearch uses it later to pin shards to a tier. Shard allocation awareness in Step 1 needs a second attribute with the node's availability zone, for example <code class="docutils literal notranslate"><span class="pre">node.attr.zone:</span> <span class="pre">us-east-1a</span></code>.</p>
 <p>For the searchable tier, you need at least one node with the <code class="docutils literal notranslate"><span class="pre">warm</span></code> node role. That role is what hosts searchable snapshots. A <code class="docutils literal notranslate"><span class="pre">warm</span></code> node reserves part of its disk as a cache for the snapshot data it reads from S3, sized by <code class="docutils literal notranslate"><span class="pre">node.search.cache.size</span></code>. The value is a byte size such as <code class="docutils literal notranslate"><span class="pre">50gb</span></code> or a percentage of the disk such as <code class="docutils literal notranslate"><span class="pre">10%</span></code>. On a node that has only the <code class="docutils literal notranslate"><span class="pre">warm</span></code> role, it defaults to 80% of the available storage, according to the <a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/snapshots/searchable_snapshot/">searchable snapshots documentation</a>:</p>
 <div class="highlight-yml notranslate"><div class="highlight"><pre><span></span><span class="c1"># On every searchable snapshot node</span>
 <span class="nt">node.roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">warm</span><span class="w"> </span><span class="p p-Indicator">]</span>
@@ -505,7 +505,7 @@
 </section>
 <section id="step-1-set-up-shard-allocation-awareness">
 <h2>Step 1: Set Up Shard Allocation Awareness<a class="headerlink" href="#step-1-set-up-shard-allocation-awareness" title="Link to this heading">#</a></h2>
-<p>Before moving data around, make sure a shard’s copies are spread across availability zones. This is independent of tiering, but you do not want a primary and its replica in the same zone. Once every node has <code class="docutils literal notranslate"><span class="pre">node.attr.zone</span></code> set, tell OpenSearch to use it:</p>
+<p>Before moving data around, make sure a shard's copies are spread across availability zones. This is independent of tiering, but you do not want a primary and its replica in the same zone. Once every node has <code class="docutils literal notranslate"><span class="pre">node.attr.zone</span></code> set, tell OpenSearch to use it:</p>
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>PUT _cluster/settings
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">"persistent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -518,7 +518,7 @@
 </section>
 <section id="step-2-pin-new-indexes-to-the-hot-tier">
 <h2>Step 2: Pin New Indexes to the Hot Tier<a class="headerlink" href="#step-2-pin-new-indexes-to-the-hot-tier" title="Link to this heading">#</a></h2>
-<p>Every new index should land on hot nodes. A <strong>shard allocation filter</strong> is an index setting that restricts which nodes can hold the index’s shards, based on node attributes. You don’t set it per index by hand. You put it in an index template, so every index matching the pattern inherits it:</p>
+<p>Every new index should land on hot nodes. A <strong>shard allocation filter</strong> is an index setting that restricts which nodes can hold the index's shards, based on node attributes. You don't set it per index by hand. You put it in an index template, so every index matching the pattern inherits it:</p>
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>PUT _index_template/my-logs-template
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">"index_patterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"my-logs-*"</span><span class="p">],</span>
@@ -541,7 +541,7 @@
 <li><p><strong>Action</strong>: an operation that runs when the index enters a state, such as <code class="docutils literal notranslate"><span class="pre">rollover</span></code>, <code class="docutils literal notranslate"><span class="pre">snapshot</span></code>, <code class="docutils literal notranslate"><span class="pre">replica_count</span></code>, <code class="docutils literal notranslate"><span class="pre">allocation</span></code>, or <code class="docutils literal notranslate"><span class="pre">delete</span></code>. Actions run in the order you declare them.</p></li>
 <li><p><strong>Transition</strong>: the condition that moves the index to the next state, for example reaching a minimum age.</p></li>
 </ul>
-<p>Once a policy is attached, ISM runs a background job for each managed index, every 5 minutes by default (<a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/ism/settings/">ISM settings</a>). The job runs the current state’s actions, evaluates the transition conditions, and moves the index forward when they are met.</p>
+<p>Once a policy is attached, ISM runs a background job for each managed index, every 5 minutes by default (<a class="reference external" href="https://docs.opensearch.org/latest/im-plugin/ism/settings/">ISM settings</a>). The job runs the current state's actions, evaluates the transition conditions, and moves the index forward when they are met.</p>
 </section>
 <section id="step-4-register-the-s3-snapshot-repository">
 <h2>Step 4: Register the S3 Snapshot Repository<a class="headerlink" href="#step-4-register-the-s3-snapshot-repository" title="Link to this heading">#</a></h2>
@@ -675,7 +675,7 @@ GET _plugins/_ism/explain/my-logs-000001
 </section>
 <section id="how-i-run-the-searchable-tier-on-kubernetes">
 <h2>How I Run the Searchable Tier on Kubernetes<a class="headerlink" href="#how-i-run-the-searchable-tier-on-kubernetes" title="Link to this heading">#</a></h2>
-<p>I don’t keep <code class="docutils literal notranslate"><span class="pre">warm</span></code>-role nodes running all the time. When a process needed logs that had already been rotated to S3, I created a Karpenter NodePool only for searchable snapshots, brought up an OpenSearch node with the <code class="docutils literal notranslate"><span class="pre">warm</span></code> role on it, restored the snapshots, and removed the NodePool once the work was done. I paid for that compute only while someone was looking at old data.</p>
+<p>I don't keep <code class="docutils literal notranslate"><span class="pre">warm</span></code>-role nodes running all the time. When a process needed logs that had already been rotated to S3, I created a Karpenter NodePool only for searchable snapshots, brought up an OpenSearch node with the <code class="docutils literal notranslate"><span class="pre">warm</span></code> role on it, restored the snapshots, and removed the NodePool once the work was done. I paid for that compute only while someone was looking at old data.</p>
 <p>That node used Instance Store, not EBS. The local disk on a <code class="docutils literal notranslate"><span class="pre">warm</span></code> node only holds the cache of data read from S3, and S3 is what guarantees durability. Paying for EBS durability on a disk that only holds a cache made no sense to me. If the node disappears, the cache goes with it, and the data is still in S3.</p>
 </section>
 <section id="test-searchable-snapshots-on-every-upgrade">
@@ -727,7 +727,7 @@ GET _plugins/_ism/explain/my-logs-000001
 </ul>
 <hr class="docutils" />
 <blockquote>
-<div><p><em>I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<div><p><em>I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
 </div></blockquote>
 <hr class="docutils" />
 <script type="application/ld+json">

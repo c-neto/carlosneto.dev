@@ -38,7 +38,7 @@ Because the hands-on exams let you open the official documentation, don't try to
 
 Here is what each exam covers:
 
-| Exam | Format | Duration | Pass Score | OpenBook |
+| Exam | Format | Duration | Pass Score | Open Book |
 | --- | --- | --- | --- | --- |
 | [KCNA](https://training.linuxfoundation.org/certification/kubernetes-cloud-native-associate/) | multiple choice | 90 minutes | 75% | No |
 | [KCSA](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa/) | multiple choice | 90 minutes | 75% | No |
@@ -56,7 +56,7 @@ Here is what each exam covers:
 
 **CKS (_Certified Kubernetes Security Specialist_):** isn't hard, but it covers the most topics and tools, none of them deeply: default-deny NetworkPolicies, AppArmor and seccomp profiles, image scanning and signature checks, Falco, and API server audit logs. My one complaint is the CKA prerequisite. One of my CKS tasks was a cluster upgrade, which felt like CKA material, and the KCSA would make a better prerequisite for a security track.
 
-> _From February 15, 2027, Kubestronaut will also require the [CKNE](https://training.linuxfoundation.org/resources/kubestronaut-program/), and two AI certifications, [KAIA and CKIE](https://www.cncf.io/announcements/2026/11/10/cncf-launches-certified-kubernetes-network-engineer-certification-ckne-to-advance-production-ready-networking-skills-for-ai-era/), are planned for 2027. I'd leave new exams for last._
+> _From February 15, 2027, Kubestronaut will also require the [CKNE](https://training.linuxfoundation.org/resources/kubestronaut-program/), and two AI certifications, [KAIA and CKIE](https://www.cncf.io/announcements/2026/11/10/cncf-launches-certified-kubernetes-network-engineer-certification-ckne-to-advance-production-ready-networking-skills-for-ai-era/), are planned for 2027._
 
 ## Kubestronaut Benefits
 
@@ -98,13 +98,13 @@ __Ignore the Progress Bar__: I stopped checking the course progress bar, because
 
 __Don't Tell, Just Do__: I stopped telling people I was studying for a certification. Our brain is dumb: when we announce that we're doing something, it feels like we already did it. In four experiments on identity goals, such as becoming a lawyer, people whose intention was noticed by others acted on it less, because being noticed gave them a premature sense of already having that identity ([Gollwitzer et al., 2009](https://doi.org/10.1111/j.1467-9280.2009.02336.x)). Finish the exam first, then show it off.
 
-## Use a Single Study Source (avoid home labs)
+## Use a Single Study Source (Avoid Home Labs)
 
 Pick one study source and stick with it. A certification is already long and drains a lot of energy on its own. Every extra course, book, or side project you add on top of it makes the journey heavier and makes it easier to give up halfway.
 
 The same goes for a home lab, and I learned it the hard way. I bought a mini PC on AliExpress, installed Proxmox, and built base images for my cluster, then spent more time fighting Proxmox and networking than practicing Kubernetes. A home lab is great for learning troubleshooting, but for the exams, a course's ready-made labs are enough.
 
-My single source was the [KodeKloud](https://kodekloud.com/) courses. I've always struggled with video courses because I lose focus quickly, so I usually study from physical books, away from Whatsapp, Instagram and other cheap dopamine notifications. The whole course is designed to be objective: a theory lesson ends, and right after it there's a ready lab with questions to practice what it explained. Straight to the point. So even with that resistance, I really enjoyed it. Every topic in the course is worth studying, especially the ones that aren't on the exam, such as TLS.
+My single source was [KodeKloud](https://kodekloud.com/). I've always struggled with video courses because I lose focus quickly, so I usually study from physical books, away from WhatsApp, Instagram, and other cheap dopamine notifications. The whole course is designed to be objective: a theory lesson ends, and right after it there's a ready lab with questions to practice what it explained. Straight to the point. So even with that resistance, I really enjoyed it. Every topic in the course is worth studying, especially the ones that aren't on the exam, such as TLS.
 
 The full courses, with videos and labs, require a KodeKloud subscription. If you don't want one, the KodeKloud courses for the [CKA](https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/) and the [CKAD](https://www.udemy.com/course/certified-kubernetes-application-developer/) are also on Udemy at a very affordable price, labs included. The CKS course, as of the publication of this post, is available only on the KodeKloud platform.
 
@@ -116,11 +116,11 @@ I also use AI to study the theoretical content actively, mainly for the KCSA and
 
 Don't overestimate yourself. If you're an experienced DevOps engineer who knows Kubernetes well and thinks you'll pass easily, be careful. In the exam there's no Google, no AI, and no IDE you're used to. Maybe you don't need to study Kubernetes, but you definitely need to study for the exam. Knowing how to do everything isn't enough. You need to do everything fast, in Vim, in a laggy remote terminal, with the clock in your head. The exam has no trick questions. It's well designed and reasonably difficult, but it requires solid preparation, and you can't pass it after studying for a weekend.
 
-The labs mattered more than just watching videos. For my final preparation, I redid all the KodeKloud mock exams until I got 100% right, no matter how many attempts it took. After that, I repeated the two Killer Shell sessions until I got them right, too. Because each session expires 36 hours after activation, I reserved a weekend for each one. The best sign that you are ready is scoring 100% on both Killer Shell sessions on autopilot, without stopping to think, with about 30 minutes left on the clock. If you get there, you will pass the exam.
+The labs mattered more than just watching videos. For my final preparation, I redid all the KodeKloud mock exams until I got 100% right, no matter how many attempts it took. After that, I repeated the two Killer Shell sessions until I got them right, too. Because each session [expires 36 hours after activation](https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks), I reserved a weekend for each one. The best sign that you are ready is scoring 100% on both Killer Shell sessions on autopilot, without stopping to think, with about 30 minutes left on the clock. If you get there, you will pass the exam.
 
-I also used [CK-X](https://github.com/sailor-sh/CK-X), an open source project that runs a Killer Shell-like simulator locally with Docker Compose, for free. It helped me a lot. Practice questions are never too many, so I also used the [CKS exam guide](https://devsecops.puziol.com.br/kubernetes/cks/exam/) and [solved CKS questions by David Puziol](https://devsecops.puziol.com.br/category/cks-quest%C3%B5es-resolvidas/).
+For extra practice, I also used [CK-X](https://github.com/sailor-sh/CK-X), an open source project that runs a Killer Shell-like simulator locally with Docker Compose, for free. It helped me a lot. Practice questions are never too many, so I also used the [CKS exam guide](https://devsecops.puziol.com.br/kubernetes/cks/exam/) and [solved CKS questions by David Puziol](https://devsecops.puziol.com.br/category/cks-quest%C3%B5es-resolvidas/). These don't break the single-source rule, because they don't teach new content: they train you for the exam format.
 
-Drill the imperative kubectl commands until they're automatic, because they generate resources and YAML much faster than writing manifests by hand. Learn Vim too. You only need it to edit YAML, but you need to do that well, and I wrote [Vim for Kubernetes Certification Exams](/blog/2026/2026-07-15-vim-kubernetes-exams.md) about the techniques I used. Finally, prepare your workstation. Keyboard layouts and shortcuts can break you, especially on a MacBook with a Brazilian layout, where a dead key can stop you from typing `~` in `cd ~/Documents`. My checklist is in [Workstation Setup for Kubernetes Exams](/blog/2026/2026-07-09-workstation-setup-kubernetes-exams.md).
+Above all, master the [imperative kubectl commands](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-command/). Drill them until they're automatic, because they generate resources and YAML much faster than writing manifests by hand. Learn Vim too. You only need it to edit YAML, but you need to do that well, and I wrote [Vim for Kubernetes Certification Exams](/blog/2026/2026-07-15-vim-kubernetes-exams.md) about the techniques I used. Finally, prepare your workstation. Keyboard layouts and shortcuts can break you, especially on a MacBook with a Brazilian layout, where a dead key can stop you from typing `~` in `cd ~/Documents`. My checklist is in [Workstation Setup for Kubernetes Exams](/blog/2026/2026-07-09-workstation-setup-kubernetes-exams.md).
 
 ## Failing the CKS by One Point
 

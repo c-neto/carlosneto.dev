@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=cf61e508" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=5801711d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -590,7 +590,7 @@
 <section id="sort-before-you-group">
 <h2>Sort Before You Group<a class="headerlink" href="#sort-before-you-group" title="Link to this heading">#</a></h2>
 <p>There is one catch. As the <a class="reference external" href="https://docs.python.org/3/library/itertools.html#itertools.groupby">itertools documentation</a> says, <code class="docutils literal notranslate"><span class="pre">groupby</span></code> starts a new group every time the key changes. It only groups items that are next to each other. The <code class="docutils literal notranslate"><span class="pre">bands</span></code> list above is already ordered by group, which is why the output looks right. For example, if two UK rock bands were separated by a grunge band, they would end up in two different groups with the same key.</p>
-<p>The dictionary approach doesn’t have this problem, because it looks up the key for every item. For <code class="docutils literal notranslate"><span class="pre">groupby</span></code>, sort the data by the same key first:</p>
+<p>The dictionary approach doesn't have this problem, because it looks up the key for every item. For <code class="docutils literal notranslate"><span class="pre">groupby</span></code>, sort the data by the same key first:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">attrgetter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">groupby</span>
 
@@ -630,7 +630,7 @@
 </ul>
 <hr class="docutils" />
 <blockquote>
-<div><p><em>I’m Carlos Neto, and this blog is a brain dump of my career experience. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a> or leave a comment below.</em></p>
+<div><p><em>I'm Carlos Neto, and this blog is a brain dump of my career experience. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a> or leave a comment below.</em></p>
 </div></blockquote>
 <hr class="docutils" />
 <script type="application/ld+json">

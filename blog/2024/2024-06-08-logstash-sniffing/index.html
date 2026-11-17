@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=cf61e508" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=5801711d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -434,7 +434,7 @@
 <hr class="docutils" />
 <section id="logstash-sniffing-improving-log-ingestion-in-opensearch-scalable-clusters">
 <h1>Logstash Sniffing: Improving Log Ingestion in OpenSearch Scalable Clusters<a class="headerlink" href="#logstash-sniffing-improving-log-ingestion-in-opensearch-scalable-clusters" title="Link to this heading">#</a></h1>
-<p>This blog post covers a common problem when Logstash ships logs to an OpenSearch cluster with autoscaling ingest nodes behind a load balancer: one node takes all the traffic while the others sit idle. It shows how the output plugin’s sniffing options fix that by discovering the nodes from the OpenSearch API.</p>
+<p>This blog post covers a common problem when Logstash ships logs to an OpenSearch cluster with autoscaling ingest nodes behind a load balancer: one node takes all the traffic while the others sit idle. It shows how the output plugin's sniffing options fix that by discovering the nodes from the OpenSearch API.</p>
 <section id="the-problem-one-ingest-node-takes-all-the-traffic">
 <h2>The Problem: One Ingest Node Takes All the Traffic<a class="headerlink" href="#the-problem-one-ingest-node-takes-all-the-traffic" title="Link to this heading">#</a></h2>
 <p>An <strong>ingest node</strong> is an OpenSearch node that preprocesses documents before they are indexed. The <a class="reference external" href="https://opensearch.org/docs/2.14/tuning-your-cluster/">node types</a> documentation describes how a cluster can have dedicated ingest nodes, and on Kubernetes they are often scaled with a Horizontal Pod Autoscaler (HPA) and reached through a load balancer.</p>
@@ -443,7 +443,7 @@
 <section id="the-solution-let-logstash-discover-the-nodes">
 <h2>The Solution: Let Logstash Discover the Nodes<a class="headerlink" href="#the-solution-let-logstash-discover-the-nodes" title="Link to this heading">#</a></h2>
 <p>The <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-hosts"><code class="docutils literal notranslate"><span class="pre">hosts</span></code></a> parameter of the output plugin accepts one address or several. With several addresses, Logstash balances the traffic across them. For a fixed set of ingest nodes, listing them all solves the problem. For nodes that scale up and down, a static list goes stale quickly.</p>
-<p><strong>Sniffing</strong> is the output plugin’s answer for dynamic clusters: Logstash periodically asks the cluster which nodes exist and updates its host list. The <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-sniffing">sniffing parameters</a> read the node addresses from the <a class="reference external" href="https://opensearch.org/docs/latest/api-reference/nodes-apis/nodes-info/">Nodes Info API</a>. The <a class="reference external" href="https://github.com/opensearch-project/logstash-output-opensearch">OpenSearch output plugin</a> is a fork of the Elasticsearch one and keeps these options. For example:</p>
+<p><strong>Sniffing</strong> is the output plugin's answer for dynamic clusters: Logstash periodically asks the cluster which nodes exist and updates its host list. The <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-sniffing">sniffing parameters</a> read the node addresses from the <a class="reference external" href="https://opensearch.org/docs/latest/api-reference/nodes-apis/nodes-info/">Nodes Info API</a>. The <a class="reference external" href="https://github.com/opensearch-project/logstash-output-opensearch">OpenSearch output plugin</a> is a fork of the Elasticsearch one and keeps these options. For example:</p>
 <div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">output</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">opensearch</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">hosts</span><span class="w">           </span><span class="p">=&gt;</span><span class="w"> </span><span class="s2">"https://opensearch-load-balancer:9200"</span>
@@ -459,12 +459,12 @@
 <blockquote>
 <div><p><i class="fa-solid fa-circle-info"></i> The <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-sniffing_path"><code class="docutils literal notranslate"><span class="pre">sniffing_path</span></code></a> parameter selects which nodes to use. For example, <code class="docutils literal notranslate"><span class="pre">/_nodes/data:true</span></code> sends logs straight to the <a class="reference external" href="https://opensearch.org/docs/2.14/tuning-your-cluster/">data nodes</a>.</p>
 </div></blockquote>
-<p>Two things are worth checking before you enable it. Logstash connects to the addresses the nodes publish, so they must be reachable from where Logstash runs. If Logstash runs outside the Kubernetes cluster, pod IPs usually aren’t. And if the connection uses TLS, the node certificates must be valid for those addresses, not only for the load balancer’s hostname.</p>
+<p>Two things are worth checking before you enable it. Logstash connects to the addresses the nodes publish, so they must be reachable from where Logstash runs. If Logstash runs outside the Kubernetes cluster, pod IPs usually aren't. And if the connection uses TLS, the node certificates must be valid for those addresses, not only for the load balancer's hostname.</p>
 </section>
 <section id="why-i-use-sniffing">
 <h2>Why I Use Sniffing<a class="headerlink" href="#why-i-use-sniffing" title="Link to this heading">#</a></h2>
 <p>With sniffing enabled, the traffic spreads evenly across the ingest nodes. It also takes the load balancer out of the data path, removes an extra network hop, and makes better use of resources. The HPA also gets a realistic view of the load, so scaling works the way it should.</p>
-<p>It’s simple and effective enough that I miss it in other log shippers, such as Fluent Bit. I have been using this approach, and the results are really nice!</p>
+<p>It's simple and effective enough that I miss it in other log shippers, such as Fluent Bit. I have been using this approach, and the results are really nice!</p>
 <p>For more on how OpenSearch places the data once it arrives, see <a class="reference internal" href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/"><span class="std std-doc">OpenSearch Concepts: Index and Shards</span></a>. If your Logstash configuration is growing across many applications, <a class="reference internal" href="../../2023/2023-11-02-logstash-modular-pipelines/"><span class="std std-doc">Logstash Modular Pipelines</span></a> shows how I keep it organized.</p>
 </section>
 <section id="key-takeaways">
@@ -488,7 +488,7 @@
 </ul>
 <hr class="docutils" />
 <blockquote>
-<div><p><em>I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<div><p><em>I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
 </div></blockquote>
 <hr class="docutils" />
 <script type="application/ld+json">

@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=cf61e508" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=5801711d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -434,16 +434,16 @@
 <hr class="docutils" />
 <section id="helm-tips-inspect-your-chart-context-with-json">
 <h1>Helm Tips: Inspect Your Chart Context with JSON<a class="headerlink" href="#helm-tips-inspect-your-chart-context-with-json" title="Link to this heading">#</a></h1>
-<p>This blog post shows a simple way to debug Helm charts: dump the entire chart context as JSON and look at exactly what your templates can access. It helps most when <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">helm</span> <span class="pre">template</span></code> fails with a message that doesn’t point to the real problem, such as a typo in a <code class="docutils literal notranslate"><span class="pre">.Values</span></code> path.</p>
+<p>This blog post shows a simple way to debug Helm charts: dump the entire chart context as JSON and look at exactly what your templates can access. It helps most when <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">helm</span> <span class="pre">template</span></code> fails with a message that doesn't point to the real problem, such as a typo in a <code class="docutils literal notranslate"><span class="pre">.Values</span></code> path.</p>
 <p>Debugging Helm charts is frustrating at first, especially if you come from programming languages with debuggers and IDE auto-completion. A template that reads a wrong <code class="docutils literal notranslate"><span class="pre">.Values</span></code> key, because of a typo or a wrong nesting level, often fails with an error far from the root cause.</p>
 <section id="are-there-ides-for-helm-charts">
 <h2>Are There IDEs for Helm Charts?<a class="headerlink" href="#are-there-ides-for-helm-charts" title="Link to this heading">#</a></h2>
 <p>Unfortunately, there is no IDE built for Helm. VS Code and JetBrains IDEA have plugins with some auto-completion, but nothing close to what you get with languages such as Python and Java.</p>
-<p>I use VS Code with <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools">Kubernetes (by Microsoft)</a> and <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml">YAML (by Red Hat)</a>. They help avoid typos in <code class="docutils literal notranslate"><span class="pre">.Values</span></code> and show the available Go template functions, but some variables are missing from auto-completion. I also tried the <a class="reference external" href="https://www.jetbrains.com/help/idea/helm.html">JetBrains Helm plugin</a>, but it didn’t work as smoothly as the animation on its page suggests, and the Kubernetes plugin requires an IntelliJ IDEA Ultimate subscription.</p>
+<p>I use VS Code with <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools">Kubernetes (by Microsoft)</a> and <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml">YAML (by Red Hat)</a>. They help avoid typos in <code class="docutils literal notranslate"><span class="pre">.Values</span></code> and show the available Go template functions, but some variables are missing from auto-completion. I also tried the <a class="reference external" href="https://www.jetbrains.com/help/idea/helm.html">JetBrains Helm plugin</a>, but it didn't work as smoothly as the animation on its page suggests, and the Kubernetes plugin requires an IntelliJ IDEA Ultimate subscription.</p>
 </section>
 <section id="dump-the-chart-context-as-json">
 <h2>Dump the Chart Context as JSON<a class="headerlink" href="#dump-the-chart-context-as-json" title="Link to this heading">#</a></h2>
-<p>Since the tooling falls short, I use another approach: render the whole Helm chart context as JSON. The <strong>chart context</strong> is the root object (<code class="docutils literal notranslate"><span class="pre">.</span></code>) that every template receives. It holds <code class="docutils literal notranslate"><span class="pre">.Values</span></code>, the chart and subchart metadata, release information, cluster capabilities, and the chart’s files.</p>
+<p>Since the tooling falls short, I use another approach: render the whole Helm chart context as JSON. The <strong>chart context</strong> is the root object (<code class="docutils literal notranslate"><span class="pre">.</span></code>) that every template receives. It holds <code class="docutils literal notranslate"><span class="pre">.Values</span></code>, the chart and subchart metadata, release information, cluster capabilities, and the chart's files.</p>
 <p>First, create a chart called <code class="docutils literal notranslate"><span class="pre">foobar</span></code> and enter its directory:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>create<span class="w"> </span>foobar
 <span class="nb">cd</span><span class="w"> </span>foobar
@@ -683,7 +683,7 @@
 <section id="remove-the-debug-template-when-you-are-done">
 <h2>Remove the Debug Template When You Are Done<a class="headerlink" href="#remove-the-debug-template-when-you-are-done" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">debug.yaml</span></code> is a regular template, so <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">install</span></code> and <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">upgrade</span></code> would render it too, and its JSON is not a valid Kubernetes manifest. Delete it after debugging, or keep it out of the release with a condition such as <code class="docutils literal notranslate"><span class="pre">{{-</span> <span class="pre">if</span> <span class="pre">.Values.debug</span> <span class="pre">}}</span></code>.</p>
-<p>If you’re designing a chart from scratch, <a class="reference internal" href="../../2025/2025-02-25-helm-best-practices/"><span class="std std-doc">Helm Charts: Development Practices from a Programmer’s Perspective</span></a> covers how I decide what to template and what not to. I also template Logstash pipelines with Helm, as I show in <a class="reference internal" href="../../2025/2025-02-16-logstash-db-enrichment/"><span class="std std-doc">Logstash DB Enrichment</span></a>.</p>
+<p>If you're designing a chart from scratch, <a class="reference internal" href="../../2025/2025-02-25-helm-best-practices/"><span class="std std-doc">Helm Charts: Development Practices from a Programmer's Perspective</span></a> covers how I decide what to template and what not to. I also template Logstash pipelines with Helm, as I show in <a class="reference internal" href="../../2025/2025-02-16-logstash-db-enrichment/"><span class="std std-doc">Logstash DB Enrichment</span></a>.</p>
 </section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
@@ -708,7 +708,7 @@
 </ul>
 <hr class="docutils" />
 <blockquote>
-<div><p><em>I’m Carlos Neto, and this blog is a brain dump of my career experience. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a> or leave a comment below.</em></p>
+<div><p><em>I'm Carlos Neto, and this blog is a brain dump of my career experience. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a> or leave a comment below.</em></p>
 </div></blockquote>
 <hr class="docutils" />
 <script type="application/ld+json">

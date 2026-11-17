@@ -14,8 +14,8 @@
 <meta property="og:description" content="What OpenTelemetry is and what it's for, in plain terms: the vendor lock-in it removes, why it shines in microservices, the complexity it adds, and when plain Prometheus is the better choice." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-10-29-otel-foundation_17e29dd6.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/29 This blog post explains what OpenTelemetry is and what it’s for, without the abstract definitions. It covers the problem it solves, why it shines in microservice ..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-10-29-otel-foundation_1f5d3bb5.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/10/29 This blog post explains what OpenTelemetry is and what it&#x27;s for, without the abstract definitions. It covers the problem it solves, why it shines in microser..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>OpenTelemetry: A Framework for Decoupling Your Observability &#8212; Carlos Neto&#39;s Blog</title>
@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=cf61e508" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=5801711d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -434,16 +434,16 @@
 <hr class="docutils" />
 <section id="opentelemetry-a-framework-for-decoupling-your-observability">
 <h1>OpenTelemetry: A Framework for Decoupling Your Observability<a class="headerlink" href="#opentelemetry-a-framework-for-decoupling-your-observability" title="Link to this heading">#</a></h1>
-<p>This blog post explains what OpenTelemetry is and what it’s for, without the abstract definitions. It covers the problem it solves, why it shines in microservice architectures, the complexity it brings, and when a simpler setup, such as plain Prometheus, is the better choice.</p>
+<p>This blog post explains what OpenTelemetry is and what it's for, without the abstract definitions. It covers the problem it solves, why it shines in microservice architectures, the complexity it brings, and when a simpler setup, such as plain Prometheus, is the better choice.</p>
 <section id="why-opentelemetry-is-hard-to-understand-at-first">
 <h2>Why OpenTelemetry Is Hard to Understand at First<a class="headerlink" href="#why-opentelemetry-is-hard-to-understand-at-first" title="Link to this heading">#</a></h2>
-<p>When I started studying OpenTelemetry, I struggled to understand what it actually was. The <a class="reference external" href="https://opentelemetry.io/docs/what-is-opentelemetry/">official definition</a> calls it <em>“an open-source, vendor-neutral observability framework”</em>. It’s accurate, but it didn’t help me. I kept asking: <em>Is it a library I add to my code? A service I run? Something like Prometheus?</em></p>
-<p>The answer is “a bit of each, and not a backend”. What finally made it click for me was looking at the problem first.</p>
+<p>When I started studying OpenTelemetry, I struggled to understand what it actually was. The <a class="reference external" href="https://opentelemetry.io/docs/what-is-opentelemetry/">official definition</a> calls it <em>&quot;an open-source, vendor-neutral observability framework&quot;</em>. It's accurate, but it didn't help me. I kept asking: <em>Is it a library I add to my code? A service I run? Something like Prometheus?</em></p>
+<p>The answer is &quot;a bit of each, and not a backend&quot;. What finally made it click for me was looking at the problem first.</p>
 </section>
 <section id="the-problem-every-vendor-has-its-own-everything">
 <h2>The Problem: Every Vendor Has Its Own Everything<a class="headerlink" href="#the-problem-every-vendor-has-its-own-everything" title="Link to this heading">#</a></h2>
 <p>Before OpenTelemetry, observing an application meant picking a vendor, and the vendor came with its own library for your code, its own agent to collect the data, and its own format to send it.</p>
-<p>Imagine fifty services instrumented with the Datadog library, and the company decides to move to another tool. Every service has to be changed, tested, and redeployed, because the vendor is written into the code. That is vendor lock-in, and it’s the main problem OpenTelemetry removes.</p>
+<p>Imagine fifty services instrumented with the Datadog library, and the company decides to move to another tool. Every service has to be changed, tested, and redeployed, because the vendor is written into the code. That is vendor lock-in, and it's the main problem OpenTelemetry removes.</p>
 </section>
 <section id="what-opentelemetry-is">
 <h2>What OpenTelemetry Is<a class="headerlink" href="#what-opentelemetry-is" title="Link to this heading">#</a></h2>
@@ -455,14 +455,14 @@
 <li><p><strong>On the wire</strong>: <strong>OTLP</strong> is the OpenTelemetry Protocol, one standard format for all telemetry, which most observability vendors accept.</p></li>
 <li><p><strong>In your infrastructure, optionally</strong>: the <strong>Collector</strong> is a service that receives the data and forwards it to one or more backends.</p></li>
 </ul>
-<p>The Collector is not required. The SDK can send OTLP straight to any backend that accepts it, and changing that backend means changing the SDK’s exporter configuration, usually an environment variable, not your code. The Collector earns its place when you want one place, outside your services, to decide where the data goes and what happens to it on the way.</p>
+<p>The Collector is not required. The SDK can send OTLP straight to any backend that accepts it, and changing that backend means changing the SDK's exporter configuration, usually an environment variable, not your code. The Collector earns its place when you want one place, outside your services, to decide where the data goes and what happens to it on the way.</p>
 <p>A comparison that helps developers: JDBC in Java, or the DB-API in Python. Your code talks to one standard interface, and the database behind it can be swapped. OpenTelemetry does the same for telemetry.</p>
 </section>
 <section id="where-opentelemetry-shines-microservices">
 <h2>Where OpenTelemetry Shines: Microservices<a class="headerlink" href="#where-opentelemetry-shines-microservices" title="Link to this heading">#</a></h2>
 <p>OpenTelemetry pays off most in microservice architectures, where many services, written in different languages by different teams, work together on the same request.</p>
 <p>A payment request might cross an API in Python, a fraud check in Java, and a gateway in Go. With OpenTelemetry, all of them instrument the same way, use the same attribute names, and pass the same request context to each other, so one trace follows the request across every service. When something fails, you can go from a latency spike on a dashboard to the exact request and the service that slowed it down, because metrics, traces, and logs can share that context: logs emitted through OpenTelemetry carry the trace ID, and metrics can point to sample traces.</p>
-<p>That’s also where the Collector pays off, as the one place to apply rules for every service: remove sensitive data, drop noisy telemetry to control cost, add Kubernetes metadata, or send the same data to two backends during a migration.</p>
+<p>That's also where the Collector pays off, as the one place to apply rules for every service: remove sensitive data, drop noisy telemetry to control cost, add Kubernetes metadata, or send the same data to two backends during a migration.</p>
 </section>
 <section id="the-cost-opentelemetry-is-not-simple">
 <h2>The Cost: OpenTelemetry Is Not Simple<a class="headerlink" href="#the-cost-opentelemetry-is-not-simple" title="Link to this heading">#</a></h2>
@@ -470,13 +470,13 @@
 <p>For a large system, that cost is small next to what you gain. For a small one, it can be more machinery than the problem needs.</p>
 </section>
 <section id="when-you-don-t-need-opentelemetry">
-<h2>When You Don’t Need OpenTelemetry<a class="headerlink" href="#when-you-don-t-need-opentelemetry" title="Link to this heading">#</a></h2>
-<p><strong>Small and simple systems.</strong> If you run a monolith or a handful of services, in one language, with one backend you don’t plan to change, a Prometheus client library and a Prometheus server already solve the problem. The application exposes <code class="docutils literal notranslate"><span class="pre">/metrics</span></code>, Prometheus scrapes it, and you’re done. Add OpenTelemetry when the system grows into the problems it solves, not before.</p>
-<p><strong>Software you didn’t write.</strong> OpenTelemetry instrumentation is for your own applications, the business services where only your team knows which events matter, such as payments processed or orders failed. Off-the-shelf services such as Logstash, PostgreSQL, Redis, NGINX, or OpenSearch already expose their own metrics, through a monitoring API or a Prometheus exporter. That’s where plain Prometheus shines: scrape what the tool already provides, and don’t try to instrument it yourself. If you already run the Collector, its <code class="docutils literal notranslate"><span class="pre">prometheus</span></code> receiver can scrape those same endpoints, so they still don’t need any OpenTelemetry instrumentation.</p>
+<h2>When You Don't Need OpenTelemetry<a class="headerlink" href="#when-you-don-t-need-opentelemetry" title="Link to this heading">#</a></h2>
+<p><strong>Small and simple systems.</strong> If you run a monolith or a handful of services, in one language, with one backend you don't plan to change, a Prometheus client library and a Prometheus server already solve the problem. The application exposes <code class="docutils literal notranslate"><span class="pre">/metrics</span></code>, Prometheus scrapes it, and you're done. Add OpenTelemetry when the system grows into the problems it solves, not before.</p>
+<p><strong>Software you didn't write.</strong> OpenTelemetry instrumentation is for your own applications, the business services where only your team knows which events matter, such as payments processed or orders failed. Off-the-shelf services such as Logstash, PostgreSQL, Redis, NGINX, or OpenSearch already expose their own metrics, through a monitoring API or a Prometheus exporter. That's where plain Prometheus shines: scrape what the tool already provides, and don't try to instrument it yourself. If you already run the Collector, its <code class="docutils literal notranslate"><span class="pre">prometheus</span></code> receiver can scrape those same endpoints, so they still don't need any OpenTelemetry instrumentation.</p>
 </section>
 <section id="my-take">
 <h2>My Take<a class="headerlink" href="#my-take" title="Link to this heading">#</a></h2>
-<p>OpenTelemetry isn’t something to adopt everywhere by default. It’s the right tool when you have many business services, several teams, and a real need to follow requests across them or to keep your options open on vendors. In that scenario, the separation it brings is what I value most: the application team says what to measure, and the platform team decides where the data goes, without either waiting on the other.</p>
+<p>OpenTelemetry isn't something to adopt everywhere by default. It's the right tool when you have many business services, several teams, and a real need to follow requests across them or to keep your options open on vendors. In that scenario, the separation it brings is what I value most: the application team says what to measure, and the platform team decides where the data goes, without either waiting on the other.</p>
 </section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
@@ -503,7 +503,7 @@
 <hr class="docutils" />
 <hr class="docutils" />
 <blockquote>
-<div><p><em>I’m Carlos Neto, and this blog is a brain dump of my career experience. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a> or leave a comment below.</em></p>
+<div><p><em>I'm Carlos Neto, and this blog is a brain dump of my career experience. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a> or leave a comment below.</em></p>
 </div></blockquote>
 <hr class="docutils" />
 <script type="application/ld+json">

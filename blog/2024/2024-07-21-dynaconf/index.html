@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=cf61e508" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=5801711d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -464,7 +464,7 @@
 </section>
 <section id="talk-is-cheap-show-me-the-code">
 <h2>Talk Is Cheap, Show Me the Code!<a class="headerlink" href="#talk-is-cheap-show-me-the-code" title="Link to this heading">#</a></h2>
-<p>This step-by-step guide sets up Dynaconf from scratch with two settings files, then adds a custom loader for the AWS Parameter Store service. <a class="reference external" href="https://github.com/localstack/localstack">LocalStack</a> simulates AWS in a Docker container, so you don’t need an AWS account.</p>
+<p>This step-by-step guide sets up Dynaconf from scratch with two settings files, then adds a custom loader for the AWS Parameter Store service. <a class="reference external" href="https://github.com/localstack/localstack">LocalStack</a> simulates AWS in a Docker container, so you don't need an AWS account.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>All code is in this GitHub repository: <i class="fab fa-github"></i> <em><a class="reference external" href="https://github.com/c-neto/my-code-playground/tree/main/blog-code-examples/2024-07-21-dynaconf-loaders">github.com/c-neto/my-code-playground/blog-code-examples/2024-07-21-dynaconf-loaders</a></em></p>
@@ -744,8 +744,8 @@ aws<span class="w"> </span>ssm<span class="w"> </span>put-parameter<span class="
 <section id="why-i-use-dynaconf">
 <h2>Why I Use Dynaconf<a class="headerlink" href="#why-i-use-dynaconf" title="Link to this heading">#</a></h2>
 <p>I have been using Dynaconf for about 4 years, and I like how it solves common configuration problems in a simple, direct way. Before, I used <a class="reference external" href="https://pyyaml.org/wiki/PyYAMLDocumentation">PyYAML</a>, but I kept writing the same code to read configuration and secrets from different files. When a mix of sources was needed, such as YAML and environment variables, the code grew more complex and pulled attention away from the problem the system was supposed to solve.</p>
-<p>The first time I tried Dynaconf, its ability to merge several config files, including nested parameters, impressed me. It’s especially useful for keeping sensitive values in their own file.</p>
-<p>Today, I only skip Dynaconf when a project requires the standard library only. Otherwise, I don’t see a reason not to use it, especially in applications that run on Kubernetes. I really like the module and suggest you give it a try!</p>
+<p>The first time I tried Dynaconf, its ability to merge several config files, including nested parameters, impressed me. It's especially useful for keeping sensitive values in their own file.</p>
+<p>Today, I only skip Dynaconf when a project requires the standard library only. Otherwise, I don't see a reason not to use it, especially in applications that run on Kubernetes. I really like the module and suggest you give it a try!</p>
 <p>If you write Python for operations work, two other posts may interest you: <a class="reference internal" href="../../2025/2025-07-28-python-groupby/"><span class="std std-doc">groupby + attrgetter</span></a> for grouping objects without loops, and <a class="reference internal" href="../../2026/2026-10-29-otel-foundation/"><span class="std std-doc">OpenTelemetry</span></a> for instrumenting a Python application.</p>
 </section>
 <section id="key-takeaways">
@@ -773,7 +773,7 @@ aws<span class="w"> </span>ssm<span class="w"> </span>put-parameter<span class="
 </ul>
 <hr class="docutils" />
 <blockquote>
-<div><p><em>I’m Carlos Neto, and this blog is a brain dump of my career experience. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a> or leave a comment below.</em></p>
+<div><p><em>I'm Carlos Neto, and this blog is a brain dump of my career experience. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a> or leave a comment below.</em></p>
 </div></blockquote>
 <hr class="docutils" />
 <script type="application/ld+json">

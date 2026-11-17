@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=cf61e508" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=5801711d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -449,7 +449,7 @@
 </section>
 <section id="generating-sha-256-hashes-with-native-processors">
 <h2>Generating SHA-256 Hashes with Native Processors<a class="headerlink" href="#generating-sha-256-hashes-with-native-processors" title="Link to this heading">#</a></h2>
-<p>I reviewed the Fluent Bit filters and found none that hash a field. Then I found the <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier">content modifier processor</a> and its <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example"><code class="docutils literal notranslate"><span class="pre">hash</span></code></a> action. A <strong>processor</strong> is a step attached directly to an input or output in the YAML configuration. The <code class="docutils literal notranslate"><span class="pre">hash</span></code> action takes a record key and replaces its value with its SHA-256 hash. It’s meant for masking sensitive data such as passwords and PII, but it also works for building log IDs.</p>
+<p>I reviewed the Fluent Bit filters and found none that hash a field. Then I found the <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier">content modifier processor</a> and its <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/processors/content-modifier#hash-example"><code class="docutils literal notranslate"><span class="pre">hash</span></code></a> action. A <strong>processor</strong> is a step attached directly to an input or output in the YAML configuration. The <code class="docutils literal notranslate"><span class="pre">hash</span></code> action takes a record key and replaces its value with its SHA-256 hash. It's meant for masking sensitive data such as passwords and PII, but it also works for building log IDs.</p>
 <p>The <strong>key idea</strong> is to copy the log line to a new key and hash that copy. The original log line stays intact, and the hashed field becomes the log ID. For example:</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/fluent-bit.yaml">/fluent-bit/fluent-bit.yaml</a></span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
@@ -538,7 +538,7 @@
 <section id="using-the-hash-as-the-document-id">
 <h2>Using the Hash as the Document ID<a class="headerlink" href="#using-the-hash-as-the-document-id" title="Link to this heading">#</a></h2>
 <p>Identical log lines always produce the same hash, so the destination can detect the duplicate. Because the raw container log line includes a nanosecond timestamp, two different events almost never share the same content.</p>
-<p>To use the hash as the document ID in OpenSearch, point the OpenSearch output’s <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs/opensearch"><code class="docutils literal notranslate"><span class="pre">Id_Key</span></code></a> option at the hashed field. A retried or re-read log then overwrites the existing document instead of creating a new one. OpenSearch treats <code class="docutils literal notranslate"><span class="pre">_id</span></code> as a metadata field and rejects it inside the document body, so in a real pipeline give the hashed field another name, such as <code class="docutils literal notranslate"><span class="pre">log_id</span></code>, and set <code class="docutils literal notranslate"><span class="pre">Id_Key</span> <span class="pre">log_id</span></code>.</p>
+<p>To use the hash as the document ID in OpenSearch, point the OpenSearch output's <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs/opensearch"><code class="docutils literal notranslate"><span class="pre">Id_Key</span></code></a> option at the hashed field. A retried or re-read log then overwrites the existing document instead of creating a new one. OpenSearch treats <code class="docutils literal notranslate"><span class="pre">_id</span></code> as a metadata field and rejects it inside the document body, so in a real pipeline give the hashed field another name, such as <code class="docutils literal notranslate"><span class="pre">log_id</span></code>, and set <code class="docutils literal notranslate"><span class="pre">Id_Key</span> <span class="pre">log_id</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>A complete, working example of this configuration is in my Docker Compose lab: <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/">github.com/c-neto/my-devops-labs/blog/2025-06-19</a></p>
@@ -549,11 +549,11 @@
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>With the Tail input, Fluent Bit delivers at least once, so duplicates are expected after output failures or restarts.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">On</span></code> stores file offsets, not per-output delivery status, so it doesn’t prevent duplicates.</p></li>
-<li><p>Deduplication needs an ID derived from the log content. <code class="docutils literal notranslate"><span class="pre">Generate_ID</span> <span class="pre">On</span></code> isn’t derived from the log line alone.</p></li>
-<li><p>Copy the log line to a new key with <code class="docutils literal notranslate"><span class="pre">modify</span></code>, then hash it with the <code class="docutils literal notranslate"><span class="pre">content_modifier</span></code> processor’s <code class="docutils literal notranslate"><span class="pre">hash</span></code> action to get a SHA-256 ID.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DB</span> <span class="pre">On</span></code> stores file offsets, not per-output delivery status, so it doesn't prevent duplicates.</p></li>
+<li><p>Deduplication needs an ID derived from the log content. <code class="docutils literal notranslate"><span class="pre">Generate_ID</span> <span class="pre">On</span></code> isn't derived from the log line alone.</p></li>
+<li><p>Copy the log line to a new key with <code class="docutils literal notranslate"><span class="pre">modify</span></code>, then hash it with the <code class="docutils literal notranslate"><span class="pre">content_modifier</span></code> processor's <code class="docutils literal notranslate"><span class="pre">hash</span></code> action to get a SHA-256 ID.</p></li>
 <li><p>Processors on inputs are only available in the YAML configuration format.</p></li>
-<li><p>Use the hashed field as the OpenSearch document ID with <code class="docutils literal notranslate"><span class="pre">Id_Key</span></code>, and don’t name it <code class="docutils literal notranslate"><span class="pre">_id</span></code>, because OpenSearch rejects that field in the document body.</p></li>
+<li><p>Use the hashed field as the OpenSearch document ID with <code class="docutils literal notranslate"><span class="pre">Id_Key</span></code>, and don't name it <code class="docutils literal notranslate"><span class="pre">_id</span></code>, because OpenSearch rejects that field in the document body.</p></li>
 </ul>
 </section>
 <section id="references">
@@ -568,7 +568,7 @@
 </ul>
 <hr class="docutils" />
 <blockquote>
-<div><p><em>I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<div><p><em>I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
 </div></blockquote>
 <hr class="docutils" />
 <script type="application/ld+json">

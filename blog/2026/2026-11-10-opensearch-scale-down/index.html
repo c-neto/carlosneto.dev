@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=cf61e508" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=5801711d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -532,7 +532,7 @@ GET /_nodes/stats/transport
 </div>
 <p>Be careful when increasing these values. More concurrent recoveries and higher transfer rates put significant pressure on data nodes. If the infrastructure cannot handle the additional work, the nodes become overloaded, normal cluster operations suffer, and the entire cluster can become unresponsive.</p>
 <!-- [PERSONAL EXPERIENCE] -->
-<p>I’ve experienced this firsthand: increasing recovery concurrency too aggressively overloaded the nodes and brought the cluster to a point where it stopped responding properly. Network saturation is another risk, especially when relocating large amounts of data between nodes.</p>
+<p>I've experienced this firsthand: increasing recovery concurrency too aggressively overloaded the nodes and brought the cluster to a point where it stopped responding properly. Network saturation is another risk, especially when relocating large amounts of data between nodes.</p>
 <p>Treat these values as temporary tuning, not recommended defaults. Increase them gradually, watch node and network utilization, and reduce them if the cluster shows signs of saturation. Once the migration is complete, restore the defaults by setting them to <code class="docutils literal notranslate"><span class="pre">null</span></code>:</p>
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>PUT /_cluster/settings
 <span class="p">{</span>
@@ -623,7 +623,7 @@ GET _cluster/health
 <section id="step-4-remove-the-drained-nodes">
 <h3>Step 4: Remove the Drained Nodes<a class="headerlink" href="#step-4-remove-the-drained-nodes" title="Link to this heading">#</a></h3>
 <p>Once the nodes are empty, remove them, for example by scaling the StatefulSet down, and confirm the cluster is still green afterward.</p>
-<p>With EBS, scaling down does not delete the PersistentVolumeClaims of the removed pods by default. Their volumes keep costing money, and they reattach with stale data the next time you scale up. Delete them, or set the StatefulSet’s <a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention"><code class="docutils literal notranslate"><span class="pre">persistentVolumeClaimRetentionPolicy</span></code></a> so Kubernetes removes them on scale-down.</p>
+<p>With EBS, scaling down does not delete the PersistentVolumeClaims of the removed pods by default. Their volumes keep costing money, and they reattach with stale data the next time you scale up. Delete them, or set the StatefulSet's <a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention"><code class="docutils literal notranslate"><span class="pre">persistentVolumeClaimRetentionPolicy</span></code></a> so Kubernetes removes them on scale-down.</p>
 </section>
 <section id="step-5-clear-the-exclusion-and-re-enable-rebalancing">
 <h3>Step 5: Clear the Exclusion and Re-enable Rebalancing<a class="headerlink" href="#step-5-clear-the-exclusion-and-re-enable-rebalancing" title="Link to this heading">#</a></h3>
@@ -745,7 +745,7 @@ GET _cluster/health
 </ul>
 <hr class="docutils" />
 <blockquote>
-<div><p><em>I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<div><p><em>I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
 </div></blockquote>
 <hr class="docutils" />
 <script type="application/ld+json">

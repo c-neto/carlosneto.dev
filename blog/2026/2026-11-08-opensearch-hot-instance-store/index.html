@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=cf61e508" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=5801711d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -437,19 +437,19 @@
 <p>This blog post covers running the OpenSearch hot data tier on EC2 Instance Store (local NVMe) instead of EBS. It explains why local disks perform better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
 <section id="instance-store-less-durability-more-performance">
 <h2>Instance Store: Less Durability, More Performance<a class="headerlink" href="#instance-store-less-durability-more-performance" title="Link to this heading">#</a></h2>
-<p>I’ve been managing OpenSearch clusters on <a class="reference external" href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">EKS</a> for over five years, handling ingestion rates of around 70K~100K documents per second. During this time, I’ve worked on improving indexing throughput, reducing query latency, and optimizing infrastructure costs. One of the most important changes was introducing hot, warm, and cold storage tiers to handle different data access patterns more efficiently. As the clusters grew, however, the hot tier became a performance bottleneck.</p>
+<p>I've been managing OpenSearch clusters on <a class="reference external" href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">EKS</a> for over five years, handling ingestion rates of around 70K~100K documents per second. During this time, I've worked on improving indexing throughput, reducing query latency, and optimizing infrastructure costs. One of the most important changes was introducing hot, warm, and cold storage tiers to handle different data access patterns more efficiently. As the clusters grew, however, the hot tier became a performance bottleneck.</p>
 <p>I experimented with different EC2 instance families and increased CPU and memory, but the metrics consistently pointed to storage I/O as the limiting factor. This led me to test <a class="reference external" href="https://aws.amazon.com/ec2/instance-types/storage-optimized">Storage Optimized EC2 instances</a> with local NVMe Instance Store for the hot data nodes. The results were very good: the local disks gave us the performance we needed and reduced storage costs compared with EBS.</p>
 <p>There is an important trade-off, though. Instance Store disks are tied to the physical EC2 host. If an instance is stopped, terminated, or hits a host failure, its local data is permanently lost. That makes Instance Store less durable, but it does not make it unsuitable for OpenSearch. The key is understanding how <a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/availability-and-recovery/replica-shards">shard replication</a> works (I covered the basics in <a class="reference internal" href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/"><span class="std std-doc">OpenSearch Concepts: Index and Shards</span></a>) and designing the infrastructure so that losing a node never means losing the only copy of its data.</p>
 <p>For more on performance, see these public benchmarks and case studies:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://docs.opensearch.org/latest/tuning-your-cluster/performance">Tuning Your Cluster for Indexing Speed (by OpenSearch)</a>: Official OpenSearch guidance on indexing performance, including recommendations for SSD-backed Instance Store and storage configuration.</p></li>
-<li><p><a class="reference external" href="https://clickhouse.com/blog/posette-talk-recap-postgres-isnt-slow-your-storage-is">Postgres Isn’t Slow. Your Storage Is (by ClickHouse)</a>: Benchmark comparing EBS gp3 and local NVMe Instance Store using PostgreSQL workloads. Reports significant improvements in transaction throughput and latency with local NVMe.</p></li>
+<li><p><a class="reference external" href="https://clickhouse.com/blog/posette-talk-recap-postgres-isnt-slow-your-storage-is">Postgres Isn't Slow. Your Storage Is (by ClickHouse)</a>: Benchmark comparing EBS gp3 and local NVMe Instance Store using PostgreSQL workloads. Reports significant improvements in transaction throughput and latency with local NVMe.</p></li>
 <li><p><a class="reference external" href="https://www.storagereview.com/review/amazon-ec2-i3-metal-review">Amazon EC2 i3.metal Review (by StorageReview)</a>: Storage benchmark comparing EBS and local NVMe on EC2 i3.metal instances, including random read/write IOPS and sequential throughput.</p></li>
 </ul>
 </section>
 <section id="ec2-instance-store-vs-ebs">
 <h2>EC2 Instance Store vs. EBS<a class="headerlink" href="#ec2-instance-store-vs-ebs" title="Link to this heading">#</a></h2>
-<p>The difference comes down to where the disk is. An EBS volume is a network-attached block device that exists independently of any EC2 instance, so every I/O makes a network round trip. <strong>EC2 Instance Store</strong> is an NVMe SSD attached to the host’s PCIe bus, with no network in the path.</p>
+<p>The difference comes down to where the disk is. An EBS volume is a network-attached block device that exists independently of any EC2 instance, so every I/O makes a network round trip. <strong>EC2 Instance Store</strong> is an NVMe SSD attached to the host's PCIe bus, with no network in the path.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p></p></th>
@@ -467,7 +467,7 @@
 <td><p>No, the data is lost</p></td>
 </tr>
 <tr class="row-even"><td><p>Performance</p></td>
-<td><p><a class="reference external" href="https://docs.aws.amazon.com/ebs/latest/userguide/general-purpose.html">3,000 IOPS and 125 MiB/s baseline</a>, provisioned higher if needed and capped by the instance’s EBS bandwidth</p></td>
+<td><p><a class="reference external" href="https://docs.aws.amazon.com/ebs/latest/userguide/general-purpose.html">3,000 IOPS and 125 MiB/s baseline</a>, provisioned higher if needed and capped by the instance's EBS bandwidth</p></td>
 <td><p>Fixed by the instance type, with no network hop</p></td>
 </tr>
 <tr class="row-odd"><td><p>Size</p></td>
@@ -481,7 +481,7 @@
 </tbody>
 </table>
 </div>
-<p>Local NVMe is not faster for every workload. For large sequential reads and writes, where most of the active data fits in RAM, a <code class="docutils literal notranslate"><span class="pre">gp3</span></code> volume on an instance with enough EBS bandwidth can keep up with local drives, and the bottleneck becomes the instance’s EBS bandwidth rather than the disk.</p>
+<p>Local NVMe is not faster for every workload. For large sequential reads and writes, where most of the active data fits in RAM, a <code class="docutils literal notranslate"><span class="pre">gp3</span></code> volume on an instance with enough EBS bandwidth can keep up with local drives, and the bottleneck becomes the instance's EBS bandwidth rather than the disk.</p>
 <p>Small random reads are where local NVMe clearly wins, because removing the network hop removes latency from every single I/O. This is the access pattern that matters for a search engine. When an OpenSearch hot tier serves queries against indices larger than the available RAM, <a class="reference external" href="https://lucene.apache.org/core/9_12_0/core/org/apache/lucene/search/package-summary.html">Lucene</a> has to read many small blocks from disk, and local storage answers those reads faster.</p>
 <p>For most stateful applications, EBS remains the sensible default. In a distributed search system where shard replication already handles node failure, the durability EBS adds matters less, and local NVMe removes storage latency as the bottleneck.</p>
 </section>
@@ -547,12 +547,12 @@
 </pre></div>
 </div>
 </div>
-<p>OpenSearch also supports <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-awareness">shard allocation awareness</a>, which tags nodes with their failure domain, such as the Availability Zone, so that OpenSearch places a shard’s copies in different zones. Keep in mind that cross-AZ traffic increases AWS data transfer costs.</p>
+<p>OpenSearch also supports <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-awareness">shard allocation awareness</a>, which tags nodes with their failure domain, such as the Availability Zone, so that OpenSearch places a shard's copies in different zones. Keep in mind that cross-AZ traffic increases AWS data transfer costs.</p>
 </section>
 <section id="use-a-readiness-probe-to-wait-for-cluster-green">
 <h3>4. Use a Readiness Probe to Wait for Cluster Green<a class="headerlink" href="#use-a-readiness-probe-to-wait-for-cluster-green" title="Link to this heading">#</a></h3>
 <p>An OpenSearch node that answers HTTP requests is not necessarily safe to move past. The process can be up before the cluster has recovered its shards and restored replica redundancy. A <a class="reference external" href="https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes">readiness probe</a> that only checks the HTTP endpoint lets Kubernetes replace the next pod too early.</p>
-<p>Instead, the probe can call the <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-health">Cluster Health API</a> and only report Ready when the cluster is green. Because the StatefulSet rolling update waits for each pod to be Ready, Kubernetes now waits for shard recovery before replacing the next pod. Set <code class="docutils literal notranslate"><span class="pre">timeoutSeconds</span></code> above the API’s own <code class="docutils literal notranslate"><span class="pre">timeout</span></code>; the default probe timeout is one second, which would make the probe fail while the request is still waiting:</p>
+<p>Instead, the probe can call the <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/cluster-api/cluster-health">Cluster Health API</a> and only report Ready when the cluster is green. Because the StatefulSet rolling update waits for each pod to be Ready, Kubernetes now waits for shard recovery before replacing the next pod. Set <code class="docutils literal notranslate"><span class="pre">timeoutSeconds</span></code> above the API's own <code class="docutils literal notranslate"><span class="pre">timeout</span></code>; the default probe timeout is one second, which would make the probe fail while the request is still waiting:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">opensearch-data-hot-statefulset.yaml</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">readinessProbe</span><span class="p">:</span>
@@ -593,7 +593,7 @@
 <section id="control-node-disruptions-with-karpenter">
 <h3>6. Control Node Disruptions with Karpenter<a class="headerlink" href="#control-node-disruptions-with-karpenter" title="Link to this heading">#</a></h3>
 <blockquote>
-<div><p>I’ll use Karpenter as an example, but the same logic applies to any node autoscaler.</p>
+<div><p>I'll use Karpenter as an example, but the same logic applies to any node autoscaler.</p>
 </div></blockquote>
 <p>Karpenter can replace nodes for several reasons, including consolidation and drift from the desired <a class="reference external" href="https://karpenter.sh/docs/concepts/nodepools">NodePool</a> configuration. With Instance Store, terminating a node destroys its local data, so these replacements must be coordinated with OpenSearch shard recovery. Karpenter provides <a class="reference external" href="https://karpenter.sh/docs/concepts/disruption/">disruption controls</a> for this.</p>
 <p>One option is to add the <code class="docutils literal notranslate"><span class="pre">karpenter.sh/do-not-disrupt</span></code> annotation to the pod template. Karpenter will not voluntarily disrupt a node running the annotated pod, subject to the documented exceptions:</p>
@@ -650,7 +650,7 @@
 </ul>
 <hr class="docutils" />
 <blockquote>
-<div><p><em>I’m Carlos Neto, and I’ve been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+<div><p><em>I'm Carlos Neto, and I've been running OpenSearch on EKS for over five years. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
 </div></blockquote>
 <hr class="docutils" />
 <script type="application/ld+json">
