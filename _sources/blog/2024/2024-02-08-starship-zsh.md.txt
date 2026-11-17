@@ -40,7 +40,7 @@ The results were great. Moving my theme from Spaceship to Starship took almost n
 
 More recently, I tried [Fish](https://fishshell.com/), described as "_a smart and user-friendly command line shell_". Its performance and default features impressed me, and Starship supports it too. Out of the box, Fish already has syntax checking with color indicators, autosuggestions based on history, and a selection menu for command options and arguments. It's simple and ready to use.
 
-The drawback is that Fish does not follow the [POSIX sh definition](http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html). For example, `$ FOOBAR=123` does not declare a variable. You have to write `$ set FOOBAR 123` instead. That rules Fish out of my daily work, but if ZSH were not an option, I would happily use it.
+The drawback is that Fish does not follow the [POSIX sh definition](http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html). For example, `FOOBAR=123` does not declare a variable. You have to write `set FOOBAR 123` instead. That rules Fish out of my daily work, but if ZSH were not an option, I would happily use it.
 
 ## My Favorite ZSH Plugins
 
@@ -52,7 +52,7 @@ This is my favorite plugin, no doubt. It copies a Fish feature: as you type, it 
 
 ![zsh-autosuggestions suggesting the rest of a command from shell history in gray text](/_static/2024/2024-02-08/image-1.png)
 
-> <i class="fa-solid fa-link"></i> More Details: <https://github.com/zsh-users/zsh-autosuggestions>
+> *More Details: <https://github.com/zsh-users/zsh-autosuggestions>*
 
 ### __zsh-syntax-highlighting__: Valid Commands by Color
 
@@ -60,24 +60,24 @@ Another plugin inspired by Fish. When a command is typed correctly, it turns gre
 
 ![zsh-syntax-highlighting showing a valid command in green and a mistyped command in red](/_static/2024/2024-02-08/image-2.png)
 
-> <i class="fa-solid fa-link"></i> More Details: <https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/>
+> *More Details: <https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/>*
 
 ### __kubectl__: The `k` Alias for kubectl
 
 This plugin adds Kubernetes completion and short aliases for common `kubectl` commands. For example:
 
-```{code-block} bash
+```bash
 # shortcut for: kubectl get pods
-$ kgp
+kgp
 
 # shortcut for: kubectl delete cm foobar-config-map
-$ kdelcm foobar-config-map
+kdelcm foobar-config-map
 
 # shortcut for: kubectl get cronjob
-$ k get cj
+k get cj
 ```
 
-> <i class="fa-solid fa-link"></i> More Details: <i class="fab fa-github"></i> [ohmyzsh/ohmyzsh/plugins/kubectl](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl)
+> *More Details: [ohmyzsh/ohmyzsh/plugins/kubectl](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl)*
 
 I use the same kind of aliases when I study for the Kubernetes certifications. My [workstation setup for the CKA, CKAD, and CKS exams](/blog/2026/2026-07-09-workstation-setup-kubernetes-exams.md) covers the ones that save the most time.
 
@@ -90,11 +90,11 @@ Simplicity is elegance. My Starship prompt shows only the information I care abo
 - [python](https://starship.rs/config/#python): the active virtualenv.
 - [kubernetes](https://starship.rs/config/#kubernetes): the Kubernetes context name. I style it differently depending on the name, so study, test, and production clusters are easy to tell apart.
 
-> My full `~/.config/starship.toml`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml)
+> *My full `~/.config/starship.toml`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml)*
 
 ## My Favorite ZSH Options (_setopt_)
 
-Some features that Bash or Fish have by default, such as comments in the prompt or sharing history, must be enabled explicitly in ZSH. You enable them with `setopt` in `~/.zshrc`. Running `$ set -o` lists every option and whether it's on, and the [ZSH Options Reference](https://zsh.sourceforge.io/Doc/Release/Options.html) describes each one.
+Some features that Bash or Fish have by default, such as comments in the prompt or sharing history, must be enabled explicitly in ZSH. You enable them with `setopt` in `~/.zshrc`. Running `set -o` lists every option and whether it's on, and the [ZSH Options Reference](https://zsh.sourceforge.io/Doc/Release/Options.html) describes each one.
 
 These are the options I enable:
 
@@ -104,7 +104,7 @@ These are the options I enable:
 - `HIST_IGNORE_DUPS`: does not record a command that repeats the previous one, which also makes zsh-autosuggestions faster.
 - `HIST_IGNORE_SPACE`: does not record commands that start with a space.
 
-> My full `~/.zshrc`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)
+> *My full `~/.zshrc`: <i class="fab fa-github"></i> [c-neto/ansible-configure-fedora/files/dotfiles/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc)*
 
 ## How to Set Up My ZSH + Starship From Scratch
 
@@ -112,76 +112,64 @@ All my dotfiles are on GitHub: <i class="fab fa-github"></i> [c-neto/ansible-con
 
 - __1__ _optional_: Back up your current dotfiles (`~/.zshrc` and `~/.zsh_history`):
 
-```{code-block} bash
-$ cp "$HOME/.zshrc" "$HOME/.zshrc.backup"
-$ cp "$HOME/.zsh_history" "$HOME/.zsh_history.backup"
+```bash
+cp "$HOME/.zshrc" "$HOME/.zshrc.backup"
+cp "$HOME/.zsh_history" "$HOME/.zsh_history.backup"
 ```
 
 - __2__: Install [ZSH](https://www.zsh.org/) with your package manager.
 
-::::{grid}
-
-:::{grid-item-card}
-```{code-block} bash
+```bash
 # if Linux (Fedora)
-$ dnf install zsh
-```
-:::
+dnf install zsh
 
-:::{grid-item-card}
-```{code-block} bash
 # if MacOS
-$ brew install zsh
+brew install zsh
 ```
-:::
-
-::::
 
 - __3__: Install [Starship](https://starship.rs/):
 
-```{code-block} bash
-$ curl -sS https://starship.rs/install.sh | sh
+```bash
+curl -sS https://starship.rs/install.sh | sh
 ```
 
-> <i class="fa-solid fa-circle-info"></i> __About Nerd Fonts__:
->
-> The `~/.config/starship.toml` file from step __5__ does not need [Nerd Fonts](https://www.nerdfonts.com/). If emojis don't render correctly, installing one may help.
+> *__About Nerd Fonts__: The `~/.config/starship.toml` file from step __5__ does not need [Nerd Fonts](https://www.nerdfonts.com/). If emojis don't render correctly, installing one may help.*
 
 - __4__: Create the directories for the ZSH plugins and the Starship configuration:
 
-```{code-block} bash
-$ mkdir "$HOME/.config/"
-$ mkdir "$HOME/.my-custom-zsh/"
+```bash
+mkdir "$HOME/.config/"
+mkdir "$HOME/.my-custom-zsh/"
 ```
 
 - __5__: Download my <i class="fab fa-github"></i> [~/.config/starship.toml](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/starship.toml):
 
-```{code-block} bash
-$ curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml' > "$HOME/.config/starship.toml"
+```bash
+curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/starship.toml' > "$HOME/.config/starship.toml"
 ```
 
 - __6__: Install the plugins manually:
 
-```{code-block} bash
+```bash
 # k alias
-$ curl 'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh' > "$HOME/.my-custom-zsh/kubectl.plugin.zsh"
+curl 'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/kubectl/kubectl.plugin.zsh' > "$HOME/.my-custom-zsh/kubectl.plugin.zsh"
 
 # zsh-syntax-highlighting
-$ git clone --depth 1 'https://github.com/zsh-users/zsh-syntax-highlighting.git' "$HOME/.my-custom-zsh/zsh-syntax-highlighting"
+git clone --depth 1 'https://github.com/zsh-users/zsh-syntax-highlighting.git' "$HOME/.my-custom-zsh/zsh-syntax-highlighting"
 
 # zsh-autosuggestions
-$ git clone --depth 1 'https://github.com/zsh-users/zsh-autosuggestions' "$HOME/.my-custom-zsh/zsh-autosuggestions"
+git clone --depth 1 'https://github.com/zsh-users/zsh-autosuggestions' "$HOME/.my-custom-zsh/zsh-autosuggestions"
 ```
 
 - __7__: Download my <i class="fab fa-github"></i> [~/.zshrc](https://github.com/c-neto/ansible-configure-fedora/tree/main/files/dotfiles/.zshrc):
 
-```{code-block} bash
-$ curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/.zshrc' > "$HOME/.zshrc"
+```bash
+curl 'https://raw.githubusercontent.com/c-neto/ansible-configure-fedora/main/files/dotfiles/.zshrc' > "$HOME/.zshrc"
 ```
 
 > <i class="fa-solid fa-circle-info"></i> __Key Binding Tip__
 >
-> You can change the `bindkey` values to your preference. To find the code for a key, run `$ cat -v` and press the key: its code appears in the shell. Then map functions such as `forward-word` and `backward-word` to that code.
+> You can change the `bindkey` values to your preference. To find the code for a key, run `cat -v` and press the key: its code appears in the shell. Then map functions such as `forward-word` and `backward-word` to that code.
 >
 > More details about the bindkey standard widgets: <https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets>
 
