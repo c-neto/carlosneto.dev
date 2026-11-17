@@ -145,13 +145,11 @@ I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateu
 - A certification proves knowledge, not mastery.
 - The real cost is study time and mental energy, not the fee.
 - Define the track, then buy its bundle on promotion.
-- Study one hour a day, with one day off. The gym helps with focus.
-- Don't trade today's hour for two hours tomorrow.
-- Ignore the course progress bar, and keep the plan to yourself until you pass.
-- Use one study source: KodeKloud courses, with free text versions on KodeKloud Notes.
-- Prioritize hands-on practice under exam conditions: imperative kubectl, Vim, and the official docs.
-- Ready for the exam means 100% on both Killer Shell sessions with 30 minutes to spare.
+- Study one hour a day, with one day off, don't trade today's hour for two hours tomorrow. 
 - Skip the home lab for exam prep. Spend that time on Kubernetes, not on Proxmox and virtualization.
+- Use one study source, I recommend KodeKloud video courses, notes, and MCP server.
+- Prioritize hands-on practice under exam conditions (imperative kubectl, Vim, and the official docs).
+- Ready for the exam means 100% on both Killer Shell sessions with 30 minutes to spare.
 - Rest the day before the exam, and schedule it for Monday morning, before work.
 
 ## References
