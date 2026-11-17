@@ -90,7 +90,7 @@ Before the six months in which I passed everything, I procrastinated for a whole
 
 __Go to the Gym__: I only finished the certifications because I started going to the gym at the same time. I have trouble with focus, and the exercise routine trained the discipline I then used to study. Running, walking, or any regular sport should work the same way. In one study, people who kept an exercise program for two months improved on a lab test of self-control and reported better study habits and less stress ([Oaten & Cheng, 2006](https://doi.org/10.1348/135910706X96481)).
 
-__Study Only One Hour a Day__: I studied one hour a day, not two or three, and kept one day a week, usually Sunday, without studying. A five-hour rush on Sunday doesn't make you learn. I based this routine on [_Aprendendo Inteligência_](https://www.amazon.com.br/dp/8576572052), by the teacher Pierluigi Piazzi, who argues that learning comes from studying a little every day and letting sleep consolidate it, not from cramming. The book and his [talk on how to study](https://www.youtube.com/watch?v=2ZIbhD-_XgI) are both in Portuguese.
+__Study Only One Hour a Day__: I studied one hour a day, not two or three, and kept one day a week, usually Sunday, without studying. A five-hour rush on Sunday doesn't make you learn. I based this routine on a [talk on how to study](https://www.youtube.com/watch?v=2ZIbhD-_XgI) by the teacher Pierluigi Piazzi, who argues that learning comes from studying a little every day and letting sleep consolidate it, not from cramming.
 
 __Don't Negotiate With Yourself__: I stopped negotiating with myself, because "I won't study today, but tomorrow I'll do two hours" is the beginning of failure. People expect to have more free time in the future than they have today, so tomorrow's extra hour feels cheap to promise and rarely shows up ([Zauberman & Lynch, 2005](https://doi.org/10.1037/0096-3445.134.1.23)).
 
@@ -104,7 +104,7 @@ Pick one study source and stick with it. A certification is already long and dra
 
 The same goes for a home lab, and I learned it the hard way. I bought a mini PC on AliExpress, installed Proxmox, and built base images for my cluster, then spent more time fighting Proxmox and networking than practicing Kubernetes. A home lab is great for learning troubleshooting, but for the exams, a course's ready-made labs are enough.
 
-My single source was the [KodeKloud](https://kodekloud.com/) courses, which were recommended to me. I've always struggled with video courses because I lose focus quickly, so I usually study from physical books, away from Whatsapp, Instagram and other cheap dopamine notifications. The whole course is designed to be objective: a theory lesson ends, and right after it there's a ready lab with questions to practice what it explained. Straight to the point. So even with that resistance, I really enjoyed it. Every topic in the course is worth studying, especially the ones that aren't on the exam, such as TLS.
+My single source was the [KodeKloud](https://kodekloud.com/) courses. I've always struggled with video courses because I lose focus quickly, so I usually study from physical books, away from Whatsapp, Instagram and other cheap dopamine notifications. The whole course is designed to be objective: a theory lesson ends, and right after it there's a ready lab with questions to practice what it explained. Straight to the point. So even with that resistance, I really enjoyed it. Every topic in the course is worth studying, especially the ones that aren't on the exam, such as TLS.
 
 The full courses, with videos and labs, require a KodeKloud subscription. If you don't want one, the KodeKloud courses for the [CKA](https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/) and the [CKAD](https://www.udemy.com/course/certified-kubernetes-application-developer/) are also on Udemy at a very affordable price, labs included. The CKS course, as of the publication of this post, is available only on the KodeKloud platform.
 
@@ -169,8 +169,7 @@ I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateu
 - [CK-X Simulator (GitHub)](https://github.com/sailor-sh/CK-X)
 - [Longitudinal Gains in Self-Regulation From Regular Physical Exercise (British Journal of Health Psychology, 2006)](https://doi.org/10.1348/135910706X96481)
 - [Resource Slack and Propensity to Discount Delay (Journal of Experimental Psychology: General, 2005)](https://doi.org/10.1037/0096-3445.134.1.23)
-- [Aprendendo Inteligência, Pierluigi Piazzi (book, in Portuguese)](https://www.amazon.com.br/dp/8576572052)
-- [Como Estudar e Aprender, Professor Pier (YouTube, in Portuguese)](https://www.youtube.com/watch?v=2ZIbhD-_XgI)
+- [Como Estudar e Aprender, Professor Pier (YouTube)](https://www.youtube.com/watch?v=2ZIbhD-_XgI)
 - [The Small-Area Hypothesis: Effects of Progress Monitoring on Goal Adherence (Journal of Consumer Research, 2012)](https://doi.org/10.1086/663827)
 - [Stuck in the Middle: The Psychophysics of Goal Pursuit (Psychological Science, 2011)](https://doi.org/10.1177/0956797611404899)
 - [When Intentions Go Public: Does Social Reality Widen the Intention-Behavior Gap? (Psychological Science, 2009)](https://doi.org/10.1111/j.1467-9280.2009.02336.x)
