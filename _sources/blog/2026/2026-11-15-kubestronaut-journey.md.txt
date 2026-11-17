@@ -88,7 +88,7 @@ People often tell me the exams are expensive, and they are, especially if you do
 
 Before the six months in which I passed everything, I procrastinated for a whole year. I would start studying, stop, come back weeks later, and remember nothing. Every restart, I had forgotten the imperative kubectl commands and had to learn them again. These five habits got me out of that loop.
 
-__Go to the Gym__: I only finished the certifications because I started going to the gym at the same time. I have trouble with focus, and the exercise routine trained the discipline I then used to study. Running, walking, or any regular sport should work the same way. In one study, people who kept an exercise program for two months improved on a lab test of self-control and reported better study habits and less stress ([Oaten & Cheng, 2006](https://doi.org/10.1348/135910706X96481)).
+__Go to the Gym__: I have trouble with focus, and the exercise routine trained the discipline I then used to study. Running, walking, or any regular sport should work the same way. In one study, people who kept an exercise program for two months improved on a lab test of self-control and reported better study habits and less stress ([Oaten & Cheng, 2006](https://doi.org/10.1348/135910706X96481)).
 
 __Study Only One Hour a Day__: I studied one hour a day, not two or three, and kept one day a week, usually Sunday, without studying. A five-hour rush on Sunday doesn't make you learn. I based this routine on a [talk on how to study](https://www.youtube.com/watch?v=2ZIbhD-_XgI) by the teacher Pierluigi Piazzi, who argues that learning comes from studying a little every day and letting sleep consolidate it, not from cramming.
 
