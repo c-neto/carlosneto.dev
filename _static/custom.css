@@ -183,3 +183,17 @@ ol, ul {
   text-align: left !important;
 }
 
+
+/* Blockquotes: lighter background and smaller text than the body */
+.bd-content blockquote {
+  background-color: color-mix(in srgb, var(--pst-color-surface) 40%, transparent);
+  font-size: 0.875em;
+  border-left-width: 0.15em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Table header: subtle neutral shade to set it apart from the rows */
+.bd-content table thead th {
+  background-color: color-mix(in srgb, var(--pst-color-text-base) 6%, transparent);
+}
