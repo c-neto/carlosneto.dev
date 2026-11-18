@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-18T22:40:21.250143+00:00</updated>
+  <updated>2026-11-18T22:54:40.765052+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -41,7 +41,7 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;The meter creates instruments, and a &lt;strong&gt;counter&lt;/strong&gt; is the simplest of them, a total that only goes up. Each payment adds one to it, with a &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;status&lt;/span&gt;&lt;/code&gt; attribute that separates successes from failures. A counter like this is also far cheaper than counting log lines to get the same number, as I explain in &lt;a class="reference internal" href="2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/"&gt;&lt;span class="std std-doc"&gt;Stop Extracting Metrics from OpenSearch Logs&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;If you install only the API (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;pip&lt;/span&gt; &lt;span class="pre"&gt;install&lt;/span&gt; &lt;span class="pre"&gt;opentelemetry-api&lt;/span&gt;&lt;/code&gt;) and run this file, it works and exports nothing. Without an SDK, every API call does nothing, and that's what keeps the code independent. It describes what to measure and leaves the decision about where the data goes to whoever runs it.&lt;/p&gt;
+&lt;p&gt;If you install only the API (&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;pip&lt;/span&gt; &lt;span class="pre"&gt;install&lt;/span&gt; &lt;span class="pre"&gt;opentelemetry-api&lt;/span&gt;&lt;/code&gt;) and run this file, it works and exports nothing. Without an SDK, every API call does nothing, and that's what keeps the code independent. It describes what to measure and leaves the decision about where the data goes to whoever runs it. The same behavior gives you an easy way to turn telemetry off. If you don't want it in a system, you don't install the SDK, and the instrumented code keeps running as if the calls weren't there. If the SDK is already installed, setting &lt;a class="reference external" href="https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;OTEL_SDK_DISABLED=true&lt;/span&gt;&lt;/code&gt;&lt;/a&gt; has the same effect.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="the-sdk-comes-from-the-environment"&gt;
 &lt;h2&gt;The SDK Comes From the Environment&lt;/h2&gt;
@@ -59,7 +59,7 @@ opentelemetry-instrument&lt;span class="w"&gt; &lt;/span&gt;python&lt;span class
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;The &lt;a class="reference external" href="https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/"&gt;variables&lt;/a&gt; name the service, send metrics over OTLP to port 4317, and export every five seconds instead of the default minute. The shorter interval makes the demo quicker to check. Traces and logs are off because the example only produces metrics. You can also configure the SDK in code, but I prefer the launcher, because &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;app.py&lt;/span&gt;&lt;/code&gt; stays the same file and all the configuration lives outside it.&lt;/p&gt;
-&lt;p&gt;The endpoint doesn't name Prometheus or Datadog. It points to a Collector, and that's where the destination is decided. Start the application after the Collector from the next section is running, or the SDK logs connection errors until something answers on that port.&lt;/p&gt;
+&lt;p&gt;The endpoint doesn't name Prometheus or Datadog. It points to a Collector, and that's where the destination is decided. The Collector isn't required, though. Prometheus and Datadog both accept OTLP, so these same variables could send the data straight to either of them, with the endpoint, credentials, and settings each one expects. I use the Collector in this example because it's the most common pattern, and the &lt;a class="reference external" href="https://opentelemetry.io/docs/collector/"&gt;OpenTelemetry documentation&lt;/a&gt; recommends it in general, since it takes care of retries, batching, encryption, and filtering of sensitive data. Start the application after the Collector from the next section is running, or the SDK logs connection errors until something answers on that port.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="the-collector-decides-where-the-data-goes"&gt;
 &lt;h2&gt;The Collector Decides Where the Data Goes&lt;/h2&gt;

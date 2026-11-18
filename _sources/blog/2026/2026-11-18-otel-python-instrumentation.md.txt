@@ -45,7 +45,7 @@ while True:
 
 The meter creates instruments, and a **counter** is the simplest of them, a total that only goes up. Each payment adds one to it, with a `status` attribute that separates successes from failures. A counter like this is also far cheaper than counting log lines to get the same number, as I explain in [Stop Extracting Metrics from OpenSearch Logs](/blog/2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs.md).
 
-If you install only the API (`pip install opentelemetry-api`) and run this file, it works and exports nothing. Without an SDK, every API call does nothing, and that's what keeps the code independent. It describes what to measure and leaves the decision about where the data goes to whoever runs it.
+If you install only the API (`pip install opentelemetry-api`) and run this file, it works and exports nothing. Without an SDK, every API call does nothing, and that's what keeps the code independent. It describes what to measure and leaves the decision about where the data goes to whoever runs it. The same behavior gives you an easy way to turn telemetry off. If you don't want it in a system, you don't install the SDK, and the instrumented code keeps running as if the calls weren't there. If the SDK is already installed, setting [`OTEL_SDK_DISABLED=true`](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/) has the same effect.
 
 ## The SDK Comes From the Environment
 
@@ -66,7 +66,7 @@ opentelemetry-instrument python app.py
 
 The [variables](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/) name the service, send metrics over OTLP to port 4317, and export every five seconds instead of the default minute. The shorter interval makes the demo quicker to check. Traces and logs are off because the example only produces metrics. You can also configure the SDK in code, but I prefer the launcher, because `app.py` stays the same file and all the configuration lives outside it.
 
-The endpoint doesn't name Prometheus or Datadog. It points to a Collector, and that's where the destination is decided. Start the application after the Collector from the next section is running, or the SDK logs connection errors until something answers on that port.
+The endpoint doesn't name Prometheus or Datadog. It points to a Collector, and that's where the destination is decided. The Collector isn't required, though. Prometheus and Datadog both accept OTLP, so these same variables could send the data straight to either of them, with the endpoint, credentials, and settings each one expects. I use the Collector in this example because it's the most common pattern, and the [OpenTelemetry documentation](https://opentelemetry.io/docs/collector/) recommends it in general, since it takes care of retries, batching, encryption, and filtering of sensitive data. Start the application after the Collector from the next section is running, or the SDK logs connection errors until something answers on that port.
 
 ## The Collector Decides Where the Data Goes
 
