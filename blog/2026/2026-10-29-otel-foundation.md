@@ -4,12 +4,12 @@ date: "2026-10-29"
 category: Observability
 author: Carlos Neto
 title: "OpenTelemetry: A Framework for Decoupling Your Observability"
-description: "OpenTelemetry is not a database and doesn't compete with Fluent Bit, Logstash, or Jaeger. It standardizes how metrics, traces, and logs are structured, so you avoid vendor lock-in."
+description: "What OpenTelemetry is and the problem it solves, without the jargon. It standardizes how applications produce, name, and send telemetry, so you can change tools without changing code."
 myst:
   html_meta:
-    description: "OpenTelemetry is not a database and doesn't compete with Fluent Bit, Logstash, or Jaeger. It standardizes how metrics, traces, and logs are structured, so you avoid vendor lock-in."
+    description: "What OpenTelemetry is and the problem it solves, without the jargon. It standardizes how applications produce, name, and send telemetry, so you can change tools without changing code."
 og:title: "OpenTelemetry: A Framework for Decoupling Your Observability"
-og:description: "OpenTelemetry is not a database and doesn't compete with Fluent Bit, Logstash, or Jaeger. It standardizes how metrics, traces, and logs are structured, so you avoid vendor lock-in."
+og:description: "What OpenTelemetry is and the problem it solves, without the jargon. It standardizes how applications produce, name, and send telemetry, so you can change tools without changing code."
 ---
 
 *__Blog Post Publish Date:__ 2026/10/29*
@@ -18,60 +18,67 @@ og:description: "OpenTelemetry is not a database and doesn't compete with Fluent
 
 # OpenTelemetry: A Framework for Decoupling Your Observability
 
-OpenTelemetry is not a database, and it doesn't compete with Fluent Bit, Logstash, or Jaeger. It defines how metrics, traces, and logs are structured and transported, so your telemetry isn't tied to any vendor. The tools you already know can be the backends that receive it. This post explains that idea, the one component OpenTelemetry runs on its own, and where it fits.
+This post is my take on what OpenTelemetry is and the problem it solves, explained directly and in my own words.
 
-## What It Is
+## Not Another Tool, Just a Standard
 
-When I started studying OpenTelemetry, I struggled to understand what it actually was. The [official definition](https://opentelemetry.io/docs/what-is-opentelemetry/) calls it _"an open-source, vendor-neutral observability framework"_, which didn't help me. I kept asking whether it was a database, a log shipper, or a replacement for Prometheus. It's none of them.
+OpenTelemetry is an observability framework that standardizes how telemetry is instrumented and collected, so you don't depend on the tools and formats of a specific vendor and can integrate with different backends, such as Prometheus, Jaeger, Grafana Mimir, and Datadog.
 
-The problem it solves is vendor lock-in. Before it, each backend came with its own library, agent, and data format. If fifty services are instrumented with the Datadog library and the company moves to another tool, every service has to be changed and redeployed. OpenTelemetry fixes that with a standard. It defines the data model of each signal, the attribute names (such as `service.name` or `http.request.method`), an API your code calls, and OTLP, the protocol that carries the data.
+OpenTelemetry doesn't store data, draw dashboards, or fire alerts, and those jobs stay with the tools you already use. It defines the rules for how data leaves your application and reaches those tools, so any of them can sit on the other end.
 
-The best comparison I know is SQLAlchemy in Python. Your code talks to SQLAlchemy, and the database behind it can be PostgreSQL, MySQL, or SQLite, so switching is mostly a matter of changing the connection URL. OpenTelemetry does the same for telemetry. Your code talks to the OpenTelemetry API, and the backend becomes a configuration choice.
+## More Than an Interface
 
-Storage, queries, dashboards, and alerts stay with the backends. Jaeger [receives OTLP natively](https://www.jaegertracing.io/sdk-migration/) and stores traces, and Prometheus 3 can [receive OTLP metrics](https://prometheus.io/docs/guides/opentelemetry/). Fluent Bit has [OpenTelemetry input and output plugins](https://docs.fluentbit.io/manual/data-pipeline/outputs/opentelemetry), so it can take OTLP and forward it to OpenSearch or any other output. Commercial platforms accept OTLP too. What OpenTelemetry replaces is the vendor-specific instrumentation inside your code, not the tools that store and analyze the data. It doesn't replace your logging library either. Your code keeps using Python's `logging` or Log4j, and OpenTelemetry adds the trace ID to each log line.
+In the source code, OpenTelemetry defines the interfaces your application calls to produce telemetry, and that alone removes much of the vendor lock-in. Your code depends on the OpenTelemetry API instead of a vendor library, so changing vendors means changing what sits behind that API, usually just the SDK configuration, while the code stays the same. SQLAlchemy works the same way in Python. Your code talks to SQLAlchemy, and moving from PostgreSQL to MySQL means changing the driver and the connection settings, not the queries. OpenTelemetry goes further, because a common interface alone doesn't make observability standard. It also defines how the data is named and how it travels.
 
-The diagram shows the result with metrics. Prometheus, Datadog, Grafana Mimir, and New Relic compete with each other, and all of them accept OTLP. The SDK in your application sends OTLP straight to the one you choose, so the instrumented code stays the same, and switching to another is a matter of changing the endpoint in the SDK configuration.
+The first standard is how the code produces data. Your application calls the OpenTelemetry API to record a request or count a payment, with the same concepts whether it's written in Python, Java, or Go. Behind that API, the SDK is the engine that decides what to do with the data. Often you don't even write those calls, since there are [ready-made instrumentations](https://opentelemetry.io/docs/concepts/instrumentation/libraries/) for frameworks like FastAPI and Spring Boot, and [agents that instrument an application at runtime](https://opentelemetry.io/docs/zero-code/) without touching its code.
 
-<img src="/_static/2026/2026-10-29/opentelemetry-pieces.svg" alt="Diagram of OpenTelemetry removing vendor lock-in. The application code calls the OTel API and SDK, with no vendor library, and the SDK sends OTLP directly to one metrics backend among competing options such as Prometheus, Datadog, Grafana Mimir, and New Relic. Switching between them changes the SDK endpoint in the configuration, not the code" loading="lazy">
+The second is how the data is named. OpenTelemetry has [naming conventions](https://opentelemetry.io/docs/concepts/semantic-conventions/) for common information, so an HTTP request, a database call, or the name of a service is described the same way in every application. A query or a dashboard built for one team's service works for another team's service too, as long as both follow the same version of the conventions.
 
-## The Collector
+The third is how the data travels. [OTLP](https://opentelemetry.io/docs/specs/otlp/) is the protocol OpenTelemetry defines for sending telemetry, and Prometheus, Jaeger, Datadog, and most other tools know how to receive it, each one for the signals it handles, such as metrics in Prometheus and traces in Jaeger. Some of them, like Prometheus, need the [OTLP receiver turned on](https://prometheus.io/docs/guides/opentelemetry/) first. The application doesn't need to speak each tool's language, only OTLP.
 
-Besides the API and SDK that live inside your application, the only component OpenTelemetry runs on its own is the Collector. It's optional, since the SDK can send data straight to a backend, as in the previous diagram.
+The [KodeKloud OTCA course](https://notes.kodekloud.com/docs/Prep-Course-OpenTelemetry-Certified-Associate-OTCA-Certification/OpenTelemetry-Core-Concepts/Standards-and-Specification/page) compares this to USB. Before a common connector, every device needed its own cable, and OpenTelemetry is that common connector for observability data.
 
-The Collector is interesting because the SDK of every application sends to it instead of to a backend, and it becomes the one place where you define the pipeline logic and the post-processing. In its configuration you filter telemetry by its metadata, change attributes (such as removing sensitive data or adding Kubernetes metadata), and sample traces, by percentage or keeping only the ones with errors or high latency. The choice of backends lives there too, instead of in each service. Switching backends, or sending the same data to two of them during a migration, becomes a change in one place.
+## Change the Destination, Not the Code
+
+Without OpenTelemetry, each service carries the library of a specific vendor. If fifty services are instrumented with the Datadog library and the company decides to move to another tool, all fifty have to be changed, tested, and deployed again. That's vendor lock-in, and that cost alone can keep a team on a tool it no longer wants.
+
+With OpenTelemetry, the code only speaks the standard, and where the data goes is configuration. Pointing to another tool means changing the address, the credentials, and sometimes a few settings the new tool expects, all in environment variables or a configuration file, and the application code stays the same.
+
+<img src="/_static/2026/2026-10-29/opentelemetry-pieces.svg" alt="Diagram of OpenTelemetry removing vendor lock-in. The application code calls the OTel API and SDK, with no vendor library, and the SDK sends OTLP directly to one metrics backend among competing options such as Prometheus, Datadog, Grafana Mimir, and New Relic. Switching between them changes the SDK configuration, such as the endpoint and credentials, not the code" loading="lazy">
+
+In larger setups, that configuration usually lives in the [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/), an optional service that sits between the applications and the tools. Every application sends its data to the Collector, and the Collector decides what to filter, what to change, and where to forward it. Changing tools, or sending the same data to two of them during a migration, becomes a change in one file.
 
 <img src="/_static/2026/2026-10-29/opentelemetry-collector.svg" alt="Diagram of the optional OpenTelemetry Collector. Three services in Python, Java, and Go use the OTel SDK and send OTLP to the same Collector, which filters by metadata, changes attributes, samples traces, and routes the data to a backend such as Prometheus, with Datadog and Grafana Mimir as alternatives. The pipeline logic and the destinations live in the Collector, not in each service" loading="lazy">
 
-For more details, see [A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry](/blog/2026/2026-11-18-otel-python-instrumentation.md), which builds this setup step by step with a Python service whose metrics move from Prometheus to Datadog by changing only the Collector configuration.
+I show this in practice in [A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry](/blog/2026/2026-11-18-otel-python-instrumentation.md). A Python service sends its metrics to Prometheus and then to Datadog, and the only thing that changes between the two is the Collector configuration.
 
-This is the part that overlaps with Fluent Bit and Logstash, since all three receive, transform, and forward data. Fluent Bit and Logstash were built around logs. The Collector is built around the OpenTelemetry data model for all three signals, so it understands traces. If your pipeline only moves logs and works well, there's no reason to swap it. If your applications send traces over OTLP, the Collector is the natural receiver, and it can run next to the log pipeline you already have, such as a [Fluent Bit DaemonSet](/blog/2025/2025-06-22-kubernetes-logs-simplified.md).
+## When It's Worth the Trouble
 
-## Where It Fits
+OpenTelemetry pays off when there are many services, written in different languages and owned by different teams, or when the same data has to reach more than one tool. It also doesn't force you to throw away what already works. A log pipeline built on Fluent Bit or Logstash, such as a [Fluent Bit DaemonSet collecting Kubernetes logs](/blog/2025/2025-06-22-kubernetes-logs-simplified.md), can keep running, and Fluent Bit itself [can receive and send OTLP](https://docs.fluentbit.io/manual/data-pipeline/outputs/opentelemetry).
 
-OpenTelemetry pays off most in distributed systems, where a request crosses services written in different languages and owned by different teams, and one trace has to follow it through all of them. It also helps when you need to send the same data to more than one backend, or move from one vendor to another gradually. Services already instrumented with OpenTelemetry can coexist with ones that still use a vendor agent.
-
-It also covers software you don't own, from two sides. Auto-instrumentation turns your application's calls to a database or cache, such as PostgreSQL or Redis, into spans without code changes. The Collector collects from the outside, by scraping Prometheus endpoints, reading log files and syslog, or querying the Kubernetes API.
-
-That comes at a cost. There are new concepts to learn, SDKs to configure in every service, and possibly a Collector to deploy, scale, and monitor.
-
+That comes at a cost. There are new concepts to learn, each service needs its SDK or agent configured, and a Collector, if you use one, is one more service to deploy, scale, and monitor.
 
 ## Key Takeaways
 
-- OpenTelemetry is not a database and doesn't store, query, or alert.
-- It defines how metrics, traces, and logs are structured and transported, which removes vendor lock-in.
-- Like SQLAlchemy for databases, the code talks to one API, and switching backends means changing the SDK endpoint.
-- Jaeger, Prometheus, Fluent Bit, and commercial platforms can receive OpenTelemetry data as backends or pipelines.
-- The Collector is the only component OpenTelemetry runs on its own, and it is optional.
-- With a Collector, every SDK sends to it, and filtering, attribute changes, sampling, and routing are defined there, in one place.
-- The benefits grow with the number of services, languages, teams, and backends, and so does the operational cost.
+- OpenTelemetry standardizes how applications produce, name, and send telemetry, and it doesn't store, display, or alert on data.
+- The standard goes beyond an interface for the code. It includes naming conventions and OTLP, the protocol that carries the data.
+- Prometheus, Jaeger, Datadog, and most observability tools can receive OTLP, each for the signals it handles.
+- With the code speaking the standard, changing tools means changing configuration, not the source code.
+- The Collector is optional and keeps that configuration in one place, which turns a migration into a change in one file.
+- The benefits grow with the number of services, languages, teams, and tools, and so does the operational cost.
 
 ## References
 
 - [What is OpenTelemetry? (OpenTelemetry)](https://opentelemetry.io/docs/what-is-opentelemetry/)
+- [Components (OpenTelemetry)](https://opentelemetry.io/docs/concepts/components/)
+- [Semantic Conventions (OpenTelemetry)](https://opentelemetry.io/docs/concepts/semantic-conventions/)
+- [OTLP Specification (OpenTelemetry)](https://opentelemetry.io/docs/specs/otlp/)
+- [Instrumentation libraries (OpenTelemetry)](https://opentelemetry.io/docs/concepts/instrumentation/libraries/)
+- [Zero-code instrumentation (OpenTelemetry)](https://opentelemetry.io/docs/zero-code/)
 - [OpenTelemetry Collector (OpenTelemetry)](https://opentelemetry.io/docs/collector/)
-- [Collector receivers (OpenTelemetry)](https://opentelemetry.io/docs/collector/components/receiver/)
 - [Using Prometheus as your OpenTelemetry backend (Prometheus)](https://prometheus.io/docs/guides/opentelemetry/)
 - [OpenTelemetry output plugin (Fluent Bit)](https://docs.fluentbit.io/manual/data-pipeline/outputs/opentelemetry)
+- [Standards and Specification (KodeKloud)](https://notes.kodekloud.com/docs/Prep-Course-OpenTelemetry-Certified-Associate-OTCA-Certification/OpenTelemetry-Core-Concepts/Standards-and-Specification/page)
 - [OpenTelemetry Certified Associate prep course (KodeKloud)](https://notes.kodekloud.com/docs/Prep-Course-OpenTelemetry-Certified-Associate-OTCA-Certification/index)
 
 ---
@@ -88,13 +95,13 @@ That comes at a cost. There are new concepts to learn, SDKs to configure in ever
     {
       "@type": "BlogPosting",
       "headline": "OpenTelemetry: A Framework for Decoupling Your Observability",
-      "description": "OpenTelemetry is not a database and doesn't compete with Fluent Bit, Logstash, or Jaeger. It standardizes how metrics, traces, and logs are structured, so you avoid vendor lock-in.",
+      "description": "What OpenTelemetry is and the problem it solves, without the jargon. It standardizes how applications produce, name, and send telemetry, so you can change tools without changing code.",
       "datePublished": "2026-10-29",
       "inLanguage": "en",
       "url": "https://carlosneto.dev/blog/2026/2026-10-29-otel-foundation/",
       "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-10-29-otel-foundation/",
       "image": "https://carlosneto.dev/_static/2026/2026-10-29/opentelemetry-pieces.svg",
-      "keywords": ["OpenTelemetry", "OpenTelemetry Collector", "vendor lock-in", "Fluent Bit", "Jaeger"],
+      "keywords": ["OpenTelemetry", "OTLP", "vendor lock-in", "semantic conventions", "OpenTelemetry Collector"],
       "author": {"@id": "https://carlosneto.dev/#person"}
     },
     {
