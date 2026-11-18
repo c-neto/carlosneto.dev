@@ -2,21 +2,21 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-18T03:44:29.674083+00:00</updated>
+  <updated>2026-11-18T04:00:06.371292+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
   <subtitle>Kubernetes, CNCF, Cloud Native, DevOps, and Software Engineering</subtitle>
   <entry>
     <id>https://carlosneto.dev/blog/2026/2026-11-18-otel-python-instrumentation/</id>
-    <title>Instrumenting a Python Application with OpenTelemetry</title>
+    <title>A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry</title>
     <updated>2026-11-18T00:00:00+00:00</updated>
     <author>
       <name>Carlos Neto</name>
     </author>
     <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Blog Post Publish Date:&lt;/strong&gt; 2026/11/18&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
-&lt;section id="instrumenting-a-python-application-with-opentelemetry"&gt;
+&lt;section id="a-hands-on-example-of-decoupling-app-instrumentation-with-opentelemetry"&gt;
 
 &lt;p&gt;This post builds a small Python service instrumented with OpenTelemetry, one piece at a time. It starts with the API only, turns on the SDK without changing the code, routes the metrics through the OpenTelemetry Collector to Prometheus, and then switches to Datadog by changing only the Collector configuration.&lt;/p&gt;
 &lt;p&gt;It's the hands-on companion to &lt;a class="reference internal" href="2026/2026-10-29-otel-foundation/"&gt;&lt;span class="std std-doc"&gt;OpenTelemetry: A Framework for Decoupling Your Observability&lt;/span&gt;&lt;/a&gt;, which explains what OpenTelemetry is, the vendor lock-in it removes, and what the Collector is for. This post doesn't repeat those concepts, so if they're new to you, start there.&lt;/p&gt;
@@ -282,7 +282,7 @@ payments_processed_total&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&
   "@graph": [
     {
       "@type": "BlogPosting",
-      "headline": "Instrumenting a Python Application with OpenTelemetry",
+      "headline": "A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry",
       "description": "A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code.",
       "datePublished": "2026-11-18",
       "inLanguage": "en",
@@ -304,7 +304,7 @@ payments_processed_total&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
         {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
-        {"@type": "ListItem", "position": 3, "name": "Instrumenting a Python Application with OpenTelemetry"}
+        {"@type": "ListItem", "position": 3, "name": "A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry"}
       ]
     }
   ]
@@ -2234,7 +2234,7 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
 &lt;p&gt;Besides the API and SDK that live inside your application, the only component OpenTelemetry runs on its own is the Collector. It's optional, since the SDK can send data straight to a backend, as in the previous diagram.&lt;/p&gt;
 &lt;p&gt;The Collector is interesting because the SDK of every application sends to it instead of to a backend, and it becomes the one place where you define the pipeline logic and the post-processing. In its configuration you filter telemetry by its metadata, change attributes (such as removing sensitive data or adding Kubernetes metadata), and sample traces, by percentage or keeping only the ones with errors or high latency. The choice of backends lives there too, instead of in each service. Switching backends, or sending the same data to two of them during a migration, becomes a change in one place.&lt;/p&gt;
 &lt;img alt="Diagram of the optional OpenTelemetry Collector. Three services in Python, Java, and Go use the OTel SDK and send OTLP to the same Collector, which filters by metadata, changes attributes, samples traces, and routes the data to a backend such as Prometheus, with Datadog and Grafana Mimir as alternatives. The pipeline logic and the destinations live in the Collector, not in each service" src="https://carlosneto.dev/_images/opentelemetry-collector.svg" /&gt;
-&lt;p&gt;For more details, see &lt;a class="reference internal" href="2026/2026-11-18-otel-python-instrumentation/"&gt;&lt;span class="std std-doc"&gt;Instrumenting a Python Application with OpenTelemetry&lt;/span&gt;&lt;/a&gt;, which builds this setup step by step with a Python service whose metrics move from Prometheus to Datadog by changing only the Collector configuration.&lt;/p&gt;
+&lt;p&gt;For more details, see &lt;a class="reference internal" href="2026/2026-11-18-otel-python-instrumentation/"&gt;&lt;span class="std std-doc"&gt;A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry&lt;/span&gt;&lt;/a&gt;, which builds this setup step by step with a Python service whose metrics move from Prometheus to Datadog by changing only the Collector configuration.&lt;/p&gt;
 &lt;p&gt;This is the part that overlaps with Fluent Bit and Logstash, since all three receive, transform, and forward data. Fluent Bit and Logstash were built around logs. The Collector is built around the OpenTelemetry data model for all three signals, so it understands traces. If your pipeline only moves logs and works well, there's no reason to swap it. If your applications send traces over OTLP, the Collector is the natural receiver, and it can run next to the log pipeline you already have, such as a &lt;a class="reference internal" href="2025/2025-06-22-kubernetes-logs-simplified/"&gt;&lt;span class="std std-doc"&gt;Fluent Bit DaemonSet&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="where-it-fits"&gt;
