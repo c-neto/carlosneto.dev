@@ -58,7 +58,7 @@ Here is what each exam covers:
 
 > _From February 15, 2027, Kubestronaut will also require the [CKNE](https://training.linuxfoundation.org/resources/kubestronaut-program/), and two AI certifications, [KAIA and CKIE](https://www.cncf.io/announcements/2026/11/10/cncf-launches-certified-kubernetes-network-engineer-certification-ckne-to-advance-production-ready-networking-skills-for-ai-era/), are planned for 2027._
 
-## Kubestronaut Benefits
+## Kubestronaut Benefits and Renewal
 
 When you become a Kubestronaut, you get an exclusive jacket, a Credly badge ([here is mine](https://www.credly.com/badges/d5a820cc-d6b5-4d0f-96e2-2e1d4713ac99)), and access to a private Slack channel. That channel is a good place to network with other qualified professionals, and maybe get a contact that leads to a better job. Your photo also goes on the [Kubestronaut page](https://www.cncf.io/training/kubestronaut/), which lists everyone who holds the title ([here is mine](https://www.cncf.io/training/kubestronaut/?_sf_s=carlos%20neto)). Every year, you also get five 50%-off certification coupons, which you can use yourself or share, and 20% off three [CNCF events](https://www.cncf.io/events/), such as [KubeCon](https://www.cncf.io/kubecon-cloudnativecon-events/) or [KubeDays](https://www.cncf.io/blog/2022/08/17/introducing-kubeday-event-series-kicking-off-with-kubeday-japan-this-december/). The full list is on the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/).
 
@@ -74,7 +74,7 @@ I took the CKA first, then the KCNA, KCSA, CKAD, and CKS. There was no logic beh
 
 A junior DevOps engineer gets a solid foundation going from the KCNA to the CKAD and then the CKA. If you're a mid-level or senior DevOps engineer and want only one, take the CKA. I don't recommend taking only the CKAD. The CKA covers everything in the CKAD, so preparing for the CKA also prepares you to pass the CKAD with little extra study, and taking the CKAD later becomes easy if you want it. If you're in SecOps, start with the KCSA, then the CKA (unfortunately, because of the CKS prerequisite), then the CKS. And for the Kubestronaut title, go from the easiest to the hardest, starting with the KCNA, then the KCSA, CKAD, CKA, and CKS.
 
-## How to Pay Less for the Exams
+## Wait for a Promotion to Buy the Exams
 
 The Linux Foundation charges the same dollar price everywhere, without purchasing power parity (PPP) pricing. Besides single exams, it sells bundles for specific tracks, such as the [Kubestronaut Bundle](https://training.linuxfoundation.org/certification/kubestronaut-bundle/) with every exam the title requires, and upgrade bundles for people who already hold the [CKA](https://training.linuxfoundation.org/certification/cka-to-kubestronaut-upgrade-bundle/) or the [CKAD](https://training.linuxfoundation.org/certification/ckad-to-kubestronaut-upgrade-bundle/). For a security track, there are the [KCSA + CKS](https://training.linuxfoundation.org/certification/kubernetes-and-cloud-native-security-associate-kcsa-certified-kubernetes-security-specialist-cks-exam-bundle/) and [CKA + CKS](https://training.linuxfoundation.org/certification/cka-cks-exam-bundle/) bundles. Smaller combinations include the [KCNA + CKA](https://training.linuxfoundation.org/training/kcna-cka-exam-bundle/) and the [CKA + CKAD + CKS](https://training.linuxfoundation.org/training/cka-ckad-cks-exam-bundle/). The bundles vary over time, so check the current offer on the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/) and the Linux Foundation store before buying.
 
@@ -82,7 +82,7 @@ Don't pay the full price. Wait for a promotion. In my experience, October and No
 
 So before buying anything, define the track of certifications you want. If it's a full track, buy its bundle. If you want only one certification, buy that single exam. Buying a bundle without knowing what you want from the certifications puts an unnecessary weight on you.
 
-People often tell me the exams are expensive, and they are, especially if you don't earn in US dollars. Still, the fee is the cheap part. The hours of study and the mental energy they drain cost much more.
+One cost that rarely enters the calculation is your own time and energy. People often tell me the exams are expensive, and they are, especially if you don't earn in US dollars. But the hours of study and the mental energy they drain will cost you much more than the fee, so take them into account before you start.
 
 ## From Procrastination to a Study Routine
 
@@ -124,7 +124,7 @@ For extra practice, I also used [CK-X](https://github.com/sailor-sh/CK-X), an op
 
 Above all, master the [imperative kubectl commands](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands). Drill them until they're automatic, because they generate resources and YAML much faster than writing manifests by hand. Learn Vim too. You only need it to edit YAML, but you need to do that well, and I wrote [Vim for Kubernetes Certification Exams](/blog/2026/2026-07-15-vim-kubernetes-exams.md) about the techniques I used. Finally, prepare your workstation. Keyboard layouts and shortcuts can break you, especially on a MacBook with a Brazilian layout, where a dead key can stop you from typing `~` in `cd ~/Documents`. My checklist is in [Workstation Setup for Kubernetes Exams](/blog/2026/2026-07-09-workstation-setup-kubernetes-exams.md).
 
-## Failing the CKS by One Point
+## Failing Is Part of the Process
 
 The CKS passing score is [67%](https://docs.linuxfoundation.org/tc-docs/certification/faq-cka-ckad-cks). On my first attempt, I scored 66%.
 
@@ -134,9 +134,9 @@ But perfectionism wasn't the only cause. For every exam, I keep one rule. The da
 
 On the second attempt I followed my rule and passed with 81%. My suggestion is to schedule the exam for Monday morning, with Sunday free to sleep a lot, go to the mall, and have an ice cream. On a Monday morning, your mind isn't yet filled with work problems.
 
-If you fail, you're not a failure. You get the chance to prepare more and end up knowing more than someone who passed by luck. Failing would be giving up or going back to procrastinating.
+If you fail, you're not a failure. You get the chance to prepare more and end up knowing more than someone who passed by luck.
 
-## Was It Worth It?
+## It Was Worth It
 
 I really enjoyed the Kubestronaut journey. It cost me a lot of energy and some sacrifices in my personal life, but it was an enriching experience. Besides learning topics I don't use at work, it made me a more resilient person. If you're still thinking about it, buy the exam and do it.
 
