@@ -140,7 +140,7 @@ If you fail, you're not a failure. You get the chance to prepare more and end up
 
 I really enjoyed the Kubestronaut journey. It cost me a lot of energy and some sacrifices in my personal life, but it was an enriching experience. Besides learning topics I don't use at work, it made me a more resilient person. If you're still thinking about it, buy the exam and do it.
 
-I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateus Müller](https://www.linkedin.com/in/mateus-gabriel-m%C3%BCller-790709bb/), who helped me structure my studies and gave me an overview of the exams.
+> _I reserve a special thanks for my former coworker and Golden Kubestronaut [Mateus Müller](https://www.linkedin.com/in/mateus-gabriel-m%C3%BCller-790709bb/), who helped me structure my studies and gave me an overview of the exams._
 
 ## Key Takeaways
 
