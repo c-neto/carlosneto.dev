@@ -1,18 +1,18 @@
 ---
 tags: opentelemetry, python, prometheus
-date: "2026-11-12"
+date: "2026-11-18"
 category: Observability
 author: Carlos Neto
 title: "Instrumenting a Python Application with OpenTelemetry"
-description: "A step-by-step OpenTelemetry example in Python: instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code."
+description: "A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code."
 myst:
   html_meta:
-    description: "A step-by-step OpenTelemetry example in Python: instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code."
+    description: "A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code."
 og:title: "Instrumenting a Python Application with OpenTelemetry"
-og:description: "A step-by-step OpenTelemetry example in Python: instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code."
+og:description: "A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code."
 ---
 
-*__Blog Post Publish Date:__ 2026/11/12*
+*__Blog Post Publish Date:__ 2026/11/18*
 
 ---
 
@@ -20,7 +20,7 @@ og:description: "A step-by-step OpenTelemetry example in Python: instrument a pa
 
 This post builds a small Python service instrumented with OpenTelemetry, one piece at a time. It starts with the API only, turns on the SDK without changing the code, routes the metrics through the OpenTelemetry Collector to Prometheus, and then switches to Datadog by changing only the Collector configuration.
 
-It's the hands-on companion to [OpenTelemetry: A Framework for Decoupling Your Observability](/blog/2026/2026-10-29-otel-foundation.md), which explains what OpenTelemetry is and when it's worth using. If you're not sure you need it yet, start there.
+It's the hands-on companion to [OpenTelemetry: A Framework for Decoupling Your Observability](/blog/2026/2026-10-29-otel-foundation.md), which explains what OpenTelemetry is, the vendor lock-in it removes, and what the Collector is for. This post doesn't repeat those concepts, so if they're new to you, start there.
 
 ## The Example
 
@@ -96,7 +96,7 @@ if __name__ == "__main__":
 
 A histogram counts values in buckets, and the `explicit_bucket_boundaries_advisory` argument sets them. The SDK's default boundaries are `0, 5, 10, 25, 50, 75, 100, …`, sized for milliseconds. Our durations are between 0.1 and 0.5 seconds, so with the defaults every payment would land in the first bucket (0 to 5), and percentiles such as p95 would be useless. The advisory boundaries are part of the API, so `app.py` still doesn't depend on the SDK.
 
-Install the API and run it:
+Install the API and run it.
 
 ```bash
 pip install opentelemetry-api
@@ -107,7 +107,7 @@ The script runs and exports nothing, by design. Without an SDK, every API call i
 
 ## Step 2: Turn On the SDK Without Touching the Code
 
-Now we want the data to leave the process, which is the SDK's job. The simplest way to add it is the `opentelemetry-instrument` launcher, which loads the SDK before your code runs and configures it from environment variables:
+Now we want the data to leave the process, which is the SDK's job. The simplest way to add it is the `opentelemetry-instrument` launcher, which loads the SDK before your code runs and configures it from environment variables.
 
 ```bash
 pip install opentelemetry-distro opentelemetry-exporter-otlp
@@ -125,7 +125,7 @@ opentelemetry-instrument python app.py
 
 If the application used Flask or `requests`, [zero-code instrumentation](https://opentelemetry.io/docs/zero-code/python/) would also cover those libraries without code changes, recording HTTP metrics, plus traces if you turn on a traces exporter. To get it, first run `opentelemetry-bootstrap -a install`, which installs the instrumentation packages for the libraries it finds in your environment.
 
-If you prefer to configure the SDK in code, put the same setup in its own file, separate from `app.py`:
+If you prefer to configure the SDK in code, put the same setup in its own file, separate from `app.py`.
 
 ```{code-block} python
 :caption: telemetry.py
@@ -166,7 +166,7 @@ Either way, the application now sends OTLP and doesn't know whether Prometheus, 
 
 ## Step 3: Route the Data With the Collector
 
-The OpenTelemetry Collector is a service that receives telemetry, optionally processes it, and exports it to one or more backends. Its configuration defines a pipeline in three parts. Receivers define how data comes in, here OTLP over gRPC on port 4317. Processors work on the data along the way, here by batching it. Exporters define where it goes, here a Prometheus endpoint on port 8889 and the Collector's console.
+The [first post](/blog/2026/2026-10-29-otel-foundation.md) explains what the Collector is for. Here we only need its configuration, which defines a pipeline in three parts. Receivers define how data comes in, here OTLP over gRPC on port 4317. Processors work on the data along the way, here by batching it. Exporters define where it goes, here a Prometheus endpoint on port 8889 and the Collector's console.
 
 ```{code-block} yaml
 :caption: collector.yaml
@@ -196,7 +196,7 @@ service:
       exporters: [prometheus, debug]
 ```
 
-Run the Collector with Docker, using the `contrib` distribution, which includes both the Prometheus and the Datadog exporters:
+Run the Collector with Docker, using the `contrib` distribution, which includes both the Prometheus and the Datadog exporters.
 
 ```bash
 docker run --rm \
@@ -218,7 +218,9 @@ The counter gets the `_total` suffix that Prometheus expects for counters, and `
 
 ## The Payoff: Switching Backends
 
-Now the company decides to send metrics to Datadog. With OpenTelemetry, you change only the exporters in `collector.yaml`:
+This is the vendor lock-in scenario from the [first post](/blog/2026/2026-10-29-otel-foundation.md), now in practice. The company decides to send metrics to Datadog, and you change only the exporters in `collector.yaml`.
+
+<img src="/_static/2026/2026-10-29/opentelemetry-collector.svg" alt="Diagram of the optional OpenTelemetry Collector. Three services in Python, Java, and Go use the OTel SDK and send OTLP to the same Collector, which filters by metadata, changes attributes, samples traces, and routes the data to a backend such as Prometheus, with Datadog and Grafana Mimir as alternatives. The pipeline logic and the destinations live in the Collector, not in each service" loading="lazy">
 
 ```{code-block} yaml
 :caption: collector.yaml (exporters changed)
@@ -236,7 +238,7 @@ service:
       exporters: [datadog]
 ```
 
-Then restart the Collector, passing the API key as an environment variable:
+Then restart the Collector, passing the API key as an environment variable.
 
 ```bash
 docker run --rm \
@@ -248,7 +250,7 @@ docker run --rm \
 
 If your Datadog account isn't on the default US site, also set `site` under `api`, for example `site: datadoghq.eu` ([Datadog exporter docs](https://docs.datadoghq.com/opentelemetry/collector_exporter/)).
 
-Neither `app.py` nor the SDK configuration changed, and the application wasn't redeployed. With fifty services, that's the difference between one configuration change and fifty pull requests. During a migration, you can also list both exporters and send the same data to Prometheus and Datadog at the same time.
+Neither `app.py` nor the SDK configuration changed, and the application wasn't redeployed. During a migration, you can also list both exporters and send the same data to Prometheus and Datadog at the same time.
 
 ## Key Takeaways
 
@@ -273,7 +275,7 @@ Neither `app.py` nor the SDK configuration changed, and the application wasn't r
 
 ---
 
-> *I'm Carlos Neto, and this blog is a brain dump of my career experience. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/) or leave a comment below.*
+> *I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on [my home page](/index.md). If you have questions or a different approach, contact me on [LinkedIn](https://www.linkedin.com/in/c-neto/).*
 
 ---
 
@@ -285,12 +287,12 @@ Neither `app.py` nor the SDK configuration changed, and the application wasn't r
     {
       "@type": "BlogPosting",
       "headline": "Instrumenting a Python Application with OpenTelemetry",
-      "description": "A step-by-step OpenTelemetry example in Python: instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code.",
-      "datePublished": "2026-11-12",
+      "description": "A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code.",
+      "datePublished": "2026-11-18",
       "inLanguage": "en",
-      "url": "https://carlosneto.dev/blog/2026/2026-11-12-otel-python-instrumentation/",
-      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-12-otel-python-instrumentation/",
-      "image": "https://carlosneto.dev/_static/2026/2026-10-29/opentelemetry-pieces.svg",
+      "url": "https://carlosneto.dev/blog/2026/2026-11-18-otel-python-instrumentation/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-18-otel-python-instrumentation/",
+      "image": "https://carlosneto.dev/_static/2026/2026-10-29/opentelemetry-collector.svg",
       "keywords": ["OpenTelemetry", "Python", "OpenTelemetry Collector", "OTLP", "Prometheus", "Datadog"],
       "author": {"@id": "https://carlosneto.dev/#person"}
     },
