@@ -7,18 +7,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta content="A small Python example of OpenTelemetry in practice. The code only uses the API, and its metrics move from Prometheus to Datadog by changing one exporter in the Collector configuration." name="description" />
-<meta property="og:title" content="A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry" />
+<meta property="og:title" content="Vendor Lock-Out: A Hands-On OpenTelemetry Example" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-11-18-otel-python-instrumentation/" />
 <meta property="og:site_name" content="Carlos Neto" />
 <meta property="og:description" content="A small Python example of OpenTelemetry in practice. The code only uses the API, and its metrics move from Prometheus to Datadog by changing one exporter in the Collector configuration." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-18-otel-python-instrumentation_6365f9dc.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/18 This post shows, with a small Python service, how OpenTelemetry lets you change where telemetry goes without touching the application code. The service sends its ..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-18-otel-python-instrumentation_ecdffac2.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/18 This post shows, with a small Python service, how OpenTelemetry keeps you out of vendor lock-in by letting you change where telemetry goes without touching the ap..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry &#8212; Carlos Neto&#39;s Blog</title>
+    <title>Vendor Lock-Out: A Hands-On OpenTelemetry Example &#8212; Carlos Neto&#39;s Blog</title>
   
   
   
@@ -432,9 +432,9 @@
 </div>
 <p><em><strong>Blog Post Publish Date:</strong> 2026/11/18</em></p>
 <hr class="docutils" />
-<section id="a-hands-on-example-of-decoupling-app-instrumentation-with-opentelemetry">
-<h1>A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry<a class="headerlink" href="#a-hands-on-example-of-decoupling-app-instrumentation-with-opentelemetry" title="Link to this heading">#</a></h1>
-<p>This post shows, with a small Python service, how OpenTelemetry lets you change where telemetry goes without touching the application code. The service sends its metrics to Prometheus and then to Datadog, and the only file that changes between the two is the Collector configuration.</p>
+<section id="vendor-lock-out-a-hands-on-opentelemetry-example">
+<h1>Vendor Lock-Out: A Hands-On OpenTelemetry Example<a class="headerlink" href="#vendor-lock-out-a-hands-on-opentelemetry-example" title="Link to this heading">#</a></h1>
+<p>This post shows, with a small Python service, how OpenTelemetry keeps you out of vendor lock-in by letting you change where telemetry goes without touching the application code. The service sends its metrics to Prometheus and then to Datadog, and the only file that changes between the two is the Collector configuration.</p>
 <p>It's the hands-on companion to <a class="reference internal" href="../2026-10-29-otel-foundation/"><span class="std std-doc">OpenTelemetry: A Framework for Decoupling Your Observability</span></a>, which explains what OpenTelemetry is and the problem it solves. Here the goal is to see that idea working, with as little code as possible.</p>
 <section id="the-code-only-knows-the-api">
 <h2>The Code Only Knows the API<a class="headerlink" href="#the-code-only-knows-the-api" title="Link to this heading">#</a></h2>
@@ -575,7 +575,7 @@ payments_processed_total<span class="o">{</span><span class="nv">job</span><span
   "@graph": [
     {
       "@type": "BlogPosting",
-      "headline": "A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry",
+      "headline": "Vendor Lock-Out: A Hands-On OpenTelemetry Example",
       "description": "A small Python example of OpenTelemetry in practice. The code only uses the API, and its metrics move from Prometheus to Datadog by changing one exporter in the Collector configuration.",
       "datePublished": "2026-11-18",
       "inLanguage": "en",
@@ -597,7 +597,7 @@ payments_processed_total<span class="o">{</span><span class="nv">job</span><span
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
         {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
-        {"@type": "ListItem", "position": 3, "name": "A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry"}
+        {"@type": "ListItem", "position": 3, "name": "Vendor Lock-Out: A Hands-On OpenTelemetry Example"}
       ]
     }
   ]

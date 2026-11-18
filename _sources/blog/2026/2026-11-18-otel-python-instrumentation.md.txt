@@ -3,12 +3,12 @@ tags: opentelemetry, python, prometheus
 date: "2026-11-18"
 category: Observability
 author: Carlos Neto
-title: "A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry"
+title: "Vendor Lock-Out: A Hands-On OpenTelemetry Example"
 description: "A small Python example of OpenTelemetry in practice. The code only uses the API, and its metrics move from Prometheus to Datadog by changing one exporter in the Collector configuration."
 myst:
   html_meta:
     description: "A small Python example of OpenTelemetry in practice. The code only uses the API, and its metrics move from Prometheus to Datadog by changing one exporter in the Collector configuration."
-og:title: "A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry"
+og:title: "Vendor Lock-Out: A Hands-On OpenTelemetry Example"
 og:description: "A small Python example of OpenTelemetry in practice. The code only uses the API, and its metrics move from Prometheus to Datadog by changing one exporter in the Collector configuration."
 ---
 
@@ -16,9 +16,9 @@ og:description: "A small Python example of OpenTelemetry in practice. The code o
 
 ---
 
-# A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry
+# Vendor Lock-Out: A Hands-On OpenTelemetry Example
 
-This post shows, with a small Python service, how OpenTelemetry lets you change where telemetry goes without touching the application code. The service sends its metrics to Prometheus and then to Datadog, and the only file that changes between the two is the Collector configuration.
+This post shows, with a small Python service, how OpenTelemetry keeps you out of vendor lock-in by letting you change where telemetry goes without touching the application code. The service sends its metrics to Prometheus and then to Datadog, and the only file that changes between the two is the Collector configuration.
 
 It's the hands-on companion to [OpenTelemetry: A Framework for Decoupling Your Observability](/blog/2026/2026-10-29-otel-foundation.md), which explains what OpenTelemetry is and the problem it solves. Here the goal is to see that idea working, with as little code as possible.
 
@@ -175,7 +175,7 @@ The application keeps sending OTLP to the same address and never learns that the
   "@graph": [
     {
       "@type": "BlogPosting",
-      "headline": "A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry",
+      "headline": "Vendor Lock-Out: A Hands-On OpenTelemetry Example",
       "description": "A small Python example of OpenTelemetry in practice. The code only uses the API, and its metrics move from Prometheus to Datadog by changing one exporter in the Collector configuration.",
       "datePublished": "2026-11-18",
       "inLanguage": "en",
@@ -197,7 +197,7 @@ The application keeps sending OTLP to the same address and never learns that the
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
         {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
-        {"@type": "ListItem", "position": 3, "name": "A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry"}
+        {"@type": "ListItem", "position": 3, "name": "Vendor Lock-Out: A Hands-On OpenTelemetry Example"}
       ]
     }
   ]
