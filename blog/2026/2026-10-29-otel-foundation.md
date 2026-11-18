@@ -50,7 +50,7 @@ In larger setups, that configuration usually lives in the [OpenTelemetry Collect
 
 <img src="/_static/2026/2026-10-29/opentelemetry-collector.svg" alt="Diagram of the optional OpenTelemetry Collector. Three services in Python, Java, and Go use the OTel SDK and send OTLP to the same Collector, which filters by metadata, changes attributes, samples traces, and routes the data to a backend such as Prometheus, with Datadog and Grafana Mimir as alternatives. The pipeline logic and the destinations live in the Collector, not in each service" loading="lazy">
 
-I show this in practice in [A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry](/blog/2026/2026-11-18-otel-python-instrumentation.md). A Python service sends its metrics to Prometheus and then to Datadog, and the only thing that changes between the two is the Collector configuration.
+I show this in practice in [Vendor Lock-Out: A Hands-On OpenTelemetry Example](/blog/2026/2026-11-18-otel-python-instrumentation.md). A Python service sends its metrics to Prometheus and then to Datadog, and the only thing that changes between the two is the Collector configuration.
 
 ## When It's Worth the Trouble
 
