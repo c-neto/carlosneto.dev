@@ -3,12 +3,12 @@ tags: opentelemetry, python, prometheus
 date: "2026-11-18"
 category: Observability
 author: Carlos Neto
-title: "Instrumenting a Python Application with OpenTelemetry"
+title: "A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry"
 description: "A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code."
 myst:
   html_meta:
     description: "A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code."
-og:title: "Instrumenting a Python Application with OpenTelemetry"
+og:title: "A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry"
 og:description: "A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code."
 ---
 
@@ -16,7 +16,7 @@ og:description: "A step-by-step OpenTelemetry example in Python. Instrument a pa
 
 ---
 
-# Instrumenting a Python Application with OpenTelemetry
+# A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry
 
 This post builds a small Python service instrumented with OpenTelemetry, one piece at a time. It starts with the API only, turns on the SDK without changing the code, routes the metrics through the OpenTelemetry Collector to Prometheus, and then switches to Datadog by changing only the Collector configuration.
 
@@ -286,7 +286,7 @@ Neither `app.py` nor the SDK configuration changed, and the application wasn't r
   "@graph": [
     {
       "@type": "BlogPosting",
-      "headline": "Instrumenting a Python Application with OpenTelemetry",
+      "headline": "A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry",
       "description": "A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code.",
       "datePublished": "2026-11-18",
       "inLanguage": "en",
@@ -308,7 +308,7 @@ Neither `app.py` nor the SDK configuration changed, and the application wasn't r
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
         {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
-        {"@type": "ListItem", "position": 3, "name": "Instrumenting a Python Application with OpenTelemetry"}
+        {"@type": "ListItem", "position": 3, "name": "A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry"}
       ]
     }
   ]

@@ -42,7 +42,7 @@ The Collector is interesting because the SDK of every application sends to it in
 
 <img src="/_static/2026/2026-10-29/opentelemetry-collector.svg" alt="Diagram of the optional OpenTelemetry Collector. Three services in Python, Java, and Go use the OTel SDK and send OTLP to the same Collector, which filters by metadata, changes attributes, samples traces, and routes the data to a backend such as Prometheus, with Datadog and Grafana Mimir as alternatives. The pipeline logic and the destinations live in the Collector, not in each service" loading="lazy">
 
-For more details, see [Instrumenting a Python Application with OpenTelemetry](/blog/2026/2026-11-18-otel-python-instrumentation.md), which builds this setup step by step with a Python service whose metrics move from Prometheus to Datadog by changing only the Collector configuration.
+For more details, see [A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry](/blog/2026/2026-11-18-otel-python-instrumentation.md), which builds this setup step by step with a Python service whose metrics move from Prometheus to Datadog by changing only the Collector configuration.
 
 This is the part that overlaps with Fluent Bit and Logstash, since all three receive, transform, and forward data. Fluent Bit and Logstash were built around logs. The Collector is built around the OpenTelemetry data model for all three signals, so it understands traces. If your pipeline only moves logs and works well, there's no reason to swap it. If your applications send traces over OTLP, the Collector is the natural receiver, and it can run next to the log pipeline you already have, such as a [Fluent Bit DaemonSet](/blog/2025/2025-06-22-kubernetes-logs-simplified.md).
 
