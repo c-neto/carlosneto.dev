@@ -1,6 +1,14 @@
 # Writing Directives
 
-Best practices for writing and editing posts for carlosneto.dev. Apply them when writing a new post and in every refactor round.
+Best practices for writing and editing content for carlosneto.dev. Part of the `blog-creator` skill.
+
+## When these directives apply
+
+Always. They apply to every request in this repository that writes or edits text, from a single sentence to a whole post: edits to a passage, new posts, rewrites, drafts in `draft/`, refactor rounds, analyzer fixes, `humanizer` passes, site pages such as `index.md` and `blog.md`, and copy produced by `scripts/social_media/`. They also apply when the request does not mention them, and when the work runs through another skill (`blog-write`, `blog-rewrite`, `blog-analyze`, `humanizer`, or any `/blog` subcommand).
+
+When another skill, template, or analyzer suggestion conflicts with these directives, the directives win. Mention the skipped suggestion and the directive that blocked it in the report to the author.
+
+Before delivering any written content, check it against the hard rules at the end of this file.
 
 The goal is to make the article clear, concise, easy to read, and useful to its intended audience, improving the article as a whole rather than individual sentences.
 
@@ -90,14 +98,9 @@ Use prose when explaining:
 - Trade-offs and limitations.
 - Cause-and-effect relationships.
 
-Use bullet points when they genuinely improve readability, such as:
+Do not use bullet points in the body of a post. Write connected prose, even for independent items such as perks, skills, requirements, or recommendations. Bullets belong only in `## Key Takeaways` and `## References`, which the layout requires. Tables are acceptable when they compare data. Analyzer suggestions to add lists "for structure" lose to this rule.
 
-- Comparing independent characteristics.
-- Listing requirements or configuration options.
-- Summarizing distinct recommendations.
-- Presenting several items that do not need individual explanations.
-
-Do not turn every paragraph into a list. Do not use lists as a substitute for explaining relationships between ideas.
+Do not use lists as a substitute for explaining relationships between ideas.
 
 ### 6. Make examples practical
 
@@ -207,6 +210,8 @@ Avoid generic closing paragraphs, motivational statements, and exaggerated claim
 
 Prefer concrete observations and practical implications.
 
+On this site the conclusion is the `## Key Takeaways` section. Write each item as advice or a general statement, never in first person ("I", "my", "me"). The body keeps the author's first-person voice.
+
 If the author requests a specific conclusion format, follow it. For example, a short list of ten independent sentences may be more appropriate than a conventional concluding paragraph.
 
 Do not impose a conclusion format without considering the author's preference.
@@ -229,6 +234,7 @@ Avoid:
 - Artificially dramatic conclusions.
 - Forced groups of three examples.
 - Excessive em dashes.
+- Colons in the middle of a sentence, such as "it gave me what I wanted: a deeper understanding". Split it into two sentences or rewrite it with a comma or a connecting word. This does not apply to code, commands, URLs, frontmatter, times, or bold labels at the start of a paragraph (`__Go to the Gym__:`).
 - Unnecessary bold text.
 - Marketing expressions such as "game-changing", "revolutionary", and "powerful solution".
 
@@ -248,9 +254,17 @@ The article should be easy to follow without becoming superficial.
 
 ## Hard rules
 
+Always:
+
+- Write all site content in English, whatever language the author uses in the chat or the draft.
+- Keep the author's first-person experience in the body.
+
 Never:
 
 - Invent experiences or results.
+- Add bullet lists to the body of a post.
+- Use first person in Key Takeaways.
+- Use a colon in the middle of a sentence (see directive 12).
 - Change the author's position.
 - Remove important technical qualifications.
 - Introduce unsupported claims.

@@ -1,13 +1,30 @@
 ---
 name: blog-creator
-description: Create a new post for carlosneto.dev from the author's draft and personal experience. Runs an interview (draft, then at least 3 questions about the author's experience), writes the post with /blog write, scores it with /blog analyze, refactors it 3 times against the analyzer's metrics, and finishes with the humanizer skill. Use when the user invokes /blog-creator or asks to create a new blog post.
+description: Writing skill for carlosneto.dev, with the author's text conventions in written-directives.md. Use it on EVERY request that writes or edits text in this repository, including small ones like "rewrite this sentence", "add this to the post", "mention X in section Y", or "this paragraph sounds wrong". Edit mode applies the conventions to the requested passage and finishes with the humanizer skill. New-post mode runs the interview, /blog write, /blog analyze, 3 refactor rounds, and humanizer. Use new-post mode when the user invokes /blog-creator or asks to create a new blog post.
 ---
 
 # Blog Creator
 
-This blog shares the author's own experience with the subjects, not generic technical guides. Every post must carry the author's personality: what they ran into, what they decided, what went wrong, and what they think. The flow below exists to collect that material before any writing starts.
+This blog shares the author's own experience with the subjects, not generic technical guides. Every post must carry the author's personality: what they ran into, what they decided, what went wrong, and what they think.
 
-Follow the steps in order. Do not skip a step, and do not start writing before the interview is done.
+The skill has two modes. Both follow [written-directives.md](./written-directives.md), the author's text conventions. Read it before writing or changing any text, even a single sentence.
+
+## Edit Mode
+
+Use this mode when the author asks to edit, rewrite, add, or remove a passage of an existing post or page. It is the default for any request that changes text and is not a new post.
+
+1. Read [written-directives.md](./written-directives.md) in this turn, even if it was read earlier in the conversation, since the author may have changed it.
+2. Read the current version of the file around the passage. The author often edits files between requests, so never rely on an earlier read.
+3. Change only what the author asked for. Keep the surrounding text, unless the change makes it inconsistent (for example, "my main motivation" when a second motivation is added).
+4. Before saving, check the new text against the hard rules at the end of [written-directives.md](./written-directives.md). Then check the language and style rules, such as no colons in the middle of a sentence, no bullets in the body, and no first person in Key Takeaways.
+5. Run the `humanizer` skill on the changed passage as the last step. Use the rest of the same post as the voice sample. Pass only the passage, not the whole post, and keep its meaning and the author's wording where they asked for it. Check the result against [written-directives.md](./written-directives.md) again, since the humanizer can reintroduce what the directives forbid. If the `humanizer` skill is not available in the session, stop and tell the author instead of skipping the step.
+6. Reply with the final text quoted and a short note on the choices that changed the meaning or tone. If the request is ambiguous (for example, "this sentence" without saying which one), say which passage was changed.
+
+Do not run the interview, `/blog write`, or `/blog analyze` in this mode unless the author asks.
+
+## New-Post Mode
+
+The flow below exists to collect the author's material before any writing starts. Follow the steps in order. Do not skip a step, and do not start writing before the interview is done.
 
 ## Step 1: Get the Draft
 
