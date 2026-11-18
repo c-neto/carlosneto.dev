@@ -154,6 +154,7 @@ I really enjoyed the Kubestronaut journey. It cost me a lot of energy and some s
 - Prioritize hands-on practice under exam conditions (imperative kubectl, Vim, and the official docs).
 - Ready for the exam means 100% on both Killer Shell sessions with 30 minutes to spare.
 - Rest the day before the exam, and schedule it for Monday morning, before work.
+- The main benefit of the certifications is the professional network they open up.
 
 ## References
 
