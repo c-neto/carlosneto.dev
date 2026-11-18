@@ -6,16 +6,16 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta content="A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code." name="description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta content="A small Python example of OpenTelemetry in practice. The code only uses the API, and its metrics move from Prometheus to Datadog by changing one exporter in the Collector configuration." name="description" />
 <meta property="og:title" content="A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-11-18-otel-python-instrumentation/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code." />
+<meta property="og:description" content="A small Python example of OpenTelemetry in practice. The code only uses the API, and its metrics move from Prometheus to Datadog by changing one exporter in the Collector configuration." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-18-otel-python-instrumentation_1c42df33.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/18 This post builds a small Python service instrumented with OpenTelemetry, one piece at a time. It starts with the API only, turns on the SDK without changing the c..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-18-otel-python-instrumentation_6365f9dc.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/18 This post shows, with a small Python service, how OpenTelemetry lets you change where telemetry goes without touching the application code. The service sends its ..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry &#8212; Carlos Neto&#39;s Blog</title>
@@ -434,210 +434,93 @@
 <hr class="docutils" />
 <section id="a-hands-on-example-of-decoupling-app-instrumentation-with-opentelemetry">
 <h1>A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry<a class="headerlink" href="#a-hands-on-example-of-decoupling-app-instrumentation-with-opentelemetry" title="Link to this heading">#</a></h1>
-<p>This post builds a small Python service instrumented with OpenTelemetry, one piece at a time. It starts with the API only, turns on the SDK without changing the code, routes the metrics through the OpenTelemetry Collector to Prometheus, and then switches to Datadog by changing only the Collector configuration.</p>
-<p>It's the hands-on companion to <a class="reference internal" href="../2026-10-29-otel-foundation/"><span class="std std-doc">OpenTelemetry: A Framework for Decoupling Your Observability</span></a>, which explains what OpenTelemetry is, the vendor lock-in it removes, and what the Collector is for. This post doesn't repeat those concepts, so if they're new to you, start there.</p>
-<section id="the-example">
-<h2>The Example<a class="headerlink" href="#the-example" title="Link to this heading">#</a></h2>
-<p>The example is a payment service, and we want to know how many payments it processes and how long each one takes. The application code is written once, in step 1, and never changes after that. Each step adds one OpenTelemetry piece around it:</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Step</p></th>
-<th class="head"><p>Piece added</p></th>
-<th class="head"><p>What it does</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>1</p></td>
-<td><p>API</p></td>
-<td><p>Describes what to measure, inside the code</p></td>
-</tr>
-<tr class="row-odd"><td><p>2</p></td>
-<td><p>SDK</p></td>
-<td><p>Processes the measurements and sends them over OTLP</p></td>
-</tr>
-<tr class="row-even"><td><p>3</p></td>
-<td><p>Collector</p></td>
-<td><p>Receives OTLP and exports it to Prometheus</p></td>
-</tr>
-<tr class="row-odd"><td><p>Payoff</p></td>
-<td><p>Collector config</p></td>
-<td><p>Switches the backend to Datadog</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="step-1-instrument-the-code-with-the-api-only">
-<h2>Step 1: Instrument the Code With the API Only<a class="headerlink" href="#step-1-instrument-the-code-with-the-api-only" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">app.py</span></code> holds the business logic and the instrumentation. It imports only the OpenTelemetry API, without the SDK, an exporter, or any vendor library.</p>
+<p>This post shows, with a small Python service, how OpenTelemetry lets you change where telemetry goes without touching the application code. The service sends its metrics to Prometheus and then to Datadog, and the only file that changes between the two is the Collector configuration.</p>
+<p>It's the hands-on companion to <a class="reference internal" href="../2026-10-29-otel-foundation/"><span class="std std-doc">OpenTelemetry: A Framework for Decoupling Your Observability</span></a>, which explains what OpenTelemetry is and the problem it solves. Here the goal is to see that idea working, with as little code as possible.</p>
+<section id="the-code-only-knows-the-api">
+<h2>The Code Only Knows the API<a class="headerlink" href="#the-code-only-knows-the-api" title="Link to this heading">#</a></h2>
+<p>The example is a payment service that counts how many payments it processes. Its code imports only the OpenTelemetry API, with no SDK and no vendor library.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">app.py</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">perf_counter</span>
 
-<span class="c1"># it is the API library</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">metrics</span>
 
-
-<span class="c1"># Get a meter from the OpenTelemetry API.</span>
 <span class="n">meter</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get_meter</span><span class="p">(</span><span class="s2">"payment-api"</span><span class="p">)</span>
+<span class="n">payments</span> <span class="o">=</span> <span class="n">meter</span><span class="o">.</span><span class="n">create_counter</span><span class="p">(</span><span class="s2">"payments_processed"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Number of processed payments"</span><span class="p">)</span>
 
-<span class="c1"># Create instruments.</span>
-<span class="n">payments_processed</span> <span class="o">=</span> <span class="n">meter</span><span class="o">.</span><span class="n">create_counter</span><span class="p">(</span>
-    <span class="s2">"payments_processed"</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">"Number of processed payments"</span>
-<span class="p">)</span>
-
-<span class="n">payment_duration</span> <span class="o">=</span> <span class="n">meter</span><span class="o">.</span><span class="n">create_histogram</span><span class="p">(</span>
-    <span class="s2">"payment_processing_duration"</span><span class="p">,</span>
-    <span class="n">unit</span><span class="o">=</span><span class="s2">"s"</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">"Payment processing duration"</span><span class="p">,</span>
-    <span class="c1"># bucket boundaries in seconds; the defaults are sized for milliseconds</span>
-    <span class="n">explicit_bucket_boundaries_advisory</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
-<span class="p">)</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">process_payment</span><span class="p">():</span>
-    <span class="n">start</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
-
-    <span class="c1"># Simulate payment processing.</span>
-    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
-    
-    <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">:</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="s2">"success"</span> 
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="s2">"failure"</span>
-
-    <span class="c1"># Record the number of processed payments.</span>
-    <span class="n">payments_processed</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="n">status</span><span class="p">})</span>
-
-    <span class="c1"># Record how long the operation took.</span>
-    <span class="n">payment_duration</span><span class="o">.</span><span class="n">record</span><span class="p">(</span>
-        <span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span>
-        <span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="n">status</span><span class="p">}</span>
-    <span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Payment processed: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">process_payment</span><span class="p">()</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="s2">"success"</span> <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.1</span> <span class="k">else</span> <span class="s2">"failure"</span>
+    <span class="n">payments</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="n">status</span><span class="p">})</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">metrics.get_meter()</span></code> returns a meter, the object that creates instruments. The code creates two of them, a counter for a total that only goes up (processed payments) and a histogram for a distribution of values (processing durations). Each payment records one measurement in each instrument, with a <code class="docutils literal notranslate"><span class="pre">status</span></code> attribute.</p>
-<p>A histogram counts values in buckets, and the <code class="docutils literal notranslate"><span class="pre">explicit_bucket_boundaries_advisory</span></code> argument sets them. The SDK's default boundaries are <code class="docutils literal notranslate"><span class="pre">0,</span> <span class="pre">5,</span> <span class="pre">10,</span> <span class="pre">25,</span> <span class="pre">50,</span> <span class="pre">75,</span> <span class="pre">100,</span> <span class="pre">…</span></code>, sized for milliseconds. Our durations are between 0.1 and 0.5 seconds, so with the defaults every payment would land in the first bucket (0 to 5), and percentiles such as p95 would be useless. The advisory boundaries are part of the API, so <code class="docutils literal notranslate"><span class="pre">app.py</span></code> still doesn't depend on the SDK.</p>
-<p>Install the API and run it.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>opentelemetry-api
-python<span class="w"> </span>app.py
-</pre></div>
 </div>
-<p>The script runs and exports nothing, by design. Without an SDK, every API call is a no-op, so a library author can instrument their code with the API at almost no cost to users who don't use OpenTelemetry. The API describes what to measure, and the SDK decides where the data goes.</p>
+<p>The meter creates instruments, and a <strong>counter</strong> is the simplest of them, a total that only goes up. Each payment adds one to it, with a <code class="docutils literal notranslate"><span class="pre">status</span></code> attribute that separates successes from failures. A counter like this is also far cheaper than counting log lines to get the same number, as I explain in <a class="reference internal" href="../2026-11-03-stop-extracting-metrics-from-opensearch-logs/"><span class="std std-doc">Stop Extracting Metrics from OpenSearch Logs</span></a>.</p>
+<p>If you install only the API (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">opentelemetry-api</span></code>) and run this file, it works and exports nothing. Without an SDK, every API call does nothing, and that's what keeps the code independent. It describes what to measure and leaves the decision about where the data goes to whoever runs it.</p>
 </section>
-<section id="step-2-turn-on-the-sdk-without-touching-the-code">
-<h2>Step 2: Turn On the SDK Without Touching the Code<a class="headerlink" href="#step-2-turn-on-the-sdk-without-touching-the-code" title="Link to this heading">#</a></h2>
-<p>Now we want the data to leave the process, which is the SDK's job. The simplest way to add it is the <code class="docutils literal notranslate"><span class="pre">opentelemetry-instrument</span></code> launcher, which loads the SDK before your code runs and configures it from environment variables.</p>
+<section id="the-sdk-comes-from-the-environment">
+<h2>The SDK Comes From the Environment<a class="headerlink" href="#the-sdk-comes-from-the-environment" title="Link to this heading">#</a></h2>
+<p>To send the data out, the process needs the SDK. The <code class="docutils literal notranslate"><span class="pre">opentelemetry-instrument</span></code> launcher loads it before the code runs and configures it from environment variables.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>opentelemetry-distro<span class="w"> </span>opentelemetry-exporter-otlp
 
 <span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_SERVICE_NAME</span><span class="o">=</span>payment-api
+<span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_METRICS_EXPORTER</span><span class="o">=</span>otlp
 <span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_EXPORTER_OTLP_ENDPOINT</span><span class="o">=</span>http://localhost:4317
+<span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_METRIC_EXPORT_INTERVAL</span><span class="o">=</span><span class="m">5000</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_TRACES_EXPORTER</span><span class="o">=</span>none
 <span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_LOGS_EXPORTER</span><span class="o">=</span>none
-<span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_METRICS_EXPORTER</span><span class="o">=</span>otlp
 
 opentelemetry-instrument<span class="w"> </span>python<span class="w"> </span>app.py
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">app.py</span></code> is the same file as in step 1. The <a class="reference external" href="https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/">environment variables</a> set the service name (the <code class="docutils literal notranslate"><span class="pre">service.name</span></code> attribute from the semantic conventions), which backends use to identify the service, and tell the SDK to send metrics over OTLP to <code class="docutils literal notranslate"><span class="pre">localhost:4317</span></code>. In Python, the <code class="docutils literal notranslate"><span class="pre">otlp</span></code> exporter defaults to gRPC, whose standard port is 4317. OTLP over HTTP uses port 4318, and it's the default in some other languages.</p>
-<p>If the application used Flask or <code class="docutils literal notranslate"><span class="pre">requests</span></code>, <a class="reference external" href="https://opentelemetry.io/docs/zero-code/python/">zero-code instrumentation</a> would also cover those libraries without code changes, recording HTTP metrics, plus traces if you turn on a traces exporter. To get it, first run <code class="docutils literal notranslate"><span class="pre">opentelemetry-bootstrap</span> <span class="pre">-a</span> <span class="pre">install</span></code>, which installs the instrumentation packages for the libraries it finds in your environment.</p>
-<p>If you prefer to configure the SDK in code, put the same setup in its own file, separate from <code class="docutils literal notranslate"><span class="pre">app.py</span></code>.</p>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">telemetry.py</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">metrics</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.sdk.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">MeterProvider</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.sdk.metrics.export</span><span class="w"> </span><span class="kn">import</span> <span class="n">PeriodicExportingMetricReader</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.sdk.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">Resource</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.exporter.otlp.proto.grpc.metric_exporter</span><span class="w"> </span><span class="kn">import</span> <span class="n">OTLPMetricExporter</span>
-
-<span class="c1"># Who is sending the data (semantic convention: service.name).</span>
-<span class="n">resource</span> <span class="o">=</span> <span class="n">Resource</span><span class="o">.</span><span class="n">create</span><span class="p">({</span><span class="s2">"service.name"</span><span class="p">:</span> <span class="s2">"payment-api"</span><span class="p">})</span>
-
-<span class="c1"># Where and how to send it: OTLP over gRPC, pushed periodically.</span>
-<span class="n">reader</span> <span class="o">=</span> <span class="n">PeriodicExportingMetricReader</span><span class="p">(</span>
-    <span class="n">OTLPMetricExporter</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">"http://localhost:4317"</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="p">)</span>
-
-<span class="c1"># Register the SDK implementation behind the API.</span>
-<span class="n">metrics</span><span class="o">.</span><span class="n">set_meter_provider</span><span class="p">(</span><span class="n">MeterProvider</span><span class="p">(</span><span class="n">resource</span><span class="o">=</span><span class="n">resource</span><span class="p">,</span> <span class="n">metric_readers</span><span class="o">=</span><span class="p">[</span><span class="n">reader</span><span class="p">]))</span>
-</pre></div>
-</div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code> has to register the SDK before the first measurement, so you need a small entry point that imports it first. <code class="docutils literal notranslate"><span class="pre">app.py</span></code> still doesn't change:</p>
-<div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">main.py</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">telemetry</span>  <span class="c1"># registers the SDK before any measurement</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">app</span><span class="w"> </span><span class="kn">import</span> <span class="n">process_payment</span>
-
-<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-    <span class="n">process_payment</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<p>Run it with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">main.py</span></code>. The <code class="docutils literal notranslate"><span class="pre">opentelemetry-instrument</span></code> approach avoids this extra file, which is one reason I prefer it.</p>
-<p>Either way, the application now sends OTLP and doesn't know whether Prometheus, Datadog, or anything else is at the other end. Something has to receive that OTLP, and that's the Collector's job.</p>
+<p>The <a class="reference external" href="https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/">variables</a> name the service, send metrics over OTLP to port 4317, and export every five seconds instead of the default minute. The shorter interval makes the demo quicker to check. Traces and logs are off because the example only produces metrics. You can also configure the SDK in code, but I prefer the launcher, because <code class="docutils literal notranslate"><span class="pre">app.py</span></code> stays the same file and all the configuration lives outside it.</p>
+<p>The endpoint doesn't name Prometheus or Datadog. It points to a Collector, and that's where the destination is decided. Start the application after the Collector from the next section is running, or the SDK logs connection errors until something answers on that port.</p>
 </section>
-<section id="step-3-route-the-data-with-the-collector">
-<h2>Step 3: Route the Data With the Collector<a class="headerlink" href="#step-3-route-the-data-with-the-collector" title="Link to this heading">#</a></h2>
-<p>The <a class="reference internal" href="../2026-10-29-otel-foundation/"><span class="std std-doc">first post</span></a> explains what the Collector is for. Here we only need its configuration, which defines a pipeline in three parts. Receivers define how data comes in, here OTLP over gRPC on port 4317. Processors work on the data along the way, here by batching it. Exporters define where it goes, here a Prometheus endpoint on port 8889 and the Collector's console.</p>
-<div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">collector.yaml</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<section id="the-collector-decides-where-the-data-goes">
+<h2>The Collector Decides Where the Data Goes<a class="headerlink" href="#the-collector-decides-where-the-data-goes" title="Link to this heading">#</a></h2>
+<p>A <a class="reference external" href="https://opentelemetry.io/docs/collector/configuration/">Collector configuration</a> is a pipeline. Receivers define how data comes in, and exporters define where it goes. This one receives OTLP from the application and exposes the metrics for Prometheus to scrape.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">collector.yaml</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">receivers</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">otlp</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">protocols</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">grpc</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0.0.0:4317</span>
 
-<span class="nt">processors</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">batch</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
-
 <span class="nt">exporters</span><span class="p">:</span>
-<span class="w">  </span><span class="c1"># expose the metrics for Prometheus to scrape</span>
 <span class="w">  </span><span class="nt">prometheus</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0.0.0:8889</span>
-<span class="w">  </span><span class="c1"># also print a summary to the Collector's console</span>
-<span class="w">  </span><span class="nt">debug</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">verbosity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">basic</span>
 
 <span class="nt">service</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">pipelines</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">metrics</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">receivers</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">otlp</span><span class="p p-Indicator">]</span>
-<span class="w">      </span><span class="nt">processors</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">batch</span><span class="p p-Indicator">]</span>
-<span class="w">      </span><span class="nt">exporters</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">prometheus</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">debug</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">exporters</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">prometheus</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </div>
-<p>Run the Collector with Docker, using the <code class="docutils literal notranslate"><span class="pre">contrib</span></code> distribution, which includes both the Prometheus and the Datadog exporters.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="m">4317</span>:4317<span class="w"> </span>-p<span class="w"> </span><span class="m">8889</span>:8889<span class="w"> </span><span class="se">\</span>
+<p>Run it with Docker using the <code class="docutils literal notranslate"><span class="pre">contrib</span></code> image, which ships both the Prometheus and the Datadog exporters, and then start the application from the previous section.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">4317</span>:4317<span class="w"> </span>-p<span class="w"> </span><span class="m">8889</span>:8889<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-v<span class="w"> </span><span class="s2">"</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/collector.yaml:/etc/otelcol-contrib/config.yaml"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>otel/opentelemetry-collector-contrib:0.114.0
 </pre></div>
 </div>
-<p>With the application from step 2 running, the Collector exposes the metrics in the Prometheus format, ready for a Prometheus server to scrape. Trimmed, the output looks like this (your numbers will differ):</p>
+<p>After a few seconds, the metrics show up in the Prometheus format on port 8889. Your numbers will differ.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:8889/metrics<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>payments_processed
-
 payments_processed_total<span class="o">{</span><span class="nv">job</span><span class="o">=</span><span class="s2">"payment-api"</span>,status<span class="o">=</span><span class="s2">"success"</span><span class="o">}</span><span class="w"> </span><span class="m">412</span>
 payments_processed_total<span class="o">{</span><span class="nv">job</span><span class="o">=</span><span class="s2">"payment-api"</span>,status<span class="o">=</span><span class="s2">"failure"</span><span class="o">}</span><span class="w"> </span><span class="m">47</span>
 </pre></div>
 </div>
-<p>The counter gets the <code class="docutils literal notranslate"><span class="pre">_total</span></code> suffix that Prometheus expects for counters, and <code class="docutils literal notranslate"><span class="pre">service.name</span></code> becomes the <code class="docutils literal notranslate"><span class="pre">job</span></code> label. Depending on the Collector version, you'll also see extra labels such as <code class="docutils literal notranslate"><span class="pre">instance</span></code> and <code class="docutils literal notranslate"><span class="pre">otel_scope_name</span></code>, and a <code class="docutils literal notranslate"><span class="pre">target_info</span></code> metric with the resource attributes. The histogram appears as <code class="docutils literal notranslate"><span class="pre">payment_processing_duration_seconds_bucket</span></code>, with one series per bucket boundary from step 1.</p>
+<p>The Collector adds the <code class="docutils literal notranslate"><span class="pre">_total</span></code> suffix that Prometheus expects for counters, and <code class="docutils literal notranslate"><span class="pre">service.name</span></code> becomes the <code class="docutils literal notranslate"><span class="pre">job</span></code> label.</p>
 </section>
-<section id="the-payoff-switching-backends">
-<h2>The Payoff: Switching Backends<a class="headerlink" href="#the-payoff-switching-backends" title="Link to this heading">#</a></h2>
-<p>This is the vendor lock-in scenario from the <a class="reference internal" href="../2026-10-29-otel-foundation/"><span class="std std-doc">first post</span></a>, now in practice. The company decides to send metrics to Datadog, and you change only the exporters in <code class="docutils literal notranslate"><span class="pre">collector.yaml</span></code>.</p>
-<img alt="Diagram of the optional OpenTelemetry Collector. Three services in Python, Java, and Go use the OTel SDK and send OTLP to the same Collector, which filters by metadata, changes attributes, samples traces, and routes the data to a backend such as Prometheus, with Datadog and Grafana Mimir as alternatives. The pipeline logic and the destinations live in the Collector, not in each service" src="../../../_images/opentelemetry-collector.svg" />
-<div class="literal-block-wrapper docutils container" id="id4">
-<div class="code-block-caption"><span class="caption-text">collector.yaml (exporters changed)</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
+<section id="switching-to-datadog">
+<h2>Switching to Datadog<a class="headerlink" href="#switching-to-datadog" title="Link to this heading">#</a></h2>
+<p>Now the company decides to move its metrics to Datadog. Nothing changes in <code class="docutils literal notranslate"><span class="pre">app.py</span></code> or in the environment variables, and the diagram shows the one piece that does.</p>
+<img alt="Before and after diagram. Before, app.py with the OpenTelemetry API and SDK sends OTLP to the Collector, whose otlp receiver passes the data to a prometheus exporter for Prometheus. After, the same app.py and SDK configuration send OTLP to the same Collector, and only the exporter changes to datadog, which sends the data to Datadog." src="../../../_images/collector-exporter-swap.svg" />
+<p>In <code class="docutils literal notranslate"><span class="pre">collector.yaml</span></code>, the <code class="docutils literal notranslate"><span class="pre">prometheus</span></code> exporter gives way to the <a class="reference external" href="https://docs.datadoghq.com/opentelemetry/collector_exporter/"><code class="docutils literal notranslate"><span class="pre">datadog</span></code> exporter</a>, and the pipeline points to it.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">collector.yaml (exporters changed)</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">exporters</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">datadog</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">api</span><span class="p">:</span>
@@ -647,31 +530,26 @@ payments_processed_total<span class="o">{</span><span class="nv">job</span><span
 <span class="w">  </span><span class="nt">pipelines</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">metrics</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">receivers</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">otlp</span><span class="p p-Indicator">]</span>
-<span class="w">      </span><span class="nt">processors</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">batch</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="nt">exporters</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">datadog</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </div>
-<p>Then restart the Collector, passing the API key as an environment variable.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="m">4317</span>:4317<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-e<span class="w"> </span><span class="nv">DD_API_KEY</span><span class="o">=</span>&lt;your-api-key&gt;<span class="w"> </span><span class="se">\</span>
+<p>Restart the Collector with the API key in the environment. If your Datadog account isn't on the default US site, also set <code class="docutils literal notranslate"><span class="pre">site</span></code> under <code class="docutils literal notranslate"><span class="pre">api</span></code>, for example <code class="docutils literal notranslate"><span class="pre">site:</span> <span class="pre">datadoghq.eu</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">4317</span>:4317<span class="w"> </span>-e<span class="w"> </span><span class="nv">DD_API_KEY</span><span class="o">=</span>&lt;your-api-key&gt;<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-v<span class="w"> </span><span class="s2">"</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/collector.yaml:/etc/otelcol-contrib/config.yaml"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>otel/opentelemetry-collector-contrib:0.114.0
 </pre></div>
 </div>
-<p>If your Datadog account isn't on the default US site, also set <code class="docutils literal notranslate"><span class="pre">site</span></code> under <code class="docutils literal notranslate"><span class="pre">api</span></code>, for example <code class="docutils literal notranslate"><span class="pre">site:</span> <span class="pre">datadoghq.eu</span></code> (<a class="reference external" href="https://docs.datadoghq.com/opentelemetry/collector_exporter/">Datadog exporter docs</a>).</p>
-<p>Neither <code class="docutils literal notranslate"><span class="pre">app.py</span></code> nor the SDK configuration changed, and the application wasn't redeployed. During a migration, you can also list both exporters and send the same data to Prometheus and Datadog at the same time.</p>
+<p>The application keeps sending OTLP to the same address and never learns that the destination changed. In a real migration, you can list both exporters in the pipeline and send the same data to Prometheus and Datadog until the move is done.</p>
 </section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>The application code depends only on the OpenTelemetry API. Without an SDK, API calls do nothing, so instrumented code is always safe to run.</p></li>
-<li><p>A meter creates instruments, like a counter for totals that only go up and a histogram for distributions such as durations.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">opentelemetry-instrument</span></code> and <code class="docutils literal notranslate"><span class="pre">OTEL_*</span></code> environment variables turn on and configure the SDK without changing the code. A separate <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code> does the same in code.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">service.name</span></code> identifies the service in the backends. Prometheus shows it as the <code class="docutils literal notranslate"><span class="pre">job</span></code> label.</p></li>
-<li><p>Set histogram bucket boundaries that match your unit. The defaults are sized for milliseconds.</p></li>
-<li><p>The Collector pipeline has receivers, processors, and exporters. Switching from Prometheus to Datadog means changing the exporters.</p></li>
+<li><p>Code that depends only on the OpenTelemetry API runs without an SDK, and every call does nothing until one is loaded.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">opentelemetry-instrument</span></code> and the <code class="docutils literal notranslate"><span class="pre">OTEL_*</span></code> environment variables turn on and configure the SDK without changing the code.</p></li>
+<li><p>Pointing the SDK to a Collector keeps the backend out of the application configuration as well.</p></li>
+<li><p>A Collector pipeline takes data in through receivers and sends it out through exporters.</p></li>
+<li><p>Switching from Prometheus to Datadog means changing the exporter in the Collector configuration, with no change or redeploy in the application.</p></li>
 <li><p>During a migration, the Collector can export the same data to both backends at once.</p></li>
 </ul>
 </section>
@@ -679,7 +557,6 @@ payments_processed_total<span class="o">{</span><span class="nv">job</span><span
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://opentelemetry.io/docs/languages/python/getting-started/">Python getting started (OpenTelemetry)</a></p></li>
-<li><p><a class="reference external" href="https://opentelemetry.io/docs/zero-code/python/">Python zero-code instrumentation (OpenTelemetry)</a></p></li>
 <li><p><a class="reference external" href="https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/">SDK environment variables (OpenTelemetry)</a></p></li>
 <li><p><a class="reference external" href="https://opentelemetry.io/docs/collector/configuration/">Collector configuration (OpenTelemetry)</a></p></li>
 <li><p><a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib">OpenTelemetry Collector Contrib (GitHub)</a></p></li>
@@ -699,12 +576,12 @@ payments_processed_total<span class="o">{</span><span class="nv">job</span><span
     {
       "@type": "BlogPosting",
       "headline": "A Hands-On Example of Decoupling App Instrumentation with OpenTelemetry",
-      "description": "A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code.",
+      "description": "A small Python example of OpenTelemetry in practice. The code only uses the API, and its metrics move from Prometheus to Datadog by changing one exporter in the Collector configuration.",
       "datePublished": "2026-11-18",
       "inLanguage": "en",
       "url": "https://carlosneto.dev/blog/2026/2026-11-18-otel-python-instrumentation/",
       "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-18-otel-python-instrumentation/",
-      "image": "https://carlosneto.dev/_static/2026/2026-10-29/opentelemetry-collector.svg",
+      "image": "https://carlosneto.dev/_static/2026/2026-11-18/collector-exporter-swap.svg",
       "keywords": ["OpenTelemetry", "Python", "OpenTelemetry Collector", "OTLP", "Prometheus", "Datadog"],
       "author": {"@id": "https://carlosneto.dev/#person"}
     },
