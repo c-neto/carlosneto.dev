@@ -28,9 +28,9 @@ When I started the Kubestronaut path, I had been working with Kubernetes every d
 
 The second was the challenge of the hands-on exams. There's no Google and no AI to ask, only a terminal and the official Kubernetes docs, so passing them shows you really understand how Kubernetes works. Now that anyone can use AI, I believe that deeper understanding is what tends to make people stand out.
 
-It's important to keep in mind that knowing a subject is different from mastering it. Knowing means you understand which tools exist to solve a problem and how to use them. Mastering means you have the practical experience to pick the solution closest to ideal for a given context, and that only comes with time and real work. A certification says you know Kubernetes. It doesn't say you master it.
+Knowing a subject is different from mastering it. Knowing means you understand which tools exist to solve a problem and how to use them. Mastering means you have the practical experience to pick the solution closest to ideal for a given context, and that only comes with time and real work. A certification says you know Kubernetes. It doesn't say you master it.
 
-So I disagree with the idea that these certifications are only for people who already master Kubernetes. They suit people who are learning it even better. If I knew nothing about Kubernetes today, I would study for the certifications instead of watching random YouTube videos. The curriculum makes the learning curve more organized and much less tortuous.
+One thing that surprised me along the way is that the certification track works just as well for people learning Kubernetes from scratch as for people who already have experience. If I knew nothing about Kubernetes today, I would learn it by taking the certifications. They would give structure to my studies and make the learning curve much easier than mine was, when I jumped between different sources, books, and random YouTube videos. So I encourage beginners, and even people who have never touched Kubernetes, to take them.
 
 ## What to Expect From Each Exam
 
@@ -145,7 +145,8 @@ I really enjoyed the Kubestronaut journey. It cost me a lot of energy and some s
 ## Key Takeaways
 
 - A certification proves knowledge, not mastery.
-- The real cost is study time and mental energy, not the fee.
+- The certification track works for beginners too, even with zero Kubernetes experience.
+- The real cost is study time and mental energy, not the exam price.
 - Define the track, then buy its bundle on promotion.
 - Study one hour a day, with one day off. Don't trade today's hour for two hours tomorrow.
 - Skip the home lab for exam prep. Spend that time on Kubernetes, not on Proxmox and virtualization.
