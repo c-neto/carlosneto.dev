@@ -1,0 +1,835 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta content="A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code." name="description" />
+<meta property="og:title" content="Instrumenting a Python Application with OpenTelemetry" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-11-18-otel-python-instrumentation/" />
+<meta property="og:site_name" content="Carlos Neto" />
+<meta property="og:description" content="A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-18-otel-python-instrumentation_f5783f79.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/18 This post builds a small Python service instrumented with OpenTelemetry, one piece at a time. It starts with the API only, turns on the SDK without changing the c..." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Instrumenting a Python Application with OpenTelemetry &#8212; Carlos Neto&#39;s Blog</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=a95f357e85573c9b56d5" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=5801711d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=a95f357e85573c9b56d5"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5" />
+
+    <script src="../../../_static/documentation_options.js?v=187304be"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'blog/2026/2026-11-18-otel-python-instrumentation';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../../_static/profile-color-circle-small.png"/>
+    <link rel="index" title="Index" href="../../../genindex/" />
+    <link rel="search" title="Search" href="../../../search/" /> 
+  
+  
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  <script data-goatcounter="https://c-neto.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script> 
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Carlos Neto"
+/>
+  
+  </head>
+  <body data-default-mode="light">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search/"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this site..."
+         aria-label="Search this site..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Carlos Neto's Blog</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="/analytics/" title="Analytics" class="nav-link pst-navbar-icon" rel="noopener" target="_self" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-chart-simple fa-lg" aria-hidden="true"></i><span class="visually-hidden">Analytics</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../">
+    Blog
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribution-list/">
+    Open Source Contributions
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/c-neto" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://www.linkedin.com/in/c-neto/" title="LinkedIn" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-linkedin fa-lg" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="/analytics/" title="Analytics" class="nav-link pst-navbar-icon" rel="noopener" target="_self" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-chart-simple fa-lg" aria-hidden="true"></i><span class="visually-hidden">Analytics</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://carlosneto.dev/blog/atom.xml" title="Blog RSS feed" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-rss fa-lg" aria-hidden="true"></i><span class="visually-hidden">Blog RSS feed</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                   <div class="blog-post">
+<div class="aor-tldr">
+  <img class="aor-tldr__marvin" src="../../../_static/marvin.jpg" alt="">
+  <span class="aor-tldr__copy">
+    <strong>AI TL;DR</strong>
+    <span>Too lazy to read? Summarize this post with:</span>
+  </span>
+  <span class="aor-tldr__buttons">
+    <a class="aor-tldr__btn" href="https://chatgpt.com/?q=Please+open+this+URL+with+web+search+and+read+the+full+article%3A+https%3A%2F%2Fcarlosneto.dev%2Fblog%2F2026%2F2026-11-18-otel-python-instrumentation%2F%0A%0AAfter+reading+the+real+content+of+that+article%2C+do+the+following%3A%0A1%29+Summarize+the+5+most+important+points+and+the+conclusion.%0A2%29+After+the+summary%2C+tell+the+reader+what+key+details%2C+data+and+insights+they+are+missing+by+not+reading+the+full+article.+Be+specific+enough+to+make+them+curious.%0A3%29+Remind+them+they+can+keep+asking+follow-up+questions+about+this+article+right+here+in+this+chat.%0A4%29+Suggest+one+good+follow-up+question+they+could+ask+as+a+starter.%0A%0ABe+concise%2C+use+few+words.+It+is+a+summary.+%0A%0AWrite+your+entire+answer+in+my+native+language.+Detect+it+from+the+language+I+use+to+talk+to+you%2C+and+if+it+is+not+clear%2C+ask+me+which+language+I+prefer+before+summarizing." target="_blank" rel="noopener"><svg class="aor-tldr__logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071.006l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071-.006l4.83 2.787a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/></svg><span>ChatGPT</span></a>
+    <a class="aor-tldr__btn" href="https://claude.ai/new?q=Please+open+this+URL+with+web+search+and+read+the+full+article%3A+https%3A%2F%2Fcarlosneto.dev%2Fblog%2F2026%2F2026-11-18-otel-python-instrumentation%2F%0A%0AAfter+reading+the+real+content+of+that+article%2C+do+the+following%3A%0A1%29+Summarize+the+5+most+important+points+and+the+conclusion.%0A2%29+After+the+summary%2C+tell+the+reader+what+key+details%2C+data+and+insights+they+are+missing+by+not+reading+the+full+article.+Be+specific+enough+to+make+them+curious.%0A3%29+Remind+them+they+can+keep+asking+follow-up+questions+about+this+article+right+here+in+this+chat.%0A4%29+Suggest+one+good+follow-up+question+they+could+ask+as+a+starter.%0A%0ABe+concise%2C+use+few+words.+It+is+a+summary.+%0A%0AWrite+your+entire+answer+in+my+native+language.+Detect+it+from+the+language+I+use+to+talk+to+you%2C+and+if+it+is+not+clear%2C+ask+me+which+language+I+prefer+before+summarizing." target="_blank" rel="noopener"><svg class="aor-tldr__logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.157-1.005.654-.72.878.06.225.061.89.683 1.9 1.47 2.48 1.826.364.303.145-.103.018-.072-.163-.274-1.354-2.446-1.446-2.49-.643-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.455.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.983-1.306 1.651-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.542-.28 1.84-.315.831.388.091.395-.328.807-1.967.486-2.307.462-3.436.813-.042.03.049.061 1.548.146.662.036h1.62l3.018.225.79.522.473.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.003 1.81 2.507 2.33.127.578-.32.455-.34-.049-2.204-1.657-.85-.746-1.925-1.62h-.127v.17l.443.649 2.343 3.521.122 1.08-.17.353-.607.213-.668-.122-1.372-1.925-1.415-2.167-1.14-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.631-.012-.042-.14.018-1.433 1.967-2.18 2.945-1.725 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312z"/></svg><span>Claude</span></a>
+    <a class="aor-tldr__btn" href="https://grok.com/?q=Please+open+this+URL+with+web+search+and+read+the+full+article%3A+https%3A%2F%2Fcarlosneto.dev%2Fblog%2F2026%2F2026-11-18-otel-python-instrumentation%2F%0A%0AAfter+reading+the+real+content+of+that+article%2C+do+the+following%3A%0A1%29+Summarize+the+5+most+important+points+and+the+conclusion.%0A2%29+After+the+summary%2C+tell+the+reader+what+key+details%2C+data+and+insights+they+are+missing+by+not+reading+the+full+article.+Be+specific+enough+to+make+them+curious.%0A3%29+Remind+them+they+can+keep+asking+follow-up+questions+about+this+article+right+here+in+this+chat.%0A4%29+Suggest+one+good+follow-up+question+they+could+ask+as+a+starter.%0A%0ABe+concise%2C+use+few+words.+It+is+a+summary.+%0A%0AWrite+your+entire+answer+in+my+native+language.+Detect+it+from+the+language+I+use+to+talk+to+you%2C+and+if+it+is+not+clear%2C+ask+me+which+language+I+prefer+before+summarizing." target="_blank" rel="noopener"><svg class="aor-tldr__logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M9.27 15.29l7.978-5.897c.391-.29.95-.177 1.137.272.98 2.369.542 5.215-1.41 7.169-1.951 1.954-4.667 2.382-7.149 1.406l-2.711 1.257c3.889 2.661 8.611 2.003 11.562-.953 2.341-2.344 3.066-5.539 2.388-8.42l.006.007c-.983-4.232.242-5.924 2.75-9.383.06-.082.12-.164.179-.248l-3.301 3.305v-.01L9.267 15.292M7.623 16.723c-2.792-2.666-2.31-6.825.058-9.195 1.751-1.754 4.584-2.465 7.17-1.414l2.705-1.25a7.808 7.808 0 00-1.364-.834c-3.004-1.416-6.724-.898-9.195 1.576-2.372 2.375-3.059 5.956-1.598 9.017 1.09 2.289-.885 5.323-2.368 7.17.922-.414 2.276-1.111 3.335-2.263.667-.726.667-.726 1.257-2.607z"/></svg><span>Grok</span></a>
+  </span>
+</div>
+<p><em><strong>Blog Post Publish Date:</strong> 2026/11/18</em></p>
+<hr class="docutils" />
+<section id="instrumenting-a-python-application-with-opentelemetry">
+<h1>Instrumenting a Python Application with OpenTelemetry<a class="headerlink" href="#instrumenting-a-python-application-with-opentelemetry" title="Link to this heading">#</a></h1>
+<p>This post builds a small Python service instrumented with OpenTelemetry, one piece at a time. It starts with the API only, turns on the SDK without changing the code, routes the metrics through the OpenTelemetry Collector to Prometheus, and then switches to Datadog by changing only the Collector configuration.</p>
+<p>It's the hands-on companion to <a class="reference internal" href="../2026-10-29-otel-foundation/"><span class="std std-doc">OpenTelemetry: A Framework for Decoupling Your Observability</span></a>, which explains what OpenTelemetry is, the vendor lock-in it removes, and what the Collector is for. This post doesn't repeat those concepts, so if they're new to you, start there.</p>
+<section id="the-example">
+<h2>The Example<a class="headerlink" href="#the-example" title="Link to this heading">#</a></h2>
+<p>The example is a payment service, and we want to know how many payments it processes and how long each one takes. The application code is written once, in step 1, and never changes after that. Each step adds one OpenTelemetry piece around it:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Step</p></th>
+<th class="head"><p>Piece added</p></th>
+<th class="head"><p>What it does</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>API</p></td>
+<td><p>Describes what to measure, inside the code</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>SDK</p></td>
+<td><p>Processes the measurements and sends them over OTLP</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Collector</p></td>
+<td><p>Receives OTLP and exports it to Prometheus</p></td>
+</tr>
+<tr class="row-odd"><td><p>Payoff</p></td>
+<td><p>Collector config</p></td>
+<td><p>Switches the backend to Datadog</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="step-1-instrument-the-code-with-the-api-only">
+<h2>Step 1: Instrument the Code With the API Only<a class="headerlink" href="#step-1-instrument-the-code-with-the-api-only" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">app.py</span></code> holds the business logic and the instrumentation. It imports only the OpenTelemetry API, without the SDK, an exporter, or any vendor library.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">perf_counter</span>
+
+<span class="c1"># it is the API library</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">metrics</span>
+
+
+<span class="c1"># Get a meter from the OpenTelemetry API.</span>
+<span class="n">meter</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get_meter</span><span class="p">(</span><span class="s2">"payment-api"</span><span class="p">)</span>
+
+<span class="c1"># Create instruments.</span>
+<span class="n">payments_processed</span> <span class="o">=</span> <span class="n">meter</span><span class="o">.</span><span class="n">create_counter</span><span class="p">(</span>
+    <span class="s2">"payments_processed"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Number of processed payments"</span>
+<span class="p">)</span>
+
+<span class="n">payment_duration</span> <span class="o">=</span> <span class="n">meter</span><span class="o">.</span><span class="n">create_histogram</span><span class="p">(</span>
+    <span class="s2">"payment_processing_duration"</span><span class="p">,</span>
+    <span class="n">unit</span><span class="o">=</span><span class="s2">"s"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Payment processing duration"</span><span class="p">,</span>
+    <span class="c1"># bucket boundaries in seconds; the defaults are sized for milliseconds</span>
+    <span class="n">explicit_bucket_boundaries_advisory</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">process_payment</span><span class="p">():</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+
+    <span class="c1"># Simulate payment processing.</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+    
+    <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">:</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="s2">"success"</span> 
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="s2">"failure"</span>
+
+    <span class="c1"># Record the number of processed payments.</span>
+    <span class="n">payments_processed</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="n">status</span><span class="p">})</span>
+
+    <span class="c1"># Record how long the operation took.</span>
+    <span class="n">payment_duration</span><span class="o">.</span><span class="n">record</span><span class="p">(</span>
+        <span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span>
+        <span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="n">status</span><span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Payment processed: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">process_payment</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">metrics.get_meter()</span></code> returns a meter, the object that creates instruments. The code creates two of them, a counter for a total that only goes up (processed payments) and a histogram for a distribution of values (processing durations). Each payment records one measurement in each instrument, with a <code class="docutils literal notranslate"><span class="pre">status</span></code> attribute.</p>
+<p>A histogram counts values in buckets, and the <code class="docutils literal notranslate"><span class="pre">explicit_bucket_boundaries_advisory</span></code> argument sets them. The SDK's default boundaries are <code class="docutils literal notranslate"><span class="pre">0,</span> <span class="pre">5,</span> <span class="pre">10,</span> <span class="pre">25,</span> <span class="pre">50,</span> <span class="pre">75,</span> <span class="pre">100,</span> <span class="pre">…</span></code>, sized for milliseconds. Our durations are between 0.1 and 0.5 seconds, so with the defaults every payment would land in the first bucket (0 to 5), and percentiles such as p95 would be useless. The advisory boundaries are part of the API, so <code class="docutils literal notranslate"><span class="pre">app.py</span></code> still doesn't depend on the SDK.</p>
+<p>Install the API and run it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>opentelemetry-api
+python<span class="w"> </span>app.py
+</pre></div>
+</div>
+<p>The script runs and exports nothing, by design. Without an SDK, every API call is a no-op, so a library author can instrument their code with the API at almost no cost to users who don't use OpenTelemetry. The API describes what to measure, and the SDK decides where the data goes.</p>
+</section>
+<section id="step-2-turn-on-the-sdk-without-touching-the-code">
+<h2>Step 2: Turn On the SDK Without Touching the Code<a class="headerlink" href="#step-2-turn-on-the-sdk-without-touching-the-code" title="Link to this heading">#</a></h2>
+<p>Now we want the data to leave the process, which is the SDK's job. The simplest way to add it is the <code class="docutils literal notranslate"><span class="pre">opentelemetry-instrument</span></code> launcher, which loads the SDK before your code runs and configures it from environment variables.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>opentelemetry-distro<span class="w"> </span>opentelemetry-exporter-otlp
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_SERVICE_NAME</span><span class="o">=</span>payment-api
+<span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_EXPORTER_OTLP_ENDPOINT</span><span class="o">=</span>http://localhost:4317
+<span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_TRACES_EXPORTER</span><span class="o">=</span>none
+<span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_LOGS_EXPORTER</span><span class="o">=</span>none
+<span class="nb">export</span><span class="w"> </span><span class="nv">OTEL_METRICS_EXPORTER</span><span class="o">=</span>otlp
+
+opentelemetry-instrument<span class="w"> </span>python<span class="w"> </span>app.py
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">app.py</span></code> is the same file as in step 1. The <a class="reference external" href="https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/">environment variables</a> set the service name (the <code class="docutils literal notranslate"><span class="pre">service.name</span></code> attribute from the semantic conventions), which backends use to identify the service, and tell the SDK to send metrics over OTLP to <code class="docutils literal notranslate"><span class="pre">localhost:4317</span></code>. In Python, the <code class="docutils literal notranslate"><span class="pre">otlp</span></code> exporter defaults to gRPC, whose standard port is 4317. OTLP over HTTP uses port 4318, and it's the default in some other languages.</p>
+<p>If the application used Flask or <code class="docutils literal notranslate"><span class="pre">requests</span></code>, <a class="reference external" href="https://opentelemetry.io/docs/zero-code/python/">zero-code instrumentation</a> would also cover those libraries without code changes, recording HTTP metrics, plus traces if you turn on a traces exporter. To get it, first run <code class="docutils literal notranslate"><span class="pre">opentelemetry-bootstrap</span> <span class="pre">-a</span> <span class="pre">install</span></code>, which installs the instrumentation packages for the libraries it finds in your environment.</p>
+<p>If you prefer to configure the SDK in code, put the same setup in its own file, separate from <code class="docutils literal notranslate"><span class="pre">app.py</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">telemetry.py</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">metrics</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.sdk.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">MeterProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.sdk.metrics.export</span><span class="w"> </span><span class="kn">import</span> <span class="n">PeriodicExportingMetricReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.sdk.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">Resource</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.exporter.otlp.proto.grpc.metric_exporter</span><span class="w"> </span><span class="kn">import</span> <span class="n">OTLPMetricExporter</span>
+
+<span class="c1"># Who is sending the data (semantic convention: service.name).</span>
+<span class="n">resource</span> <span class="o">=</span> <span class="n">Resource</span><span class="o">.</span><span class="n">create</span><span class="p">({</span><span class="s2">"service.name"</span><span class="p">:</span> <span class="s2">"payment-api"</span><span class="p">})</span>
+
+<span class="c1"># Where and how to send it: OTLP over gRPC, pushed periodically.</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">PeriodicExportingMetricReader</span><span class="p">(</span>
+    <span class="n">OTLPMetricExporter</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s2">"http://localhost:4317"</span><span class="p">,</span> <span class="n">insecure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Register the SDK implementation behind the API.</span>
+<span class="n">metrics</span><span class="o">.</span><span class="n">set_meter_provider</span><span class="p">(</span><span class="n">MeterProvider</span><span class="p">(</span><span class="n">resource</span><span class="o">=</span><span class="n">resource</span><span class="p">,</span> <span class="n">metric_readers</span><span class="o">=</span><span class="p">[</span><span class="n">reader</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code> has to register the SDK before the first measurement, so you need a small entry point that imports it first. <code class="docutils literal notranslate"><span class="pre">app.py</span></code> still doesn't change:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">main.py</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">telemetry</span>  <span class="c1"># registers the SDK before any measurement</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app</span><span class="w"> </span><span class="kn">import</span> <span class="n">process_payment</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">process_payment</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>Run it with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">main.py</span></code>. The <code class="docutils literal notranslate"><span class="pre">opentelemetry-instrument</span></code> approach avoids this extra file, which is one reason I prefer it.</p>
+<p>Either way, the application now sends OTLP and doesn't know whether Prometheus, Datadog, or anything else is at the other end. Something has to receive that OTLP, and that's the Collector's job.</p>
+</section>
+<section id="step-3-route-the-data-with-the-collector">
+<h2>Step 3: Route the Data With the Collector<a class="headerlink" href="#step-3-route-the-data-with-the-collector" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="../2026-10-29-otel-foundation/"><span class="std std-doc">first post</span></a> explains what the Collector is for. Here we only need its configuration, which defines a pipeline in three parts. Receivers define how data comes in, here OTLP over gRPC on port 4317. Processors work on the data along the way, here by batching it. Exporters define where it goes, here a Prometheus endpoint on port 8889 and the Collector's console.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">collector.yaml</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">receivers</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">otlp</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">protocols</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">grpc</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0.0.0:4317</span>
+
+<span class="nt">processors</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">batch</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+
+<span class="nt">exporters</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># expose the metrics for Prometheus to scrape</span>
+<span class="w">  </span><span class="nt">prometheus</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0.0.0:8889</span>
+<span class="w">  </span><span class="c1"># also print a summary to the Collector's console</span>
+<span class="w">  </span><span class="nt">debug</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">verbosity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">basic</span>
+
+<span class="nt">service</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pipelines</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metrics</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">receivers</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">otlp</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">processors</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">batch</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">exporters</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">prometheus</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">debug</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</div>
+<p>Run the Collector with Docker, using the <code class="docutils literal notranslate"><span class="pre">contrib</span></code> distribution, which includes both the Prometheus and the Datadog exporters.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="m">4317</span>:4317<span class="w"> </span>-p<span class="w"> </span><span class="m">8889</span>:8889<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-v<span class="w"> </span><span class="s2">"</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/collector.yaml:/etc/otelcol-contrib/config.yaml"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>otel/opentelemetry-collector-contrib:0.114.0
+</pre></div>
+</div>
+<p>With the application from step 2 running, the Collector exposes the metrics in the Prometheus format, ready for a Prometheus server to scrape. Trimmed, the output looks like this (your numbers will differ):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:8889/metrics<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>payments_processed
+
+payments_processed_total<span class="o">{</span><span class="nv">job</span><span class="o">=</span><span class="s2">"payment-api"</span>,status<span class="o">=</span><span class="s2">"success"</span><span class="o">}</span><span class="w"> </span><span class="m">412</span>
+payments_processed_total<span class="o">{</span><span class="nv">job</span><span class="o">=</span><span class="s2">"payment-api"</span>,status<span class="o">=</span><span class="s2">"failure"</span><span class="o">}</span><span class="w"> </span><span class="m">47</span>
+</pre></div>
+</div>
+<p>The counter gets the <code class="docutils literal notranslate"><span class="pre">_total</span></code> suffix that Prometheus expects for counters, and <code class="docutils literal notranslate"><span class="pre">service.name</span></code> becomes the <code class="docutils literal notranslate"><span class="pre">job</span></code> label. Depending on the Collector version, you'll also see extra labels such as <code class="docutils literal notranslate"><span class="pre">instance</span></code> and <code class="docutils literal notranslate"><span class="pre">otel_scope_name</span></code>, and a <code class="docutils literal notranslate"><span class="pre">target_info</span></code> metric with the resource attributes. The histogram appears as <code class="docutils literal notranslate"><span class="pre">payment_processing_duration_seconds_bucket</span></code>, with one series per bucket boundary from step 1.</p>
+</section>
+<section id="the-payoff-switching-backends">
+<h2>The Payoff: Switching Backends<a class="headerlink" href="#the-payoff-switching-backends" title="Link to this heading">#</a></h2>
+<p>This is the vendor lock-in scenario from the <a class="reference internal" href="../2026-10-29-otel-foundation/"><span class="std std-doc">first post</span></a>, now in practice. The company decides to send metrics to Datadog, and you change only the exporters in <code class="docutils literal notranslate"><span class="pre">collector.yaml</span></code>.</p>
+<img alt="Diagram of the optional OpenTelemetry Collector. Three services in Python, Java, and Go use the OTel SDK and send OTLP to the same Collector, which filters by metadata, changes attributes, samples traces, and routes the data to a backend such as Prometheus, with Datadog and Grafana Mimir as alternatives. The pipeline logic and the destinations live in the Collector, not in each service" src="../../../_images/opentelemetry-collector.svg" />
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">collector.yaml (exporters changed)</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">exporters</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">datadog</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">api</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env:DD_API_KEY}</span>
+
+<span class="nt">service</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pipelines</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metrics</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">receivers</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">otlp</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">processors</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">batch</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">exporters</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">datadog</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</div>
+<p>Then restart the Collector, passing the API key as an environment variable.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="m">4317</span>:4317<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">DD_API_KEY</span><span class="o">=</span>&lt;your-api-key&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-v<span class="w"> </span><span class="s2">"</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/collector.yaml:/etc/otelcol-contrib/config.yaml"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>otel/opentelemetry-collector-contrib:0.114.0
+</pre></div>
+</div>
+<p>If your Datadog account isn't on the default US site, also set <code class="docutils literal notranslate"><span class="pre">site</span></code> under <code class="docutils literal notranslate"><span class="pre">api</span></code>, for example <code class="docutils literal notranslate"><span class="pre">site:</span> <span class="pre">datadoghq.eu</span></code> (<a class="reference external" href="https://docs.datadoghq.com/opentelemetry/collector_exporter/">Datadog exporter docs</a>).</p>
+<p>Neither <code class="docutils literal notranslate"><span class="pre">app.py</span></code> nor the SDK configuration changed, and the application wasn't redeployed. During a migration, you can also list both exporters and send the same data to Prometheus and Datadog at the same time.</p>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The application code depends only on the OpenTelemetry API. Without an SDK, API calls do nothing, so instrumented code is always safe to run.</p></li>
+<li><p>A meter creates instruments, like a counter for totals that only go up and a histogram for distributions such as durations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">opentelemetry-instrument</span></code> and <code class="docutils literal notranslate"><span class="pre">OTEL_*</span></code> environment variables turn on and configure the SDK without changing the code. A separate <code class="docutils literal notranslate"><span class="pre">telemetry.py</span></code> does the same in code.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">service.name</span></code> identifies the service in the backends. Prometheus shows it as the <code class="docutils literal notranslate"><span class="pre">job</span></code> label.</p></li>
+<li><p>Set histogram bucket boundaries that match your unit. The defaults are sized for milliseconds.</p></li>
+<li><p>The Collector pipeline has receivers, processors, and exporters. Switching from Prometheus to Datadog means changing the exporters.</p></li>
+<li><p>During a migration, the Collector can export the same data to both backends at once.</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://opentelemetry.io/docs/languages/python/getting-started/">Python getting started (OpenTelemetry)</a></p></li>
+<li><p><a class="reference external" href="https://opentelemetry.io/docs/zero-code/python/">Python zero-code instrumentation (OpenTelemetry)</a></p></li>
+<li><p><a class="reference external" href="https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/">SDK environment variables (OpenTelemetry)</a></p></li>
+<li><p><a class="reference external" href="https://opentelemetry.io/docs/collector/configuration/">Collector configuration (OpenTelemetry)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib">OpenTelemetry Collector Contrib (GitHub)</a></p></li>
+<li><p><a class="reference external" href="https://opentelemetry-python.readthedocs.io/">OpenTelemetry Python documentation (Read the Docs)</a></p></li>
+<li><p><a class="reference external" href="https://docs.datadoghq.com/opentelemetry/">OpenTelemetry in Datadog (Datadog)</a></p></li>
+<li><p><a class="reference external" href="https://docs.datadoghq.com/opentelemetry/collector_exporter/">OpenTelemetry Collector Datadog Exporter (Datadog)</a></p></li>
+</ul>
+<hr class="docutils" />
+<blockquote>
+<div><p><em>I'm Carlos Neto, and this blog is where I share my experiences and open source contributions. More about me on <a class="reference internal" href="../../../"><span class="std std-doc">my home page</span></a>. If you have questions or a different approach, contact me on <a class="reference external" href="https://www.linkedin.com/in/c-neto/">LinkedIn</a>.</em></p>
+</div></blockquote>
+<hr class="docutils" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Instrumenting a Python Application with OpenTelemetry",
+      "description": "A step-by-step OpenTelemetry example in Python. Instrument a payment service with the API, turn on the SDK with environment variables, route metrics through the Collector to Prometheus, then switch to Datadog without touching the code.",
+      "datePublished": "2026-11-18",
+      "inLanguage": "en",
+      "url": "https://carlosneto.dev/blog/2026/2026-11-18-otel-python-instrumentation/",
+      "mainEntityOfPage": "https://carlosneto.dev/blog/2026/2026-11-18-otel-python-instrumentation/",
+      "image": "https://carlosneto.dev/_static/2026/2026-10-29/opentelemetry-collector.svg",
+      "keywords": ["OpenTelemetry", "Python", "OpenTelemetry Collector", "OTLP", "Prometheus", "Datadog"],
+      "author": {"@id": "https://carlosneto.dev/#person"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://carlosneto.dev/#person",
+      "name": "Carlos Neto",
+      "url": "https://carlosneto.dev/",
+      "sameAs": ["https://www.linkedin.com/in/c-neto/", "https://github.com/c-neto"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Instrumenting a Python Application with OpenTelemetry"}
+      ]
+    }
+  ]
+}
+</script></section>
+</section>
+</div>
+<!-- Add a comment box underneath the page's content -->
+<script
+  src="https://giscus.app/client.js"
+  data-repo="c-neto/carlosneto.dev"
+  data-repo-id="R_kgDOKgwGNA"
+  data-category="General"
+  data-category-id="DIC_kwDOKgwGNM4CaKBI"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+</script>
+
+<div class="section ablog__blog_comments">
+     
+<div class="section ablog__prev-next">
+  <span class="ablog__prev">
+     
+    <a href="../2026-11-15-kubestronaut-journey/">
+      
+      <i class="fa fa-arrow-circle-left"></i>
+      
+      <span>Kubestronaut: My Honest Journey (Including Procrastination and Retake)</span>
+    </a>
+    
+  </span>
+  <span class="ablog__spacer">&nbsp;</span>
+  <span class="ablog__next">
+    
+  </span>
+</div>
+  
+</div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=a95f357e85573c9b56d5"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=a95f357e85573c9b56d5"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Carlos Neto.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
