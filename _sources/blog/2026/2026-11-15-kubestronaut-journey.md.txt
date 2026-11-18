@@ -96,7 +96,7 @@ __Don't Negotiate With Yourself__: I stopped negotiating with myself, because "I
 
 __Ignore the Progress Bar__: I stopped checking the course progress bar, because it only triggered anxiety. In a long course, the bar mostly shows how much is still missing. People stay more motivated looking at the smaller part of the goal, what's already done at the start and what's left near the end ([Koo & Fishbach, 2012](https://doi.org/10.1086/663827)). Motivation also drops in the middle, when both ends feel far away ([Bonezzi et al., 2011](https://doi.org/10.1177/0956797611404899)).
 
-__Don't Tell, Just Do__: I stopped telling people I was studying for a certification. Our brain is dumb. When we announce that we're doing something, it feels like we already did it. In four experiments on identity goals, such as becoming a lawyer, people whose intention was noticed by others acted on it less, because being noticed gave them a premature sense of already having that identity ([Gollwitzer et al., 2009](https://doi.org/10.1111/j.1467-9280.2009.02336.x)). Finish the exam first, then show it off.
+__Don't Tell, Just Do__: I decided to keep my certification plans to myself until I passed, because of a trick our brain plays. When we announce that we're doing something, it feels like we already did it. In four experiments on identity goals, such as becoming a lawyer, people whose intention was noticed by others acted on it less, because being noticed gave them a premature sense of already having that identity ([Gollwitzer et al., 2009](https://doi.org/10.1111/j.1467-9280.2009.02336.x)). Finish the exam first, then show it off.
 
 ## Use a Single Study Source (Avoid Home Labs)
 
