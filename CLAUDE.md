@@ -32,7 +32,13 @@ Guidance for AI agents working in this repository.
 - **`draft/`**: Drafts in progress. Not published. Move a post to `blog/<YEAR>/` when it is ready.
 - **`_static/`**: All static assets. Post images go in `_static/<year>/`. Site-wide styles are in `custom.css`.
 - **`_templates/`**: Sphinx HTML layout overrides.
-- **`.claude/skills/`**: The project skills described above. `humanizer` is installed per user in `~/.claude/skills/`.
+- **`.claude/skills/`**: The project skills. `blog-creator` is the single writing skill. It edits passages (Edit Mode), creates posts (New-Post Mode), and keeps the text conventions in `written-directives.md`. `humanizer` is installed per user in `~/.claude/skills/`.
+
+## Writing Directives (always active)
+
+Every request in this repository that writes or edits text, including a single sentence, must invoke the `blog-creator` skill. A request to change a passage uses its Edit Mode, and a new post uses its New-Post Mode. This holds even when the request does not mention the skill and when another skill (`/blog write`, `/blog rewrite`, `humanizer`, analyzer fixes) runs the work. When they conflict, the directives in `.claude/skills/blog-creator/written-directives.md` win. They are imported below so they are always in context:
+
+@.claude/skills/blog-creator/written-directives.md
 
 ## Build
 
