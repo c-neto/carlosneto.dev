@@ -18,13 +18,13 @@ og:description: "A step-by-step OpenTelemetry example in Python: instrument a pa
 
 # Instrumenting a Python Application with OpenTelemetry
 
-This blog post builds a small Python service instrumented with OpenTelemetry, one piece at a time. It starts with the API only, turns on the SDK without changing the code, routes the metrics through the OpenTelemetry Collector to Prometheus, and finally switches to Datadog by changing only the Collector configuration.
+This post builds a small Python service instrumented with OpenTelemetry, one piece at a time. It starts with the API only, turns on the SDK without changing the code, routes the metrics through the OpenTelemetry Collector to Prometheus, and then switches to Datadog by changing only the Collector configuration.
 
 It's the hands-on companion to [OpenTelemetry: A Framework for Decoupling Your Observability](/blog/2026/2026-10-29-otel-foundation.md), which explains what OpenTelemetry is and when it's worth using. If you're not sure you need it yet, start there.
 
 ## The Example
 
-The example is a small payment service. We want to know how many payments it processes and how long each one takes. The application code is written once, in step 1, and never changes after that. Each step adds one OpenTelemetry piece around it:
+The example is a payment service, and we want to know how many payments it processes and how long each one takes. The application code is written once, in step 1, and never changes after that. Each step adds one OpenTelemetry piece around it:
 
 | Step | Piece added | What it does |
 | --- | --- | --- |
@@ -35,7 +35,7 @@ The example is a small payment service. We want to know how many payments it pro
 
 ## Step 1: Instrument the Code With the API Only
 
-`app.py` holds the business logic and the instrumentation. It imports only the OpenTelemetry API: no SDK, no exporter, no vendor library.
+`app.py` holds the business logic and the instrumentation. It imports only the OpenTelemetry API, without the SDK, an exporter, or any vendor library.
 
 ```python
 import random
@@ -92,13 +92,9 @@ if __name__ == "__main__":
         process_payment()
 ```
 
-In short:
+`metrics.get_meter()` returns a meter, the object that creates instruments. The code creates two of them, a counter for a total that only goes up (processed payments) and a histogram for a distribution of values (processing durations). Each payment records one measurement in each instrument, with a `status` attribute.
 
-1. `metrics.get_meter()` returns a **meter**, the object that creates instruments.
-2. The code creates a **counter**, for a total that only goes up (processed payments), and a **histogram**, for a distribution of values (processing durations).
-3. Each payment records one measurement in each instrument, with a `status` attribute.
-
-The `explicit_bucket_boundaries_advisory` argument matters. A histogram counts values in buckets, and the SDK's default boundaries are `0, 5, 10, 25, 50, 75, 100, …`, sized for milliseconds. Our durations are between 0.1 and 0.5 seconds, so with the defaults every payment would land in the first bucket (0 to 5) and percentiles such as p95 would be useless. The advisory boundaries are part of the API, so `app.py` still doesn't depend on the SDK.
+A histogram counts values in buckets, and the `explicit_bucket_boundaries_advisory` argument sets them. The SDK's default boundaries are `0, 5, 10, 25, 50, 75, 100, …`, sized for milliseconds. Our durations are between 0.1 and 0.5 seconds, so with the defaults every payment would land in the first bucket (0 to 5), and percentiles such as p95 would be useless. The advisory boundaries are part of the API, so `app.py` still doesn't depend on the SDK.
 
 Install the API and run it:
 
@@ -107,11 +103,11 @@ pip install opentelemetry-api
 python app.py
 ```
 
-It works, and nothing is exported anywhere. That's on purpose: without an SDK, every API call is a no-op. A library author can instrument their code with the API, and it costs nothing for users who don't use OpenTelemetry. This is the first idea to keep: **the API describes what to measure, not where it goes.**
+The script runs and exports nothing, by design. Without an SDK, every API call is a no-op, so a library author can instrument their code with the API at almost no cost to users who don't use OpenTelemetry. The API describes what to measure, and the SDK decides where the data goes.
 
 ## Step 2: Turn On the SDK Without Touching the Code
 
-Now we want the data to leave the process. That's the SDK's job. The simplest way to add it is the `opentelemetry-instrument` launcher, which loads the SDK before your code runs and configures it from environment variables:
+Now we want the data to leave the process, which is the SDK's job. The simplest way to add it is the `opentelemetry-instrument` launcher, which loads the SDK before your code runs and configures it from environment variables:
 
 ```bash
 pip install opentelemetry-distro opentelemetry-exporter-otlp
@@ -125,11 +121,11 @@ export OTEL_METRICS_EXPORTER=otlp
 opentelemetry-instrument python app.py
 ```
 
-`app.py` is exactly the same file as in step 1. The [environment variables](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/) tell the SDK the service name, a semantic convention that backends use to identify the service, and to send metrics over OTLP to `localhost:4317`. In Python, the `otlp` exporter uses gRPC, which listens on port 4317 by default. OTLP over HTTP uses port 4318, and it's the default in some other languages.
+`app.py` is the same file as in step 1. The [environment variables](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/) set the service name (the `service.name` attribute from the semantic conventions), which backends use to identify the service, and tell the SDK to send metrics over OTLP to `localhost:4317`. In Python, the `otlp` exporter defaults to gRPC, whose standard port is 4317. OTLP over HTTP uses port 4318, and it's the default in some other languages.
 
-If the application used Flask or `requests`, the [zero-code instrumentation](https://opentelemetry.io/docs/zero-code/python/) would also record HTTP metrics and traces for them, with no code changes. For that, first run `opentelemetry-bootstrap -a install`, which installs the instrumentation packages for the libraries it finds in your environment.
+If the application used Flask or `requests`, [zero-code instrumentation](https://opentelemetry.io/docs/zero-code/python/) would also cover those libraries without code changes, recording HTTP metrics, plus traces if you turn on a traces exporter. To get it, first run `opentelemetry-bootstrap -a install`, which installs the instrumentation packages for the libraries it finds in your environment.
 
-If you prefer to configure the SDK in code, the same setup looks like this. It lives in its own file, separate from `app.py`:
+If you prefer to configure the SDK in code, put the same setup in its own file, separate from `app.py`:
 
 ```{code-block} python
 :caption: telemetry.py
@@ -152,7 +148,7 @@ reader = PeriodicExportingMetricReader(
 metrics.set_meter_provider(MeterProvider(resource=resource, metric_readers=[reader]))
 ```
 
-In this case, `telemetry.py` has to be imported before the application runs, so you need a small entry point. `app.py` still doesn't change:
+`telemetry.py` has to register the SDK before the first measurement, so you need a small entry point that imports it first. `app.py` still doesn't change:
 
 ```{code-block} python
 :caption: main.py
@@ -166,15 +162,11 @@ while True:
 
 Run it with `python main.py`. The `opentelemetry-instrument` approach avoids this extra file, which is one reason I prefer it.
 
-Either way, the application now speaks **OTLP**. It doesn't know or care whether Prometheus, Datadog, or anything else is at the end of the line. Something has to receive that OTLP, though, and that's the Collector's job.
+Either way, the application now sends OTLP and doesn't know whether Prometheus, Datadog, or anything else is at the other end. Something has to receive that OTLP, and that's the Collector's job.
 
 ## Step 3: Route the Data With the Collector
 
-The **OpenTelemetry Collector** is a service that receives telemetry, optionally processes it, and exports it to one or more backends. Its configuration is a pipeline with three parts, the same ones in the diagram:
-
-- **receivers**: how data comes in, here OTLP on port 4317.
-- **processors**: what to do with it on the way, here batching.
-- **exporters**: where it goes, here a Prometheus endpoint and the console.
+The OpenTelemetry Collector is a service that receives telemetry, optionally processes it, and exports it to one or more backends. Its configuration defines a pipeline in three parts. Receivers define how data comes in, here OTLP over gRPC on port 4317. Processors work on the data along the way, here by batching it. Exporters define where it goes, here a Prometheus endpoint on port 8889 and the Collector's console.
 
 ```{code-block} yaml
 :caption: collector.yaml
@@ -204,7 +196,7 @@ service:
       exporters: [prometheus, debug]
 ```
 
-Run the Collector with Docker. The `contrib` distribution includes vendor exporters such as Prometheus and Datadog:
+Run the Collector with Docker, using the `contrib` distribution, which includes both the Prometheus and the Datadog exporters:
 
 ```bash
 docker run --rm \
@@ -213,7 +205,7 @@ docker run --rm \
   otel/opentelemetry-collector-contrib:0.114.0
 ```
 
-With the application from step 2 running, the metrics show up in the Prometheus format, ready for a Prometheus server to scrape. The output looks like this, trimmed (your numbers will differ):
+With the application from step 2 running, the Collector exposes the metrics in the Prometheus format, ready for a Prometheus server to scrape. Trimmed, the output looks like this (your numbers will differ):
 
 ```bash
 $ curl -s http://localhost:8889/metrics | grep payments_processed
@@ -222,11 +214,11 @@ payments_processed_total{job="payment-api",status="success"} 412
 payments_processed_total{job="payment-api",status="failure"} 47
 ```
 
-The counter gets the `_total` suffix that Prometheus expects for counters, and `service.name` became the `job` label. Depending on the Collector version, you'll also see extra labels such as `instance` and `otel_scope_name`, and a `target_info` metric with the resource attributes. The histogram appears as `payment_processing_duration_seconds_bucket`, with one series per bucket boundary from step 1.
+The counter gets the `_total` suffix that Prometheus expects for counters, and `service.name` becomes the `job` label. Depending on the Collector version, you'll also see extra labels such as `instance` and `otel_scope_name`, and a `target_info` metric with the resource attributes. The histogram appears as `payment_processing_duration_seconds_bucket`, with one series per bucket boundary from step 1.
 
 ## The Payoff: Switching Backends
 
-Now the company decides to send metrics to Datadog. With OpenTelemetry, you change one block in `collector.yaml`:
+Now the company decides to send metrics to Datadog. With OpenTelemetry, you change only the exporters in `collector.yaml`:
 
 ```{code-block} yaml
 :caption: collector.yaml (exporters changed)
@@ -254,14 +246,14 @@ docker run --rm \
   otel/opentelemetry-collector-contrib:0.114.0
 ```
 
-If your Datadog account isn't on the default US site, also set `site` in the exporter, for example `site: datadoghq.eu`.
+If your Datadog account isn't on the default US site, also set `site` under `api`, for example `site: datadoghq.eu` ([Datadog exporter docs](https://docs.datadoghq.com/opentelemetry/collector_exporter/)).
 
-`app.py` didn't change. The SDK configuration didn't change. No service was redeployed. With fifty services, that's the difference between one configuration change and fifty pull requests. You can also list both exporters during a migration and send the same data to Prometheus and Datadog at the same time.
+Neither `app.py` nor the SDK configuration changed, and the application wasn't redeployed. With fifty services, that's the difference between one configuration change and fifty pull requests. During a migration, you can also list both exporters and send the same data to Prometheus and Datadog at the same time.
 
 ## Key Takeaways
 
 - The application code depends only on the OpenTelemetry API. Without an SDK, API calls do nothing, so instrumented code is always safe to run.
-- A **meter** creates instruments: a **counter** for totals that only go up, and a **histogram** for distributions such as durations.
+- A meter creates instruments, like a counter for totals that only go up and a histogram for distributions such as durations.
 - `opentelemetry-instrument` and `OTEL_*` environment variables turn on and configure the SDK without changing the code. A separate `telemetry.py` does the same in code.
 - `service.name` identifies the service in the backends. Prometheus shows it as the `job` label.
 - Set histogram bucket boundaries that match your unit. The defaults are sized for milliseconds.
@@ -277,6 +269,7 @@ If your Datadog account isn't on the default US site, also set `site` in the exp
 - [OpenTelemetry Collector Contrib (GitHub)](https://github.com/open-telemetry/opentelemetry-collector-contrib)
 - [OpenTelemetry Python documentation (Read the Docs)](https://opentelemetry-python.readthedocs.io/)
 - [OpenTelemetry in Datadog (Datadog)](https://docs.datadoghq.com/opentelemetry/)
+- [OpenTelemetry Collector Datadog Exporter (Datadog)](https://docs.datadoghq.com/opentelemetry/collector_exporter/)
 
 ---
 
