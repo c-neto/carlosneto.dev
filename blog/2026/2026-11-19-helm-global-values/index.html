@@ -14,8 +14,8 @@
 <meta property="og:description" content="How the global key in Helm values works, why it only matters with subcharts, and how I used it to share one image tag across five modules of an umbrella chart." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-19-helm-global-values_2862324b.png" />
-<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/19 This blog post covers how Helm&#x27;s global key passes values from a parent chart to its subcharts, ending with an umbrella chart that sets one image tag for fiv..." />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-19-helm-global-values_fb50a311.png" />
+<meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/19 This blog post covers how Helm&#x27;s global key passes values from a parent chart to its subcharts, including a hands-on example with an umbrella chart that sets..." />
 <meta name="twitter:card" content="summary_large_image" />
 
     <title>Helm Global Values: The Right Way to Share Values with Subcharts &#8212; Carlos Neto&#39;s Blog</title>
@@ -434,7 +434,7 @@
 <hr class="docutils" />
 <section id="helm-global-values-the-right-way-to-share-values-with-subcharts">
 <h1>Helm Global Values: The Right Way to Share Values with Subcharts<a class="headerlink" href="#helm-global-values-the-right-way-to-share-values-with-subcharts" title="Link to this heading">#</a></h1>
-<p>This blog post covers how Helm's <code class="docutils literal notranslate"><span class="pre">global</span></code> key passes values from a parent chart to its subcharts, ending with an umbrella chart that sets one image tag for five modules in a single place.</p>
+<p>This blog post covers how Helm's <code class="docutils literal notranslate"><span class="pre">global</span></code> key passes values from a parent chart to its subcharts, including a hands-on example with an umbrella chart that sets one image tag for five modules in a single place.</p>
 <section id="global-values-reach-every-subchart">
 <h2>Global Values Reach Every Subchart<a class="headerlink" href="#global-values-reach-every-subchart" title="Link to this heading">#</a></h2>
 <p>In Helm, <strong>global values</strong> are the values under the reserved <code class="docutils literal notranslate"><span class="pre">global</span></code> key, and every chart and subchart can read them. I first saw the key in the <a class="reference external" href="https://github.com/external-secrets/external-secrets/blob/main/deploy/charts/external-secrets/values.yaml">External Secrets Operator chart</a> and in Bitnami charts such as <a class="reference external" href="https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/values.yaml#L15">Fluent Bit</a>, and took it for a naming convention. It isn't one, although inside a single chart it behaves like any other key. The difference shows up when a chart has subcharts.</p>
