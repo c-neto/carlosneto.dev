@@ -6,19 +6,19 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta content="How the global key in Helm values works, why it only matters with subcharts, and how I used it to share one image tag across five modules of an umbrella chart." name="description" />
-<meta property="og:title" content="Helm Global Values: The Right Way to Share Values with Subcharts" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta content="How the global key in Helm values works, why it only matters with subcharts, and how I used it to share one image tag across two modules of an umbrella chart." name="description" />
+<meta property="og:title" content="Helm Global Values: The Right Way to Share Values in an Umbrella Chart" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://carlosneto.dev/blog/2026/2026-11-19-helm-global-values/" />
 <meta property="og:site_name" content="Carlos Neto" />
-<meta property="og:description" content="How the global key in Helm values works, why it only matters with subcharts, and how I used it to share one image tag across five modules of an umbrella chart." />
+<meta property="og:description" content="How the global key in Helm values works, why it only matters with subcharts, and how I used it to share one image tag across two modules of an umbrella chart." />
 <meta property="og:image:width" content="1146" />
 <meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-19-helm-global-values_fb50a311.png" />
+<meta property="og:image" content="https://carlosneto.dev/_images/social_previews/summary_blog_2026_2026-11-19-helm-global-values_e48e986d.png" />
 <meta property="og:image:alt" content="Blog Post Publish Date: 2026/11/19 This blog post covers how Helm&#x27;s global key passes values from a parent chart to its subcharts, including a hands-on example with an umbrella chart that sets..." />
 <meta name="twitter:card" content="summary_large_image" />
 
-    <title>Helm Global Values: The Right Way to Share Values with Subcharts &#8212; Carlos Neto&#39;s Blog</title>
+    <title>Helm Global Values: The Right Way to Share Values in an Umbrella Chart &#8212; Carlos Neto&#39;s Blog</title>
   
   
   
@@ -432,46 +432,58 @@
 </div>
 <p><em><strong>Blog Post Publish Date:</strong> 2026/11/19</em></p>
 <hr class="docutils" />
-<section id="helm-global-values-the-right-way-to-share-values-with-subcharts">
-<h1>Helm Global Values: The Right Way to Share Values with Subcharts<a class="headerlink" href="#helm-global-values-the-right-way-to-share-values-with-subcharts" title="Link to this heading">#</a></h1>
-<p>This blog post covers how Helm's <code class="docutils literal notranslate"><span class="pre">global</span></code> key passes values from a parent chart to its subcharts, including a hands-on example with an umbrella chart that sets one image tag for five modules in a single place.</p>
+<section id="helm-global-values-the-right-way-to-share-values-in-an-umbrella-chart">
+<h1>Helm Global Values: The Right Way to Share Values in an Umbrella Chart<a class="headerlink" href="#helm-global-values-the-right-way-to-share-values-in-an-umbrella-chart" title="Link to this heading">#</a></h1>
+<p>This blog post covers how Helm's <code class="docutils literal notranslate"><span class="pre">global</span></code> key passes values from a parent chart to its subcharts, including a hands-on example with an umbrella chart that sets one image tag for two modules in a single place.</p>
 <section id="global-values-reach-every-subchart">
 <h2>Global Values Reach Every Subchart<a class="headerlink" href="#global-values-reach-every-subchart" title="Link to this heading">#</a></h2>
 <p>In Helm, <strong>global values</strong> are the values under the reserved <code class="docutils literal notranslate"><span class="pre">global</span></code> key, and every chart and subchart can read them. I first saw the key in the <a class="reference external" href="https://github.com/external-secrets/external-secrets/blob/main/deploy/charts/external-secrets/values.yaml">External Secrets Operator chart</a> and in Bitnami charts such as <a class="reference external" href="https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/values.yaml#L15">Fluent Bit</a>, and took it for a naming convention. It isn't one, although inside a single chart it behaves like any other key. The difference shows up when a chart has subcharts.</p>
 <p>A parent chart, or umbrella chart, declares other charts as dependencies and configures each one in its <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> under a key with the subchart's name. Helm passes each subchart only its own block, without the prefix, so a subchart template reads <code class="docutils literal notranslate"><span class="pre">.Values.replicaCount</span></code>, not <code class="docutils literal notranslate"><span class="pre">.Values.mysubchart.replicaCount</span></code>. In the words of the <a class="reference external" href="https://helm.sh/docs/chart_template_guide/subcharts_and_globals/#global-chart-values">Helm documentation on subcharts and globals</a>, &quot;a subchart cannot access the values of its parent.&quot;</p>
-<p><code class="docutils literal notranslate"><span class="pre">global</span></code> is the exception to that scoping. Helm reserves <code class="docutils literal notranslate"><span class="pre">Values.global</span></code> for values that &quot;can be accessed from any chart or subchart by exactly the same name&quot;, so a value under <code class="docutils literal notranslate"><span class="pre">global</span></code> in the parent reaches every subchart as <code class="docutils literal notranslate"><span class="pre">.Values.global.&lt;name&gt;</span></code>. Any other key in the parent stays invisible to the subchart unless it sits in the subchart's block.</p>
-<p>A global still takes effect only where a template reads it. <code class="docutils literal notranslate"><span class="pre">global</span></code> is a mechanism for the chart developer, who decides which values the chart can take from the parent's scope and writes the templates to read them from <code class="docutils literal notranslate"><span class="pre">.Values.global</span></code>. A subchart whose templates never reference <code class="docutils literal notranslate"><span class="pre">.Values.global.image.tag</span></code> ignores that key, whatever the parent sets. So a <code class="docutils literal notranslate"><span class="pre">global</span></code> block in an umbrella chart only works for subcharts written to consume those specific keys, which is what the External Secrets and Bitnami charts do with settings such as <code class="docutils literal notranslate"><span class="pre">imagePullSecrets</span></code>.</p>
-<p>The <a class="reference external" href="https://helm.sh/docs/topics/charts/#global-values">charts reference</a> adds three rules. Globals flow down to subcharts and their subcharts, never up, so a subchart can't change the parent's values. When the parent and a subchart define the same global, the parent wins. And globals must be declared explicitly, so you can't use an existing non-global key as a global.</p>
-<p>Here is the same parent <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> seen from each side, for a subchart imported as <code class="docutils literal notranslate"><span class="pre">billing</span></code>:</p>
+<p><code class="docutils literal notranslate"><span class="pre">global</span></code> is the exception to that scoping. Helm reserves <code class="docutils literal notranslate"><span class="pre">Values.global</span></code> for values that &quot;can be accessed from any chart or subchart by exactly the same name&quot;. A value under <code class="docutils literal notranslate"><span class="pre">global</span></code> in the parent therefore reaches every subchart as <code class="docutils literal notranslate"><span class="pre">.Values.global.&lt;name&gt;</span></code>. Any other key in the parent stays invisible to the subchart unless it sits in the subchart's block.</p>
+<p>A global still takes effect only where a template reads it. <code class="docutils literal notranslate"><span class="pre">global</span></code> is a mechanism for the chart developer, who decides which values the chart can take from the parent's scope and writes the templates to read them from <code class="docutils literal notranslate"><span class="pre">.Values.global</span></code>. A subchart whose templates never reference <code class="docutils literal notranslate"><span class="pre">.Values.global.image.tag</span></code> ignores that key, whatever the parent sets. So a <code class="docutils literal notranslate"><span class="pre">global</span></code> block in an umbrella chart only works for subcharts written to consume those specific keys. The External Secrets and Bitnami charts do that with settings such as <code class="docutils literal notranslate"><span class="pre">imagePullSecrets</span></code>.</p>
+<p>The <a class="reference external" href="https://helm.sh/docs/topics/charts/#global-values">charts reference</a> adds three rules. Globals also reach the subcharts of subcharts. When the parent and a subchart define the same global, the parent wins. And globals must be declared explicitly, so you can't use an existing non-global key as a global.</p>
+<p>To see the three cases side by side, take an umbrella chart that imports a subchart as <code class="docutils literal notranslate"><span class="pre">billing</span></code>, with these values:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># umbrella/values.yaml</span>
+<span class="nt">replicaCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+
+<span class="nt">billing</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicaCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+
+<span class="nt">global</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">image</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="s">"2.3.1"</span>
+</pre></div>
+</div>
+<p>Each key reaches the templates of the two charts in a different way:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Where the value is set in the parent</p></th>
-<th class="head"><p>Path in the parent templates</p></th>
-<th class="head"><p>Path in the <code class="docutils literal notranslate"><span class="pre">billing</span></code> templates</p></th>
+<tr class="row-odd"><th class="head"><p>Key in the umbrella <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code></p></th>
+<th class="head"><p>How the umbrella templates read it</p></th>
+<th class="head"><p>How the <code class="docutils literal notranslate"><span class="pre">billing</span></code> templates read it</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">replicaCount</span></code> at the root</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">.Values.replicaCount</span></code></p></td>
-<td><p>Not visible</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">replicaCount</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.Values.replicaCount</span></code> (<code class="docutils literal notranslate"><span class="pre">1</span></code>)</p></td>
+<td><p>No access</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">billing.replicaCount</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">.Values.billing.replicaCount</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">.Values.replicaCount</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.Values.billing.replicaCount</span></code> (<code class="docutils literal notranslate"><span class="pre">2</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.Values.replicaCount</span></code> (<code class="docutils literal notranslate"><span class="pre">2</span></code>)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">global.image.tag</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">.Values.global.image.tag</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">.Values.global.image.tag</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.Values.global.image.tag</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;2.3.1&quot;</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.Values.global.image.tag</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;2.3.1&quot;</span></code>)</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </section>
-<section id="one-global-image-tag-for-five-modules">
-<h2>One Global Image Tag for Five Modules<a class="headerlink" href="#one-global-image-tag-for-five-modules" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">global</span></code> clicked for me with an internal application at work. I wrote a chart for it and an umbrella chart that imports that chart five times, one per application module, each with its own values. The umbrella works like a bounded context for the modules. All five run the same container image, and I didn't want to repeat the tag in every module's values.</p>
+<section id="one-global-image-tag-for-two-modules">
+<h2>One Global Image Tag for Two Modules<a class="headerlink" href="#one-global-image-tag-for-two-modules" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">global</span></code> clicked for me with an internal application at work. I wrote a chart for it and an umbrella chart that imports that chart twice, once per application module, each with its own values. The umbrella works like a bounded context for the modules. Both run the same container image, and I didn't want to repeat the tag in each module's values.</p>
 <img alt="Animated diagram of an umbrella chart values.yaml with a global block and two module blocks, billing and orders. Each module block reaches only its own aliased subchart, charts/billing or charts/orders, without the prefix. The global block reaches both subcharts as .Values.global, so both render the image tag 2.3.1. When global.image.tag changes to 2.4.0, both modules render 2.4.0." src="../../../_images/helm-global-values.gif" />
-<p>The umbrella chart imports the application chart once per module with <a class="reference external" href="https://helm.sh/docs/topics/charts/#alias-field-in-dependencies"><code class="docutils literal notranslate"><span class="pre">alias</span></code></a>, the dependency field for adding the same chart more than once. The names are examples, and the snippet shows two of the five modules:</p>
+<p>The umbrella chart imports the application chart once per module with <a class="reference external" href="https://helm.sh/docs/topics/charts/#alias-field-in-dependencies"><code class="docutils literal notranslate"><span class="pre">alias</span></code></a>, the dependency field for adding the same chart more than once. The module names are examples:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># umbrella/Chart.yaml</span>
 <span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2</span>
 <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-app-bundle</span>
@@ -516,13 +528,7 @@
 <span class="w">  </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="s">"1.0.0"</span>
 </pre></div>
 </div>
-<p>Without that default, rendering the application chart alone fails, because <code class="docutils literal notranslate"><span class="pre">.Values.global.image</span></code> doesn't exist. With Helm v4.3.1, the error is:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Error: app/templates/deployment.yaml:10:59
-  executing "app/templates/deployment.yaml" at &lt;.Values.global.image.tag&gt;:
-    nil pointer evaluating interface {}.image
-</pre></div>
-</div>
-<p>With the default in place, <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">template</span></code> renders both modules with the global tag:</p>
+<p><code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">template</span></code> renders both modules with the global tag:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>template<span class="w"> </span>rel<span class="w"> </span>./umbrella<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>image:
 </pre></div>
 </div>
@@ -534,7 +540,7 @@
 </section>
 <section id="yaml-anchors-break-across-values-files">
 <h2>YAML Anchors Break Across Values Files<a class="headerlink" href="#yaml-anchors-break-across-values-files" title="Link to this heading">#</a></h2>
-<p>Before <code class="docutils literal notranslate"><span class="pre">global</span></code>, I shared parameters across module blocks with <a class="reference external" href="https://yaml.org/spec/1.2.2/#anchors-and-aliases">YAML anchors</a>, defining the tag once with <code class="docutils literal notranslate"><span class="pre">&amp;tag</span></code> and referencing it with <code class="docutils literal notranslate"><span class="pre">*tag</span></code>. Anchors only resolve inside the file being parsed, so when I split the umbrella values into more than one file, a file passed with <code class="docutils literal notranslate"><span class="pre">-f</span></code> couldn't reference an anchor from another one. <code class="docutils literal notranslate"><span class="pre">global</span></code> doesn't have that limit, because Helm merges all values files before passing the global block to the subcharts.</p>
+<p>Before <code class="docutils literal notranslate"><span class="pre">global</span></code>, I shared parameters across module blocks with <a class="reference external" href="https://yaml.org/spec/1.2.2/#anchors-and-aliases">YAML anchors</a>, defining the tag once with <code class="docutils literal notranslate"><span class="pre">&amp;tag</span></code> and referencing it with <code class="docutils literal notranslate"><span class="pre">*tag</span></code>. Anchors only resolve inside the file being parsed. When I split the umbrella values into more than one file, a file passed with <code class="docutils literal notranslate"><span class="pre">-f</span></code> couldn't reference an anchor from another one. <code class="docutils literal notranslate"><span class="pre">global</span></code> doesn't have that limit, because Helm merges all values files before passing the global block to the subcharts.</p>
 </section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
@@ -542,9 +548,9 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">global</span></code> is a reserved key that any chart or subchart reads as <code class="docutils literal notranslate"><span class="pre">.Values.global.&lt;name&gt;</span></code>.</p></li>
 <li><p>Subcharts see only their own block of the parent's values, except for <code class="docutils literal notranslate"><span class="pre">global</span></code>.</p></li>
 <li><p>Inside a single chart, <code class="docutils literal notranslate"><span class="pre">global</span></code> is a regular value that reaches only the templates that read it.</p></li>
-<li><p>Globals flow from parent to subcharts, never up, and the parent's value wins.</p></li>
+<li><p>When the parent and a subchart define the same global, the parent's value wins.</p></li>
 <li><p>An umbrella chart that imports the same chart several times with <code class="docutils literal notranslate"><span class="pre">alias</span></code> can set a shared value, such as the image tag, once under <code class="docutils literal notranslate"><span class="pre">global</span></code>.</p></li>
-<li><p>A subchart that reads a global should declare it with an empty default, or it fails to render on its own.</p></li>
+<li><p>A subchart that reads a global should declare it with an empty default, so it still renders on its own.</p></li>
 <li><p>YAML anchors only resolve inside one file and break when values are split across files.</p></li>
 </ul>
 </section>
@@ -570,8 +576,8 @@
   "@graph": [
     {
       "@type": "BlogPosting",
-      "headline": "Helm Global Values: The Right Way to Share Values with Subcharts",
-      "description": "How the global key in Helm values works, why it only matters with subcharts, and how I used it to share one image tag across five modules of an umbrella chart.",
+      "headline": "Helm Global Values: The Right Way to Share Values in an Umbrella Chart",
+      "description": "How the global key in Helm values works, why it only matters with subcharts, and how I used it to share one image tag across two modules of an umbrella chart.",
       "datePublished": "2026-11-19",
       "inLanguage": "en",
       "url": "https://carlosneto.dev/blog/2026/2026-11-19-helm-global-values/",
@@ -592,7 +598,7 @@
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://carlosneto.dev/"},
         {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://carlosneto.dev/blog/"},
-        {"@type": "ListItem", "position": 3, "name": "Helm Global Values: The Right Way to Share Values with Subcharts"}
+        {"@type": "ListItem", "position": 3, "name": "Helm Global Values: The Right Way to Share Values in an Umbrella Chart"}
       ]
     }
   ]
