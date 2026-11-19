@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-19T16:49:23.522628+00:00</updated>
+  <updated>2026-11-19T17:02:12.177318+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -120,7 +120,10 @@
 &lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"registry.example.com/my-app:2.3.1"&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Bumping every module now takes one value, such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--set&lt;/span&gt; &lt;span class="pre"&gt;global.image.tag=2.4.0&lt;/span&gt;&lt;/code&gt;, and the application chart still works standalone with its own &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;image.tag&lt;/span&gt;&lt;/code&gt;. To check which values each subchart receives after the merge, the JSON dump from &lt;a class="reference internal" href="2026/2026-02-25-helm-tips-inspect-context/"&gt;&lt;span class="std std-doc"&gt;Helm Tips: Inspect Your Chart Context with JSON&lt;/span&gt;&lt;/a&gt; shows &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;global&lt;/span&gt;&lt;/code&gt; inside each subchart's &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;.Values&lt;/span&gt;&lt;/code&gt;. For how I decide what to template in the application chart, see &lt;a class="reference internal" href="2025/2025-02-25-helm-best-practices/"&gt;&lt;span class="std std-doc"&gt;Helm Charts: Development Practices from a Programmer's Perspective&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Bumping every module now takes one value, such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;--set&lt;/span&gt; &lt;span class="pre"&gt;global.image.tag=2.4.0&lt;/span&gt;&lt;/code&gt;, and the application chart still works standalone with its own &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;image.tag&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;div&gt;&lt;p&gt;&lt;em&gt;To see the &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;global&lt;/span&gt;&lt;/code&gt; values each subchart receives, use the JSON dump from &lt;a class="reference internal" href="2026/2026-02-25-helm-tips-inspect-context/"&gt;&lt;span class="std std-doc"&gt;Helm Tips: Inspect Your Chart Context with JSON&lt;/span&gt;&lt;/a&gt;. For what I template in the application chart, see &lt;a class="reference internal" href="2025/2025-02-25-helm-best-practices/"&gt;&lt;span class="std std-doc"&gt;Helm Charts: Development Practices from a Programmer's Perspective&lt;/span&gt;&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/blockquote&gt;
 &lt;/section&gt;
 &lt;section id="yaml-anchors-break-across-values-files"&gt;
 &lt;h2&gt;YAML Anchors Break Across Values Files&lt;/h2&gt;
