@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-19T17:02:12.177318+00:00</updated>
+  <updated>2026-11-19T18:52:35.986476+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -18,7 +18,7 @@
 &lt;hr class="docutils" /&gt;
 &lt;section id="helm-global-values-the-right-way-to-share-values-in-an-umbrella-chart"&gt;
 
-&lt;p&gt;This blog post covers how Helm's &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;global&lt;/span&gt;&lt;/code&gt; key passes values from a parent chart to its subcharts, including a hands-on example with an umbrella chart that sets one image tag for two modules in a single place.&lt;/p&gt;
+&lt;p&gt;I wrote this blog post to share an idiomatic way to use values defined in a parent chart across its subcharts using Helm Global Values. This approach changed how I structure my charts, making them more flexible and easier to configure without losing the semantics of each subchart. The post covers a straightforward explanation and a hands-on example using an umbrella chart that defines a single image tag shared by two modules in one place. It also explains the advantages of Global Values over YAML anchors.&lt;/p&gt;
 &lt;section id="global-values-reach-every-subchart"&gt;
 &lt;h2&gt;Global Values Reach Every Subchart&lt;/h2&gt;
 &lt;p&gt;In Helm, &lt;strong&gt;global values&lt;/strong&gt; are the values under the reserved &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;global&lt;/span&gt;&lt;/code&gt; key, and every chart and subchart can read them. I first saw the key in the &lt;a class="reference external" href="https://github.com/external-secrets/external-secrets/blob/main/deploy/charts/external-secrets/values.yaml"&gt;External Secrets Operator chart&lt;/a&gt; and in Bitnami charts such as &lt;a class="reference external" href="https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/values.yaml#L15"&gt;Fluent Bit&lt;/a&gt;, and took it for a naming convention. It isn't one, although inside a single chart it behaves like any other key. The difference shows up when a chart has subcharts.&lt;/p&gt;
@@ -195,7 +195,7 @@
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-19-helm-global-values/"/>
-    <summary>Blog Post Publish Date: 2026/11/19This blog post covers how Helm's global key passes values from a parent chart to its subcharts, including a hands-on example with an umbrella chart that sets one image tag for two modules in a single place.</summary>
+    <summary>Blog Post Publish Date: 2026/11/19I wrote this blog post to share an idiomatic way to use values defined in a parent chart across its subcharts using Helm Global Values. This approach changed how I structure my charts, making them more flexible and easier to configure without losing the semantics of each subchart. The post covers a straightforward explanation and a hands-on example using an umbrella chart that defines a single image tag shared by two modules in one place. It also explains the advantages of Global Values over YAML anchors.</summary>
     <category term="helm" label="helm"/>
     <category term="kubernetes" label="kubernetes"/>
     <published>2026-11-19T00:00:00+00:00</published>
