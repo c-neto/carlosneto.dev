@@ -191,7 +191,7 @@ Each section should naturally lead to the next one.
 
 The introduction is a single paragraph with a single sentence, placed between the H1 and the first H2. It starts with "This blog post covers" and says what the post covers and what the reader ends up with (the final result, example, or conclusion). It is the preview in link-sharing thumbnails, so it only tells the reader what the post contains. Do not add a second introductory paragraph. Background, context, and motivation belong in the first section.
 
-Example: "This blog post covers how Helm's `global` key passes values from a parent chart to its subcharts, ending with an umbrella chart that sets one image tag for five modules in a single place."
+Example: "This blog post covers how Helm's `global` key passes values from a parent chart to its subcharts, ending with an umbrella chart that sets one image tag for two modules in a single place."
 
 Avoid generic openings such as "In today's fast-paced technological landscape."
 
