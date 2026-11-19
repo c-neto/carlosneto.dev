@@ -124,7 +124,9 @@ image: "registry.example.com/my-app:2.3.1"
 image: "registry.example.com/my-app:2.3.1"
 ```
 
-Bumping every module now takes one value, such as `--set global.image.tag=2.4.0`, and the application chart still works standalone with its own `image.tag`. To check which values each subchart receives after the merge, the JSON dump from [Helm Tips: Inspect Your Chart Context with JSON](/blog/2026/2026-02-25-helm-tips-inspect-context.md) shows `global` inside each subchart's `.Values`. For how I decide what to template in the application chart, see [Helm Charts: Development Practices from a Programmer's Perspective](/blog/2025/2025-02-25-helm-best-practices.md).
+Bumping every module now takes one value, such as `--set global.image.tag=2.4.0`, and the application chart still works standalone with its own `image.tag`.
+
+> _To see the `global` values each subchart receives, use the JSON dump from [Helm Tips: Inspect Your Chart Context with JSON](/blog/2026/2026-02-25-helm-tips-inspect-context.md). For what I template in the application chart, see [Helm Charts: Development Practices from a Programmer's Perspective](/blog/2025/2025-02-25-helm-best-practices.md)._
 
 ## YAML Anchors Break Across Values Files
 
