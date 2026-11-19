@@ -18,7 +18,7 @@ og:description: "How the global key in Helm values works, why it only matters wi
 
 # Helm Global Values: The Right Way to Share Values in an Umbrella Chart
 
-This blog post covers how Helm's `global` key passes values from a parent chart to its subcharts, including a hands-on example with an umbrella chart that sets one image tag for two modules in a single place.
+I wrote this blog post to share an idiomatic way to use values defined in a parent chart across its subcharts using Helm Global Values. This approach changed how I structure my charts, making them more flexible and easier to configure without losing the semantics of each subchart. The post covers a straightforward explanation and a hands-on example using an umbrella chart that defines a single image tag shared by two modules in one place. It also explains the advantages of Global Values over YAML anchors.
 
 ## Global Values Reach Every Subchart
 
