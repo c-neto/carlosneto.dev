@@ -15,7 +15,7 @@ Use this mode when the author asks to edit, rewrite, add, or remove a passage of
 
 1. Read [written-directives.md](./written-directives.md) in this turn, even if it was read earlier in the conversation, since the author may have changed it.
 2. Read the current version of the file around the passage. The author often edits files between requests, so never rely on an earlier read.
-3. Change only what the author asked for. Keep the surrounding text, unless the change makes it inconsistent (for example, "my main motivation" when a second motivation is added).
+3. Change only what the author asked for. Keep the surrounding text, unless the change makes it inconsistent (for example, "my main motivation" when a second motivation is added). When the request is a rewrite or refactor of a post, or touches its introduction, also apply the opening sentence rule from Post Rules. If the introduction is not a single sentence starting with "This blog post covers", rewrite it, and move any context it held into the first section.
 4. Before saving, check the new text against the hard rules at the end of [written-directives.md](./written-directives.md). Then check the language and style rules, such as no colons in the middle of a sentence, no bullets in the body, and no first person in Key Takeaways.
 5. Run the `humanizer` skill on the changed passage as the last step. Use the rest of the same post as the voice sample. Pass only the passage, not the whole post, and keep its meaning and the author's wording where they asked for it. Check the result against [written-directives.md](./written-directives.md) again, since the humanizer can reintroduce what the directives forbid. If the `humanizer` skill is not available in the session, stop and tell the author instead of skipping the step.
 6. Reply with the final text quoted and a short note on the choices that changed the meaning or tone. If the request is ambiguous (for example, "this sentence" without saying which one), say which passage was changed.
@@ -85,6 +85,7 @@ Constraints for every round:
 - Keep the author's experience, opinions, and voice. Never trade them for points.
 - Never add invented experience, statistics, or numbers. Statistics and technical claims need a real source, preferably official documentation.
 - Keep the layout from `blog-layout.md` intact.
+- Keep the opening sentence rule from Post Rules. The introduction stays a single sentence that starts with "This blog post covers", with no second introductory paragraph, even when an analyzer suggests a different opening.
 - Follow [written-directives.md](./written-directives.md). When an analyzer fix conflicts with a directive (for example, adding subsections or lists that break the explanatory prose), the directive wins.
 - Some analyzer points are not worth chasing on this site: a frontmatter `slug` or `canonical`, hero images, and links added only to reach tier-1 domains. Skip those and say so.
 - If a round lowers the score, revert that round's changes and try a different fix.
@@ -107,7 +108,7 @@ Show the author:
 ## Post Rules
 
 - Write every post, and all content created for the site, in English, regardless of the language the author uses in the chat or in the draft.
-- The first paragraph is a summary of the post. It is used as a preview in search results and social media. Make it concise, clear, and specific. Avoid generic statements that do not convey the post's content.
+- The introduction is a single paragraph with a single sentence, between the H1 and the first H2. It starts with "This blog post covers" and says what the post covers and what the reader ends up with (the final result, example, or conclusion). It is the preview shown in link-sharing thumbnails, search results, and social media. Do not add a second introductory paragraph. Background and context belong in the first section. Example: "This blog post covers how Helm's `global` key passes values from a parent chart to its subcharts, ending with an umbrella chart that sets one image tag for five modules in a single place."
 - Write in first person where the author's experience is involved. The post should read as someone who did this work, not as documentation.
 - The last section before References is `## Key Takeaways`, with bullet points summarizing the main points, not a generic conclusion.
 - Read [blog-layout.md](./blog-layout.md) for the frontmatter template, the end-of-post order, the author footer, the JSON-LD block, and the code block rules. They are required for every post.

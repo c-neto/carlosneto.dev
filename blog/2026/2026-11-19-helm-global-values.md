@@ -18,21 +18,17 @@ og:description: "How the global key in Helm values works, why it only matters wi
 
 # Helm Global Values: The Right Way to Share Values with Subcharts
 
-In Helm, __global values__ are the values under the reserved `global` key, and every chart and subchart can read them. Each subchart normally sees only its own block of values. In this post I explain why I took `global` for a naming convention, what Helm actually does with it, and how I used it to set one image tag for the five modules of an umbrella chart.
+This blog post covers how Helm's `global` key passes values from a parent chart to its subcharts, ending with an umbrella chart that sets one image tag for five modules in a single place.
 
-## Why I Thought `global` Was Just a Convention
+## Global Values Reach Every Subchart
 
-I first saw `global` in the [External Secrets Operator chart](https://github.com/external-secrets/external-secrets/blob/main/deploy/charts/external-secrets/values.yaml). Its `global` block holds keys such as `podLabels`, `imagePullSecrets`, and `repository`, and a value set there applies to every deployment of the chart. Since the name suggests something that applies to everything, I took it as a naming convention with no mechanism behind it. Then I found the same block in Bitnami charts, such as the [Fluent Bit chart](https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/values.yaml#L15) with `imageRegistry` and `imagePullSecrets`, which reinforced that idea.
+In Helm, __global values__ are the values under the reserved `global` key, and every chart and subchart can read them. I first saw the key in the [External Secrets Operator chart](https://github.com/external-secrets/external-secrets/blob/main/deploy/charts/external-secrets/values.yaml) and in Bitnami charts such as [Fluent Bit](https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/values.yaml#L15), and took it for a naming convention. It isn't one, although inside a single chart it behaves like any other key. The difference shows up when a chart has subcharts.
 
-In a single chart, that is mostly true. The values reach every deployment because the chart's templates read `.Values.global`, and any other key name would work the same way. What I missed is that Helm treats `global` differently when a chart has subcharts. The comment above the Bitnami block hints at it, saying these values override the image parameters "including dependencies".
+A parent chart, or umbrella chart, declares other charts as dependencies and configures each one in its `values.yaml` under a key with the subchart's name. Helm passes each subchart only its own block, without the prefix, so a subchart template reads `.Values.replicaCount`, not `.Values.mysubchart.replicaCount`. In the words of the [Helm documentation on subcharts and globals](https://helm.sh/docs/chart_template_guide/subcharts_and_globals/#global-chart-values), "a subchart cannot access the values of its parent."
 
-## What Helm Does with `global`
+`global` is the exception to that scoping. Helm reserves `Values.global` for values that "can be accessed from any chart or subchart by exactly the same name", so a value under `global` in the parent reaches every subchart as `.Values.global.<name>`. Any other key in the parent stays invisible to the subchart unless it sits in the subchart's block.
 
-The [Helm documentation on subcharts and globals](https://helm.sh/docs/chart_template_guide/subcharts_and_globals/#global-chart-values) cleared it up for me. To see why `global` exists, start with how Helm scopes values in a parent chart, or umbrella chart, that declares other charts as dependencies.
-
-The parent's `values.yaml` configures each subchart under a key with the subchart's name. Helm passes each subchart only its own block, without the prefix, so a subchart template reads `.Values.replicaCount`, not `.Values.mysubchart.replicaCount`. In the documentation's words, "a subchart cannot access the values of its parent."
-
-`global` is the exception. Helm reserves `Values.global` for values that "can be accessed from any chart or subchart by exactly the same name", so a value under `global` in the parent reaches every subchart as `.Values.global.<name>`. A naming convention can't do that, because any other key in the parent is invisible to the subchart unless it sits in the subchart's block.
+A global still takes effect only where a template reads it. `global` is a mechanism for the chart developer, who decides which values the chart can take from the parent's scope and writes the templates to read them from `.Values.global`. A subchart whose templates never reference `.Values.global.image.tag` ignores that key, whatever the parent sets. So a `global` block in an umbrella chart only works for subcharts written to consume those specific keys, which is what the External Secrets and Bitnami charts do with settings such as `imagePullSecrets`.
 
 The [charts reference](https://helm.sh/docs/topics/charts/#global-values) adds three rules. Globals flow down to subcharts and their subcharts, never up, so a subchart can't change the parent's values. When the parent and a subchart define the same global, the parent wins. And globals must be declared explicitly, so you can't use an existing non-global key as a global.
 
@@ -44,7 +40,7 @@ Here is the same parent `values.yaml` seen from each side, for a subchart import
 | `billing.replicaCount` | `.Values.billing.replicaCount` | `.Values.replicaCount` |
 | `global.image.tag` | `.Values.global.image.tag` | `.Values.global.image.tag` |
 
-## Sharing One Image Tag Across Five Modules
+## One Global Image Tag for Five Modules
 
 `global` clicked for me with an internal application at work. I wrote a chart for it and an umbrella chart that imports that chart five times, one per application module, each with its own values. The umbrella works like a bounded context for the modules. All five run the same container image, and I didn't want to repeat the tag in every module's values.
 
@@ -124,9 +120,9 @@ image: "registry.example.com/my-app:2.3.1"
 
 Bumping every module now takes one value, such as `--set global.image.tag=2.4.0`, and the application chart still works standalone with its own `image.tag`. To check which values each subchart receives after the merge, the JSON dump from [Helm Tips: Inspect Your Chart Context with JSON](/blog/2026/2026-02-25-helm-tips-inspect-context.md) shows `global` inside each subchart's `.Values`. For how I decide what to template in the application chart, see [Helm Charts: Development Practices from a Programmer's Perspective](/blog/2025/2025-02-25-helm-best-practices.md).
 
-## Why YAML Anchors Were Not Enough
+## YAML Anchors Break Across Values Files
 
-It took me a while to see this. Before, I shared parameters across module blocks with [YAML anchors](https://yaml.org/spec/1.2.2/#anchors-and-aliases), defining the tag once with `&tag` and referencing it with `*tag`. Anchors only resolve inside the file being parsed, so when I split the umbrella values into more than one file, a file passed with `-f` couldn't reference an anchor from another one. `global` doesn't have that limit, because Helm merges all values files before passing the global block to the subcharts.
+Before `global`, I shared parameters across module blocks with [YAML anchors](https://yaml.org/spec/1.2.2/#anchors-and-aliases), defining the tag once with `&tag` and referencing it with `*tag`. Anchors only resolve inside the file being parsed, so when I split the umbrella values into more than one file, a file passed with `-f` couldn't reference an anchor from another one. `global` doesn't have that limit, because Helm merges all values files before passing the global block to the subcharts.
 
 ## Key Takeaways
 

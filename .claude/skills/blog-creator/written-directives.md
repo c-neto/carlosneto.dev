@@ -189,18 +189,11 @@ Each section should naturally lead to the next one.
 
 ### 10. Write stronger introductions
 
-An introduction should quickly establish:
+The introduction is a single paragraph with a single sentence, placed between the H1 and the first H2. It starts with "This blog post covers" and says what the post covers and what the reader ends up with (the final result, example, or conclusion). It is the preview in link-sharing thumbnails, so it only tells the reader what the post contains. Do not add a second introductory paragraph. Background, context, and motivation belong in the first section.
 
-- The context.
-- The problem or motivation.
-- The author's perspective or experience, when relevant.
-- What the article intends to explain.
+Example: "This blog post covers how Helm's `global` key passes values from a parent chart to its subcharts, ending with an umbrella chart that sets one image tag for five modules in a single place."
 
 Avoid generic openings such as "In today's fast-paced technological landscape."
-
-Do not spend several paragraphs explaining background information that can be covered later.
-
-Get to the central idea quickly.
 
 ### 11. Write useful conclusions
 
@@ -258,6 +251,7 @@ Always:
 
 - Write all site content in English, whatever language the author uses in the chat or the draft.
 - Keep the author's first-person experience in the body.
+- Open every post with a single one-sentence paragraph that starts with "This blog post covers" and states what the post covers and its final result, followed directly by the first H2 (see directive 10).
 
 Never:
 
