@@ -23,6 +23,7 @@ extensions = [
     "sphinx_copybutton",
     "sphinxext.opengraph",
     "sphinxext.rediraffe",
+    "post_card",
 ]
 
 templates_path = ["_templates"]
