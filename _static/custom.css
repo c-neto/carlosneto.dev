@@ -197,3 +197,19 @@ ol, ul {
 .bd-content table thead th {
   background-color: color-mix(in srgb, var(--pst-color-text-base) 6%, transparent);
 }
+
+/* Inline code: discreet style. Use the body text color instead of the
+   theme's magenta, a hairline translucent border, and a faint neutral background.
+   Code inside links keeps the link color (theme rule a>code{color:inherit}). */
+html:not([data-theme]),
+html[data-theme="light"],
+html[data-theme="dark"] {
+  --pst-color-inline-code: var(--pst-color-text-base);
+}
+
+code.literal {
+  background-color: color-mix(in srgb, var(--pst-color-text-base) 6%, transparent);
+  border: 0.5px solid color-mix(in srgb, var(--pst-color-text-base) 15%, transparent);
+  border-radius: 0.2rem;
+  padding: 0.05rem 0.25rem;
+}
