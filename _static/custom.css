@@ -132,8 +132,9 @@ div.timeline div.entry.right::after {
 .blog-post li {
   text-align: justify;
   text-justify: inter-word;
-  hyphens: auto;
-  text-align: justify;
+  /* Never split words with a hyphen at the end of a line. */
+  hyphens: manual;
+  -webkit-hyphens: manual;
   text-align-last: left;
 }
 
@@ -212,4 +213,33 @@ code.literal {
   border: 0.5px solid color-mix(in srgb, var(--pst-color-text-base) 15%, transparent);
   border-radius: 0.2rem;
   padding: 0.05rem 0.25rem;
+}
+
+
+/* Inline chip for links to the author's own posts (scripts/post_card).
+   Styled like inline code, with the author's photo before the title. */
+a.post-chip {
+  display: inline;
+  padding: .05rem .35rem .05rem .2rem;
+  border: 1px solid var(--pst-color-border);
+  border-radius: 1rem;
+  background-color: var(--pst-color-surface);
+  text-decoration: none;
+  white-space: normal;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+a.post-chip:hover {
+  border-color: var(--pst-color-primary);
+  text-decoration: none;
+}
+
+a.post-chip img.post-chip-avatar {
+  display: inline;
+  width: 1.15em;
+  height: 1.15em;
+  margin: 0 .25em 0 0;
+  border-radius: 50%;
+  vertical-align: -0.2em;
 }

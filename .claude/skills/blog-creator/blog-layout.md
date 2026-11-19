@@ -143,3 +143,7 @@ Close every post in this order. Use `blog/2026/2026-11-10-opensearch-scale-down.
 
 - Use ` ```opensearch ` for every OpenSearch API call (request line plus optional JSON body). Write the request line inside the block, not in a `:caption:`. The lexer lives in `scripts/opensearch_lexer/`.
 - Use only lexer names that Pygments knows. For log lines and Prometheus exposition output, use ` ```text `. For PromQL, use ` ```promql `.
+
+### Links to the author's own posts
+
+When a post mentions another post from this blog, write a regular inline Markdown link with the target's absolute source path and `.md` extension, for example `[Helm Tips: Inspect Your Chart Context with JSON](/blog/2026/2026-02-25-helm-tips-inspect-context.md)`. Use the target post's title as the link text. The build turns every such link into a small inline chip with the author's photo, styled like inline code, with the target's `description` as the hover text (`scripts/post_card/`). Do not add any extra markup, and apply this when creating, editing, or refactoring a post. Links to external sites and to pages that are not posts stay as plain links.
