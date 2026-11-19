@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d780d4dc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=93715183" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -465,7 +465,7 @@
 <h2>Why I Use Sniffing<a class="headerlink" href="#why-i-use-sniffing" title="Link to this heading">#</a></h2>
 <p>With sniffing enabled, the traffic spreads evenly across the ingest nodes. It also takes the load balancer out of the data path, removes an extra network hop, and makes better use of resources. The HPA also gets a realistic view of the load, so scaling works the way it should.</p>
 <p>It's simple and effective enough that I miss it in other log shippers, such as Fluent Bit. I have been using this approach, and the results are really nice!</p>
-<p>For more on how OpenSearch places the data once it arrives, see <a class="reference internal" href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/"><span class="std std-doc">OpenSearch Concepts: Index and Shards</span></a>. If your Logstash configuration is growing across many applications, <a class="reference internal" href="../../2023/2023-11-02-logstash-modular-pipelines/"><span class="std std-doc">Logstash Modular Pipelines</span></a> shows how I keep it organized.</p>
+<p>For more on how OpenSearch places the data once it arrives, see <a class="post-chip reference internal" href="../../2025/2025-01-05-opensearch-concepts-index-and-shards/" title="What OpenSearch indices, primary shards, and replica shards are, how shard counts affect write throughput and fault tolerance, and the API calls I use to troubleshoot indices and shards."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">OpenSearch Concepts: Index and Shards</span></a>. If your Logstash configuration is growing across many applications, <a class="post-chip reference internal" href="../../2023/2023-11-02-logstash-modular-pipelines/" title="How to split Logstash pipelines into input, filter, and output modules and compose them per application with glob patterns and environment variables, so pipelines stop duplicating code."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Logstash Modular Pipelines</span></a> shows how I keep it organized.</p>
 </section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>

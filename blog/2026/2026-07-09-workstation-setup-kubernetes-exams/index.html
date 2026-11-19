@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d780d4dc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=93715183" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -464,7 +464,7 @@
 <section id="history-search-by-prefix">
 <h2>History Search by Prefix<a class="headerlink" href="#history-search-by-prefix" title="Link to this heading">#</a></h2>
 <p><strong>This is my most valuable tip.</strong></p>
-<p>The exam environment uses <strong>Bash</strong>, and Bash relies on the <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html">GNU Readline</a> library for command-line editing, key bindings, and history navigation. For example, the reverse search on <strong>CTRL + R</strong> comes from Readline. I explain how Readline works in more depth in <a class="reference internal" href="../2026-10-18-gnu-readline-foundation/"><span class="std std-doc">GNU Readline: The Magic Behind Terminal Autocomplete</span></a>.</p>
+<p>The exam environment uses <strong>Bash</strong>, and Bash relies on the <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html">GNU Readline</a> library for command-line editing, key bindings, and history navigation. For example, the reverse search on <strong>CTRL + R</strong> comes from Readline. I explain how Readline works in more depth in <a class="post-chip reference internal" href="../2026-10-18-gnu-readline-foundation/" title="What GNU Readline is, how it powers line editing, history, and Tab completion in Bash and other REPLs, how .inputrc and bind configure it, and how to make the arrow keys search history by prefix."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">GNU Readline: The Magic Behind Terminal Autocomplete</span></a>.</p>
 <p><strong>History search by prefix</strong> is a Readline feature, disabled by default, that searches your history using the text already typed before the cursor. The <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dbackward-_0028_0029">history-search-backward</a> and <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/readline.html#index-history_002dsearch_002dforward-_0028_0029">history-search-forward</a> functions implement it, instead of simply moving to the previous or next command.</p>
 <p>For example, imagine your command history contains:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>pods
@@ -518,7 +518,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </div>
 <p>Avoid <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">mouse=a</span></code>, because of the latency. Also, clipboard settings such as <code class="docutils literal notranslate"><span class="pre">clipboard+=unnamedplus,autoselect</span></code> don't work on the exam workstations.</p>
 <blockquote>
-<div><p><em>I wrote a separate post, <a class="reference internal" href="../2026-07-15-vim-kubernetes-exams/"><span class="std std-doc">Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)</span></a>, with the editing techniques I use most during the exams.</em></p>
+<div><p><em>I wrote a separate post, <a class="post-chip reference internal" href="../2026-07-15-vim-kubernetes-exams/" title="The minimal vimrc and the small set of Vim commands I use to edit Kubernetes YAML fast in the CKA, CKAD, and CKS exams: indentation, block comments, search and replace, line ranges, and shell filters."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Vim for Kubernetes Certification Exams (CKA, CKAD &amp; CKS)</span></a>, with the editing techniques I use most during the exams.</em></p>
 </div></blockquote>
 </section>
 <section id="kubectl-aliases-and-shortcuts">
@@ -549,7 +549,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods
 <blockquote>
 <div><p><em><strong>INFO:</strong> <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">x</span></code> is a shorthand to generate YAML from imperative kubectl commands, such as <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">run</span> <span class="pre">nginx</span> <span class="pre">--image</span> <span class="pre">nginx:latest</span> <span class="pre">$x</span> <span class="pre">&gt;</span> <span class="pre">nginx.yaml</span></code>.</em></p>
 </div></blockquote>
-<p>I use the same style of aliases every day through the oh-my-zsh kubectl plugin, as I describe in <a class="reference internal" href="../../2024/2024-02-08-starship-zsh/"><span class="std std-doc">ZSH + Starship</span></a>.</p>
+<p>I use the same style of aliases every day through the oh-my-zsh kubectl plugin, as I describe in <a class="post-chip reference internal" href="../../2024/2024-02-08-starship-zsh/" title="My path from Bash through xonsh, oh-my-zsh, and Fish to ZSH with Starship: the plugins and setopt options I rely on, my minimal Starship prompt, and a step-by-step guide to reproduce the setup."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">ZSH + Starship</span></a>.</p>
 </section>
 <section id="copy-the-settings-to-each-question-node">
 <h2>Copy the Settings to Each Question Node<a class="headerlink" href="#copy-the-settings-to-each-question-node" title="Link to this heading">#</a></h2>

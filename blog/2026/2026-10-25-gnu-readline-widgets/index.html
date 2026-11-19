@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d780d4dc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=93715183" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -434,7 +434,7 @@
 <hr class="docutils" />
 <section id="hacking-your-bash-terminal-with-custom-widgets">
 <h1>Hacking Your Bash Terminal with Custom Widgets<a class="headerlink" href="#hacking-your-bash-terminal-with-custom-widgets" title="Link to this heading">#</a></h1>
-<p>This blog post explains how to create custom Bash widgets: Bash functions bound to keyboard shortcuts through the GNU Readline library. It continues <a class="reference internal" href="../2026-10-18-gnu-readline-foundation/"><span class="std std-doc">GNU Readline: The Magic Behind Terminal Autocomplete</span></a>, and ends with a widget that reruns the current command every two seconds.</p>
+<p>This blog post explains how to create custom Bash widgets: Bash functions bound to keyboard shortcuts through the GNU Readline library. It continues <a class="post-chip reference internal" href="../2026-10-18-gnu-readline-foundation/" title="What GNU Readline is, how it powers line editing, history, and Tab completion in Bash and other REPLs, how .inputrc and bind configure it, and how to make the arrow keys search history by prefix."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">GNU Readline: The Magic Behind Terminal Autocomplete</span></a>, and ends with a widget that reruns the current command every two seconds.</p>
 <section id="understand-the-basics">
 <h2>Understand the Basics<a class="headerlink" href="#understand-the-basics" title="Link to this heading">#</a></h2>
 <p>A <strong>widget</strong> is a function bound to a key that runs while you are editing the command line. In Bash, you write a function and bind it to a shortcut with <code class="docutils literal notranslate"><span class="pre">bind</span> <span class="pre">-x</span></code>, documented with the other <a class="reference external" href="https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html">Bash builtins</a>.</p>
@@ -509,7 +509,7 @@ repeat-command-widget<span class="o">()</span><span class="w"> </span><span clas
 </section>
 <section id="where-to-go-from-here">
 <h2>Where to Go From Here<a class="headerlink" href="#where-to-go-from-here" title="Link to this heading">#</a></h2>
-<p>Widgets let you turn any repetitive edit or command into a single key press. Zsh has the same idea with its own line editor, ZLE, and I show the Zsh version of this widget in <a class="reference internal" href="../2026-10-26-zsh-widgets/"><span class="std std-doc">Hacking Your Zsh Terminal with Custom Widgets</span></a>. If you'd rather use ready-made widgets, <a class="reference internal" href="../../2024/2024-04-21-fzf/"><span class="std std-doc">fzf</span></a> ships widgets for history, file, and directory search.</p>
+<p>Widgets let you turn any repetitive edit or command into a single key press. Zsh has the same idea with its own line editor, ZLE, and I show the Zsh version of this widget in <a class="post-chip reference internal" href="../2026-10-26-zsh-widgets/" title="How to turn Zsh functions into keyboard shortcuts with zle -N and bindkey, what BUFFER, LBUFFER, RBUFFER, and CURSOR expose to a widget, and a widget that reruns the current command every two seconds, aliases included."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Hacking Your Zsh Terminal with Custom Widgets</span></a>. If you'd rather use ready-made widgets, <a class="post-chip reference internal" href="../../2024/2024-04-21-fzf/" title="Why fzf replaced Ctrl+R, find, and command | grep in my terminal, and how to set up its Zsh widgets for history, files, and directories with fd, bat, and tree previews."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">fzf</span></a> ships widgets for history, file, and directory search.</p>
 </section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>

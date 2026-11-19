@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d780d4dc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=93715183" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -510,7 +510,7 @@
 </pre></div>
 </div>
 </div>
-<p>If you change the kubelet unit, put the change in a drop-in file instead of editing the unit itself, as I explain in <a class="reference internal" href="../../2023/2023-11-19-systemd-override-parameters/"><span class="std std-doc">Systemd Drop-in Overrides</span></a>.</p>
+<p>If you change the kubelet unit, put the change in a drop-in file instead of editing the unit itself, as I explain in <a class="post-chip reference internal" href="../../2023/2023-11-19-systemd-override-parameters/" title="How to customize a systemd service with an override.conf drop-in instead of editing the unit file, how systemctl edit creates it, and a hands-on example that overrides an EnvironmentFile."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Systemd Drop-in Overrides</span></a>.</p>
 </section>
 <section id="shipping-kubernetes-logs-to-an-external-system">
 <h2>Shipping Kubernetes Logs to an External System<a class="headerlink" href="#shipping-kubernetes-logs-to-an-external-system" title="Link to this heading">#</a></h2>
@@ -563,7 +563,7 @@
 </pre></div>
 </div>
 <p>Many log shippers can also add metadata such as pod labels and annotations to each log. For that, the shipper needs permission to read from the Kubernetes API, usually through a <a class="reference external" href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">ClusterRole</a> bound to its service account. <a class="reference external" href="https://github.com/bitnami/charts/blob/main/bitnami/fluent-bit/templates/clusterrole.yaml">This Fluent Bit ClusterRole</a> is an example. I'll cover metadata enrichment with Fluent Bit in a future post.</p>
-<p>Once the logs are flowing, two problems usually come next. Fluent Bit can deliver a log more than once, which I address in <a class="reference internal" href="../2025-06-19-fluentbit-log-dedup/"><span class="std std-doc">Generating Log IDs with SHA-256 Hashes</span></a>. And teams start counting log lines to build dashboards, which I argue against in <a class="reference internal" href="../../2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/"><span class="std std-doc">Stop Extracting Metrics from OpenSearch Logs</span></a>.</p>
+<p>Once the logs are flowing, two problems usually come next. Fluent Bit can deliver a log more than once, which I address in <a class="post-chip reference internal" href="../2025-06-19-fluentbit-log-dedup/" title="Why Fluent Bit can deliver the same log more than once, why deduplication needs an ID derived from the log content, and how to build a SHA-256 log ID with only native Fluent Bit processors."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Generating Log IDs with SHA-256 Hashes</span></a>. And teams start counting log lines to build dashboards, which I argue against in <a class="post-chip reference internal" href="../../2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/" title="Why counting log lines in OpenSearch is an expensive way to get a metric, how a Prometheus counter answers the same question for almost nothing, and how Fluent Bit can extract the metric at ingestion when you cannot change the code."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Stop Extracting Metrics from OpenSearch Logs</span></a>.</p>
 </section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>

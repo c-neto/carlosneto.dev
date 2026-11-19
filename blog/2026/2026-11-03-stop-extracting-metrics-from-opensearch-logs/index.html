@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d780d4dc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=93715183" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -572,7 +572,7 @@
 </tbody>
 </table>
 </div>
-<p>OpenSearch pays for a full-volume scan to see that failures are spiking. Prometheus pays almost nothing, because it reads the number instead of rebuilding it. If you instrument with <a class="reference internal" href="../2026-10-29-otel-foundation/"><span class="std std-doc">OpenTelemetry</span></a> instead of the Prometheus client, the idea is the same: the application emits the measurement.</p>
+<p>OpenSearch pays for a full-volume scan to see that failures are spiking. Prometheus pays almost nothing, because it reads the number instead of rebuilding it. If you instrument with <a class="post-chip reference internal" href="../2026-10-29-otel-foundation/" title="What OpenTelemetry is and the problem it solves, without the jargon. It standardizes how applications produce, name, and send telemetry, so you can change tools without changing code."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">OpenTelemetry</span></a> instead of the Prometheus client, the idea is the same: the application emits the measurement.</p>
 </section>
 <section id="workaround-extract-the-metric-at-ingestion-with-fluent-bit">
 <h2>Workaround: Extract the Metric at Ingestion With Fluent Bit<a class="headerlink" href="#workaround-extract-the-metric-at-ingestion-with-fluent-bit" title="Link to this heading">#</a></h2>
@@ -637,7 +637,7 @@ log_metric_counter_payment_failures_total<span class="o">{</span><span class="nv
 </pre></div>
 </div>
 </div>
-<p>The number is computed once, as the log passes through, instead of on every dashboard refresh. OpenSearch keeps the raw logs for investigating a specific event, and the metric lives in a store that is cheap to query and cheap to retain. If you already run Fluent Bit in the cluster, this fits in the same pipeline that <a class="reference internal" href="../../2025/2025-06-22-kubernetes-logs-simplified/"><span class="std std-doc">collects pod logs</span></a>.</p>
+<p>The number is computed once, as the log passes through, instead of on every dashboard refresh. OpenSearch keeps the raw logs for investigating a specific event, and the metric lives in a store that is cheap to query and cheap to retain. If you already run Fluent Bit in the cluster, this fits in the same pipeline that <a class="post-chip reference internal" href="../../2025/2025-06-22-kubernetes-logs-simplified/" title="Where Kubernetes stores container logs, how kubectl logs and log shippers read them, the CRI log line format, how the kubelet rotates log files, and how to ship pod logs with a Fluent Bit DaemonSet."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">collects pod logs</span></a>.</p>
 <p>This is still a workaround. You are parsing text to decide what counts, so a change in the log format can silently break the counter, and the event has to be logged in the first place. A counter in the code carries business meaning that a regex on a log line can only approximate, so instrument the application whenever you can. When the source is out of reach, extracting the metric at ingestion is far better than hammering the log store with query-time aggregations.</p>
 </section>
 <section id="right-tool-for-each-signal">

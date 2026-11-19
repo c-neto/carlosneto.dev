@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d780d4dc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=93715183" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -469,7 +469,7 @@
 </div>
 <p>More primary shards spread writes across more partitions and nodes, which raises indexing throughput. More replicas add fault tolerance and more nodes that can answer queries.</p>
 <p>The number of primary shards is set when the index is created. Changing it later means creating a new index with the <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/index-apis/split/">split</a> or <a class="reference external" href="https://docs.opensearch.org/latest/api-reference/index-apis/shrink-index/">shrink</a> APIs, or reindexing. Choose it carefully, based on your query load and, above all, your write load. Replicas can be changed at any time.</p>
-<p>More shards are not always better, though. Every shard costs heap, file handles, and cluster state, so many small shards hurt more than they help. I wrote about one way to avoid that in <a class="reference internal" href="../../2026/2026-11-11-opensearch-alias-filtered-by-field/"><span class="std std-doc">Avoiding Over-Sharding in OpenSearch with Filtered Aliases</span></a>.</p>
+<p>More shards are not always better, though. Every shard costs heap, file handles, and cluster state, so many small shards hurt more than they help. I wrote about one way to avoid that in <a class="post-chip reference internal" href="../../2026/2026-11-11-opensearch-alias-filtered-by-field/" title="Store logs from every environment in one OpenSearch index series and expose each environment as a filtered alias defined in the index template, instead of creating one index per environment."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Avoiding Over-Sharding in OpenSearch with Filtered Aliases</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>A primary shard and its replica are never allocated to the same node. If that node fails, the other copy is still available.</p>
@@ -538,7 +538,7 @@
 <div class="highlight-opensearch notranslate"><div class="highlight"><pre><span></span>GET _cat/indices?v&amp;h=index,store.size&amp;s=store.size:desc
 </pre></div>
 </div>
-<p>These calls answer most of my day-to-day questions about a cluster. When the allocation output shows nodes with very different disk usage, <a class="reference internal" href="../../2026/2026-11-04-opensearch-watermark/"><span class="std std-doc">OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks</span></a> explains why. When you need to remove nodes, <a class="reference internal" href="../../2026/2026-11-10-opensearch-scale-down/"><span class="std std-doc">Scaling Down and Resizing OpenSearch Data Nodes</span></a> shows how to move their shards safely first.</p>
+<p>These calls answer most of my day-to-day questions about a cluster. When the allocation output shows nodes with very different disk usage, <a class="post-chip reference internal" href="../../2026/2026-11-04-opensearch-watermark/" title="How the OpenSearch default allocator balances shards by count instead of size, why that skews disk usage in clusters with many small indices, how disk watermarks correct it, and why one watermark setting for all tiers hurts."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Watermarks</span></a> explains why. When you need to remove nodes, <a class="post-chip reference internal" href="../../2026/2026-11-10-opensearch-scale-down/" title="How to drain, scale down, and resize OpenSearch data nodes on Kubernetes without losing data, including Blue/Green migrations for EC2 Instance Store."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Scaling Down and Resizing OpenSearch Data Nodes</span></a> shows how to move their shards safely first.</p>
 </section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>

@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d780d4dc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=93715183" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -434,7 +434,7 @@
 <hr class="docutils" />
 <section id="hacking-your-zsh-terminal-with-custom-widgets">
 <h1>Hacking Your Zsh Terminal with Custom Widgets<a class="headerlink" href="#hacking-your-zsh-terminal-with-custom-widgets" title="Link to this heading">#</a></h1>
-<p>This blog post explains how to create custom Zsh widgets: shell functions bound to keyboard shortcuts through the Zsh Line Editor (ZLE). It's the Zsh version of <a class="reference internal" href="../2026-10-25-gnu-readline-widgets/"><span class="std std-doc">Hacking Your Bash Terminal with Custom Widgets</span></a>, and it ends with the same widget that reruns the current command every two seconds.</p>
+<p>This blog post explains how to create custom Zsh widgets: shell functions bound to keyboard shortcuts through the Zsh Line Editor (ZLE). It's the Zsh version of <a class="post-chip reference internal" href="../2026-10-25-gnu-readline-widgets/" title="How to turn Bash functions into keyboard shortcuts with bind -x, what READLINE_LINE and READLINE_POINT expose to them, and a widget that reruns the current command every two seconds, aliases included."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Hacking Your Bash Terminal with Custom Widgets</span></a>, and it ends with the same widget that reruns the current command every two seconds.</p>
 <section id="understand-the-basics">
 <h2>Understand the Basics<a class="headerlink" href="#understand-the-basics" title="Link to this heading">#</a></h2>
 <p><strong>ZLE</strong> (Zsh Line Editor) is the part of Zsh that handles command-line editing, the Zsh counterpart of GNU Readline in Bash. A <strong>ZLE widget</strong> is a function that ZLE runs when you press its key. You write a Zsh function, register it as a widget with <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#index-zle"><code class="docutils literal notranslate"><span class="pre">zle</span> <span class="pre">-N</span></code></a>, and bind it to a key with <a class="reference external" href="https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html#Zle-Builtins-1"><code class="docutils literal notranslate"><span class="pre">bindkey</span></code></a>.</p>
@@ -531,7 +531,7 @@ bindkey<span class="w"> </span><span class="s1">'^X'</span><span class="w"> </sp
 </section>
 <section id="where-to-go-from-here">
 <h2>Where to Go From Here<a class="headerlink" href="#where-to-go-from-here" title="Link to this heading">#</a></h2>
-<p>Widgets turn any repetitive edit or command into one key press. Many Zsh plugins are widgets too: <a class="reference internal" href="../../2024/2024-04-21-fzf/"><span class="std std-doc">fzf</span></a> binds its history, file, and directory search as ZLE widgets, and zsh-autosuggestions, which I use in my <a class="reference internal" href="../../2024/2024-02-08-starship-zsh/"><span class="std std-doc">ZSH + Starship setup</span></a>, works by wrapping the built-in ones.</p>
+<p>Widgets turn any repetitive edit or command into one key press. Many Zsh plugins are widgets too: <a class="post-chip reference internal" href="../../2024/2024-04-21-fzf/" title="Why fzf replaced Ctrl+R, find, and command | grep in my terminal, and how to set up its Zsh widgets for history, files, and directories with fd, bat, and tree previews."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">fzf</span></a> binds its history, file, and directory search as ZLE widgets, and zsh-autosuggestions, which I use in my <a class="post-chip reference internal" href="../../2024/2024-02-08-starship-zsh/" title="My path from Bash through xonsh, oh-my-zsh, and Fish to ZSH with Starship: the plugins and setopt options I rely on, my minimal Starship prompt, and a step-by-step guide to reproduce the setup."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">ZSH + Starship setup</span></a>, works by wrapping the built-in ones.</p>
 </section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>

@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d780d4dc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=93715183" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -616,7 +616,7 @@ Nov<span class="w"> </span><span class="m">19</span><span class="w"> </span><spa
 <section id="why-i-prefer-overrides">
 <h2>Why I Prefer Overrides<a class="headerlink" href="#why-i-prefer-overrides" title="Link to this heading">#</a></h2>
 <p>Overrides keep the original unit file intact and put every custom setting in one explicit place. When something breaks, <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">cat</span> <span class="pre">&lt;UNIT-SERVICE-NAME&gt;</span></code> shows the unit file and every drop-in, so you can see right away what was changed. They also survive package updates, because the package manager (dnf, apt, brew) only owns the original unit file, not your drop-in.</p>
-<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">edit</span></code> makes the whole process quick: one command to create the file, edit it, and reload systemd. For me, it is the default way to change any service I did not write myself. The kubelet is a good example: its log rotation flags can be set as a systemd <code class="docutils literal notranslate"><span class="pre">Environment=</span></code> property, as I show in <a class="reference internal" href="../../2025/2025-06-22-kubernetes-logs-simplified/"><span class="std std-doc">Kubernetes Logs Simplified</span></a>, and an override keeps that change out of the packaged unit file.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">systemctl</span> <span class="pre">edit</span></code> makes the whole process quick: one command to create the file, edit it, and reload systemd. For me, it is the default way to change any service I did not write myself. The kubelet is a good example: its log rotation flags can be set as a systemd <code class="docutils literal notranslate"><span class="pre">Environment=</span></code> property, as I show in <a class="post-chip reference internal" href="../../2025/2025-06-22-kubernetes-logs-simplified/" title="Where Kubernetes stores container logs, how kubectl logs and log shippers read them, the CRI log line format, how the kubelet rotates log files, and how to ship pod logs with a Fluent Bit DaemonSet."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Kubernetes Logs Simplified</span></a>, and an override keeps that change out of the packaged unit file.</p>
 </section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>

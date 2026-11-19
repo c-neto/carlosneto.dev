@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d780d4dc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=93715183" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -536,7 +536,7 @@ Ron Jeffries, on the XP principle <em>&quot;You aren't gonna need it&quot; (YAGN
 <section id="helm-as-a-way-to-think-about-infrastructure">
 <h2>Helm as a Way to Think About Infrastructure<a class="headerlink" href="#helm-as-a-way-to-think-about-infrastructure" title="Link to this heading">#</a></h2>
 <p>Programming principles such as DRY, YAGNI, and modular design make Helm charts much better. Helm is more than a templating tool for Kubernetes manifests: it's a way to think about infrastructure as modular, reusable components, something any developer can appreciate. Applied with care, these practices let teams scale their deployments with less overhead and keep them easy to maintain.</p>
-<p>When a chart grows, debugging what the templates receive becomes the hard part. I wrote about a trick for that in <a class="reference internal" href="../../2026/2026-02-25-helm-tips-inspect-context/"><span class="std std-doc">Helm Tips: Inspect Your Chart Context with JSON</span></a>. I also use Helm to template Logstash pipelines, as I describe in <a class="reference internal" href="../2025-02-16-logstash-db-enrichment/"><span class="std std-doc">Logstash DB Enrichment</span></a>.</p>
+<p>When a chart grows, debugging what the templates receive becomes the hard part. I wrote about a trick for that in <a class="post-chip reference internal" href="../../2026/2026-02-25-helm-tips-inspect-context/" title="Helm has no real debugger, so dump the whole chart context (Values, Chart, Release, Capabilities, Files) as JSON with toPrettyJson and helm template to see exactly what your templates can access."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Helm Tips: Inspect Your Chart Context with JSON</span></a>. I also use Helm to template Logstash pipelines, as I describe in <a class="post-chip reference internal" href="../2025-02-16-logstash-db-enrichment/" title="Hidden behaviors of Logstash jdbc_streaming enrichment with PostgreSQL: pipelines that won't start without the database, table locks and slow queries that freeze ingestion, and the JDBC timeouts that prevent them."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Logstash DB Enrichment</span></a>.</p>
 </section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>

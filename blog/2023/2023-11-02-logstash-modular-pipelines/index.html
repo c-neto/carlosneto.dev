@@ -42,7 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=d780d4dc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=93715183" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tldr_ai.css?v=3d516bde" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -509,7 +509,7 @@
 <h2>When the Modular Structure Is Worth It<a class="headerlink" href="#when-the-modular-structure-is-worth-it" title="Link to this heading">#</a></h2>
 <p>Logstash handles both small and large workloads, and this structure is one way, not the only way, to deal with pipelines that keep growing. With only a few applications, it can add complexity you don't need.</p>
 <p>I have used this structure and seen a big improvement in maintainability, especially in testing: I can test my <code class="docutils literal notranslate"><span class="pre">filter</span></code> logic by changing a single environment variable. My main goal is always to make pipelines easier to maintain, but every context has its own challenges. I recommend this structure when pipeline maintenance is getting hard, duplicated code is growing, and the Logstash configuration has become error-prone.</p>
-<p>If you are sending these logs to OpenSearch, two related posts may help: <a class="reference internal" href="../../2024/2024-06-08-logstash-sniffing/"><span class="std std-doc">Logstash Sniffing</span></a> for spreading ingestion across a scalable cluster, and <a class="reference internal" href="../../2025/2025-02-16-logstash-db-enrichment/"><span class="std std-doc">Logstash DB Enrichment</span></a> for adding database data to events inside a <code class="docutils literal notranslate"><span class="pre">filter</span></code>.</p>
+<p>If you are sending these logs to OpenSearch, two related posts may help: <a class="post-chip reference internal" href="../../2024/2024-06-08-logstash-sniffing/" title="Why Logstash behind a load balancer keeps sending logs to a single OpenSearch ingest node, and how the output plugin's sniffing options spread ingestion across every node as the cluster scales."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Logstash Sniffing</span></a> for spreading ingestion across a scalable cluster, and <a class="post-chip reference internal" href="../../2025/2025-02-16-logstash-db-enrichment/" title="Hidden behaviors of Logstash jdbc_streaming enrichment with PostgreSQL: pipelines that won't start without the database, table locks and slow queries that freeze ingestion, and the JDBC timeouts that prevent them."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Logstash DB Enrichment</span></a> for adding database data to events inside a <code class="docutils literal notranslate"><span class="pre">filter</span></code>.</p>
 </section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
