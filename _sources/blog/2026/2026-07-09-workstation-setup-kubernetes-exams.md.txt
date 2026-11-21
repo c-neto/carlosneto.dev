@@ -22,6 +22,8 @@ This blog post covers the workstation tweaks I use to work faster during the Lin
 
 Time management is one of the most important factors for passing these exams. The CKA, CKAD, and CKS are hands-on exams that run on remote Ubuntu instances with the XFCE desktop, where network latency and the remote desktop slow you down. Every keystroke you save adds up.
 
+These three exams are part of the five CNCF certifications I passed to become a Kubestronaut. I tell the whole story, including the procrastination and the CKS retake, in [Kubestronaut: My Honest Journey (Including Procrastination and Retake)](/blog/2026/2026-11-15-kubestronaut-journey.md).
+
 ## Configure the U.S. Keyboard Layout (MacBooks)
 
 If you take the exam on a MacBook, set your keyboard layout to `U.S.`. Otherwise, the remote Linux environment may not recognize some characters correctly, especially `~` and `` ` ``. This is a common problem with layouts such as `U.S. International - PC` and `Brazilian ABNT2`.

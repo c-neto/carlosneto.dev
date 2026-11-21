@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-19T18:53:13.260806+00:00</updated>
+  <updated>2026-11-21T19:37:58.816019+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -3061,6 +3061,7 @@ Shift+n&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Go back to
 &lt;h2&gt;Learn More&lt;/h2&gt;
 &lt;p&gt;The &lt;a class="reference external" href="https://vim.rtorr.com/"&gt;Vim cheat sheet&lt;/a&gt; has many more commands, and the official &lt;a class="reference external" href="https://vimhelp.org/"&gt;Vim documentation&lt;/a&gt; covers each one in detail. To practice in exam conditions, use the simulator sessions that come with your exam registration.&lt;/p&gt;
 &lt;p&gt;For the rest of my exam workstation setup, including Bash aliases and history search by prefix, see &lt;a class="reference internal" href="2026/2026-07-09-workstation-setup-kubernetes-exams/"&gt;&lt;span class="std std-doc"&gt;Workstation Setup for Kubernetes Exams (CKA, CKAD &amp;amp; CKS)&lt;/span&gt;&lt;/a&gt;. History search by prefix comes from GNU Readline, which I explain in &lt;a class="reference internal" href="2026/2026-10-18-gnu-readline-foundation/"&gt;&lt;span class="std std-doc"&gt;GNU Readline: The Magic Behind Terminal Autocomplete&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The CKA, CKAD, and CKS are part of the five CNCF certifications I passed to become a Kubestronaut. I share how I prepared for them, and why I failed the CKS the first time, in &lt;a class="reference internal" href="2026/2026-11-15-kubestronaut-journey/"&gt;&lt;span class="std std-doc"&gt;Kubestronaut: My Honest Journey (Including Procrastination and Retake)&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="key-takeaways"&gt;
 &lt;h2&gt;Key Takeaways&lt;/h2&gt;
@@ -3143,6 +3144,7 @@ Shift+n&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Go back to
 
 &lt;p&gt;This blog post covers the workstation tweaks I use to work faster during the Linux Foundation Kubernetes exams: macOS settings that avoid keyboard and proctoring problems, Bash history search by prefix, a minimal Vim configuration, kubectl aliases, and how to copy all of it to each question node.&lt;/p&gt;
 &lt;p&gt;Time management is one of the most important factors for passing these exams. The CKA, CKAD, and CKS are hands-on exams that run on remote Ubuntu instances with the XFCE desktop, where network latency and the remote desktop slow you down. Every keystroke you save adds up.&lt;/p&gt;
+&lt;p&gt;These three exams are part of the five CNCF certifications I passed to become a Kubestronaut. I tell the whole story, including the procrastination and the CKS retake, in &lt;a class="reference internal" href="2026/2026-11-15-kubestronaut-journey/"&gt;&lt;span class="std std-doc"&gt;Kubestronaut: My Honest Journey (Including Procrastination and Retake)&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;section id="configure-the-u-s-keyboard-layout-macbooks"&gt;
 &lt;h2&gt;Configure the U.S. Keyboard Layout (MacBooks)&lt;/h2&gt;
 &lt;p&gt;If you take the exam on a MacBook, set your keyboard layout to &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt;&lt;/code&gt;. Otherwise, the remote Linux environment may not recognize some characters correctly, especially &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;~&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;`&lt;/span&gt;&lt;/code&gt;. This is a common problem with layouts such as &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;U.S.&lt;/span&gt; &lt;span class="pre"&gt;International&lt;/span&gt; &lt;span class="pre"&gt;-&lt;/span&gt; &lt;span class="pre"&gt;PC&lt;/span&gt;&lt;/code&gt; and &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Brazilian&lt;/span&gt; &lt;span class="pre"&gt;ABNT2&lt;/span&gt;&lt;/code&gt;.&lt;/p&gt;

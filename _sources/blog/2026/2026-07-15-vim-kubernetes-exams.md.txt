@@ -239,6 +239,8 @@ The [Vim cheat sheet](https://vim.rtorr.com/) has many more commands, and the of
 
 For the rest of my exam workstation setup, including Bash aliases and history search by prefix, see [Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)](/blog/2026/2026-07-09-workstation-setup-kubernetes-exams.md). History search by prefix comes from GNU Readline, which I explain in [GNU Readline: The Magic Behind Terminal Autocomplete](/blog/2026/2026-10-18-gnu-readline-foundation.md).
 
+The CKA, CKAD, and CKS are part of the five CNCF certifications I passed to become a Kubestronaut. I share how I prepared for them, and why I failed the CKS the first time, in [Kubestronaut: My Honest Journey (Including Procrastination and Retake)](/blog/2026/2026-11-15-kubestronaut-journey.md).
+
 ## Key Takeaways
 
 - Use Vim on the question nodes: VSCodium isn't available there, and latency makes the mouse unreliable.
