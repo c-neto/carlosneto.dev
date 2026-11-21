@@ -39,6 +39,12 @@ h5 {
   font-size: 0.7em !important;
 }
 
+/* Bold text in pure black in light mode; the rest keeps the theme colors */
+html[data-theme="light"] strong,
+html[data-theme="light"] b {
+  color: #000;
+}
+
 h1,
 h2,
 h3,
