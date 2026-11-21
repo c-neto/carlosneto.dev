@@ -188,10 +188,17 @@ ol, ul {
 /* Blockquotes: lighter background and smaller text than the body */
 .bd-content blockquote {
   background-color: color-mix(in srgb, var(--pst-color-surface) 40%, transparent);
-  font-size: 0.875em;
+  font-size: 0.86em;
+  line-height: 1.5;
+  padding: 0.4em 0.8em;
+  margin: 0.75em 0;
   border-left-width: 0.15em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.bd-content blockquote > :last-child {
+  margin-bottom: 0;
 }
 
 /* Table header: subtle neutral shade to set it apart from the rows */
@@ -242,4 +249,74 @@ a.post-chip img.post-chip-avatar {
   margin: 0 .25em 0 0;
   border-radius: 50%;
   vertical-align: -0.2em;
+}
+
+/* Post header: publish date, revisions and AI TL;DR in a blockquote above the H1 */
+.bd-content blockquote.post-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35em;
+  margin: 0;
+  padding: 0.5em 0.8em;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--pst-color-text-muted);
+}
+
+.post-header__meta a {
+  color: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+}
+
+.post-header__meta a:hover {
+  color: var(--pst-color-primary);
+}
+
+.post-header__sep {
+  margin: 0 0.4em;
+}
+
+.post-header .aor-tldr {
+  display: inline-flex;
+  gap: 0.6em;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+.post-header .aor-tldr__marvin {
+  display: none;
+}
+
+.post-header .aor-tldr__copy {
+  flex-direction: row;
+  gap: 0.4em;
+}
+
+.post-header .aor-tldr__copy span {
+  font-size: inherit;
+  color: inherit;
+}
+
+.post-header .aor-tldr__copy strong {
+  font-size: inherit;
+  font-weight: 600;
+}
+
+.post-header .aor-tldr__btn {
+  padding: 0.15rem 0.6rem;
+  font-size: 0.7rem;
+}
+
+.post-header .aor-tldr__logo {
+  width: 13px;
+  height: 13px;
+}
+
+.post-header__rule {
+  margin: 0.75em 0 1em;
 }
