@@ -188,10 +188,17 @@ ol, ul {
 /* Blockquotes: lighter background and smaller text than the body */
 .bd-content blockquote {
   background-color: color-mix(in srgb, var(--pst-color-surface) 40%, transparent);
-  font-size: 0.875em;
+  font-size: 0.86em;
+  line-height: 1.5;
+  padding: 0.4em 0.8em;
+  margin: 0.75em 0;
   border-left-width: 0.15em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.bd-content blockquote > :last-child {
+  margin-bottom: 0;
 }
 
 /* Table header: subtle neutral shade to set it apart from the rows */
