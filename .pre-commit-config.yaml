@@ -1,0 +1,14 @@
+# Git hooks managed by pre-commit (https://pre-commit.com).
+# Installed by `make setup`, or manually with: pre-commit install
+default_install_hook_types: [commit-msg]
+
+repos:
+  - repo: local
+    hooks:
+      # Every commit must follow Conventional Commits.
+      # Rules: .claude/skills/blog-creator/SKILL.md (Commits section).
+      - id: conventional-commit
+        name: conventional commit message
+        entry: python3 scripts/check_commit_msg.py
+        language: system
+        stages: [commit-msg]

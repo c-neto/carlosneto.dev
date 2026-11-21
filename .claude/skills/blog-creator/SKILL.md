@@ -1,6 +1,6 @@
 ---
 name: blog-creator
-description: Writing skill for carlosneto.dev, with the author's text conventions in written-directives.md. Use it on EVERY request that writes or edits text in this repository, including small ones like "rewrite this sentence", "add this to the post", "mention X in section Y", or "this paragraph sounds wrong". Edit mode applies the conventions to the requested passage and finishes with the humanizer skill. New-post mode runs the interview, /blog write, /blog analyze, 3 refactor rounds, and humanizer. Use new-post mode when the user invokes /blog-creator or asks to create a new blog post.
+description: Writing skill for carlosneto.dev, with the author's text conventions in written-directives.md. Use it on EVERY request that writes or edits text in this repository, including small ones like "rewrite this sentence", "add this to the post", "mention X in section Y", or "this paragraph sounds wrong". Edit mode applies the conventions to the requested passage and finishes with the humanizer skill. New-post mode runs the interview, /blog write, /blog analyze, 3 refactor rounds, and humanizer. Use new-post mode when the user invokes /blog-creator or asks to create a new blog post. Also use it before any git commit in this repository, since every commit must follow Conventional Commits (see the Commits section).
 ---
 
 # Blog Creator
@@ -112,3 +112,21 @@ Show the author:
 - Write in first person where the author's experience is involved. The post should read as someone who did this work, not as documentation.
 - The last section before References is `## Key Takeaways`, with bullet points summarizing the main points, not a generic conclusion.
 - Read [blog-layout.md](./blog-layout.md) for the frontmatter template, the end-of-post order, the author footer, the JSON-LD block, and the code block rules. They are required for every post.
+
+## Commits
+
+Every commit in this repository must follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). This is mandatory, with no exceptions, whether the commit touches a post, a draft, a skill, a script, the CSS, or CI. Messages such as `wip`, `update`, `fix`, or `typo` alone are not allowed.
+
+- Format the subject as `<type>(<scope>): <description>`, in English, imperative mood, lowercase, with no trailing period and at most 72 characters.
+- Describe what the diff actually changes, not the work session. Read the staged diff before writing the message.
+- Pick the type from the change:
+  - `feat` for a new post or a new site feature (`feat(blog): add post on helm global values`).
+  - `docs` for changes to the text of a post or page (`docs(fzf): rewrite terminal search problem section`).
+  - `fix` for broken links, commands, code, typos, or wrong facts (`fix(fzf): fix FZF_CTRL_R_OPTS variable name`).
+  - `style` for formatting and layout with no change in meaning, including CSS (`style(kubestronaut): quote thanks note`).
+  - `refactor` for reorganizing or merging posts or code without changing behavior.
+  - `chore` for renames, moves, deletions, drafts, skills, and tooling (`chore(otel): rename post to otel-foundation`).
+  - `ci` for GitHub Actions workflows, and `build` for the Sphinx build, dependencies, and the Docker image.
+- Use the post's short slug as the scope (`fzf`, `kubestronaut`, `otel`). Use `blog` when the commit touches several posts, and the area name (`site`, `skills`, `scripts`) for files that are not posts.
+- Split unrelated changes into separate commits instead of describing several changes in one subject. If one commit must cover several things, use the most significant type and summarize the rest in the body.
+- Add a body only when the subject is not enough, separated from the subject by a blank line.

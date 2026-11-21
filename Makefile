@@ -12,6 +12,7 @@ setup:
 	python3 -m venv $(VENV)
 	$(VENV)/bin/pip3 install -r requirements.txt
 	$(VENV)/bin/pip3 install -r requirements-dev.txt
+	$(VENV)/bin/pre-commit install
 
 live:
 	$(VENV)/bin/sphinx-autobuild --ignore _build -b dirhtml . _build/dirhtml/
