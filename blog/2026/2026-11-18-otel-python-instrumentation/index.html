@@ -479,7 +479,7 @@ opentelemetry-instrument<span class="w"> </span>python<span class="w"> </span>ap
 </section>
 <section id="the-collector-decides-where-the-data-goes">
 <h2>The Collector Decides Where the Data Goes<a class="headerlink" href="#the-collector-decides-where-the-data-goes" title="Link to this heading">#</a></h2>
-<p>A <a class="reference external" href="https://opentelemetry.io/docs/collector/configuration/">Collector configuration</a> is a pipeline. Receivers define how data comes in, and exporters define where it goes. This one receives OTLP from the application and exposes the metrics for Prometheus to scrape.</p>
+<p>A <a class="reference external" href="https://opentelemetry.io/docs/collector/configuration/">Collector configuration</a> is a pipeline. Receivers define how data comes in, and exporters define where it goes. Neither side has to be the application or a backend. An exporter can publish the metrics to a <a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/kafkaexporter/README.md">Kafka topic</a>, and a second Collector with the <a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/kafkareceiver/README.md">Kafka receiver</a> can read them from there, without the application knowing a queue sits in the middle. This one receives OTLP from the application and exposes the metrics for Prometheus to scrape.</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">collector.yaml</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">receivers</span><span class="p">:</span>
@@ -560,6 +560,8 @@ payments_processed_total<span class="o">{</span><span class="nv">job</span><span
 <li><p><a class="reference external" href="https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/">SDK environment variables (OpenTelemetry)</a></p></li>
 <li><p><a class="reference external" href="https://opentelemetry.io/docs/collector/configuration/">Collector configuration (OpenTelemetry)</a></p></li>
 <li><p><a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib">OpenTelemetry Collector Contrib (GitHub)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/kafkaexporter/README.md">Kafka Exporter (OpenTelemetry Collector Contrib)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/kafkareceiver/README.md">Kafka Receiver (OpenTelemetry Collector Contrib)</a></p></li>
 <li><p><a class="reference external" href="https://opentelemetry-python.readthedocs.io/">OpenTelemetry Python documentation (Read the Docs)</a></p></li>
 <li><p><a class="reference external" href="https://docs.datadoghq.com/opentelemetry/">OpenTelemetry in Datadog (Datadog)</a></p></li>
 <li><p><a class="reference external" href="https://docs.datadoghq.com/opentelemetry/collector_exporter/">OpenTelemetry Collector Datadog Exporter (Datadog)</a></p></li>

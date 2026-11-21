@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-21T19:37:58.816019+00:00</updated>
+  <updated>2026-11-21T20:00:02.646783+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -256,7 +256,7 @@ opentelemetry-instrument&lt;span class="w"&gt; &lt;/span&gt;python&lt;span class
 &lt;/section&gt;
 &lt;section id="the-collector-decides-where-the-data-goes"&gt;
 &lt;h2&gt;The Collector Decides Where the Data Goes&lt;/h2&gt;
-&lt;p&gt;A &lt;a class="reference external" href="https://opentelemetry.io/docs/collector/configuration/"&gt;Collector configuration&lt;/a&gt; is a pipeline. Receivers define how data comes in, and exporters define where it goes. This one receives OTLP from the application and exposes the metrics for Prometheus to scrape.&lt;/p&gt;
+&lt;p&gt;A &lt;a class="reference external" href="https://opentelemetry.io/docs/collector/configuration/"&gt;Collector configuration&lt;/a&gt; is a pipeline. Receivers define how data comes in, and exporters define where it goes. Neither side has to be the application or a backend. An exporter can publish the metrics to a &lt;a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/kafkaexporter/README.md"&gt;Kafka topic&lt;/a&gt;, and a second Collector with the &lt;a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/kafkareceiver/README.md"&gt;Kafka receiver&lt;/a&gt; can read them from there, without the application knowing a queue sits in the middle. This one receives OTLP from the application and exposes the metrics for Prometheus to scrape.&lt;/p&gt;
 &lt;div class="literal-block-wrapper docutils container" id="id2"&gt;
 &lt;div class="code-block-caption"&gt;&lt;span class="caption-text"&gt;collector.yaml&lt;/span&gt;&lt;/div&gt;
 &lt;div class="highlight-yaml notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;receivers&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -337,6 +337,8 @@ payments_processed_total&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/"&gt;SDK environment variables (OpenTelemetry)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opentelemetry.io/docs/collector/configuration/"&gt;Collector configuration (OpenTelemetry)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib"&gt;OpenTelemetry Collector Contrib (GitHub)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/kafkaexporter/README.md"&gt;Kafka Exporter (OpenTelemetry Collector Contrib)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/kafkareceiver/README.md"&gt;Kafka Receiver (OpenTelemetry Collector Contrib)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opentelemetry-python.readthedocs.io/"&gt;OpenTelemetry Python documentation (Read the Docs)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.datadoghq.com/opentelemetry/"&gt;OpenTelemetry in Datadog (Datadog)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.datadoghq.com/opentelemetry/collector_exporter/"&gt;OpenTelemetry Collector Datadog Exporter (Datadog)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
@@ -2309,6 +2311,7 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
 &lt;p&gt;With OpenTelemetry, the code only speaks the standard, and where the data goes is configuration. Pointing to another tool means changing the address, the credentials, and sometimes a few settings the new tool expects, all in environment variables or a configuration file, and the application code stays the same.&lt;/p&gt;
 &lt;img alt="Diagram of OpenTelemetry removing vendor lock-in. The application code calls the OTel API and SDK, with no vendor library, and the SDK sends OTLP directly to one metrics backend among competing options such as Prometheus, Datadog, Grafana Mimir, and New Relic. Switching between them changes the SDK configuration, such as the endpoint and credentials, not the code" src="https://carlosneto.dev/_images/opentelemetry-pieces.svg" /&gt;
 &lt;p&gt;In larger setups, that configuration usually lives in the &lt;a class="reference external" href="https://opentelemetry.io/docs/collector/"&gt;OpenTelemetry Collector&lt;/a&gt;, an optional service that sits between the applications and the tools. Every application sends its data to the Collector, and the Collector decides what to filter, what to change, and where to forward it. Changing tools, or sending the same data to two of them during a migration, becomes a change in one file.&lt;/p&gt;
+&lt;p&gt;The Collector is also highly customizable, and it doesn't fix the direction the data takes on the way to a backend. It can &lt;a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/kafkaexporter/README.md"&gt;export telemetry to a Kafka topic&lt;/a&gt;, and another Collector can &lt;a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/kafkareceiver/README.md"&gt;consume it from that topic&lt;/a&gt; and forward it. There's also an &lt;a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/rabbitmqexporter/README.md"&gt;exporter for RabbitMQ&lt;/a&gt;, still in alpha, although the contrib distribution has no receiver that reads telemetry back from a RabbitMQ queue. The service only speaks OTLP, so whether the data goes straight to a backend, through a queue, or through a chain of Collectors is a pipeline decision that the service never sees.&lt;/p&gt;
 &lt;img alt="Diagram of the optional OpenTelemetry Collector. Three services in Python, Java, and Go use the OTel SDK and send OTLP to the same Collector, which filters by metadata, changes attributes, samples traces, and routes the data to a backend such as Prometheus, with Datadog and Grafana Mimir as alternatives. The pipeline logic and the destinations live in the Collector, not in each service" src="https://carlosneto.dev/_images/opentelemetry-collector.svg" /&gt;
 &lt;p&gt;I show this in practice in &lt;a class="reference internal" href="2026/2026-11-18-otel-python-instrumentation/"&gt;&lt;span class="std std-doc"&gt;Vendor Lock-Out: A Hands-On OpenTelemetry Example&lt;/span&gt;&lt;/a&gt;. A Python service sends its metrics to Prometheus and then to Datadog, and the only thing that changes between the two is the Collector configuration.&lt;/p&gt;
 &lt;/section&gt;
@@ -2325,6 +2328,7 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
 &lt;li&gt;&lt;p&gt;Prometheus, Jaeger, Datadog, and most observability tools can receive OTLP, each for the signals it handles.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;With the code speaking the standard, changing tools means changing configuration, not the source code.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;The Collector is optional and keeps that configuration in one place, which turns a migration into a change in one file.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The Collector doesn't fix the path the data takes, and it can pass telemetry through a queue such as Kafka before it reaches a backend.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;The benefits grow with the number of services, languages, teams, and tools, and so does the operational cost.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/section&gt;
@@ -2338,6 +2342,9 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opentelemetry.io/docs/concepts/instrumentation/libraries/"&gt;Instrumentation libraries (OpenTelemetry)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opentelemetry.io/docs/zero-code/"&gt;Zero-code instrumentation (OpenTelemetry)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://opentelemetry.io/docs/collector/"&gt;OpenTelemetry Collector (OpenTelemetry)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/kafkaexporter/README.md"&gt;Kafka Exporter (OpenTelemetry Collector Contrib)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/kafkareceiver/README.md"&gt;Kafka Receiver (OpenTelemetry Collector Contrib)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/rabbitmqexporter/README.md"&gt;RabbitMQ Exporter (OpenTelemetry Collector Contrib)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://prometheus.io/docs/guides/opentelemetry/"&gt;Using Prometheus as your OpenTelemetry backend (Prometheus)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://docs.fluentbit.io/manual/data-pipeline/outputs/opentelemetry"&gt;OpenTelemetry output plugin (Fluent Bit)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a class="reference external" href="https://notes.kodekloud.com/docs/Prep-Course-OpenTelemetry-Certified-Associate-OTCA-Certification/OpenTelemetry-Core-Concepts/Standards-and-Specification/page"&gt;Standards and Specification (KodeKloud)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;

@@ -70,7 +70,7 @@ The endpoint doesn't name Prometheus or Datadog. It points to a Collector, and t
 
 ## The Collector Decides Where the Data Goes
 
-A [Collector configuration](https://opentelemetry.io/docs/collector/configuration/) is a pipeline. Receivers define how data comes in, and exporters define where it goes. This one receives OTLP from the application and exposes the metrics for Prometheus to scrape.
+A [Collector configuration](https://opentelemetry.io/docs/collector/configuration/) is a pipeline. Receivers define how data comes in, and exporters define where it goes. Neither side has to be the application or a backend. An exporter can publish the metrics to a [Kafka topic](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/kafkaexporter/README.md), and a second Collector with the [Kafka receiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/kafkareceiver/README.md) can read them from there, without the application knowing a queue sits in the middle. This one receives OTLP from the application and exposes the metrics for Prometheus to scrape.
 
 ```{code-block} yaml
 :caption: collector.yaml
@@ -158,6 +158,8 @@ The application keeps sending OTLP to the same address and never learns that the
 - [SDK environment variables (OpenTelemetry)](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/)
 - [Collector configuration (OpenTelemetry)](https://opentelemetry.io/docs/collector/configuration/)
 - [OpenTelemetry Collector Contrib (GitHub)](https://github.com/open-telemetry/opentelemetry-collector-contrib)
+- [Kafka Exporter (OpenTelemetry Collector Contrib)](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/kafkaexporter/README.md)
+- [Kafka Receiver (OpenTelemetry Collector Contrib)](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/kafkareceiver/README.md)
 - [OpenTelemetry Python documentation (Read the Docs)](https://opentelemetry-python.readthedocs.io/)
 - [OpenTelemetry in Datadog (Datadog)](https://docs.datadoghq.com/opentelemetry/)
 - [OpenTelemetry Collector Datadog Exporter (Datadog)](https://docs.datadoghq.com/opentelemetry/collector_exporter/)

@@ -48,6 +48,8 @@ With OpenTelemetry, the code only speaks the standard, and where the data goes i
 
 In larger setups, that configuration usually lives in the [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/), an optional service that sits between the applications and the tools. Every application sends its data to the Collector, and the Collector decides what to filter, what to change, and where to forward it. Changing tools, or sending the same data to two of them during a migration, becomes a change in one file.
 
+The Collector is also highly customizable, and it doesn't fix the direction the data takes on the way to a backend. It can [export telemetry to a Kafka topic](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/kafkaexporter/README.md), and another Collector can [consume it from that topic](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/kafkareceiver/README.md) and forward it. There's also an [exporter for RabbitMQ](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/rabbitmqexporter/README.md), still in alpha, although the contrib distribution has no receiver that reads telemetry back from a RabbitMQ queue. The service only speaks OTLP, so whether the data goes straight to a backend, through a queue, or through a chain of Collectors is a pipeline decision that the service never sees.
+
 <img src="/_static/2026/2026-10-29/opentelemetry-collector.svg" alt="Diagram of the optional OpenTelemetry Collector. Three services in Python, Java, and Go use the OTel SDK and send OTLP to the same Collector, which filters by metadata, changes attributes, samples traces, and routes the data to a backend such as Prometheus, with Datadog and Grafana Mimir as alternatives. The pipeline logic and the destinations live in the Collector, not in each service" loading="lazy">
 
 I show this in practice in [Vendor Lock-Out: A Hands-On OpenTelemetry Example](/blog/2026/2026-11-18-otel-python-instrumentation.md). A Python service sends its metrics to Prometheus and then to Datadog, and the only thing that changes between the two is the Collector configuration.
@@ -65,6 +67,7 @@ That comes at a cost. There are new concepts to learn, each service needs its SD
 - Prometheus, Jaeger, Datadog, and most observability tools can receive OTLP, each for the signals it handles.
 - With the code speaking the standard, changing tools means changing configuration, not the source code.
 - The Collector is optional and keeps that configuration in one place, which turns a migration into a change in one file.
+- The Collector doesn't fix the path the data takes, and it can pass telemetry through a queue such as Kafka before it reaches a backend.
 - The benefits grow with the number of services, languages, teams, and tools, and so does the operational cost.
 
 ## References
@@ -76,6 +79,9 @@ That comes at a cost. There are new concepts to learn, each service needs its SD
 - [Instrumentation libraries (OpenTelemetry)](https://opentelemetry.io/docs/concepts/instrumentation/libraries/)
 - [Zero-code instrumentation (OpenTelemetry)](https://opentelemetry.io/docs/zero-code/)
 - [OpenTelemetry Collector (OpenTelemetry)](https://opentelemetry.io/docs/collector/)
+- [Kafka Exporter (OpenTelemetry Collector Contrib)](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/kafkaexporter/README.md)
+- [Kafka Receiver (OpenTelemetry Collector Contrib)](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/kafkareceiver/README.md)
+- [RabbitMQ Exporter (OpenTelemetry Collector Contrib)](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/rabbitmqexporter/README.md)
 - [Using Prometheus as your OpenTelemetry backend (Prometheus)](https://prometheus.io/docs/guides/opentelemetry/)
 - [OpenTelemetry output plugin (Fluent Bit)](https://docs.fluentbit.io/manual/data-pipeline/outputs/opentelemetry)
 - [Standards and Specification (KodeKloud)](https://notes.kodekloud.com/docs/Prep-Course-OpenTelemetry-Certified-Associate-OTCA-Certification/OpenTelemetry-Core-Concepts/Standards-and-Specification/page)
