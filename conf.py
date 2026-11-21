@@ -24,6 +24,7 @@ extensions = [
     "sphinxext.opengraph",
     "sphinxext.rediraffe",
     "post_card",
+    "post_header",
 ]
 
 templates_path = ["_templates"]

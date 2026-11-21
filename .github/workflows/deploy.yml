@@ -35,6 +35,9 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history: post_header counts the commits of each post.
+          fetch-depth: 0
 
       # The publish step below replaces everything on gh-pages, so carry over the
       # analytics.json that analytics.yml keeps there. Missing file is fine.

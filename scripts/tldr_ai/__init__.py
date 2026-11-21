@@ -111,10 +111,9 @@ def add_tldr_ai(app: Sphinx, pagename, templatename, context, doctree):
         logo_grok=LOGO_GROK,
     )
 
-    body = context.get("body")
-    if body is None:
-        return
-    context["body"] = block + body
+    # The post_header extension places this block inside the header under the
+    # post title. Pages it skips fall back to the top of the body.
+    context["aor_tldr"] = block
 
 
 def setup(app: Sphinx):
