@@ -136,7 +136,7 @@ But perfectionism wasn't the only cause. For every exam, I keep one rule. The da
 
 On the second attempt I followed my rule and passed with 81%. My suggestion is to schedule the exam for Monday morning, with Sunday free to sleep a lot, go to the mall, and have an ice cream. On a Monday morning, your mind isn't yet filled with work problems.
 
-If you fail, you're not a failure. You get the chance to prepare more and end up knowing more than someone who passed by luck.
+If you fail, relax, it's not the end of the world. Failing is part of the process, which is why the exams include a free retake. It's another chance to go back to the topics you didn't fully understand. Passing the exams matters, but having solid knowledge of the topics matters more. It's better to pass on the retake understanding the content than to pass on the first try by luck, still unsure about parts of it.
 
 ## It Was Worth It
 
