@@ -52,7 +52,7 @@ Here is what each exam covers:
 
 **CKAD (_Certified Kubernetes Application Developer_):** is the simplest of the hands-on exams and covers using a cluster, such as exposing a Deployment with a Service, adding a liveness probe, mounting a ConfigMap, scheduling a CronJob, or installing a Helm chart. The name is misleading, since you write no code beyond a trivial Bash script. "Application Developer" means someone who deploys an application to a working cluster, not someone who writes Operators.
 
-**CKA (_Certified Kubernetes Administrator_):** covers everything in the CKAD plus provisioning and operating the cluster, configuring the kubelet, upgrading the cluster, fixing a broken control plane component, or granting namespace access with a Role and a RoleBinding. Troubleshooting is the biggest part of the exam.
+**CKA (_Certified Kubernetes Administrator_):** covers everything in the CKAD plus provisioning and operating the cluster, configuring the kubelet, upgrading the cluster, fixing a broken control plane component, or granting namespace access with a Role and a RoleBinding. Troubleshooting and kubelet configuration is the biggest part of the exam.
 
 **CKS (_Certified Kubernetes Security Specialist_):** isn't hard, but it covers the most topics and tools, none of them deeply. They include default-deny NetworkPolicies, AppArmor and seccomp profiles, image scanning and signature checks, Falco, and API server audit logs. My one complaint is the CKA prerequisite. One of my CKS tasks was a cluster upgrade, which felt like CKA material, and the KCSA would make a better prerequisite for a security track.
 
