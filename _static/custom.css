@@ -39,6 +39,12 @@ h5 {
   font-size: 0.7em !important;
 }
 
+/* Bold text in pure black in light mode; the rest keeps the theme colors */
+html[data-theme="light"] strong,
+html[data-theme="light"] b {
+  color: #000;
+}
+
 h1,
 h2,
 h3,
@@ -262,6 +268,15 @@ a.post-chip img.post-chip-avatar {
   font-size: 0.75rem;
   font-style: italic;
   color: var(--pst-color-text-muted);
+}
+
+.post-header__meta {
+  font-size: 0.65rem;
+}
+
+.post-header__divider {
+  align-self: stretch;
+  margin: 0.2em 0;
 }
 
 .post-header__meta a {
