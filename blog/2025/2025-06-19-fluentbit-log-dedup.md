@@ -136,9 +136,7 @@ Identical log lines always produce the same hash, so the destination can detect 
 
 To use the hash as the document ID in OpenSearch, point the OpenSearch output's [`Id_Key`](https://docs.fluentbit.io/manual/pipeline/outputs/opensearch) option at the hashed field. A retried or re-read log then overwrites the existing document instead of creating a new one. OpenSearch treats `_id` as a metadata field and rejects it inside the document body, so in a real pipeline give the hashed field another name, such as `log_id`, and set `Id_Key log_id`.
 
-:::{note}
-A complete, working example of this configuration is in my Docker Compose lab: <i class="fab fa-github"></i> [github.com/c-neto/my-devops-labs/blog/2025-06-19](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/)
-:::
+> _A complete, working example of this configuration is in my Docker Compose lab: <i class="fab fa-github"></i> [github.com/c-neto/my-devops-labs/blog/2025-06-19](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/)_
 
 The Tail input in these examples reads the container log files that Kubernetes writes under `/var/log/containers/`. I explain how those files are created and rotated in [Kubernetes Logs Simplified](/blog/2025/2025-06-22-kubernetes-logs-simplified.md). Processors can also turn logs into metrics during ingestion, as I show in [Stop Extracting Metrics from OpenSearch Logs](/blog/2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs.md).
 
