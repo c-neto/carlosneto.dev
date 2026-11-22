@@ -140,6 +140,14 @@ To use the hash as the document ID in OpenSearch, point the OpenSearch output's 
 
 The Tail input in these examples reads the container log files that Kubernetes writes under `/var/log/containers/`. I explain how those files are created and rotated in [Kubernetes Logs Simplified](/blog/2025/2025-06-22-kubernetes-logs-simplified.md). Processors can also turn logs into metrics during ingestion, as I show in [Stop Extracting Metrics from OpenSearch Logs](/blog/2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs.md).
 
+## The Cost of Client-Side IDs in OpenSearch
+
+Use this approach with caution. When OpenSearch generates the document ID, it knows that no other document has it, so it writes the document without any lookup. When the client sends the ID, OpenSearch first has to check whether a document with that ID already exists in the shard, so it can overwrite it instead of storing a second copy. That lookup runs on every write. OpenSearch was forked from Elasticsearch, and the [Elasticsearch documentation](https://www.elastic.co/docs/deploy-manage/production-guidance/optimize-performance/indexing-speed#_use_auto_generated_ids) calls the check a costly operation that gets more costly as the index grows. It recommends auto-generated IDs so the engine can skip it.
+
+I applied the deduplication from this post to a cluster that ingested around 50K to 100K logs per second. Each of those logs added a lookup on its shard, and at that rate the extra reads overloaded the cluster. The cluster became extremely slow, and query times rose noticeably.
+
+To work around it, I stopped deduplicating every index. I kept the client-side IDs only on a few specific indices where duplicated logs created noise for the users, and turned deduplication off on the less critical indices, where an occasional duplicate is acceptable.
+
 ## Key Takeaways
 
 - With the Tail input, Fluent Bit delivers at least once, so duplicates are expected after output failures or restarts.
@@ -148,6 +156,7 @@ The Tail input in these examples reads the container log files that Kubernetes w
 - Copy the log line to a new key with `modify`, then hash it with the `content_modifier` processor's `hash` action to get a SHA-256 ID.
 - Processors on inputs are only available in the YAML configuration format.
 - Use the hashed field as the OpenSearch document ID with `Id_Key`, and don't name it `_id`, because OpenSearch rejects that field in the document body.
+- A client-side ID makes OpenSearch check the shard for an existing document on every write, a cost that grows with the index. On high-volume clusters, deduplicate only the indices where duplicates hurt users.
 
 ## References
 
@@ -156,6 +165,7 @@ The Tail input in these examples reads the container log files that Kubernetes w
 - [OpenSearch output (Fluent Bit)](https://docs.fluentbit.io/manual/pipeline/outputs/opensearch)
 - [Fingerprint filter plugin (Logstash)](https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint)
 - [Fingerprint processor (OpenSearch)](https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/)
+- [Tune for indexing speed: Use auto-generated ids (Elasticsearch)](https://www.elastic.co/docs/deploy-manage/production-guidance/optimize-performance/indexing-speed#_use_auto_generated_ids)
 - [Docker Compose lab for this post (GitHub)](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml)
 
 ---
