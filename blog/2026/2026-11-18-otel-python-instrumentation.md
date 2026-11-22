@@ -38,7 +38,10 @@ meter = metrics.get_meter("payment-api")
 payments = meter.create_counter("payments_processed", description="Number of processed payments")
 
 while True:
-    status = "success" if random.random() > 0.1 else "failure"
+    if random.random() > 0.1:
+      status = "success"
+    else:
+      status = "failure"
     payments.add(1, {"status": status})
     time.sleep(1)
 ```
