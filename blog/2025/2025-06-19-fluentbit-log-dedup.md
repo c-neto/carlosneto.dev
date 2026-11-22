@@ -136,6 +136,8 @@ Identical log lines always produce the same hash, so the destination can detect 
 
 To use the hash as the document ID in OpenSearch, point the OpenSearch output's [`Id_Key`](https://docs.fluentbit.io/manual/pipeline/outputs/opensearch) option at the hashed field. A retried or re-read log then overwrites the existing document instead of creating a new one. OpenSearch treats `_id` as a metadata field and rejects it inside the document body, so in a real pipeline give the hashed field another name, such as `log_id`, and set `Id_Key log_id`.
 
+<img src="/_static/2025/2025-06-19/fluentbit-log-dedup.gif" alt="Animated diagram of a Fluent Bit record and an OpenSearch index. The modify processor copies the log line to log_id, and the content_modifier processor replaces log_id with its SHA-256 hash. With Id_Key log_id, OpenSearch looks up that ID in the shard, finds nothing, and stores the document. After a restart, the same line produces the same hash, the lookup finds the ID, and the index keeps one copy. The last frame points out that this lookup runs on every write with a client-side ID." loading="lazy">
+
 > _A complete, working example of this configuration is in my Docker Compose lab: <i class="fab fa-github"></i> [github.com/c-neto/my-devops-labs/blog/2025-06-19](https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/)_
 
 The Tail input in these examples reads the container log files that Kubernetes writes under `/var/log/containers/`. I explain how those files are created and rotated in [Kubernetes Logs Simplified](/blog/2025/2025-06-22-kubernetes-logs-simplified.md). Processors can also turn logs into metrics during ingestion, as I show in [Stop Extracting Metrics from OpenSearch Logs](/blog/2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs.md).
@@ -187,6 +189,7 @@ To work around it, I stopped deduplicating every index. I kept the client-side I
       "inLanguage": "en",
       "url": "https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/",
       "mainEntityOfPage": "https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/",
+      "image": "https://carlosneto.dev/_static/2025/2025-06-19/fluentbit-log-dedup.gif",
       "keywords": ["Fluent Bit", "log deduplication", "SHA-256", "OpenSearch", "at-least-once delivery"],
       "author": {"@id": "https://carlosneto.dev/#person"}
     },
