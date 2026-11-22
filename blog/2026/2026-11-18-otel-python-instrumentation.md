@@ -39,9 +39,9 @@ payments = meter.create_counter("payments_processed", description="Number of pro
 
 while True:
     if random.random() > 0.1:
-      status = "success"
+        status = "success"
     else:
-      status = "failure"
+        status = "failure"
     payments.add(1, {"status": status})
     time.sleep(1)
 ```
