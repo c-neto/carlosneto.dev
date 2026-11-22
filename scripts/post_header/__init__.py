@@ -2,9 +2,10 @@
 
 Each post starts with ``*__Blog Post Publish Date:__ YYYY/MM/DD*`` and a
 ``---`` rule above its H1. This extension removes both from the body and puts
-a single block at the top of the body, above the H1, with the publish date, the revision count
-(git commits that touched the post's source file), the date of the last commit,
-a link to the file's history on GitHub, and the AI TL;DR buttons that the
+a single block at the top of the body, above the H1, with the publish date, the
+date of the last commit, the revision count (git commits that touched the
+post's source file) linked to the file's history on GitHub, and the AI TL;DR
+buttons that the
 ``tldr_ai`` extension leaves in ``context["aor_tldr"]``.
 
 The revision count follows renames (``git log --follow``), so posts moved from
@@ -60,7 +61,7 @@ def add_post_header(app: Sphinx, pagename, templatename, context, doctree):
     meta = []
     match = _PUBLISH_DATE_RE.search(body)
     if match:
-        meta.append(f"<span><strong>Published</strong> {match.group('date')}</span>")
+        meta.append(f"<span><strong>Published:</strong> {match.group('date')}</span>")
         body = body[: match.start()] + body[match.end():]
     else:
         logger.warning("post_header: no publish date line in %s", pagename)
@@ -70,17 +71,18 @@ def add_post_header(app: Sphinx, pagename, templatename, context, doctree):
     dates = _git_dates(srcdir, relpath)
     if dates:
         updated = date.fromisoformat(dates[0]).strftime("%Y/%m/%d")
-        count = len(dates)
-        label = "1 revision" if count == 1 else f"{count} revisions"
-        meta.append(f"<span><strong>Last Updated</strong> {updated}</span>")
+        meta.append(f"<span><strong>Updated:</strong> {updated}</span>")
         meta.append(
+            f"<span><strong>Revisions:</strong> "
             f'<a href="{REPO_URL}/commits/{BRANCH}/{relpath}" '
-            f'target="_blank" rel="noopener" title="View history on GitHub">{label}</a>'
+            f'target="_blank" rel="noopener" title="View history on GitHub">{len(dates)}</a></span>'
         )
 
+    divider = '<hr class="post-header__divider" />' if meta and tldr else ""
     header = (
         '<blockquote class="post-header">'
         f'<span class="post-header__meta">{SEP.join(meta)}</span>'
+        f"{divider}"
         f"{tldr}"
         "</blockquote>"
     )

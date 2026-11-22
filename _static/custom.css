@@ -270,6 +270,15 @@ a.post-chip img.post-chip-avatar {
   color: var(--pst-color-text-muted);
 }
 
+.post-header__meta {
+  font-size: 0.65rem;
+}
+
+.post-header__divider {
+  align-self: stretch;
+  margin: 0.2em 0;
+}
+
 .post-header__meta a {
   color: inherit;
   text-decoration: underline dotted;
