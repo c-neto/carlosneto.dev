@@ -75,7 +75,19 @@
     <script src="../searchindex.js"></script>
   
   <script data-goatcounter="https://c-neto.goatcounter.com/count"
-          async src="//gc.zgo.at/count.js"></script> 
+          async src="//gc.zgo.at/count.js"></script>
+  <script>
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest("a[href]");
+      if (!a) return;
+      var href = a.getAttribute("href");
+      if (!href || href.charAt(0) === "#" || /^(mailto|tel|javascript):/i.test(href)) return;
+      var url = new URL(a.href, location.href);
+      if (url.origin === location.origin && url.pathname === location.pathname && url.hash) return;
+      a.target = "_blank";
+      if (!a.relList.contains("noopener")) a.relList.add("noopener");
+    }, true);
+  </script> 
 <link
   rel="alternate"
   type="application/atom+xml"
