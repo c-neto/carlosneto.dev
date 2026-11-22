@@ -46,6 +46,8 @@ output {
 
 When Logstash starts, it calls `/_nodes/ingest:true` to get the addresses of all ingest nodes, and adds them to its host list. Every `30` seconds, it calls the API again, adding new nodes and removing the ones that are gone. The load balancer address is only used to reach that API.
 
+<img src="/_static/2024/2024-06-08/logstash-sniffing.gif" alt="Animated diagram of a Logstash output, a load balancer, and OpenSearch ingest nodes scaled by the HPA. Without sniffing, Logstash keeps one persistent connection through the load balancer, so all logs reach ingest-0 while ingest-1 and ingest-2 stay idle. With sniffing enabled, Logstash calls GET /_nodes/ingest:true through the load balancer, fills its connection list with the address of each ingest node, and sends logs straight to all of them. When the HPA adds ingest-3, the next sniff adds its address, and the load spreads across the four nodes." loading="lazy">
+
 > <i class="fa-solid fa-circle-info"></i> The [`sniffing_path`](https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-sniffing_path) parameter selects which nodes to use. For example, `/_nodes/data:true` sends logs straight to the [data nodes](https://opensearch.org/docs/2.14/tuning-your-cluster/).
 
 Two things are worth checking before you enable it. Logstash connects to the addresses the nodes publish, so they must be reachable from where Logstash runs. If Logstash runs outside the Kubernetes cluster, pod IPs usually aren't. And if the connection uses TLS, the node certificates must be valid for those addresses, not only for the load balancer's hostname.
@@ -93,6 +95,7 @@ For more on how OpenSearch places the data once it arrives, see [OpenSearch Conc
       "inLanguage": "en",
       "url": "https://carlosneto.dev/blog/2024/2024-06-08-logstash-sniffing/",
       "mainEntityOfPage": "https://carlosneto.dev/blog/2024/2024-06-08-logstash-sniffing/",
+      "image": "https://carlosneto.dev/_static/2024/2024-06-08/logstash-sniffing.gif",
       "keywords": ["Logstash", "OpenSearch", "sniffing", "ingest nodes", "load balancing"],
       "author": {"@id": "https://carlosneto.dev/#person"}
     },

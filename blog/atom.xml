@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-22T13:46:14.049695+00:00</updated>
+  <updated>2026-11-22T14:01:07.720338+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -5326,6 +5326,7 @@ aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;pu
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;When Logstash starts, it calls &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/_nodes/ingest:true&lt;/span&gt;&lt;/code&gt; to get the addresses of all ingest nodes, and adds them to its host list. Every &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;30&lt;/span&gt;&lt;/code&gt; seconds, it calls the API again, adding new nodes and removing the ones that are gone. The load balancer address is only used to reach that API.&lt;/p&gt;
+&lt;img alt="Animated diagram of a Logstash output, a load balancer, and OpenSearch ingest nodes scaled by the HPA. Without sniffing, Logstash keeps one persistent connection through the load balancer, so all logs reach ingest-0 while ingest-1 and ingest-2 stay idle. With sniffing enabled, Logstash calls GET /_nodes/ingest:true through the load balancer, fills its connection list with the address of each ingest node, and sends logs straight to all of them. When the HPA adds ingest-3, the next sniff adds its address, and the load spreads across the four nodes." src="https://carlosneto.dev/_images/logstash-sniffing.gif" /&gt;
 &lt;blockquote&gt;
 &lt;div&gt;&lt;p&gt;&lt;i class="fa-solid fa-circle-info"&gt;&lt;/i&gt; The &lt;a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-sniffing_path"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;sniffing_path&lt;/span&gt;&lt;/code&gt;&lt;/a&gt; parameter selects which nodes to use. For example, &lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;/_nodes/data:true&lt;/span&gt;&lt;/code&gt; sends logs straight to the &lt;a class="reference external" href="https://opensearch.org/docs/2.14/tuning-your-cluster/"&gt;data nodes&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;&lt;/blockquote&gt;
@@ -5373,6 +5374,7 @@ aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;pu
       "inLanguage": "en",
       "url": "https://carlosneto.dev/blog/2024/2024-06-08-logstash-sniffing/",
       "mainEntityOfPage": "https://carlosneto.dev/blog/2024/2024-06-08-logstash-sniffing/",
+      "image": "https://carlosneto.dev/_static/2024/2024-06-08/logstash-sniffing.gif",
       "keywords": ["Logstash", "OpenSearch", "sniffing", "ingest nodes", "load balancing"],
       "author": {"@id": "https://carlosneto.dev/#person"}
     },

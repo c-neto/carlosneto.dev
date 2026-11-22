@@ -438,7 +438,7 @@
                 
 <div id="searchbox"></div>
                 <article class="bd-article">
-                   <div class="blog-post"><blockquote class="post-header"><span class="post-header__meta"><span><strong>Published:</strong> 2024/06/08</span><span class="post-header__sep">·</span><span><strong>Updated:</strong> 2026/11/12</span><span class="post-header__sep">·</span><span><strong>Revisions:</strong> <a href="https://github.com/c-neto/carlosneto.dev/commits/main/blog/2024/2024-06-08-logstash-sniffing.md" target="_blank" rel="noopener" title="View history on GitHub">8</a></span></span><hr class="post-header__divider" />
+                   <div class="blog-post"><blockquote class="post-header"><span class="post-header__meta"><span><strong>Published:</strong> 2024/06/08</span><span class="post-header__sep">·</span><span><strong>Updated:</strong> 2026/11/22</span><span class="post-header__sep">·</span><span><strong>Revisions:</strong> <a href="https://github.com/c-neto/carlosneto.dev/commits/main/blog/2024/2024-06-08-logstash-sniffing.md" target="_blank" rel="noopener" title="View history on GitHub">9</a></span></span><hr class="post-header__divider" />
 <div class="aor-tldr">
   <img class="aor-tldr__marvin" src="../../../_static/marvin.jpg" alt="">
   <span class="aor-tldr__copy">
@@ -477,6 +477,7 @@
 </pre></div>
 </div>
 <p>When Logstash starts, it calls <code class="docutils literal notranslate"><span class="pre">/_nodes/ingest:true</span></code> to get the addresses of all ingest nodes, and adds them to its host list. Every <code class="docutils literal notranslate"><span class="pre">30</span></code> seconds, it calls the API again, adding new nodes and removing the ones that are gone. The load balancer address is only used to reach that API.</p>
+<img alt="Animated diagram of a Logstash output, a load balancer, and OpenSearch ingest nodes scaled by the HPA. Without sniffing, Logstash keeps one persistent connection through the load balancer, so all logs reach ingest-0 while ingest-1 and ingest-2 stay idle. With sniffing enabled, Logstash calls GET /_nodes/ingest:true through the load balancer, fills its connection list with the address of each ingest node, and sends logs straight to all of them. When the HPA adds ingest-3, the next sniff adds its address, and the load spreads across the four nodes." src="../../../_images/logstash-sniffing.gif" />
 <blockquote>
 <div><p><i class="fa-solid fa-circle-info"></i> The <a class="reference external" href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-sniffing_path"><code class="docutils literal notranslate"><span class="pre">sniffing_path</span></code></a> parameter selects which nodes to use. For example, <code class="docutils literal notranslate"><span class="pre">/_nodes/data:true</span></code> sends logs straight to the <a class="reference external" href="https://opensearch.org/docs/2.14/tuning-your-cluster/">data nodes</a>.</p>
 </div></blockquote>
@@ -524,6 +525,7 @@
       "inLanguage": "en",
       "url": "https://carlosneto.dev/blog/2024/2024-06-08-logstash-sniffing/",
       "mainEntityOfPage": "https://carlosneto.dev/blog/2024/2024-06-08-logstash-sniffing/",
+      "image": "https://carlosneto.dev/_static/2024/2024-06-08/logstash-sniffing.gif",
       "keywords": ["Logstash", "OpenSearch", "sniffing", "ingest nodes", "load balancing"],
       "author": {"@id": "https://carlosneto.dev/#person"}
     },
