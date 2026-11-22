@@ -6,16 +6,17 @@
   {#- GoatCounter: cookie-free page view counter. Feeds the public /analytics page. #}
   <script data-goatcounter="https://c-neto.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
-  {#- Open every link in a new tab, except jumps within the same page (TOC, headings)
-      and mailto/tel/javascript links. Set at click time so links added later count too. #}
+  {#- Open only links to other sites in a new tab. Links within the blog (topbar, posts,
+      TOC, headings) stay in the same tab, as do mailto/tel/javascript links.
+      Set at click time so links added later count too. #}
   <script>
     document.addEventListener("click", function (e) {
       var a = e.target.closest && e.target.closest("a[href]");
       if (!a) return;
-      var href = a.getAttribute("href");
-      if (!href || href.charAt(0) === "#" || /^(mailto|tel|javascript):/i.test(href)) return;
       var url = new URL(a.href, location.href);
-      if (url.origin === location.origin && url.pathname === location.pathname && url.hash) return;
+      if (!/^https?:$/.test(url.protocol)) return;
+      var host = url.hostname.replace(/^www\./, "");
+      if (url.origin === location.origin || host === "carlosneto.dev") return;
       a.target = "_blank";
       if (!a.relList.contains("noopener")) a.relList.add("noopener");
     }, true);
