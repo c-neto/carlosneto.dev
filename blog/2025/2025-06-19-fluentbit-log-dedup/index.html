@@ -438,7 +438,7 @@
                 
 <div id="searchbox"></div>
                 <article class="bd-article">
-                   <div class="blog-post"><blockquote class="post-header"><span class="post-header__meta"><span><strong>Published:</strong> 2025/06/19</span><span class="post-header__sep">·</span><span><strong>Updated:</strong> 2026/11/12</span><span class="post-header__sep">·</span><span><strong>Revisions:</strong> <a href="https://github.com/c-neto/carlosneto.dev/commits/main/blog/2025/2025-06-19-fluentbit-log-dedup.md" target="_blank" rel="noopener" title="View history on GitHub">19</a></span></span><hr class="post-header__divider" />
+                   <div class="blog-post"><blockquote class="post-header"><span class="post-header__meta"><span><strong>Published:</strong> 2025/06/19</span><span class="post-header__sep">·</span><span><strong>Updated:</strong> 2026/11/22</span><span class="post-header__sep">·</span><span><strong>Revisions:</strong> <a href="https://github.com/c-neto/carlosneto.dev/commits/main/blog/2025/2025-06-19-fluentbit-log-dedup.md" target="_blank" rel="noopener" title="View history on GitHub">22</a></span></span><hr class="post-header__divider" />
 <div class="aor-tldr">
   <img class="aor-tldr__marvin" src="../../../_static/marvin.jpg" alt="">
   <span class="aor-tldr__copy">
@@ -560,11 +560,17 @@
 <h2>Using the Hash as the Document ID<a class="headerlink" href="#using-the-hash-as-the-document-id" title="Link to this heading">#</a></h2>
 <p>Identical log lines always produce the same hash, so the destination can detect the duplicate. Because the raw container log line includes a nanosecond timestamp, two different events almost never share the same content.</p>
 <p>To use the hash as the document ID in OpenSearch, point the OpenSearch output's <a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs/opensearch"><code class="docutils literal notranslate"><span class="pre">Id_Key</span></code></a> option at the hashed field. A retried or re-read log then overwrites the existing document instead of creating a new one. OpenSearch treats <code class="docutils literal notranslate"><span class="pre">_id</span></code> as a metadata field and rejects it inside the document body, so in a real pipeline give the hashed field another name, such as <code class="docutils literal notranslate"><span class="pre">log_id</span></code>, and set <code class="docutils literal notranslate"><span class="pre">Id_Key</span> <span class="pre">log_id</span></code>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>A complete, working example of this configuration is in my Docker Compose lab: <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/">github.com/c-neto/my-devops-labs/blog/2025-06-19</a></p>
-</div>
+<img alt="Animated diagram of a Fluent Bit record and an OpenSearch index. The modify processor copies the log line to log_id, and the content_modifier processor replaces log_id with its SHA-256 hash. With Id_Key log_id, OpenSearch looks up that ID in the shard, finds nothing, and stores the document. After a restart, the same line produces the same hash, the lookup finds the ID, and the index keeps one copy. The last frame points out that this lookup runs on every write with a client-side ID." src="../../../_images/fluentbit-log-dedup.gif" />
+<blockquote>
+<div><p><em>A complete, working example of this configuration is in my Docker Compose lab: <i class="fab fa-github"></i> <a class="reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/">github.com/c-neto/my-devops-labs/blog/2025-06-19</a></em></p>
+</div></blockquote>
 <p>The Tail input in these examples reads the container log files that Kubernetes writes under <code class="docutils literal notranslate"><span class="pre">/var/log/containers/</span></code>. I explain how those files are created and rotated in <a class="post-chip reference internal" href="../2025-06-22-kubernetes-logs-simplified/" title="Where Kubernetes stores container logs, how kubectl logs and log shippers read them, the CRI log line format, how the kubelet rotates log files, and how to ship pod logs with a Fluent Bit DaemonSet."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Kubernetes Logs Simplified</span></a>. Processors can also turn logs into metrics during ingestion, as I show in <a class="post-chip reference internal" href="../../2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/" title="Why counting log lines in OpenSearch is an expensive way to get a metric, how a Prometheus counter answers the same question for almost nothing, and how Fluent Bit can extract the metric at ingestion when you cannot change the code."><img class="post-chip-avatar" src="/_static/profile-color-circle-small.png" alt="Carlos Neto" width="18" height="18" loading="lazy"><span class="std std-doc">Stop Extracting Metrics from OpenSearch Logs</span></a>.</p>
+</section>
+<section id="the-cost-of-client-side-ids-in-opensearch">
+<h2>The Cost of Client-Side IDs in OpenSearch<a class="headerlink" href="#the-cost-of-client-side-ids-in-opensearch" title="Link to this heading">#</a></h2>
+<p>Use this approach with caution. When OpenSearch generates the document ID, it knows that no other document has it, so it writes the document without any lookup. When the client sends the ID, OpenSearch first has to check whether a document with that ID already exists in the shard, so it can overwrite it instead of storing a second copy. That lookup runs on every write. OpenSearch was forked from Elasticsearch, and the <a class="reference external" href="https://www.elastic.co/docs/deploy-manage/production-guidance/optimize-performance/indexing-speed#_use_auto_generated_ids">Elasticsearch documentation</a> calls the check a costly operation that gets more costly as the index grows. It recommends auto-generated IDs so the engine can skip it.</p>
+<p>I applied the deduplication from this post to a cluster that ingested around 50K to 100K logs per second. Each of those logs added a lookup on its shard, and at that rate the extra reads overloaded the cluster. The cluster became extremely slow, and query times rose noticeably.</p>
+<p>To work around it, I stopped deduplicating every index. I kept the client-side IDs only on a few specific indices where duplicated logs created noise for the users, and turned deduplication off on the less critical indices, where an occasional duplicate is acceptable.</p>
 </section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
@@ -575,6 +581,7 @@
 <li><p>Copy the log line to a new key with <code class="docutils literal notranslate"><span class="pre">modify</span></code>, then hash it with the <code class="docutils literal notranslate"><span class="pre">content_modifier</span></code> processor's <code class="docutils literal notranslate"><span class="pre">hash</span></code> action to get a SHA-256 ID.</p></li>
 <li><p>Processors on inputs are only available in the YAML configuration format.</p></li>
 <li><p>Use the hashed field as the OpenSearch document ID with <code class="docutils literal notranslate"><span class="pre">Id_Key</span></code>, and don't name it <code class="docutils literal notranslate"><span class="pre">_id</span></code>, because OpenSearch rejects that field in the document body.</p></li>
+<li><p>A client-side ID makes OpenSearch check the shard for an existing document on every write, a cost that grows with the index. On high-volume clusters, deduplicate only the indices where duplicates hurt users.</p></li>
 </ul>
 </section>
 <section id="references">
@@ -585,6 +592,7 @@
 <li><p><a class="reference external" href="https://docs.fluentbit.io/manual/pipeline/outputs/opensearch">OpenSearch output (Fluent Bit)</a></p></li>
 <li><p><a class="reference external" href="https://www.elastic.co/docs/reference/logstash/plugins/plugins-filters-fingerprint">Fingerprint filter plugin (Logstash)</a></p></li>
 <li><p><a class="reference external" href="https://docs.opensearch.org/docs/latest/ingest-pipelines/processors/fingerprint/">Fingerprint processor (OpenSearch)</a></p></li>
+<li><p><a class="reference external" href="https://www.elastic.co/docs/deploy-manage/production-guidance/optimize-performance/indexing-speed#_use_auto_generated_ids">Tune for indexing speed: Use auto-generated ids (Elasticsearch)</a></p></li>
 <li><p><a class="reference external" href="https://github.com/c-neto/my-devops-labs/blob/main/blog/2025-06-19/docker-compose.yml">Docker Compose lab for this post (GitHub)</a></p></li>
 </ul>
 <hr class="docutils" />
@@ -604,6 +612,7 @@
       "inLanguage": "en",
       "url": "https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/",
       "mainEntityOfPage": "https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/",
+      "image": "https://carlosneto.dev/_static/2025/2025-06-19/fluentbit-log-dedup.gif",
       "keywords": ["Fluent Bit", "log deduplication", "SHA-256", "OpenSearch", "at-least-once delivery"],
       "author": {"@id": "https://carlosneto.dev/#person"}
     },
