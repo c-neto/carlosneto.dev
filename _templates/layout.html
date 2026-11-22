@@ -6,9 +6,14 @@
   {#- GoatCounter: cookie-free page view counter. Feeds the public /analytics page. #}
   <script data-goatcounter="https://c-neto.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
-  {#- Open only links to other sites in a new tab. Links within the blog (topbar, posts,
-      TOC, headings) stay in the same tab, as do mailto/tel/javascript links.
-      Set at click time so links added later count too. #}
+  {#- New-tab rules, set at click time so links added later count too:
+      1. Links to other sites open in a new tab.
+      2. Inside a post's text, links to another page of the blog (such as other posts)
+         also open in a new tab. The ablog previous/next navigation does not.
+      3. Feeds (.xml files, such as the RSS feed) open in a new tab.
+      4. Every other link within the blog (topbar, sidebars, post lists,
+         headings, TOC) stays in the same tab, even when the theme renders it with
+         target="_blank". mailto/tel/javascript links are left alone. #}
   <script>
     document.addEventListener("click", function (e) {
       var a = e.target.closest && e.target.closest("a[href]");
@@ -16,7 +21,16 @@
       var url = new URL(a.href, location.href);
       if (!/^https?:$/.test(url.protocol)) return;
       var host = url.hostname.replace(/^www\./, "");
-      if (url.origin === location.origin || host === "carlosneto.dev") return;
+      var internal = url.origin === location.origin || host === "carlosneto.dev";
+      var inPostText = /^\/blog\/\d{4}\/[^/]+/.test(location.pathname)
+        && a.closest("article")
+        && !a.closest(".ablog__prev-next")
+        && url.pathname !== location.pathname;
+      var isFeed = /\.xml$/i.test(url.pathname);
+      if (internal && !inPostText && !isFeed) {
+        a.removeAttribute("target");
+        return;
+      }
       a.target = "_blank";
       if (!a.relList.contains("noopener")) a.relList.add("noopener");
     }, true);
