@@ -71,7 +71,16 @@
       var url = new URL(a.href, location.href);
       if (!/^https?:$/.test(url.protocol)) return;
       var host = url.hostname.replace(/^www\./, "");
-      if (url.origin === location.origin || host === "carlosneto.dev") return;
+      var internal = url.origin === location.origin || host === "carlosneto.dev";
+      var inPostText = /^\/blog\/\d{4}\/[^/]+/.test(location.pathname)
+        && a.closest("article")
+        && !a.closest(".ablog__prev-next")
+        && url.pathname !== location.pathname;
+      var isFeed = /\.xml$/i.test(url.pathname);
+      if (internal && !inPostText && !isFeed) {
+        a.removeAttribute("target");
+        return;
+      }
       a.target = "_blank";
       if (!a.relList.contains("noopener")) a.relList.add("noopener");
     }, true);
