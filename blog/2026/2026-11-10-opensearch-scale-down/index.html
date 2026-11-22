@@ -785,21 +785,43 @@ GET _cluster/health
 </section>
 </div>
 <!-- Add a comment box underneath the page's content -->
-<script
-  src="https://giscus.app/client.js"
-  data-repo="c-neto/carlosneto.dev"
-  data-repo-id="R_kgDOKgwGNA"
-  data-category="General"
-  data-category-id="DIC_kwDOKgwGNM4CaKBI"
-  data-mapping="pathname"
-  data-strict="0"
-  data-reactions-enabled="1"
-  data-emit-metadata="0"
-  data-input-position="bottom"
-  data-theme="light"
-  data-lang="en"
-  crossorigin="anonymous"
-  async>
+<div class="giscus"></div>
+<script>
+  (function () {
+    // Follow the PyData theme (html[data-theme]), which defaults to light.
+    function giscusTheme() {
+      return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+    }
+    var s = document.createElement("script");
+    var attrs = {
+      "src": "https://giscus.app/client.js",
+      "data-repo": "c-neto/carlosneto.dev",
+      "data-repo-id": "R_kgDOKgwGNA",
+      "data-category": "General",
+      "data-category-id": "DIC_kwDOKgwGNM4CaKBI",
+      "data-mapping": "pathname",
+      "data-strict": "0",
+      "data-reactions-enabled": "1",
+      "data-emit-metadata": "0",
+      "data-input-position": "bottom",
+      "data-theme": giscusTheme(),
+      "data-lang": "en",
+      "crossorigin": "anonymous"
+    };
+    for (var k in attrs) s.setAttribute(k, attrs[k]);
+    s.async = true;
+    document.currentScript.after(s);
+
+    // Tell the Giscus iframe when the reader toggles light/dark.
+    new MutationObserver(function () {
+      var frame = document.querySelector("iframe.giscus-frame");
+      if (!frame) return;
+      frame.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: giscusTheme() } } },
+        "https://giscus.app"
+      );
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  })();
 </script>
 
 <div class="section ablog__blog_comments">
