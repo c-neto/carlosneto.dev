@@ -323,13 +323,14 @@ a.post-chip img.post-chip-avatar {
 }
 
 .post-header .aor-tldr__btn {
-  padding: 0.15rem 0.6rem;
-  font-size: 0.7rem;
+  gap: 0.25rem;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.62rem;
 }
 
 .post-header .aor-tldr__logo {
-  width: 13px;
-  height: 13px;
+  width: 11px;
+  height: 11px;
 }
 
 .post-header__rule {
