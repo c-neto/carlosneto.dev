@@ -58,11 +58,13 @@ Here is what each exam covers:
 
 > _From February 15, 2027, Kubestronaut will also require the [CKNE](https://training.linuxfoundation.org/resources/kubestronaut-program/), and two AI certifications, [KAIA and CKIE](https://www.cncf.io/announcements/2026/11/10/cncf-launches-certified-kubernetes-network-engineer-certification-ckne-to-advance-production-ready-networking-skills-for-ai-era/), are planned for 2027._
 
-## Kubestronaut Benefits and Renewal
+## Kubestronaut Benefits
 
 When you become a Kubestronaut, you get an exclusive jacket, a Credly badge ([here is mine](https://www.credly.com/badges/d5a820cc-d6b5-4d0f-96e2-2e1d4713ac99)), and access to a private Slack channel. That channel is a good place to network with other qualified professionals, and maybe get a contact that leads to a better job. Your photo also goes on the [Kubestronaut page](https://www.cncf.io/training/kubestronaut/), which lists everyone who holds the title ([here is mine](https://www.cncf.io/training/kubestronaut/?_sf_s=carlos%20neto)). Every year, you also get five 50%-off certification coupons, which you can use yourself or share, and 20% off three [CNCF events](https://www.cncf.io/events/), such as [KubeCon](https://www.cncf.io/kubecon-cloudnativecon-events/) or [KubeDays](https://www.cncf.io/blog/2022/08/17/introducing-kubeday-event-series-kicking-off-with-kubeday-japan-this-december/). The full list is on the [Kubestronaut Program page](https://training.linuxfoundation.org/resources/kubestronaut-program/).
 
 An indirect benefit of these certifications is visibility on LinkedIn. Tech recruiters search for them, so your profile shows up more often. They also tell the recruiter that you know the Kubernetes basics before the first interview. And some job openings list them as a requirement, so with them you can apply to positions you would otherwise miss.
+
+> _The CNCF community also shares jobs open to anyone in the [CNCF Slack #jobs channel](https://cloud-native.slack.com/archives/CA1DWFQLF) and on [GitJobs](https://gitjobs.dev/)._
 
 The Kubestronaut title isn't permanent, though. Each certification is valid for two years, and according to the [Kubestronaut FAQ](https://www.cncf.io/training/kubestronaut/kubestronaut-faq/), all of them must be active at the same time. When the first one expires, you keep the title until the end of that year. If you don't renew by then, you lose the title and its benefits.
 
