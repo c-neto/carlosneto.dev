@@ -4,7 +4,7 @@ This blog is a brain dump of my career so far. I write about problems I've solve
 
 Everything here comes from my own experience and opinions, the kind of thing you'd hear from me over coffee (_no sugar_) and won't get from an AI :)
 
-The best way to reach me is on [LinkedIn](https://www.linkedin.com/in/c-neto/). Feel free to connect and send me a message there.
+The best way to reach me is on [LinkedIn](https://www.linkedin.com/in/c-neto/). Feel free to connect and send me a message there!
 
 ::::{grid}
 
