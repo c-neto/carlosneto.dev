@@ -1,6 +1,6 @@
 # Hello, There!
 
-This blog is a brain dump of my career so far. I write about problems I've solved at work, what I've learned from them, and the topics that keep coming up when I talk shop with coworkers and friends.
+This blog is a brain dump of my career so far. I write about problems I've solved at work, my studies, and interesting topics I've discussed with coworkers and friends in Slack Huddles and Google Meet calls.
 
 Everything here comes from my own experience and opinions, the kind of thing you'd hear from me over coffee (_no sugar_) and won't get from an AI :)
 
