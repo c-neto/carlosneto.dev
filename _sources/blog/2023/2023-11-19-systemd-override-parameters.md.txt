@@ -12,7 +12,7 @@ og:title: "Systemd Drop-in Overrides: Customize Unit Properties Without Editing 
 og:description: "How to customize a systemd service with an override.conf drop-in instead of editing the unit file, how systemctl edit creates it, and a hands-on example that overrides an EnvironmentFile."
 ---
 
-*__Blog Post Publish Date:__ 2023/11/19*
+*__Post Publication Date:__ 2023/11/19*
 
 ---
 

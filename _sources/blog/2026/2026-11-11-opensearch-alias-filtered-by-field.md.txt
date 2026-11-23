@@ -12,7 +12,7 @@ og:title: "Avoiding Over-Sharding in OpenSearch with Filtered Aliases per Enviro
 og:description: Store logs from every environment in one OpenSearch index series and expose each environment as a filtered alias defined in the index template, instead of creating one index per environment.
 ---
 
-*__Blog Post Publish Date:__ 2026/11/11*
+*__Post Publication Date:__ 2026/11/11*
 
 ---
 

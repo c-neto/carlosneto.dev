@@ -12,7 +12,7 @@ og:title: "OpenSearch Concepts: Index and Shards"
 og:description: "What OpenSearch indices, primary shards, and replica shards are, how shard counts affect write throughput and fault tolerance, and the API calls I use to troubleshoot indices and shards."
 ---
 
-*__Blog Post Publish Date:__ 2025/01/05*
+*__Post Publication Date:__ 2025/01/05*
 
 ---
 

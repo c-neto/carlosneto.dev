@@ -12,7 +12,7 @@ og:title: "What is the Cloud and why does everyone keep talking about it?"
 og:description: "A plain-language explanation of cloud computing: what it is, the problem it solved, when on-premises infrastructure still makes sense, and the costs that vendor pitches tend to skip."
 ---
 
-*__Blog Post Publish Date:__ 2023/10/21*
+*__Post Publication Date:__ 2023/10/21*
 
 ---
 

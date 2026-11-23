@@ -601,7 +601,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/12</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/12</em></p>
 <p>This blog post is a hands-on implementation of storage tiering in OpenSearch, using a log analytics scenario based on my experience. In the example, log indexes move through three tiers: hot nodes on local NVMe for the first 3 days, warm nodes on EBS until 90 days, and S3 snapshots that come back as searchable snapshots only when someone needs old data. You will configure the node attributes, index template, and Index State Management (ISM) policy that automate the flow, and see how I run the searchable tier on short-lived Kubernetes nodes and which costs and failures I ran into.</p>
 </p>
 
@@ -664,7 +664,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/11</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/11</em></p>
 <p>This blog post covers one of the strategies I use to avoid over-sharding in OpenSearch. Instead of per-environment indexes, I write all logs into one index series and expose each environment as a filtered alias. The rule behind it is simple: the environment is an attribute of each document, so it belongs in a field, not in the index name. The cluster keeps fewer, fuller shards and one mapping, and OpenSearch Dashboards users still get a per-environment view that behaves like a dedicated index.</p>
 </p>
 
@@ -727,7 +727,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/06/22</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2025/06/22</em></p>
 <p>This blog post explains where Kubernetes stores container logs and how <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kubectl</span> <span class="pre">logs</span></code> and log shippers read them. It also covers the CRI log line format, how log rotation works, and how to ship pod logs to an external system with a DaemonSet. Kubernetes logging can look complex, but knowing these details makes troubleshooting much easier.</p>
 </p>
 
@@ -788,7 +788,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/06/19</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2025/06/19</em></p>
 <p>This blog post explains why Fluent Bit can deliver the same log more than once, and why deduplication needs a unique ID derived from the log content. It then shows how to generate a SHA-256 hash of each log line with only native Fluent Bit features, without external scripts or plugins.</p>
 </p>
 
@@ -849,7 +849,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2025/02/16</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2025/02/16</em></p>
 <p>This blog post covers the lessons from enriching logs in Logstash with data from a PostgreSQL database. It explains hidden behaviors of the <code class="docutils literal notranslate"><span class="pre">jdbc_streaming</span></code> filter that can stop log ingestion, and the JDBC connection string parameters that prevent them. These problems are hard to reproduce and not clearly documented, so I hope these tips save you hours of troubleshooting and forum searching.</p>
 </p>
 
@@ -912,7 +912,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2024/06/08</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2024/06/08</em></p>
 <p>This blog post covers a common problem when Logstash ships logs to an OpenSearch cluster with autoscaling ingest nodes behind a load balancer: one node takes all the traffic while the others sit idle. It shows how the output plugin's sniffing options fix that by discovering the nodes from the OpenSearch API.</p>
 </p>
 
@@ -973,7 +973,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2023/11/12</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2023/11/12</em></p>
 <p>This blog post covers a Logstash pipeline structure that removes duplicated code. Each <code class="docutils literal notranslate"><span class="pre">input</span></code>, <code class="docutils literal notranslate"><span class="pre">filter</span></code>, and <code class="docutils literal notranslate"><span class="pre">output</span></code> lives in its own file, and every application's pipeline is composed from those modules with a glob pattern and an environment variable. It includes an example configuration, a Docker Compose lab to try it, and my opinion on when the structure is worth it.</p>
 </p>
 

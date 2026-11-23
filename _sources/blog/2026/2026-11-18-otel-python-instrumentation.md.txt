@@ -12,7 +12,7 @@ og:title: "Vendor Lock-Out: A Hands-On OpenTelemetry Example"
 og:description: "A small Python example of OpenTelemetry in practice. The code only uses the API, and its metrics move from Prometheus to Datadog by changing one exporter in the Collector configuration."
 ---
 
-*__Blog Post Publish Date:__ 2026/11/18*
+*__Post Publication Date:__ 2026/11/18*
 
 ---
 

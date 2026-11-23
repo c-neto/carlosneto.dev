@@ -12,7 +12,7 @@ og:title: "Kubernetes Logs Simplified: Everything You Need to Know About Pod Log
 og:description: "Where Kubernetes stores container logs, how kubectl logs and log shippers read them, the CRI log line format, how the kubelet rotates log files, and how to ship pod logs with a Fluent Bit DaemonSet."
 ---
 
-*__Blog Post Publish Date:__ 2025/06/22*
+*__Post Publication Date:__ 2025/06/22*
 
 ---
 

@@ -12,7 +12,7 @@ og:title: "OpenSearch + EC2 Instance Store: A Disruptive Approach to Hot Tier St
 og:description: "Why local NVMe Instance Store beats EBS for an OpenSearch hot tier, why shard replicas make losing a node survivable, and six Kubernetes and Karpenter guardrails that reduce the risk of data loss."
 ---
 
-*__Blog Post Publish Date:__ 2026/11/08*
+*__Post Publication Date:__ 2026/11/08*
 
 ---
 

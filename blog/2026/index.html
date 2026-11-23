@@ -516,7 +516,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/19</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/19</em></p>
 <p>I wrote this blog post to share an idiomatic way to use values defined in a parent chart across its subcharts using Helm Global Values. This approach changed how I structure my charts, making them more flexible and easier to configure without losing the semantics of each subchart. The post covers a straightforward explanation and a hands-on example using an umbrella chart that defines a single image tag shared by two modules in one place. It also explains the advantages of Global Values over YAML anchors.</p>
 </p>
 
@@ -579,7 +579,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/18</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/18</em></p>
 <p>This post shows, with a small Python service, how OpenTelemetry keeps you out of vendor lock-in by letting you change where telemetry goes without touching the application code. The service sends its metrics to Prometheus and then to Datadog, and the only file that changes between the two is the Collector configuration.</p>
 </p>
 
@@ -640,7 +640,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/15</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/15</em></p>
 <p>This post is an honest account of how I passed the five CNCF Kubernetes certifications (CKA, KCNA, KCSA, CKAD, and CKS) and became a Kubestronaut. I share how I overcame a year of procrastination and why I failed the CKS even though I was prepared for it. I also cover the study routine and methods that worked for me, what each exam asks for, and the order I recommend for your professional profile.</p>
 </p>
 
@@ -703,7 +703,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/12</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/12</em></p>
 <p>This blog post is a hands-on implementation of storage tiering in OpenSearch, using a log analytics scenario based on my experience. In the example, log indexes move through three tiers: hot nodes on local NVMe for the first 3 days, warm nodes on EBS until 90 days, and S3 snapshots that come back as searchable snapshots only when someone needs old data. You will configure the node attributes, index template, and Index State Management (ISM) policy that automate the flow, and see how I run the searchable tier on short-lived Kubernetes nodes and which costs and failures I ran into.</p>
 </p>
 
@@ -766,7 +766,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/11</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/11</em></p>
 <p>This blog post covers one of the strategies I use to avoid over-sharding in OpenSearch. Instead of per-environment indexes, I write all logs into one index series and expose each environment as a filtered alias. The rule behind it is simple: the environment is an attribute of each document, so it belongs in a field, not in the index name. The cluster keeps fewer, fuller shards and one mapping, and OpenSearch Dashboards users still get a per-environment view that behaves like a dedicated index.</p>
 </p>
 
@@ -829,7 +829,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/10</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/10</em></p>
 <p>This blog post covers the patterns and API calls I use to scale down and resize OpenSearch data nodes without losing data. The rule behind all of them is simple: the data on a node you remove has to end up somewhere else first. If you take nodes away faster than the cluster can relocate their shards, you lose data.</p>
 </p>
 
@@ -892,7 +892,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/08</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/08</em></p>
 <p>This blog post covers running the OpenSearch hot data tier on EC2 Instance Store (local NVMe) instead of EBS. It explains why local disks perform better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
 </p>
 
@@ -953,7 +953,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/04</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/04</em></p>
 <p>This blog post explains how OpenSearch distributes shards across data nodes. It covers how the default allocator works, why it can leave disk usage uneven in clusters with many small indices, and how disk watermarks correct that. It also covers other allocation mechanisms and a limitation I run into often: watermarks are one cluster-wide setting, even in clusters with different storage tiers.</p>
 </p>
 
@@ -1018,7 +1018,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/11/03</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/03</em></p>
 <p>This blog post explains why counting log lines in OpenSearch is an expensive way to produce a metric. The same number captured as a Prometheus counter is stored once and read almost for free. When you cannot change the application, Fluent Bit can extract that metric while the logs are ingested, so OpenSearch never has to rebuild it at query time.</p>
 </p>
 
@@ -1081,7 +1081,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/10/29</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/10/29</em></p>
 <p>This post is my take on what OpenTelemetry is and the problem it solves, explained directly and in my own words.</p>
 </p>
 
@@ -1142,7 +1142,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/10/28</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/10/28</em></p>
 <p>This blog post explains how to create custom Zsh widgets: shell functions bound to keyboard shortcuts through the Zsh Line Editor (ZLE). It's the Zsh version of <a class="reference internal" href="2026-10-25-gnu-readline-widgets/"><span class="std std-doc">Hacking Your Bash Terminal with Custom Widgets</span></a>, and it ends with the same widget that reruns the current command every two seconds.</p>
 </p>
 
@@ -1205,7 +1205,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/10/25</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/10/25</em></p>
 <p>This blog post explains how to create custom Bash widgets: Bash functions bound to keyboard shortcuts through the GNU Readline library. It continues <a class="reference internal" href="2026-10-18-gnu-readline-foundation/"><span class="std std-doc">GNU Readline: The Magic Behind Terminal Autocomplete</span></a>, and ends with a widget that reruns the current command every two seconds.</p>
 </p>
 
@@ -1268,7 +1268,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/10/18</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/10/18</em></p>
 <p>This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. It also shows the configuration I reach for the most: making the Up and Down arrows search your command history by prefix. It's a small change that saved me a lot of keystrokes.</p>
 </p>
 
@@ -1331,7 +1331,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/07/15</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/07/15</em></p>
 <p>This blog post covers the minimal Vim configuration and the editing techniques I use in the Linux Foundation Kubernetes certification exams. You don't need to master Vim. A small set of commands is enough to edit YAML manifests much faster under exam conditions.</p>
 </p>
 
@@ -1394,7 +1394,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/07/09</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/07/09</em></p>
 <p>This blog post covers the workstation tweaks I use to work faster during the Linux Foundation Kubernetes exams: macOS settings that avoid keyboard and proctoring problems, Bash history search by prefix, a minimal Vim configuration, kubectl aliases, and how to copy all of it to each question node.</p>
 </p>
 
@@ -1453,7 +1453,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Blog Post Publish Date:</strong> 2026/02/25</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/02/25</em></p>
 <p>This blog post shows a simple way to debug Helm charts: dump the entire chart context as JSON and look at exactly what your templates can access. It helps most when <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">helm</span> <span class="pre">template</span></code> fails with a message that doesn't point to the real problem, such as a typo in a <code class="docutils literal notranslate"><span class="pre">.Values</span></code> path.</p>
 </p>
 

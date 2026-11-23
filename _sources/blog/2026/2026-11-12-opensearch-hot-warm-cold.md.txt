@@ -12,7 +12,7 @@ og:title: "OpenSearch Storage Tiering for Log Analytics: A Hands-On Guide"
 og:description: "A hands-on implementation of OpenSearch storage tiering for log analytics, based on my experience: node attributes, an index template, and an ISM policy that move indexes from NVMe to EBS to S3."
 ---
 
-*__Blog Post Publish Date:__ 2026/11/12*
+*__Post Publication Date:__ 2026/11/12*
 
 ---
 

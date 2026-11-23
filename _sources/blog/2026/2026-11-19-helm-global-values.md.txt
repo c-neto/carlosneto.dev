@@ -12,7 +12,7 @@ og:title: "Helm Global Values: The Right Way to Share Values in an Umbrella Char
 og:description: "How the global key in Helm values works, why it only matters with subcharts, and how I used it to share one image tag across two modules of an umbrella chart."
 ---
 
-*__Blog Post Publish Date:__ 2026/11/19*
+*__Post Publication Date:__ 2026/11/19*
 
 ---
 

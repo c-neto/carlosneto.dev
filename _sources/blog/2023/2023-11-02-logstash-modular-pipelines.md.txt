@@ -12,7 +12,7 @@ og:title: "Logstash Modular Pipelines: Reusing Inputs, Filters, and Outputs With
 og:description: "How to split Logstash pipelines into input, filter, and output modules and compose them per application with glob patterns and environment variables, so pipelines stop duplicating code."
 ---
 
-*__Blog Post Publish Date:__ 2023/11/12*
+*__Post Publication Date:__ 2023/11/12*
 
 ---
 
