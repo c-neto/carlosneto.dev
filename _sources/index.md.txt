@@ -1,10 +1,10 @@
 # Hello, There!
 
-This blog is a brain dump of my career so far. I write about problems I've solved at work, what I learned from them, and the topics that keep coming up when I talk shop with coworkers and friends.
+This blog is a brain dump of my career so far. I write about problems I've solved at work, what I've learned from them, and the topics that keep coming up when I talk shop with coworkers and friends.
 
-Everything here is my own experience and my own take, the kind of thing you'd hear from me over coffee. You won't get that by asking an AI :)
+Everything here comes from my own experience and opinions, the kind of thing you'd hear from me over coffee (_no sugar_) and won't get from an AI :)
 
-My main contact channel is [LinkedIn](https://www.linkedin.com/in/c-neto/), so connect with me and send me a message there. You can also leave a comment on any post.
+The best way to reach me is on [LinkedIn](https://www.linkedin.com/in/c-neto/). Feel free to connect and send me a message there.
 
 ::::{grid}
 
