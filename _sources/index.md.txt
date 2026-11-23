@@ -1,10 +1,12 @@
 # Hello, There!
 
-I built this blog as a brain dump of my career. Here I write about disruptive technical solutions I built at work and my thinking on topics that usually come up in conversations with coworkers and friends. It is also where I keep track of all my open source contributions in one place.
+This blog is a brain dump of my career so far. I write about problems I've solved at work, what I learned from them, and the topics that keep coming up when I talk shop with coworkers and friends.
 
-What you'll find here is my experience and my point of view, the kind of thing you'd hear talking to me over coffee and won't get from asking to AI.
+Everything here is my own experience and my own take, the kind of thing you'd hear from me over coffee. You won't get that by asking an AI.
 
-To talk to me, send me a message on [LinkedIn](https://www.linkedin.com/in/c-neto/) or leave a comment in the comments section of any post.
+My main contact channel is [LinkedIn](https://www.linkedin.com/in/c-neto/), so connect with me and send me a message there. You can also leave a comment on any post.
+
+> _Check my Open Source Contributions in the [Contributions](/contribution-list.md) page :)_
 
 ::::{grid}
 
