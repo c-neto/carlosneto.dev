@@ -20,7 +20,7 @@ og:description: "How I became a Kubestronaut: a year of procrastination, six foc
 
 This post is an honest account of how I passed the five CNCF Kubernetes certifications (CKA, KCNA, KCSA, CKAD, and CKS) and became a Kubestronaut. I share how I overcame a year of procrastination and why I failed the CKS even though I was prepared for it. I also cover the study routine and methods that worked for me, what each exam asks for, and the order I recommend for your professional profile.
 
-__DISCLAIMER:__ Everything in this post comes from my own experience, in my context and my life. Don't take it as an absolute recommendation. I'm not trying to say what is "right", only to share what I went through. What worked for me might not work for you.
+> *__DISCLAIMER:__ Everything in this post comes from my own experience, in my context and my life. Don't take it as an absolute recommendation. I'm not trying to say what is "right", only to share what I went through. What worked for me might not work for you.*
 
 ## My Motivation for Kubestronaut
 
