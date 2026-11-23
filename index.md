@@ -6,8 +6,6 @@ Everything here is my own experience and my own take, the kind of thing you'd he
 
 My main contact channel is [LinkedIn](https://www.linkedin.com/in/c-neto/), so connect with me and send me a message there. You can also leave a comment on any post.
 
-> _Check my Open Source Contributions in the [Contributions](/contribution-list.md) page :)_
-
 ::::{grid}
 
 :::{grid-item-card}
