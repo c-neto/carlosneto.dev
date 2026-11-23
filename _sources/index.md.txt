@@ -2,7 +2,7 @@
 
 This blog is a brain dump of my career so far. I write about problems I've solved at work, what I learned from them, and the topics that keep coming up when I talk shop with coworkers and friends.
 
-Everything here is my own experience and my own take, the kind of thing you'd hear from me over coffee. You won't get that by asking an AI.
+Everything here is my own experience and my own take, the kind of thing you'd hear from me over coffee. You won't get that by asking an AI :)
 
 My main contact channel is [LinkedIn](https://www.linkedin.com/in/c-neto/), so connect with me and send me a message there. You can also leave a comment on any post.
 
