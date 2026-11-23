@@ -1,6 +1,6 @@
 """Build one header block above the title of every blog post.
 
-Each post starts with ``*__Post Publication Date:__ YYYY/MM/DD*`` and a
+Each post starts with ``*__Publication Date:__ YYYY/MM/DD*`` and a
 ``---`` rule above its H1. This extension removes both from the body and puts
 a single block at the top of the body, above the H1, with the publish date, the
 date of the last commit, the revision count (git commits that touched the
@@ -29,7 +29,7 @@ _POST_RE = re.compile(r"^blog/\d{4}/[^/]+$")
 
 # The publish date paragraph and the optional rule that follows it.
 _PUBLISH_DATE_RE = re.compile(
-    r"<p><em><strong>Post Publication Date:</strong>\s*(?P<date>[^<]+?)\s*</em></p>"
+    r"<p><em><strong>Publication Date:</strong>\s*(?P<date>[^<]+?)\s*</em></p>"
     r"\s*(?:<hr[^>]*>\s*)?"
 )
 

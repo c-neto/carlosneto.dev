@@ -12,7 +12,7 @@ og:title: "Helm Tips: Inspect Your Chart Context with JSON"
 og:description: "Helm has no real debugger, so dump the whole chart context (Values, Chart, Release, Capabilities, Files) as JSON with toPrettyJson and helm template to see exactly what your templates can access."
 ---
 
-*__Post Publication Date:__ 2026/02/25*
+*__Publication Date:__ 2026/02/25*
 
 ---
 

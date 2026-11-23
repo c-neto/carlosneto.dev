@@ -12,7 +12,7 @@ og:title: "Kubestronaut: My Honest Journey (Including Procrastination and Retake
 og:description: "How I became a Kubestronaut: a year of procrastination, six focused months, failing the CKS by one point, and the study routine and exam order I recommend."
 ---
 
-*__Post Publication Date:__ 2026/11/15*
+*__Publication Date:__ 2026/11/15*
 
 ---
 

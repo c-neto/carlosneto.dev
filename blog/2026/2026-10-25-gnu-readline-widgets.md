@@ -12,7 +12,7 @@ og:title: "Hacking Your Bash Terminal with Custom Widgets"
 og:description: "How to turn Bash functions into keyboard shortcuts with bind -x, what READLINE_LINE and READLINE_POINT expose to them, and a widget that reruns the current command every two seconds, aliases included."
 ---
 
-*__Post Publication Date:__ 2026/10/25*
+*__Publication Date:__ 2026/10/25*
 
 ---
 

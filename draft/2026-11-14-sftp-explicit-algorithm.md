@@ -12,7 +12,7 @@ og:title: "SFTP Permission Denied (publickey): How to Explicitly Set the Key Alg
 og:description: "Why a modern OpenSSH client can fail with Permission denied (publickey) against a legacy SFTP server, how to confirm it with ssh -vv, and how to re-enable ssh-rsa for one connection."
 ---
 
-*__Post Publication Date:__ 2026/11/14*
+*__Publication Date:__ 2026/11/14*
 
 ---
 

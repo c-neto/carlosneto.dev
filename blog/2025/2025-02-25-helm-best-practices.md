@@ -12,7 +12,7 @@ og:title: "Helm Charts: Development Practices from a Programmer's Perspective"
 og:description: "How programming principles such as Simple Made Easy, DRY, YAGNI, and reusable libraries apply to Helm chart development, and when the complexity of Helm pays for itself."
 ---
 
-*__Post Publication Date:__ 2025/02/25*
+*__Publication Date:__ 2025/02/25*
 
 ---
 

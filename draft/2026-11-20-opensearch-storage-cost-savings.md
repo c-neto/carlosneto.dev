@@ -12,7 +12,7 @@ og:title: "How I Cut $8,000 a Month Off an OpenSearch Cluster by Rethinking Stor
 og:description: "A field report on cutting $8,000 to $10,000 a month from a self-managed OpenSearch cluster by moving data from local NVMe to replica-free EBS to S3 searchable snapshots."
 ---
 
-*__Post Publication Date:__ 2026/11/20*
+*__Publication Date:__ 2026/11/20*
 
 ---
 

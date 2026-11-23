@@ -4,7 +4,7 @@ date: ""
 category: Security
 ---
 
-*__Post Publication Date:__ *
+*__Publication Date:__ *
 
 ---
 

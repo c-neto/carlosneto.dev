@@ -12,7 +12,7 @@ og:title: "OpenSearch Shard Allocation: Balanced by Count, Rebalanced by Waterma
 og:description: "How the OpenSearch default allocator balances shards by count instead of size, why that skews disk usage in clusters with many small indices, how disk watermarks correct it, and why one watermark setting for all tiers hurts."
 ---
 
-*__Post Publication Date:__ 2026/11/04*
+*__Publication Date:__ 2026/11/04*
 
 ---
 

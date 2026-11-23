@@ -12,7 +12,7 @@ og:title: "Logstash Sniffing: Improving Log Ingestion in OpenSearch Scalable Clu
 og:description: "Why Logstash behind a load balancer keeps sending logs to a single OpenSearch ingest node, and how the output plugin's sniffing options spread ingestion across every node as the cluster scales."
 ---
 
-*__Post Publication Date:__ 2024/06/08*
+*__Publication Date:__ 2024/06/08*
 
 ---
 

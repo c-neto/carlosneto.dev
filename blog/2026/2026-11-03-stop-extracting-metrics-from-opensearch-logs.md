@@ -12,7 +12,7 @@ og:title: Stop Extracting Metrics from OpenSearch Logs
 og:description: Why counting log lines in OpenSearch is an expensive way to get a metric, how a Prometheus counter answers the same question for almost nothing, and how Fluent Bit can extract the metric at ingestion when you cannot change the code.
 ---
 
-*__Post Publication Date:__ 2026/11/03*
+*__Publication Date:__ 2026/11/03*
 
 ---
 

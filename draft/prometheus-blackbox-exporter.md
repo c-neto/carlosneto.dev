@@ -4,7 +4,7 @@ date: ""
 category: Log Analytics
 ---
 
-*__Post Publication Date:__ YYYY/MM/DD*
+*__Publication Date:__ YYYY/MM/DD*
 
 ---
 

@@ -12,7 +12,7 @@ og:title: "GNU Readline: The Magic Behind Terminal Autocomplete"
 og:description: "What GNU Readline is, how it powers line editing, history, and Tab completion in Bash and other REPLs, how .inputrc and bind configure it, and how to make the arrow keys search history by prefix."
 ---
 
-*__Post Publication Date:__ 2026/10/18*
+*__Publication Date:__ 2026/10/18*
 
 ---
 

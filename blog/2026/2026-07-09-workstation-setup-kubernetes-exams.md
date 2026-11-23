@@ -12,7 +12,7 @@ og:title: "Workstation Setup for Kubernetes Exams (CKA, CKAD & CKS)"
 og:description: "The workstation tweaks I use to save time in the CKA, CKAD, and CKS exams: macOS keyboard and shortcut settings, Bash history search by prefix, a minimal vimrc, kubectl aliases, and how to copy them to each question node."
 ---
 
-*__Post Publication Date:__ 2026/07/09*
+*__Publication Date:__ 2026/07/09*
 
 ---
 
