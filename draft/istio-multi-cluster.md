@@ -4,7 +4,7 @@ date: "2026-10-17"
 category: Kubernetes
 ---
 
-*__Blog Post Publish Date:__ 2026/10/17*
+*__Post Publication Date:__ 2026/10/17*
 
 ---
 

@@ -12,7 +12,7 @@ og:title: "Hacking Your Zsh Terminal with Custom Widgets"
 og:description: "How to turn Zsh functions into keyboard shortcuts with zle -N and bindkey, what BUFFER, LBUFFER, RBUFFER, and CURSOR expose to a widget, and a widget that reruns the current command every two seconds, aliases included."
 ---
 
-*__Blog Post Publish Date:__ 2026/10/28*
+*__Post Publication Date:__ 2026/10/28*
 
 ---
 

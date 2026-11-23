@@ -12,7 +12,7 @@ og:title: "Fluent Bit: Generating Log IDs with SHA-256 Hashes for Log Deduplicat
 og:description: "Why Fluent Bit can deliver the same log more than once, why deduplication needs an ID derived from the log content, and how to build a SHA-256 log ID with only native Fluent Bit processors."
 ---
 
-*__Blog Post Publish Date:__ 2025/06/19*
+*__Post Publication Date:__ 2025/06/19*
 
 ---
 

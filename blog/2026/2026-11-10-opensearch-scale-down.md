@@ -12,7 +12,7 @@ og:title: Scaling Down and Resizing OpenSearch Data Nodes Without Losing Data
 og:description: How to drain, scale down, and resize OpenSearch data nodes on Kubernetes without losing data, including Blue/Green migrations for EC2 Instance Store.
 ---
 
-*__Blog Post Publish Date:__ 2026/11/10*
+*__Post Publication Date:__ 2026/11/10*
 
 ---
 

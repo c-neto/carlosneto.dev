@@ -4,7 +4,7 @@ date: ""
 category: Kubernetes
 ---
 
-*__Blog Post Publish Date:__ YYYY/MM/DD*
+*__Post Publication Date:__ YYYY/MM/DD*
 
 ---
 

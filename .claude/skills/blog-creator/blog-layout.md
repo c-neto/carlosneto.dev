@@ -48,7 +48,7 @@ og:title: "<Same text as title>"
 og:description: "<Same text as description>"
 ---
 
-*__Blog Post Publish Date:__ YYYY/MM/DD*
+*__Post Publication Date:__ YYYY/MM/DD*
 
 ---
 
@@ -58,7 +58,7 @@ og:description: "<Same text as description>"
 | Field | Rule | Used by |
 | --- | --- | --- |
 | `tags` | Follow the tag rules above. Comma-separated string. | ABlog tag pages |
-| `date` | Quoted `"YYYY-MM-DD"`, matching the filename prefix and the "Blog Post Publish Date" line (`YYYY/MM/DD`). | ABlog ordering and the RSS feed |
+| `date` | Quoted `"YYYY-MM-DD"`, matching the filename prefix and the "Post Publication Date" line (`YYYY/MM/DD`). | ABlog ordering and the RSS feed |
 | `category` | One value from the category table above. | ABlog category pages |
 | `author` | Always `Carlos Neto`. | ABlog author archive |
 | `title` | Identical to the H1. | Page metadata |

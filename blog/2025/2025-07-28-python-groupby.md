@@ -12,7 +12,7 @@ og:title: "groupby + attrgetter: The Pythonic Way to Group Objects"
 og:description: "How to group Python objects by several attributes with itertools.groupby and operator.attrgetter instead of a dictionary of lists, and why the input must be sorted by the same key first."
 ---
 
-*__Blog Post Publish Date:__ 2025/07/28*
+*__Post Publication Date:__ 2025/07/28*
 
 ---
 
