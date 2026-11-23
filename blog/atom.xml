@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <id>https://carlosneto.dev</id>
   <title>Carlos Neto</title>
-  <updated>2026-11-23T01:17:43.274384+00:00</updated>
+  <updated>2026-11-23T01:21:02.346631+00:00</updated>
   <link href="https://carlosneto.dev"/>
   <link href="https://carlosneto.dev/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.io/" version="0.11.12">ABlog</generator>
@@ -14,7 +14,7 @@
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/11/19&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/11/19&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="helm-global-values-the-right-way-to-share-values-in-an-umbrella-chart"&gt;
 
@@ -195,7 +195,7 @@
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-19-helm-global-values/"/>
-    <summary>Post Publication Date: 2026/11/19I wrote this blog post to share an idiomatic way to use values defined in a parent chart across its subcharts using Helm Global Values. This approach changed how I structure my charts, making them more flexible and easier to configure without losing the semantics of each subchart. The post covers a straightforward explanation and a hands-on example using an umbrella chart that defines a single image tag shared by two modules in one place. It also explains the advantages of Global Values over YAML anchors.</summary>
+    <summary>Publication Date: 2026/11/19I wrote this blog post to share an idiomatic way to use values defined in a parent chart across its subcharts using Helm Global Values. This approach changed how I structure my charts, making them more flexible and easier to configure without losing the semantics of each subchart. The post covers a straightforward explanation and a hands-on example using an umbrella chart that defines a single image tag shared by two modules in one place. It also explains the advantages of Global Values over YAML anchors.</summary>
     <category term="helm" label="helm"/>
     <category term="kubernetes" label="kubernetes"/>
     <published>2026-11-19T00:00:00+00:00</published>
@@ -207,7 +207,7 @@
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/11/18&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/11/18&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="vendor-lock-out-a-hands-on-opentelemetry-example"&gt;
 
@@ -388,7 +388,7 @@ payments_processed_total&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-18-otel-python-instrumentation/"/>
-    <summary>Post Publication Date: 2026/11/18This post shows, with a small Python service, how OpenTelemetry keeps you out of vendor lock-in by letting you change where telemetry goes without touching the application code. The service sends its metrics to Prometheus and then to Datadog, and the only file that changes between the two is the Collector configuration.</summary>
+    <summary>Publication Date: 2026/11/18This post shows, with a small Python service, how OpenTelemetry keeps you out of vendor lock-in by letting you change where telemetry goes without touching the application code. The service sends its metrics to Prometheus and then to Datadog, and the only file that changes between the two is the Collector configuration.</summary>
     <category term="opentelemetry" label="opentelemetry"/>
     <category term="prometheus" label="prometheus"/>
     <category term="python" label="python"/>
@@ -401,7 +401,7 @@ payments_processed_total&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/11/15&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/11/15&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="kubestronaut-my-honest-journey-including-procrastination-and-retake"&gt;
 
@@ -616,7 +616,7 @@ payments_processed_total&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-15-kubestronaut-journey/"/>
-    <summary>Post Publication Date: 2026/11/15This post is an honest account of how I passed the five CNCF Kubernetes certifications (CKA, KCNA, KCSA, CKAD, and CKS) and became a Kubestronaut. I share how I overcame a year of procrastination and why I failed the CKS even though I was prepared for it. I also cover the study routine and methods that worked for me, what each exam asks for, and the order I recommend for your professional profile.</summary>
+    <summary>Publication Date: 2026/11/15This post is an honest account of how I passed the five CNCF Kubernetes certifications (CKA, KCNA, KCSA, CKAD, and CKS) and became a Kubestronaut. I share how I overcame a year of procrastination and why I failed the CKS even though I was prepared for it. I also cover the study routine and methods that worked for me, what each exam asks for, and the order I recommend for your professional profile.</summary>
     <category term="certification" label="certification"/>
     <category term="kubernetes" label="kubernetes"/>
     <published>2026-11-15T00:00:00+00:00</published>
@@ -628,7 +628,7 @@ payments_processed_total&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/11/12&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/11/12&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="opensearch-storage-tiering-for-log-analytics-a-hands-on-guide"&gt;
 
@@ -965,7 +965,7 @@ GET _plugins/_ism/explain/my-logs-000001
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-12-opensearch-hot-warm-cold/"/>
-    <summary>Post Publication Date: 2026/11/12This blog post is a hands-on implementation of storage tiering in OpenSearch, using a log analytics scenario based on my experience. In the example, log indexes move through three tiers: hot nodes on local NVMe for the first 3 days, warm nodes on EBS until 90 days, and S3 snapshots that come back as searchable snapshots only when someone needs old data. You will configure the node attributes, index template, and Index State Management (ISM) policy that automate the flow, and see how I run the searchable tier on short-lived Kubernetes nodes and which costs and failures I ran into.</summary>
+    <summary>Publication Date: 2026/11/12This blog post is a hands-on implementation of storage tiering in OpenSearch, using a log analytics scenario based on my experience. In the example, log indexes move through three tiers: hot nodes on local NVMe for the first 3 days, warm nodes on EBS until 90 days, and S3 snapshots that come back as searchable snapshots only when someone needs old data. You will configure the node attributes, index template, and Index State Management (ISM) policy that automate the flow, and see how I run the searchable tier on short-lived Kubernetes nodes and which costs and failures I ran into.</summary>
     <category term="aws" label="aws"/>
     <category term="logs" label="logs"/>
     <category term="opensearch" label="opensearch"/>
@@ -978,7 +978,7 @@ GET _plugins/_ism/explain/my-logs-000001
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/11/11&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/11/11&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="avoiding-over-sharding-in-opensearch-with-filtered-aliases-per-environment"&gt;
 
@@ -1178,7 +1178,7 @@ my-app-logs-prod
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-11-opensearch-alias-filtered-by-field/"/>
-    <summary>Post Publication Date: 2026/11/11This blog post covers one of the strategies I use to avoid over-sharding in OpenSearch. Instead of per-environment indexes, I write all logs into one index series and expose each environment as a filtered alias. The rule behind it is simple: the environment is an attribute of each document, so it belongs in a field, not in the index name. The cluster keeps fewer, fuller shards and one mapping, and OpenSearch Dashboards users still get a per-environment view that behaves like a dedicated index.</summary>
+    <summary>Publication Date: 2026/11/11This blog post covers one of the strategies I use to avoid over-sharding in OpenSearch. Instead of per-environment indexes, I write all logs into one index series and expose each environment as a filtered alias. The rule behind it is simple: the environment is an attribute of each document, so it belongs in a field, not in the index name. The cluster keeps fewer, fuller shards and one mapping, and OpenSearch Dashboards users still get a per-environment view that behaves like a dedicated index.</summary>
     <category term="logs" label="logs"/>
     <category term="opensearch" label="opensearch"/>
     <category term="sharding" label="sharding"/>
@@ -1191,7 +1191,7 @@ my-app-logs-prod
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/11/10&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/11/10&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="scaling-down-and-resizing-opensearch-data-nodes-without-losing-data"&gt;
 
@@ -1545,7 +1545,7 @@ GET _cluster/health
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-10-opensearch-scale-down/"/>
-    <summary>Post Publication Date: 2026/11/10This blog post covers the patterns and API calls I use to scale down and resize OpenSearch data nodes without losing data. The rule behind all of them is simple: the data on a node you remove has to end up somewhere else first. If you take nodes away faster than the cluster can relocate their shards, you lose data.</summary>
+    <summary>Publication Date: 2026/11/10This blog post covers the patterns and API calls I use to scale down and resize OpenSearch data nodes without losing data. The rule behind all of them is simple: the data on a node you remove has to end up somewhere else first. If you take nodes away faster than the cluster can relocate their shards, you lose data.</summary>
     <category term="kubernetes" label="kubernetes"/>
     <category term="opensearch" label="opensearch"/>
     <category term="sharding" label="sharding"/>
@@ -1558,7 +1558,7 @@ GET _cluster/health
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/11/08&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/11/08&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="opensearch-ec2-instance-store-a-disruptive-approach-to-hot-tier-storage"&gt;
 
@@ -1817,7 +1817,7 @@ GET _cluster/health
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-08-opensearch-hot-instance-store/"/>
-    <summary>Post Publication Date: 2026/11/08This blog post covers running the OpenSearch hot data tier on EC2 Instance Store (local NVMe) instead of EBS. It explains why local disks perform better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</summary>
+    <summary>Publication Date: 2026/11/08This blog post covers running the OpenSearch hot data tier on EC2 Instance Store (local NVMe) instead of EBS. It explains why local disks perform better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</summary>
     <category term="aws" label="aws"/>
     <category term="kubernetes" label="kubernetes"/>
     <category term="opensearch" label="opensearch"/>
@@ -1830,7 +1830,7 @@ GET _cluster/health
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/11/04&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/11/04&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="opensearch-shard-allocation-balanced-by-count-rebalanced-by-watermarks"&gt;
 
@@ -1970,7 +1970,7 @@ GET _cluster/health
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-04-opensearch-watermark/"/>
-    <summary>Post Publication Date: 2026/11/04This blog post explains how OpenSearch distributes shards across data nodes. It covers how the default allocator works, why it can leave disk usage uneven in clusters with many small indices, and how disk watermarks correct that. It also covers other allocation mechanisms and a limitation I run into often: watermarks are one cluster-wide setting, even in clusters with different storage tiers.</summary>
+    <summary>Publication Date: 2026/11/04This blog post explains how OpenSearch distributes shards across data nodes. It covers how the default allocator works, why it can leave disk usage uneven in clusters with many small indices, and how disk watermarks correct that. It also covers other allocation mechanisms and a limitation I run into often: watermarks are one cluster-wide setting, even in clusters with different storage tiers.</summary>
     <category term="opensearch" label="opensearch"/>
     <category term="sharding" label="sharding"/>
     <published>2026-11-04T00:00:00+00:00</published>
@@ -1982,7 +1982,7 @@ GET _cluster/health
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/11/03&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/11/03&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="stop-extracting-metrics-from-opensearch-logs"&gt;
 
@@ -2281,7 +2281,7 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-11-03-stop-extracting-metrics-from-opensearch-logs/"/>
-    <summary>Post Publication Date: 2026/11/03This blog post explains why counting log lines in OpenSearch is an expensive way to produce a metric. The same number captured as a Prometheus counter is stored once and read almost for free. When you cannot change the application, Fluent Bit can extract that metric while the logs are ingested, so OpenSearch never has to rebuild it at query time.</summary>
+    <summary>Publication Date: 2026/11/03This blog post explains why counting log lines in OpenSearch is an expensive way to produce a metric. The same number captured as a Prometheus counter is stored once and read almost for free. When you cannot change the application, Fluent Bit can extract that metric while the logs are ingested, so OpenSearch never has to rebuild it at query time.</summary>
     <category term="fluent-bit" label="fluent-bit"/>
     <category term="metrics" label="metrics"/>
     <category term="opensearch" label="opensearch"/>
@@ -2295,7 +2295,7 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/10/29&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/10/29&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="opentelemetry-a-framework-for-decoupling-your-observability"&gt;
 
@@ -2400,7 +2400,7 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-10-29-otel-foundation/"/>
-    <summary>Post Publication Date: 2026/10/29This post is my take on what OpenTelemetry is and the problem it solves, explained directly and in my own words.</summary>
+    <summary>Publication Date: 2026/10/29This post is my take on what OpenTelemetry is and the problem it solves, explained directly and in my own words.</summary>
     <category term="fluent-bit" label="fluent-bit"/>
     <category term="opentelemetry" label="opentelemetry"/>
     <category term="prometheus" label="prometheus"/>
@@ -2413,7 +2413,7 @@ log_metric_counter_payment_failures_total&lt;span class="o"&gt;{&lt;/span&gt;&lt
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/10/28&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/10/28&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="hacking-your-zsh-terminal-with-custom-widgets"&gt;
 
@@ -2574,7 +2574,7 @@ bindkey&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'^X'&lt;/span&
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-10-26-zsh-widgets/"/>
-    <summary>Post Publication Date: 2026/10/28This blog post explains how to create custom Zsh widgets: shell functions bound to keyboard shortcuts through the Zsh Line Editor (ZLE). It's the Zsh version of Hacking Your Bash Terminal with Custom Widgets, and it ends with the same widget that reruns the current command every two seconds.</summary>
+    <summary>Publication Date: 2026/10/28This blog post explains how to create custom Zsh widgets: shell functions bound to keyboard shortcuts through the Zsh Line Editor (ZLE). It's the Zsh version of Hacking Your Bash Terminal with Custom Widgets, and it ends with the same widget that reruns the current command every two seconds.</summary>
     <category term="terminal" label="terminal"/>
     <category term="zsh" label="zsh"/>
     <published>2026-10-28T00:00:00+00:00</published>
@@ -2586,7 +2586,7 @@ bindkey&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'^X'&lt;/span&
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/10/25&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/10/25&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="hacking-your-bash-terminal-with-custom-widgets"&gt;
 
@@ -2726,7 +2726,7 @@ repeat-command-widget&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-10-25-gnu-readline-widgets/"/>
-    <summary>Post Publication Date: 2026/10/25This blog post explains how to create custom Bash widgets: Bash functions bound to keyboard shortcuts through the GNU Readline library. It continues GNU Readline: The Magic Behind Terminal Autocomplete, and ends with a widget that reruns the current command every two seconds.</summary>
+    <summary>Publication Date: 2026/10/25This blog post explains how to create custom Bash widgets: Bash functions bound to keyboard shortcuts through the GNU Readline library. It continues GNU Readline: The Magic Behind Terminal Autocomplete, and ends with a widget that reruns the current command every two seconds.</summary>
     <category term="bash" label="bash"/>
     <category term="readline" label="readline"/>
     <category term="terminal" label="terminal"/>
@@ -2739,7 +2739,7 @@ repeat-command-widget&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt;
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/10/18&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/10/18&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="gnu-readline-the-magic-behind-terminal-autocomplete"&gt;
 
@@ -2871,7 +2871,7 @@ kubectl
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-10-18-gnu-readline-foundation/"/>
-    <summary>Post Publication Date: 2026/10/18This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. It also shows the configuration I reach for the most: making the Up and Down arrows search your command history by prefix. It's a small change that saved me a lot of keystrokes.</summary>
+    <summary>Publication Date: 2026/10/18This blog post explains what GNU Readline is and how it powers the line editing, history navigation, and auto-completion you use every day in the terminal. It also shows the configuration I reach for the most: making the Up and Down arrows search your command history by prefix. It's a small change that saved me a lot of keystrokes.</summary>
     <category term="bash" label="bash"/>
     <category term="readline" label="readline"/>
     <category term="terminal" label="terminal"/>
@@ -2884,7 +2884,7 @@ kubectl
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/07/15&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/07/15&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="vim-for-kubernetes-certification-exams-cka-ckad-cks"&gt;
 
@@ -3140,7 +3140,7 @@ Shift+n&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Go back to
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-07-15-vim-kubernetes-exams/"/>
-    <summary>Post Publication Date: 2026/07/15This blog post covers the minimal Vim configuration and the editing techniques I use in the Linux Foundation Kubernetes certification exams. You don't need to master Vim. A small set of commands is enough to edit YAML manifests much faster under exam conditions.</summary>
+    <summary>Publication Date: 2026/07/15This blog post covers the minimal Vim configuration and the editing techniques I use in the Linux Foundation Kubernetes certification exams. You don't need to master Vim. A small set of commands is enough to edit YAML manifests much faster under exam conditions.</summary>
     <category term="certification" label="certification"/>
     <category term="kubernetes" label="kubernetes"/>
     <category term="vim" label="vim"/>
@@ -3153,7 +3153,7 @@ Shift+n&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# Go back to
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/07/09&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/07/09&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="workstation-setup-for-kubernetes-exams-cka-ckad-cks"&gt;
 
@@ -3343,7 +3343,7 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-07-09-workstation-setup-kubernetes-exams/"/>
-    <summary>Post Publication Date: 2026/07/09This blog post covers the workstation tweaks I use to work faster during the Linux Foundation Kubernetes exams: macOS settings that avoid keyboard and proctoring problems, Bash history search by prefix, a minimal Vim configuration, kubectl aliases, and how to copy all of it to each question node.</summary>
+    <summary>Publication Date: 2026/07/09This blog post covers the workstation tweaks I use to work faster during the Linux Foundation Kubernetes exams: macOS settings that avoid keyboard and proctoring problems, Bash history search by prefix, a minimal Vim configuration, kubectl aliases, and how to copy all of it to each question node.</summary>
     <category term="certification" label="certification"/>
     <category term="kubernetes" label="kubernetes"/>
     <category term="terminal" label="terminal"/>
@@ -3356,7 +3356,7 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2026/02/25&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2026/02/25&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="helm-tips-inspect-your-chart-context-with-json"&gt;
 
@@ -3673,7 +3673,7 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2026/2026-02-25-helm-tips-inspect-context/"/>
-    <summary>Post Publication Date: 2026/02/25This blog post shows a simple way to debug Helm charts: dump the entire chart context as JSON and look at exactly what your templates can access. It helps most when $ helm template fails with a message that doesn't point to the real problem, such as a typo in a .Values path.</summary>
+    <summary>Publication Date: 2026/02/25This blog post shows a simple way to debug Helm charts: dump the entire chart context as JSON and look at exactly what your templates can access. It helps most when $ helm template fails with a message that doesn't point to the real problem, such as a typo in a .Values path.</summary>
     <category term="helm" label="helm"/>
     <published>2026-02-25T00:00:00+00:00</published>
   </entry>
@@ -3684,7 +3684,7 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2025/07/28&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2025/07/28&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="groupby-attrgetter-the-pythonic-way-to-group-objects"&gt;
 
@@ -3923,7 +3923,7 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2025/2025-07-28-python-groupby/"/>
-    <summary>Post Publication Date: 2025/07/28This blog post shows how to group objects by several attributes. It uses two standard library tools, itertools.groupby and operator.attrgetter, instead of building a dictionary of lists by hand. It also covers the one detail that trips most people up: groupby only groups items that are next to each other.</summary>
+    <summary>Publication Date: 2025/07/28This blog post shows how to group objects by several attributes. It uses two standard library tools, itertools.groupby and operator.attrgetter, instead of building a dictionary of lists by hand. It also covers the one detail that trips most people up: groupby only groups items that are next to each other.</summary>
     <category term="python" label="python"/>
     <published>2025-07-28T00:00:00+00:00</published>
   </entry>
@@ -3934,7 +3934,7 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2025/06/22&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2025/06/22&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="kubernetes-logs-simplified-everything-you-need-to-know-about-pod-logging"&gt;
 
@@ -4134,7 +4134,7 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2025/2025-06-22-kubernetes-logs-simplified/"/>
-    <summary>Post Publication Date: 2025/06/22This blog post explains where Kubernetes stores container logs and how $ kubectl logs and log shippers read them. It also covers the CRI log line format, how log rotation works, and how to ship pod logs to an external system with a DaemonSet. Kubernetes logging can look complex, but knowing these details makes troubleshooting much easier.</summary>
+    <summary>Publication Date: 2025/06/22This blog post explains where Kubernetes stores container logs and how $ kubectl logs and log shippers read them. It also covers the CRI log line format, how log rotation works, and how to ship pod logs to an external system with a DaemonSet. Kubernetes logging can look complex, but knowing these details makes troubleshooting much easier.</summary>
     <category term="fluent-bit" label="fluent-bit"/>
     <category term="kubernetes" label="kubernetes"/>
     <category term="logs" label="logs"/>
@@ -4147,7 +4147,7 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2025/06/19&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2025/06/19&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="fluent-bit-generating-log-ids-with-sha-256-hashes-for-log-deduplication"&gt;
 
@@ -4333,7 +4333,7 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2025/2025-06-19-fluentbit-log-dedup/"/>
-    <summary>Post Publication Date: 2025/06/19This blog post explains why Fluent Bit can deliver the same log more than once, and why deduplication needs a unique ID derived from the log content. It then shows how to generate a SHA-256 hash of each log line with only native Fluent Bit features, without external scripts or plugins.</summary>
+    <summary>Publication Date: 2025/06/19This blog post explains why Fluent Bit can deliver the same log more than once, and why deduplication needs a unique ID derived from the log content. It then shows how to generate a SHA-256 hash of each log line with only native Fluent Bit features, without external scripts or plugins.</summary>
     <category term="fluent-bit" label="fluent-bit"/>
     <category term="logs" label="logs"/>
     <published>2025-06-19T00:00:00+00:00</published>
@@ -4345,7 +4345,7 @@ ssh&lt;span class="w"&gt; &lt;/span&gt;cks1234
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2025/02/25&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2025/02/25&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="helm-charts-development-practices-from-a-programmer-s-perspective"&gt;
 
@@ -4515,7 +4515,7 @@ Ron Jeffries, on the XP principle &lt;em&gt;&amp;quot;You aren't gonna need it&a
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2025/2025-02-25-helm-best-practices/"/>
-    <summary>Post Publication Date: 2025/02/25This blog post applies programming principles to Helm chart development. It covers when Helm's complexity pays for itself, how it removes duplicated manifests (DRY), why over-templating hurts (YAGNI), and how library charts keep patterns reusable.</summary>
+    <summary>Publication Date: 2025/02/25This blog post applies programming principles to Helm chart development. It covers when Helm's complexity pays for itself, how it removes duplicated manifests (DRY), why over-templating hurts (YAGNI), and how library charts keep patterns reusable.</summary>
     <category term="helm" label="helm"/>
     <published>2025-02-25T00:00:00+00:00</published>
   </entry>
@@ -4526,7 +4526,7 @@ Ron Jeffries, on the XP principle &lt;em&gt;&amp;quot;You aren't gonna need it&a
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2025/02/16&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2025/02/16&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="logstash-db-enrichment-tips-and-traps"&gt;
 
@@ -4710,7 +4710,7 @@ Ron Jeffries, on the XP principle &lt;em&gt;&amp;quot;You aren't gonna need it&a
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2025/2025-02-16-logstash-db-enrichment/"/>
-    <summary>Post Publication Date: 2025/02/16This blog post covers the lessons from enriching logs in Logstash with data from a PostgreSQL database. It explains hidden behaviors of the jdbc_streaming filter that can stop log ingestion, and the JDBC connection string parameters that prevent them. These problems are hard to reproduce and not clearly documented, so I hope these tips save you hours of troubleshooting and forum searching.</summary>
+    <summary>Publication Date: 2025/02/16This blog post covers the lessons from enriching logs in Logstash with data from a PostgreSQL database. It explains hidden behaviors of the jdbc_streaming filter that can stop log ingestion, and the JDBC connection string parameters that prevent them. These problems are hard to reproduce and not clearly documented, so I hope these tips save you hours of troubleshooting and forum searching.</summary>
     <category term="logs" label="logs"/>
     <category term="logstash" label="logstash"/>
     <published>2025-02-16T00:00:00+00:00</published>
@@ -4722,7 +4722,7 @@ Ron Jeffries, on the XP principle &lt;em&gt;&amp;quot;You aren't gonna need it&a
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2025/01/05&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2025/01/05&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="opensearch-concepts-index-and-shards"&gt;
 
@@ -4896,7 +4896,7 @@ Ron Jeffries, on the XP principle &lt;em&gt;&amp;quot;You aren't gonna need it&a
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2025/2025-01-05-opensearch-concepts-index-and-shards/"/>
-    <summary>Post Publication Date: 2025/01/05This blog post explains two of the most basic concepts in OpenSearch administration: indices and shards. It covers what primary and replica shards are, how their counts affect performance and fault tolerance, and the API calls I use most to inspect indices and shards while troubleshooting.</summary>
+    <summary>Publication Date: 2025/01/05This blog post explains two of the most basic concepts in OpenSearch administration: indices and shards. It covers what primary and replica shards are, how their counts affect performance and fault tolerance, and the API calls I use most to inspect indices and shards while troubleshooting.</summary>
     <category term="opensearch" label="opensearch"/>
     <category term="sharding" label="sharding"/>
     <published>2025-01-05T00:00:00+00:00</published>
@@ -4908,7 +4908,7 @@ Ron Jeffries, on the XP principle &lt;em&gt;&amp;quot;You aren't gonna need it&a
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2024/07/21&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2024/07/21&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="dynaconf-the-python-config-silver-bullet"&gt;
 
@@ -5290,7 +5290,7 @@ aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;pu
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2024/2024-07-21-dynaconf/"/>
-    <summary>Post Publication Date: 2024/07/21This blog post gives a short overview of good practices for application configuration, explains the main features of Dynaconf, and walks through a hands-on example that extends it to read parameters from AWS Systems Manager Parameter Store.</summary>
+    <summary>Publication Date: 2024/07/21This blog post gives a short overview of good practices for application configuration, explains the main features of Dynaconf, and walks through a hands-on example that extends it to read parameters from AWS Systems Manager Parameter Store.</summary>
     <category term="dynaconf" label="dynaconf"/>
     <category term="python" label="python"/>
     <published>2024-07-21T00:00:00+00:00</published>
@@ -5302,7 +5302,7 @@ aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;pu
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2024/06/08&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2024/06/08&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="logstash-sniffing-improving-log-ingestion-in-opensearch-scalable-clusters"&gt;
 
@@ -5401,7 +5401,7 @@ aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;pu
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2024/2024-06-08-logstash-sniffing/"/>
-    <summary>Post Publication Date: 2024/06/08This blog post covers a common problem when Logstash ships logs to an OpenSearch cluster with autoscaling ingest nodes behind a load balancer: one node takes all the traffic while the others sit idle. It shows how the output plugin's sniffing options fix that by discovering the nodes from the OpenSearch API.</summary>
+    <summary>Publication Date: 2024/06/08This blog post covers a common problem when Logstash ships logs to an OpenSearch cluster with autoscaling ingest nodes behind a load balancer: one node takes all the traffic while the others sit idle. It shows how the output plugin's sniffing options fix that by discovering the nodes from the OpenSearch API.</summary>
     <category term="logs" label="logs"/>
     <category term="logstash" label="logstash"/>
     <category term="opensearch" label="opensearch"/>
@@ -5414,7 +5414,7 @@ aws&lt;span class="w"&gt; &lt;/span&gt;ssm&lt;span class="w"&gt; &lt;/span&gt;pu
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2024/04/28&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2024/04/28&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="fzf-life-is-too-short-for-pipe-grep"&gt;
 
@@ -5606,7 +5606,7 @@ brew&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2024/2024-04-21-fzf/"/>
-    <summary>Post Publication Date: 2024/04/28This blog post explains why fzf, a command-line fuzzy finder, replaced Ctrl + R, find, and command | grep in my terminal. It also shows how to configure its Zsh widgets for searching history, files, and directories, with live previews.</summary>
+    <summary>Publication Date: 2024/04/28This blog post explains why fzf, a command-line fuzzy finder, replaced Ctrl + R, find, and command | grep in my terminal. It also shows how to configure its Zsh widgets for searching history, files, and directories, with live previews.</summary>
     <category term="fzf" label="fzf"/>
     <category term="terminal" label="terminal"/>
     <category term="zsh" label="zsh"/>
@@ -5619,7 +5619,7 @@ brew&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2024/02/08&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2024/02/08&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="zsh-starship-a-productivity-masterpiece"&gt;
 
@@ -5857,7 +5857,7 @@ git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2024/2024-02-08-starship-zsh/"/>
-    <summary>Post Publication Date: 2024/02/08This blog post covers how I ended up with ZSH and Starship as my terminal setup. It walks through the shells I tried along the way, my favorite ZSH plugins and ZSH options, my minimal Starship configuration, and a step-by-step guide to reproduce it from scratch.</summary>
+    <summary>Publication Date: 2024/02/08This blog post covers how I ended up with ZSH and Starship as my terminal setup. It walks through the shells I tried along the way, my favorite ZSH plugins and ZSH options, my minimal Starship configuration, and a step-by-step guide to reproduce it from scratch.</summary>
     <category term="starship" label="starship"/>
     <category term="terminal" label="terminal"/>
     <category term="zsh" label="zsh"/>
@@ -5870,7 +5870,7 @@ git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2023/11/19&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2023/11/19&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="systemd-drop-in-overrides-customize-unit-properties-without-editing-the-unit-file"&gt;
 
@@ -6120,7 +6120,7 @@ Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2023/2023-11-19-systemd-override-parameters/"/>
-    <summary>Post Publication Date: 2023/11/19This blog post covers a cleaner way to customize a systemd service. Instead of editing the unit file, you put your changes in an override.conf drop-in file that systemd merges on top of the original. It explains why direct edits cause problems, how overrides work, and walks through a hands-on example.</summary>
+    <summary>Publication Date: 2023/11/19This blog post covers a cleaner way to customize a systemd service. Instead of editing the unit file, you put your changes in an override.conf drop-in file that systemd merges on top of the original. It explains why direct edits cause problems, how overrides work, and walks through a hands-on example.</summary>
     <category term="systemd" label="systemd"/>
     <published>2023-11-19T00:00:00+00:00</published>
   </entry>
@@ -6131,7 +6131,7 @@ Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2023/11/12&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2023/11/12&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="logstash-modular-pipelines-reusing-inputs-filters-and-outputs-without-duplication"&gt;
 
@@ -6273,7 +6273,7 @@ Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2023/2023-11-02-logstash-modular-pipelines/"/>
-    <summary>Post Publication Date: 2023/11/12This blog post covers a Logstash pipeline structure that removes duplicated code. Each input, filter, and output lives in its own file, and every application's pipeline is composed from those modules with a glob pattern and an environment variable. It includes an example configuration, a Docker Compose lab to try it, and my opinion on when the structure is worth it.</summary>
+    <summary>Publication Date: 2023/11/12This blog post covers a Logstash pipeline structure that removes duplicated code. Each input, filter, and output lives in its own file, and every application's pipeline is composed from those modules with a glob pattern and an environment variable. It includes an example configuration, a Docker Compose lab to try it, and my opinion on when the structure is worth it.</summary>
     <category term="logs" label="logs"/>
     <category term="logstash" label="logstash"/>
     <published>2023-11-12T00:00:00+00:00</published>
@@ -6285,7 +6285,7 @@ Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;
     <author>
       <name>Carlos Neto</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Post Publication Date:&lt;/strong&gt; 2023/10/21&lt;/em&gt;&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;Publication Date:&lt;/strong&gt; 2023/10/21&lt;/em&gt;&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
 &lt;section id="what-is-the-cloud-and-why-does-everyone-keep-talking-about-it"&gt;
 
@@ -6407,7 +6407,7 @@ Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;19&lt;/span&gt;&lt;
 &lt;/section&gt;
 </content>
     <link href="https://carlosneto.dev/blog/2023/2023-10-21-cloud-concepts/"/>
-    <summary>Post Publication Date: 2023/10/21This blog post explains what the Cloud is without technical jargon: the problem it solved, why it changed how software is built, when running your own servers still makes sense, and the costs that sales pitches tend to leave out. If you've ever heard someone say "it's on the cloud" and weren't quite sure what that meant, this post is for you.</summary>
+    <summary>Publication Date: 2023/10/21This blog post explains what the Cloud is without technical jargon: the problem it solved, why it changed how software is built, when running your own servers still makes sense, and the costs that sales pitches tend to leave out. If you've ever heard someone say "it's on the cloud" and weren't quite sure what that meant, this post is for you.</summary>
     <category term="aws" label="aws"/>
     <category term="azure" label="azure"/>
     <category term="gcp" label="gcp"/>

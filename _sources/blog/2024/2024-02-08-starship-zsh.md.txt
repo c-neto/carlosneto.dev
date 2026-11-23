@@ -12,7 +12,7 @@ og:title: "ZSH + Starship: A Productivity Masterpiece"
 og:description: "My path from Bash through xonsh, oh-my-zsh, and Fish to ZSH with Starship: the plugins and setopt options I rely on, my minimal Starship prompt, and a step-by-step guide to reproduce the setup."
 ---
 
-*__Post Publication Date:__ 2024/02/08*
+*__Publication Date:__ 2024/02/08*
 
 ---
 

@@ -12,7 +12,7 @@ og:title: "OpenTelemetry: A Framework for Decoupling Your Observability"
 og:description: "What OpenTelemetry is and the problem it solves, without the jargon. It standardizes how applications produce, name, and send telemetry, so you can change tools without changing code."
 ---
 
-*__Post Publication Date:__ 2026/10/29*
+*__Publication Date:__ 2026/10/29*
 
 ---
 

@@ -12,7 +12,7 @@ og:title: "Vim for Kubernetes Certification Exams (CKA, CKAD & CKS)"
 og:description: "The minimal vimrc and the small set of Vim commands I use to edit Kubernetes YAML fast in the CKA, CKAD, and CKS exams: indentation, block comments, search and replace, line ranges, and shell filters."
 ---
 
-*__Post Publication Date:__ 2026/07/15*
+*__Publication Date:__ 2026/07/15*
 
 ---
 

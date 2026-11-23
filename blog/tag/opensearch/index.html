@@ -601,7 +601,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/12</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Publication Date:</strong> 2026/11/12</em></p>
 <p>This blog post is a hands-on implementation of storage tiering in OpenSearch, using a log analytics scenario based on my experience. In the example, log indexes move through three tiers: hot nodes on local NVMe for the first 3 days, warm nodes on EBS until 90 days, and S3 snapshots that come back as searchable snapshots only when someone needs old data. You will configure the node attributes, index template, and Index State Management (ISM) policy that automate the flow, and see how I run the searchable tier on short-lived Kubernetes nodes and which costs and failures I ran into.</p>
 </p>
 
@@ -664,7 +664,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/11</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Publication Date:</strong> 2026/11/11</em></p>
 <p>This blog post covers one of the strategies I use to avoid over-sharding in OpenSearch. Instead of per-environment indexes, I write all logs into one index series and expose each environment as a filtered alias. The rule behind it is simple: the environment is an attribute of each document, so it belongs in a field, not in the index name. The cluster keeps fewer, fuller shards and one mapping, and OpenSearch Dashboards users still get a per-environment view that behaves like a dedicated index.</p>
 </p>
 
@@ -727,7 +727,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/10</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Publication Date:</strong> 2026/11/10</em></p>
 <p>This blog post covers the patterns and API calls I use to scale down and resize OpenSearch data nodes without losing data. The rule behind all of them is simple: the data on a node you remove has to end up somewhere else first. If you take nodes away faster than the cluster can relocate their shards, you lose data.</p>
 </p>
 
@@ -790,7 +790,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/08</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Publication Date:</strong> 2026/11/08</em></p>
 <p>This blog post covers running the OpenSearch hot data tier on EC2 Instance Store (local NVMe) instead of EBS. It explains why local disks perform better for this workload, and how to manage the risk of data loss with OpenSearch replication, Kubernetes, and Karpenter.</p>
 </p>
 
@@ -851,7 +851,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/04</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Publication Date:</strong> 2026/11/04</em></p>
 <p>This blog post explains how OpenSearch distributes shards across data nodes. It covers how the default allocator works, why it can leave disk usage uneven in clusters with many small indices, and how disk watermarks correct that. It also covers other allocation mechanisms and a limitation I run into often: watermarks are one cluster-wide setting, even in clusters with different storage tiers.</p>
 </p>
 
@@ -916,7 +916,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2026/11/03</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Publication Date:</strong> 2026/11/03</em></p>
 <p>This blog post explains why counting log lines in OpenSearch is an expensive way to produce a metric. The same number captured as a Prometheus counter is stored once and read almost for free. When you cannot change the application, Fluent Bit can extract that metric while the logs are ingested, so OpenSearch never has to rebuild it at query time.</p>
 </p>
 
@@ -977,7 +977,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2025/01/05</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Publication Date:</strong> 2025/01/05</em></p>
 <p>This blog post explains two of the most basic concepts in OpenSearch administration: indices and shards. It covers what primary and replica shards are, how their counts affect performance and fault tolerance, and the API calls I use most to inspect indices and shards while troubleshooting.</p>
 </p>
 
@@ -1040,7 +1040,7 @@
    
 </div>
     </ul>
-    <p class="ablog-post-excerpt"><p><em><strong>Post Publication Date:</strong> 2024/06/08</em></p>
+    <p class="ablog-post-excerpt"><p><em><strong>Publication Date:</strong> 2024/06/08</em></p>
 <p>This blog post covers a common problem when Logstash ships logs to an OpenSearch cluster with autoscaling ingest nodes behind a load balancer: one node takes all the traffic while the others sit idle. It shows how the output plugin's sniffing options fix that by discovering the nodes from the OpenSearch API.</p>
 </p>
 

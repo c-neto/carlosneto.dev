@@ -12,7 +12,7 @@ og:title: "Logstash DB Enrichment: Tips and Traps"
 og:description: "Hidden behaviors of Logstash jdbc_streaming enrichment with PostgreSQL: pipelines that won't start without the database, table locks and slow queries that freeze ingestion, and the JDBC timeouts that prevent them."
 ---
 
-*__Post Publication Date:__ 2025/02/16*
+*__Publication Date:__ 2025/02/16*
 
 ---
 
